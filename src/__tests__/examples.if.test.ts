@@ -3,23 +3,24 @@ import { transformCode } from "../lang-support";
 import { transpile } from "../transpile";
 
 describe("when converting examples", () => {
-  it("then conversion works", () => {
-    const printer: ts.Printer = ts.createPrinter();
-
-    const example = `
+  const printer: ts.Printer = ts.createPrinter();
+  const example = `
 if (password !== 'pwd') throw new Error('wrong password');
 if (age < 18) throw new Error('minor'); else proceed();`;
+  let aslLibCode: ts.SourceFile;
 
-    const aslLibCode = transformCode(example);
-    const asl = transpile(aslLibCode);
+  beforeAll(() => {
+    aslLibCode = transformCode(example);
+  });
+
+  it("then converts to ASL Lib works", () => {
     const printedAslLibCode = printer.printFile(aslLibCode);
-
     console.log(printedAslLibCode);
     expect(printedAslLibCode).toMatchInlineSnapshot(`
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.password\\",
+                  Variable: password,
                   Not: { StringEquals: \\"pwd\\" },
                   NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
               }
@@ -28,7 +29,7 @@ if (age < 18) throw new Error('minor'); else proceed();`;
       ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.age\\",
+                  Variable: age,
                   NumericLessThan: \\"18\\",
                   NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'minor' }) }
               }
@@ -39,7 +40,10 @@ if (age < 18) throw new Error('minor'); else proceed();`;
       });
       "
     `);
+  });
 
+  it("then converts to ASL", () => {
+    const asl = transpile(aslLibCode);
     console.log(JSON.stringify(asl, null, 2));
     expect(asl).toMatchInlineSnapshot(`
       Object {

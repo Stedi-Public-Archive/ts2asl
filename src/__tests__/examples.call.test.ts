@@ -19,7 +19,7 @@ const z = await sayHello();`;
     expect(printedAslLibCode).toMatchInlineSnapshot(`
       "ASL.Task({
           TypescriptInvoke: sayHello,
-          InputPath: \\"$.arg\\"
+          InputPath: arg
       });
       await ASL.Task({
           TypescriptInvoke: sayHello

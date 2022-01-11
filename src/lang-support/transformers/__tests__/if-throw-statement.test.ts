@@ -13,7 +13,7 @@ describe("when converting if with throw statements", () => {
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.optIn\\",
+                  Variable: optIn,
                   StringEquals: \\"$.false\\",
                   NextInvoke: () => { ASL.Failed({ Error: 'NotOptedInError', Cause: 'oops' }) }
               }

@@ -13,7 +13,7 @@ describe("when converting if statements", () => {
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.password\\",
+                  Variable: password,
                   StringEquals: \\"pwd\\",
                   NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
               }
@@ -32,7 +32,7 @@ describe("when converting if statements", () => {
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.password\\",
+                  Variable: password,
                   StringEquals: \\"pwd\\",
                   NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
               }
@@ -51,7 +51,7 @@ describe("when converting if statements", () => {
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.password\\",
+                  Variable: password,
                   Not: { StringEquals: \\"pwd\\" },
                   NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
               }
@@ -70,7 +70,7 @@ describe("when converting if statements", () => {
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.age\\",
+                  Variable: age,
                   NumericGreaterThan: \\"18\\",
                   NextInvoke: () => { console.log(); }
               }
@@ -89,7 +89,7 @@ describe("when converting if statements", () => {
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.optIn\\",
+                  Variable: optIn,
                   StringEquals: \\"$.true\\",
                   NextInvoke: () => { console.log(); }
               }
@@ -106,7 +106,7 @@ describe("when converting if statements", () => {
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.lhs\\",
+                  Variable: lhs,
                   StringEqualsPath: \\"$.rhs\\",
                   NextInvoke: () => { console.log(); }
               }
@@ -125,7 +125,7 @@ describe("when converting if statements", () => {
       "ASL.Choice({
           Choices: [
               {
-                  Variable: \\"$.lhs\\",
+                  Variable: lhs,
                   StringEqualsPath: \\"$.rhs\\",
                   NextInvoke: () => { console.log(); }
               }

@@ -19,7 +19,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
     if (ts.isIfStatement(node)) {
 
       let choiceRhs: string;
-      let choiceVariable: string;
+      let choiceExpression: ts.Expression;
       let choiceOperator: string;
       let choiceNot = false;
 
@@ -84,7 +84,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
           }
         }
 
-        choiceVariable = '$.' + node.expression.left.getText();
+        choiceExpression = node.expression.left;
         choiceRhs = (ts.isLiteralExpression(node.expression.right)) ? node.expression.right.text : '$.' + node.expression.right.getText();
         choiceOperator = `${type}${operator}${postFix}`;
       }
@@ -126,7 +126,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
                   [
                     factory.createPropertyAssignment(
                       factory.createIdentifier("Variable"),
-                      factory.createStringLiteral(choiceVariable)
+                      choiceExpression
                     ),
                     choiceAssignment,
                     factory.createPropertyAssignment(

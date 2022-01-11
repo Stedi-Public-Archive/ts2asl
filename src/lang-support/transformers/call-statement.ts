@@ -40,7 +40,7 @@ export const callStatementTransformer = <T extends ts.Node>(context: ts.Transfor
             ),
             ...(node.arguments.length === 0 ? [] : [factory.createPropertyAssignment(
               factory.createIdentifier("InputPath"),
-              factory.createStringLiteral("$." + (node.arguments[0] as ts.Identifier).getText())
+              node.arguments[0]
             )])
           ],
           true

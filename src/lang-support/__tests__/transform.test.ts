@@ -24,17 +24,17 @@ while (remainingActions.length !== 0) {
       let getActionsArgs = ASL.Pass({ Result: { targetState: desiredStateTemplate, completedActions } });
       let remainingActions = await ASL.Task({
           TypescriptInvoke: getNextActions,
-          InputPath: \\"$.getNextActionsArg\\"
+          InputPath: getNextActionsArg
       });
       while (remainingActions.length !== 0) {
           const results = await ASL.Task({
               TypescriptInvoke: performAction,
-              InputPath: \\"$.getActionsArgs\\"
+              InputPath: getActionsArgs
           });
           ASL.Choice({
               Choices: [
                   {
-                      Variable: \\"$.results[0].status\\",
+                      Variable: results[0].status,
                       StringEquals: \\"failed\\",
                       NextInvoke: () => {
                           ASL.Failed({ Error: 'Error', Cause: 'task failed' })
@@ -45,12 +45,12 @@ while (remainingActions.length !== 0) {
           ASL.Choice({
               Choices: [
                   {
-                      Variable: \\"$.results[0].status\\",
+                      Variable: results[0].status,
                       Not: { StringEquals: \\"failed\\" },
                       NextInvoke: () => {
                           remainingActions = await ASL.Task({
                               TypescriptInvoke: getNextActions,
-                              InputPath: \\"$.getActionsArgs\\"
+                              InputPath: getActionsArgs
                           });
                       }
                   }

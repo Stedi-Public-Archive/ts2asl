@@ -168,7 +168,10 @@ const convertExpressionToLiteral = (expression: ts.Expression, others: NameAndSt
       value = new Number(value).valueOf();
     }
     return value;
-  } else if (expression.kind === SyntaxKind.TrueKeyword || expression.kind === SyntaxKind.FalseKeyword) {
+  } else if (ts.isIdentifier(expression)) {
+    return `$.${expression.text}`;
+  }
+  else if (expression.kind === SyntaxKind.TrueKeyword || expression.kind === SyntaxKind.FalseKeyword) {
     const keyword = expression.getText();
     const value = new Boolean(keyword).valueOf();
     return value;

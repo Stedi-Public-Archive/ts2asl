@@ -39,8 +39,8 @@ The above will be converted to ASL Lib code prior to being deployed to ASL
 ``` typescript
 ASL.Choice({
   Choices: [{
-    Variable: "$.password",
-    Not: { StringEquals: "pwd" },
+    Variable: pwd,
+    Not: { StringEquals: "password" },
     NextInvoke: () => { 
       ASL.Failed({ Error: 'Error', Cause: 'wrong password'  });
   }]
@@ -152,7 +152,7 @@ if (age < 18) throw new Error('minor') else proceed();
 ``` typescript
 ASL.Choice({
   Choices: [{
-      Variable: "$.password",
+      Variable: password,
       Not: { StringEquals: "pwd" },
       NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
     }]
@@ -160,7 +160,7 @@ ASL.Choice({
 
 ASL.Choice({
   Choices: [{
-      Variable: "$.age",
+      Variable: age,
       NumericLessThan: "18",
       NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'minor' }) }
   }],
@@ -246,7 +246,7 @@ switch (color) {
 ``` typescript
 ASL.Choice({ 
   Choices: [{ 
-    Variable: "$.color", 
+    Variable: color, 
     StringEquals: "red", 
     NextInvoke: () => {
       ASL.Task({ TypescriptInvoke: doRed });
