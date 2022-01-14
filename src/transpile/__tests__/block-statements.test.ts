@@ -32,6 +32,7 @@ describe("when transpiling block statements", () => {
           },
           "Failed": Object {
             "Cause": "task failed",
+            "End": true,
             "Error": "Error",
             "Type": "Failed",
           },
@@ -66,11 +67,13 @@ describe("when transpiling block statements", () => {
                 "StartAt": "Assign_x",
                 "States": Object {
                   "Assign_x": Object {
+                    "Next": "Pass",
                     "Resource": "some-lambda",
                     "ResultPath": "$.x",
                     "Type": "Invoke",
                   },
                   "Pass": Object {
+                    "End": true,
                     "Type": "Pass",
                     "data": Object {
                       "age": 42,
@@ -80,6 +83,7 @@ describe("when transpiling block statements", () => {
                 },
               },
             ],
+            "End": true,
             "Type": "Parallel",
           },
           "Choice": Object {

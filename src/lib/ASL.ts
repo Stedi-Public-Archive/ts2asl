@@ -63,4 +63,8 @@ export class ASL {
   static async Fail(x: Omit<asl.Fail, "Type">) {
     return {} as AslState;
   }
+
+  static async Succeed(x: Omit<asl.Succeed, "Type">) {
+    return {} as AslState;
+  }
 }

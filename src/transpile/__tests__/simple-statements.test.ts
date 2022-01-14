@@ -9,6 +9,7 @@ describe("when transpiling simple statements", () => {
         "StartAt": "Pass",
         "States": Object {
           "Pass": Object {
+            "End": true,
             "Result": "hello",
             "Type": "Pass",
           },
@@ -25,10 +26,12 @@ describe("when transpiling simple statements", () => {
         "StartAt": "Pass",
         "States": Object {
           "Pass": Object {
+            "Next": "Pass_1",
             "Result": "hello",
             "Type": "Pass",
           },
           "Pass_1": Object {
+            "End": true,
             "Result": "hello",
             "Type": "Pass",
           },

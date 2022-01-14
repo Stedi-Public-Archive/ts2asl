@@ -31,6 +31,7 @@ describe("when transpiling mixed statements", () => {
         "StartAt": "Assign_getActionsArgs",
         "States": Object {
           "Assign_getActionsArgs": Object {
+            "Next": "Assign_remainingActions",
             "Result": Object {
               "completedActions": "",
               "targetState": "ddd",
@@ -40,12 +41,14 @@ describe("when transpiling mixed statements", () => {
           },
           "Assign_remainingActions": Object {
             "InputPath": "$.getNextActionsArg",
+            "Next": "Assign_results",
             "Resource": "typescript:getNextActions",
             "ResultPath": "$.remainingActions",
             "Type": "Task",
           },
           "Assign_results": Object {
             "InputPath": "$.getActionsArgs",
+            "Next": "Choice",
             "Resource": "typescript:performAction",
             "ResultPath": "$.results",
             "Type": "Task",
@@ -62,6 +65,7 @@ describe("when transpiling mixed statements", () => {
           },
           "Failed": Object {
             "Cause": "task failed",
+            "End": true,
             "Error": "Error",
             "Type": "Failed",
           },

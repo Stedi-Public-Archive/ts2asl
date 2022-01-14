@@ -9,6 +9,7 @@ describe("when transpiling variable assignments", () => {
         "StartAt": "Assign_variableName",
         "States": Object {
           "Assign_variableName": Object {
+            "End": true,
             "Result": "hello",
             "ResultPath": "$.variableName",
             "Type": "Pass",
@@ -26,11 +27,13 @@ describe("when transpiling variable assignments", () => {
         "StartAt": "Assign_variableName",
         "States": Object {
           "Assign_anotherVar": Object {
+            "End": true,
             "Result": "hello",
             "ResultPath": "$.anotherVar",
             "Type": "Pass",
           },
           "Assign_variableName": Object {
+            "Next": "Assign_anotherVar",
             "Result": "hello",
             "ResultPath": "$.variableName",
             "Type": "Pass",
@@ -47,6 +50,7 @@ describe("when transpiling variable assignments", () => {
         "StartAt": "Assign_variableName",
         "States": Object {
           "Assign_variableName": Object {
+            "End": true,
             "Result": 42,
             "ResultPath": "$.variableName",
             "Type": "Pass",
@@ -63,6 +67,7 @@ describe("when transpiling variable assignments", () => {
         "StartAt": "Assign_variableName",
         "States": Object {
           "Assign_variableName": Object {
+            "End": true,
             "Result": Object {
               "bool": true,
               "field": "value",
