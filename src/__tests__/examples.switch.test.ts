@@ -54,10 +54,12 @@ describe("when converting examples", () => {
             "Type": "Choice",
           },
           "Task": Object {
+            "End": true,
             "Resource": "typescript:doRed",
             "Type": "Task",
           },
           "Task_1": Object {
+            "End": true,
             "Resource": "typescript:somethingElse",
             "Type": "Task",
           },

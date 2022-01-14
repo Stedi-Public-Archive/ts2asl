@@ -49,6 +49,7 @@ describe("when converting examples", () => {
                 "StartAt": "Task",
                 "States": Object {
                   "Task": Object {
+                    "End": true,
                     "Resource": "typescript:doWork",
                     "Type": "Task",
                   },
@@ -66,6 +67,7 @@ describe("when converting examples", () => {
             "Type": "Parallel",
           },
           "Task": Object {
+            "End": true,
             "Resource": "typescript:revert",
             "Type": "Task",
           },

@@ -43,6 +43,7 @@ describe("when converting examples", () => {
                 "StartAt": "Task",
                 "States": Object {
                   "Task": Object {
+                    "End": true,
                     "Resource": "typescript:spinLeft",
                     "Type": "Task",
                   },
@@ -52,12 +53,14 @@ describe("when converting examples", () => {
                 "StartAt": "Task",
                 "States": Object {
                   "Task": Object {
+                    "End": true,
                     "Resource": "typescript:spinRight",
                     "Type": "Task",
                   },
                 },
               },
             ],
+            "End": true,
             "Type": "Parallel",
           },
         },

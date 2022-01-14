@@ -74,15 +74,19 @@ if (age < 18) throw new Error('minor'); else proceed();`;
           },
           "Failed": Object {
             "Cause": "wrong password",
+            "End": true,
             "Error": "Error",
+            "Next": "Choice_1",
             "Type": "Failed",
           },
           "Failed_1": Object {
             "Cause": "minor",
+            "End": true,
             "Error": "Error",
             "Type": "Failed",
           },
           "Task": Object {
+            "End": true,
             "Resource": "typescript:proceed",
             "Type": "Task",
           },

@@ -36,16 +36,19 @@ const z = await sayHello();`;
         "StartAt": "Task",
         "States": Object {
           "Assign_z": Object {
+            "End": true,
             "Resource": "typescript:sayHello",
             "ResultPath": "$.z",
             "Type": "Task",
           },
           "Task": Object {
             "InputPath": "$.arg",
+            "Next": "Task_1",
             "Resource": "typescript:sayHello",
             "Type": "Task",
           },
           "Task_1": Object {
+            "Next": "Assign_z",
             "Resource": "typescript:sayHello",
             "Type": "Task",
           },

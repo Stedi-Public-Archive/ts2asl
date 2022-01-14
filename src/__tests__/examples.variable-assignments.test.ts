@@ -31,16 +31,19 @@ describe("when converting examples", () => {
         "StartAt": "Assign_abc",
         "States": Object {
           "Assign_abc": Object {
+            "Next": "Assign_abc_1",
             "Result": "hello",
             "ResultPath": "$.abc",
             "Type": "Pass",
           },
           "Assign_abc_1": Object {
+            "Next": "Assign_abc_2",
             "Result": 43,
             "ResultPath": "$.abc",
             "Type": "Pass",
           },
           "Assign_abc_2": Object {
+            "End": true,
             "Result": Object {
               "number": 43,
               "text": "hello",

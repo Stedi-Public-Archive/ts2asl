@@ -32,15 +32,18 @@ describe("when converting examples", () => {
         "States": Object {
           "Failed": Object {
             "Error": "Error",
+            "Next": "Failed_1",
             "Type": "Failed",
           },
           "Failed_1": Object {
             "Cause": "bad luck",
             "Error": "Error",
+            "Next": "Failed_2",
             "Type": "Failed",
           },
           "Failed_2": Object {
             "Cause": "bad luck",
+            "End": true,
             "Error": "SpecialError",
             "Type": "Failed",
           },
