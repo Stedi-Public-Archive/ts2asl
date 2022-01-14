@@ -1,11 +1,17 @@
 
 import * as asl from 'asl-types'
-import { internalWaitSeconds } from './asl-internals';
+import { Operator as AslOperator } from 'asl-types/dist/choice';
+import { internalEvaluateOperator, internalWaitSeconds } from './asl-internals';
 export interface AslResource { }
 export interface AslStateMachine extends AslResource { }
 export interface AslLambdaFunction extends AslResource { }
 export interface AslState { }
 
+export type Operator = Omit<AslOperator, "Next"> & { NextInvoke: Function };
+export type Choice = Omit<asl.Choice, "Type" | "Choices" | "Default" | "InputPath"> & { Input: unknown, DefaultInvoke: Function, Choices: Operator[] };
+export type Task = Omit<asl.Task, "Type" | "Resource" | "InputPath"> & { TypescriptInvoke?: Function, Resource?: string, Input?: unknown };
+export type While = { Operator: Operator, BlockInvoke: Function, Input: unknown };
+export type Wait = Omit<asl.Wait, "Type" | "SecondsPath" | "TimestampPath">;
 export class ASL {
 
   static AsLambda<T>(fn: T) {
@@ -18,7 +24,7 @@ export class ASL {
     return fn as AslStateMachine
   }
 
-  static async Wait(x: Omit<asl.Wait, "Type" | "SecondsPath">) {
+  static async Wait(x: Wait) {
     await internalWaitSeconds(x.Seconds);
   }
 
@@ -26,15 +32,30 @@ export class ASL {
     return {} as AslState;
   }
 
-  static async Task(x: Omit<asl.Task, "Type" | "Resource" | "InputPath"> & { TypescriptInvoke?: Function, Resource?: string, Input?: unknown }) {
+  static async Task(x: Task) {
     if (x.TypescriptInvoke) {
       return x.TypescriptInvoke(x.Input);
     }
     return {} as AslState;
   }
 
-  static async Choice(x: Omit<asl.Choice, "Type">) {
+  static async Choice(x: Choice) {
+    for (const choice of x.Choices) {
+      if (internalEvaluateOperator(choice)) {
+        choice.NextInvoke(x.Input)
+      };
+    }
+
+    if (x.DefaultInvoke) {
+      x.DefaultInvoke(x.Input)
+    }
     return {} as AslState;
+  }
+
+  static async While(x: While) {
+    while (internalEvaluateOperator(x.Operator)) {
+      x.BlockInvoke();
+    }
   }
 
   static async Map(x: Omit<asl.Map, "Type">) {

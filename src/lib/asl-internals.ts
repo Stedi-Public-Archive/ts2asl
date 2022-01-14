@@ -1,3 +1,4 @@
+import { Operator } from "asl-types/dist/choice";
 
 
 export const internalWaitSeconds = async (seconds: number): Promise<void> => {
@@ -5,3 +6,7 @@ export const internalWaitSeconds = async (seconds: number): Promise<void> => {
     setTimeout(resolve, seconds * 1000);
   });
 }
+
+export const internalEvaluateOperator = (operator: Operator) => {
+  return true;
+};

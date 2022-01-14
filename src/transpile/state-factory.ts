@@ -1,4 +1,5 @@
 import ts, { SyntaxKind } from "typescript"
+import { Wait } from "../lib/ASL";
 import { ParserError } from "../ParserError";
 import { transpile } from "./index";
 import { AnyStateAttribute, NameAndState } from "./states";
@@ -21,7 +22,7 @@ export class StateFactory {
       if (callExpression.arguments.length > 1) throw new Error("Call expression expected to have single argument");
       const arg = callExpression.arguments[0];
       if (!ts.isObjectLiteralExpression(arg)) throw new Error("Call expression argument must be object literal expression");
-      argument = convertObjectLiteralExpressionToObject(arg, additionalStates, this);
+      argument = convertObjectLiteralExpressionToObject(arg, additionalStates, this, type);
     }
     const state = {
       name: name,
@@ -36,7 +37,7 @@ export class StateFactory {
 
 
 
-const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpression, others: NameAndState[], factory: StateFactory): any => {
+const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpression, others: NameAndState[], factory: StateFactory, asltype?: string): any => {
   let result = {};
 
   for (const prop of expression.properties) {
@@ -71,7 +72,19 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
       result["Resource"] = `typescript:` + prop.initializer.text;
     } else {
       const value = convertExpressionToLiteral(prop.initializer, others, factory);
-      result[propName] = value;
+
+      if (asltype === "Wait") {
+        const waitState: Wait = value;
+        if (propName === "Seconds" && typeof value === "string" && (value + "").startsWith("$")) {
+          result["SecondsPath"] = value;
+        } else if (propName === "Timestamp" && typeof value === "string" && (value + "").startsWith("$")) {
+          result["TimestampPath"] = value;
+        } else {
+          result[propName] = value;
+        }
+      } else {
+        result[propName] = value;
+      }
     }
 
   }
