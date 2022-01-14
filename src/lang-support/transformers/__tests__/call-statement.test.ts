@@ -7,7 +7,7 @@ describe("when converting call statements", () => {
       .toMatchInlineSnapshot(`
       "ASL.Task({
           TypescriptInvoke: SayHello,
-          InputPath: arg
+          Input: arg
       });"
     `);
   });

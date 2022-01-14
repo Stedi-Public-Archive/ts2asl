@@ -1,5 +1,6 @@
 
 import * as asl from 'asl-types'
+import { internalWaitSeconds } from './asl-internals';
 export interface AslResource { }
 export interface AslStateMachine extends AslResource { }
 export interface AslLambdaFunction extends AslResource { }
@@ -9,22 +10,7 @@ export class ASL {
 
   static AsLambda<T>(fn: T) {
     (fn as any).lambda = true;
-
-    ASL.Wait({ Seconds: 2 });
-    ASL.Task({
-      Resource: "arn:aws:123123123:lambda:function:my-func",
-      Retry: [{
-        ErrorEquals: ["States.Timeout"],
-        IntervalSeconds: 3,
-        MaxAttempts: 2,
-        BackoffRate: 1.5
-      }]
-    });
-
     return fn as AslLambdaFunction;
-
-
-
   }
 
   static AsStateMachine<T>(fn: T) {
@@ -32,19 +18,18 @@ export class ASL {
     return fn as AslStateMachine
   }
 
-  static ToStateMachine(state: AslState) {
-
-  }
-
-  static async Wait(x: Omit<asl.Wait, "Type">) {
-    return {} as AslState;
+  static async Wait(x: Omit<asl.Wait, "Type" | "SecondsPath">) {
+    await internalWaitSeconds(x.Seconds);
   }
 
   static async Parallel(x: Omit<asl.Parallel, "Type">) {
     return {} as AslState;
   }
 
-  static async Task(x: Omit<asl.Task, "Type">) {
+  static async Task(x: Omit<asl.Task, "Type" | "Resource" | "InputPath"> & { TypescriptInvoke?: Function, Resource?: string, Input?: unknown }) {
+    if (x.TypescriptInvoke) {
+      return x.TypescriptInvoke(x.Input);
+    }
     return {} as AslState;
   }
 
@@ -56,15 +41,15 @@ export class ASL {
     return {} as AslState;
   }
 
-  static async Pass(x: Omit<asl.Pass, "Type">) {
-    return {} as AslState;
+  static Pass(x: Omit<asl.Pass, "Type" | "ResultPath">) {
+    return x.Result;
   }
 
-  static async Fail(x: Omit<asl.Fail, "Type">) {
-    return {} as AslState;
+  static Fail(x: Omit<asl.Fail, "Type">) {
+    throw new Error(x.Cause);
   }
 
-  static async Succeed(x: Omit<asl.Succeed, "Type">) {
+  static Succeed(x: Omit<asl.Succeed, "Type">) {
     return {} as AslState;
   }
 }

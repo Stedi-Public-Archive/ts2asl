@@ -24,12 +24,12 @@ while (remainingActions.length !== 0) {
       let getActionsArgs = ASL.Pass({ Result: { targetState: desiredStateTemplate, completedActions } });
       let remainingActions = await ASL.Task({
           TypescriptInvoke: getNextActions,
-          InputPath: getNextActionsArg
+          Input: getNextActionsArg
       });
       while (remainingActions.length !== 0) {
           const results = await ASL.Task({
               TypescriptInvoke: performAction,
-              InputPath: getActionsArgs
+              Input: getActionsArgs
           });
           ASL.Choice({
               Choices: [
@@ -50,7 +50,7 @@ while (remainingActions.length !== 0) {
                       NextInvoke: () => {
                           remainingActions = await ASL.Task({
                               TypescriptInvoke: getNextActions,
-                              InputPath: getActionsArgs
+                              Input: getActionsArgs
                           });
                       }
                   }
