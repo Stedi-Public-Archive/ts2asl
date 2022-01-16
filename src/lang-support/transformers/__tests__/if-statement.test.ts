@@ -14,8 +14,8 @@ describe("when converting if statements", () => {
           Choices: [
               {
                   Variable: password,
-                  StringEquals: \\"pwd\\",
-                  NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
+                  StringEquals: 'pwd',
+                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
               }
           ]
       });"
@@ -33,8 +33,8 @@ describe("when converting if statements", () => {
           Choices: [
               {
                   Variable: password,
-                  StringEquals: \\"pwd\\",
-                  NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
+                  StringEquals: 'pwd',
+                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
               }
           ]
       });"
@@ -52,8 +52,8 @@ describe("when converting if statements", () => {
           Choices: [
               {
                   Variable: password,
-                  Not: { StringEquals: \\"pwd\\" },
-                  NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
+                  Not: { StringEquals: 'pwd' },
+                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
               }
           ]
       });"
@@ -71,7 +71,7 @@ describe("when converting if statements", () => {
           Choices: [
               {
                   Variable: age,
-                  NumericGreaterThan: \\"18\\",
+                  NumericGreaterThan: 18,
                   NextInvoke: () => { console.log(); }
               }
           ]
@@ -90,7 +90,7 @@ describe("when converting if statements", () => {
           Choices: [
               {
                   Variable: optIn,
-                  StringEquals: \\"$.true\\",
+                  StringEquals: true,
                   NextInvoke: () => { console.log(); }
               }
           ]
@@ -107,7 +107,7 @@ describe("when converting if statements", () => {
           Choices: [
               {
                   Variable: lhs,
-                  StringEqualsPath: \\"$.rhs\\",
+                  StringEquals: rhs,
                   NextInvoke: () => { console.log(); }
               }
           ]
@@ -126,7 +126,27 @@ describe("when converting if statements", () => {
           Choices: [
               {
                   Variable: lhs,
-                  StringEqualsPath: \\"$.rhs\\",
+                  StringEquals: rhs,
+                  NextInvoke: () => { console.log(); }
+              }
+          ],
+          DefaultInvoke: () => { console.log(); }
+      });"
+    `);
+  });
+
+  it("then comparison against property expression is supported", () => {
+    expect(
+      testTransform(
+        "if (lhs === rhs) console.log(); else console.log();",
+        ifStatementTransformer
+      )
+    ).toMatchInlineSnapshot(`
+      "ASL.Choice({
+          Choices: [
+              {
+                  Variable: lhs,
+                  StringEquals: rhs,
                   NextInvoke: () => { console.log(); }
               }
           ],

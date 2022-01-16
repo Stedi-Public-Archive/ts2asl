@@ -1,6 +1,6 @@
 import ts from "typescript";
-import { transformCode } from "../lang-support";
-import { transpile } from "../transpile";
+import { transformCode } from "../../lang-support";
+import { transpile } from "../../transpile";
 
 describe("when converting examples", () => {
   const printer: ts.Printer = ts.createPrinter();
@@ -21,8 +21,8 @@ if (age < 18) throw new Error('minor'); else proceed();`;
           Choices: [
               {
                   Variable: password,
-                  Not: { StringEquals: \\"pwd\\" },
-                  NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
+                  Not: { StringEquals: 'pwd' },
+                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
               }
           ]
       });
@@ -30,8 +30,8 @@ if (age < 18) throw new Error('minor'); else proceed();`;
           Choices: [
               {
                   Variable: age,
-                  NumericLessThan: \\"18\\",
-                  NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'minor' }) }
+                  NumericLessThan: 18,
+                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'minor' }) }
               }
           ],
           DefaultInvoke: () => { ASL.Task({
@@ -52,7 +52,7 @@ if (age < 18) throw new Error('minor'); else proceed();`;
           "Choice": Object {
             "Choices": Array [
               Object {
-                "Next": "Failed",
+                "Next": "Fail",
                 "Not": Object {
                   "StringEquals": "pwd",
                 },
@@ -64,26 +64,23 @@ if (age < 18) throw new Error('minor'); else proceed();`;
           "Choice_1": Object {
             "Choices": Array [
               Object {
-                "Next": "Failed_1",
-                "NumericLessThan": "18",
+                "Next": "Fail_1",
+                "NumericLessThan": 18,
                 "Variable": "$.age",
               },
             ],
             "Default": "Task",
             "Type": "Choice",
           },
-          "Failed": Object {
+          "Fail": Object {
             "Cause": "wrong password",
-            "End": true,
             "Error": "Error",
-            "Next": "Choice_1",
-            "Type": "Failed",
+            "Type": "Fail",
           },
-          "Failed_1": Object {
+          "Fail_1": Object {
             "Cause": "minor",
-            "End": true,
             "Error": "Error",
-            "Type": "Failed",
+            "Type": "Fail",
           },
           "Task": Object {
             "End": true,

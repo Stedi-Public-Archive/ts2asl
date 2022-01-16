@@ -7,7 +7,7 @@ import { AnyStateAttribute, NameAndState } from "./states";
 export class StateFactory {
   names = new Names();
 
-  createState(callExpression: ts.CallExpression, additional: AnyStateAttribute, nameSuggestion?: string): { state: NameAndState, additionalStates: NameAndState[] } {
+  createState(callExpression: ts.CallExpression, argName: string, additional: AnyStateAttribute, nameSuggestion?: string): { state: NameAndState, additionalStates: NameAndState[] } {
     const additionalStates: NameAndState[] = [];
     if (!ts.isPropertyAccessExpression(callExpression.expression)) throw new Error("Call expression expected to have Property access expression");
     if (!ts.isIdentifier(callExpression.expression.expression)) throw new Error("Call expression expected to have Property access expression");
@@ -22,7 +22,7 @@ export class StateFactory {
       if (callExpression.arguments.length > 1) throw new Error("Call expression expected to have single argument");
       const arg = callExpression.arguments[0];
       if (!ts.isObjectLiteralExpression(arg)) throw new Error("Call expression argument must be object literal expression");
-      argument = convertObjectLiteralExpressionToObject(arg, additionalStates, this, type);
+      argument = convertObjectLiteralExpressionToObject(arg, argName, additionalStates, this, type);
     }
     const state = {
       name: name,
@@ -37,7 +37,7 @@ export class StateFactory {
 
 
 
-const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpression, others: NameAndState[], factory: StateFactory, asltype?: string): any => {
+const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpression, argName: string, others: NameAndState[], factory: StateFactory, asltype?: string): any => {
   let result = {};
 
   for (const prop of expression.properties) {
@@ -71,7 +71,7 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
     } else if (propName === "TypescriptInvoke" && ts.isIdentifier(prop.initializer)) {
       result["Resource"] = `typescript:` + prop.initializer.text;
     } else {
-      const value = convertExpressionToLiteral(prop.initializer, others, factory);
+      const value = convertExpressionToLiteral(prop.initializer, argName, others, factory);
 
       if (asltype === "Wait") {
         const waitState: Wait = value;
@@ -91,9 +91,9 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
   return result;
 }
 
-const convertExpressionToLiteral = (expression: ts.Expression, others: NameAndState[], factory: StateFactory): any => {
+const convertExpressionToLiteral = (expression: ts.Expression, argName: string, others: NameAndState[], factory: StateFactory): any => {
   if (ts.isArrayLiteralExpression(expression)) {
-    return expression.elements.map(x => convertExpressionToLiteral(x, others, factory));
+    return expression.elements.map(x => convertExpressionToLiteral(x, argName, others, factory));
   } else if (ts.isLiteralExpression(expression)) {
     let value: String | Number = expression.text;
     if (ts.isNumericLiteral(expression)) {
@@ -102,13 +102,15 @@ const convertExpressionToLiteral = (expression: ts.Expression, others: NameAndSt
     return value;
   } else if (ts.isIdentifier(expression)) {
     return `$.${expression.text}`;
+  } else if (ts.isPropertyAccessExpression(expression) && ts.isIdentifier(expression.expression) && expression.expression.text === argName) {
+    return `$.${expression.name.text}`;
   }
   else if (expression.kind === SyntaxKind.TrueKeyword || expression.kind === SyntaxKind.FalseKeyword) {
     const keyword = expression.getText();
     const value = new Boolean(keyword).valueOf();
     return value;
   } else if (ts.isObjectLiteralExpression(expression)) {
-    let obj = convertObjectLiteralExpressionToObject(expression, others, factory);
+    let obj = convertObjectLiteralExpressionToObject(expression, argName, others, factory);
     return obj;
   } else {
     throw new ParserError("Unable to unpack expression", expression);

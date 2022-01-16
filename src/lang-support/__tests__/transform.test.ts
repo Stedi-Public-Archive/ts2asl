@@ -2,8 +2,8 @@ import { testTransform } from "./test-transform";
 import { transformers } from "../transformers";
 
 describe("when converting source files", () => {
-  it("then can convert nested structures", () => {
-    const code = `
+    it("then can convert nested structures", () => {
+        const code = `
 let completedActions: string[] = [];
 let getActionsArgs = { targetState: desiredStateTemplate, completedActions };
 let remainingActions = await getNextActions(getNextActionsArg);
@@ -17,9 +17,9 @@ while (remainingActions.length !== 0) {
   }
 }
     `;
-    const output = testTransform(code, transformers);
+        const output = testTransform(code, transformers);
 
-    expect(output).toMatchInlineSnapshot(`
+        expect(output).toMatchInlineSnapshot(`
       "let completedActions: string[] = ASL.Pass({ Result: [] });
       let getActionsArgs = ASL.Pass({ Result: { targetState: desiredStateTemplate, completedActions } });
       let remainingActions = await ASL.Task({
@@ -37,7 +37,7 @@ while (remainingActions.length !== 0) {
                       Variable: results[0].status,
                       StringEquals: \\"failed\\",
                       NextInvoke: () => {
-                          ASL.Failed({ Error: 'Error', Cause: 'task failed' })
+                          ASL.Fail({ Error: 'Error', Cause: 'task failed' })
                       }
                   }
               ]
@@ -58,5 +58,5 @@ while (remainingActions.length !== 0) {
           });
       }"
     `);
-  });
+    });
 });

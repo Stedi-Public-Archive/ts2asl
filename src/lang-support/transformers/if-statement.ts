@@ -18,7 +18,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
 
     if (ts.isIfStatement(node)) {
 
-      let choiceRhs: string;
+      let choiceRhs: ts.Expression;
       let choiceExpression: ts.Expression;
       let choiceOperator: string;
       let choiceNot = false;
@@ -28,8 +28,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
       } else if (ts.isBinaryExpression(node.expression)) {
 
         if (!(ts.isIdentifier(node.expression.left) || ts.isPropertyAccessExpression(node.expression.left))) throw new ParserError("if statement with left hand side of binary expression must be identifier or property access", node.expression.left);
-        if (!(ts.isIdentifier(node.expression.right) || ts.isLiteralExpression(node.expression.right) || ts.SyntaxKind.FalseKeyword === node.expression.right.kind || ts.SyntaxKind.TrueKeyword === node.expression.right.kind)) throw new Error("if statement with right hand side of binary expression must be identifier or literal");
-        let postFix: "Path" | "" = ts.isIdentifier(node.expression.right) ? "Path" : ""
+        if (!(ts.isIdentifier(node.expression.right) || ts.isPropertyAccessExpression(node.expression.right) || ts.isLiteralExpression(node.expression.right) || ts.SyntaxKind.FalseKeyword === node.expression.right.kind || ts.SyntaxKind.TrueKeyword === node.expression.right.kind)) throw new Error("if statement with right hand side of binary expression must be identifier or literal");
         let operator: "Equals" | "GreaterThan" | "GreaterThanEquals" | "LessThan" | "LessThanEquals" | undefined;
         let type: "Numeric" | "String" | "Timestamp" | "Boolean" | undefined = "String"; //lame default
 
@@ -85,8 +84,8 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
         }
 
         choiceExpression = node.expression.left;
-        choiceRhs = (ts.isLiteralExpression(node.expression.right)) ? node.expression.right.text : '$.' + node.expression.right.getText();
-        choiceOperator = `${type}${operator}${postFix}`;
+        choiceRhs = node.expression.right;
+        choiceOperator = `${type}${operator}`;
       }
 
       /*
@@ -101,7 +100,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
 
       let choiceAssignment: ts.PropertyAssignment = factory.createPropertyAssignment(
         factory.createIdentifier(choiceOperator),
-        factory.createStringLiteral(choiceRhs)
+        choiceRhs
       );
       if (choiceNot) {
         choiceAssignment = factory.createPropertyAssignment(

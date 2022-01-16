@@ -4,12 +4,12 @@ import { ParserError } from "../ParserError";
 import { StateFactory } from "./state-factory";
 import { NameAndState, AnyStateAttribute, NarrowTerminatingState } from "./states";
 
-export const transpile = (body: ts.Block | ts.SourceFile): asl.StateMachine => {
+export const transpile = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argName: string = "context"): asl.StateMachine => {
   const factory = new StateFactory();
   const nodes = new Nodes();
 
   ts.forEachChild(body, toplevel => {
-    const states = convertNodeToStates(toplevel, factory, nodes)
+    const states = convertNodeToStates(toplevel, argName, factory, nodes)
     for (const state of states) {
       nodes.push(state.name, state)
     }
@@ -24,7 +24,7 @@ export const transpile = (body: ts.Block | ts.SourceFile): asl.StateMachine => {
 };
 
 
-const convertNodeToStates = (toplevel: ts.Node, factory: StateFactory, nodes: Nodes): NameAndState[] => {
+const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateFactory, nodes: Nodes): NameAndState[] => {
   let node = toplevel;
   let stateAttributes: AnyStateAttribute = {};
   let nameSuggestion: string;
@@ -54,7 +54,7 @@ const convertNodeToStates = (toplevel: ts.Node, factory: StateFactory, nodes: No
   }
 
   if (ts.isCallExpression(node)) {
-    const result = factory.createState(node, stateAttributes, nameSuggestion);
+    const result = factory.createState(node, argName, stateAttributes, nameSuggestion);
     nodes.setNext(result.state.name);
     nodes.push(result.state.name, result.state);
 
@@ -88,7 +88,8 @@ class Nodes {
     }
 
     if (!NarrowTerminatingState(this.currentState)) {
-      throw new Error("current state is terminal");
+      return;
+      //throw new Error("current state is terminal");
     }
 
     this.currentState.Next = nextStateName;

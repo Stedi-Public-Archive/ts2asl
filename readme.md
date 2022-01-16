@@ -42,7 +42,7 @@ ASL.Choice({
     Variable: pwd,
     Not: { StringEquals: "password" },
     NextInvoke: () => { 
-      ASL.Failed({ Error: 'Error', Cause: 'wrong password'  });
+      ASL.Fail({ Error: 'Error', Cause: 'wrong password'  });
   }]
   DefaultInvoke: () => {
     ASL.Wait({ Seconds: 2 });
@@ -115,9 +115,9 @@ throw new SpecialError("bad luck");
   <summary>ASL Lib Typescript code</summary>
 
 ``` typescript
-ASL.Failed({ Error: 'Error' })
-ASL.Failed({ Error: 'Error', Cause: 'bad luck' })
-ASL.Failed({ Error: 'SpecialError', Cause: 'bad luck' })
+ASL.Fail({ Error: 'Error' })
+ASL.Fail({ Error: 'Error', Cause: 'bad luck' })
+ASL.Fail({ Error: 'SpecialError', Cause: 'bad luck' })
 ```
 
 </details>
@@ -126,11 +126,11 @@ ASL.Failed({ Error: 'SpecialError', Cause: 'bad luck' })
 
 ``` json
  {
-    "StartAt": "Failed",
+    "StartAt": "Fail",
     "States": {
-      "Failed": { "Type": "Failed", "Error": "Error" },
-      "Failed_1": { "Type": "Failed", "Error": "Error", "Cause": "bad luck" },
-      "Failed_2": { "Type": "Failed", "Error": "SpecialError", "Cause": "bad luck" }
+      "Fail": { "Type": "Fail", "Error": "Error" },
+      "Fail_1": { "Type": "Fail", "Error": "Error", "Cause": "bad luck" },
+      "Fail_2": { "Type": "Fail", "Error": "SpecialError", "Cause": "bad luck" }
     }
   }
 ```
@@ -154,7 +154,7 @@ ASL.Choice({
   Choices: [{
       Variable: password,
       Not: { StringEquals: "pwd" },
-      NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'wrong password' }) }
+      NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
     }]
 });
 
@@ -162,7 +162,7 @@ ASL.Choice({
   Choices: [{
       Variable: age,
       NumericLessThan: "18",
-      NextInvoke: () => { ASL.Failed({ Error: 'Error', Cause: 'minor' }) }
+      NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'minor' }) }
   }],
   DefaultInvoke: () => { 
     ASL.Task({ TypescriptInvoke: proceed }); 
@@ -184,12 +184,12 @@ ASL.Choice({
         {
           "Variable": "$.password",
           "Not": { "StringEquals": "pwd" },
-          "Next": "Failed"
+          "Next": "Fail"
         }
       ]
     },
-    "Failed": {
-      "Type": "Failed",
+    "Fail": {
+      "Type": "Fail",
       "Error": "Error",
       "Cause": "wrong password",
     },
@@ -199,13 +199,13 @@ ASL.Choice({
         {
           "Variable": "$.age",
           "NumericLessThan": "18",
-          "Next": "Failed_1"
+          "Next": "Fail_1"
         }
       ],
       "Default": "Task",
     },
-    "Failed_1": {
-      "Type": "Failed",
+    "Fail_1": {
+      "Type": "Fail",
       "Error": "Error",
       "Cause": "minor",
     },

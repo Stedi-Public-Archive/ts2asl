@@ -41,7 +41,7 @@ export const throwStatementTransformer = <T extends ts.Node>(context: ts.Transfo
       node = factory.createCallExpression(
         factory.createPropertyAccessExpression(
           factory.createIdentifier("ASL"),
-          factory.createIdentifier("Failed")
+          factory.createIdentifier("Fail")
         ),
         undefined,
         [factory.createObjectLiteralExpression(objectLiteralExpressions)]

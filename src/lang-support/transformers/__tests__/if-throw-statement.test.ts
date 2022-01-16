@@ -14,8 +14,8 @@ describe("when converting if with throw statements", () => {
           Choices: [
               {
                   Variable: optIn,
-                  StringEquals: \\"$.false\\",
-                  NextInvoke: () => { ASL.Failed({ Error: 'NotOptedInError', Cause: 'oops' }) }
+                  StringEquals: false,
+                  NextInvoke: () => { ASL.Fail({ Error: 'NotOptedInError', Cause: 'oops' }) }
               }
           ]
       });"

@@ -1,8 +1,8 @@
 import ts, { transform } from "typescript";
-import { transformCode } from "../lang-support";
-import { transformers } from "../lang-support/transformers";
-import { testTransform } from "../lang-support/__tests__/test-transform";
-import { transpile } from "../transpile";
+import { transformCode } from "../../lang-support";
+import { transformers } from "../../lang-support/transformers";
+import { testTransform } from "../../lang-support/__tests__/test-transform";
+import { transpile } from "../../transpile";
 
 describe("when converting examples", () => {
   it("then conversion works", () => {

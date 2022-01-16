@@ -1,32 +1,38 @@
 import ts from "typescript";
-import { transformCode } from "../lang-support";
-import { transpile } from "../transpile";
+import { transformCode } from "../../lang-support";
+import { transpile } from "../../transpile";
 
 describe("when converting examples", () => {
   it("then conversion works", () => {
     const printer: ts.Printer = ts.createPrinter();
 
     const example = `
-    await Promise.all([
-      () => { spinLeft(); },
-      () => { spinRight(); }
-    ]);`;
+    try { doWork(); } catch { revert(); }
+`;
 
     const aslLibCode = transformCode(example);
     const printedAslLibCode = printer.printFile(aslLibCode);
 
     console.log(printedAslLibCode);
     expect(printedAslLibCode).toMatchInlineSnapshot(`
-      "await ASL.Parallel({
-          Branches: [{
+      "ASL.Parallel({
+          Branches: [
+              {
                   BlockInvoke: () => { ASL.Task({
-                      TypescriptInvoke: spinLeft
+                      TypescriptInvoke: doWork
                   }); }
-              }, {
-                  BlockInvoke: () => { ASL.Task({
-                      TypescriptInvoke: spinRight
+              }
+          ],
+          Catch: [
+              {
+                  ErrorEquals: [
+                      \\"States.All\\"
+                  ],
+                  NextInvoke: () => { ASL.Task({
+                      TypescriptInvoke: revert
                   }); }
-              }]
+              }
+          ]
       });
       "
     `);
@@ -44,24 +50,26 @@ describe("when converting examples", () => {
                 "States": Object {
                   "Task": Object {
                     "End": true,
-                    "Resource": "typescript:spinLeft",
-                    "Type": "Task",
-                  },
-                },
-              },
-              Object {
-                "StartAt": "Task",
-                "States": Object {
-                  "Task": Object {
-                    "End": true,
-                    "Resource": "typescript:spinRight",
+                    "Resource": "typescript:doWork",
                     "Type": "Task",
                   },
                 },
               },
             ],
-            "End": true,
+            "Catch": Array [
+              Object {
+                "ErrorEquals": Array [
+                  "States.All",
+                ],
+                "Next": "Task",
+              },
+            ],
             "Type": "Parallel",
+          },
+          "Task": Object {
+            "End": true,
+            "Resource": "typescript:revert",
+            "Type": "Task",
           },
         },
       }

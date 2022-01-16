@@ -1,8 +1,6 @@
 import ts, { transform } from "typescript";
-import { transformCode } from "../lang-support";
-import { transformers } from "../lang-support/transformers";
-import { testTransform } from "../lang-support/__tests__/test-transform";
-import { transpile } from "../transpile";
+import { transformCode } from "../../lang-support";
+import { transpile } from "../../transpile";
 
 describe("when converting examples", () => {
   it("then conversion works", () => {
@@ -19,33 +17,30 @@ describe("when converting examples", () => {
 
     console.log(printedAslLibCode);
     expect(printedAslLibCode).toMatchInlineSnapshot(`
-      "ASL.Failed({ Error: 'Error' })
-      ASL.Failed({ Error: 'Error', Cause: 'bad luck' })
-      ASL.Failed({ Error: 'SpecialError', Cause: 'bad luck' })
+      "ASL.Fail({ Error: 'Error' })
+      ASL.Fail({ Error: 'Error', Cause: 'bad luck' })
+      ASL.Fail({ Error: 'SpecialError', Cause: 'bad luck' })
       "
     `);
 
     console.log(JSON.stringify(asl, null, 2));
     expect(asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Failed",
+        "StartAt": "Fail",
         "States": Object {
-          "Failed": Object {
+          "Fail": Object {
             "Error": "Error",
-            "Next": "Failed_1",
-            "Type": "Failed",
+            "Type": "Fail",
           },
-          "Failed_1": Object {
+          "Fail_1": Object {
             "Cause": "bad luck",
             "Error": "Error",
-            "Next": "Failed_2",
-            "Type": "Failed",
+            "Type": "Fail",
           },
-          "Failed_2": Object {
+          "Fail_2": Object {
             "Cause": "bad luck",
-            "End": true,
             "Error": "SpecialError",
-            "Type": "Failed",
+            "Type": "Fail",
           },
         },
       }

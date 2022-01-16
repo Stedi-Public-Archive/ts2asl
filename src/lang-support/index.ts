@@ -12,3 +12,7 @@ export const transformCode = (source: string) => {
 export const transformAst = (sourceFile: ts.SourceFile) => {
   return ts.transform<ts.SourceFile>(sourceFile, transformers).transformed[0];
 }
+
+export const transformBody = (body: ts.ConciseBody) => {
+  return ts.transform<ts.ConciseBody>(body, transformers).transformed[0];
+}

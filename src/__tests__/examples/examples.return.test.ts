@@ -1,6 +1,6 @@
 import ts from "typescript";
-import { transformCode } from "../lang-support";
-import { transpile } from "../transpile";
+import { transformCode } from "../../lang-support";
+import { transpile } from "../../transpile";
 
 describe("when converting examples", () => {
   it("then conversion works", () => {

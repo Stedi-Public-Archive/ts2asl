@@ -19,7 +19,7 @@ describe("when transpiling mixed statements", () => {
                 Variable: "$.results[0].status",
                 StringEquals: "failed",
                 NextInvoke: () => {
-                    ASL.Failed({ Error: 'Error', Cause: 'task failed' })
+                    ASL.Fail({ Error: 'Error', Cause: 'task failed' })
                 }
             }
         ]
@@ -56,18 +56,17 @@ describe("when transpiling mixed statements", () => {
           "Choice": Object {
             "Choices": Array [
               Object {
-                "Next": "Failed",
+                "Next": "Fail",
                 "StringEquals": "failed",
                 "Variable": "$.results[0].status",
               },
             ],
             "Type": "Choice",
           },
-          "Failed": Object {
+          "Fail": Object {
             "Cause": "task failed",
-            "End": true,
             "Error": "Error",
-            "Type": "Failed",
+            "Type": "Fail",
           },
         },
       }
