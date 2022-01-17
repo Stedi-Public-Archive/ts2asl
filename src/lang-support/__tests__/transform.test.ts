@@ -2,8 +2,8 @@ import { testTransform } from "./test-transform";
 import { transformers } from "../transformers";
 
 describe("when converting source files", () => {
-    it("then can convert nested structures", () => {
-        const code = `
+  it("then can convert nested structures", () => {
+    const code = `
 let completedActions: string[] = [];
 let getActionsArgs = { targetState: desiredStateTemplate, completedActions };
 let remainingActions = await getNextActions(getNextActionsArg);
@@ -17,46 +17,52 @@ while (remainingActions.length !== 0) {
   }
 }
     `;
-        const output = testTransform(code, transformers);
+    const output = testTransform(code, transformers);
 
-        expect(output).toMatchInlineSnapshot(`
+    expect(output).toMatchInlineSnapshot(`
       "let completedActions: string[] = ASL.Pass({ Result: [] });
       let getActionsArgs = ASL.Pass({ Result: { targetState: desiredStateTemplate, completedActions } });
       let remainingActions = await ASL.Task({
           TypescriptInvoke: getNextActions,
           Input: getNextActionsArg
       });
-      while (remainingActions.length !== 0) {
-          const results = await ASL.Task({
-              TypescriptInvoke: performAction,
-              Input: getActionsArgs
-          });
-          ASL.Choice({
-              Choices: [
-                  {
-                      Variable: results[0].status,
-                      StringEquals: \\"failed\\",
-                      NextInvoke: () => {
-                          ASL.Fail({ Error: 'Error', Cause: 'task failed' })
+      ASL.While({
+          Condition: {
+              Variable: remainingActions.length,
+              Not: { NumericEquals: 0 }
+          },
+          BlockInvoke: () => {
+              const results = await ASL.Task({
+                  TypescriptInvoke: performAction,
+                  Input: getActionsArgs
+              });
+              ASL.Choice({
+                  Choices: [
+                      {
+                          Variable: results[0].status,
+                          StringEquals: \\"failed\\",
+                          NextInvoke: () => {
+                              ASL.Fail({ Error: 'Error', Cause: 'task failed' })
+                          }
                       }
-                  }
-              ]
-          });
-          ASL.Choice({
-              Choices: [
-                  {
-                      Variable: results[0].status,
-                      Not: { StringEquals: \\"failed\\" },
-                      NextInvoke: () => {
-                          remainingActions = await ASL.Task({
-                              TypescriptInvoke: getNextActions,
-                              Input: getActionsArgs
-                          });
+                  ]
+              });
+              ASL.Choice({
+                  Choices: [
+                      {
+                          Variable: results[0].status,
+                          Not: { StringEquals: \\"failed\\" },
+                          NextInvoke: () => {
+                              remainingActions = await ASL.Task({
+                                  TypescriptInvoke: getNextActions,
+                                  Input: getActionsArgs
+                              });
+                          }
                       }
-                  }
-              ]
-          });
-      }"
+                  ]
+              });
+          }
+      });"
     `);
-    });
+  });
 });

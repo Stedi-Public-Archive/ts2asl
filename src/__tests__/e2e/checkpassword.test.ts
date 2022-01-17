@@ -24,7 +24,7 @@ describe("when deploying check password", () => {
             \\"Choices\\": [
               {
                 \\"Variable\\": \\"$.password\\",
-                \\"StringEquals\\": \\"$.password\\",
+                \\"StringEquals\\": \\"password\\",
                 \\"Next\\": \\"Succeed\\"
               }
             ],

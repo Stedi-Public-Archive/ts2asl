@@ -6,6 +6,7 @@ import { switchStatementTransformer } from "./switch-statement";
 import { throwStatementTransformer } from "./throw-statement";
 import { tryStatementTransformer } from "./try-statement";
 import { variableStatementTransformer } from "./variable-statement";
+import { whileStatementTransformer } from "./while-statement";
 
 export const transformers = [
   ifStatementTransformer,
@@ -16,4 +17,5 @@ export const transformers = [
   variableStatementTransformer,
   promiseAllStatementTransformer,
   callStatementTransformer,
+  whileStatementTransformer
 ];

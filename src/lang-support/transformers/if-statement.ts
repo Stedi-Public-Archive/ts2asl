@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import { ParserError } from '../../ParserError';
 import { convertToBlock } from './block-utility';
+import { createChoice } from './choice-utility';
 import factory = ts.factory;
 
 
@@ -18,75 +19,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
 
     if (ts.isIfStatement(node)) {
 
-      let choiceRhs: ts.Expression;
-      let choiceExpression: ts.Expression;
-      let choiceOperator: string;
-      let choiceNot = false;
-
-      if (ts.isPrefixUnaryExpression(node.expression)) {
-        throw new Error("if statement with prefix unary expression not supported");
-      } else if (ts.isBinaryExpression(node.expression)) {
-
-        if (!(ts.isIdentifier(node.expression.left) || ts.isPropertyAccessExpression(node.expression.left))) throw new ParserError("if statement with left hand side of binary expression must be identifier or property access", node.expression.left);
-        if (!(ts.isIdentifier(node.expression.right) || ts.isPropertyAccessExpression(node.expression.right) || ts.isLiteralExpression(node.expression.right) || ts.SyntaxKind.FalseKeyword === node.expression.right.kind || ts.SyntaxKind.TrueKeyword === node.expression.right.kind)) throw new Error("if statement with right hand side of binary expression must be identifier or literal");
-        let operator: "Equals" | "GreaterThan" | "GreaterThanEquals" | "LessThan" | "LessThanEquals" | undefined;
-        let type: "Numeric" | "String" | "Timestamp" | "Boolean" | undefined = "String"; //lame default
-
-        switch (node.expression.operatorToken.kind) {
-          case ts.SyntaxKind.EqualsEqualsEqualsToken:
-          case ts.SyntaxKind.EqualsEqualsToken:
-            operator = "Equals";
-            break;
-
-
-          case ts.SyntaxKind.ExclamationEqualsEqualsToken:
-          case ts.SyntaxKind.ExclamationEqualsEqualsToken:
-            operator = "Equals";
-            choiceNot = true;
-            break;
-
-
-          case ts.SyntaxKind.GreaterThanEqualsToken:
-            operator = "GreaterThanEquals";
-            break;
-
-          case ts.SyntaxKind.GreaterThanToken:
-            operator = "GreaterThan";
-            break;
-
-          case ts.SyntaxKind.LessThanEqualsToken:
-            operator = "LessThanEquals";
-            break;
-
-
-          case ts.SyntaxKind.LessThanToken:
-            operator = "LessThan";
-            break;
-
-          default:
-            const typescriptOp = ts.SyntaxKind[node.expression.operatorToken.kind];
-            throw new Error("unexpected binary operator type " + typescriptOp);
-        }
-
-        if (ts.isLiteralExpression(node.expression.right)) {
-          switch (node.expression.right.kind) {
-            case ts.SyntaxKind.StringLiteral:
-              type = "String";
-              break;
-            case ts.SyntaxKind.TrueKeyword:
-            case ts.SyntaxKind.FalseKeyword:
-              type = "Boolean";
-              break;
-            case ts.SyntaxKind.NumericLiteral:
-              type = "Numeric";
-              break;
-          }
-        }
-
-        choiceExpression = node.expression.left;
-        choiceRhs = node.expression.right;
-        choiceOperator = `${type}${operator}`;
-      }
+      var { variableAssignment, choiceAssignment } = createChoice(factory, node.expression);
 
       /*
         ASL.Choice({
@@ -97,19 +30,6 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
           ]
         })
       */
-
-      let choiceAssignment: ts.PropertyAssignment = factory.createPropertyAssignment(
-        factory.createIdentifier(choiceOperator),
-        choiceRhs
-      );
-      if (choiceNot) {
-        choiceAssignment = factory.createPropertyAssignment(
-          factory.createIdentifier("Not"),
-          factory.createObjectLiteralExpression(
-            [choiceAssignment]
-          )
-        );
-      }
       node = factory.createExpressionStatement(factory.createCallExpression(
         factory.createPropertyAccessExpression(
           factory.createIdentifier("ASL"),
@@ -123,10 +43,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
               factory.createArrayLiteralExpression(
                 [factory.createObjectLiteralExpression(
                   [
-                    factory.createPropertyAssignment(
-                      factory.createIdentifier("Variable"),
-                      choiceExpression
-                    ),
+                    variableAssignment,
                     choiceAssignment,
                     factory.createPropertyAssignment(
                       factory.createIdentifier("NextInvoke"),
