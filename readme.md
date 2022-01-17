@@ -402,7 +402,6 @@ ASL.While({
               "Type": "Task",
               "Resource": "typescript:getPage",
               "ResultPath": "$.page",
-              "End": true,
               "Next": "_WhileCondition"
             },
             "_WhileCondition": {
@@ -417,7 +416,7 @@ ASL.While({
               "Default": "_WhileExit"
             },
             "_WhileExit": {
-              "Type": "Success"
+              "Type": "Succeed"
             }
           }
         }

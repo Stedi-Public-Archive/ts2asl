@@ -52,7 +52,6 @@ describe("when converting examples", () => {
                 "StartAt": "_WhileCondition",
                 "States": Object {
                   "Assign": Object {
-                    "End": true,
                     "Next": "_WhileCondition",
                     "Resource": "typescript:getPage",
                     "ResultPath": "$.page",
@@ -70,7 +69,7 @@ describe("when converting examples", () => {
                     "Type": "Choice",
                   },
                   "_WhileExit": Object {
-                    "Type": "Success",
+                    "Type": "Succeed",
                   },
                 },
               },

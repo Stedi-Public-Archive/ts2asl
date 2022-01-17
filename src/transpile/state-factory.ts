@@ -34,6 +34,7 @@ export class StateFactory {
           if (NarrowTerminatingState(state)) {
             if (state.End === true) {
               state.Next = "_WhileCondition"
+              delete state.End;
             }
           } else {
             if (state.Type === "Success") {
@@ -56,7 +57,7 @@ export class StateFactory {
           Default: "_WhileExit"
         } as asl.Choice;
         stateMachine.States["_WhileExit"] = {
-          Type: "Success"
+          Type: "Succeed"
         } as asl.Succeed;
         stateMachine.StartAt = "_WhileCondition";
         argument = {
