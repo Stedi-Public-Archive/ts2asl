@@ -72,8 +72,11 @@ export function createChoice(factory: ts.NodeFactory, expression: ts.Expression)
     choiceExpression = expression.left;
     choiceRhs = expression.right;
     choiceOperator = `${type}${operator}`;
+  } else if (ts.isPropertyAccessExpression(expression) || ts.isIdentifier(expression)) {
+    choiceExpression = expression;
+    choiceOperator = `IsPresent`;
+    choiceRhs = factory.createTrue();
   }
-
 
   let choiceAssignment: ts.PropertyAssignment = factory.createPropertyAssignment(
     factory.createIdentifier(choiceOperator),

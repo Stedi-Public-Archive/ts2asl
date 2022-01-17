@@ -15,8 +15,8 @@ describe("when converting while statements", () => {
               Variable: code,
               StringEquals: 'continue'
           },
-          BlockInvoke: () => { console.log(); ASL.Wait({ Seconds: 2 }); }
-      });"
+          WhileInvoke: () => { console.log(); ASL.Wait({ Seconds: 2 }); }
+      })"
     `);
   });
 });

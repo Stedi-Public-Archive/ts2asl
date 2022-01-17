@@ -348,6 +348,90 @@ const z = await ASL.Task({
 &nbsp;
 &nbsp;
 
+
+### While Statement
+
+``` typescript
+let page = getPage();
+while(page.nextPageToken) {
+  page = getPage();
+}
+```
+
+<details>
+  <summary>ASL Lib Typescript code</summary>
+
+``` typescript
+let page = ASL.Task({
+    TypescriptInvoke: getPage
+});
+ASL.While({
+    Condition: {
+        Variable: page.nextPageToken,
+        IsPresent: true
+    },
+    WhileInvoke: () => {
+        page = ASL.Task({
+            TypescriptInvoke: getPage
+        });
+    }
+})
+```
+
+</details>
+<details>
+  <summary>ASL output</summary>
+
+``` json
+{
+  "StartAt": "Assign_page",
+  "States": {
+    "Assign_page": {
+      "Type": "Task",
+      "Resource": "typescript:getPage",
+      "ResultPath": "$.page",
+      "Next": "While"
+    },
+    "While": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "_WhileCondition",
+          "States": {
+            "Assign": {
+              "Type": "Task",
+              "Resource": "typescript:getPage",
+              "ResultPath": "$.page",
+              "End": true,
+              "Next": "_WhileCondition"
+            },
+            "_WhileCondition": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Next": "Assign",
+                  "Variable": "$.page.nextPageToken",
+                  "IsPresent": true
+                }
+              ],
+              "Default": "_WhileExit"
+            },
+            "_WhileExit": {
+              "Type": "Success"
+            }
+          }
+        }
+      ],
+      "End": true
+    }
+  }
+}
+```
+
+</details>
+&nbsp;
+&nbsp;
+
 ### Promise.all Statement
 
 ```typescript

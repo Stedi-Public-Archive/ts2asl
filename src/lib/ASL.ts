@@ -10,7 +10,7 @@ export interface AslState { }
 export type Operator = Omit<AslOperator, "Next"> & { NextInvoke: Function };
 export type Choice = Omit<asl.Choice, "Type" | "Choices" | "Default" | "InputPath"> & { Input: unknown, DefaultInvoke: Function, Choices: Operator[] };
 export type Task = Omit<asl.Task, "Type" | "Resource" | "InputPath"> & { TypescriptInvoke?: Function, Resource?: string, Input?: unknown };
-export type While = { Condition: Omit<AslOperator, "Next">, BlockInvoke: Function };
+export type While = { Condition: Omit<AslOperator, "Next">, WhileInvoke: Function };
 export type Wait = Omit<asl.Wait, "Type" | "SecondsPath" | "TimestampPath">;
 export class ASL {
 
@@ -21,8 +21,6 @@ export class ASL {
 
   static AsStateMachine<T>(fn: T) {
     (fn as any).asl = true;
-
-    ASL.While({ Condition: { Variable: fn, StringEquals: "aa" }, BlockInvoke: () => { } })
     return fn as AslStateMachine
   }
 
@@ -56,7 +54,7 @@ export class ASL {
 
   static async While(x: While) {
     while (internalEvaluateOperator(x.Condition)) {
-      x.BlockInvoke();
+      x.WhileInvoke();
     }
   }
 

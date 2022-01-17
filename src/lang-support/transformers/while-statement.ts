@@ -19,7 +19,7 @@ export const whileStatementTransformer = <T extends ts.Node>(context: ts.Transfo
       var { variableAssignment, choiceAssignment } = createChoice(factory, node.expression);
       var block = convertToBlock(node.statement);
 
-      node = factory.createExpressionStatement(factory.createCallExpression(
+      node = factory.createCallExpression(
         factory.createPropertyAccessExpression(
           factory.createIdentifier("ASL"),
           factory.createIdentifier("While")
@@ -38,7 +38,7 @@ export const whileStatementTransformer = <T extends ts.Node>(context: ts.Transfo
               )
             ),
             factory.createPropertyAssignment(
-              factory.createIdentifier("BlockInvoke"),
+              factory.createIdentifier("WhileInvoke"),
               factory.createArrowFunction(
                 undefined,
                 undefined,
@@ -51,7 +51,7 @@ export const whileStatementTransformer = <T extends ts.Node>(context: ts.Transfo
           ],
           true
         )]
-      ));
+      );
     }
     return node;
   }

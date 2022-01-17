@@ -1,8 +1,10 @@
-import ts, { SyntaxKind } from "typescript"
-import { Wait } from "../lib/ASL";
+import ts, { SyntaxKind } from "typescript";
+import * as asl from "asl-types";
 import { ParserError } from "../ParserError";
 import { transpile } from "./index";
-import { AnyStateAttribute, NameAndState } from "./states";
+import { convertToDollarSyntax } from "./reference-utility";
+import { AnyStateAttribute, NameAndState, NarrowTerminatingState } from "./states";
+import { While } from "../lib/ASL";
 
 export class StateFactory {
   names = new Names();
@@ -11,7 +13,7 @@ export class StateFactory {
     const additionalStates: NameAndState[] = [];
     if (!ts.isPropertyAccessExpression(callExpression.expression)) throw new Error("Call expression expected to have Property access expression");
     if (!ts.isIdentifier(callExpression.expression.expression)) throw new Error("Call expression expected to have Property access expression");
-    const type = callExpression.expression.name.text;
+    let type = callExpression.expression.name.text;
     const ASL = callExpression.expression.expression.text;
     if (ASL !== "ASL") throw new Error("Call expression expected to be on ASL method");
     const name = this.names.getOrCreateName(callExpression, (nameSuggestion ?? type) ?? "State")
@@ -23,6 +25,46 @@ export class StateFactory {
       const arg = callExpression.arguments[0];
       if (!ts.isObjectLiteralExpression(arg)) throw new Error("Call expression argument must be object literal expression");
       argument = convertObjectLiteralExpressionToObject(arg, argName, additionalStates, this, type);
+
+      if (type === "While") {
+        type = "Parallel";
+        const originalArg = { ...argument } as While;
+        const stateMachine = originalArg.WhileInvoke as unknown as asl.StateMachine;
+        for (const [name, state] of Object.entries(stateMachine.States)) {
+          if (NarrowTerminatingState(state)) {
+            if (state.End === true) {
+              state.Next = "_WhileCondition"
+            }
+          } else {
+            if (state.Type === "Success") {
+              delete stateMachine[name];
+              for (const state2 of Object.values(stateMachine.States)) {
+                if (NarrowTerminatingState(state2)) {
+                  if (state2.Next == name) {
+                    state2.Next = "_WhileCondition";
+                  }
+                }
+              }
+            }
+          }
+        }
+        stateMachine.States["_WhileCondition"] = {
+          Type: "Choice",
+          Choices: [
+            { Next: stateMachine.StartAt, ...originalArg.Condition }
+          ],
+          Default: "_WhileExit"
+        } as asl.Choice;
+        stateMachine.States["_WhileExit"] = {
+          Type: "Success"
+        } as asl.Succeed;
+        stateMachine.StartAt = "_WhileCondition";
+        argument = {
+          Branches: [
+            stateMachine
+          ]
+        } as asl.Parallel;
+      }
     }
     const state = {
       name: name,
@@ -50,6 +92,10 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
       const statemachine = transpile(prop.initializer.body);
       result = statemachine;
 
+    } else if (propName === "WhileInvoke") {
+      if (!ts.isArrowFunction(prop.initializer) || !ts.isBlock(prop.initializer.body)) throw new Error(`WhileInvoke must be arrow function with block`);
+      result["WhileInvoke"] = transpile(prop.initializer.body);
+
     } else if (propName === "NextInvoke" || propName === "DefaultInvoke") {
       if (!ts.isArrowFunction(prop.initializer) || !ts.isBlock(prop.initializer.body)) throw new Error(`NextInvoke must be arrow function with block`);
 
@@ -74,7 +120,6 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
       const value = convertExpressionToLiteral(prop.initializer, argName, others, factory);
 
       if (asltype === "Wait") {
-        const waitState: Wait = value;
         if (propName === "Seconds" && typeof value === "string" && (value + "").startsWith("$")) {
           result["SecondsPath"] = value;
         } else if (propName === "Timestamp" && typeof value === "string" && (value + "").startsWith("$")) {
@@ -100,15 +145,15 @@ const convertExpressionToLiteral = (expression: ts.Expression, argName: string, 
       value = new Number(value).valueOf();
     }
     return value;
-  } else if (ts.isIdentifier(expression)) {
-    return `$.${expression.text}`;
   } else if (ts.isPropertyAccessExpression(expression) && ts.isIdentifier(expression.expression) && expression.expression.text === argName) {
     return `$.${expression.name.text}`;
+  } else if (ts.isPropertyAccessExpression(expression) || ts.isIdentifier(expression)) {
+    return convertToDollarSyntax(expression);
   }
-  else if (expression.kind === SyntaxKind.TrueKeyword || expression.kind === SyntaxKind.FalseKeyword) {
-    const keyword = expression.getText();
-    const value = new Boolean(keyword).valueOf();
-    return value;
+  else if (expression.kind === SyntaxKind.TrueKeyword) {
+    return true;
+  } else if (expression.kind === SyntaxKind.FalseKeyword) {
+    return false;
   } else if (ts.isObjectLiteralExpression(expression)) {
     let obj = convertObjectLiteralExpressionToObject(expression, argName, others, factory);
     return obj;

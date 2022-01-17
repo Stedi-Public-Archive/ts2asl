@@ -3,6 +3,7 @@ import * as asl from "asl-types";
 import { ParserError } from "../ParserError";
 import { StateFactory } from "./state-factory";
 import { NameAndState, AnyStateAttribute, NarrowTerminatingState } from "./states";
+import { convertToDollarSyntax } from "./reference-utility";
 
 export const transpile = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argName: string = "context"): asl.StateMachine => {
   const factory = new StateFactory();
@@ -37,16 +38,26 @@ const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateF
     node = node.expression;
   }
 
-  if (ts.isVariableStatement(node)) {
-    if (node.declarationList.declarations.length !== 1) throw new ParserError("variable statement must have declaration list of 1", node);
-    const decl = node.declarationList.declarations[0];
-    if (!ts.isIdentifier(decl.name)) throw new ParserError("variable statement must be assigned to identifier", node);
-    const identifierName = decl.name.text;
+  if (ts.isVariableStatement(node) || (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.EqualsToken)) {
+    let identifierName = "";
 
-    stateAttributes.ResultPath = `$.` + identifierName;
-    nameSuggestion = `Assign_` + identifierName;
+    if (ts.isVariableStatement(node)) {
+      if (node.declarationList.declarations.length !== 1) throw new ParserError("variable statement must have declaration list of 1", node);
+      const decl = node.declarationList.declarations[0];
+      if (!ts.isIdentifier(decl.name)) throw new ParserError("variable statement must be assigned to identifier", node);
+      identifierName = decl.name.text;
+      node = decl.initializer;
+      stateAttributes.ResultPath = `$.` + identifierName;
+      nameSuggestion = `Assign_` + identifierName;
 
-    node = decl.initializer;
+    } else if (ts.isBinaryExpression(node)) {
+      if (!ts.isIdentifier(node.left) && !ts.isPropertyAccessExpression(node.left)) throw new ParserError("variable statement must be assigned to identifier or property access expression", node);
+      stateAttributes.ResultPath = convertToDollarSyntax(node.left);
+      node = node.right;
+      nameSuggestion = `Assign` + identifierName;
+    }
+
+
   }
 
   if (ts.isAwaitExpression(node)) {

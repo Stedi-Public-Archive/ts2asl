@@ -31,7 +31,7 @@ while (remainingActions.length !== 0) {
               Variable: remainingActions.length,
               Not: { NumericEquals: 0 }
           },
-          BlockInvoke: () => {
+          WhileInvoke: () => {
               const results = await ASL.Task({
                   TypescriptInvoke: performAction,
                   Input: getActionsArgs
@@ -62,7 +62,7 @@ while (remainingActions.length !== 0) {
                   ]
               });
           }
-      });"
+      })"
     `);
   });
 });
