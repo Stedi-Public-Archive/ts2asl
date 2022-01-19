@@ -2,7 +2,6 @@ import * as ts from 'typescript';
 import { ParserError } from '../../ParserError';
 import { convertToBlock } from './block-utility';
 import { createChoice } from './choice-utility';
-import { findParent } from './node-utility';
 import factory = ts.factory;
 
 

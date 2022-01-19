@@ -13,29 +13,30 @@ const validExamples = `valid examples:
 export const variableStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
-    if (ts.isLiteralExpression(node) || ts.isObjectLiteralExpression(node) || ts.isArrayLiteralExpression(node)) {
-      const variableStatement = findParent(node, x => ts.isVariableStatement(x)) as ts.VariableStatement;
-      if (!variableStatement) return node;
+    if (ts.isVariableDeclaration(node) && (ts.isLiteralExpression(node.initializer) || ts.isObjectLiteralExpression(node.initializer) || ts.isArrayLiteralExpression(node.initializer))) {
 
-      const outerObjectLiteralExpression = findParent(node, x => ts.isObjectLiteralExpression(x)) as ts.VariableStatement;
-      if (outerObjectLiteralExpression) return node;
-
-      if (1 != variableStatement.declarationList.declarations.length) throw new ParserError(`variable statement must have 1 declaration, found ${variableStatement.declarationList.declarations.length}, ${validExamples}`, variableStatement.declarationList);
-
-      node = factory.createCallExpression(
-        factory.createPropertyAccessExpression(
-          factory.createIdentifier("ASL"),
-          factory.createIdentifier("Pass")
-        ),
+      node = factory.createVariableDeclaration(
+        node.name,
         undefined,
-        [factory.createObjectLiteralExpression(
-          [factory.createPropertyAssignment(
-            factory.createIdentifier("Result"),
-            node
-          )],
-          false
-        )]
+        undefined,
+        factory.createCallExpression(
+          factory.createPropertyAccessExpression(
+            factory.createIdentifier("ASL"),
+            factory.createIdentifier("Pass")
+          ),
+          undefined,
+          [factory.createObjectLiteralExpression(
+            [factory.createPropertyAssignment(
+              factory.createIdentifier("Result"),
+              node.initializer
+            )],
+            false
+          )]
+        )
       );
+
+
+      return node;
     }
     return node;
   }

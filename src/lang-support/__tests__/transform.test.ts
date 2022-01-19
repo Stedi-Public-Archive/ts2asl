@@ -4,23 +4,23 @@ import { transformers } from "../transformers";
 describe("when converting source files", () => {
   it("then can convert nested structures", () => {
     const code = `
-let completedActions: string[] = [];
-let getActionsArgs = { targetState: desiredStateTemplate, completedActions };
-let remainingActions = await getNextActions(getNextActionsArg);
-while (remainingActions.length !== 0) {
-  const results = await performAction(getActionsArgs);
-  if (results[0].status === "failed") {
-    throw new Error("task failed")
+  let completedActions: string[] = [];
+  let getActionsArgs = { targetState: desiredStateTemplate, completedActions };
+  let remainingActions = await getNextActions(getNextActionsArg);
+  while (remainingActions.length !== 0) {
+    const results = await performAction(getActionsArgs);
+    if (results[0].status === "failed") {
+      throw new Error("task failed")
+    }
+    if (results[0].status !== "failed") {
+      remainingActions = await getNextActions(getActionsArgs);
+    }
   }
-  if (results[0].status !== "failed") {
-    remainingActions = await getNextActions(getActionsArgs);
-  }
-}
-    `;
+      `;
     const output = testTransform(code, transformers);
 
     expect(output).toMatchInlineSnapshot(`
-      "let completedActions: string[] = ASL.Pass({ Result: [] });
+      "let completedActions = ASL.Pass({ Result: [] });
       let getActionsArgs = ASL.Pass({ Result: { targetState: desiredStateTemplate, completedActions } });
       let remainingActions = await ASL.Task({
           TypescriptInvoke: getNextActions,
@@ -61,6 +61,29 @@ while (remainingActions.length !== 0) {
                       }
                   ]
               });
+          }
+      })"
+    `);
+  });
+  it("then can convert ASL Lib syntax", () => {
+    const code = `
+        let page = await ASL.Task({ Resource: "arn:aws:states:::apigateway:invoke" });
+        while (page.nextPageToken) {
+            await ASL.Wait({ Seconds: 2 });
+            page = await ASL.Task({ Resource: "arn:aws:states:::apigateway:invoke" });
+        }
+            `;
+    const output = testTransform(code, transformers);
+    expect(output).toMatchInlineSnapshot(`
+      "let page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
+      ASL.While({
+          Condition: {
+              Variable: page.nextPageToken,
+              IsPresent: true
+          },
+          WhileInvoke: () => {
+              await ASL.Wait({ Seconds: 2 });
+              page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
           }
       })"
     `);
