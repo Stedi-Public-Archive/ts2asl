@@ -48,7 +48,7 @@ export const aslDeclStyleCallExpression = (source: ts.SourceFile, expression: ts
   const operations = ["AsLambda", "AsStateMachine"];
   if (aslCallExpression && operations.includes(aslCallExpression.operation)) {
 
-    if (aslCallExpression.arguments.length !== 1) throw new Error(`ASL decl ${name} must have 1 argument`);
+    if (aslCallExpression.arguments.length !== 1) throw new Error(`ASL call expression must have 1 argument`);
 
     return {
       operation: aslCallExpression.operation,

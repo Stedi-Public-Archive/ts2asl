@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import { ParserError } from '../../ParserError';
-import { findParent } from './node-utility';
+import { findParent, isLiteralOrIdentifier } from './node-utility';
 import factory = ts.factory;
 
 
@@ -13,7 +13,7 @@ const validExamples = `valid examples:
 export const variableStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
-    if (ts.isVariableDeclaration(node) && (ts.isLiteralExpression(node.initializer) || ts.isObjectLiteralExpression(node.initializer) || ts.isArrayLiteralExpression(node.initializer))) {
+    if (ts.isVariableDeclaration(node) && (isLiteralOrIdentifier(node.initializer))) {
 
       node = factory.createVariableDeclaration(
         node.name,

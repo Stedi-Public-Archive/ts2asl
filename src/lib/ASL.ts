@@ -16,12 +16,12 @@ export class ASL {
 
   static AsLambda<T>(fn: T) {
     (fn as any).lambda = true;
-    return fn as AslLambdaFunction;
+    return fn as AslLambdaFunction & T;
   }
 
   static AsStateMachine<T>(fn: T) {
     (fn as any).asl = true;
-    return fn as AslStateMachine
+    return fn as AslStateMachine & T;
   }
 
   static async Wait(x: Wait) {

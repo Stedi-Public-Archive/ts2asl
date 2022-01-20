@@ -5,8 +5,6 @@ import * as AWS from "aws-sdk";
 describe("when deploying check password", () => {
   it("then will be deployed", async () => {
 
-    return;
-
     const c = Converter.FromFile(
       "src/__tests__/e2e/resources/getpage.ts"
     );

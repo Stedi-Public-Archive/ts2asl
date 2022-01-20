@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import { isLiteralOrIdentifier } from './node-utility';
 import factory = ts.factory;
 
 
@@ -20,7 +21,7 @@ export const callStatementTransformer = <T extends ts.Node>(context: ts.Transfor
       if (1 < node.arguments.length) throw new Error(`call expression must have 0 or 1 arguments, ${validExamples}`);
       if (!ts.isIdentifier(node.expression)) throw new Error(`call expression must be on identifier, ${validExamples}`);
       if (node.arguments.length === 1) {
-        if (!ts.isIdentifier(node.arguments[0])) throw new Error(`call expression must have argument that is identifier, ${validExamples}`);
+        if (!isLiteralOrIdentifier(node.arguments[0])) throw new Error(`call expression must have argument that is identifier or property access expression, ${validExamples}`);
       }
 
 

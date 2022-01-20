@@ -9,3 +9,8 @@ export const findParent = (node: ts.Node, predicate: (node: ts.Node) => boolean)
 
   return contextual;
 }
+
+export const isLiteralOrIdentifier = (node: ts.Node): node is ts.LiteralExpression | ts.PropertyAccessExpression | ts.LiteralExpression | ts.ObjectLiteralExpression | ts.ArrayLiteralExpression => {
+  return (ts.isIdentifier(node) || ts.isPropertyAccessExpression(node) || ts.isLiteralExpression(node) || ts.isObjectLiteralExpression(node) || node.kind === ts.SyntaxKind.TrueKeyword || node.kind === ts.SyntaxKind.FalseKeyword || ts.isArrayLiteralExpression(node))
+
+}
