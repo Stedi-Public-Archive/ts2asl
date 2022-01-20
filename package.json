@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest",
+    "test:e2e": "npx jest --config ./jest.config.e2e.js"
   },
   "author": "",
   "license": "ISC",
