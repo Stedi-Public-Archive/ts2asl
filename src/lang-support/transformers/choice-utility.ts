@@ -2,9 +2,9 @@ import * as ts from 'typescript';
 import { ParserError } from '../../ParserError';
 
 export function createChoice(factory: ts.NodeFactory, expression: ts.Expression) {
-  let choiceRhs: ts.Expression;
-  let choiceExpression: ts.Expression;
-  let choiceOperator: string;
+  let choiceRhs: ts.Expression | undefined = undefined;
+  let choiceExpression: ts.Expression | undefined = undefined;
+  let choiceOperator: string | undefined = undefined;
   let choiceNot = false;
 
   if (ts.isPrefixUnaryExpression(expression)) {
@@ -77,6 +77,10 @@ export function createChoice(factory: ts.NodeFactory, expression: ts.Expression)
     choiceOperator = `IsPresent`;
     choiceRhs = factory.createTrue();
   }
+
+  if (!choiceOperator) throw new Error("unable to establish choice operator");
+  if (!choiceRhs) throw new Error("unable to establish choice rhs");
+  if (!choiceExpression) throw new Error("unable to establish choice expression");
 
   let choiceAssignment: ts.PropertyAssignment = factory.createPropertyAssignment(
     factory.createIdentifier(choiceOperator),

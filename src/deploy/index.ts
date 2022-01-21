@@ -7,14 +7,14 @@ export const directDeploy = async (name: string, stateMachine: asl.StateMachine)
   const client = new AWS.StepFunctions({ region });
   const sts = new AWS.STS();
   const callerId = await sts.getCallerIdentity().promise();
-  const arnParts = callerId.Arn.split(':');
-  const partition = arnParts[1];
-  const accountId = arnParts[4];
+  const arnParts = callerId?.Arn?.split(':');
+  const partition = arnParts?.[1];
+  const accountId = arnParts?.[4];
   const stateMachineArn = `arn:${partition}:states:${region}:${accountId}:stateMachine:${name}`;
   const roleArn = `arn:${partition}:iam::${accountId}:role/ts2asl`
   const updateRequest = { stateMachineArn, definition: JSON.stringify(stateMachine, null, 2), roleArn } as UpdateStateMachineInput;
   const createRequest = { ...updateRequest, name } as CreateStateMachineInput;
-  delete (createRequest as unknown as UpdateStateMachineInput).stateMachineArn;
+  delete (createRequest as unknown as { stateMachineArn?: string }).stateMachineArn;
   try {
     await client.updateStateMachine(updateRequest).promise();
   } catch (err) {

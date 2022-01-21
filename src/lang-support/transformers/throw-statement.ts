@@ -13,15 +13,15 @@ export const throwStatementTransformer = <T extends ts.Node>(context: ts.Transfo
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
-    if (ts.isThrowStatement(node)) {
+    if (node && ts.isThrowStatement(node)) {
       if (!ts.isNewExpression(node.expression)) throw new Error(`throw statement must have new expression, ${validExamples}`);
-      if (2 <= node.expression.arguments.length) throw new Error(`error thrown must not have 2 or more arguments, ${validExamples}`);
-      if (node.expression.arguments.length === 1 && !ts.isStringLiteral(node.expression.arguments[0])) throw new Error(`error thrown must have string literal as argument, ${validExamples}`);
+      if (node.expression.arguments && 2 <= node.expression.arguments.length) throw new Error(`error thrown must not have 2 or more arguments, ${validExamples}`);
+      if (node.expression.arguments && node.expression.arguments.length === 1 && !ts.isStringLiteral(node.expression.arguments[0])) throw new Error(`error thrown must have string literal as argument, ${validExamples}`);
 
       const error = node.expression.expression.getText();
-      let cause = undefined;
+      let cause: string | undefined = undefined;
 
-      if (node.expression.arguments.length === 1) {
+      if (node.expression.arguments && node.expression.arguments.length === 1) {
         const causeLiteral = node.expression.arguments[0] as ts.StringLiteral;
         cause = causeLiteral.text;
       }

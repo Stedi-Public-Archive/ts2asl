@@ -19,16 +19,16 @@ export const transpile = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argNa
   nodes.finalize();
 
   return {
-    StartAt: nodes.startAt,
+    StartAt: nodes.startAt as string,
     States: nodes.states
   }
 };
 
 
 const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateFactory, nodes: Nodes): NameAndState[] => {
-  let node = toplevel;
+  let node: ts.Node | undefined = toplevel;
   let stateAttributes: AnyStateAttribute = {};
-  let nameSuggestion: string;
+  let nameSuggestion: string | undefined = undefined;
 
   if (ts.isEmptyStatement(node)) {
     return [];
@@ -60,11 +60,11 @@ const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateF
 
   }
 
-  if (ts.isAwaitExpression(node)) {
+  if (node && ts.isAwaitExpression(node)) {
     node = node.expression;
   }
 
-  if (ts.isCallExpression(node)) {
+  if (node && ts.isCallExpression(node)) {
     const result = factory.createState(node, argName, stateAttributes, nameSuggestion);
     nodes.setNext(result.state.name);
     nodes.push(result.state.name, result.state);
@@ -79,11 +79,11 @@ const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateF
 class Nodes {
   hasFirstState = false;
   states: Record<string, asl.State> = {};
-  currentState: asl.State;
-  startAt: string;
+  currentState: asl.State | undefined;
+  startAt: string | undefined;
 
   push(name: string, state: asl.State) {
-    delete (state as unknown as { name: string }).name;
+    delete (state as unknown as { name: string | undefined }).name;
     if (!this.hasFirstState) {
       this.startAt = name;
       this.hasFirstState = true;

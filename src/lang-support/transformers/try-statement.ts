@@ -15,6 +15,7 @@ export const tryStatementTransformer = <T extends ts.Node>(context: ts.Transform
     if (ts.isTryStatement(node)) {
       if (node.finallyBlock) throw new Error(`try statement must not have finally block, ${validExamples} `);
 
+      if (!node.catchClause?.block) throw new Error(`try statement must not have catch block, ${validExamples} `);
       if (!ts.isBlock(node.catchClause.block)) throw new Error(`try statement must not have catch block, ${validExamples} `);
       /*
         ASL.Parallel({

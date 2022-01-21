@@ -15,7 +15,8 @@ const getPage = ASL.AsLambda(async (context: { pageToken?: string }) => {
       items: ["a", "b", "c", "d"],
       nextPageToken: "2"
     }
-  } else if (context.pageToken === "2") {
+  } else // if (context.pageToken === "2") {
+  {
     return {
       items: ["e", "f", "g", "h"],
     }

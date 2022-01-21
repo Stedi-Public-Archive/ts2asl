@@ -23,16 +23,21 @@ export class Converter {
     return transpiled;
   }
 
-  static FromFile(file: string) {
-    const directory = path.dirname(file);
-    const filename = path.basename(file, ".ts");
-    const source = readFileSync(file).toString("utf-8");
+  // static FromFile(file: string) {
+  //   const directory = path.dirname(file);
+  //   const filename = path.basename(file, ".ts");
+  //   const source = readFileSync(file).toString("utf-8");
+  //   const sourceFile: ts.SourceFile = ts.createSourceFile(
+  //     filename, source, ts.ScriptTarget.ES2015, true, ts.ScriptKind.TS
+  //   );
+  //   return new Converter(sourceFile, directory, filename);
+  // }
+
+  static FromSource(code: string) {
+    const source = code;
     const sourceFile: ts.SourceFile = ts.createSourceFile(
-      filename, source, ts.ScriptTarget.ES2015, true, ts.ScriptKind.TS
+      "ad-hoc.ts", source, ts.ScriptTarget.ES2015, true, ts.ScriptKind.TS
     );
-
-
-    return new Converter(sourceFile, directory, filename);
+    return new Converter(sourceFile, "./", "ad-hoc.ts");
   }
-
 }

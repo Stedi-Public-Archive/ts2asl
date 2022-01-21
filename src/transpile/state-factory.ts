@@ -170,11 +170,11 @@ class Names {
   names: string[] = [];
   takenNames: Map<ts.Node, string> = new Map();
 
-  getOrCreateName(node: ts.Node, baseName: string) {
+  getOrCreateName(node: ts.Node, baseName: string): string {
 
 
     if (this.takenNames.has(node)) {
-      return this.takenNames.get(node);
+      return this.takenNames.get(node) as string;
     }
 
     let postFix = "";

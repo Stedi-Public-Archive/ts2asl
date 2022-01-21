@@ -9,6 +9,9 @@ describe("when deploying check password", () => {
       "src/__tests__/e2e/resources/getpage.ts"
     );
     const definition = c.convert();
+    console.log(definition);
+
+    return;
     const arn = await directDeploy("get-page", definition);
 
     const stepFunctions = new AWS.StepFunctions({ region: "us-east-1" });

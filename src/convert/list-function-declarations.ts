@@ -4,7 +4,7 @@ import ts from "typescript";
 export interface FunctionDeclaration {
   name: string;
   body: ts.ConciseBody;
-  argumentName: string;
+  argumentName: string | undefined;
   kind: "asl" | "lambda";
 }
 
@@ -16,6 +16,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
       if (f.declarationList.declarations?.length === 1) {
         const decl = f.declarationList.declarations[0] as ts.VariableDeclaration;
         const name = decl.name.getText(sourceFile);
+        if (!decl.initializer) throw new Error(`decl ${name} does not have initializer`);
         const AslDeclaration = aslDeclStyleCallExpression(sourceFile, decl.initializer);
 
         if (AslDeclaration) {
@@ -23,7 +24,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
           const arrowFunction: ts.ArrowFunction = AslDeclaration.argument;
           if (arrowFunction.parameters.length > 1) throw new Error(`ASL decl ${name} arrow function must have no more than 1 parameter`);
 
-          let argumentName = undefined;
+          let argumentName: string | undefined;
           const parameter = arrowFunction.parameters[0];
           if (parameter) {
             if (!ts.isIdentifier(parameter.name)) throw new Error(`Parameter name of ASL decl ${name} must be identifier`);

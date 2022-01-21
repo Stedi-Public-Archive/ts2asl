@@ -3,6 +3,7 @@
     "allowJs": true,
     "noImplicitAny": false,
     "esModuleInterop": true,
-    "outDir": "./out"
+    "outDir": "./out",
+    "strict": true,
   },
 }

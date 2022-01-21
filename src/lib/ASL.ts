@@ -25,7 +25,7 @@ export class ASL {
   }
 
   static async Wait(x: Wait) {
-    await internalWaitSeconds(x.Seconds);
+    await internalWaitSeconds(x.Seconds as number);
   }
 
   static async Parallel(x: Omit<asl.Parallel, "Type">) {

@@ -6,7 +6,7 @@ export const convertToDollarSyntax = (expression: ts.PropertyAccessExpression | 
   }
 
   let path: string[] = [];
-  let contextual = expression.expression;
+  let contextual: ts.Expression | undefined = expression.expression;
   while (contextual) {
     if (ts.isIdentifier(contextual)) {
       path.push(contextual.text);

@@ -17,11 +17,11 @@ const validExamples = `valid examples:
 `;
 
 export const switchStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
-  function removeBreakStatements(node: ts.Node): ts.Node {
+  function removeBreakStatements(node: ts.Node): ts.Node | undefined {
     if (ts.isBreakStatement(node)) { return undefined; }
     return node;
   }
-  function visit(node: ts.Node): ts.Node {
+  function visit(node: ts.Node): ts.Node | undefined {
     node = ts.visitEachChild(node, visit, context);
 
     if (ts.isSwitchStatement(node)) {
