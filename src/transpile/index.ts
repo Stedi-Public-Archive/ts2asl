@@ -53,8 +53,9 @@ const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateF
     } else if (ts.isBinaryExpression(node)) {
       if (!ts.isIdentifier(node.left) && !ts.isPropertyAccessExpression(node.left)) throw new ParserError("variable statement must be assigned to identifier or property access expression", node);
       stateAttributes.ResultPath = convertToDollarSyntax(node.left);
+      identifierName = stateAttributes.ResultPath.replace('\$\.', '');
       node = node.right;
-      nameSuggestion = `Assign` + identifierName;
+      nameSuggestion = `Assign_` + identifierName;
     }
 
 

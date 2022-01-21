@@ -51,7 +51,7 @@ describe("when converting examples", () => {
               Object {
                 "StartAt": "_WhileCondition",
                 "States": Object {
-                  "Assign": Object {
+                  "Assign_page": Object {
                     "Next": "_WhileCondition",
                     "Resource": "typescript:getPage",
                     "ResultPath": "$.page",
@@ -61,7 +61,7 @@ describe("when converting examples", () => {
                     "Choices": Array [
                       Object {
                         "IsPresent": true,
-                        "Next": "Assign",
+                        "Next": "Assign_page",
                         "Variable": "$.page.nextPageToken",
                       },
                     ],
