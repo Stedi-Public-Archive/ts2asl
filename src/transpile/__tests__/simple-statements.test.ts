@@ -39,4 +39,21 @@ describe("when transpiling simple statements", () => {
       }
     `);
   });
+
+  it("then assinging undefined will transpile to null", () => {
+    const code = `ASL.Pass({ Result: undefined });`;
+    const result = testTranspile(code);
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Pass",
+        "States": Object {
+          "Pass": Object {
+            "End": true,
+            "Result": null,
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
 });

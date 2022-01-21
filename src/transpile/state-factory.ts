@@ -149,6 +149,11 @@ const convertExpressionToLiteral = (expression: ts.Expression, argName: string, 
   } else if (ts.isPropertyAccessExpression(expression) && ts.isIdentifier(expression.expression) && expression.expression.text === argName) {
     return `$.${expression.name.text}`;
   } else if (ts.isPropertyAccessExpression(expression) || ts.isIdentifier(expression)) {
+    if (ts.isIdentifier(expression)) {
+      if (expression.originalKeywordKind === ts.SyntaxKind.NullKeyword || expression.originalKeywordKind === ts.SyntaxKind.UndefinedKeyword) {
+        return null;
+      }
+    }
     return convertToDollarSyntax(expression);
   }
   else if (expression.kind === SyntaxKind.TrueKeyword) {
