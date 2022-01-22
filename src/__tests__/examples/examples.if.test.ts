@@ -60,7 +60,6 @@ if (age < 18) throw new Error('minor'); else proceed();`;
               },
             ],
             "Default": "Choice_1",
-            "Next": "Choice_1",
             "Type": "Choice",
           },
           "Choice_1": Object {

@@ -47,7 +47,6 @@ describe("when transpiling block statements", () => {
               },
             ],
             "Default": "Assign_color_1",
-            "Next": "Task",
             "Type": "Choice",
           },
           "Task": Object {

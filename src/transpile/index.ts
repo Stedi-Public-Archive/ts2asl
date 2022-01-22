@@ -112,9 +112,9 @@ class Nodes {
       if (!choice.Default) {
         choice.Default = nextStateName;
       }
+    } else {
+      this.currentState.Next = nextStateName;
     }
-    this.currentState.Next = nextStateName;
-
     for (const tail of this.additionalTails) {
       if (NarrowTerminatingState(tail)) {
         tail.Next = nextStateName;
