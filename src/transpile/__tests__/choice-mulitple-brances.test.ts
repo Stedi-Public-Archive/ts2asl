@@ -9,32 +9,52 @@ describe("when transpiling block statements", () => {
               Variable: "$.results[0].status",
               StringEquals: "failed",
               NextInvoke: () => {
-                  ASL.Fail({ Error: 'Error', Cause: 'task failed' })
+                  color = ASL.Pass({ Result: "red" });
               }
           }
-      ]
+      ],
+      DefaultInvoke: () => {
+        color = ASL.Pass({ Result: "green" });
+    }
   });
+  ASL.Task({ Parameters: color, Resource: "something:something" });
   `;
     const result = testTranspile(code);
     expect(result).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Choice",
         "States": Object {
+          "Assign_color": Object {
+            "End": true,
+            "Next": "Task",
+            "Result": "red",
+            "ResultPath": "$.color",
+            "Type": "Pass",
+          },
+          "Assign_color_1": Object {
+            "End": true,
+            "Next": "Task",
+            "Result": "green",
+            "ResultPath": "$.color",
+            "Type": "Pass",
+          },
           "Choice": Object {
             "Choices": Array [
               Object {
-                "Next": "Fail",
+                "Next": "Assign_color",
                 "StringEquals": "failed",
                 "Variable": "$.results[0].status",
               },
             ],
-            "End": true,
+            "Default": "Assign_color_1",
+            "Next": "Task",
             "Type": "Choice",
           },
-          "Fail": Object {
-            "Cause": "task failed",
-            "Error": "Error",
-            "Type": "Fail",
+          "Task": Object {
+            "End": true,
+            "Parameters": "$.color",
+            "Resource": "something:something",
+            "Type": "Task",
           },
         },
       }

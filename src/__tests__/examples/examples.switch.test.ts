@@ -51,6 +51,7 @@ describe("when converting examples", () => {
               },
             ],
             "Default": "Task_1",
+            "End": true,
             "Type": "Choice",
           },
           "Task": Object {

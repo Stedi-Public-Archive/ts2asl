@@ -2,7 +2,7 @@ import * as ts from "typescript";
 import * as asl from "asl-types";
 import { ParserError } from "../ParserError";
 import { StateFactory } from "./state-factory";
-import { NameAndState, AnyStateAttribute, NarrowTerminatingState } from "./states";
+import { AnyStateAttribute, NarrowTerminatingState } from "./states";
 import { convertToDollarSyntax } from "./reference-utility";
 
 export const transpile = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argName: string = "context"): asl.StateMachine => {
@@ -10,10 +10,7 @@ export const transpile = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argNa
   const nodes = new Nodes();
 
   ts.forEachChild(body, toplevel => {
-    const states = convertNodeToStates(toplevel, argName, factory, nodes)
-    for (const state of states) {
-      nodes.push(state.name, state)
-    }
+    convertNodeToStates(toplevel, argName, factory, nodes);
   });
 
   nodes.finalize();
@@ -25,13 +22,13 @@ export const transpile = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argNa
 };
 
 
-const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateFactory, nodes: Nodes): NameAndState[] => {
+const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateFactory, nodes: Nodes) => {
   let node: ts.Node | undefined = toplevel;
   let stateAttributes: AnyStateAttribute = {};
   let nameSuggestion: string | undefined = undefined;
 
   if (ts.isEmptyStatement(node)) {
-    return [];
+    return;
   }
 
   if (ts.isExpressionStatement(node)) {
@@ -57,8 +54,6 @@ const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateF
       node = node.right;
       nameSuggestion = `Assign_` + identifierName;
     }
-
-
   }
 
   if (node && ts.isAwaitExpression(node)) {
@@ -68,43 +63,63 @@ const convertNodeToStates = (toplevel: ts.Node, argName: string, factory: StateF
   if (node && ts.isCallExpression(node)) {
     const result = factory.createState(node, argName, stateAttributes, nameSuggestion);
     nodes.setNext(result.state.name);
-    nodes.push(result.state.name, result.state);
-
     for (const state of result.additionalStates) {
       nodes.push(state.name, state);
     }
-
+    nodes.push(result.state.name, result.state);
+    nodes.setAdditionalTails(result.additionalTailStates);
   }
-  return [];
 }
+
 class Nodes {
   hasFirstState = false;
   states: Record<string, asl.State> = {};
   currentState: asl.State | undefined;
   startAt: string | undefined;
+  additionalTails: asl.State[] = [];
 
   push(name: string, state: asl.State) {
     delete (state as unknown as { name: string | undefined }).name;
-    if (!this.hasFirstState) {
-      this.startAt = name;
-      this.hasFirstState = true;
-    }
 
     this.currentState = state;
     this.states[name] = state;
   }
 
+  setAdditionalTails(additionalTails: asl.State[]) {
+    this.additionalTails = additionalTails.map(x => {
+      delete (x as unknown as { name: string | undefined }).name;
+      return x;
+    });
+  }
+
   setNext(nextStateName: string) {
+    if (!this.hasFirstState) {
+      this.startAt = nextStateName;
+      this.hasFirstState = true;
+    }
+
+
     if (!this.currentState) {
       return;
     }
 
     if (!NarrowTerminatingState(this.currentState)) {
       return;
-      //throw new Error("current state is terminal");
     }
 
+    if (this.currentState.Type === "Choice") {
+      const choice = this.currentState as asl.Choice;
+      if (!choice.Default) {
+        choice.Default = nextStateName;
+      }
+    }
     this.currentState.Next = nextStateName;
+
+    for (const tail of this.additionalTails) {
+      if (NarrowTerminatingState(tail)) {
+        tail.Next = nextStateName;
+      }
+    }
   }
 
   finalize() {

@@ -61,6 +61,7 @@ describe("when transpiling mixed statements", () => {
                 "Variable": "$.results[0].status",
               },
             ],
+            "End": true,
             "Type": "Choice",
           },
           "Fail": Object {

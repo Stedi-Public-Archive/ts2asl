@@ -59,6 +59,8 @@ if (age < 18) throw new Error('minor'); else proceed();`;
                 "Variable": "$.password",
               },
             ],
+            "Default": "Choice_1",
+            "Next": "Choice_1",
             "Type": "Choice",
           },
           "Choice_1": Object {
@@ -70,6 +72,7 @@ if (age < 18) throw new Error('minor'); else proceed();`;
               },
             ],
             "Default": "Task",
+            "End": true,
             "Type": "Choice",
           },
           "Fail": Object {

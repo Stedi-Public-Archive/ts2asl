@@ -9,8 +9,9 @@ import { While } from "../lib/ASL";
 export class StateFactory {
   names = new Names();
 
-  createState(callExpression: ts.CallExpression, argName: string, additional: AnyStateAttribute, nameSuggestion?: string): { state: NameAndState, additionalStates: NameAndState[] } {
+  createState(callExpression: ts.CallExpression, argName: string, additional: AnyStateAttribute, nameSuggestion?: string): { state: NameAndState, additionalStates: NameAndState[], additionalTailStates: NameAndState[] } {
     const additionalStates: NameAndState[] = [];
+    const additionalTailStates: NameAndState[] = [];
     if (!ts.isPropertyAccessExpression(callExpression.expression)) throw new Error("Call expression expected to have Property access expression");
     if (!ts.isIdentifier(callExpression.expression.expression)) throw new Error("Call expression expected to have Property access expression");
     let type = callExpression.expression.name.text;
@@ -24,7 +25,7 @@ export class StateFactory {
       if (callExpression.arguments.length > 1) throw new Error("Call expression expected to have single argument");
       const arg = callExpression.arguments[0];
       if (!ts.isObjectLiteralExpression(arg)) throw new Error("Call expression argument must be object literal expression");
-      argument = convertObjectLiteralExpressionToObject(arg, argName, additionalStates, this, type);
+      argument = convertObjectLiteralExpressionToObject(arg, argName, additionalStates, additionalTailStates, this, type);
 
       if (type === "While") {
         type = "Parallel";
@@ -74,13 +75,13 @@ export class StateFactory {
       ...additional,
     };
 
-    return { state, additionalStates };
+    return { state, additionalStates, additionalTailStates };
   };
 }
 
 
 
-const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpression, argName: string, others: NameAndState[], factory: StateFactory, asltype?: string): any => {
+const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpression, argName: string, others: NameAndState[], tailStates: NameAndState[], factory: StateFactory, asltype?: string): any => {
   let result = {};
 
   for (const prop of expression.properties) {
@@ -108,17 +109,21 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
       if (states.length === 1) { //inline
         const name = factory.names.getOrCreateName(prop.initializer, states[0][0]);
         result[resultPropName] = name;
-        others.push({ ...states[0][1], name });
+        const stateAndName = { ...states[0][1], name };
+        others.push(stateAndName);
+        tailStates.push(stateAndName)
       } else { //wrap in parallel
         const name = factory.names.getOrCreateName(prop.initializer, "Block");
         result[resultPropName] = name;
-        others.push({ Branches: [statemachine], name, Type: "Parallel" });
+        const stateAndName = { Branches: [statemachine], name, Type: "Parallel" };
+        others.push(stateAndName);
+        tailStates.push(stateAndName)
       }
 
     } else if (propName === "TypescriptInvoke" && ts.isIdentifier(prop.initializer)) {
       result["Resource"] = `typescript:` + prop.initializer.text;
     } else {
-      const value = convertExpressionToLiteral(prop.initializer, argName, others, factory);
+      const value = convertExpressionToLiteral(prop.initializer, argName, others, tailStates, factory);
 
       if (asltype === "Wait") {
         if (propName === "Seconds" && typeof value === "string" && (value + "").startsWith("$")) {
@@ -137,9 +142,9 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
   return result;
 }
 
-const convertExpressionToLiteral = (expression: ts.Expression, argName: string, others: NameAndState[], factory: StateFactory): any => {
+const convertExpressionToLiteral = (expression: ts.Expression, argName: string, others: NameAndState[], tailStates: NameAndState[], factory: StateFactory): any => {
   if (ts.isArrayLiteralExpression(expression)) {
-    return expression.elements.map(x => convertExpressionToLiteral(x, argName, others, factory));
+    return expression.elements.map(x => convertExpressionToLiteral(x, argName, others, tailStates, factory));
   } else if (ts.isLiteralExpression(expression)) {
     let value: String | Number = expression.text;
     if (ts.isNumericLiteral(expression)) {
@@ -161,7 +166,7 @@ const convertExpressionToLiteral = (expression: ts.Expression, argName: string, 
   } else if (expression.kind === SyntaxKind.FalseKeyword) {
     return false;
   } else if (ts.isObjectLiteralExpression(expression)) {
-    let obj = convertObjectLiteralExpressionToObject(expression, argName, others, factory);
+    let obj = convertObjectLiteralExpressionToObject(expression, argName, others, tailStates, factory);
     return obj;
   } else {
     throw new ParserError("Unable to unpack expression", expression);

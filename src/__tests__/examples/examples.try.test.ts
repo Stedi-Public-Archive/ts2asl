@@ -64,6 +64,7 @@ describe("when converting examples", () => {
                 "Next": "Task",
               },
             ],
+            "End": true,
             "Type": "Parallel",
           },
           "Task": Object {
