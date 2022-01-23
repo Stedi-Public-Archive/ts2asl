@@ -13,7 +13,25 @@ describe("when converting switch statements", () => {
     ).toMatchInlineSnapshot(`
       "ASL.Map({
           ItemsPath: collection,
-          Iterator: () => {
+          Iterator: element => {
+              console.log(element);
+          }
+      })"
+    `);
+  });
+
+  it("then property access expression can be used", () => {
+    expect(
+      testTransform(
+        `for(const element of result.list) { 
+          console.log(element) 
+        }`,
+        forOfStatementTransformer
+      )
+    ).toMatchInlineSnapshot(`
+      "ASL.Map({
+          ItemsPath: result.list,
+          Iterator: element => {
               console.log(element);
           }
       })"

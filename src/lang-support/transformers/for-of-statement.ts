@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import { ParserError } from '../../ParserError';
 import { convertToBlock } from './block-utility';
+import { isIdentifier } from './node-utility';
 import factory = ts.factory;
 
 const validExamples = `valid examples:
@@ -13,7 +14,11 @@ export const forOfStatementTransformer = <T extends ts.Node>(context: ts.Transfo
     node = ts.visitEachChild(node, visit, context);
 
     if (node && ts.isForOfStatement(node)) {
-      if (!ts.isIdentifier(node.expression)) throw new ParserError('for-of expression must be identifier', node);
+      if (!isIdentifier(node.expression)) throw new ParserError('for-of expression must be identifier', node);
+      if (!ts.isVariableDeclarationList(node.initializer)) throw new ParserError('for-of expression must be initialized using decl list', node);
+      if (node.initializer.declarations.length !== 1) throw new ParserError('for-of expression must be initialized single declaration', node);
+      const decl = node.initializer.declarations[0];
+
 
       node =
         factory.createCallExpression(
@@ -32,7 +37,15 @@ export const forOfStatementTransformer = <T extends ts.Node>(context: ts.Transfo
               factory.createArrowFunction(
                 undefined,
                 undefined,
-                [],
+                [factory.createParameterDeclaration(
+                  undefined,
+                  undefined,
+                  undefined,
+                  decl.name as ts.Identifier,
+                  undefined,
+                  undefined,
+                  undefined
+                )],
                 undefined,
                 factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
                 convertToBlock(node.statement)

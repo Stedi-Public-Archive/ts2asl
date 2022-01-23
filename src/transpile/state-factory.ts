@@ -94,6 +94,18 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
       const statemachine = transpile(prop.initializer.body);
       result = statemachine;
 
+    } else if (propName === "Iterator") {
+      if (!ts.isArrowFunction(prop.initializer) || !ts.isBlock(prop.initializer.body)) throw new Error(`NextInvoke must be arrow function with block`);
+      let contextArg: string | undefined = undefined;
+      if (prop.initializer.parameters.length >= 1) {
+        const identifier = (prop.initializer.parameters[0].name) as ts.Identifier;
+        contextArg = identifier.text;
+        if (prop.initializer.parameters.length >= 2) {
+          throw new Error("Iterator block must not have more than 1 parameter");
+        }
+      }
+      const statemachine = transpile(prop.initializer.body, contextArg);
+      result["Iterator"] = statemachine;
     } else if (propName === "WhileInvoke") {
       if (!ts.isArrowFunction(prop.initializer) || !ts.isBlock(prop.initializer.body)) throw new Error(`WhileInvoke must be arrow function with block`);
       result["WhileInvoke"] = transpile(prop.initializer.body);
@@ -124,6 +136,15 @@ const convertObjectLiteralExpressionToObject = (expression: ts.ObjectLiteralExpr
       result["Resource"] = `typescript:` + prop.initializer.text;
     } else {
       const value = convertExpressionToLiteral(prop.initializer, argName, others, tailStates, factory);
+
+      if (propName === "Input" && typeof value === "string") {
+        if (value === "$." + argName) {
+          continue;
+        }
+        if (value.startsWith("$." + argName + ".")) {
+          value == value.replace("." + argName, "");
+        }
+      }
 
       if (asltype === "Wait") {
         if (propName === "Seconds" && typeof value === "string" && (value + "").startsWith("$")) {

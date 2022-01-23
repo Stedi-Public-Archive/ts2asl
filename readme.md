@@ -431,6 +431,59 @@ ASL.While({
 &nbsp;
 &nbsp;
 
+### For...of Statement
+
+``` typescript
+for(const element of result.list) { 
+    const result = process(element);
+}
+```
+
+<details>
+  <summary>ASL Lib Typescript code</summary>
+
+``` typescript
+ASL.Map({
+    ItemsPath: result.list,
+    Iterator: element => {
+        ASL.Task({
+            TypescriptInvoke: process,
+            Input: element
+        });
+    }
+})
+```
+
+</details>
+<details>
+  <summary>ASL output</summary>
+
+``` json
+{
+  "StartAt": "Map",
+  "States": {
+    "Map": {
+      "Type": "Map",
+      "ItemsPath": "$.result.list",
+      "Iterator": {
+        "StartAt": "Task",
+        "States": {
+          "Task": {
+            "Type": "Task",
+            "Resource": "typescript:process",
+            "End": true
+          }
+        }
+      },
+      "End": true
+    }
+  }
+}
+```
+
+</details>
+&nbsp;
+&nbsp;
 ### Promise.all Statement
 
 ```typescript
