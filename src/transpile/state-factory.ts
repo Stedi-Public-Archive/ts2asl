@@ -5,6 +5,7 @@ import { transpile } from "./index";
 import { convertToDollarSyntax } from "./reference-utility";
 import { AnyStateAttribute, NameAndState, NarrowTerminatingState } from "./states";
 import { While } from "../lib/ASL";
+import { stat } from "fs";
 
 export class StateFactory {
   names = new Names();
@@ -19,11 +20,43 @@ export class StateFactory {
     if (ASL !== "ASL") throw new Error("Call expression expected to be on ASL method");
     const name = this.names.getOrCreateName(callExpression, (nameSuggestion ?? type) ?? "State")
 
+
     let argument = {};
 
     if (callExpression.arguments.length !== 0) {
       if (callExpression.arguments.length > 1) throw new Error("Call expression expected to have single argument");
       const arg = callExpression.arguments[0];
+
+      let first: NameAndState | undefined = undefined;
+      let previous: NameAndState | undefined = undefined;
+      if (type === "Multiple" && ts.isArrayLiteralExpression(arg)) {
+        for (let i = 0; i < arg.elements.length; i++) {
+          const element = arg.elements[i]
+          if (!ts.isCallExpression(element)) throw new Error("Arg of Multiple call must contain Call expressions");
+          const result = this.createState(element, argName, additionalStates, undefined);
+          if (previous) {
+            (previous as any).Next = result.state.name;
+          }
+          if (!first) {
+            first = result.state;
+          }
+          if (first !== result.state) {
+            additionalStates.push(result.state);
+            previous = result.state;
+          }
+        }
+        if (!first) throw new Error(`Arg of Multiple call must contain at least 1 call expression`);
+        if (previous) {
+          additionalTailStates.push(previous);
+        }
+        return {
+          state: first,
+          additionalStates,
+          additionalTailStates
+        }
+
+      }
+
       if (!ts.isObjectLiteralExpression(arg)) throw new Error("Call expression argument must be object literal expression");
       argument = convertObjectLiteralExpressionToObject(arg, argName, additionalStates, additionalTailStates, this, type);
 

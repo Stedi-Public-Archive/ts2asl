@@ -56,9 +56,14 @@ export class ASL {
     while (internalEvaluateOperator(x.Condition)) {
       x.WhileInvoke();
     }
+    return {} as AslState;
   }
 
   static async Map(x: Omit<asl.Map, "Type">) {
+    return {} as AslState;
+  }
+
+  static Multiple(states: AslState[]) {
     return {} as AslState;
   }
 
