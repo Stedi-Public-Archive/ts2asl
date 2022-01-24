@@ -1,6 +1,4 @@
 import * as ts from 'typescript';
-import { ASL } from '../../lib/ASL';
-import { ParserError } from '../../ParserError';
 import factory = ts.factory;
 
 

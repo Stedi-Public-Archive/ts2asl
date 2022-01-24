@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "asl-lib": "file:lib",
     "asl-types": "^1.2.1",
     "aws-sdk": "^2.1058.0",
     "esbuild": "^0.14.12",
@@ -20,6 +21,7 @@
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.8",
     "jest": "^27.4.7",
+    "node-fetch": "^3.2.0",
     "ts-jest": "^27.1.2"
   }
 }

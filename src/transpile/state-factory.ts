@@ -4,8 +4,7 @@ import { ParserError } from "../ParserError";
 import { transpile } from "./index";
 import { convertToDollarSyntax } from "./reference-utility";
 import { AnyStateAttribute, NameAndState, NarrowTerminatingState } from "./states";
-import { While } from "../lib/ASL";
-import { stat } from "fs";
+import { While } from "asl-lib/src/asl";
 
 export class StateFactory {
   names = new Names();

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "noImplicitAny": false,
+    "declaration": true,
+    "esModuleInterop": true,
+    "outDir": "./lib",
+    "strict": true,
+    "resolveJsonModule": true,
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "generator",
+    "**/__tests__/*"
+  ]
+}

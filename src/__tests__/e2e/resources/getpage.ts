@@ -1,15 +1,15 @@
-import { ASL } from "../../../lib/ASL";
+import { ASL, Deploy } from "asl-lib/lib/asl";
 
-export const main = ASL.AsStateMachine(async () => {
+export const main = Deploy.AsStateMachine(async () => {
   let page = await getPage({});
   while (page.nextPageToken) {
-    await ASL.Wait({ Seconds: 2 });
+    await ASL.wait({ seconds: 2 });
     page = await getPage({ pageToken: page.nextPageToken });
   }
 });
 
 
-const getPage = ASL.AsLambda(async (context: { pageToken?: string }) => {
+const getPage = Deploy.asLambda(async (context: { pageToken?: string }) => {
   if (!context.pageToken) {
     return {
       items: ["a", "b", "c", "d"],

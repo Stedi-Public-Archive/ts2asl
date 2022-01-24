@@ -1,6 +1,6 @@
-import { ASL } from "../../../lib/ASL";
+import { Deploy } from "asl-lib/src/asl";
 
-export const main = ASL.AsStateMachine((input: { password: string }) => {
+export const main = Deploy.AsStateMachine((input: { password: string }) => {
   if (input.password === "password") {
     return;
   } else {
