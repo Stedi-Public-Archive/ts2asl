@@ -98,7 +98,6 @@ class Nodes {
       this.hasFirstState = true;
     }
 
-
     if (!this.currentState) {
       return;
     }

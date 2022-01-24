@@ -63,7 +63,7 @@ export class ASL {
     return {} as AslState;
   }
 
-  static Multiple(states: AslState[]) {
+  static Multiple(x: { First: AslState, Second: AslState }) {
     return {} as AslState;
   }
 

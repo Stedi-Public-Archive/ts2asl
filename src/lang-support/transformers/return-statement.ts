@@ -26,20 +26,22 @@ export const returnStatementTransformer = <T extends ts.Node>(context: ts.Transf
           ));
       } else {
 
-        // ASL.Multiple([
-        //   ASL.Pass({ Result: "node.expression", ...{ ResultPath: "$" } }),
-        //   ASL.Succeed({})
+        // ASL.Multiple({
+        //   First: ASL.Pass({ Result: "node.expression", ...{ ResultPath: "$" } }),
+        //   Second: ASL.Succeed({})
         // ])
 
-        [
-          node = factory.createExpressionStatement(factory.createCallExpression(
-            factory.createPropertyAccessExpression(
-              factory.createIdentifier("ASL"),
-              factory.createIdentifier("Multiple")
-            ),
-            undefined,
-            [factory.createArrayLiteralExpression(
-              [
+
+        node = factory.createExpressionStatement(factory.createCallExpression(
+          factory.createPropertyAccessExpression(
+            factory.createIdentifier("ASL"),
+            factory.createIdentifier("Multiple")
+          ),
+          undefined,
+          [factory.createObjectLiteralExpression(
+            [
+              factory.createPropertyAssignment(
+                factory.createIdentifier("First"),
                 factory.createCallExpression(
                   factory.createPropertyAccessExpression(
                     factory.createIdentifier("ASL"),
@@ -59,7 +61,10 @@ export const returnStatementTransformer = <T extends ts.Node>(context: ts.Transf
                     ],
                     false
                   )]
-                ),
+                )
+              ),
+              factory.createPropertyAssignment(
+                factory.createIdentifier("Second"),
                 factory.createCallExpression(
                   factory.createPropertyAccessExpression(
                     factory.createIdentifier("ASL"),
@@ -71,12 +76,11 @@ export const returnStatementTransformer = <T extends ts.Node>(context: ts.Transf
                     false
                   )]
                 )
-              ],
-              true
-            )]
-          ))
-        ];
-
+              )
+            ],
+            true
+          )]
+        ));
       }
     }
     return node;

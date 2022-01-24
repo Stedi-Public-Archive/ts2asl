@@ -13,30 +13,30 @@ describe("when converting return statements", () => {
   it("then return statement can return literal", () => {
     expect(testTransform("return 12;", returnStatementTransformer))
       .toMatchInlineSnapshot(`
-      "ASL.Multiple([
-          ASL.Pass({ Result: 12, ResultPath: \\"$\\" }),
-          ASL.Succeed({})
-      ]);"
+      "ASL.Multiple({
+          First: ASL.Pass({ Result: 12, ResultPath: \\"$\\" }),
+          Second: ASL.Succeed({})
+      });"
     `);
   });
 
   it("then return statement can return identifier", () => {
     expect(testTransform("return result;", returnStatementTransformer))
       .toMatchInlineSnapshot(`
-      "ASL.Multiple([
-          ASL.Pass({ Result: result, ResultPath: \\"$\\" }),
-          ASL.Succeed({})
-      ]);"
+      "ASL.Multiple({
+          First: ASL.Pass({ Result: result, ResultPath: \\"$\\" }),
+          Second: ASL.Succeed({})
+      });"
     `);
   });
 
   it("then return statement can return property access expression", () => {
     expect(testTransform("return result.val;", returnStatementTransformer))
       .toMatchInlineSnapshot(`
-      "ASL.Multiple([
-          ASL.Pass({ Result: result.val, ResultPath: \\"$\\" }),
-          ASL.Succeed({})
-      ]);"
+      "ASL.Multiple({
+          First: ASL.Pass({ Result: result.val, ResultPath: \\"$\\" }),
+          Second: ASL.Succeed({})
+      });"
     `);
   });
 
@@ -47,12 +47,12 @@ describe("when converting return statements", () => {
         callStatementTransformer
       ])
     ).toMatchInlineSnapshot(`
-      "ASL.Multiple([
-          ASL.Pass({ Result: ASL.Task({
+      "ASL.Multiple({
+          First: ASL.Pass({ Result: ASL.Task({
                   TypescriptInvoke: xxx
               }), ResultPath: \\"$\\" }),
-          ASL.Succeed({})
-      ]);"
+          Second: ASL.Succeed({})
+      });"
     `);
   });
 });

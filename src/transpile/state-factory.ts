@@ -27,34 +27,31 @@ export class StateFactory {
       if (callExpression.arguments.length > 1) throw new Error("Call expression expected to have single argument");
       const arg = callExpression.arguments[0];
 
-      let first: NameAndState | undefined = undefined;
-      let previous: NameAndState | undefined = undefined;
-      if (type === "Multiple" && ts.isArrayLiteralExpression(arg)) {
-        for (let i = 0; i < arg.elements.length; i++) {
-          const element = arg.elements[i]
-          if (!ts.isCallExpression(element)) throw new Error("Arg of Multiple call must contain Call expressions");
-          const result = this.createState(element, argName, additionalStates, undefined);
-          if (previous) {
-            (previous as any).Next = result.state.name;
+      if (type === "Multiple" && ts.isObjectLiteralExpression(arg)) {
+
+        const first = arg.properties.find(x => x.name && ts.isIdentifier(x.name) && x.name.text === "First");
+        if (first === undefined || !ts.isPropertyAssignment(first) || !ts.isCallExpression(first.initializer)) throw new Error("First of Multiple must be Call expression");
+
+        const second = arg.properties.find(x => x.name && ts.isIdentifier(x.name) && x.name.text === "Second");
+        if (second === undefined || !ts.isPropertyAssignment(second) || !ts.isCallExpression(second.initializer)) throw new Error("Second of Multiple must be Call expression");
+
+        const firstResult = this.createState(first.initializer, argName, additionalStates, undefined);
+        const secondResult = this.createState(second.initializer, argName, additionalStates, undefined);
+
+
+        if (!NarrowTerminatingState(firstResult.state)) throw new Error("First of Multiple must not be terminating state");
+        firstResult.state.Next = secondResult.state.name;
+        for (const additionalTailState of firstResult.additionalTailStates) {
+          if (NarrowTerminatingState(additionalTailState)) {
+            additionalTailState.Next = secondResult.state.name;
           }
-          if (!first) {
-            first = result.state;
-          }
-          if (first !== result.state) {
-            additionalStates.push(result.state);
-            previous = result.state;
-          }
-        }
-        if (!first) throw new Error(`Arg of Multiple call must contain at least 1 call expression`);
-        if (previous) {
-          additionalTailStates.push(previous);
-        }
-        return {
-          state: first,
-          additionalStates,
-          additionalTailStates
         }
 
+        return {
+          state: firstResult.state,
+          additionalStates: [...firstResult.additionalStates, ...secondResult.additionalStates, ...firstResult.additionalTailStates],
+          additionalTailStates: secondResult.additionalTailStates,
+        };
       }
 
       if (!ts.isObjectLiteralExpression(arg)) throw new Error("Call expression argument must be object literal expression");
