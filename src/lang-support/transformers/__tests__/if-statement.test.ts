@@ -10,12 +10,15 @@ describe("when converting if statements", () => {
         [ifStatementTransformer, throwStatementTransformer]
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: password,
-                  StringEquals: 'pwd',
-                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
+                  when: password === 'pwd',
+                  then: () => { ASL.fail({
+                      error: 'Error',
+                      cause: 'wrong password',
+                      comment: 'throw new Error(\\\\'wrong password\\\\');'
+                  }) }
               }
           ]
       });"
@@ -29,12 +32,15 @@ describe("when converting if statements", () => {
         [ifStatementTransformer, throwStatementTransformer]
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: password,
-                  StringEquals: 'pwd',
-                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
+                  when: password === 'pwd',
+                  then: () => { ASL.fail({
+                      error: 'Error',
+                      cause: 'wrong password',
+                      comment: 'throw new Error(\\\\'wrong password\\\\');'
+                  }) }
               }
           ]
       });"
@@ -48,12 +54,15 @@ describe("when converting if statements", () => {
         [ifStatementTransformer, throwStatementTransformer]
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: password,
-                  Not: { StringEquals: 'pwd' },
-                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
+                  when: password !== 'pwd',
+                  then: () => { ASL.fail({
+                      error: 'Error',
+                      cause: 'wrong password',
+                      comment: 'throw new Error(\\\\'wrong password\\\\');'
+                  }) }
               }
           ]
       });"
@@ -67,12 +76,11 @@ describe("when converting if statements", () => {
         throwStatementTransformer
       ])
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: age,
-                  NumericGreaterThan: 18,
-                  NextInvoke: () => { console.log(); }
+                  when: age > 18,
+                  then: () => { console.log(); }
               }
           ]
       });"
@@ -86,12 +94,11 @@ describe("when converting if statements", () => {
         ifStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: optIn,
-                  StringEquals: true,
-                  NextInvoke: () => { console.log(); }
+                  when: optIn === true,
+                  then: () => { console.log(); }
               }
           ]
       });"
@@ -103,12 +110,11 @@ describe("when converting if statements", () => {
     expect(
       testTransform("if (lhs === rhs) console.log();", ifStatementTransformer)
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: lhs,
-                  StringEquals: rhs,
-                  NextInvoke: () => { console.log(); }
+                  when: lhs === rhs,
+                  then: () => { console.log(); }
               }
           ]
       });"
@@ -122,15 +128,14 @@ describe("when converting if statements", () => {
         ifStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: lhs,
-                  StringEquals: rhs,
-                  NextInvoke: () => { console.log(); }
+                  when: lhs === rhs,
+                  then: () => { console.log(); }
               }
           ],
-          DefaultInvoke: () => { console.log(); }
+          default: () => { console.log(); }
       });"
     `);
   });
@@ -142,15 +147,14 @@ describe("when converting if statements", () => {
         ifStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: lhs,
-                  StringEquals: rhs,
-                  NextInvoke: () => { console.log(); }
+                  when: lhs === rhs,
+                  then: () => { console.log(); }
               }
           ],
-          DefaultInvoke: () => { console.log(); }
+          default: () => { console.log(); }
       });"
     `);
   });

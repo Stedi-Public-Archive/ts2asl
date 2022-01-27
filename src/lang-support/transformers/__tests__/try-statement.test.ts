@@ -9,20 +9,17 @@ describe("when converting try statements", () => {
         tryStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Parallel({
-          Branches: [
+      "asl.tryExpression({
+          try: () => { console.log('yay!'); },
+          catch: [
               {
-                  BlockInvoke: () => { console.log('yay!'); }
-              }
-          ],
-          Catch: [
-              {
-                  ErrorEquals: [
+                  errorFilter: [
                       \\"States.All\\"
                   ],
-                  NextInvoke: () => { console.log('nay'); }
+                  block: () => { console.log('nay'); }
               }
-          ]
+          ],
+          comment: \\"try { console.log('yay!'); } catch { console.log('nay'); }\\"
       });"
     `);
   });

@@ -10,12 +10,9 @@ describe("when converting while statements", () => {
         whileStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.While({
-          Condition: {
-              Variable: code,
-              StringEquals: 'continue'
-          },
-          WhileInvoke: () => { console.log(); ASL.Wait({ Seconds: 2 }); }
+      "asl.whileLoop({
+          condition: () => code === 'continue',
+          block: () => { console.log(); ASL.Wait({ Seconds: 2 }); }
       })"
     `);
   });

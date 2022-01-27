@@ -26,25 +26,37 @@ export const throwStatementTransformer = <T extends ts.Node>(context: ts.Transfo
         cause = causeLiteral.text;
       }
 
+      let comment: string | undefined = undefined;
+      try {
+        comment = node.getText();
+      } catch { }
+
       const objectLiteralExpressions: ts.ObjectLiteralElementLike[] = [factory.createPropertyAssignment(
-        factory.createIdentifier("Error"),
+        factory.createIdentifier("error"),
         factory.createStringLiteral(error, SingleQuote)
       )];
 
       if (cause) {
         objectLiteralExpressions.push(factory.createPropertyAssignment(
-          factory.createIdentifier("Cause"),
+          factory.createIdentifier("cause"),
           factory.createStringLiteral(cause, SingleQuote)
+        ))
+      }
+
+      if (comment) {
+        objectLiteralExpressions.push(factory.createPropertyAssignment(
+          factory.createIdentifier("comment"),
+          factory.createStringLiteral(comment, SingleQuote)
         ))
       }
 
       node = factory.createCallExpression(
         factory.createPropertyAccessExpression(
           factory.createIdentifier("ASL"),
-          factory.createIdentifier("Fail")
+          factory.createIdentifier("fail")
         ),
         undefined,
-        [factory.createObjectLiteralExpression(objectLiteralExpressions)]
+        [factory.createObjectLiteralExpression(objectLiteralExpressions, true)]
       );
 
     }

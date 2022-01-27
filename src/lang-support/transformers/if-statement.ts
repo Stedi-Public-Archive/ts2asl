@@ -19,7 +19,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
 
     if (ts.isIfStatement(node)) {
 
-      var { variableAssignment, choiceAssignment } = createChoice(factory, node.expression);
+      //var { variableAssignment, choiceAssignment } = createChoice(factory, node.expression);
 
       /*
         ASL.Choice({
@@ -32,21 +32,22 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
       */
       node = factory.createExpressionStatement(factory.createCallExpression(
         factory.createPropertyAccessExpression(
-          factory.createIdentifier("ASL"),
-          factory.createIdentifier("Choice")
+          factory.createIdentifier("asl"),
+          factory.createIdentifier("choice")
         ),
         undefined,
         [factory.createObjectLiteralExpression(
           [
             factory.createPropertyAssignment(
-              factory.createIdentifier("Choices"),
+              factory.createIdentifier("choices"),
               factory.createArrayLiteralExpression(
                 [factory.createObjectLiteralExpression(
                   [
-                    variableAssignment,
-                    choiceAssignment,
                     factory.createPropertyAssignment(
-                      factory.createIdentifier("NextInvoke"),
+                      factory.createIdentifier("when"),
+                      node.expression),
+                    factory.createPropertyAssignment(
+                      factory.createIdentifier("then"),
                       factory.createArrowFunction(
                         undefined,
                         undefined,
@@ -65,7 +66,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
 
             ...(!node.elseStatement ? [] : [
               factory.createPropertyAssignment(
-                factory.createIdentifier("DefaultInvoke"),
+                factory.createIdentifier("default"),
                 factory.createArrowFunction(
                   undefined,
                   undefined,

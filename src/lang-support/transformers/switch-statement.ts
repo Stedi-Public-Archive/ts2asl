@@ -5,7 +5,7 @@ import factory = ts.factory;
 const SingleQuote = true;
 
 const validExamples = `valid examples:
-- switch (color) {
+- switch ("color" + var) {
   case "red":
     console.log("red")
     break;
@@ -27,7 +27,6 @@ export const switchStatementTransformer = <T extends ts.Node>(context: ts.Transf
     if (ts.isSwitchStatement(node)) {
       let choiceVariable: string;
       if (!ts.isIdentifier(node.expression)) throw new Error("switch statement must have identifier as expression");
-      choiceVariable = '$.' + node.expression.getText();
 
       if (!node.caseBlock || !node.caseBlock.clauses) throw new Error("switch statement must have case clauses");
 
@@ -50,7 +49,7 @@ export const switchStatementTransformer = <T extends ts.Node>(context: ts.Transf
             [
               factory.createPropertyAssignment(
                 factory.createIdentifier("Variable"),
-                factory.createStringLiteral(choiceVariable)
+                node.expression
               ),
               factory.createPropertyAssignment(
                 factory.createIdentifier(choiceOperator),

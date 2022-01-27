@@ -16,7 +16,7 @@ export const callStatementTransformer = <T extends ts.Node>(context: ts.Transfor
 
     if (ts.isCallExpression(node)) {
 
-      if (ts.isPropertyAccessExpression(node.expression) && ts.isIdentifier(node.expression.expression) && node.expression.expression.text === "ASL") return node;
+      if (ts.isPropertyAccessExpression(node.expression) && ts.isIdentifier(node.expression.expression) && (node.expression.expression.text || "").toLowerCase() === "asl") return node;
 
       if (1 < node.arguments.length) throw new Error(`call expression must have 0 or 1 arguments, ${validExamples}`);
       if (!ts.isIdentifier(node.expression)) throw new Error(`call expression must be on identifier, ${validExamples}`);

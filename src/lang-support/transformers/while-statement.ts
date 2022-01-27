@@ -15,29 +15,30 @@ export const whileStatementTransformer = <T extends ts.Node>(context: ts.Transfo
     node = ts.visitEachChild(node, visit, context);
     if (ts.isWhileStatement(node)) {
 
-      var { variableAssignment, choiceAssignment } = createChoice(factory, node.expression);
+
       var block = convertToBlock(node.statement);
 
       node = factory.createCallExpression(
         factory.createPropertyAccessExpression(
-          factory.createIdentifier("ASL"),
-          factory.createIdentifier("While")
+          factory.createIdentifier("asl"),
+          factory.createIdentifier("whileLoop")
         ),
         undefined,
         [factory.createObjectLiteralExpression(
           [
             factory.createPropertyAssignment(
-              factory.createIdentifier("Condition"),
-              factory.createObjectLiteralExpression(
-                [
-                  variableAssignment,
-                  choiceAssignment
-                ],
-                true
+              factory.createIdentifier("condition"),
+              factory.createArrowFunction(
+                undefined,
+                undefined,
+                [],
+                undefined,
+                factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+                node.expression
               )
             ),
             factory.createPropertyAssignment(
-              factory.createIdentifier("WhileInvoke"),
+              factory.createIdentifier("block"),
               factory.createArrowFunction(
                 undefined,
                 undefined,

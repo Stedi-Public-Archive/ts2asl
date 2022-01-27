@@ -17,7 +17,7 @@ describe("when converting switch statements", () => {
         switchStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({ Choices: [{ Variable: \\"$.color\\", StringEquals: \\"red\\", NextInvoke: () => {
+      "ASL.Choice({ Choices: [{ Variable: color, StringEquals: \\"red\\", NextInvoke: () => {
                       console.log(\\"red\\");
                   } }], DefaultInvoke: () => {
               console.log(\\"not-red\\");

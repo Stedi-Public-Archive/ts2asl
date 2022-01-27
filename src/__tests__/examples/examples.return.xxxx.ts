@@ -15,17 +15,18 @@ return;`;
 
     console.log(printedAslLibCode);
     expect(printedAslLibCode).toMatchInlineSnapshot(`
-      "ASL.Succeed();
+      "asl.succeed({});
       "
     `);
 
     console.log(JSON.stringify(asl, null, 2));
     expect(asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Succeed",
+        "StartAt": "succeed",
         "States": Object {
-          "Succeed": Object {
-            "Type": "Succeed",
+          "succeed": Object {
+            "End": true,
+            "Type": "succeed",
           },
         },
       }

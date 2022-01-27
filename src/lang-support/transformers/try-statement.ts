@@ -13,75 +13,90 @@ export const tryStatementTransformer = <T extends ts.Node>(context: ts.Transform
     node = ts.visitEachChild(node, visit, context);
 
     if (ts.isTryStatement(node)) {
-      if (node.finallyBlock) throw new Error(`try statement must not have finally block, ${validExamples} `);
 
-      if (!node.catchClause?.block) throw new Error(`try statement must not have catch block, ${validExamples} `);
-      if (!ts.isBlock(node.catchClause.block)) throw new Error(`try statement must not have catch block, ${validExamples} `);
-      /*
-        ASL.Parallel({
-            Branches: [{ BlockInvoke: () => { console.log(); } }],
-            Catch: [{ ErrorEquals: ["States.All"], BlockInvoke: () => { console.log(); } }];
-        })
-      */
+      let comment: string | undefined = undefined;
+      try {
+        comment = node.getText();
+      } catch { }
 
-      node = factory.createExpressionStatement(factory.createCallExpression(
-        factory.createPropertyAccessExpression(
-          factory.createIdentifier("ASL"),
-          factory.createIdentifier("Parallel")
-        ),
-        undefined,
-        [factory.createObjectLiteralExpression(
-          [
-            factory.createPropertyAssignment(
-              factory.createIdentifier("Branches"),
-              factory.createArrayLiteralExpression(
-                [factory.createObjectLiteralExpression(
-                  [factory.createPropertyAssignment(
-                    factory.createIdentifier("BlockInvoke"),
+      const assignments: ts.PropertyAssignment[] = []
+      assignments.push(
+        factory.createPropertyAssignment(
+          factory.createIdentifier("try"),
+          factory.createArrowFunction(
+            undefined,
+            undefined,
+            [],
+            undefined,
+            factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+            node.tryBlock
+          )
+        ));
+
+      if (node.catchClause?.block) {
+        if (node.catchClause.variableDeclaration) throw new Error("variable declaration in catch clause is not supported (yet)")
+        assignments.push(
+          factory.createPropertyAssignment(
+            factory.createIdentifier("catch"),
+            factory.createArrayLiteralExpression(
+              [factory.createObjectLiteralExpression(
+                [
+                  factory.createPropertyAssignment(
+                    factory.createIdentifier("errorFilter"),
+                    factory.createArrayLiteralExpression(
+                      [factory.createStringLiteral("States.All")],
+                      true
+                    )
+                  ),
+                  factory.createPropertyAssignment(
+                    factory.createIdentifier("block"),
                     factory.createArrowFunction(
                       undefined,
                       undefined,
                       [],
                       undefined,
                       factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-                      node.tryBlock
+                      node.catchClause.block
                     )
-                  )],
-                  true
-                )],
+                  )
+                ],
                 true
-              )
-            ),
-            factory.createPropertyAssignment(
-              factory.createIdentifier("Catch"),
-              factory.createArrayLiteralExpression(
-                [factory.createObjectLiteralExpression(
-                  [
-                    factory.createPropertyAssignment(
-                      factory.createIdentifier("ErrorEquals"),
-                      factory.createArrayLiteralExpression(
-                        [factory.createStringLiteral("States.All")],
-                        true
-                      )
-                    ),
-                    factory.createPropertyAssignment(
-                      factory.createIdentifier("NextInvoke"),
-                      factory.createArrowFunction(
-                        undefined,
-                        undefined,
-                        [],
-                        undefined,
-                        factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-                        node.catchClause.block
-                      )
-                    )
-                  ],
-                  true
-                )],
-                true
-              )
+              )],
+              true
             )
-          ],
+          ));
+      }
+
+      if (node.finallyBlock) {
+        assignments.push(
+          factory.createPropertyAssignment(
+            factory.createIdentifier("finally"),
+            factory.createArrowFunction(
+              undefined,
+              undefined,
+              [],
+              undefined,
+              factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+              node.finallyBlock
+            )
+          ));
+      }
+      if (comment) {
+        assignments.push(
+          factory.createPropertyAssignment(
+            factory.createIdentifier("comment"),
+            factory.createStringLiteral(comment)
+          ));
+      }
+
+      node = factory.createExpressionStatement(factory.createCallExpression(
+        factory.createPropertyAccessExpression(
+          factory.createIdentifier("asl"),
+          factory.createIdentifier("tryExpression")
+        ),
+        undefined,
+        [factory.createObjectLiteralExpression(
+          assignments,
           true
         )]
       ))

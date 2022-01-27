@@ -24,7 +24,7 @@ describe("when converting examples", () => {
 
     console.log(printedAslLibCode);
     expect(printedAslLibCode).toMatchInlineSnapshot(`
-      "ASL.Choice({ Choices: [{ Variable: \\"$.color\\", StringEquals: \\"red\\", NextInvoke: () => {
+      "ASL.Choice({ Choices: [{ Variable: color, StringEquals: \\"red\\", NextInvoke: () => {
                       ASL.Task({
                           TypescriptInvoke: doRed
                       });

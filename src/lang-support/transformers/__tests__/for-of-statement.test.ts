@@ -11,9 +11,9 @@ describe("when converting switch statements", () => {
         forOfStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Map({
-          ItemsPath: collection,
-          Iterator: element => {
+      "ASL.map({
+          items: collection,
+          iterator: element => {
               console.log(element);
           }
       })"
@@ -29,9 +29,9 @@ describe("when converting switch statements", () => {
         forOfStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Map({
-          ItemsPath: result.list,
-          Iterator: element => {
+      "ASL.map({
+          items: result.list,
+          iterator: element => {
               console.log(element);
           }
       })"

@@ -1,12 +1,5 @@
 import * as ts from 'typescript';
 import { ParserError } from '../../ParserError';
-import { findParent, isLiteralOrIdentifier } from './node-utility';
-import factory = ts.factory;
-
-
-const SingleQuote = true;
-
-const validExamples = ``;
 
 export const unsupportedStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {

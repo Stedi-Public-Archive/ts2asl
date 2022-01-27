@@ -12,74 +12,26 @@ export const returnStatementTransformer = <T extends ts.Node>(context: ts.Transf
 
     if (ts.isReturnStatement(node)) {
 
-      if (!node.expression) {
-        node = factory.createExpressionStatement(
-          factory.createCallExpression(
-            factory.createPropertyAccessExpression(
-              factory.createIdentifier("ASL"),
-              factory.createIdentifier("Succeed")
-            ),
-            undefined,
-            []
-          ));
-      } else {
+      const assignments: ts.PropertyAssignment[] = []
 
-        // ASL.Multiple({
-        //   First: ASL.Pass({ Result: "node.expression", ...{ ResultPath: "$" } }),
-        //   Second: ASL.Succeed({})
-        // ])
+      if (node.expression) {
+        assignments.push(factory.createPropertyAssignment(
+          factory.createIdentifier("result"),
+          node.expression
+        ))
+      }
 
-
-        node = factory.createExpressionStatement(factory.createCallExpression(
+      return factory.createExpressionStatement(
+        factory.createCallExpression(
           factory.createPropertyAccessExpression(
-            factory.createIdentifier("ASL"),
-            factory.createIdentifier("Multiple")
+            factory.createIdentifier("asl"),
+            factory.createIdentifier("succeed")
           ),
           undefined,
           [factory.createObjectLiteralExpression(
-            [
-              factory.createPropertyAssignment(
-                factory.createIdentifier("First"),
-                factory.createCallExpression(
-                  factory.createPropertyAccessExpression(
-                    factory.createIdentifier("ASL"),
-                    factory.createIdentifier("Pass")
-                  ),
-                  undefined,
-                  [factory.createObjectLiteralExpression(
-                    [
-                      factory.createPropertyAssignment(
-                        factory.createIdentifier("Result"),
-                        node.expression
-                      ),
-                      factory.createPropertyAssignment(
-                        factory.createIdentifier("ResultPath"),
-                        factory.createStringLiteral("$")
-                      )
-                    ],
-                    false
-                  )]
-                )
-              ),
-              factory.createPropertyAssignment(
-                factory.createIdentifier("Second"),
-                factory.createCallExpression(
-                  factory.createPropertyAccessExpression(
-                    factory.createIdentifier("ASL"),
-                    factory.createIdentifier("Succeed")
-                  ),
-                  undefined,
-                  [factory.createObjectLiteralExpression(
-                    [],
-                    false
-                  )]
-                )
-              )
-            ],
-            true
-          )]
+            assignments,
+            true)]
         ));
-      }
     }
     return node;
   }

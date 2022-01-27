@@ -26,33 +26,32 @@ describe("when converting source files", () => {
           TypescriptInvoke: getNextActions,
           Input: getNextActionsArg
       });
-      ASL.While({
-          Condition: {
-              Variable: remainingActions.length,
-              Not: { NumericEquals: 0 }
-          },
-          WhileInvoke: () => {
+      asl.whileLoop({
+          condition: () => remainingActions.length !== 0,
+          block: () => {
               const results = await ASL.Task({
                   TypescriptInvoke: performAction,
                   Input: getActionsArgs
               });
-              ASL.Choice({
-                  Choices: [
+              asl.choice({
+                  choices: [
                       {
-                          Variable: results[0].status,
-                          StringEquals: \\"failed\\",
-                          NextInvoke: () => {
-                              ASL.Fail({ Error: 'Error', Cause: 'task failed' })
+                          when: results[0].status === \\"failed\\",
+                          then: () => {
+                              ASL.fail({
+                                  error: 'Error',
+                                  cause: 'task failed',
+                                  comment: 'throw new Error(\\"task failed\\")'
+                              })
                           }
                       }
                   ]
               });
-              ASL.Choice({
-                  Choices: [
+              asl.choice({
+                  choices: [
                       {
-                          Variable: results[0].status,
-                          Not: { StringEquals: \\"failed\\" },
-                          NextInvoke: () => {
+                          when: results[0].status !== \\"failed\\",
+                          then: () => {
                               remainingActions = await ASL.Task({
                                   TypescriptInvoke: getNextActions,
                                   Input: getActionsArgs
@@ -76,12 +75,9 @@ describe("when converting source files", () => {
     const output = testTransform(code, transformers);
     expect(output).toMatchInlineSnapshot(`
       "let page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
-      ASL.While({
-          Condition: {
-              Variable: page.nextPageToken,
-              IsPresent: true
-          },
-          WhileInvoke: () => {
+      asl.whileLoop({
+          condition: () => page.nextPageToken,
+          block: () => {
               await ASL.Wait({ Seconds: 2 });
               page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
           }

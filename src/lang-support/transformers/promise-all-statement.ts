@@ -39,36 +39,30 @@ export const promiseAllStatementTransformer = <T extends ts.Node>(context: ts.Tr
            })
          */
 
-        const branchesAsArrayLiterals = blocks.map(block =>
-          factory.createObjectLiteralExpression(
-            [factory.createPropertyAssignment(
-              factory.createIdentifier("BlockInvoke"),
-              factory.createArrowFunction(
-                undefined,
-                undefined,
-                [],
-                undefined,
-                factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-                block
-              )
-            )],
-            true
-          ),
+        const branches = blocks.map(block =>
+          factory.createArrowFunction(
+            undefined,
+            undefined,
+            [],
+            undefined,
+            factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+            block
+          )
         );
 
         node =
           factory.createCallExpression(
             factory.createPropertyAccessExpression(
-              factory.createIdentifier("ASL"),
-              factory.createIdentifier("Parallel")
+              factory.createIdentifier("asl"),
+              factory.createIdentifier("parallel")
             ),
             undefined,
             [factory.createObjectLiteralExpression(
               [factory.createPropertyAssignment(
-                factory.createIdentifier("Branches"),
+                factory.createIdentifier("branches"),
                 factory.createArrayLiteralExpression(
-                  branchesAsArrayLiterals,
-                  false
+                  branches,
+                  true
                 )
               )],
               true

@@ -16,7 +16,7 @@ export class StateFactory {
     if (!ts.isIdentifier(callExpression.expression.expression)) throw new Error("Call expression expected to have Property access expression");
     let type = callExpression.expression.name.text;
     const ASL = callExpression.expression.expression.text;
-    if (ASL !== "ASL") throw new Error("Call expression expected to be on ASL method");
+    if (ASL.toLowerCase() !== "asl") throw new Error("Call expression expected to be on ASL method");
     const name = this.names.getOrCreateName(callExpression, (nameSuggestion ?? type) ?? "State")
 
 

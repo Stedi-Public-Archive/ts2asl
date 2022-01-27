@@ -24,16 +24,16 @@ export const forOfStatementTransformer = <T extends ts.Node>(context: ts.Transfo
         factory.createCallExpression(
           factory.createPropertyAccessExpression(
             factory.createIdentifier("ASL"),
-            factory.createIdentifier("Map")
+            factory.createIdentifier("map")
           ),
           undefined,
           [factory.createObjectLiteralExpression(
             [factory.createPropertyAssignment(
-              factory.createIdentifier("ItemsPath"),
+              factory.createIdentifier("items"),
               node.expression,
             ),
             factory.createPropertyAssignment(
-              factory.createIdentifier("Iterator"),
+              factory.createIdentifier("iterator"),
               factory.createArrowFunction(
                 undefined,
                 undefined,
