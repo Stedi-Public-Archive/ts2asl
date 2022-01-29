@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import { convertToIntermediaryAst } from '..';
+import { convertToIntermediaryAsl } from '..';
 
 export const testConvertToIntermediaryAst = (source: string) => {
 
@@ -10,7 +10,7 @@ export const testConvertToIntermediaryAst = (source: string) => {
     'test.ts', source, ts.ScriptTarget.ES2015, true, ts.ScriptKind.TS
   );
 
-  return convertToIntermediaryAst(sourceFile);
+  return convertToIntermediaryAsl(sourceFile);
 }
 
 describe("dummy", () => {

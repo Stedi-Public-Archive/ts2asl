@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import { TransformUtil } from './transform-utility';
 import factory = ts.factory;
 
 
@@ -12,26 +13,16 @@ export const returnStatementTransformer = <T extends ts.Node>(context: ts.Transf
 
     if (ts.isReturnStatement(node)) {
 
+      const result = TransformUtil.createWrappedExpression("result", node.expression);
+      const comment = TransformUtil.createComment(node);
+
       const assignments: ts.PropertyAssignment[] = []
-
-      if (node.expression) {
-        assignments.push(factory.createPropertyAssignment(
-          factory.createIdentifier("result"),
-          node.expression
-        ))
+      for (const assignment of [result, comment]) {
+        if (assignment) {
+          assignments.push(assignment);
+        }
       }
-
-      return factory.createExpressionStatement(
-        factory.createCallExpression(
-          factory.createPropertyAccessExpression(
-            factory.createIdentifier("asl"),
-            factory.createIdentifier("succeed")
-          ),
-          undefined,
-          [factory.createObjectLiteralExpression(
-            assignments,
-            true)]
-        ));
+      node = TransformUtil.createAslInvoke("succeed", assignments);
     }
     return node;
   }

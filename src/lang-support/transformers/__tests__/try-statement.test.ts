@@ -9,7 +9,7 @@ describe("when converting try statements", () => {
         tryStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "asl.tryExpression({
+      "asl.typescriptTry({
           try: () => { console.log('yay!'); },
           catch: [
               {
@@ -20,7 +20,7 @@ describe("when converting try statements", () => {
               }
           ],
           comment: \\"try { console.log('yay!'); } catch { console.log('nay'); }\\"
-      });"
+      })"
     `);
   });
 

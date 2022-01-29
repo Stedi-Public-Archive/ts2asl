@@ -1,53 +1,35 @@
 import * as ts from 'typescript';
+import { ParserError } from '../../ParserError';
 import { isLiteralOrIdentifier } from './node-utility';
-import factory = ts.factory;
-
-
-const SingleQuote = true;
-
-const validExamples = `valid examples:
-- await SayHello() 
-- SayHello(arg)
-- const response = SayHello()`
+import { TransformUtil } from './transform-utility';
 
 export const callStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
     if (ts.isCallExpression(node)) {
-
       if (ts.isPropertyAccessExpression(node.expression) && ts.isIdentifier(node.expression.expression) && (node.expression.expression.text || "").toLowerCase() === "asl") return node;
 
-      if (1 < node.arguments.length) throw new Error(`call expression must have 0 or 1 arguments, ${validExamples}`);
-      if (!ts.isIdentifier(node.expression)) throw new Error(`call expression must be on identifier, ${validExamples}`);
+      if (1 < node.arguments.length) throw new ParserError(`call expression must have 0 or 1 arguments`, node);
+      if (!ts.isIdentifier(node.expression)) throw new ParserError(`call expression must be on identifier`, node);
       if (node.arguments.length === 1) {
-        if (!isLiteralOrIdentifier(node.arguments[0])) throw new Error(`call expression must have argument that is identifier or property access expression, ${validExamples}`);
+        if (!isLiteralOrIdentifier(node.arguments[0])) throw new ParserError(`call expression must have argument that is identifier or property access expression`, node);
       }
 
+      const target = TransformUtil.createIdentifier("target", node.expression);
+      const parameters = TransformUtil.createWrappedExpression("parameters", node.arguments.length === 1 ? node.arguments[0] : undefined);
+      const comment = TransformUtil.createComment(node);
 
-      const target = node.expression.getText();
+      const assignments: ts.PropertyAssignment[] = []
+      for (const assignment of [target, parameters, comment]) {
+        if (assignment) {
+          assignments.push(assignment);
+        }
+      }
 
-      node = factory.createCallExpression(
-        factory.createPropertyAccessExpression(
-          factory.createIdentifier("ASL"),
-          factory.createIdentifier("Task")
-        ),
-        undefined,
-        [factory.createObjectLiteralExpression(
-          [
-            factory.createPropertyAssignment(
-              factory.createIdentifier("TypescriptInvoke"),
-              factory.createIdentifier(target)
-            ),
-            ...(node.arguments.length === 0 ? [] : [factory.createPropertyAssignment(
-              factory.createIdentifier("Input"),
-              node.arguments[0]
-            )])
-          ],
-          true
-        )]
-      );
+      node = TransformUtil.createAslInvoke("typescriptInvoke", assignments);
     }
+
     return node;
   }
   return ts.visitNode(rootNode, visit);

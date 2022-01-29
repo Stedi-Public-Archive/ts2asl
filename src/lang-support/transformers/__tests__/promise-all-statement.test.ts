@@ -17,7 +17,8 @@ describe("when converting Promise.all statement", () => {
           branches: [
               () => { turnLeft() },
               () => { turnRight() }
-          ]
+          ],
+          comment: \\"Promise.all(\\\\n          [\\\\n            turnLeft(),\\\\n            turnRight()\\\\n          ])\\"
       });"
     `);
   });
@@ -37,7 +38,8 @@ describe("when converting Promise.all statement", () => {
           branches: [
               () => { console.log('a'); },
               () => { console.log('b'); }
-          ]
+          ],
+          comment: \\"Promise.all(\\\\n            [\\\\n              () => { console.log('a'); },\\\\n              () => { console.log('b'); }\\\\n            ])\\"
       });"
     `);
   });

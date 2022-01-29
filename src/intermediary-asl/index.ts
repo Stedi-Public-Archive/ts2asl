@@ -1,13 +1,11 @@
 
 import * as ts from "typescript";
-import * as iast from "intermediate-asl/lib/ast"
-import { ParserError } from "../../ParserError";
+import * as iast from "./ast"
+import { ParserError } from "../ParserError";
 import { convertToIdentifierString } from "./helper";
-import exp from "constants";
 const factory = ts.factory;
 
-export const convertToIntermediaryAst = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argName: string = "context"): iast.Expression[] => {
-
+export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argName: string = "context"): iast.Expression[] => {
   const result: iast.Expression[] = [];
   ts.forEachChild(body, toplevel => {
     const converted = convertNodeToIntermediaryAst(toplevel);
@@ -82,7 +80,6 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
 }
 
 export const convertSingleExpression = (expression?: ts.Expression): iast.Expression | undefined => {
-
   const result = convertExpression(expression);
   if (!result) return undefined;
   if (!Array.isArray(result)) return result;
@@ -112,46 +109,37 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
 
     const convertedArgs = convertObjectLiteralExpression(argument);
     switch (type) {
-      case "wait": {
-        const seconds = convertedArgs["seconds"];
-        const timestamp = convertedArgs["timestamp"];
+      case "typescriptInvoke": {
         const comment = unpackAsLiteral(convertedArgs, "comment");
-        return {
-          seconds,
-          timestamp,
-          comment,
-          _syntaxKind: "asl-wait-state",
-        } as iast.WaitState;
-      };
-
-      case "fail": {
-        const cause = unpackAsLiteral(convertedArgs, "cause");
-        const error = unpackAsLiteral(convertedArgs, "error");
-        const comment = unpackAsLiteral(convertedArgs, "comment");
+        const target = unpackAsIdentifier(convertedArgs, "target");
+        const parameters = convertedArgs["parameters"];
 
         return {
-          cause,
-          error,
+          resource: "typeof:" + target?.identifier,
+          parameters,
           comment,
-          _syntaxKind: "asl-fail-state"
-        } as iast.FailState;
+          _syntaxKind: "asl-task-state"
+        } as iast.TaskState;
       };
 
-      case "parallel": {
-        // const branches = convertedArgs["branches"] as iast.LiteralArrayExpression;
-        //const _catch = convertedArgs["catch"] as iast.LiteralObjectExpression;
-        //const retry = convertedArgs["retry"];
-        // const comment = convertedArgs["comment"];
+      case "typescriptTry": {
+        const try_ = unpackFunctionBlock(convertedArgs, "try");
+        const finally_ = unpackFunctionBlock(convertedArgs, "finally");
+        const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
+        const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
+        const comment = unpackAsLiteral(convertedArgs, "comment");
 
-        // return {
-        //   branches: (branches.elements as iast.Function[]).map(x => x.block),
-        //   comment,
-        //   _syntaxKind: "asl-parallel-state"
-        // } as iast.ParallelState;
+        return {
+          try: try_,
+          finally: finally_,
+          catch: catchConfiguration,
+          retry: retryConfiguration,
+          comment,
+          _syntaxKind: "try"
+        } as iast.TryExpression;
       };
 
-
-      case "whileLoop": {
+      case "typescriptWhile": {
         const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const while_ = unpackFunctionBlock(convertedArgs, "block");
         const comment = unpackAsLiteral(convertedArgs, "comment");
@@ -162,6 +150,21 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           _syntaxKind: "while"
         } as iast.WhileExpression;
       }
+
+      case "typescriptIf": {
+        const when = unpackAsBinaryExpression(convertedArgs, "when");
+        const then = unpackFunctionBlock(convertedArgs, "then");
+        const else_ = unpackFunctionBlock(convertedArgs, "else");
+        const comment = unpackAsLiteral(convertedArgs, "comment");
+        return {
+          condition: when,
+          then,
+          else: else_,
+          comment,
+          _syntaxKind: "if"
+        } as iast.IfExpression;
+      };
+
       case "task": {
         const parameters = convertedArgs["parameters"];
         const resource = unpackAsLiteral(convertedArgs, "resource");
@@ -182,21 +185,32 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           _syntaxKind: "asl-task-state"
         } as iast.TaskState;
       };
-      case "tryExpression": {
-        const try_ = unpackFunctionBlock(convertedArgs, "try");
-        const finally_ = unpackFunctionBlock(convertedArgs, "finally");
+
+      case "wait": {
+        const seconds = convertedArgs["seconds"];
+        const timestamp = convertedArgs["timestamp"];
+        const comment = unpackAsLiteral(convertedArgs, "comment");
+        return {
+          seconds,
+          timestamp,
+          comment,
+          _syntaxKind: "asl-wait-state",
+        } as iast.WaitState;
+      };
+
+      case "parallel": {
+        const branches = unpackArray(convertedArgs, "branches", element => unpackLiteralValue(element));
         const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
         const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
-          try: try_,
-          finally: finally_,
+          branches,
           catch: catchConfiguration,
           retry: retryConfiguration,
           comment,
-          _syntaxKind: "try"
-        } as iast.TryExpression;
+          _syntaxKind: "asl-parallel-state"
+        } as iast.ParallelState;
       };
 
       case "choice": {
@@ -205,7 +219,7 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
-          choices: choices as [],
+          choices: choices,
           default: _default,
           comment,
           _syntaxKind: "asl-choice-state"
@@ -229,15 +243,6 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
         } as iast.MapState;
       };
 
-      case "succeed": {
-        const comment = unpackAsLiteral(convertedArgs, "comment");
-
-        return {
-          comment,
-          _syntaxKind: "asl-succeed-state"
-        } as iast.SucceedState;
-      };
-
       case "pass": {
         const parameters = convertedArgs["parameters"];
         const comment = unpackAsLiteral(convertedArgs, "comment");
@@ -248,6 +253,29 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           _syntaxKind: "asl-pass-state"
         } as iast.PassState;
       };
+
+      case "succeed": {
+        const comment = unpackAsLiteral(convertedArgs, "comment");
+
+        return {
+          comment,
+          _syntaxKind: "asl-succeed-state"
+        } as iast.SucceedState;
+      };
+
+      case "fail": {
+        const cause = unpackAsLiteral(convertedArgs, "cause");
+        const error = unpackAsLiteral(convertedArgs, "error");
+        const comment = unpackAsLiteral(convertedArgs, "comment");
+
+        return {
+          cause,
+          error,
+          comment,
+          _syntaxKind: "asl-fail-state"
+        } as iast.FailState;
+      };
+
     }
 
     if (type.startsWith("native")) {
@@ -278,6 +306,10 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
         comment: undefined,
         _syntaxKind: "asl-task-state"
       } as iast.TaskState;
+    }
+
+    else {
+      throw new ParserError(`unknown asl lib function: asl.${type}`, expression);
     }
   }
 }
@@ -360,7 +392,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression):
     return {
       argName,
       block: {
-        expressions: convertToIntermediaryAst(expr)
+        expressions: convertToIntermediaryAsl(expr)
       },
       _syntaxKind: "function",
     } as iast.Function;

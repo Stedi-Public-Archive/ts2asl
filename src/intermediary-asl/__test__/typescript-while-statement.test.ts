@@ -3,7 +3,7 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 describe("when converting while look to iasl", () => {
   it("then native integrations get converted", () => {
     const code = `
-    asl.whileLoop({
+    asl.typescriptWhile({
       condition: () => code === 'continue',
       block: () => { asl.wait({ seconds: 1 }); asl.wait({ seconds: 2 }); }
   })`;

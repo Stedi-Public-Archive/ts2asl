@@ -59,7 +59,7 @@ export class StateFactory {
       if (type === "While") {
         type = "Parallel";
         const originalArg = { ...argument } as While;
-        const stateMachine = originalArg.WhileInvoke as unknown as asl.StateMachine;
+        const stateMachine = originalArg.block as unknown as asl.StateMachine;
         for (const [name, state] of Object.entries(stateMachine.States)) {
           if (NarrowTerminatingState(state)) {
             if (state.End === true) {
@@ -82,7 +82,7 @@ export class StateFactory {
         stateMachine.States["_WhileCondition"] = {
           Type: "Choice",
           Choices: [
-            { Next: stateMachine.StartAt, ...originalArg.Condition }
+            { Next: stateMachine.StartAt, ...originalArg.condition }
           ],
           Default: "_WhileExit"
         } as asl.Choice;

@@ -10,18 +10,15 @@ describe("when converting if with throw statements", () => {
         throwStatementTransformer
       ])
     ).toMatchInlineSnapshot(`
-      "asl.choice({
-          choices: [
-              {
-                  when: optIn === false,
-                  then: () => { ASL.fail({
-                      error: 'NotOptedInError',
-                      cause: 'oops',
-                      comment: 'throw new NotOptedInError(\\\\'oops\\\\');'
-                  }) }
-              }
-          ]
-      });"
+      "asl.typescriptIf({
+          when: () => optIn === false,
+          then: () => { asl.fail({
+              error: \\"NotOptedInError\\",
+              cause: \\"oops\\",
+              comment: \\"throw new NotOptedInError('oops');\\"
+          }) },
+          comment: \\"if (optIn === false) throw new NotOptedInError('oops');\\"
+      })"
     `);
   });
 

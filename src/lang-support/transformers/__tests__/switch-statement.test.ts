@@ -17,11 +17,20 @@ describe("when converting switch statements", () => {
         switchStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({ Choices: [{ Variable: color, StringEquals: \\"red\\", NextInvoke: () => {
+      "asl.choice({
+          choices: [
+              {
+                  block: () => {
                       console.log(\\"red\\");
-                  } }], DefaultInvoke: () => {
+                  },
+                  condition: () => \\"red\\"
+              }
+          ],
+          default: () => {
               console.log(\\"not-red\\");
-          } })"
+          },
+          comment: \\"switch (color) {\\\\n          case \\\\\\"red\\\\\\":\\\\n            console.log(\\\\\\"red\\\\\\")\\\\n            break;\\\\n        \\\\n          default:\\\\n            console.log(\\\\\\"not-red\\\\\\")\\\\n            break;\\\\n        }\\"
+      })"
     `);
   });
 

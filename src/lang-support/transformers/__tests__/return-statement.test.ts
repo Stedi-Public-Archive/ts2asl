@@ -5,17 +5,21 @@ import { returnStatementTransformer } from "../return-statement";
 
 describe("when converting return statements", () => {
   it("then return statement will become ASL.Succeed", () => {
-    expect(
-      testTransform("return;", returnStatementTransformer)
-    ).toMatchInlineSnapshot(`"asl.succeed({});"`);
+    expect(testTransform("return;", returnStatementTransformer))
+      .toMatchInlineSnapshot(`
+      "asl.succeed({
+          comment: \\"return;\\"
+      })"
+    `);
   });
 
   it("then return statement can return literal", () => {
     expect(testTransform("return 12;", returnStatementTransformer))
       .toMatchInlineSnapshot(`
       "asl.succeed({
-          result: 12
-      });"
+          result: () => 12,
+          comment: \\"return 12;\\"
+      })"
     `);
   });
 
@@ -23,8 +27,9 @@ describe("when converting return statements", () => {
     expect(testTransform("return result;", returnStatementTransformer))
       .toMatchInlineSnapshot(`
       "asl.succeed({
-          result: result
-      });"
+          result: () => result,
+          comment: \\"return result;\\"
+      })"
     `);
   });
 
@@ -32,8 +37,9 @@ describe("when converting return statements", () => {
     expect(testTransform("return result.val;", returnStatementTransformer))
       .toMatchInlineSnapshot(`
       "asl.succeed({
-          result: result.val
-      });"
+          result: () => result.val,
+          comment: \\"return result.val;\\"
+      })"
     `);
   });
 
@@ -45,10 +51,12 @@ describe("when converting return statements", () => {
       ])
     ).toMatchInlineSnapshot(`
       "asl.succeed({
-          result: ASL.Task({
-              TypescriptInvoke: xxx
-          })
-      });"
+          result: () => asl.typescriptInvoke({
+              target: xxx,
+              comment: \\"xxx()\\"
+          }),
+          comment: \\"return xxx();\\"
+      })"
     `);
   });
 });

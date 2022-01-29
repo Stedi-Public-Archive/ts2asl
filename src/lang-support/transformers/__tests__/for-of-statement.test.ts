@@ -11,11 +11,12 @@ describe("when converting switch statements", () => {
         forOfStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.map({
-          items: collection,
+      "asl.map({
+          items: () => collection,
           iterator: element => {
               console.log(element);
-          }
+          },
+          comment: \\"for(const element of collection) { \\\\n          console.log(element) \\\\n        }\\"
       })"
     `);
   });
@@ -29,11 +30,12 @@ describe("when converting switch statements", () => {
         forOfStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.map({
-          items: result.list,
+      "asl.map({
+          items: () => result.list,
           iterator: element => {
               console.log(element);
-          }
+          },
+          comment: \\"for(const element of result.list) { \\\\n          console.log(element) \\\\n        }\\"
       })"
     `);
   });

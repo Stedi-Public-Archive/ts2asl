@@ -2,23 +2,24 @@
 import * as asl from 'asl-types'
 import { Operator as AslOperator } from 'asl-types/dist/choice';
 import { internalWaitSeconds } from './asl-internals';
-import { ObjectToCamel } from "ts-case-convert/lib/caseConvert"
 
 export interface AslResource { }
 export interface AslStateMachine extends AslResource { }
 export interface AslLambdaFunction extends AslResource { }
 export interface AslState { }
 
-export type Operator = Omit<AslOperator, "Next"> & { NextInvoke: Function };
-export type Choice = Omit<asl.Choice, "Type" | "Choices" | "Default" | "InputPath"> & { input: unknown, default: Function, choices: { when: boolean, then: Function }[] };
-//export type Task = Omit<asl.Task, "Type" | "Resource" | "InputPath"> & { TypescriptInvoke?: Function, Resource?: string, Input?: unknown };
-export type While = { condition: () => boolean; block: Function };
-export type Parallel_ = Omit<asl.Parallel, "Type" | "Branches"> & { branches: Function[] };
+// export type Operator = Omit<AslOperator, "Next"> & { NextInvoke: Function };
+// //export type Choice = Omit<asl.Choice, "Type" | "Choices" | "Default" | "InputPath"> & { input: unknown, default: Function, choices: { when: boolean, then: Function }[] };
+// //export type Task = Omit<asl.Task, "Type" | "Resource" | "InputPath"> & { TypescriptInvoke?: Function, Resource?: string, Input?: unknown };
+// export type Parallel_ = Omit<asl.Parallel, "Type" | "Branches"> & { branches: Function[] };
 
+export type While = { condition: () => boolean; block: Function };
+export type If = { condition: boolean | (() => boolean), then: Function; else: Function };
 export declare type CatchConfiguration = Array<{
   errorFilter: string[];
   block: Function;
 }>;
+
 export declare type RetryConfiguration = Array<{
   errorFilter: string[];
   intervalSeconds?: number;
@@ -78,7 +79,43 @@ export interface Parallel {
   retry?: RetryConfiguration;
   comment?: string;
 }
+
+export interface Invoke {
+  target: string;
+  parameters?: unknown | (() => unknown);
+}
+
+export interface Choice {
+  input: unknown | (() => unknown);
+  choices: Array<{ condition: () => boolean; block: Function }>;
+  default: boolean | (() => boolean);
+  comment?: string;
+}
+
 export namespace ASL {
+
+  export const typescriptInvoke = async (args: Invoke) => {
+    return {} as AslState;
+  }
+
+  export const typescriptTry = async (args: Try) => {
+    return {} as AslState;
+  }
+
+  export const typescriptWhile = async (args: While) => {
+    while (typeof args.condition === "function" ? args.condition() : args) {
+      args.block();
+    }
+    return {} as AslState;
+  }
+
+  export const typescriptIf = async (args: If) => {
+    return {} as AslState;
+  }
+
+  export const task = async (args: Task) => {
+    return {} as AslState;
+  }
 
   export const wait = async (args: Wait) => {
     await internalWaitSeconds(args.seconds as number);
@@ -88,35 +125,7 @@ export namespace ASL {
     return {} as AslState;
   }
 
-  export const tryExpression = async (args: Try) => {
-    return {} as AslState;
-  }
-
-  export const task = async (args: Task) => {
-    // if (x.typescriptInvoke) {
-    //   return x.typescriptInvoke(x.input);
-    // }
-    return {} as AslState;
-  }
-
-  export const choice = async (x: ObjectToCamel<Choice>) => {
-    // for (const choice of x.choices) {
-    //   if (internalEvaluateOperator(choice)) {
-    //     choice.NextInvoke(x.input)
-    //   };
-    // }
-
-    // if (x.defaultInvoke) {
-    //   x.defaultInvoke(x.input)
-    // }
-    return {} as AslState;
-  }
-
-
-  export const whileLoop = async (args: While) => {
-    while (typeof args.condition === "function" ? args.condition() : args) {
-      args.block();
-    }
+  export const choice = async (args: Choice) => {
     return {} as AslState;
   }
 
@@ -128,13 +137,14 @@ export namespace ASL {
     return args.result;
   }
 
+  export const succeed = (x: Succeed) => {
+    return {} as AslState;
+  }
+
   export const fail = (x: Fail) => {
     throw new Error(x.cause);
   }
 
-  export const succeed = (x: Succeed) => {
-    return {} as AslState;
-  }
 }
 
 export namespace Deploy {
