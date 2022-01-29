@@ -1,38 +1,47 @@
 
+export enum SyntaxKind {
+  Identifier = "identifier",
+  Literal = "literal",
+  LiteralArray = "literal-array",
+  LiteralObject = "literal-object",
+  Function = "function",
+  BinaryExpression = "binary-expression",
+}
 
 export class Check {
   static isIdentifier(expr: Identifier | Expression): expr is Identifier {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === "identifier";
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Identifier;
   }
   static isLiteralArray(expr: Identifier | Expression): expr is LiteralArrayExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === "literal-array";
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.LiteralArray;
   }
   static isLiteral(expr: Identifier | Expression): expr is LiteralExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === "literal";
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Literal;
   }
   static isLiteralObject(expr: Identifier | Expression): expr is LiteralObjectExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === "literal-object";
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.LiteralObject;
   }
   static isFunction(expr: Identifier | Expression): expr is Function {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === "function";
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Function;
   }
   static isBinaryExpression(expr: Identifier | Expression): expr is BinaryExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === "binary";
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.BinaryExpression;
   }
 }
 
 //could be 'name' or 'name.path.parts'
 export interface Identifier {
   identifier: string;
-  _syntaxKind: "identifier";
+  _syntaxKind: SyntaxKind.Identifier;
 }
 
 export interface Expression {
   _syntaxKind: string;
+  comment?: string;
 }
 
 export interface BinaryExpression extends Expression {
-  _syntaxKind: "binary";
+  _syntaxKind: SyntaxKind.BinaryExpression;
   lhs?: Identifier | Expression; // unary expression lhs -> undefined
   operator: "not" | "is-present" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
   rhs: Identifier | Expression;
@@ -41,7 +50,7 @@ export interface BinaryExpression extends Expression {
 export type LiteralExpressionLike = LiteralExpression | LiteralObjectExpression | LiteralArrayExpression | Function;
 
 export interface LiteralExpression extends Expression {
-  _syntaxKind: "literal";
+  _syntaxKind: SyntaxKind.Literal;
   value: string | boolean | number | null;
   type: "string" | "boolean" | "numeric" | "timestamp" | "null";
 }
@@ -54,12 +63,12 @@ export interface AslIntrinsicFunction extends Expression {
 
 
 export interface LiteralObjectExpression extends Expression {
-  _syntaxKind: "literal-object";
+  _syntaxKind: SyntaxKind.LiteralObject;
   properties: Record<string, Expression | Identifier>;
 }
 
 export interface LiteralArrayExpression extends Expression {
-  _syntaxKind: "literal-array";
+  _syntaxKind: SyntaxKind.LiteralArray;
   elements: Array<Expression | Identifier>;
 }
 
@@ -96,13 +105,18 @@ export interface VariableAssignment extends Expression {
   expression: Expression;
 }
 
+export interface Return extends Expression {
+  _syntaxKind: "return";
+  expression: Expression;
+}
+
 export interface Block extends Expression {
   _syntaxKind: "block";
   expressions: Expression[]
 }
 
 export interface Function extends Expression {
-  _syntaxKind: "function";
+  _syntaxKind: SyntaxKind.Function;
   block: Block;
   argName: string;
 }
@@ -110,7 +124,6 @@ export interface Function extends Expression {
 ///ASL States
 
 export interface AslState extends Expression {
-  comment: string | undefined
 }
 
 export declare type RetryConfiguration = Array<{

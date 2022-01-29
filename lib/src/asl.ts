@@ -1,6 +1,4 @@
 
-import * as asl from 'asl-types'
-import { Operator as AslOperator } from 'asl-types/dist/choice';
 import { internalWaitSeconds } from './asl-internals';
 
 export interface AslResource { }
@@ -44,6 +42,10 @@ export interface Try {
   finally?: Function;
   comment?: string;
 }
+export interface Return {
+  result: unknown | (() => unknown);
+  comment?: string;
+}
 export interface Task {
   resource: string;
   parameters?: unknown | (() => unknown);
@@ -68,10 +70,10 @@ export interface Map {
   comment?: string;
 }
 
-export interface Succeed {
-  result: unknown | (() => unknown);
-}
 
+export interface Succeed {
+  comment?: string;
+}
 export interface Parallel {
   input: unknown | (() => unknown);
   branches: Function[];
@@ -112,7 +114,6 @@ export namespace ASL {
   export const typescriptIf = async (args: If) => {
     return {} as AslState;
   }
-
   export const task = async (args: Task) => {
     return {} as AslState;
   }

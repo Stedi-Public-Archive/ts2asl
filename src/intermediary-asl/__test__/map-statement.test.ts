@@ -5,7 +5,7 @@ describe("when converting map statement to iasl", () => {
     const code = `const aaaa = asl.map({ 
         items: something.list[0].here,
         iterator: (localName) => {
-          ASL.succeed();
+          return;
         };
     });`;
     const result = testConvertToIntermediaryAst(code);
@@ -24,7 +24,7 @@ describe("when converting map statement to iasl", () => {
             "iterator": Object {
               "expressions": Array [
                 Object {
-                  "_syntaxKind": "asl-succeed-state",
+                  "_syntaxKind": "return",
                 },
               ],
             },

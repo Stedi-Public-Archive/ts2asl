@@ -13,7 +13,7 @@ describe("when converting while look to iasl", () => {
         Object {
           "_syntaxKind": "while",
           "condition": Object {
-            "_syntaxKind": "binary",
+            "_syntaxKind": "binary-expression",
             "lhs": Object {
               "_syntaxKind": "identifier",
               "identifier": "code",

@@ -19,7 +19,7 @@ describe("when converting if statement to iasl", () => {
           "_syntaxKind": "if",
           "comment": "if (password === 'pwd') throw new Error('wrong password');",
           "condition": Object {
-            "_syntaxKind": "binary",
+            "_syntaxKind": "binary-expression",
             "lhs": Object {
               "_syntaxKind": "identifier",
               "identifier": "password",

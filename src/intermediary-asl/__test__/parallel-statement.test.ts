@@ -4,7 +4,7 @@ describe("when converting choice statement to iasl", () => {
   it("then native integrations get converted to map states", () => {
     const code = `await asl.parallel({
       branches: [
-          () => { asl.succeed() },
+          () => { return; },
           () => { asl.fail() }
       ],
   });`;
@@ -17,7 +17,7 @@ describe("when converting choice statement to iasl", () => {
             Object {
               "expressions": Array [
                 Object {
-                  "_syntaxKind": "asl-succeed-state",
+                  "_syntaxKind": "return",
                 },
               ],
             },

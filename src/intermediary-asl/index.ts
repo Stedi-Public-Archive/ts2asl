@@ -38,6 +38,17 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
     node = node.expression;
   }
 
+  if (ts.isReturnStatement(node)) {
+
+
+    const expression = convertExpression(node.expression);
+
+    return {
+      expression,
+      _syntaxKind: "return",
+    } as iast.Return;
+  }
+
   if (ts.isVariableStatement(node)) {
     if (node.declarationList.declarations.length !== 1) throw new ParserError("Variable statement must have declaration list of 1", node);
     const decl = node.declarationList.declarations[0];
@@ -295,7 +306,7 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
         throw new Error(`unable to find service of native integration ${type} `);
       }
       resource += remainder[0].toLowerCase() + remainder.substring(1);
-      const parameters: iast.LiteralObjectExpression = { _syntaxKind: "literal-object", properties: {} };
+      const parameters: iast.LiteralObjectExpression = { _syntaxKind: iast.SyntaxKind.LiteralObject, properties: {} };
       for (const [propName, propVal] of Object.entries(convertedArgs)) {
         parameters.properties[propName] = propVal;
       }
@@ -342,43 +353,43 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression):
       return {
         value: new Number(expr.text).valueOf(),
         type: "numeric",
-        _syntaxKind: "literal",
+        _syntaxKind: iast.SyntaxKind.Literal,
       } as iast.LiteralExpression;
     } else if (ts.isStringLiteral(expr)) {
       return {
         value: expr.text,
         type: "string",
-        _syntaxKind: "literal",
+        _syntaxKind: iast.SyntaxKind.Literal,
       } as iast.LiteralExpression;
     }
   }
   else if (ts.isObjectLiteralExpression(expr)) {
     return {
       properties: convertObjectLiteralExpression(expr),
-      _syntaxKind: "literal-object",
+      _syntaxKind: iast.SyntaxKind.LiteralObject,
     } as iast.LiteralObjectExpression;
   } else if (ts.isArrayLiteralExpression(expr)) {
     return {
       elements: expr.elements.map(x => convertExpressionToLiteralOrIdentifier(x)),
-      _syntaxKind: "literal-array",
+      _syntaxKind: iast.SyntaxKind.LiteralArray,
     } as iast.LiteralArrayExpression;
   } else if (expr.kind === ts.SyntaxKind.TrueKeyword) {
     return {
       value: true,
       type: "boolean",
-      _syntaxKind: "literal",
+      _syntaxKind: iast.SyntaxKind.Literal,
     } as iast.LiteralExpression;
   } else if (expr.kind === ts.SyntaxKind.FalseKeyword) {
     return {
       value: false,
       type: "boolean",
-      _syntaxKind: "literal",
+      _syntaxKind: iast.SyntaxKind.Literal,
     } as iast.LiteralExpression;
   } else if (expr.kind === ts.SyntaxKind.UndefinedKeyword || expr.kind === ts.SyntaxKind.NullKeyword) {
     return {
       value: null,
       type: "null",
-      _syntaxKind: "literal",
+      _syntaxKind: iast.SyntaxKind.Literal,
     } as iast.LiteralExpression;
   } else if (ts.isArrowFunction(original) && ts.isBlock(expr)) {
     let argName: undefined | string = undefined;
@@ -394,7 +405,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression):
       block: {
         expressions: convertToIntermediaryAsl(expr)
       },
-      _syntaxKind: "function",
+      _syntaxKind: iast.SyntaxKind.Function,
     } as iast.Function;
   }
   else if (ts.isCallExpression(expr)) {
@@ -412,14 +423,14 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression):
       lhs: convertExpressionToLiteralOrIdentifier(expr.left),
       operator: convertedOperator.op,
       rhs: convertExpressionToLiteralOrIdentifier(expr.right),
-      _syntaxKind: "binary"
+      _syntaxKind: iast.SyntaxKind.BinaryExpression
     } as iast.BinaryExpression;
 
     if (convertedOperator.not) {
       expression = {
         operator: "not",
         rhs: expression,
-        _syntaxKind: "binary"
+        _syntaxKind: iast.SyntaxKind.BinaryExpression
       } as iast.BinaryExpression;
     }
     return expression;

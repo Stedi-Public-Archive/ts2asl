@@ -7,7 +7,7 @@ describe("when converting choice statement to iasl", () => {
           { when: a !== "hello", then: () => { ASL.fail({ error: "MyError", cause:"bad luck"}); } }
         ],
         default: () => {
-          ASL.succeed();
+          return;
         };
     });`;
     const result = testConvertToIntermediaryAst(code);
@@ -27,10 +27,10 @@ describe("when converting choice statement to iasl", () => {
                 ],
               },
               "when": Object {
-                "_syntaxKind": "binary",
+                "_syntaxKind": "binary-expression",
                 "operator": "not",
                 "rhs": Object {
-                  "_syntaxKind": "binary",
+                  "_syntaxKind": "binary-expression",
                   "lhs": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "a",
@@ -48,7 +48,7 @@ describe("when converting choice statement to iasl", () => {
           "default": Object {
             "expressions": Array [
               Object {
-                "_syntaxKind": "asl-succeed-state",
+                "_syntaxKind": "return",
               },
             ],
           },
