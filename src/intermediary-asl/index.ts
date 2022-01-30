@@ -2,7 +2,7 @@
 import * as ts from "typescript";
 import * as iast from "./ast"
 import { ParserError } from "../ParserError";
-import { convertToIdentifierString } from "./helper";
+import { convertToIdentifier } from "./helper";
 const factory = ts.factory;
 
 export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argName: string = "context"): iast.Expression[] => {
@@ -53,27 +53,30 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
     if (node.declarationList.declarations.length !== 1) throw new ParserError("Variable statement must have declaration list of 1", node);
     const decl = node.declarationList.declarations[0];
 
-    const identifierString = convertToIdentifierString(decl.name);
-    if (!identifierString) throw new ParserError("unable to convert declaration name to identifier string", node);
+    const identifier = convertToIdentifier(decl.name);
+    if (!identifier) throw new ParserError("unable to convert declaration name to identifier string", node);
 
-    const expression = convertExpression(decl.initializer);
+    let expression = convertExpression(decl.initializer);
+    if (expression === undefined) expression = convertExpressionToLiteralOrIdentifier(decl.initializer);
     if (!expression) throw new ParserError("unable to convert declaration initializer to expression", node);
     return {
-      name: { identifier: identifierString, _syntaxKind: "identifier" },
+      name: identifier,
       expression: expression,
       _syntaxKind: "assignment",
     } as iast.VariableAssignment
   }
 
   if ((ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.EqualsToken)) {
-    const identifierString = convertToIdentifierString(node.left);
-    if (!identifierString) throw new ParserError("unable to convert lhs of assignment to identifier string", node);
+    const identifier = convertToIdentifier(node.left);
+    if (!identifier) throw new ParserError("unable to convert lhs of assignment to identifier string", node);
 
-    const expression = convertExpression(node.right);
+
+    let expression = convertExpression(node.right);
+    if (expression === undefined) expression = convertExpressionToLiteralOrIdentifier(node.right);
     if (!expression) throw new ParserError("unable to convert rhs of assignment to expression", node);
 
     return {
-      name: { identifier: identifierString, _syntaxKind: "identifier" },
+      name: identifier,
       expression: expression,
       _syntaxKind: "assignment",
     } as iast.VariableAssignment
@@ -338,12 +341,16 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression)
     if (!propertyName) throw new ParserError("unable to extract property name for property assignment", expr);
 
     const initializer = convertExpressionToLiteralOrIdentifier(property.initializer);
+    if (initializer === undefined) continue;
     result[propertyName] = initializer
   }
   return result
 }
 
-export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression): iast.Identifier | iast.LiteralExpressionLike | iast.AslIntrinsicFunction | iast.BinaryExpression => {
+export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined): iast.Identifier | iast.LiteralExpressionLike | iast.AslIntrinsicFunction | iast.BinaryExpression | undefined => {
+  if (original === undefined) {
+    return undefined;
+  }
   let expr = original;
   if (ts.isArrowFunction(original)) {
     expr = original.body as ts.Expression;
@@ -410,10 +417,13 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression):
   }
   else if (ts.isCallExpression(expr)) {
     const _arguments = expr.arguments.map(x => convertExpressionToLiteralOrIdentifier(x));
-
+    const functionName = convertToIdentifier(expr.expression);
+    if (!(functionName?.identifier) || functionName.indexExpression || functionName.lhs) {
+      throw new Error("call expression must be simple identifier")
+    }
     return {
       arguments: _arguments,
-      function: convertToIdentifierString(expr.expression),
+      function: functionName.identifier,
       _syntaxKind: "asl-intrinsic-function"
     } as iast.AslIntrinsicFunction;
   } else if (ts.isBinaryExpression(expr)) {
@@ -438,9 +448,9 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression):
 
 
   //not a literal, try identifier
-  const identifierString = convertToIdentifierString(expr);
-  if (identifierString) {
-    return { identifier: identifierString, _syntaxKind: "identifier" } as iast.Identifier;
+  const identifier = convertToIdentifier(expr);
+  if (identifier) {
+    return identifier;
   }
   throw new ParserError("unable to unpack expression ", expr);
 }

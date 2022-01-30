@@ -19,7 +19,16 @@ describe("when converting map statement to iasl", () => {
             "comment": undefined,
             "items": Object {
               "_syntaxKind": "identifier",
-              "identifier": "something.list[0].here",
+              "identifier": "here",
+              "indexExpression": Object {
+                "_syntaxKind": "literal",
+                "type": "numeric",
+                "value": 0,
+              },
+              "lhs": Object {
+                "_syntaxKind": "identifier",
+                "identifier": "something.list",
+              },
             },
             "iterator": Object {
               "expressions": Array [

@@ -6,6 +6,22 @@ export enum SyntaxKind {
   LiteralObject = "literal-object",
   Function = "function",
   BinaryExpression = "binary-expression",
+  AslIntrinsicFunction = "asl-intrinsic-function",
+  Assignment = "assignment",
+  Block = "block",
+  IfStatement = "if",
+  TryStatement = "try",
+  CaseStatement = "case",
+  WhileStatement = "while",
+  ReturnStatement = "return",
+  AslWaitState = "asl-wait-state",
+  AslParallelState = "asl-parallel-state",
+  AslPassState = "asl-pass-state",
+  AslTaskState = "asl-task-state",
+  AslChoiceState = "asl-choice-state",
+  AslMapState = "asl-map-state",
+  AslFailState = "asl-fail-state",
+  AslSucceedState = "asl-succeed-state",
 }
 
 export class Check {
@@ -27,11 +43,70 @@ export class Check {
   static isBinaryExpression(expr: Identifier | Expression): expr is BinaryExpression {
     return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.BinaryExpression;
   }
+  static isVariableAssignment(expr: Identifier | Expression): expr is VariableAssignment {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Assignment;
+  }
+  static isIfExpression(expr: Identifier | Expression): expr is IfExpression {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.IfStatement;
+  }
+
+  static isTryExpression(expr: Identifier | Expression): expr is TryExpression {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.TryStatement;
+  }
+
+  static isCaseStatement(expr: Identifier | Expression): expr is CaseExpression {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.CaseStatement;
+  }
+  static isWhileStatement(expr: Identifier | Expression): expr is WhileExpression {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.WhileStatement;
+  }
+
+  static isReturnStatement(expr: Identifier | Expression): expr is Return {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ReturnStatement;
+  }
+
+  static isAslWaitState(expr: Identifier | Expression): expr is WaitState {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslWaitState;
+  }
+
+  static isAslParallelState(expr: Identifier | Expression): expr is ParallelState {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslParallelState;
+  }
+
+  static isAslPassState(expr: Identifier | Expression): expr is PassState {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslPassState;
+  }
+
+  static isAslTaskState(expr: Identifier | Expression): expr is TaskState {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslTaskState;
+  }
+
+  static isAslChoiceState(expr: Identifier | Expression): expr is ChoiceState {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslChoiceState;
+  }
+
+  static isAslMapState(expr: Identifier | Expression): expr is MapState {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslMapState;
+  }
+
+  static isAslFailState(expr: Identifier | Expression): expr is FailState {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslFailState;
+  }
+
+  static isAslSucceedState(expr: Identifier | Expression): expr is SucceedState {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslSucceedState;
+  }
+
+  static isAslIntrinsicFunction(expr: Identifier | Expression): expr is AslIntrinsicFunction {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslIntrinsicFunction;
+  }
 }
 
 //could be 'name' or 'name.path.parts'
 export interface Identifier {
   identifier: string;
+  indexExpression?: Identifier | Expression;
+  lhs?: Identifier;
   _syntaxKind: SyntaxKind.Identifier;
 }
 
@@ -56,7 +131,7 @@ export interface LiteralExpression extends Expression {
 }
 
 export interface AslIntrinsicFunction extends Expression {
-  _syntaxKind: "asl-intrinsic-function";
+  _syntaxKind: SyntaxKind.AslIntrinsicFunction;
   function: string;
   arguments: Array<Identifier | LiteralExpressionLike>;
 }
@@ -73,45 +148,45 @@ export interface LiteralArrayExpression extends Expression {
 }
 
 export interface IfExpression extends Expression {
-  _syntaxKind: "if";
+  _syntaxKind: SyntaxKind.IfStatement;
   condition: BinaryExpression;
   then: Block;
   else?: Block;
 }
 
 export interface TryExpression extends Expression {
-  _syntaxKind: "try";
+  _syntaxKind: SyntaxKind.TryStatement;
   try: Block;
   catch?: { errorFilter: string[], block: Block }[]
   finally?: Block;
 }
 
 export interface CaseExpression extends Expression {
-  _syntaxKind: "case";
+  _syntaxKind: SyntaxKind.CaseStatement;
   variable: Identifier;
   cases?: Array<{ when: LiteralExpression[], then: Block }>;
   default?: Block;
 }
 
 export interface WhileExpression extends Expression {
-  _syntaxKind: "while";
+  _syntaxKind: SyntaxKind.WhileStatement;
   condition: BinaryExpression;
   while: Block;
 }
 
 export interface VariableAssignment extends Expression {
-  _syntaxKind: "assignment";
+  _syntaxKind: SyntaxKind.Assignment;
   name: Identifier;
   expression: Expression;
 }
 
 export interface Return extends Expression {
-  _syntaxKind: "return";
+  _syntaxKind: SyntaxKind.ReturnStatement;
   expression: Expression;
 }
 
 export interface Block extends Expression {
-  _syntaxKind: "block";
+  _syntaxKind: SyntaxKind.Block;
   expressions: Expression[]
 }
 
@@ -136,20 +211,20 @@ export declare type RetryConfiguration = Array<{
 export type CatchConfiguration = Array<{ errorFilter: string[], block: Block }>;
 
 export interface WaitState extends AslState {
-  _syntaxKind: "asl-wait-state";
+  _syntaxKind: SyntaxKind.AslWaitState;
   seconds: LiteralExpressionLike | Identifier;
   timestamp: LiteralExpressionLike | Identifier;
 }
 
 export interface ParallelState extends AslState {
-  _syntaxKind: "asl-parallel-state";
+  _syntaxKind: SyntaxKind.AslParallelState
   branches: Block[];
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
 }
 
 export interface PassState extends AslState {
-  _syntaxKind: "asl-pass-state";
+  _syntaxKind: SyntaxKind.AslPassState;
 
   //if identifier, assign to ResultPath
   //if (all) literal, assign to Result
@@ -158,21 +233,23 @@ export interface PassState extends AslState {
 }
 
 export interface TaskState extends AslState {
-  _syntaxKind: "asl-task-state";
+  _syntaxKind: SyntaxKind.AslTaskState;
   resource: string;
   parameters: LiteralExpressionLike | Identifier;
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
+  timeoutSeconds?: number;
+  heartbeatSeconds?: number;
 }
 
 export interface ChoiceState extends AslState {
-  _syntaxKind: "asl-choice-state";
+  _syntaxKind: SyntaxKind.AslChoiceState
   choices?: Array<{ when: BinaryExpression, then: Block }>;
   default?: Block;
 }
 
 export interface MapState extends AslState {
-  _syntaxKind: "asl-map-state";
+  _syntaxKind: SyntaxKind.AslMapState;
   iterator: Block;
   items: Identifier;
   catch?: CatchConfiguration;
@@ -181,11 +258,11 @@ export interface MapState extends AslState {
 }
 
 export interface FailState extends AslState {
-  _syntaxKind: "asl-fail-state";
+  _syntaxKind: SyntaxKind.AslFailState
   cause?: string;
   error?: string;
 }
 
 export interface SucceedState extends AslState {
-  _syntaxKind: "asl-succeed-state";
+  _syntaxKind: SyntaxKind.AslSucceedState;
 }

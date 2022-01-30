@@ -231,8 +231,6 @@ class Names {
   takenNames: Map<ts.Node, string> = new Map();
 
   getOrCreateName(node: ts.Node, baseName: string): string {
-
-
     if (this.takenNames.has(node)) {
       return this.takenNames.get(node) as string;
     }
@@ -250,5 +248,4 @@ class Names {
 
     return baseName + postFix;
   }
-
 }

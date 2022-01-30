@@ -87,7 +87,16 @@ describe("when converting pass statements to iasl", () => {
               "properties": Object {
                 "field": Object {
                   "_syntaxKind": "identifier",
-                  "identifier": "xxx.elements[0]",
+                  "identifier": "xxx.elements",
+                  "indexExpression": Object {
+                    "_syntaxKind": "literal",
+                    "type": "numeric",
+                    "value": 0,
+                  },
+                  "lhs": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "xxx.elements",
+                  },
                 },
                 "fn": Object {
                   "_syntaxKind": "asl-intrinsic-function",
