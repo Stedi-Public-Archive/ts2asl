@@ -1,4 +1,5 @@
-import { ASL } from "../src/asl"
+
+
 
 describe("when calling ASL.Task with TypescriptInvoke", () => {
   it("will invoke typescript function", async () => {

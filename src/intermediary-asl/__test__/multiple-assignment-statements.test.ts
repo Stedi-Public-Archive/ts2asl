@@ -7,7 +7,7 @@ describe("when converting pass statements to iasl", () => {
     expect(result).toMatchInlineSnapshot(`
       Array [
         Object {
-          "_syntaxKind": "assignment",
+          "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
             "comment": "some random comment",
@@ -23,7 +23,7 @@ describe("when converting pass statements to iasl", () => {
           },
         },
         Object {
-          "_syntaxKind": "assignment",
+          "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
             "comment": undefined,
@@ -48,7 +48,7 @@ describe("when converting pass statements to iasl", () => {
     expect(result).toMatchInlineSnapshot(`
       Array [
         Object {
-          "_syntaxKind": "assignment",
+          "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
             "comment": undefined,
@@ -78,7 +78,7 @@ describe("when converting pass statements to iasl", () => {
           },
         },
         Object {
-          "_syntaxKind": "assignment",
+          "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
             "comment": undefined,
@@ -131,7 +131,7 @@ describe("when converting pass statements to iasl", () => {
     expect(result).toMatchInlineSnapshot(`
       Array [
         Object {
-          "_syntaxKind": "assignment",
+          "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
             "comment": undefined,

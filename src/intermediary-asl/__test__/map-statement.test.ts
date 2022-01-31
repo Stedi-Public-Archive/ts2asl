@@ -12,7 +12,7 @@ describe("when converting map statement to iasl", () => {
     expect(result).toMatchInlineSnapshot(`
       Array [
         Object {
-          "_syntaxKind": "assignment",
+          "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-map-state",
             "catch": Array [],

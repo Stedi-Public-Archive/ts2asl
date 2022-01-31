@@ -1,10 +1,10 @@
-import { ASL } from "../src/asl"
+import * as asl from "../src"
 
 describe("when calling ASL.Fail", () => {
   it("exception is thrown", async () => {
 
     expect(() => {
-      ASL.fail({ cause: "bad luck" });
+      asl.fail({ cause: "bad luck" });
       console.log("sdfsdf");
     }).toThrowError("bad luck");
   });

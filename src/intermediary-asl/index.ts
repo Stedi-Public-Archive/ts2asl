@@ -46,7 +46,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
     return {
       expression,
       _syntaxKind: "return",
-    } as iast.Return;
+    } as iast.ReturnStatement;
   }
 
   if (ts.isVariableStatement(node)) {
@@ -62,8 +62,8 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
     return {
       name: identifier,
       expression: expression,
-      _syntaxKind: "assignment",
-    } as iast.VariableAssignment
+      _syntaxKind: iast.SyntaxKind.VariableAssignmentStatement
+    } as iast.VariableAssignmentStatement
   }
 
   if ((ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.EqualsToken)) {
@@ -78,8 +78,8 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
     return {
       name: identifier,
       expression: expression,
-      _syntaxKind: "assignment",
-    } as iast.VariableAssignment
+      _syntaxKind: iast.SyntaxKind.VariableAssignmentStatement
+    } as iast.VariableAssignmentStatement
   }
 
   if (node && ts.isAwaitExpression(node)) {
@@ -150,7 +150,7 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           retry: retryConfiguration,
           comment,
           _syntaxKind: "try"
-        } as iast.TryExpression;
+        } as iast.TryStatement;
       };
 
       case "typescriptWhile": {
@@ -162,7 +162,7 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           while: while_,
           comment,
           _syntaxKind: "while"
-        } as iast.WhileExpression;
+        } as iast.WhileStatement;
       }
 
       case "typescriptIf": {

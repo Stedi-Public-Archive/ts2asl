@@ -97,11 +97,6 @@ interface AslExpressionOrIdentifier {
   valueContainsReplacements?: boolean;
 };
 
-// const convertBinaryExpressionToAsl = (expr: iasl.BinaryExpression) => {
-//   const choice: Operator = {};
-//   expr.operator
-// }
-
 const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExpressionOrIdentifier => {
   if (iasl.Check.isIdentifier(expr)) {
     return { path: convertIdentifierToPathExpression(expr) }
@@ -156,7 +151,7 @@ const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExp
   throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expr._syntaxKind}`);
 }
 
-const convertIdentifierToPathExpression = (expr: iasl.Identifier): string => {
+export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string => {
   let lhs = "";
   if (expr.lhs) {
     lhs += convertIdentifierToPathExpression(expr.lhs);

@@ -1,13 +1,13 @@
-declare module 'ASL' {
-  import 'asl';
-  import 'native-integrations-ecs';
-  import 'native-integrations-dynamodb';
-  import 'native-integrations-eventbridge';
-  import 'native-integrations-lambda';
-  import 'native-integrations-s3';
-  import 'native-integrations-ses';
-  import 'native-integrations-sns';
-  import 'native-integrations-sqs';
-  import 'native-integrations-ssm';
-  import 'native-integrations-textract';
-}
+
+export * from "./asl";
+export * from "./intrinsic-functions";
+export * from "./native-integrations-ecs";
+export * from "./native-integrations-dynamodb";
+export * from "./native-integrations-eventbridge";
+export * from "./native-integrations-lambda";
+export * from "./native-integrations-s3";
+export * from "./native-integrations-ses";
+export * from "./native-integrations-sns";
+export * from "./native-integrations-sqs";
+export * from "./native-integrations-ssm";
+export * from "./native-integrations-textract";

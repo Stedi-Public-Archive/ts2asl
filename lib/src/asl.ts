@@ -66,7 +66,10 @@ export interface Fail {
 }
 
 export interface Map {
-  input: unknown | (() => unknown);
+  parameters?: unknown | (() => unknown);
+  items: [] | undefined | (() => []);
+  iterator: (item: unknown) => {};
+  maxConcurrency?: number;
   comment?: string;
 }
 
@@ -94,60 +97,57 @@ export interface Choice {
   comment?: string;
 }
 
-export namespace ASL {
 
-  export const typescriptInvoke = async (args: Invoke) => {
-    return {} as AslState;
-  }
 
-  export const typescriptTry = async (args: Try) => {
-    return {} as AslState;
-  }
-
-  export const typescriptWhile = async (args: While) => {
-    while (typeof args.condition === "function" ? args.condition() : args) {
-      args.block();
-    }
-    return {} as AslState;
-  }
-
-  export const typescriptIf = async (args: If) => {
-    return {} as AslState;
-  }
-  export const task = async (args: Task) => {
-    return {} as AslState;
-  }
-
-  export const wait = async (args: Wait) => {
-    await internalWaitSeconds(args.seconds as number);
-  }
-
-  export const parallel = async (args: Parallel) => {
-    return {} as AslState;
-  }
-
-  export const choice = async (args: Choice) => {
-    return {} as AslState;
-  }
-
-  export const map = async (args: Map) => {
-    return {} as AslState;
-  }
-
-  export const pass = (args: Pass) => {
-    return args.result;
-  }
-
-  export const succeed = (x: Succeed) => {
-    return {} as AslState;
-  }
-
-  export const fail = (x: Fail) => {
-    throw new Error(x.cause);
-  }
-
+export const typescriptInvoke = async (args: Invoke) => {
+  return {} as AslState;
 }
 
+export const typescriptTry = async (args: Try) => {
+  return {} as AslState;
+}
+
+export const typescriptWhile = async (args: While) => {
+  while (typeof args.condition === "function" ? args.condition() : args) {
+    args.block();
+  }
+  return {} as AslState;
+}
+
+export const typescriptIf = async (args: If) => {
+  return {} as AslState;
+}
+export const task = async (args: Task) => {
+  return {} as AslState;
+}
+
+export const wait = async (args: Wait) => {
+  await internalWaitSeconds(args.seconds as number);
+}
+
+export const parallel = async (args: Parallel) => {
+  return {} as AslState;
+}
+
+export const choice = async (args: Choice) => {
+  return {} as AslState;
+}
+
+export const map = async (args: Map) => {
+  return {} as AslState;
+}
+
+export const pass = (args: Pass) => {
+  return args.result;
+}
+
+export const succeed = (x: Succeed) => {
+  return {} as AslState;
+}
+
+export const fail = (x: Fail) => {
+  throw new Error(x.cause);
+}
 export namespace Deploy {
 
   export const asLambda = <T>(fn: T) => {

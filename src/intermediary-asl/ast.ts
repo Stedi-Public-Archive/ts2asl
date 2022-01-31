@@ -7,7 +7,7 @@ export enum SyntaxKind {
   Function = "function",
   BinaryExpression = "binary-expression",
   AslIntrinsicFunction = "asl-intrinsic-function",
-  Assignment = "assignment",
+  VariableAssignmentStatement = "variable-assignment",
   Block = "block",
   IfStatement = "if",
   TryStatement = "try",
@@ -43,25 +43,24 @@ export class Check {
   static isBinaryExpression(expr: Identifier | Expression): expr is BinaryExpression {
     return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.BinaryExpression;
   }
-  static isVariableAssignment(expr: Identifier | Expression): expr is VariableAssignment {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Assignment;
+  static isVariableAssignment(expr: Identifier | Expression): expr is VariableAssignmentStatement {
+    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.VariableAssignmentStatement;
   }
   static isIfExpression(expr: Identifier | Expression): expr is IfExpression {
     return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.IfStatement;
   }
-
-  static isTryExpression(expr: Identifier | Expression): expr is TryExpression {
+  static isTryExpression(expr: Identifier | Expression): expr is TryStatement {
     return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.TryStatement;
   }
 
-  static isCaseStatement(expr: Identifier | Expression): expr is CaseExpression {
+  static isCaseStatement(expr: Identifier | Expression): expr is CaseStatement {
     return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.CaseStatement;
   }
-  static isWhileStatement(expr: Identifier | Expression): expr is WhileExpression {
+  static isWhileStatement(expr: Identifier | Expression): expr is WhileStatement {
     return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.WhileStatement;
   }
 
-  static isReturnStatement(expr: Identifier | Expression): expr is Return {
+  static isReturnStatement(expr: Identifier | Expression): expr is ReturnStatement {
     return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ReturnStatement;
   }
 
@@ -115,10 +114,12 @@ export interface Expression {
   comment?: string;
 }
 
+export type BinaryOperator = "not" | "is-present" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
+
 export interface BinaryExpression extends Expression {
   _syntaxKind: SyntaxKind.BinaryExpression;
   lhs?: Identifier | Expression; // unary expression lhs -> undefined
-  operator: "not" | "is-present" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
+  operator: BinaryOperator;
   rhs: Identifier | Expression;
 }
 
@@ -154,33 +155,33 @@ export interface IfExpression extends Expression {
   else?: Block;
 }
 
-export interface TryExpression extends Expression {
+export interface TryStatement extends Expression {
   _syntaxKind: SyntaxKind.TryStatement;
   try: Block;
   catch?: { errorFilter: string[], block: Block }[]
   finally?: Block;
 }
 
-export interface CaseExpression extends Expression {
+export interface CaseStatement extends Expression {
   _syntaxKind: SyntaxKind.CaseStatement;
   variable: Identifier;
   cases?: Array<{ when: LiteralExpression[], then: Block }>;
   default?: Block;
 }
 
-export interface WhileExpression extends Expression {
+export interface WhileStatement extends Expression {
   _syntaxKind: SyntaxKind.WhileStatement;
   condition: BinaryExpression;
   while: Block;
 }
 
-export interface VariableAssignment extends Expression {
-  _syntaxKind: SyntaxKind.Assignment;
+export interface VariableAssignmentStatement extends Expression {
+  _syntaxKind: SyntaxKind.VariableAssignmentStatement;
   name: Identifier;
   expression: Expression;
 }
 
-export interface Return extends Expression {
+export interface ReturnStatement extends Expression {
   _syntaxKind: SyntaxKind.ReturnStatement;
   expression: Expression;
 }

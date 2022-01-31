@@ -10,7 +10,7 @@ describe("when converting native integration statements to iasl", () => {
     expect(result).toMatchInlineSnapshot(`
       Array [
         Object {
-          "_syntaxKind": "assignment",
+          "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-task-state",
             "comment": undefined,

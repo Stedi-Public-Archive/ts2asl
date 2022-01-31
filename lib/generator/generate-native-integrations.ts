@@ -194,13 +194,13 @@ for (const service of nativeIntegrations.services) {
     functionNodes.push(result.functionAst);
     importNodes.push(result.importAst);
   }
-  const exportNode = factory.createModuleDeclaration(
-    undefined,
-    [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
-    factory.createIdentifier("ASL"),
-    factory.createModuleBlock(functionNodes),
-    ts.NodeFlags.Namespace
-  );
+  // const exportNode = factory.createModuleDeclaration(
+  //   undefined,
+  //   [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
+  //   factory.createIdentifier("ASL"),
+  //   factory.createModuleBlock(functionNodes),
+  //   ts.NodeFlags.Namespace
+  //);
 
   let contents = "";
   for (const node of importNodes) {
@@ -208,6 +208,8 @@ for (const service of nativeIntegrations.services) {
   }
 
   contents += "\n\n";
-  contents = contents + printer.printNode(ts.EmitHint.Unspecified, exportNode, sourceFile) + "\n\n";
+  for (const functionNode of functionNodes) {
+    contents = contents + printer.printNode(ts.EmitHint.Unspecified, functionNode, sourceFile) + "\n\n";
+  }
   writeFileSync(filename, contents);
 }
