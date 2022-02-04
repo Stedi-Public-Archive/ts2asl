@@ -1,0 +1,27 @@
+{
+  "name": "ts2asl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "web.js",
+  "scripts": {
+    "test": "npx jest",
+    "package": "npx esbuild ./src/index.ts --outdir=packaged --format=esm --bundle --minify --target=chrome58",
+    "test:e2e": "npx jest --config ./jest.config.e2e.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "asl-lib": "file:../asl-lib",
+    "asl-types": "^1.2.1",
+    "aws-sdk": "^2.1058.0",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.8",
+    "jest": "^27.4.7",
+    "node-fetch": "^3.2.0",
+    "ts-jest": "^27.1.3"
+  }
+}

@@ -20,7 +20,7 @@ jobs:
       - name: Install Dependencies with NPM
         id: installation
         run: |
-          npm ci --no-optional
+          npm run bootstrap
       - name: Run Tests
         id: testing
         run: |
