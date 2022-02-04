@@ -46,7 +46,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
 
 export const aslDeclStyleCallExpression = (source: ts.SourceFile, expression: ts.Node) => {
   const aslCallExpression = aslStyleCallExpression(source, expression);
-  const operations = ["AsLambda", "AsStateMachine"];
+  const operations = ["asLambda", "asStateMachine"];
   if (aslCallExpression && operations.includes(aslCallExpression.operation)) {
 
     if (aslCallExpression.arguments.length !== 1) throw new Error(`ASL call expression must have 1 argument`);
@@ -61,8 +61,8 @@ export const aslDeclStyleCallExpression = (source: ts.SourceFile, expression: ts
 
 export const aslStyleCallExpression = (source: ts.SourceFile, expression: ts.Node) => {
   if (ts.isAwaitExpression(expression)) return aslStyleCallExpression(source, expression.expression);
-  if (ts.isCallExpression(expression) && ts.isPropertyAccessExpression(expression.expression)) {
-    if ("ASL" === expression.expression.expression.getText(source)) {
+  if (ts.isCallExpression(expression) && ts.isPropertyAccessExpression(expression.expression) && ts.isPropertyAccessExpression(expression.expression.expression)) {
+    if ("asl" === expression.expression.expression.expression.getText(source).toLowerCase()) {
       return {
         operation: expression.expression.name.getText(source),
         arguments: expression.arguments

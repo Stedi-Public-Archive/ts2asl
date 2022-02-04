@@ -20,47 +20,49 @@ describe("when converting source files", () => {
     const output = testTransform(code, transformers);
 
     expect(output).toMatchInlineSnapshot(`
-      "let completedActions = ASL.Pass({ Result: [] });
-      let getActionsArgs = ASL.Pass({ Result: { targetState: desiredStateTemplate, completedActions } });
-      let remainingActions = await ASL.Task({
-          TypescriptInvoke: getNextActions,
-          Input: getNextActionsArg
+      "let completedActions = asl.pass({
+          parameters: () => [],
+          comment: \\"completedActions: string[] = []\\"
       });
-      ASL.While({
-          Condition: {
-              Variable: remainingActions.length,
-              Not: { NumericEquals: 0 }
-          },
-          WhileInvoke: () => {
-              const results = await ASL.Task({
-                  TypescriptInvoke: performAction,
-                  Input: getActionsArgs
+      let getActionsArgs = asl.pass({
+          parameters: () => ({ targetState: desiredStateTemplate, completedActions }),
+          comment: \\"getActionsArgs = { targetState: desiredStateTemplate, completedActions }\\"
+      });
+      let remainingActions = await asl.typescriptInvoke({
+          target: getNextActions,
+          parameters: () => getNextActionsArg,
+          comment: \\"getNextActions(getNextActionsArg)\\"
+      });
+      asl.typescriptWhile({
+          condition: () => remainingActions.length !== 0,
+          block: () => {
+              const results = await asl.typescriptInvoke({
+                  target: performAction,
+                  parameters: () => getActionsArgs,
+                  comment: \\"performAction(getActionsArgs)\\"
               });
-              ASL.Choice({
-                  Choices: [
-                      {
-                          Variable: results[0].status,
-                          StringEquals: \\"failed\\",
-                          NextInvoke: () => {
-                              ASL.Fail({ Error: 'Error', Cause: 'task failed' })
-                          }
-                      }
-                  ]
-              });
-              ASL.Choice({
-                  Choices: [
-                      {
-                          Variable: results[0].status,
-                          Not: { StringEquals: \\"failed\\" },
-                          NextInvoke: () => {
-                              remainingActions = await ASL.Task({
-                                  TypescriptInvoke: getNextActions,
-                                  Input: getActionsArgs
-                              });
-                          }
-                      }
-                  ]
-              });
+              asl.typescriptIf({
+                  when: () => results[0].status === \\"failed\\",
+                  then: () => {
+                      asl.fail({
+                          error: \\"Error\\",
+                          cause: \\"task failed\\",
+                          comment: \\"throw new Error(\\\\\\"task failed\\\\\\")\\"
+                      })
+                  },
+                  comment: \\"if (results[0].status === \\\\\\"failed\\\\\\") {\\\\n      throw new Error(\\\\\\"task failed\\\\\\")\\\\n    }\\"
+              })
+              asl.typescriptIf({
+                  when: () => results[0].status !== \\"failed\\",
+                  then: () => {
+                      remainingActions = await asl.typescriptInvoke({
+                          target: getNextActions,
+                          parameters: () => getActionsArgs,
+                          comment: \\"getNextActions(getActionsArgs)\\"
+                      });
+                  },
+                  comment: \\"if (results[0].status !== \\\\\\"failed\\\\\\") {\\\\n      remainingActions = await getNextActions(getActionsArgs);\\\\n    }\\"
+              })
           }
       })"
     `);
@@ -76,15 +78,13 @@ describe("when converting source files", () => {
     const output = testTransform(code, transformers);
     expect(output).toMatchInlineSnapshot(`
       "let page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
-      ASL.While({
-          Condition: {
-              Variable: page.nextPageToken,
-              IsPresent: true
-          },
-          WhileInvoke: () => {
+      asl.typescriptWhile({
+          condition: () => page.nextPageToken,
+          block: () => {
               await ASL.Wait({ Seconds: 2 });
               page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
-          }
+          },
+          comment: \\"while (page.nextPageToken) {\\\\n            await ASL.Wait({ Seconds: 2 });\\\\n            page = await ASL.Task({ Resource: \\\\\\"arn:aws:states:::apigateway:invoke\\\\\\" });\\\\n        }\\"
       })"
     `);
   });

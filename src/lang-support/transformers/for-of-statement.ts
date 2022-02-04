@@ -2,12 +2,7 @@ import * as ts from 'typescript';
 import { ParserError } from '../../ParserError';
 import { convertToBlock } from './block-utility';
 import { isIdentifier } from './node-utility';
-import factory = ts.factory;
-
-const validExamples = `valid examples:
-for(const element of collection) { 
-  console.log(element) 
-} `
+import { TransformUtil } from './transform-utility';
 
 export const forOfStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
@@ -17,45 +12,19 @@ export const forOfStatementTransformer = <T extends ts.Node>(context: ts.Transfo
       if (!isIdentifier(node.expression)) throw new ParserError('for-of expression must be identifier', node);
       if (!ts.isVariableDeclarationList(node.initializer)) throw new ParserError('for-of expression must be initialized using decl list', node);
       if (node.initializer.declarations.length !== 1) throw new ParserError('for-of expression must be initialized single declaration', node);
+
       const decl = node.initializer.declarations[0];
+      const items = TransformUtil.createWrappedExpression("items", node.expression);
+      const iterator = TransformUtil.createFunction("iterator", (decl.name as ts.Identifier).text, convertToBlock(node.statement));
+      const comment = TransformUtil.createComment(node);
 
-
-      node =
-        factory.createCallExpression(
-          factory.createPropertyAccessExpression(
-            factory.createIdentifier("ASL"),
-            factory.createIdentifier("Map")
-          ),
-          undefined,
-          [factory.createObjectLiteralExpression(
-            [factory.createPropertyAssignment(
-              factory.createIdentifier("ItemsPath"),
-              node.expression,
-            ),
-            factory.createPropertyAssignment(
-              factory.createIdentifier("Iterator"),
-              factory.createArrowFunction(
-                undefined,
-                undefined,
-                [factory.createParameterDeclaration(
-                  undefined,
-                  undefined,
-                  undefined,
-                  decl.name as ts.Identifier,
-                  undefined,
-                  undefined,
-                  undefined
-                )],
-                undefined,
-                factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-                convertToBlock(node.statement)
-              )
-            )],
-            true
-          )]
-        );
-
-
+      const assignments: ts.PropertyAssignment[] = []
+      for (const assignment of [items, iterator, comment]) {
+        if (assignment) {
+          assignments.push(assignment);
+        }
+      }
+      node = TransformUtil.createAslInvoke("map", assignments);
     }
     return node;
   }

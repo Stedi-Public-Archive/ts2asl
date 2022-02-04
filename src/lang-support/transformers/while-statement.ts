@@ -1,56 +1,25 @@
 import * as ts from 'typescript';
-import { ParserError } from '../../ParserError';
 import { convertToBlock } from './block-utility';
-import { createChoice } from './choice-utility';
 import factory = ts.factory;
-
-
-const SingleQuote = true;
-
-const validExamples = `valid examples:
-- while(variable === "val") { variable = GetNext(); }`
+import { TransformUtil } from './transform-utility';
 
 export const whileStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
     if (ts.isWhileStatement(node)) {
 
-      var { variableAssignment, choiceAssignment } = createChoice(factory, node.expression);
-      var block = convertToBlock(node.statement);
+      const condition = TransformUtil.createWrappedExpression("condition", node.expression);
+      const block = TransformUtil.createNamedBlock("block", convertToBlock(node.statement));
+      const comment = TransformUtil.createComment(node);
 
-      node = factory.createCallExpression(
-        factory.createPropertyAccessExpression(
-          factory.createIdentifier("ASL"),
-          factory.createIdentifier("While")
-        ),
-        undefined,
-        [factory.createObjectLiteralExpression(
-          [
-            factory.createPropertyAssignment(
-              factory.createIdentifier("Condition"),
-              factory.createObjectLiteralExpression(
-                [
-                  variableAssignment,
-                  choiceAssignment
-                ],
-                true
-              )
-            ),
-            factory.createPropertyAssignment(
-              factory.createIdentifier("WhileInvoke"),
-              factory.createArrowFunction(
-                undefined,
-                undefined,
-                [],
-                undefined,
-                factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-                block
-              )
-            )
-          ],
-          true
-        )]
-      );
+      const assignments: ts.PropertyAssignment[] = []
+      for (const assignment of [condition, block, comment]) {
+        if (assignment) {
+          assignments.push(assignment);
+        }
+      }
+
+      node = TransformUtil.createAslInvoke("typescriptWhile", assignments);
     }
     return node;
   }

@@ -6,7 +6,7 @@ describe("when transpiling block statements", () => {
     ASL.Choice({
       Choices: [
           {
-              Variable: "$.results[0].status",
+              Variable: results[0].status,
               StringEquals: "failed",
               NextInvoke: () => {
                   color = ASL.Pass({ Result: "red" });

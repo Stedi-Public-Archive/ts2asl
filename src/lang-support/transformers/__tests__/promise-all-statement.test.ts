@@ -13,12 +13,12 @@ describe("when converting Promise.all statement", () => {
         promiseAllStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "await ASL.Parallel({
-          Branches: [{
-                  BlockInvoke: () => { turnLeft() }
-              }, {
-                  BlockInvoke: () => { turnRight() }
-              }]
+      "await asl.parallel({
+          branches: [
+              () => { turnLeft() },
+              () => { turnRight() }
+          ],
+          comment: \\"Promise.all(\\\\n          [\\\\n            turnLeft(),\\\\n            turnRight()\\\\n          ])\\"
       });"
     `);
   });
@@ -34,12 +34,12 @@ describe("when converting Promise.all statement", () => {
         promiseAllStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "await ASL.Parallel({
-          Branches: [{
-                  BlockInvoke: () => { console.log('a'); }
-              }, {
-                  BlockInvoke: () => { console.log('b'); }
-              }]
+      "await asl.parallel({
+          branches: [
+              () => { console.log('a'); },
+              () => { console.log('b'); }
+          ],
+          comment: \\"Promise.all(\\\\n            [\\\\n              () => { console.log('a'); },\\\\n              () => { console.log('b'); }\\\\n            ])\\"
       });"
     `);
   });

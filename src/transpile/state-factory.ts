@@ -16,7 +16,7 @@ export class StateFactory {
     if (!ts.isIdentifier(callExpression.expression.expression)) throw new Error("Call expression expected to have Property access expression");
     let type = callExpression.expression.name.text;
     const ASL = callExpression.expression.expression.text;
-    if (ASL !== "ASL") throw new Error("Call expression expected to be on ASL method");
+    if (ASL.toLowerCase() !== "asl") throw new Error("Call expression expected to be on ASL method");
     const name = this.names.getOrCreateName(callExpression, (nameSuggestion ?? type) ?? "State")
 
 
@@ -59,7 +59,7 @@ export class StateFactory {
       if (type === "While") {
         type = "Parallel";
         const originalArg = { ...argument } as While;
-        const stateMachine = originalArg.WhileInvoke as unknown as asl.StateMachine;
+        const stateMachine = originalArg.block as unknown as asl.StateMachine;
         for (const [name, state] of Object.entries(stateMachine.States)) {
           if (NarrowTerminatingState(state)) {
             if (state.End === true) {
@@ -82,7 +82,7 @@ export class StateFactory {
         stateMachine.States["_WhileCondition"] = {
           Type: "Choice",
           Choices: [
-            { Next: stateMachine.StartAt, ...originalArg.Condition }
+            { Next: stateMachine.StartAt, ...originalArg.condition }
           ],
           Default: "_WhileExit"
         } as asl.Choice;
@@ -231,8 +231,6 @@ class Names {
   takenNames: Map<ts.Node, string> = new Map();
 
   getOrCreateName(node: ts.Node, baseName: string): string {
-
-
     if (this.takenNames.has(node)) {
       return this.takenNames.get(node) as string;
     }
@@ -250,5 +248,4 @@ class Names {
 
     return baseName + postFix;
   }
-
 }

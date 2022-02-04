@@ -7,37 +7,25 @@ describe("when converting return statements", () => {
   it("then return statement will become ASL.Succeed", () => {
     expect(
       testTransform("return;", returnStatementTransformer)
-    ).toMatchInlineSnapshot(`"ASL.Succeed();"`);
+    ).toMatchInlineSnapshot(`"return;"`);
   });
 
   it("then return statement can return literal", () => {
-    expect(testTransform("return 12;", returnStatementTransformer))
-      .toMatchInlineSnapshot(`
-      "ASL.Multiple({
-          First: ASL.Pass({ Result: 12, ResultPath: \\"$\\" }),
-          Second: ASL.Succeed({})
-      });"
-    `);
+    expect(
+      testTransform("return 12;", returnStatementTransformer)
+    ).toMatchInlineSnapshot(`"return 12;"`);
   });
 
   it("then return statement can return identifier", () => {
-    expect(testTransform("return result;", returnStatementTransformer))
-      .toMatchInlineSnapshot(`
-      "ASL.Multiple({
-          First: ASL.Pass({ Result: result, ResultPath: \\"$\\" }),
-          Second: ASL.Succeed({})
-      });"
-    `);
+    expect(
+      testTransform("return result;", returnStatementTransformer)
+    ).toMatchInlineSnapshot(`"return result;"`);
   });
 
   it("then return statement can return property access expression", () => {
-    expect(testTransform("return result.val;", returnStatementTransformer))
-      .toMatchInlineSnapshot(`
-      "ASL.Multiple({
-          First: ASL.Pass({ Result: result.val, ResultPath: \\"$\\" }),
-          Second: ASL.Succeed({})
-      });"
-    `);
+    expect(
+      testTransform("return result.val;", returnStatementTransformer)
+    ).toMatchInlineSnapshot(`"return result.val;"`);
   });
 
   it("then return statement can return call statement", () => {
@@ -47,11 +35,9 @@ describe("when converting return statements", () => {
         callStatementTransformer
       ])
     ).toMatchInlineSnapshot(`
-      "ASL.Multiple({
-          First: ASL.Pass({ Result: ASL.Task({
-                  TypescriptInvoke: xxx
-              }), ResultPath: \\"$\\" }),
-          Second: ASL.Succeed({})
+      "return asl.typescriptInvoke({
+          target: xxx,
+          comment: \\"xxx()\\"
       });"
     `);
   });

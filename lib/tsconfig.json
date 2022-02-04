@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    // "module": "es2015",
     "allowJs": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "declaration": true,
     "esModuleInterop": true,
     "outDir": "./lib",

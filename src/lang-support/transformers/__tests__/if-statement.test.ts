@@ -10,15 +10,15 @@ describe("when converting if statements", () => {
         [ifStatementTransformer, throwStatementTransformer]
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
-              {
-                  Variable: password,
-                  StringEquals: 'pwd',
-                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
-              }
-          ]
-      });"
+      "asl.typescriptIf({
+          when: () => password === 'pwd',
+          then: () => { asl.fail({
+              error: \\"Error\\",
+              cause: \\"wrong password\\",
+              comment: \\"throw new Error('wrong password');\\"
+          }) },
+          comment: \\"if (password === 'pwd') throw new Error('wrong password');\\"
+      })"
     `);
   });
 
@@ -29,15 +29,15 @@ describe("when converting if statements", () => {
         [ifStatementTransformer, throwStatementTransformer]
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
-              {
-                  Variable: password,
-                  StringEquals: 'pwd',
-                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
-              }
-          ]
-      });"
+      "asl.typescriptIf({
+          when: () => password === 'pwd',
+          then: () => { asl.fail({
+              error: \\"Error\\",
+              cause: \\"wrong password\\",
+              comment: \\"throw new Error('wrong password');\\"
+          }) },
+          comment: \\"if (password === 'pwd') { throw new Error('wrong password'); }\\"
+      })"
     `);
   });
 
@@ -48,15 +48,15 @@ describe("when converting if statements", () => {
         [ifStatementTransformer, throwStatementTransformer]
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
-              {
-                  Variable: password,
-                  Not: { StringEquals: 'pwd' },
-                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
-              }
-          ]
-      });"
+      "asl.typescriptIf({
+          when: () => password !== 'pwd',
+          then: () => { asl.fail({
+              error: \\"Error\\",
+              cause: \\"wrong password\\",
+              comment: \\"throw new Error('wrong password');\\"
+          }) },
+          comment: \\"if (password !== 'pwd') { throw new Error('wrong password'); }\\"
+      })"
     `);
   });
 
@@ -67,15 +67,11 @@ describe("when converting if statements", () => {
         throwStatementTransformer
       ])
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
-              {
-                  Variable: age,
-                  NumericGreaterThan: 18,
-                  NextInvoke: () => { console.log(); }
-              }
-          ]
-      });"
+      "asl.typescriptIf({
+          when: () => age > 18,
+          then: () => { console.log(); },
+          comment: \\"if (age > 18) console.log();\\"
+      })"
     `);
   });
 
@@ -86,15 +82,11 @@ describe("when converting if statements", () => {
         ifStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
-              {
-                  Variable: optIn,
-                  StringEquals: true,
-                  NextInvoke: () => { console.log(); }
-              }
-          ]
-      });"
+      "asl.typescriptIf({
+          when: () => optIn === true,
+          then: () => { console.log(); },
+          comment: \\"if (optIn === true) console.log();\\"
+      })"
     `);
   });
 
@@ -103,15 +95,11 @@ describe("when converting if statements", () => {
     expect(
       testTransform("if (lhs === rhs) console.log();", ifStatementTransformer)
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
-              {
-                  Variable: lhs,
-                  StringEquals: rhs,
-                  NextInvoke: () => { console.log(); }
-              }
-          ]
-      });"
+      "asl.typescriptIf({
+          when: () => lhs === rhs,
+          then: () => { console.log(); },
+          comment: \\"if (lhs === rhs) console.log();\\"
+      })"
     `);
   });
 
@@ -122,16 +110,12 @@ describe("when converting if statements", () => {
         ifStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
-              {
-                  Variable: lhs,
-                  StringEquals: rhs,
-                  NextInvoke: () => { console.log(); }
-              }
-          ],
-          DefaultInvoke: () => { console.log(); }
-      });"
+      "asl.typescriptIf({
+          when: () => lhs === rhs,
+          then: () => { console.log(); },
+          else: () => { console.log(); },
+          comment: \\"if (lhs === rhs) console.log(); else console.log();\\"
+      })"
     `);
   });
 
@@ -142,16 +126,12 @@ describe("when converting if statements", () => {
         ifStatementTransformer
       )
     ).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
-              {
-                  Variable: lhs,
-                  StringEquals: rhs,
-                  NextInvoke: () => { console.log(); }
-              }
-          ],
-          DefaultInvoke: () => { console.log(); }
-      });"
+      "asl.typescriptIf({
+          when: () => lhs === rhs,
+          then: () => { console.log(); },
+          else: () => { console.log(); },
+          comment: \\"if (lhs === rhs) console.log(); else console.log();\\"
+      })"
     `);
   });
 

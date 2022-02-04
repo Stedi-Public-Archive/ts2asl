@@ -15,24 +15,21 @@ describe("when converting examples", () => {
 
     console.log(printedAslLibCode);
     expect(printedAslLibCode).toMatchInlineSnapshot(`
-      "ASL.Parallel({
-          Branches: [
+      "asl.tryExpression({
+          try: () => { ASL.Task({
+              TypescriptInvoke: doWork
+          }); },
+          catch: [
               {
-                  BlockInvoke: () => { ASL.Task({
-                      TypescriptInvoke: doWork
-                  }); }
-              }
-          ],
-          Catch: [
-              {
-                  ErrorEquals: [
+                  errorFilter: [
                       \\"States.All\\"
                   ],
-                  NextInvoke: () => { ASL.Task({
+                  block: () => { ASL.Task({
                       TypescriptInvoke: revert
                   }); }
               }
-          ]
+          ],
+          comment: \\"try { doWork(); } catch { revert(); }\\"
       });
       "
     `);

@@ -20,12 +20,9 @@ describe("when converting examples", () => {
       "let page = ASL.Task({
           TypescriptInvoke: getPage
       });
-      ASL.While({
-          Condition: {
-              Variable: page.nextPageToken,
-              IsPresent: true
-          },
-          WhileInvoke: () => {
+      asl.whileLoop({
+          condition: () => page.nextPageToken,
+          block: () => {
               page = ASL.Task({
                   TypescriptInvoke: getPage
               });

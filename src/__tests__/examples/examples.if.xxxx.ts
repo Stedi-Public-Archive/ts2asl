@@ -17,24 +17,22 @@ if (age < 18) throw new Error('minor'); else proceed();`;
     const printedAslLibCode = printer.printFile(aslLibCode);
     console.log(printedAslLibCode);
     expect(printedAslLibCode).toMatchInlineSnapshot(`
-      "ASL.Choice({
-          Choices: [
+      "asl.choice({
+          choices: [
               {
-                  Variable: password,
-                  Not: { StringEquals: 'pwd' },
-                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
+                  when: password !== 'pwd',
+                  then: () => { ASL.Fail({ Error: 'Error', Cause: 'wrong password' }) }
               }
           ]
       });
-      ASL.Choice({
-          Choices: [
+      asl.choice({
+          choices: [
               {
-                  Variable: age,
-                  NumericLessThan: 18,
-                  NextInvoke: () => { ASL.Fail({ Error: 'Error', Cause: 'minor' }) }
+                  when: age < 18,
+                  then: () => { ASL.Fail({ Error: 'Error', Cause: 'minor' }) }
               }
           ],
-          DefaultInvoke: () => { ASL.Task({
+          default: () => { ASL.Task({
               TypescriptInvoke: proceed
           }); }
       });
