@@ -1,10 +1,12 @@
 import ts from "typescript"
+import * as iasl from "../intermediary-asl/ast"
 import asl from "asl-types"
 import path from "path";
 import { FunctionDeclaration, listFunctionDeclarations } from "./list-function-declarations";
 import { transformBody } from "../lang-support";
-import { transpile } from "../transpile";
+import { convertToASl } from "../asl";
 import { readFileSync } from "fs";
+import { convertToIntermediaryAsl } from "../intermediary-asl";
 
 export class Converter {
 
@@ -19,8 +21,26 @@ export class Converter {
     if (main.kind !== "asl") throw new Error("main function must be defined as ASL.StateMachine");
 
     const transformed = transformBody(main.body);
-    const transpiled = transpile(transformed, main.argumentName);
-    return transpiled;
+    const transpiled = convertToIntermediaryAsl(transformed);
+    return convertToASl(transpiled)!
+  }
+  convertToTransformedBody(): string {
+    const main = this.declarations.find(x => x.name === "main");
+    if (!main) throw new Error("no main function found");
+    if (main.kind !== "asl") throw new Error("main function must be defined as ASL.StateMachine");
+
+    const transformed = transformBody(main.body);
+    const printer: ts.Printer = ts.createPrinter();
+    return printer.printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile);
+  }
+
+  convertToIasl(): iasl.Expression[] {
+    const main = this.declarations.find(x => x.name === "main");
+    if (!main) throw new Error("no main function found");
+    if (main.kind !== "asl") throw new Error("main function must be defined as ASL.StateMachine");
+
+    const transformed = transformBody(main.body);
+    return convertToIntermediaryAsl(transformed);
   }
 
 

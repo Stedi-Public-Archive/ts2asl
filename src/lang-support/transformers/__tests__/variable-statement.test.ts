@@ -6,7 +6,7 @@ describe("when converting variable statements", () => {
     expect(testTransform("let abc = 'hello';", variableStatementTransformer))
       .toMatchInlineSnapshot(`
       "let abc = asl.pass({
-          result: () => 'hello',
+          parameters: () => 'hello',
           comment: \\"abc = 'hello'\\"
       });"
     `);
@@ -15,7 +15,7 @@ describe("when converting variable statements", () => {
     expect(testTransform("let abc  = 43;", variableStatementTransformer))
       .toMatchInlineSnapshot(`
       "let abc = asl.pass({
-          result: () => 43,
+          parameters: () => 43,
           comment: \\"abc  = 43\\"
       });"
     `);
@@ -29,7 +29,7 @@ describe("when converting variable statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "let abc = asl.pass({
-          result: () => ({ number: 43, text: 'hello' }),
+          parameters: () => ({ number: 43, text: 'hello' }),
           comment: \\"abc = {number: 43; text: 'hello'}\\"
       });"
     `);

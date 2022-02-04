@@ -40,14 +40,14 @@ describe("when transpiling simple statements", () => {
         "States": Object {
           "Assign complexVariableAssignment": Object {
             "Comment": undefined,
-            "InputPath": "anotherVar.path[$.something.pointer].leaf",
+            "InputPath": "anotherVar.path[$.something.pointer]leaf",
             "Next": "Assign literalArrayAccessExpression",
             "ResultPath": "$.complexVariableAssignment",
             "Type": "Pass",
           },
           "Assign literalArrayAccessExpression": Object {
             "Comment": undefined,
-            "InputPath": "anotherVar.path[0].leaf",
+            "InputPath": "anotherVar.path[0]leaf",
             "Next": "Assign objectLiteral",
             "ResultPath": "$.literalArrayAccessExpression",
             "Type": "Pass",

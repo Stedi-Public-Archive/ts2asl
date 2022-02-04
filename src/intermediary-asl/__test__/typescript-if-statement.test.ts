@@ -32,7 +32,7 @@ describe("when converting if statement to iasl", () => {
             },
           },
           "then": Object {
-            "expressions": Array [
+            "statements": Array [
               Object {
                 "_syntaxKind": "asl-fail-state",
                 "cause": "wrong password",

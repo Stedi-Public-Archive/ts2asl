@@ -26,7 +26,7 @@ describe("when converting while look to iasl", () => {
             },
           },
           "while": Object {
-            "expressions": Array [
+            "statements": Array [
               Object {
                 "_syntaxKind": "asl-wait-state",
                 "seconds": Object {

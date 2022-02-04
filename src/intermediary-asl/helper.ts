@@ -1,11 +1,11 @@
 import * as ts from "typescript"
 import { convertExpressionToLiteralOrIdentifier } from ".";
-import * as iast from "./ast"
+import * as iasl from "./ast"
 
-export const convertToIdentifier = (expression: ts.Expression | ts.BindingName): iast.Identifier | undefined => {
+export const convertToIdentifier = (expression: ts.Expression | ts.BindingName): iasl.Identifier | undefined => {
 
   if (ts.isIdentifier(expression)) {
-    return { identifier: expression.text, _syntaxKind: iast.SyntaxKind.Identifier } as iast.Identifier;
+    return { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, } as iasl.Identifier;
   }
 
 
@@ -34,15 +34,15 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName):
 
   let pathAsString = path.reverse().join(".")
   if (ts.isPropertyAccessExpression(expression)) {
-    return { identifier: `${pathAsString}.${expression.name.text}`, _syntaxKind: iast.SyntaxKind.Identifier } as iast.Identifier;
+    return { identifier: `${pathAsString}.${expression.name.text}`, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier;
   } else if (ts.isElementAccessExpression(expression)) {
     const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression);
     return {
       identifier: pathAsString,
       indexExpression: convertedIndexExpression,
       lhs: convertToIdentifier(expression.expression),
-      _syntaxKind: iast.SyntaxKind.Identifier,
-    } as iast.Identifier
+      _syntaxKind: iasl.SyntaxKind.Identifier,
+    } as iasl.Identifier
   }
   return undefined;
 }

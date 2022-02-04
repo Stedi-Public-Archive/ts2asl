@@ -15,7 +15,7 @@ describe("when converting call statements", () => {
         removeUnnecessaryExpressionsTransformer
       )
     ).toMatchInlineSnapshot(`
-      "for (const item of (scan.Items)) {
+      "for (const item of (scan.Items as unknown as Item[])) {
           for (const threshold of thresholds) {
           }
       }"

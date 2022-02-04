@@ -1,8 +1,8 @@
-import * as iast from "../intermediary-asl/ast"
+import * as iasl from "../intermediary-asl/ast"
 import * as asl from "asl-types";
 import { AslFactory } from "./aslfactory";
 
-export const convertToASl = (statements: iast.Expression[], context: ConversionContext = new ConversionContext()): asl.StateMachine | undefined => {
+export const convertToASl = (statements: iasl.Expression[], context: ConversionContext = new ConversionContext()): asl.StateMachine | undefined => {
 
   for (const statement of statements) {
     AslFactory.append(statement, context);
@@ -34,6 +34,13 @@ export class ConversionContext {
     return nameSuggestion + postFix;
   }
 
+  appendState(state: asl.State, nameSuggestion?: string) {
+    const name = this.createName(nameSuggestion ?? state.Type);
+    this.states[name] = state;
+
+    return name;
+  }
+
   appendNextState(state: asl.State, nameSuggestion?: string) {
     const name = this.createName(nameSuggestion ?? state.Type);
 
@@ -45,10 +52,15 @@ export class ConversionContext {
       trailingState.Next = name;
     }
 
-    this.trailingStates = isNonTerminalState(state) ? [state] : []
+    this.trailingStates = isNonTerminalState(state) && state.Type != "Choice" ? [state] : []
+    return name;
   }
 
   finalize(): asl.StateMachine | undefined {
+    if (Object.entries(this.states).length === 0) {
+      this.appendNextState({ Type: "Succeed" }, "Empty")
+    }
+
     for (const trailingState of this.trailingStates) {
       trailingState.End = true;
     }

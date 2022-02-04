@@ -18,7 +18,7 @@ describe("when converting choice statement to iasl", () => {
           "choices": Array [
             Object {
               "then": Object {
-                "expressions": Array [
+                "statements": Array [
                   Object {
                     "_syntaxKind": "asl-fail-state",
                     "cause": "bad luck",
@@ -46,7 +46,7 @@ describe("when converting choice statement to iasl", () => {
             },
           ],
           "default": Object {
-            "expressions": Array [
+            "statements": Array [
               Object {
                 "_syntaxKind": "return",
               },

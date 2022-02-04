@@ -15,14 +15,14 @@ describe("when converting choice statement to iasl", () => {
           "_syntaxKind": "asl-parallel-state",
           "branches": Array [
             Object {
-              "expressions": Array [
+              "statements": Array [
                 Object {
                   "_syntaxKind": "return",
                 },
               ],
             },
             Object {
-              "expressions": Array [
+              "statements": Array [
                 Object {
                   "_syntaxKind": "asl-fail-state",
                 },

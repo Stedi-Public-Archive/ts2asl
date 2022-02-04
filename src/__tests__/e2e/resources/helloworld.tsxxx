@@ -1,0 +1,6 @@
+import { deploy } from "asl-lib/lib/asl";
+
+export const main = deploy.asStateMachine(() => {
+  const message = "hello world";
+  return;
+});

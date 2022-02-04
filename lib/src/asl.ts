@@ -12,6 +12,7 @@ export interface AslState { }
 // export type Parallel_ = Omit<asl.Parallel, "Type" | "Branches"> & { branches: Function[] };
 
 export type While = { condition: () => boolean; block: Function };
+export type DoWhile = { block: Function; condition: () => boolean };
 export type If = { condition: boolean | (() => boolean), then: Function; else: Function };
 export declare type CatchConfiguration = Array<{
   errorFilter: string[];
@@ -28,11 +29,6 @@ export declare type RetryConfiguration = Array<{
 export interface Wait {
   seconds?: number | (() => number);
   timestamp?: string | (() => string);
-  comment?: string;
-}
-export interface Parallel {
-  branches: Function[];
-  input: unknown | (() => unknown);
   comment?: string;
 }
 
@@ -65,10 +61,10 @@ export interface Fail {
   comment?: string;
 }
 
-export interface Map {
+export interface Map<T> {
   parameters?: unknown | (() => unknown);
-  items: [] | undefined | (() => []);
-  iterator: (item: unknown) => {};
+  items: T[] | undefined | (() => T[]);
+  iterator: (item: T) => {};
   maxConcurrency?: number;
   comment?: string;
 }
@@ -77,9 +73,10 @@ export interface Map {
 export interface Succeed {
   comment?: string;
 }
-export interface Parallel {
-  input: unknown | (() => unknown);
-  branches: Function[];
+
+export interface Parallel<T> {
+  items: T[] | undefined | (() => T[]);
+  branches: ((item: T) => {})[],
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
   comment?: string;
@@ -97,13 +94,18 @@ export interface Choice {
   comment?: string;
 }
 
-
-
 export const typescriptInvoke = async (args: Invoke) => {
   return {} as AslState;
 }
 
 export const typescriptTry = async (args: Try) => {
+  return {} as AslState;
+}
+
+export const typescriptDoWhile = async (args: DoWhile) => {
+  do {
+    args.block();
+  } while (typeof args.condition === "function" ? args.condition() : args)
   return {} as AslState;
 }
 
@@ -125,7 +127,7 @@ export const wait = async (args: Wait) => {
   await internalWaitSeconds(args.seconds as number);
 }
 
-export const parallel = async (args: Parallel) => {
+export const parallel = async <Item>(args: Parallel<Item>) => {
   return {} as AslState;
 }
 
@@ -133,7 +135,7 @@ export const choice = async (args: Choice) => {
   return {} as AslState;
 }
 
-export const map = async (args: Map) => {
+export const map = async <Item>(args: Map<Item>) => {
   return {} as AslState;
 }
 
@@ -147,16 +149,4 @@ export const succeed = (x: Succeed) => {
 
 export const fail = (x: Fail) => {
   throw new Error(x.cause);
-}
-export namespace Deploy {
-
-  export const asLambda = <T>(fn: T) => {
-    (fn as any).lambda = true;
-    return fn as AslLambdaFunction & T;
-  }
-
-  export const asStateMachine = <T>(fn: T) => {
-    (fn as any).asl = true;
-    return fn as AslStateMachine & T;
-  }
 }

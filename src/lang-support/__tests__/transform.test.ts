@@ -21,31 +21,25 @@ describe("when converting source files", () => {
 
     expect(output).toMatchInlineSnapshot(`
       "let completedActions = asl.pass({
-          result: () => [],
+          parameters: () => [],
           comment: \\"completedActions: string[] = []\\"
       });
       let getActionsArgs = asl.pass({
-          result: () => ({ targetState: desiredStateTemplate, completedActions }),
+          parameters: () => ({ targetState: desiredStateTemplate, completedActions }),
           comment: \\"getActionsArgs = { targetState: desiredStateTemplate, completedActions }\\"
       });
-      let remainingActions = asl.pass({
-          result: () => await asl.typescriptInvoke({
-              target: getNextActions,
-              parameters: () => getNextActionsArg,
-              comment: \\"getNextActions(getNextActionsArg)\\"
-          }),
-          comment: \\"remainingActions = await getNextActions(getNextActionsArg)\\"
+      let remainingActions = await asl.typescriptInvoke({
+          target: getNextActions,
+          parameters: () => getNextActionsArg,
+          comment: \\"getNextActions(getNextActionsArg)\\"
       });
       asl.typescriptWhile({
           condition: () => remainingActions.length !== 0,
           block: () => {
-              const results = asl.pass({
-                  result: () => await asl.typescriptInvoke({
-                      target: performAction,
-                      parameters: () => getActionsArgs,
-                      comment: \\"performAction(getActionsArgs)\\"
-                  }),
-                  comment: \\"results = await performAction(getActionsArgs)\\"
+              const results = await asl.typescriptInvoke({
+                  target: performAction,
+                  parameters: () => getActionsArgs,
+                  comment: \\"performAction(getActionsArgs)\\"
               });
               asl.typescriptIf({
                   when: () => results[0].status === \\"failed\\",
@@ -83,10 +77,7 @@ describe("when converting source files", () => {
             `;
     const output = testTransform(code, transformers);
     expect(output).toMatchInlineSnapshot(`
-      "let page = asl.pass({
-          result: () => await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" }),
-          comment: \\"page = await ASL.Task({ Resource: \\\\\\"arn:aws:states:::apigateway:invoke\\\\\\" })\\"
-      });
+      "let page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
       asl.typescriptWhile({
           condition: () => page.nextPageToken,
           block: () => {

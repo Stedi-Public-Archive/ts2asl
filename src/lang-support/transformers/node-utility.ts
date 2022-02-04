@@ -1,3 +1,4 @@
+import { userInfo } from 'os';
 import * as ts from 'typescript';
 
 export const findParent = (node: ts.Node, predicate: (node: ts.Node) => boolean) => {
@@ -15,5 +16,20 @@ export const isLiteralOrIdentifier = (node?: ts.Node): node is ts.Identifier | t
 }
 
 export const isIdentifier = (node?: ts.Node): node is ts.Identifier | ts.PropertyAccessExpression => {
-  return (node !== undefined && (ts.isIdentifier(node) || ts.isPropertyAccessExpression(node)));
+  return (node !== undefined && ((ts.isIdentifier(node) || ts.isPropertyAccessExpression(node)) || ts.isParenthesizedExpression(node) && isIdentifier(node.expression) || (ts.isAsExpression(node) && isIdentifier(node.expression))));
+}
+
+
+export const isAslCallExpression = (node: ts.CallExpression) => {
+  let parts: string[] = [];
+  let context = node.expression;
+
+  while (ts.isPropertyAccessExpression(context)) {
+    parts.push(context.name.text);
+    context = context.expression;
+  }
+  if (ts.isIdentifier(context) && context.text.toLowerCase() === "asl") {
+    return parts.reverse().join(".");
+  }
+  return undefined;
 }

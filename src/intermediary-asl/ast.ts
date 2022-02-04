@@ -13,6 +13,7 @@ export enum SyntaxKind {
   TryStatement = "try",
   CaseStatement = "case",
   WhileStatement = "while",
+  DoWhileStatement = "do-while",
   ReturnStatement = "return",
   AslWaitState = "asl-wait-state",
   AslParallelState = "asl-parallel-state",
@@ -25,79 +26,71 @@ export enum SyntaxKind {
 }
 
 export class Check {
-  static isIdentifier(expr: Identifier | Expression): expr is Identifier {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Identifier;
+  static isIdentifier(expr: Identifier | Expression | undefined): expr is Identifier {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Identifier;
   }
-  static isLiteralArray(expr: Identifier | Expression): expr is LiteralArrayExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.LiteralArray;
+  static isLiteralArray(expr: Identifier | Expression | undefined): expr is LiteralArrayExpression {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.LiteralArray;
   }
-  static isLiteral(expr: Identifier | Expression): expr is LiteralExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Literal;
+  static isLiteral(expr: Identifier | Expression | undefined): expr is LiteralExpression {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Literal;
   }
-  static isLiteralObject(expr: Identifier | Expression): expr is LiteralObjectExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.LiteralObject;
+  static isLiteralObject(expr: Identifier | Expression | undefined): expr is LiteralObjectExpression {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.LiteralObject;
   }
-  static isFunction(expr: Identifier | Expression): expr is Function {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Function;
+  static isFunction(expr: Identifier | Expression | undefined): expr is Function {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Function;
   }
-  static isBinaryExpression(expr: Identifier | Expression): expr is BinaryExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.BinaryExpression;
+  static isBinaryExpression(expr: Identifier | Expression | undefined): expr is BinaryExpression {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.BinaryExpression;
   }
-  static isVariableAssignment(expr: Identifier | Expression): expr is VariableAssignmentStatement {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.VariableAssignmentStatement;
+  static isVariableAssignment(expr: Identifier | Expression | undefined): expr is VariableAssignmentStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.VariableAssignmentStatement;
   }
-  static isIfExpression(expr: Identifier | Expression): expr is IfExpression {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.IfStatement;
+  static isIfExpression(expr: Identifier | Expression | undefined): expr is IfExpression {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.IfStatement;
   }
-  static isTryExpression(expr: Identifier | Expression): expr is TryStatement {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.TryStatement;
+  static isTryExpression(expr: Identifier | Expression | undefined): expr is TryStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.TryStatement;
   }
-
-  static isCaseStatement(expr: Identifier | Expression): expr is CaseStatement {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.CaseStatement;
+  static isCaseStatement(expr: Identifier | Expression | undefined): expr is CaseStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.CaseStatement;
   }
-  static isWhileStatement(expr: Identifier | Expression): expr is WhileStatement {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.WhileStatement;
+  static isWhileStatement(expr: Identifier | Expression | undefined): expr is WhileStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.WhileStatement;
   }
-
-  static isReturnStatement(expr: Identifier | Expression): expr is ReturnStatement {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ReturnStatement;
+  static isDoWhileStatement(expr: Identifier | Expression | undefined): expr is DoWhileStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.DoWhileStatement;
   }
-
-  static isAslWaitState(expr: Identifier | Expression): expr is WaitState {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslWaitState;
+  static isReturnStatement(expr: Identifier | Expression | undefined): expr is ReturnStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ReturnStatement;
   }
-
-  static isAslParallelState(expr: Identifier | Expression): expr is ParallelState {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslParallelState;
+  static isAslWaitState(expr: Identifier | Expression | undefined): expr is WaitState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslWaitState;
   }
-
-  static isAslPassState(expr: Identifier | Expression): expr is PassState {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslPassState;
+  static isAslParallelState(expr: Identifier | Expression | undefined): expr is ParallelState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslParallelState;
   }
-
-  static isAslTaskState(expr: Identifier | Expression): expr is TaskState {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslTaskState;
+  static isAslPassState(expr: Identifier | Expression | undefined): expr is PassState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslPassState;
   }
-
-  static isAslChoiceState(expr: Identifier | Expression): expr is ChoiceState {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslChoiceState;
+  static isAslTaskState(expr: Identifier | Expression | undefined): expr is TaskState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslTaskState;
   }
-
-  static isAslMapState(expr: Identifier | Expression): expr is MapState {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslMapState;
+  static isAslChoiceState(expr: Identifier | Expression | undefined): expr is ChoiceState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslChoiceState;
   }
-
-  static isAslFailState(expr: Identifier | Expression): expr is FailState {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslFailState;
+  static isAslMapState(expr: Identifier | Expression | undefined): expr is MapState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslMapState;
   }
-
-  static isAslSucceedState(expr: Identifier | Expression): expr is SucceedState {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslSucceedState;
+  static isAslFailState(expr: Identifier | Expression | undefined): expr is FailState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslFailState;
   }
-
-  static isAslIntrinsicFunction(expr: Identifier | Expression): expr is AslIntrinsicFunction {
-    return expr && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslIntrinsicFunction;
+  static isAslSucceedState(expr: Identifier | Expression | undefined): expr is SucceedState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslSucceedState;
+  }
+  static isAslIntrinsicFunction(expr: Identifier | Expression | undefined): expr is AslIntrinsicFunction {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslIntrinsicFunction;
   }
 }
 
@@ -106,6 +99,7 @@ export interface Identifier {
   identifier: string;
   indexExpression?: Identifier | Expression;
   lhs?: Identifier;
+  type: Type;
   _syntaxKind: SyntaxKind.Identifier;
 }
 
@@ -114,7 +108,7 @@ export interface Expression {
   comment?: string;
 }
 
-export type BinaryOperator = "not" | "is-present" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
+export type BinaryOperator = "and" | "or" | "not" | "is-present" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
 
 export interface BinaryExpression extends Expression {
   _syntaxKind: SyntaxKind.BinaryExpression;
@@ -128,12 +122,15 @@ export type LiteralExpressionLike = LiteralExpression | LiteralObjectExpression 
 export interface LiteralExpression extends Expression {
   _syntaxKind: SyntaxKind.Literal;
   value: string | boolean | number | null;
-  type: "string" | "boolean" | "numeric" | "timestamp" | "null";
+  type: Type;
 }
+
+export type Type = "string" | "boolean" | "numeric" | "timestamp" | "object" | "array" | "unknown" | "null";
 
 export interface AslIntrinsicFunction extends Expression {
   _syntaxKind: SyntaxKind.AslIntrinsicFunction;
   function: string;
+  type: Type;
   arguments: Array<Identifier | LiteralExpressionLike>;
 }
 
@@ -169,6 +166,14 @@ export interface CaseStatement extends Expression {
   default?: Block;
 }
 
+
+
+export interface DoWhileStatement extends Expression {
+  _syntaxKind: SyntaxKind.DoWhileStatement;
+  while: Block;
+  condition: BinaryExpression;
+}
+
 export interface WhileStatement extends Expression {
   _syntaxKind: SyntaxKind.WhileStatement;
   condition: BinaryExpression;
@@ -188,7 +193,7 @@ export interface ReturnStatement extends Expression {
 
 export interface Block extends Expression {
   _syntaxKind: SyntaxKind.Block;
-  expressions: Expression[]
+  statements: Expression[]
 }
 
 export interface Function extends Expression {

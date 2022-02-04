@@ -1,6 +1,7 @@
 import * as iasl from "../intermediary-asl/ast"
 import * as asl from "asl-types";
 import { ConversionContext, convertToASl } from ".";
+import { createChoiceOperator } from "./choice-utility";
 
 export class AslFactory {
   static append(expression: iasl.Expression, context: ConversionContext) {
@@ -9,8 +10,13 @@ export class AslFactory {
     if (iasl.Check.isVariableAssignment(expression)) {
       properties["ResultPath"] = `$.` + expression.name.identifier;
       nameSuggestion = `Assign ${expression.name.identifier}`;
-      expression = { parameters: expression.expression, comment: expression.comment, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
+      if (iasl.Check.isAslPassState(expression.expression) || iasl.Check.isAslTaskState(expression.expression)) {
+        expression = expression.expression;
+      } else {
+        expression = { parameters: expression.expression, comment: expression.comment, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
+      }
     }
+
 
     if (iasl.Check.isAslPassState(expression)) {
       const parameters = convertExpressionToAsl(expression.parameters);
@@ -27,6 +33,7 @@ export class AslFactory {
       context.appendNextState({
         Type: "Task",
         ...properties,
+        Resource: expression.resource,
         ...(parameters.path !== undefined ? { InputPath: parameters.path } : { Parameters: parameters.value }),
         Catch: expression.catch,
         Retry: expression.retry,
@@ -34,7 +41,36 @@ export class AslFactory {
         HeartbeatSeconds: expression.heartbeatSeconds,
         Comment: expression.comment,
       } as asl.Task, nameSuggestion);
+    } else if (iasl.Check.isDoWhileStatement(expression)) {
+      const contextForBranch = context.createChildContext();
 
+      for (const statement of expression.while.statements) {
+        AslFactory.append(statement, context);
+      }
+      const whileConditionOperator = createChoiceOperator(expression.condition);
+      whileConditionOperator.Next = contextForBranch.startAt ?? "XXXX";
+      const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice
+      contextForBranch.appendNextState(whileCondition, "_WhileCondition");
+      const whileExitName = contextForBranch.appendState({ Type: "Succeed" } as asl.Succeed, "_WhileExit");
+      whileCondition.Default = whileExitName;
+
+      context.appendNextState({
+        Type: "Parallel",
+        ...properties,
+        Branches: [contextForBranch.finalize()],
+        Comment: expression.comment,
+      } as asl.Parallel, 'DoWhile');
+    } else if (iasl.Check.isIfExpression(expression)) {
+
+      // const choiceOperator = createChoiceOperator(expression.condition);
+      // context.appendNextState({
+      //   Type: "Choice",
+      //   ...properties,
+      //   Choices: [choiceOperator],
+      //   Comment: expression.comment
+      // } as asl.Choice, nameSuggestion ?? "If");
+
+    } else if (iasl.Check.isWhileStatement(expression)) {
     } else if (iasl.Check.isAslWaitState(expression)) {
       const seconds = convertExpressionToAsl(expression.seconds);
       const timestamp = convertExpressionToAsl(expression.timestamp);
@@ -47,7 +83,7 @@ export class AslFactory {
         Comment: expression.comment,
       } as asl.Wait, nameSuggestion);
     } else if (iasl.Check.isAslParallelState(expression)) {
-      const branches = expression.branches.map(x => convertToASl(x.expressions, context.createChildContext()));
+      const branches = expression.branches.map(x => convertToASl(x.statements, context.createChildContext()));
 
       context.appendNextState({
         Branches: branches,
@@ -57,10 +93,8 @@ export class AslFactory {
         Retry: expression.retry,
         Comment: expression.comment,
       } as asl.Parallel, nameSuggestion);
-    } else if (iasl.Check.isAslChoiceState(expression)) {
-      throw new Error("todo");
     } else if (iasl.Check.isAslMapState(expression)) {
-      const iterator = convertToASl(expression.iterator.expressions, context.createChildContext())
+      const iterator = convertToASl(expression.iterator.statements, context.createChildContext())
       const items = convertExpressionToAsl(expression.items);
 
       context.appendNextState({
@@ -72,7 +106,6 @@ export class AslFactory {
         Comment: expression.comment,
       } as asl.Map, nameSuggestion);
     } else if (iasl.Check.isAslFailState(expression)) {
-
       context.appendNextState({
         Type: "Fail",
         ...properties,
@@ -81,12 +114,14 @@ export class AslFactory {
         Comment: expression.comment
       } as asl.Fail, nameSuggestion);
     } else if (iasl.Check.isAslSucceedState(expression)) {
-
       context.appendNextState({
         Type: "Succeed",
         ...properties,
         Comment: expression.comment
       } as asl.Succeed, nameSuggestion);
+    } else {
+      throw new Error(`syntax type ${expression._syntaxKind} cannot be converted to ASL`);
+
     }
   }
 }
@@ -94,21 +129,24 @@ export class AslFactory {
 interface AslExpressionOrIdentifier {
   path?: string;
   value?: unknown;
+  type: iasl.Type;
   valueContainsReplacements?: boolean;
 };
 
-const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExpressionOrIdentifier => {
+export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExpressionOrIdentifier => {
   if (iasl.Check.isIdentifier(expr)) {
-    return { path: convertIdentifierToPathExpression(expr) }
+    return { path: convertIdentifierToPathExpression(expr), type: "unknown" }
   } else if (iasl.Check.isLiteral(expr)) {
     return {
       value: expr.value,
+      type: expr.type,
       valueContainsReplacements: false,
     }
   } else if (iasl.Check.isLiteralArray(expr)) {
     const convertedElements = expr.elements.map(x => convertExpressionToAsl(x));
     return {
-      value: convertedElements,
+      value: convertedElements.map(x => x.value),
+      type: "array",
       valueContainsReplacements: convertedElements.findIndex(x => x.path || x.valueContainsReplacements === true) !== -1
     }
   } else if (iasl.Check.isAslIntrinsicFunction(expr)) {
@@ -116,7 +154,7 @@ const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExp
     for (const arg of expr.arguments) {
       const convertedArg = convertExpressionToAsl(arg);
       if (convertedArg.path) {
-        args.push(convertedArg.path);
+        args.push('$.' + convertedArg.path);
       } else if (typeof convertedArg.value === "string") {
         if (convertedArg.value.includes("'")) throw new Error("todo implement escaping of string literals passed to intrinsic function args")
         args.push(`'${convertedArg.value}'`);
@@ -124,8 +162,15 @@ const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExp
         args.push(`${convertedArg.value}`);
       }
     }
+    let intrinsicFunctionName = expr.function;
+    if (intrinsicFunctionName.startsWith("asl.states.")) {
+      const firstCharFunctionName = intrinsicFunctionName[11].toUpperCase();
+      intrinsicFunctionName = "States." + firstCharFunctionName + intrinsicFunctionName.substring(12);
+    }
+
     return {
-      value: `${expr.function}(${args.join(', ')})`,
+      value: `${intrinsicFunctionName}(${args.join(', ')})`,
+      type: "unknown",
       valueContainsReplacements: true
     }
   } else if (iasl.Check.isLiteralObject(expr)) {
@@ -145,6 +190,7 @@ const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExp
     }
     return {
       value,
+      type: "object",
       valueContainsReplacements,
     }
   }
@@ -159,9 +205,9 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
   if (expr.indexExpression) {
     const indexExpr = convertExpressionToAsl(expr.indexExpression);
     if (indexExpr.path) {
-      lhs += "[$." + indexExpr.path + "]";
+      return lhs + "[$." + indexExpr.path + "]" + expr.identifier;
     } else {
-      lhs += "[" + indexExpr.value + "]";
+      return lhs + "[" + indexExpr.value + "]" + expr.identifier;
     }
   }
   if (expr.identifier) {

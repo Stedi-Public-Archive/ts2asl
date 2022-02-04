@@ -6,10 +6,6 @@ export const removeUnnecessaryExpressionsTransformer = <T extends ts.Node>(conte
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
-    if (ts.isAsExpression(node)) {
-      return node.expression;
-    }
-
     // x || [] => x
     if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.BarBarToken && (ts.isArrayLiteralExpression(node.right) && node.right.elements.length === 0)) {
       return node.left;
@@ -17,6 +13,16 @@ export const removeUnnecessaryExpressionsTransformer = <T extends ts.Node>(conte
 
     // ((x)) => (x)
     if (ts.isParenthesizedExpression(node) && ts.isParenthesizedExpression(node.expression)) {
+      return node.expression;
+    }
+
+    // (x) => x
+    if (ts.isParenthesizedExpression(node) && ts.isIdentifier(node.expression)) {
+      return node.expression;
+    }
+
+    // (x.y) => x.y
+    if (ts.isParenthesizedExpression(node) && ts.isPropertyAccessExpression(node.expression)) {
       return node.expression;
     }
 

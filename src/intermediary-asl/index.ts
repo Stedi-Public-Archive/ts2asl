@@ -1,13 +1,17 @@
 
 import * as ts from "typescript";
-import * as iast from "./ast"
+import * as iasl from "./ast"
 import { ParserError } from "../ParserError";
 import { convertToIdentifier } from "./helper";
+import { removeSyntaxTransformer } from "./remove-syntax-transformer";
+import { isAslCallExpression } from "../lang-support/transformers/node-utility";
 const factory = ts.factory;
 
-export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argName: string = "context"): iast.Expression[] => {
-  const result: iast.Expression[] = [];
-  ts.forEachChild(body, toplevel => {
+export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.SourceFile, argName: string = "context"): iasl.Expression[] => {
+  const result: iasl.Expression[] = [];
+
+  const transformed = ts.transform<ts.Block | ts.ConciseBody | ts.SourceFile>(body, [removeSyntaxTransformer]).transformed[0];
+  ts.forEachChild(transformed, toplevel => {
     const converted = convertNodeToIntermediaryAst(toplevel);
     if (!converted) return;
     if (Array.isArray(converted)) {
@@ -27,7 +31,7 @@ export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.So
 
   return result;
 }
-export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression[] | iast.Expression | undefined => {
+export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iasl.Expression[] | iasl.Expression | undefined => {
   let node: ts.Node | undefined = toplevel;
 
   if (ts.isEmptyStatement(node) || node.kind === ts.SyntaxKind.EndOfFileToken) {
@@ -39,20 +43,19 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
   }
 
   if (ts.isReturnStatement(node)) {
-
-
     const expression = convertExpression(node.expression);
 
     return {
       expression,
       _syntaxKind: "return",
-    } as iast.ReturnStatement;
+    } as iasl.ReturnStatement;
   }
 
   if (ts.isVariableStatement(node)) {
     if (node.declarationList.declarations.length !== 1) throw new ParserError("Variable statement must have declaration list of 1", node);
     const decl = node.declarationList.declarations[0];
 
+    // decl.type
     const identifier = convertToIdentifier(decl.name);
     if (!identifier) throw new ParserError("unable to convert declaration name to identifier string", node);
 
@@ -62,8 +65,8 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
     return {
       name: identifier,
       expression: expression,
-      _syntaxKind: iast.SyntaxKind.VariableAssignmentStatement
-    } as iast.VariableAssignmentStatement
+      _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+    } as iasl.VariableAssignmentStatement
   }
 
   if ((ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.EqualsToken)) {
@@ -78,8 +81,8 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
     return {
       name: identifier,
       expression: expression,
-      _syntaxKind: iast.SyntaxKind.VariableAssignmentStatement
-    } as iast.VariableAssignmentStatement
+      _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+    } as iasl.VariableAssignmentStatement
   }
 
   if (node && ts.isAwaitExpression(node)) {
@@ -93,7 +96,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node): iast.Expression
   return result;
 }
 
-export const convertSingleExpression = (expression?: ts.Expression): iast.Expression | undefined => {
+export const convertSingleExpression = (expression?: ts.Expression): iasl.Expression | undefined => {
   const result = convertExpression(expression);
   if (!result) return undefined;
   if (!Array.isArray(result)) return result;
@@ -103,16 +106,16 @@ export const convertSingleExpression = (expression?: ts.Expression): iast.Expres
   return result[0];
 }
 
-export const convertExpression = (expression?: ts.Expression): iast.Expression[] | iast.Expression | undefined => {
+export const convertExpression = (expression?: ts.Expression): iasl.Expression[] | iasl.Expression | undefined => {
   if (!expression) return undefined;
 
   if (ts.isCallExpression(expression)) {
-    if (!ts.isPropertyAccessExpression(expression.expression)) throw new Error("Call expression expected to have Property access expression");
-    if (!ts.isIdentifier(expression.expression.expression)) throw new Error("Call expression expected to have Property access expression");
-    const ASL = expression.expression.expression.text.toLowerCase();
-    if (ASL !== "asl") throw new Error("Call expression expected to be on ASL method");
+    let type = isAslCallExpression(expression);
+    if (!type) throw new Error("Call expression expected to be on asl module");
 
-    let type = expression.expression.name.text;
+    if (type.startsWith("states.")) {
+      return convertExpressionToLiteralOrIdentifier(expression);
+    }
     let argument = factory.createObjectLiteralExpression([], false);
 
     if (expression.arguments.length !== 0) {
@@ -132,8 +135,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           resource: "typeof:" + target?.identifier,
           parameters,
           comment,
-          _syntaxKind: "asl-task-state"
-        } as iast.TaskState;
+          _syntaxKind: iasl.SyntaxKind.AslTaskState
+        } as iasl.TaskState;
       };
 
       case "typescriptTry": {
@@ -149,8 +152,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           catch: catchConfiguration,
           retry: retryConfiguration,
           comment,
-          _syntaxKind: "try"
-        } as iast.TryStatement;
+          _syntaxKind: iasl.SyntaxKind.TryStatement
+        } as iasl.TryStatement;
       };
 
       case "typescriptWhile": {
@@ -161,8 +164,20 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           condition,
           while: while_,
           comment,
-          _syntaxKind: "while"
-        } as iast.WhileStatement;
+          _syntaxKind: iasl.SyntaxKind.WhileStatement
+        } as iasl.WhileStatement;
+      }
+
+      case "typescriptDoWhile": {
+        const condition = unpackAsBinaryExpression(convertedArgs, "condition");
+        const while_ = unpackFunctionBlock(convertedArgs, "block");
+        const comment = unpackAsLiteral(convertedArgs, "comment");
+        return {
+          condition,
+          while: while_,
+          comment,
+          _syntaxKind: iasl.SyntaxKind.DoWhileStatement
+        } as iasl.DoWhileStatement;
       }
 
       case "typescriptIf": {
@@ -175,8 +190,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           then,
           else: else_,
           comment,
-          _syntaxKind: "if"
-        } as iast.IfExpression;
+          _syntaxKind: iasl.SyntaxKind.IfStatement
+        } as iasl.IfExpression;
       };
 
       case "task": {
@@ -196,8 +211,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           timeoutSeconds,
           heartbeatSeconds,
           comment,
-          _syntaxKind: "asl-task-state"
-        } as iast.TaskState;
+          _syntaxKind: iasl.SyntaxKind.AslTaskState
+        } as iasl.TaskState;
       };
 
       case "wait": {
@@ -208,8 +223,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           seconds,
           timestamp,
           comment,
-          _syntaxKind: "asl-wait-state",
-        } as iast.WaitState;
+          _syntaxKind: iasl.SyntaxKind.AslWaitState
+        } as iasl.WaitState;
       };
 
       case "parallel": {
@@ -223,8 +238,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           catch: catchConfiguration,
           retry: retryConfiguration,
           comment,
-          _syntaxKind: "asl-parallel-state"
-        } as iast.ParallelState;
+          _syntaxKind: iasl.SyntaxKind.AslParallelState
+        } as iasl.ParallelState;
       };
 
       case "choice": {
@@ -236,8 +251,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           choices: choices,
           default: _default,
           comment,
-          _syntaxKind: "asl-choice-state"
-        } as iast.ChoiceState;
+          _syntaxKind: iasl.SyntaxKind.AslChoiceState
+        } as iasl.ChoiceState;
       };
 
       case "map": {
@@ -253,8 +268,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           retry: retryConfiguration,
           iterator,
           comment,
-          _syntaxKind: "asl-map-state"
-        } as iast.MapState;
+          _syntaxKind: iasl.SyntaxKind.AslMapState
+        } as iasl.MapState;
       };
 
       case "pass": {
@@ -264,8 +279,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
         return {
           parameters,
           comment,
-          _syntaxKind: "asl-pass-state"
-        } as iast.PassState;
+          _syntaxKind: iasl.SyntaxKind.AslPassState
+        } as iasl.PassState;
       };
 
       case "succeed": {
@@ -274,7 +289,7 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
         return {
           comment,
           _syntaxKind: "asl-succeed-state"
-        } as iast.SucceedState;
+        } as iasl.SucceedState;
       };
 
       case "fail": {
@@ -286,8 +301,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
           cause,
           error,
           comment,
-          _syntaxKind: "asl-fail-state"
-        } as iast.FailState;
+          _syntaxKind: iasl.SyntaxKind.AslFailState
+        } as iasl.FailState;
       };
 
     }
@@ -296,7 +311,7 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
       let remainder = type.substring(6);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
-      const servicesNames = ["DynamoDB"];
+      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "S3", "SES", "SQS", "SNS", "SSM", "Textract"];
       for (const serviceName of servicesNames) {
         if (remainder.startsWith(serviceName)) {
           resource += serviceName.toLowerCase() + ':';
@@ -309,7 +324,7 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
         throw new Error(`unable to find service of native integration ${type} `);
       }
       resource += remainder[0].toLowerCase() + remainder.substring(1);
-      const parameters: iast.LiteralObjectExpression = { _syntaxKind: iast.SyntaxKind.LiteralObject, properties: {} };
+      const parameters: iasl.LiteralObjectExpression = { _syntaxKind: iasl.SyntaxKind.LiteralObject, properties: {} };
       for (const [propName, propVal] of Object.entries(convertedArgs)) {
         parameters.properties[propName] = propVal;
       }
@@ -318,8 +333,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
         resource,
         parameters,
         comment: undefined,
-        _syntaxKind: "asl-task-state"
-      } as iast.TaskState;
+        _syntaxKind: iasl.SyntaxKind.AslTaskState
+      } as iasl.TaskState;
     }
 
     else {
@@ -329,8 +344,8 @@ export const convertExpression = (expression?: ts.Expression): iast.Expression[]
 }
 
 
-export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression): Record<string, iast.Expression | iast.Identifier> => {
-  const result: Record<string, iast.Expression | iast.Identifier> = {};
+export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression): Record<string, iasl.Expression | iasl.Identifier> => {
+  const result: Record<string, iasl.Expression | iasl.Identifier> = {};
   for (const property of expr.properties) {
     if (!property || !property.name) throw new Error('property literal expression has property without name');
     if (!ts.isPropertyAssignment(property)) throw new Error('property literal expression has property without assignment expression');
@@ -347,7 +362,7 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression)
   return result
 }
 
-export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined): iast.Identifier | iast.LiteralExpressionLike | iast.AslIntrinsicFunction | iast.BinaryExpression | undefined => {
+export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.BinaryExpression | undefined => {
   if (original === undefined) {
     return undefined;
   }
@@ -355,49 +370,58 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
   if (ts.isArrowFunction(original)) {
     expr = original.body as ts.Expression;
   }
-  if (ts.isLiteralExpression(expr)) {
+  if (ts.isParenthesizedExpression(expr)) {
+    expr = expr.expression as ts.Expression;
+  }
+  if (ts.isIdentifier(expr) && expr.text === "undefined") {
+    return {
+      value: null,
+      type: "null",
+      _syntaxKind: iasl.SyntaxKind.Literal,
+    } as iasl.LiteralExpression;
+  } else if (ts.isLiteralExpression(expr)) {
     if (ts.isNumericLiteral(expr)) {
       return {
         value: new Number(expr.text).valueOf(),
         type: "numeric",
-        _syntaxKind: iast.SyntaxKind.Literal,
-      } as iast.LiteralExpression;
+        _syntaxKind: iasl.SyntaxKind.Literal,
+      } as iasl.LiteralExpression;
     } else if (ts.isStringLiteral(expr)) {
       return {
         value: expr.text,
         type: "string",
-        _syntaxKind: iast.SyntaxKind.Literal,
-      } as iast.LiteralExpression;
+        _syntaxKind: iasl.SyntaxKind.Literal,
+      } as iasl.LiteralExpression;
     }
   }
   else if (ts.isObjectLiteralExpression(expr)) {
     return {
       properties: convertObjectLiteralExpression(expr),
-      _syntaxKind: iast.SyntaxKind.LiteralObject,
-    } as iast.LiteralObjectExpression;
+      _syntaxKind: iasl.SyntaxKind.LiteralObject,
+    } as iasl.LiteralObjectExpression;
   } else if (ts.isArrayLiteralExpression(expr)) {
     return {
       elements: expr.elements.map(x => convertExpressionToLiteralOrIdentifier(x)),
-      _syntaxKind: iast.SyntaxKind.LiteralArray,
-    } as iast.LiteralArrayExpression;
+      _syntaxKind: iasl.SyntaxKind.LiteralArray,
+    } as iasl.LiteralArrayExpression;
   } else if (expr.kind === ts.SyntaxKind.TrueKeyword) {
     return {
       value: true,
       type: "boolean",
-      _syntaxKind: iast.SyntaxKind.Literal,
-    } as iast.LiteralExpression;
+      _syntaxKind: iasl.SyntaxKind.Literal,
+    } as iasl.LiteralExpression;
   } else if (expr.kind === ts.SyntaxKind.FalseKeyword) {
     return {
       value: false,
       type: "boolean",
-      _syntaxKind: iast.SyntaxKind.Literal,
-    } as iast.LiteralExpression;
+      _syntaxKind: iasl.SyntaxKind.Literal,
+    } as iasl.LiteralExpression;
   } else if (expr.kind === ts.SyntaxKind.UndefinedKeyword || expr.kind === ts.SyntaxKind.NullKeyword) {
     return {
       value: null,
       type: "null",
-      _syntaxKind: iast.SyntaxKind.Literal,
-    } as iast.LiteralExpression;
+      _syntaxKind: iasl.SyntaxKind.Literal,
+    } as iasl.LiteralExpression;
   } else if (ts.isArrowFunction(original) && ts.isBlock(expr)) {
     let argName: undefined | string = undefined;
     if (original.parameters.length >= 1) {
@@ -410,10 +434,10 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     return {
       argName,
       block: {
-        expressions: convertToIntermediaryAsl(expr)
+        statements: convertToIntermediaryAsl(expr)
       },
-      _syntaxKind: iast.SyntaxKind.Function,
-    } as iast.Function;
+      _syntaxKind: iasl.SyntaxKind.Function,
+    } as iasl.Function;
   }
   else if (ts.isCallExpression(expr)) {
     const _arguments = expr.arguments.map(x => convertExpressionToLiteralOrIdentifier(x));
@@ -425,25 +449,37 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       arguments: _arguments,
       function: functionName.identifier,
       _syntaxKind: "asl-intrinsic-function"
-    } as iast.AslIntrinsicFunction;
+    } as iasl.AslIntrinsicFunction;
   } else if (ts.isBinaryExpression(expr)) {
-
     const convertedOperator = convertBinaryOperatorToken(expr.operatorToken)
     let expression = {
       lhs: convertExpressionToLiteralOrIdentifier(expr.left),
       operator: convertedOperator.op,
       rhs: convertExpressionToLiteralOrIdentifier(expr.right),
-      _syntaxKind: iast.SyntaxKind.BinaryExpression
-    } as iast.BinaryExpression;
+      _syntaxKind: iasl.SyntaxKind.BinaryExpression
+    } as iasl.BinaryExpression;
 
     if (convertedOperator.not) {
       expression = {
         operator: "not",
         rhs: expression,
-        _syntaxKind: iast.SyntaxKind.BinaryExpression
-      } as iast.BinaryExpression;
+        _syntaxKind: iasl.SyntaxKind.BinaryExpression
+      } as iasl.BinaryExpression;
     }
     return expression;
+  } else if (ts.isPrefixUnaryExpression(expr)) {
+    if (expr.operator === ts.SyntaxKind.ExclamationToken) {
+      return {
+        operator: "not",
+        rhs: {
+          operator: "is-present",
+          rhs: convertExpressionToLiteralOrIdentifier(expr.operand),
+          _syntaxKind: iasl.SyntaxKind.BinaryExpression
+        } as iasl.BinaryExpression,
+        _syntaxKind: iasl.SyntaxKind.BinaryExpression
+      } as iasl.BinaryExpression;
+    }
+    //
   }
 
 
@@ -455,40 +491,46 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
   throw new ParserError("unable to unpack expression ", expr);
 }
 
-const unpackAsLiteral = (args: Record<string, iast.Expression | iast.Identifier>, propertyName: string): string | boolean | number | null | undefined => {
+const unpackAsLiteral = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): string | boolean | number | null | undefined => {
   const propValue = args[propertyName];
   if (propValue === undefined) return undefined;
 
-  if (!iast.Check.isLiteral(propValue)) {
+  if (!iasl.Check.isLiteral(propValue)) {
     throw new Error(`property ${propertyName} must be literal`);
   }
   return propValue.value;
 }
 
-const unpackAsBinaryExpression = (args: Record<string, iast.Expression | iast.Identifier>, propertyName: string): iast.BinaryExpression | undefined => {
+const unpackAsBinaryExpression = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.BinaryExpression | undefined => {
   const propValue = args[propertyName];
   if (propValue === undefined) return undefined;
 
-  if (!iast.Check.isBinaryExpression(propValue)) {
+  if (iasl.Check.isIdentifier(propValue)) {
+    return {
+      operator: "is-present",
+      rhs: propValue,
+    } as iasl.BinaryExpression;
+  }
+  if (!iasl.Check.isBinaryExpression(propValue)) {
     throw new Error(`property ${propertyName} must be binary expression`);
   }
   return propValue;
 }
 
 
-const unpackLiteralValue = (val: iast.Expression | iast.Identifier) => {
+const unpackLiteralValue = (val: iasl.Expression | iasl.Identifier) => {
 
-  if (iast.Check.isLiteral(val)) {
+  if (iasl.Check.isLiteral(val)) {
     return val.value;
-  } else if (iast.Check.isLiteralArray(val)) {
+  } else if (iasl.Check.isLiteralArray(val)) {
     return val.elements.map(x => unpackLiteralValue(x));
-  } else if (iast.Check.isLiteralObject(val)) {
+  } else if (iasl.Check.isLiteralObject(val)) {
     let result: Record<string, string | boolean | number | null | [] | {}> = {};
     for (const [propName, propVal] of Object.entries(val.properties)) {
       result[propName] = unpackLiteralValue(propVal);
     }
     return result;
-  } else if (iast.Check.isFunction(val)) {
+  } else if (iasl.Check.isFunction(val)) {
 
     if (val.argName) {
       //todo: visit all identifiers and strip of `propValue.argName`
@@ -499,29 +541,29 @@ const unpackLiteralValue = (val: iast.Expression | iast.Identifier) => {
   return val;
 }
 
-const unpackAsLiteralLike = (args: Record<string, iast.Expression | iast.Identifier>, propertyName: string): string | boolean | number | null | [] | {} | undefined => {
+const unpackAsLiteralLike = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): string | boolean | number | null | [] | {} | undefined => {
   const propValue = args[propertyName];
   if (propValue === undefined) return undefined;
   return unpackLiteralValue(propValue);
 }
 
 
-const unpackArray = <TElement>(args: Record<string, iast.Expression | iast.Identifier>, propertyName: string, unpackElement: (element: iast.Expression | iast.Identifier) => TElement): TElement[] => {
+const unpackArray = <TElement>(args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string, unpackElement: (element: iasl.Expression | iasl.Identifier) => TElement): TElement[] => {
   const propValue = args[propertyName];
   if (propValue === undefined) return [];
 
-  if (!iast.Check.isLiteralArray(propValue)) {
+  if (!iasl.Check.isLiteralArray(propValue)) {
     throw new Error(`property ${propertyName} must be array`);
   }
 
   return propValue.elements.map(x => unpackElement(x));
 }
 
-const unpackFunctionBlock = (args: Record<string, iast.Expression | iast.Identifier>, propertyName: string): iast.Block | undefined => {
+const unpackFunctionBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.Block | undefined => {
   const propValue = args[propertyName];
   if (propValue === undefined) return undefined;
 
-  if (!iast.Check.isFunction(propValue)) {
+  if (!iasl.Check.isFunction(propValue)) {
     throw new Error(`property ${propertyName} must be function`);
   }
 
@@ -532,18 +574,18 @@ const unpackFunctionBlock = (args: Record<string, iast.Expression | iast.Identif
 }
 
 
-const unpackAsIdentifier = (args: Record<string, iast.Expression | iast.Identifier>, propertyName: string): iast.Identifier | undefined => {
+const unpackAsIdentifier = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.Identifier | undefined => {
   const propValue = args[propertyName];
   if (propValue === undefined) return undefined;
 
-  if (!iast.Check.isIdentifier(propValue)) {
+  if (!iasl.Check.isIdentifier(propValue)) {
     throw new Error(`property ${propertyName} must be identifier`);
   }
   return propValue;
 }
 
 
-const convertBinaryOperatorToken = (operator: ts.BinaryOperatorToken): { op: "eq" | "gt" | "gte" | "lt" | "lte", not: boolean } => {
+const convertBinaryOperatorToken = (operator: ts.BinaryOperatorToken): { op: iasl.BinaryOperator, not: boolean } => {
   switch (operator.kind) {
     case ts.SyntaxKind.EqualsEqualsEqualsToken:
     case ts.SyntaxKind.EqualsEqualsToken:
@@ -564,6 +606,12 @@ const convertBinaryOperatorToken = (operator: ts.BinaryOperatorToken): { op: "eq
 
     case ts.SyntaxKind.LessThanToken:
       return { op: "lt", not: false };
+
+    case ts.SyntaxKind.BarBarToken:
+      return { op: "or", not: false };
+
+    case ts.SyntaxKind.AmpersandAmpersandToken:
+      return { op: "and", not: false };
 
     default:
       const typescriptOp = ts.SyntaxKind[operator.kind];

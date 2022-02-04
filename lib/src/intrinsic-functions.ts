@@ -6,7 +6,8 @@ export namespace states {
     return util.format(formatNode, args);
   }
 
-  export function stringToJson(arg: string): unknown {
+  export function stringToJson(arg: string | undefined): unknown {
+    if (arg === undefined) return undefined;
     return JSON.parse(arg);
   }
   export function jsonToString(arg: unknown): string {

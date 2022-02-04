@@ -1,7 +1,6 @@
-import * as asl from "../../../../lib/src"
+import * as asl from "asl-lib/src"
 
-
-export const main = asl.Deploy.asStateMachine(async () => {
+export const main = asl.deploy.asStateMachine(async () => {
 
   let thresholds = [
     {
@@ -20,11 +19,8 @@ export const main = asl.Deploy.asStateMachine(async () => {
 
     for (const item of ((scan.Items || []) as unknown as Item[])) {
       for (const threshold of thresholds) {
-        let numericLastSentOnValue = item.lastSentOnValue.N;
-        // unsure why the following happens in ASL
-        // numericLastSentOnValue = asl.states.jsonToString(item.lastSentOnValue.N)
-        let numericTotal = item.total.N;
-        // numericTotal = asl.states.jsonToString(item.total.N)
+        let numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number;
+        let numericTotal = asl.states.stringToJson(item.total.N) as number;
 
         if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
           || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
@@ -32,13 +28,13 @@ export const main = asl.Deploy.asStateMachine(async () => {
           await asl.nativeEventBridgePutEvents({
             Entries: [
               {
-                Detail: JSON.stringify({
+                Detail: asl.states.jsonToString({
                   account_id: item.pk,
                   threshold: threshold
                 }),
-                DetailType: "accounts.thresholds.breached",
+                DetailType: "xxx.detail.type",
                 EventBusName: "default",
-                Source: "com.stedi.billing"
+                Source: "zzz.my.source"
               }
             ]
           });
@@ -70,8 +66,8 @@ export const main = asl.Deploy.asStateMachine(async () => {
 interface Item {
   pk: { S: string };
   sk: { S: string };
-  total: { N: number };
-  lastSentOnValue: { N: number };
+  total: { N: string };
+  lastSentOnValue: { N: string };
   beginDate: { S: string };
   lastBeginDateValue: { S: string };
 }
