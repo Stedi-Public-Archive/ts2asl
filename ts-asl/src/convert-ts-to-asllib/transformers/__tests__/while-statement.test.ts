@@ -12,7 +12,7 @@ describe("when converting while statements", () => {
     ).toMatchInlineSnapshot(`
       "asl.typescriptWhile({
           condition: () => code === 'continue',
-          block: () => { console.log(); ASL.Wait({ Seconds: 2 }); },
+          block: async () => { console.log(); ASL.Wait({ Seconds: 2 }); },
           comment: \\"while(code === 'continue') { console.log(); ASL.Wait({Seconds: 2})}\\"
       })"
     `);

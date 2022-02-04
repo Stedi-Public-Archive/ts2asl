@@ -188,12 +188,12 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
       }
 
       case "typescriptIf": {
-        const when = unpackAsBinaryExpression(convertedArgs, "when");
+        const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const then = unpackFunctionBlock(convertedArgs, "then");
         const else_ = unpackFunctionBlock(convertedArgs, "else");
         const comment = unpackAsLiteral(convertedArgs, "comment");
         return {
-          condition: when,
+          condition,
           then,
           else: else_,
           comment,

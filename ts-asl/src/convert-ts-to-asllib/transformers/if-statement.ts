@@ -10,13 +10,13 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
 
     if (ts.isIfStatement(node)) {
 
-      const when = TransformUtil.createWrappedExpression("when", node.expression)
+      const condition = TransformUtil.createWrappedExpression("condition", node.expression)
       const then = TransformUtil.createNamedBlock("then", convertToBlock(node.thenStatement));
       const else_ = TransformUtil.createNamedBlock("else", node.elseStatement ? convertToBlock(node.elseStatement) : undefined);
       const comment = TransformUtil.createComment(node);
 
       const assignments: ts.PropertyAssignment[] = []
-      for (const assignment of [when, then, else_, comment]) {
+      for (const assignment of [condition, then, else_, comment]) {
         if (assignment) {
           assignments.push(assignment);
         }

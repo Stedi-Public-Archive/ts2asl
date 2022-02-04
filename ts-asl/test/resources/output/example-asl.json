@@ -1,0 +1,236 @@
+{
+  "StartAt": "Assign thresholds",
+  "States": {
+    "Assign thresholds": {
+      "Type": "Pass",
+      "ResultPath": "$.thresholds",
+      "Result": [
+        {
+          "metric": "mappings.requests",
+          "ceiling": 100
+        },
+        {
+          "metric": "mappings.requests",
+          "ceiling": 1000
+        }
+      ],
+      "Comment": "thresholds = [\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 100\n    },\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 1000\n    }\n  ]",
+      "Next": "Assign lastEvaluatedKey"
+    },
+    "Assign lastEvaluatedKey": {
+      "Type": "Pass",
+      "ResultPath": "$.lastEvaluatedKey",
+      "Result": null,
+      "Comment": "lastEvaluatedKey: any | undefined = undefined",
+      "Next": "DoWhile"
+    },
+    "DoWhile": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Assign scan",
+          "States": {
+            "Assign scan": {
+              "Type": "Task",
+              "ResultPath": "$.scan",
+              "Resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
+              "Parameters": {
+                "TableName": "MyStorage",
+                "Limit": 1,
+                "ExclusiveStartKey.$": "$.lastEvaluatedKey"
+              },
+              "Next": "Map"
+            },
+            "Map": {
+              "Type": "Map",
+              "Iterator": {
+                "StartAt": "Map",
+                "States": {
+                  "Map": {
+                    "Type": "Map",
+                    "Iterator": {
+                      "StartAt": "Assign numericLastSentOnValue",
+                      "States": {
+                        "Assign numericLastSentOnValue": {
+                          "Type": "Pass",
+                          "ResultPath": "$.numericLastSentOnValue",
+                          "Parameters": "States.StringToJson($.item.lastSentOnValue.N)",
+                          "Comment": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
+                          "Next": "Assign numericTotal"
+                        },
+                        "Assign numericTotal": {
+                          "Type": "Pass",
+                          "ResultPath": "$.numericTotal",
+                          "Parameters": "States.StringToJson($.item.total.N)",
+                          "Comment": "numericTotal = asl.states.stringToJson(item.total.N) as number",
+                          "Next": "If"
+                        },
+                        "If": {
+                          "Type": "Choice",
+                          "Choices": [
+                            {
+                              "Or": [
+                                {
+                                  "And": [
+                                    {
+                                      "And": [
+                                        {
+                                          "And": [
+                                            {
+                                              "Variable": "$.item.sk.S",
+                                              "StringEqualsPath": "$.threshold.metric"
+                                            },
+                                            {
+                                              "Variable": "$.threshold.ceiling",
+                                              "StringLessThanEqualsPath": "$.numericTotal"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Variable": "$.threshold.ceiling",
+                                          "StringGreaterThanPath": "$.numericLastSentOnValue"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Or": [
+                                        {
+                                          "Not": {
+                                            "Variable": "item.lastBeginDateValue.S",
+                                            "IsPresent": true
+                                          }
+                                        },
+                                        {
+                                          "Variable": "$.item.beginDate.S",
+                                          "StringEqualsPath": "$.item.lastBeginDateValue.S"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "And": [
+                                    {
+                                      "And": [
+                                        {
+                                          "Variable": "$.item.sk.S",
+                                          "StringEqualsPath": "$.threshold.metric"
+                                        },
+                                        {
+                                          "Variable": "$.threshold.ceiling",
+                                          "StringLessThanEqualsPath": "$.numericTotal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Or": [
+                                        {
+                                          "Not": {
+                                            "Variable": "item.lastBeginDateValue.S",
+                                            "IsPresent": true
+                                          }
+                                        },
+                                        {
+                                          "Variable": "$.item.beginDate.S",
+                                          "StringEqualsPath": "$.item.lastBeginDateValue.S"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Next": "Parallel"
+                            }
+                          ],
+                          "Comment": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\n\n          await asl.nativeEventBridgePutEvents({\n            Entries: [\n              {\n                Detail: asl.states.jsonToString({\n                  account_id: item.pk,\n                  threshold: threshold\n                }),\n                DetailType: \"xxx.detail.type\",\n                EventBusName: \"default\",\n                Source: \"zzz.my.source\"\n              }\n            ]\n          });\n          await asl.nativeDynamoDBUpdateItem({\n            TableName: \"MyStorage\",\n            Key: {\n              pk: item.pk,\n              sk: item.sk\n            },\n            ConditionExpression: \"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\",\n            UpdateExpression: \"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\",\n            ExpressionAttributeValues: {\n              \":newLastSentOnValue\": {\n                N: item.total.N as any\n              },\n              \":newLastBeginDateValue\": {\n                S: item.beginDate.S\n              }\n            }\n          });\n        }",
+                          "Default": "Noop"
+                        },
+                        "Parallel": {
+                          "Type": "Parallel",
+                          "Branches": [
+                            {
+                              "StartAt": "Task",
+                              "States": {
+                                "Task": {
+                                  "Type": "Task",
+                                  "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                                  "Parameters": {
+                                    "Entries": [
+                                      {
+                                        "Detail": "States.JsonToString([object Object])",
+                                        "DetailType": "xxx.detail.type",
+                                        "EventBusName": "default",
+                                        "Source": "zzz.my.source"
+                                      }
+                                    ]
+                                  },
+                                  "Next": "Task_1"
+                                },
+                                "Task_1": {
+                                  "Type": "Task",
+                                  "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
+                                  "Parameters": {
+                                    "TableName": "MyStorage",
+                                    "Key": {
+                                      "pk.$": "$.item.pk",
+                                      "sk.$": "$.item.sk"
+                                    },
+                                    "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+                                    "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                                    "ExpressionAttributeValues": {
+                                      ":newLastSentOnValue": {
+                                        "N.$": "$.item.total.N"
+                                      },
+                                      ":newLastBeginDateValue": {
+                                        "S.$": "$.item.beginDate.S"
+                                      }
+                                    }
+                                  },
+                                  "End": true
+                                }
+                              }
+                            }
+                          ],
+                          "End": true
+                        },
+                        "Noop": {
+                          "Type": "Pass",
+                          "End": true
+                        }
+                      }
+                    },
+                    "ItemsPath": "thresholds",
+                    "End": true
+                  }
+                }
+              },
+              "ItemsPath": "scan.Items",
+              "Next": "Assign lastEvaluatedKey"
+            },
+            "Assign lastEvaluatedKey": {
+              "Type": "Pass",
+              "ResultPath": "$.lastEvaluatedKey",
+              "InputPath": "scan.LastEvaluatedKey",
+              "Next": "_WhileCondition"
+            },
+            "_WhileCondition": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "lastEvaluatedKey",
+                  "IsPresent": true,
+                  "Next": "Assign scan"
+                }
+              ],
+              "Default": "_WhileExit"
+            },
+            "_WhileExit": {
+              "Type": "Succeed"
+            }
+          }
+        }
+      ],
+      "End": true
+    }
+  }
+}

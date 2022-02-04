@@ -5,7 +5,7 @@ describe("when converting if statement to iasl", () => {
     const code = `
     import * as asl from 'asl-lib';
     asl.typescriptIf({
-      when: () => password === 'pwd',
+      condition: () => password === 'pwd',
       then: () => { asl.fail({
           error: "Error",
           cause: "wrong password",

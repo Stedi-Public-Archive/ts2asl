@@ -40,7 +40,13 @@ export class ConversionContext {
 
     return name;
   }
-
+  appendAdditionalTail(state: asl.State, nameSuggestion?: string) {
+    const name = this.appendState(state, nameSuggestion);
+    if (isNonTerminalState(state) && state.Type != "Choice") {
+      this.trailingStates.push(state);
+    }
+    return name;
+  }
   appendNextState(state: asl.State, nameSuggestion?: string) {
     const name = this.createName(nameSuggestion ?? state.Type);
 
