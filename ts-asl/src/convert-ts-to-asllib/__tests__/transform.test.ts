@@ -35,15 +35,15 @@ describe("when converting source files", () => {
       });
       asl.typescriptWhile({
           condition: () => remainingActions.length !== 0,
-          block: () => {
+          block: async () => {
               const results = await asl.typescriptInvoke({
                   target: performAction,
                   parameters: () => getActionsArgs,
                   comment: \\"performAction(getActionsArgs)\\"
               });
               asl.typescriptIf({
-                  when: () => results[0].status === \\"failed\\",
-                  then: () => {
+                  condition: () => results[0].status === \\"failed\\",
+                  then: async () => {
                       asl.fail({
                           error: \\"Error\\",
                           cause: \\"task failed\\",
@@ -53,8 +53,8 @@ describe("when converting source files", () => {
                   comment: \\"if (results[0].status === \\\\\\"failed\\\\\\") {\\\\n      throw new Error(\\\\\\"task failed\\\\\\")\\\\n    }\\"
               })
               asl.typescriptIf({
-                  when: () => results[0].status !== \\"failed\\",
-                  then: () => {
+                  condition: () => results[0].status !== \\"failed\\",
+                  then: async () => {
                       remainingActions = await asl.typescriptInvoke({
                           target: getNextActions,
                           parameters: () => getActionsArgs,
@@ -80,7 +80,7 @@ describe("when converting source files", () => {
       "let page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
       asl.typescriptWhile({
           condition: () => page.nextPageToken,
-          block: () => {
+          block: async () => {
               await ASL.Wait({ Seconds: 2 });
               page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
           },

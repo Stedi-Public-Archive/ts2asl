@@ -30,7 +30,7 @@ export class Converter {
     return {
       asl: convertToASl(transpiled)!,
       source: this.sourceFile.text,
-      transformedCode: ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile),
+      transformedCode: ts.createPrinter().printNode(ts.EmitHint.Unspecified, this.sourceFile, this.sourceFile),
       iasl: transpiled
     }
   }

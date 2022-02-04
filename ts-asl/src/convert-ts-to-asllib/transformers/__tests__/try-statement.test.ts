@@ -10,7 +10,7 @@ describe("when converting try statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptTry({
-          try: () => { console.log('yay!'); },
+          try: async () => { console.log('yay!'); },
           catch: [
               {
                   errorFilter: [
