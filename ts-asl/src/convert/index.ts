@@ -7,42 +7,33 @@ import { transformBody } from "../convert-ts-to-asllib";
 import { convertToASl } from "../convert-iasl-to-asl";
 import { readFileSync } from "fs";
 import { convertToIntermediaryAsl } from "../convert-asllib-to-iasl";
+import { createCompilerHost } from "../compiler-host";
 
 export class Converter {
+  host: {
+    program: ts.Program;
+    typeChecker: ts.TypeChecker
+  };
 
-  declarations: FunctionDeclaration[];
   constructor(private sourceFile: ts.SourceFile, private directory: string, private filename: string) {
-    this.declarations = listFunctionDeclarations(sourceFile);
+    this.host = createCompilerHost(this.sourceFile);
   }
 
-  convert(): asl.StateMachine {
-    const main = this.declarations.find(x => x.name === "main");
+  convert(): { asl: asl.StateMachine | undefined, source: string, transformedCode: string; iasl: iasl.Expression[] } {
+    const declarations = listFunctionDeclarations(this.sourceFile);
+    const main = declarations.find(x => x.name === "main");
     if (!main) throw new Error("no main function found");
     if (main.kind !== "asl") throw new Error("main function must be defined as ASL.StateMachine");
 
     const transformed = transformBody(main.body);
-    const transpiled = convertToIntermediaryAsl(transformed);
-    return convertToASl(transpiled)!
+    const transpiled = convertToIntermediaryAsl(transformed, this.host.typeChecker);
+    return {
+      asl: convertToASl(transpiled)!,
+      source: this.sourceFile.text,
+      transformedCode: ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile),
+      iasl: transpiled
+    }
   }
-  convertToTransformedBody(): string {
-    const main = this.declarations.find(x => x.name === "main");
-    if (!main) throw new Error("no main function found");
-    if (main.kind !== "asl") throw new Error("main function must be defined as ASL.StateMachine");
-
-    const transformed = transformBody(main.body);
-    const printer: ts.Printer = ts.createPrinter();
-    return printer.printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile);
-  }
-
-  convertToIasl(): iasl.Expression[] {
-    const main = this.declarations.find(x => x.name === "main");
-    if (!main) throw new Error("no main function found");
-    if (main.kind !== "asl") throw new Error("main function must be defined as ASL.StateMachine");
-
-    const transformed = transformBody(main.body);
-    return convertToIntermediaryAsl(transformed);
-  }
-
 
   static FromFile(file: string) {
     const directory = path.dirname(file);

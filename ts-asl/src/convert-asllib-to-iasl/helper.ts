@@ -2,10 +2,12 @@ import * as ts from "typescript"
 import { convertExpressionToLiteralOrIdentifier } from ".";
 import * as iasl from "./ast"
 
-export const convertToIdentifier = (expression: ts.Expression | ts.BindingName): iasl.Identifier | undefined => {
+export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, typeChecker: ts.TypeChecker): iasl.Identifier | undefined => {
 
   if (ts.isIdentifier(expression)) {
-    return { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, } as iasl.Identifier;
+    const type = typeChecker.getTypeAtLocation(expression);
+    const iaslType = convertType(type);
+    return { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, type: iaslType } as iasl.Identifier;
   }
 
 
@@ -36,17 +38,40 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName):
   if (ts.isPropertyAccessExpression(expression)) {
     return { identifier: `${pathAsString}.${expression.name.text}`, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier;
   } else if (ts.isElementAccessExpression(expression)) {
-    const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression);
+    const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, typeChecker);
     return {
       identifier: pathAsString,
       indexExpression: convertedIndexExpression,
-      lhs: convertToIdentifier(expression.expression),
+      lhs: convertToIdentifier(expression.expression, typeChecker),
       _syntaxKind: iasl.SyntaxKind.Identifier,
     } as iasl.Identifier
   }
   return undefined;
 }
 
+
+function convertType(type: ts.Type): iasl.Type {
+  if (hasFlag(type, ts.TypeFlags.Object)) {
+    return "object"
+  }
+
+  if (hasFlag(type, ts.TypeFlags.String)) {
+    return "string"
+  }
+
+  if (hasFlag(type, ts.TypeFlags.Number)) {
+    return "numeric"
+  }
+
+  if (hasFlag(type, ts.TypeFlags.Boolean)) {
+    return "boolean"
+  }
+  return "unknown";
+
+}
+function hasFlag(type: ts.Type, flag: ts.TypeFlags) {
+  return (type.flags & flag) === flag;
+}
 // export const convertToLiteralOrIdentifierString = (expression: ts.Expression | ts.BindingName): string | undefined => {
 //   if (ts.isLiteralExpression(expression)) {
 //     return expression.text;

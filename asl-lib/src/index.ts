@@ -1,6 +1,5 @@
 
 export * from "./asl";
-export * from "./intrinsic-functions";
 export * from "./native-integrations-ecs";
 export * from "./native-integrations-dynamodb";
 export * from "./native-integrations-eventbridge";

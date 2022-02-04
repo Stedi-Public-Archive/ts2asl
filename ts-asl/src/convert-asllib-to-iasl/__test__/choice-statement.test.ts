@@ -2,7 +2,9 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting choice statement to iasl", () => {
   it("then native integrations get converted to map states", () => {
-    const code = `asl.choice({ 
+    const code = `
+    import * as asl from 'asl-lib';
+    asl.choice({ 
         choices: [
           { when: a !== "hello", then: () => { ASL.fail({ error: "MyError", cause:"bad luck"}); } }
         ],
@@ -34,6 +36,7 @@ describe("when converting choice statement to iasl", () => {
                   "lhs": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "a",
+                    "type": "unknown",
                   },
                   "operator": "eq",
                   "rhs": Object {

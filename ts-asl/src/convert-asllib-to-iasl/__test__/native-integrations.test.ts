@@ -2,7 +2,10 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting native integration statements to iasl", () => {
   it("then native integrations get converted to task states", () => {
-    const code = `const aaaa = asl.nativeDynamoDBGetItem({ 
+    const code = `
+    import * as asl from 'asl-lib';
+
+    const aaaa = asl.nativeDynamoDBGetItem({ 
         TableName: "mytable", 
         Key: { "pk": { S: "something"}, "sk": { S: "something"} } 
     });`;
@@ -54,6 +57,7 @@ describe("when converting native integration statements to iasl", () => {
           "name": Object {
             "_syntaxKind": "identifier",
             "identifier": "aaaa",
+            "type": "unknown",
           },
         },
       ]

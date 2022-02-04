@@ -1,5 +1,6 @@
 
 import { internalWaitSeconds } from './asl-internals';
+import util from 'util';
 
 export interface AslResource { }
 export interface AslStateMachine extends AslResource { }
@@ -51,8 +52,8 @@ export interface Task {
   heartbeatSeconds?: number;
 }
 
-export interface Pass {
-  result: unknown | (() => unknown);
+export interface Pass<T> {
+  parameters: T | (() => T);
   comment?: string;
 }
 export interface Fail {
@@ -82,9 +83,9 @@ export interface Parallel<T> {
   comment?: string;
 }
 
-export interface Invoke {
-  target: string;
-  parameters?: unknown | (() => unknown);
+export interface Invoke<P, R> {
+  target: (parameters?: P) => Promise<R>;
+  parameters?: P | (() => P);
 }
 
 export interface Choice {
@@ -94,8 +95,8 @@ export interface Choice {
   comment?: string;
 }
 
-export const typescriptInvoke = async (args: Invoke) => {
-  return {} as AslState;
+export const typescriptInvoke = async <P, R>(args: Invoke<P, R>): Promise<R> => {
+  return await args.target(args.parameters as P);
 }
 
 export const typescriptTry = async (args: Try) => {
@@ -139,14 +140,39 @@ export const map = async <Item>(args: Map<Item>) => {
   return {} as AslState;
 }
 
-export const pass = (args: Pass) => {
-  return args.result;
+export const pass = <T>(args: Pass<T>): T => {
+  return args.parameters as T;
 }
 
 export const succeed = (x: Succeed) => {
   return {} as AslState;
 }
 
-export const fail = (x: Fail) => {
+export const fail = (x: Fail): never => {
   throw new Error(x.cause);
+}
+
+export namespace states {
+  export function format(format: string, ...args: unknown[]): unknown {
+    const formatNode = format.replace('{}', '%s')
+    return util.format(formatNode, args);
+  }
+
+  export function stringToJson(arg: string | undefined): unknown {
+    if (arg === undefined) return undefined;
+    return JSON.parse(arg);
+  }
+  export function jsonToString(arg: unknown): string {
+    switch (typeof arg) {
+      case "number":
+      case "boolean":
+      case "string":
+        arg.toString();
+        break;
+    }
+    return JSON.stringify(arg);
+  }
+  export function array(...args: unknown[]): unknown[] {
+    return args;
+  }
 }
