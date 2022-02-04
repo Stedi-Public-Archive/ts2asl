@@ -2,7 +2,10 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting choice statement to iasl", () => {
   it("then native integrations get converted to map states", () => {
-    const code = `await asl.parallel({
+    const code = `
+    import * as asl from 'asl-lib';
+
+    await asl.parallel({
       branches: [
           () => { return; },
           () => { asl.fail() }

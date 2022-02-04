@@ -17,6 +17,7 @@ describe("when converting while look to iasl", () => {
             "lhs": Object {
               "_syntaxKind": "identifier",
               "identifier": "code",
+              "type": "unknown",
             },
             "operator": "eq",
             "rhs": Object {

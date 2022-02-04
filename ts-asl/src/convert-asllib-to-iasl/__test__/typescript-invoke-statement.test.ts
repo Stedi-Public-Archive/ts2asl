@@ -3,6 +3,7 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 describe("when converting typescript invoke to iasl", () => {
   it("then native integrations get converted to task states", () => {
     const code = `
+    import * as asl from 'asl-lib';
     asl.typescriptInvoke({
       target: SayHello,
       parameters: () => arg.xxx,

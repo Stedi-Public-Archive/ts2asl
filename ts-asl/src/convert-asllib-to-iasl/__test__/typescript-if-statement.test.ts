@@ -3,6 +3,7 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 describe("when converting if statement to iasl", () => {
   it("then native integrations get converted to map states", () => {
     const code = `
+    import * as asl from 'asl-lib';
     asl.typescriptIf({
       when: () => password === 'pwd',
       then: () => { asl.fail({
@@ -23,6 +24,7 @@ describe("when converting if statement to iasl", () => {
             "lhs": Object {
               "_syntaxKind": "identifier",
               "identifier": "password",
+              "type": "unknown",
             },
             "operator": "eq",
             "rhs": Object {

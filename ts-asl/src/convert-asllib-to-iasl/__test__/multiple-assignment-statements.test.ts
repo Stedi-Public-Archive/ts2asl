@@ -2,7 +2,11 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting pass statements to iasl", () => {
   it("then statements object literal expressions get converted", () => {
-    const code = `const aaaa = asl.pass({ parameters: 'hello', comment: 'some random comment' }); aaaa = asl.pass({ parameters: 'hello' });`;
+    const code = `
+    import * as asl from 'asl-lib';
+    const aaaa = asl.pass({ parameters: 'hello', comment: 'some random comment' }); 
+    aaaa = asl.pass({ parameters: 'hello' });`;
+
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
       Array [
@@ -20,6 +24,7 @@ describe("when converting pass statements to iasl", () => {
           "name": Object {
             "_syntaxKind": "identifier",
             "identifier": "aaaa",
+            "type": "string",
           },
         },
         Object {
@@ -36,6 +41,7 @@ describe("when converting pass statements to iasl", () => {
           "name": Object {
             "_syntaxKind": "identifier",
             "identifier": "aaaa",
+            "type": "unknown",
           },
         },
       ]
@@ -63,6 +69,7 @@ describe("when converting pass statements to iasl", () => {
                 "field": Object {
                   "_syntaxKind": "identifier",
                   "identifier": "xxx",
+                  "type": "unknown",
                 },
                 "third": Object {
                   "_syntaxKind": "literal",
@@ -75,6 +82,7 @@ describe("when converting pass statements to iasl", () => {
           "name": Object {
             "_syntaxKind": "identifier",
             "identifier": "aaaa",
+            "type": "unknown",
           },
         },
         Object {
@@ -109,6 +117,7 @@ describe("when converting pass statements to iasl", () => {
                     Object {
                       "_syntaxKind": "identifier",
                       "identifier": "name",
+                      "type": "unknown",
                     },
                   ],
                   "function": "states.format",
@@ -119,6 +128,7 @@ describe("when converting pass statements to iasl", () => {
           "name": Object {
             "_syntaxKind": "identifier",
             "identifier": "aaaa",
+            "type": "unknown",
           },
         },
       ]
@@ -138,11 +148,13 @@ describe("when converting pass statements to iasl", () => {
             "parameters": Object {
               "_syntaxKind": "identifier",
               "identifier": "arg",
+              "type": "unknown",
             },
           },
           "name": Object {
             "_syntaxKind": "identifier",
             "identifier": "aaaa",
+            "type": "unknown",
           },
         },
       ]

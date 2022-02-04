@@ -2,7 +2,10 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting map statement to iasl", () => {
   it("then native integrations get converted to map states", () => {
-    const code = `const aaaa = asl.map({ 
+    const code = `
+    import * as asl from 'asl-lib';
+    
+    const aaaa = asl.map({ 
         items: something.list[0].here,
         iterator: (localName) => {
           return;
@@ -42,6 +45,7 @@ describe("when converting map statement to iasl", () => {
           "name": Object {
             "_syntaxKind": "identifier",
             "identifier": "aaaa",
+            "type": "unknown",
           },
         },
       ]
