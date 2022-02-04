@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    // "module": "es2015",
+    "allowJs": true,
+    "noImplicitAny": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "outDir": "./lib",
+    "strict": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "**/__tests__/*"
+  ]
+}

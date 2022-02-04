@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "outDir": "./lib",
+    "strict": true,
+  },
+}
