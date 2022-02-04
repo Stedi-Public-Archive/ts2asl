@@ -11,8 +11,8 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          when: () => password === 'pwd',
-          then: () => { asl.fail({
+          condition: () => password === 'pwd',
+          then: async () => { asl.fail({
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -30,8 +30,8 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          when: () => password === 'pwd',
-          then: () => { asl.fail({
+          condition: () => password === 'pwd',
+          then: async () => { asl.fail({
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -49,8 +49,8 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          when: () => password !== 'pwd',
-          then: () => { asl.fail({
+          condition: () => password !== 'pwd',
+          then: async () => { asl.fail({
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -68,8 +68,8 @@ describe("when converting if statements", () => {
       ])
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          when: () => age > 18,
-          then: () => { console.log(); },
+          condition: () => age > 18,
+          then: async () => { console.log(); },
           comment: \\"if (age > 18) console.log();\\"
       })"
     `);
@@ -83,8 +83,8 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          when: () => optIn === true,
-          then: () => { console.log(); },
+          condition: () => optIn === true,
+          then: async () => { console.log(); },
           comment: \\"if (optIn === true) console.log();\\"
       })"
     `);
@@ -96,8 +96,8 @@ describe("when converting if statements", () => {
       testTransform("if (lhs === rhs) console.log();", ifStatementTransformer)
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          when: () => lhs === rhs,
-          then: () => { console.log(); },
+          condition: () => lhs === rhs,
+          then: async () => { console.log(); },
           comment: \\"if (lhs === rhs) console.log();\\"
       })"
     `);
@@ -111,9 +111,9 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          when: () => lhs === rhs,
-          then: () => { console.log(); },
-          else: () => { console.log(); },
+          condition: () => lhs === rhs,
+          then: async () => { console.log(); },
+          else: async () => { console.log(); },
           comment: \\"if (lhs === rhs) console.log(); else console.log();\\"
       })"
     `);
@@ -127,9 +127,9 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          when: () => lhs === rhs,
-          then: () => { console.log(); },
-          else: () => { console.log(); },
+          condition: () => lhs === rhs,
+          then: async () => { console.log(); },
+          else: async () => { console.log(); },
           comment: \\"if (lhs === rhs) console.log(); else console.log();\\"
       })"
     `);

@@ -20,13 +20,13 @@ describe("when converting switch statements", () => {
       "asl.choice({
           choices: [
               {
-                  block: () => {
+                  block: async () => {
                       console.log(\\"red\\");
                   },
                   condition: () => \\"red\\"
               }
           ],
-          default: () => {
+          default: async () => {
               console.log(\\"not-red\\");
           },
           comment: \\"switch (color) {\\\\n          case \\\\\\"red\\\\\\":\\\\n            console.log(\\\\\\"red\\\\\\")\\\\n            break;\\\\n        \\\\n          default:\\\\n            console.log(\\\\\\"not-red\\\\\\")\\\\n            break;\\\\n        }\\"

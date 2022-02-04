@@ -26,7 +26,7 @@ export class TransformUtil {
     return factory.createPropertyAssignment(
       factory.createIdentifier(propertyName),
       factory.createArrowFunction(
-        undefined,
+        [factory.createModifier(ts.SyntaxKind.AsyncKeyword)],
         undefined,
         [],
         undefined,

@@ -64,7 +64,7 @@ export interface Fail {
 export interface Map<T> {
     parameters?: unknown | (() => unknown);
     items: T[] | undefined | (() => T[]);
-    iterator: (item: T) => {};
+    iterator: (item: T) => void | {};
     maxConcurrency?: number;
     comment?: string;
 }
@@ -73,7 +73,7 @@ export interface Succeed {
 }
 export interface Parallel<T> {
     items: T[] | undefined | (() => T[]);
-    branches: ((item: T) => {})[];
+    branches: ((item: T) => void | {})[];
     catch?: CatchConfiguration;
     retry?: RetryConfiguration;
     comment?: string;

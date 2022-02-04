@@ -10,7 +10,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
 
     if (ts.isIfStatement(node)) {
 
-      const when = TransformUtil.createWrappedExpression("when", node.expression)
+      const when = TransformUtil.createWrappedExpression("condition", node.expression)
       const then = TransformUtil.createNamedBlock("then", convertToBlock(node.thenStatement));
       const else_ = TransformUtil.createNamedBlock("else", node.elseStatement ? convertToBlock(node.elseStatement) : undefined);
       const comment = TransformUtil.createComment(node);
