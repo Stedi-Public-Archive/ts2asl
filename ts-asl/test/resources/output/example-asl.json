@@ -82,13 +82,13 @@
                                             },
                                             {
                                               "Variable": "$.threshold.ceiling",
-                                              "StringLessThanEqualsPath": "$.numericTotal"
+                                              "NumericLessThanEqualsPath": "$.numericTotal"
                                             }
                                           ]
                                         },
                                         {
                                           "Variable": "$.threshold.ceiling",
-                                          "StringGreaterThanPath": "$.numericLastSentOnValue"
+                                          "NumericGreaterThanPath": "$.numericLastSentOnValue"
                                         }
                                       ]
                                     },
@@ -118,7 +118,7 @@
                                         },
                                         {
                                           "Variable": "$.threshold.ceiling",
-                                          "StringLessThanEqualsPath": "$.numericTotal"
+                                          "NumericLessThanEqualsPath": "$.numericTotal"
                                         }
                                       ]
                                     },
