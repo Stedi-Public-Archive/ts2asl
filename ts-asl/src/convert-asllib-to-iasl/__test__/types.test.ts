@@ -39,6 +39,20 @@ describe("when converting choice statement to iasl", () => {
         },
         Object {
           "_syntaxKind": "if",
+          "condition": Object {
+            "_syntaxKind": "binary-expression",
+            "lhs": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "xxx",
+              "type": "string",
+            },
+            "operator": "eq",
+            "rhs": Object {
+              "_syntaxKind": "literal",
+              "type": "string",
+              "value": "anotherString",
+            },
+          },
           "then": Object {
             "statements": Array [
               Object {
@@ -63,6 +77,20 @@ describe("when converting choice statement to iasl", () => {
                 "comment": "if (num === 12) {
               
             }",
+                "condition": Object {
+                  "_syntaxKind": "binary-expression",
+                  "lhs": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "num",
+                    "type": "numeric",
+                  },
+                  "operator": "eq",
+                  "rhs": Object {
+                    "_syntaxKind": "literal",
+                    "type": "numeric",
+                    "value": 12,
+                  },
+                },
                 "then": Object {
                   "statements": Array [],
                 },

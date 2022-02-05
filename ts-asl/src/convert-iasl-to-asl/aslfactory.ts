@@ -45,7 +45,7 @@ export class AslFactory {
       const contextForBranch = context.createChildContext();
 
       for (const statement of expression.while.statements) {
-        AslFactory.append(statement, context);
+        AslFactory.append(statement, contextForBranch);
       }
       const whileConditionOperator = createChoiceOperator(expression.condition);
       whileConditionOperator.Next = contextForBranch.startAt ?? "XXXX";
@@ -62,13 +62,43 @@ export class AslFactory {
       } as asl.Parallel, 'DoWhile');
     } else if (iasl.Check.isIfExpression(expression)) {
 
-      // const choiceOperator = createChoiceOperator(expression.condition);
-      // context.appendNextState({
-      //   Type: "Choice",
-      //   ...properties,
-      //   Choices: [choiceOperator],
-      //   Comment: expression.comment
-      // } as asl.Choice, nameSuggestion ?? "If");
+      const choiceOperator = createChoiceOperator(expression.condition);
+      const contextForThen = context.createChildContext();
+      for (const statement of expression.then.statements) {
+        AslFactory.append(statement, contextForThen);
+      }
+      const statemachineForThen = contextForThen.finalize();
+      const parallelThen = {
+        Type: "Parallel",
+        Branches: [statemachineForThen]
+      } as asl.Parallel;
+
+      let parallelElse: asl.Parallel | undefined = undefined;
+      if (expression.else) {
+        const contextForElse = context.createChildContext();
+        for (const statement of expression.else.statements) {
+          AslFactory.append(statement, contextForElse);
+        }
+        const statemachineForElse = contextForThen.finalize();
+        const parallelElse = {
+          Type: "Parallel",
+          Branches: [statemachineForElse]
+        } as asl.Parallel;
+      }
+
+      const choiceState = {
+        Type: "Choice",
+        ...properties,
+        Choices: [choiceOperator],
+        Comment: expression.comment
+      } as asl.Choice;
+      context.appendNextState(choiceState, nameSuggestion ?? "If");
+
+      const thenName = context.appendAdditionalTail(parallelThen);
+      choiceOperator.Next = thenName;
+
+      const elseName = context.appendAdditionalTail(parallelElse ?? { Type: "Pass" } as asl.Pass, "Noop")
+      choiceState.Default = elseName;
 
     } else if (iasl.Check.isWhileStatement(expression)) {
     } else if (iasl.Check.isAslWaitState(expression)) {

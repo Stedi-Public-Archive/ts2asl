@@ -1,0 +1,461 @@
+[
+  {
+    "name": {
+      "identifier": "thresholds",
+      "_syntaxKind": "identifier",
+      "type": "object"
+    },
+    "expression": {
+      "parameters": {
+        "elements": [
+          {
+            "properties": {
+              "metric": {
+                "value": "mappings.requests",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              "ceiling": {
+                "value": 100,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "metric": {
+                "value": "mappings.requests",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              "ceiling": {
+                "value": 1000,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "comment": "thresholds = [\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 100\n    },\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 1000\n    }\n  ]",
+      "_syntaxKind": "asl-pass-state"
+    },
+    "_syntaxKind": "variable-assignment"
+  },
+  {
+    "name": {
+      "identifier": "lastEvaluatedKey",
+      "_syntaxKind": "identifier",
+      "type": "unknown"
+    },
+    "expression": {
+      "parameters": {
+        "value": null,
+        "type": "null",
+        "_syntaxKind": "literal"
+      },
+      "comment": "lastEvaluatedKey: any | undefined = undefined",
+      "_syntaxKind": "asl-pass-state"
+    },
+    "_syntaxKind": "variable-assignment"
+  },
+  {
+    "condition": {
+      "operator": "is-present",
+      "rhs": {
+        "identifier": "lastEvaluatedKey",
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      }
+    },
+    "while": {
+      "statements": [
+        {
+          "name": {
+            "identifier": "scan",
+            "_syntaxKind": "identifier",
+            "type": "unknown"
+          },
+          "expression": {
+            "resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
+            "parameters": {
+              "_syntaxKind": "literal-object",
+              "properties": {
+                "TableName": {
+                  "value": "MyStorage",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "Limit": {
+                  "value": 1,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "ExclusiveStartKey": {
+                  "identifier": "lastEvaluatedKey",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                }
+              }
+            },
+            "_syntaxKind": "asl-task-state"
+          },
+          "_syntaxKind": "variable-assignment"
+        },
+        {
+          "items": {
+            "identifier": "scan.Items",
+            "_syntaxKind": "identifier"
+          },
+          "catch": [],
+          "retry": [],
+          "iterator": {
+            "statements": [
+              {
+                "items": {
+                  "identifier": "thresholds",
+                  "_syntaxKind": "identifier",
+                  "type": "object"
+                },
+                "catch": [],
+                "retry": [],
+                "iterator": {
+                  "statements": [
+                    {
+                      "name": {
+                        "identifier": "numericLastSentOnValue",
+                        "_syntaxKind": "identifier",
+                        "type": "numeric"
+                      },
+                      "expression": {
+                        "parameters": {
+                          "arguments": [
+                            {
+                              "identifier": "item.lastSentOnValue.N",
+                              "_syntaxKind": "identifier"
+                            }
+                          ],
+                          "function": "asl.states.stringToJson",
+                          "_syntaxKind": "asl-intrinsic-function"
+                        },
+                        "comment": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
+                        "_syntaxKind": "asl-pass-state"
+                      },
+                      "_syntaxKind": "variable-assignment"
+                    },
+                    {
+                      "name": {
+                        "identifier": "numericTotal",
+                        "_syntaxKind": "identifier",
+                        "type": "numeric"
+                      },
+                      "expression": {
+                        "parameters": {
+                          "arguments": [
+                            {
+                              "identifier": "item.total.N",
+                              "_syntaxKind": "identifier"
+                            }
+                          ],
+                          "function": "asl.states.stringToJson",
+                          "_syntaxKind": "asl-intrinsic-function"
+                        },
+                        "comment": "numericTotal = asl.states.stringToJson(item.total.N) as number",
+                        "_syntaxKind": "asl-pass-state"
+                      },
+                      "_syntaxKind": "variable-assignment"
+                    },
+                    {
+                      "condition": {
+                        "lhs": {
+                          "lhs": {
+                            "lhs": {
+                              "lhs": {
+                                "lhs": {
+                                  "identifier": "item.sk.S",
+                                  "_syntaxKind": "identifier"
+                                },
+                                "operator": "eq",
+                                "rhs": {
+                                  "identifier": "threshold.metric",
+                                  "_syntaxKind": "identifier"
+                                },
+                                "_syntaxKind": "binary-expression"
+                              },
+                              "operator": "and",
+                              "rhs": {
+                                "lhs": {
+                                  "identifier": "threshold.ceiling",
+                                  "_syntaxKind": "identifier"
+                                },
+                                "operator": "lte",
+                                "rhs": {
+                                  "identifier": "numericTotal",
+                                  "_syntaxKind": "identifier",
+                                  "type": "numeric"
+                                },
+                                "_syntaxKind": "binary-expression"
+                              },
+                              "_syntaxKind": "binary-expression"
+                            },
+                            "operator": "and",
+                            "rhs": {
+                              "lhs": {
+                                "identifier": "threshold.ceiling",
+                                "_syntaxKind": "identifier"
+                              },
+                              "operator": "gt",
+                              "rhs": {
+                                "identifier": "numericLastSentOnValue",
+                                "_syntaxKind": "identifier",
+                                "type": "numeric"
+                              },
+                              "_syntaxKind": "binary-expression"
+                            },
+                            "_syntaxKind": "binary-expression"
+                          },
+                          "operator": "and",
+                          "rhs": {
+                            "lhs": {
+                              "operator": "not",
+                              "rhs": {
+                                "operator": "is-present",
+                                "rhs": {
+                                  "identifier": "item.lastBeginDateValue.S",
+                                  "_syntaxKind": "identifier"
+                                },
+                                "_syntaxKind": "binary-expression"
+                              },
+                              "_syntaxKind": "binary-expression"
+                            },
+                            "operator": "or",
+                            "rhs": {
+                              "lhs": {
+                                "identifier": "item.beginDate.S",
+                                "_syntaxKind": "identifier"
+                              },
+                              "operator": "eq",
+                              "rhs": {
+                                "identifier": "item.lastBeginDateValue.S",
+                                "_syntaxKind": "identifier"
+                              },
+                              "_syntaxKind": "binary-expression"
+                            },
+                            "_syntaxKind": "binary-expression"
+                          },
+                          "_syntaxKind": "binary-expression"
+                        },
+                        "operator": "or",
+                        "rhs": {
+                          "lhs": {
+                            "lhs": {
+                              "lhs": {
+                                "identifier": "item.sk.S",
+                                "_syntaxKind": "identifier"
+                              },
+                              "operator": "eq",
+                              "rhs": {
+                                "identifier": "threshold.metric",
+                                "_syntaxKind": "identifier"
+                              },
+                              "_syntaxKind": "binary-expression"
+                            },
+                            "operator": "and",
+                            "rhs": {
+                              "lhs": {
+                                "identifier": "threshold.ceiling",
+                                "_syntaxKind": "identifier"
+                              },
+                              "operator": "lte",
+                              "rhs": {
+                                "identifier": "numericTotal",
+                                "_syntaxKind": "identifier",
+                                "type": "numeric"
+                              },
+                              "_syntaxKind": "binary-expression"
+                            },
+                            "_syntaxKind": "binary-expression"
+                          },
+                          "operator": "and",
+                          "rhs": {
+                            "lhs": {
+                              "operator": "not",
+                              "rhs": {
+                                "operator": "is-present",
+                                "rhs": {
+                                  "identifier": "item.lastBeginDateValue.S",
+                                  "_syntaxKind": "identifier"
+                                },
+                                "_syntaxKind": "binary-expression"
+                              },
+                              "_syntaxKind": "binary-expression"
+                            },
+                            "operator": "or",
+                            "rhs": {
+                              "lhs": {
+                                "identifier": "item.beginDate.S",
+                                "_syntaxKind": "identifier"
+                              },
+                              "operator": "eq",
+                              "rhs": {
+                                "identifier": "item.lastBeginDateValue.S",
+                                "_syntaxKind": "identifier"
+                              },
+                              "_syntaxKind": "binary-expression"
+                            },
+                            "_syntaxKind": "binary-expression"
+                          },
+                          "_syntaxKind": "binary-expression"
+                        },
+                        "_syntaxKind": "binary-expression"
+                      },
+                      "then": {
+                        "statements": [
+                          {
+                            "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                            "parameters": {
+                              "_syntaxKind": "literal-object",
+                              "properties": {
+                                "Entries": {
+                                  "elements": [
+                                    {
+                                      "properties": {
+                                        "Detail": {
+                                          "arguments": [
+                                            {
+                                              "properties": {
+                                                "account_id": {
+                                                  "identifier": "item.pk",
+                                                  "_syntaxKind": "identifier"
+                                                },
+                                                "threshold": {
+                                                  "identifier": "threshold",
+                                                  "_syntaxKind": "identifier",
+                                                  "type": "unknown"
+                                                }
+                                              },
+                                              "_syntaxKind": "literal-object"
+                                            }
+                                          ],
+                                          "function": "asl.states.jsonToString",
+                                          "_syntaxKind": "asl-intrinsic-function"
+                                        },
+                                        "DetailType": {
+                                          "value": "xxx.detail.type",
+                                          "type": "string",
+                                          "_syntaxKind": "literal"
+                                        },
+                                        "EventBusName": {
+                                          "value": "default",
+                                          "type": "string",
+                                          "_syntaxKind": "literal"
+                                        },
+                                        "Source": {
+                                          "value": "zzz.my.source",
+                                          "type": "string",
+                                          "_syntaxKind": "literal"
+                                        }
+                                      },
+                                      "_syntaxKind": "literal-object"
+                                    }
+                                  ],
+                                  "_syntaxKind": "literal-array"
+                                }
+                              }
+                            },
+                            "_syntaxKind": "asl-task-state"
+                          },
+                          {
+                            "resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
+                            "parameters": {
+                              "_syntaxKind": "literal-object",
+                              "properties": {
+                                "TableName": {
+                                  "value": "MyStorage",
+                                  "type": "string",
+                                  "_syntaxKind": "literal"
+                                },
+                                "Key": {
+                                  "properties": {
+                                    "pk": {
+                                      "identifier": "item.pk",
+                                      "_syntaxKind": "identifier"
+                                    },
+                                    "sk": {
+                                      "identifier": "item.sk",
+                                      "_syntaxKind": "identifier"
+                                    }
+                                  },
+                                  "_syntaxKind": "literal-object"
+                                },
+                                "ConditionExpression": {
+                                  "value": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+                                  "type": "string",
+                                  "_syntaxKind": "literal"
+                                },
+                                "UpdateExpression": {
+                                  "value": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                                  "type": "string",
+                                  "_syntaxKind": "literal"
+                                },
+                                "ExpressionAttributeValues": {
+                                  "properties": {
+                                    ":newLastSentOnValue": {
+                                      "properties": {
+                                        "N": {
+                                          "identifier": "item.total.N",
+                                          "_syntaxKind": "identifier"
+                                        }
+                                      },
+                                      "_syntaxKind": "literal-object"
+                                    },
+                                    ":newLastBeginDateValue": {
+                                      "properties": {
+                                        "S": {
+                                          "identifier": "item.beginDate.S",
+                                          "_syntaxKind": "identifier"
+                                        }
+                                      },
+                                      "_syntaxKind": "literal-object"
+                                    }
+                                  },
+                                  "_syntaxKind": "literal-object"
+                                }
+                              }
+                            },
+                            "_syntaxKind": "asl-task-state"
+                          }
+                        ]
+                      },
+                      "comment": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\n\n          await asl.nativeEventBridgePutEvents({\n            Entries: [\n              {\n                Detail: asl.states.jsonToString({\n                  account_id: item.pk,\n                  threshold: threshold\n                }),\n                DetailType: \"xxx.detail.type\",\n                EventBusName: \"default\",\n                Source: \"zzz.my.source\"\n              }\n            ]\n          });\n          await asl.nativeDynamoDBUpdateItem({\n            TableName: \"MyStorage\",\n            Key: {\n              pk: item.pk,\n              sk: item.sk\n            },\n            ConditionExpression: \"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\",\n            UpdateExpression: \"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\",\n            ExpressionAttributeValues: {\n              \":newLastSentOnValue\": {\n                N: item.total.N as any\n              },\n              \":newLastBeginDateValue\": {\n                S: item.beginDate.S\n              }\n            }\n          });\n        }",
+                      "_syntaxKind": "if"
+                    }
+                  ]
+                },
+                "_syntaxKind": "asl-map-state"
+              }
+            ]
+          },
+          "_syntaxKind": "asl-map-state"
+        },
+        {
+          "name": {
+            "identifier": "lastEvaluatedKey",
+            "_syntaxKind": "identifier",
+            "type": "unknown"
+          },
+          "expression": {
+            "identifier": "scan.LastEvaluatedKey",
+            "_syntaxKind": "identifier"
+          },
+          "_syntaxKind": "variable-assignment"
+        }
+      ]
+    },
+    "_syntaxKind": "do-while"
+  }
+]

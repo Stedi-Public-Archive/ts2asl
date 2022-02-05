@@ -27,6 +27,7 @@ export class Converter {
 
     const transformed = transformBody(main.body);
     const transpiled = convertToIntermediaryAsl(transformed, this.host.typeChecker);
+
     return {
       asl: convertToASl(transpiled)!,
       source: this.sourceFile.text,

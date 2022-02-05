@@ -8,8 +8,16 @@ describe("when converting example (native)", () => {
     const converter = Converter.FromFile("test/resources/example.ts");
     converted = converter.convert();
     writeFileSync(
-      "test/resources/example-asllib.ts",
+      "test/resources/output/example-asllib.ts",
       converted.transformedCode
+    );
+    writeFileSync(
+      "test/resources/output/example-i-asl.json",
+      JSON.stringify(converted.iasl, null, 2)
+    );
+    writeFileSync(
+      "test/resources/output/example-asl.json",
+      JSON.stringify(converted.asl, null, 2)
     );
   });
 
@@ -316,6 +324,149 @@ describe("when converting example (native)", () => {
                   }
                 });
               }",
+                            "condition": Object {
+                              "_syntaxKind": "binary-expression",
+                              "lhs": Object {
+                                "_syntaxKind": "binary-expression",
+                                "lhs": Object {
+                                  "_syntaxKind": "binary-expression",
+                                  "lhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "lhs": Object {
+                                      "_syntaxKind": "binary-expression",
+                                      "lhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "item.sk.S",
+                                      },
+                                      "operator": "eq",
+                                      "rhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "threshold.metric",
+                                      },
+                                    },
+                                    "operator": "and",
+                                    "rhs": Object {
+                                      "_syntaxKind": "binary-expression",
+                                      "lhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "threshold.ceiling",
+                                      },
+                                      "operator": "lte",
+                                      "rhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "numericTotal",
+                                        "type": "numeric",
+                                      },
+                                    },
+                                  },
+                                  "operator": "and",
+                                  "rhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "lhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "threshold.ceiling",
+                                    },
+                                    "operator": "gt",
+                                    "rhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "numericLastSentOnValue",
+                                      "type": "numeric",
+                                    },
+                                  },
+                                },
+                                "operator": "and",
+                                "rhs": Object {
+                                  "_syntaxKind": "binary-expression",
+                                  "lhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "operator": "not",
+                                    "rhs": Object {
+                                      "_syntaxKind": "binary-expression",
+                                      "operator": "is-present",
+                                      "rhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "item.lastBeginDateValue.S",
+                                      },
+                                    },
+                                  },
+                                  "operator": "or",
+                                  "rhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "lhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "item.beginDate.S",
+                                    },
+                                    "operator": "eq",
+                                    "rhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "item.lastBeginDateValue.S",
+                                    },
+                                  },
+                                },
+                              },
+                              "operator": "or",
+                              "rhs": Object {
+                                "_syntaxKind": "binary-expression",
+                                "lhs": Object {
+                                  "_syntaxKind": "binary-expression",
+                                  "lhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "lhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "item.sk.S",
+                                    },
+                                    "operator": "eq",
+                                    "rhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "threshold.metric",
+                                    },
+                                  },
+                                  "operator": "and",
+                                  "rhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "lhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "threshold.ceiling",
+                                    },
+                                    "operator": "lte",
+                                    "rhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "numericTotal",
+                                      "type": "numeric",
+                                    },
+                                  },
+                                },
+                                "operator": "and",
+                                "rhs": Object {
+                                  "_syntaxKind": "binary-expression",
+                                  "lhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "operator": "not",
+                                    "rhs": Object {
+                                      "_syntaxKind": "binary-expression",
+                                      "operator": "is-present",
+                                      "rhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "item.lastBeginDateValue.S",
+                                      },
+                                    },
+                                  },
+                                  "operator": "or",
+                                  "rhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "lhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "item.beginDate.S",
+                                    },
+                                    "operator": "eq",
+                                    "rhs": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "item.lastBeginDateValue.S",
+                                    },
+                                  },
+                                },
+                              },
+                            },
                             "then": Object {
                               "statements": Array [
                                 Object {
@@ -462,6 +613,88 @@ describe("when converting example (native)", () => {
     `);
   });
 
+  it("then can be converted to asllib", async () => {
+    expect(converted.transformedCode).toMatchInlineSnapshot(`
+      "import * as asl from \\"asl-lib\\";
+      export const main = asl.deploy.asStateMachine(async () => {
+          let thresholds = [
+              {
+                  \\"metric\\": \\"mappings.requests\\",
+                  \\"ceiling\\": 100
+              },
+              {
+                  \\"metric\\": \\"mappings.requests\\",
+                  \\"ceiling\\": 1000
+              }
+          ];
+          let lastEvaluatedKey: any | undefined = undefined;
+          do {
+              let scan = await asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
+              for (const item of ((scan.Items || []) as unknown as Item[])) {
+                  for (const threshold of thresholds) {
+                      let numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number;
+                      let numericTotal = asl.states.stringToJson(item.total.N) as number;
+                      if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
+                          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
+                          await asl.nativeEventBridgePutEvents({
+                              Entries: [
+                                  {
+                                      Detail: asl.states.jsonToString({
+                                          account_id: item.pk,
+                                          threshold: threshold
+                                      }),
+                                      DetailType: \\"xxx.detail.type\\",
+                                      EventBusName: \\"default\\",
+                                      Source: \\"zzz.my.source\\"
+                                  }
+                              ]
+                          });
+                          await asl.nativeDynamoDBUpdateItem({
+                              TableName: \\"MyStorage\\",
+                              Key: {
+                                  pk: item.pk,
+                                  sk: item.sk
+                              },
+                              ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
+                              UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
+                              ExpressionAttributeValues: {
+                                  \\":newLastSentOnValue\\": {
+                                      N: item.total.N as any
+                                  },
+                                  \\":newLastBeginDateValue\\": {
+                                      S: item.beginDate.S
+                                  }
+                              }
+                          });
+                      }
+                  }
+              }
+              lastEvaluatedKey = scan.LastEvaluatedKey;
+          } while (lastEvaluatedKey);
+      });
+      interface Item {
+          pk: {
+              S: string;
+          };
+          sk: {
+              S: string;
+          };
+          total: {
+              N: string;
+          };
+          lastSentOnValue: {
+              N: string;
+          };
+          beginDate: {
+              S: string;
+          };
+          lastBeginDateValue: {
+              S: string;
+          };
+      }
+      "
+    `);
+  });
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
@@ -469,33 +702,10 @@ describe("when converting example (native)", () => {
         "States": Object {
           "Assign lastEvaluatedKey": Object {
             "Comment": "lastEvaluatedKey: any | undefined = undefined",
-            "Next": "Assign scan",
+            "Next": "DoWhile",
             "Result": null,
             "ResultPath": "$.lastEvaluatedKey",
             "Type": "Pass",
-          },
-          "Assign lastEvaluatedKey_1": Object {
-            "Comment": undefined,
-            "InputPath": "scan.LastEvaluatedKey",
-            "Next": "DoWhile",
-            "ResultPath": "$.lastEvaluatedKey",
-            "Type": "Pass",
-          },
-          "Assign scan": Object {
-            "Catch": undefined,
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "Map",
-            "Parameters": Object {
-              "ExclusiveStartKey.$": "$.lastEvaluatedKey",
-              "Limit": 1,
-              "TableName": "MyStorage",
-            },
-            "Resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
-            "ResultPath": "$.scan",
-            "Retry": undefined,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
           },
           "Assign thresholds": Object {
             "Comment": "thresholds = [
@@ -525,13 +735,249 @@ describe("when converting example (native)", () => {
           "DoWhile": Object {
             "Branches": Array [
               Object {
-                "StartAt": "_WhileCondition",
+                "StartAt": "Assign scan",
                 "States": Object {
+                  "Assign lastEvaluatedKey": Object {
+                    "Comment": undefined,
+                    "InputPath": "scan.LastEvaluatedKey",
+                    "Next": "_WhileCondition",
+                    "ResultPath": "$.lastEvaluatedKey",
+                    "Type": "Pass",
+                  },
+                  "Assign scan": Object {
+                    "Catch": undefined,
+                    "Comment": undefined,
+                    "HeartbeatSeconds": undefined,
+                    "Next": "Map",
+                    "Parameters": Object {
+                      "ExclusiveStartKey.$": "$.lastEvaluatedKey",
+                      "Limit": 1,
+                      "TableName": "MyStorage",
+                    },
+                    "Resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
+                    "ResultPath": "$.scan",
+                    "Retry": undefined,
+                    "TimeoutSeconds": undefined,
+                    "Type": "Task",
+                  },
+                  "Map": Object {
+                    "Comment": undefined,
+                    "ItemsPath": "scan.Items",
+                    "Iterator": Object {
+                      "StartAt": "Map",
+                      "States": Object {
+                        "Map": Object {
+                          "Comment": undefined,
+                          "End": true,
+                          "ItemsPath": "thresholds",
+                          "Iterator": Object {
+                            "StartAt": "Assign numericLastSentOnValue",
+                            "States": Object {
+                              "Assign numericLastSentOnValue": Object {
+                                "Comment": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
+                                "Next": "Assign numericTotal",
+                                "Parameters": "States.StringToJson($.item.lastSentOnValue.N)",
+                                "ResultPath": "$.numericLastSentOnValue",
+                                "Type": "Pass",
+                              },
+                              "Assign numericTotal": Object {
+                                "Comment": "numericTotal = asl.states.stringToJson(item.total.N) as number",
+                                "Next": "If",
+                                "Parameters": "States.StringToJson($.item.total.N)",
+                                "ResultPath": "$.numericTotal",
+                                "Type": "Pass",
+                              },
+                              "If": Object {
+                                "Choices": Array [
+                                  Object {
+                                    "Next": "Parallel",
+                                    "Or": Array [
+                                      Object {
+                                        "And": Array [
+                                          Object {
+                                            "And": Array [
+                                              Object {
+                                                "And": Array [
+                                                  Object {
+                                                    "StringEqualsPath": "$.threshold.metric",
+                                                    "Variable": "$.item.sk.S",
+                                                  },
+                                                  Object {
+                                                    "StringLessThanEqualsPath": "$.numericTotal",
+                                                    "Variable": "$.threshold.ceiling",
+                                                  },
+                                                ],
+                                              },
+                                              Object {
+                                                "StringGreaterThanPath": "$.numericLastSentOnValue",
+                                                "Variable": "$.threshold.ceiling",
+                                              },
+                                            ],
+                                          },
+                                          Object {
+                                            "Or": Array [
+                                              Object {
+                                                "Not": Object {
+                                                  "IsPresent": true,
+                                                  "Variable": "item.lastBeginDateValue.S",
+                                                },
+                                              },
+                                              Object {
+                                                "StringEqualsPath": "$.item.lastBeginDateValue.S",
+                                                "Variable": "$.item.beginDate.S",
+                                              },
+                                            ],
+                                          },
+                                        ],
+                                      },
+                                      Object {
+                                        "And": Array [
+                                          Object {
+                                            "And": Array [
+                                              Object {
+                                                "StringEqualsPath": "$.threshold.metric",
+                                                "Variable": "$.item.sk.S",
+                                              },
+                                              Object {
+                                                "StringLessThanEqualsPath": "$.numericTotal",
+                                                "Variable": "$.threshold.ceiling",
+                                              },
+                                            ],
+                                          },
+                                          Object {
+                                            "Or": Array [
+                                              Object {
+                                                "Not": Object {
+                                                  "IsPresent": true,
+                                                  "Variable": "item.lastBeginDateValue.S",
+                                                },
+                                              },
+                                              Object {
+                                                "StringEqualsPath": "$.item.lastBeginDateValue.S",
+                                                "Variable": "$.item.beginDate.S",
+                                              },
+                                            ],
+                                          },
+                                        ],
+                                      },
+                                    ],
+                                  },
+                                ],
+                                "Comment": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
+                || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
+
+                await asl.nativeEventBridgePutEvents({
+                  Entries: [
+                    {
+                      Detail: asl.states.jsonToString({
+                        account_id: item.pk,
+                        threshold: threshold
+                      }),
+                      DetailType: \\"xxx.detail.type\\",
+                      EventBusName: \\"default\\",
+                      Source: \\"zzz.my.source\\"
+                    }
+                  ]
+                });
+                await asl.nativeDynamoDBUpdateItem({
+                  TableName: \\"MyStorage\\",
+                  Key: {
+                    pk: item.pk,
+                    sk: item.sk
+                  },
+                  ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
+                  UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
+                  ExpressionAttributeValues: {
+                    \\":newLastSentOnValue\\": {
+                      N: item.total.N as any
+                    },
+                    \\":newLastBeginDateValue\\": {
+                      S: item.beginDate.S
+                    }
+                  }
+                });
+              }",
+                                "Default": "Noop",
+                                "Type": "Choice",
+                              },
+                              "Noop": Object {
+                                "End": true,
+                                "Type": "Pass",
+                              },
+                              "Parallel": Object {
+                                "Branches": Array [
+                                  Object {
+                                    "StartAt": "Task",
+                                    "States": Object {
+                                      "Task": Object {
+                                        "Catch": undefined,
+                                        "Comment": undefined,
+                                        "HeartbeatSeconds": undefined,
+                                        "Next": "Task_1",
+                                        "Parameters": Object {
+                                          "Entries": Array [
+                                            Object {
+                                              "Detail": "States.JsonToString([object Object])",
+                                              "DetailType": "xxx.detail.type",
+                                              "EventBusName": "default",
+                                              "Source": "zzz.my.source",
+                                            },
+                                          ],
+                                        },
+                                        "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                                        "Retry": undefined,
+                                        "TimeoutSeconds": undefined,
+                                        "Type": "Task",
+                                      },
+                                      "Task_1": Object {
+                                        "Catch": undefined,
+                                        "Comment": undefined,
+                                        "End": true,
+                                        "HeartbeatSeconds": undefined,
+                                        "Parameters": Object {
+                                          "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+                                          "ExpressionAttributeValues": Object {
+                                            ":newLastBeginDateValue": Object {
+                                              "S.$": "$.item.beginDate.S",
+                                            },
+                                            ":newLastSentOnValue": Object {
+                                              "N.$": "$.item.total.N",
+                                            },
+                                          },
+                                          "Key": Object {
+                                            "pk.$": "$.item.pk",
+                                            "sk.$": "$.item.sk",
+                                          },
+                                          "TableName": "MyStorage",
+                                          "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                                        },
+                                        "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
+                                        "Retry": undefined,
+                                        "TimeoutSeconds": undefined,
+                                        "Type": "Task",
+                                      },
+                                    },
+                                  },
+                                ],
+                                "End": true,
+                                "Type": "Parallel",
+                              },
+                            },
+                          },
+                          "MaxConcurrency": undefined,
+                          "Type": "Map",
+                        },
+                      },
+                    },
+                    "MaxConcurrency": undefined,
+                    "Next": "Assign lastEvaluatedKey",
+                    "Type": "Map",
+                  },
                   "_WhileCondition": Object {
                     "Choices": Array [
                       Object {
                         "IsPresent": true,
-                        "Next": "XXXX",
+                        "Next": "Assign scan",
                         "Variable": "lastEvaluatedKey",
                       },
                     ],
@@ -547,44 +993,6 @@ describe("when converting example (native)", () => {
             "Comment": undefined,
             "End": true,
             "Type": "Parallel",
-          },
-          "Map": Object {
-            "Comment": undefined,
-            "ItemsPath": "scan.Items",
-            "Iterator": Object {
-              "StartAt": "Map",
-              "States": Object {
-                "Map": Object {
-                  "Comment": undefined,
-                  "End": true,
-                  "ItemsPath": "thresholds",
-                  "Iterator": Object {
-                    "StartAt": "Assign numericLastSentOnValue",
-                    "States": Object {
-                      "Assign numericLastSentOnValue": Object {
-                        "Comment": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
-                        "Next": "Assign numericTotal",
-                        "Parameters": "States.StringToJson($.item.lastSentOnValue.N)",
-                        "ResultPath": "$.numericLastSentOnValue",
-                        "Type": "Pass",
-                      },
-                      "Assign numericTotal": Object {
-                        "Comment": "numericTotal = asl.states.stringToJson(item.total.N) as number",
-                        "End": true,
-                        "Parameters": "States.StringToJson($.item.total.N)",
-                        "ResultPath": "$.numericTotal",
-                        "Type": "Pass",
-                      },
-                    },
-                  },
-                  "MaxConcurrency": undefined,
-                  "Type": "Map",
-                },
-              },
-            },
-            "MaxConcurrency": undefined,
-            "Next": "Assign lastEvaluatedKey_1",
-            "Type": "Map",
           },
         },
       }
