@@ -26,6 +26,30 @@ describe("when transpiling simple statements", () => {
       }
     `);
   });
+
+  it("then not is-present is optimized to is-preset: false", () => {
+    const binaryExpression = {
+      operator: "not",
+      rhs: {
+        operator: "is-present",
+        rhs: {
+          identifier: "something",
+          type: "numeric",
+          _syntaxKind: iasl.SyntaxKind.Identifier
+        },
+        _syntaxKind: iasl.SyntaxKind.BinaryExpression
+      } as iasl.BinaryExpression,
+      _syntaxKind: iasl.SyntaxKind.BinaryExpression
+    } as iasl.BinaryExpression;
+
+    const result = createChoiceOperator(binaryExpression);
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "IsPresent": false,
+        "Variable": "something",
+      }
+    `);
+  });
 });
 
 describe("when transpiling complex statements", () => {
@@ -200,10 +224,8 @@ describe("when transpiling complex statements", () => {
               Object {
                 "Or": Array [
                   Object {
-                    "Not": Object {
-                      "IsPresent": true,
-                      "Variable": "item.lastBeginDateValue.S",
-                    },
+                    "IsPresent": false,
+                    "Variable": "item.lastBeginDateValue.S",
                   },
                   Object {
                     "StringEqualsPath": "$.item.lastBeginDateValue.S",
@@ -230,10 +252,8 @@ describe("when transpiling complex statements", () => {
               Object {
                 "Or": Array [
                   Object {
-                    "Not": Object {
-                      "IsPresent": true,
-                      "Variable": "item.lastBeginDateValue.S",
-                    },
+                    "IsPresent": false,
+                    "Variable": "item.lastBeginDateValue.S",
                   },
                   Object {
                     "StringEqualsPath": "$.item.lastBeginDateValue.S",

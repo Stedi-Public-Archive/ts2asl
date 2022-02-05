@@ -95,10 +95,8 @@
                                     {
                                       "Or": [
                                         {
-                                          "Not": {
-                                            "Variable": "item.lastBeginDateValue.S",
-                                            "IsPresent": true
-                                          }
+                                          "Variable": "item.lastBeginDateValue.S",
+                                          "IsPresent": false
                                         },
                                         {
                                           "Variable": "$.item.beginDate.S",
@@ -125,10 +123,8 @@
                                     {
                                       "Or": [
                                         {
-                                          "Not": {
-                                            "Variable": "item.lastBeginDateValue.S",
-                                            "IsPresent": true
-                                          }
+                                          "Variable": "item.lastBeginDateValue.S",
+                                          "IsPresent": false
                                         },
                                         {
                                           "Variable": "$.item.beginDate.S",
