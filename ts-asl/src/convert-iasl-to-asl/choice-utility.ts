@@ -16,8 +16,15 @@ export function createChoiceOperator(expression: iasl.BinaryExpression): Operato
   }
 
   if (expression.operator === "not") {
-    //todo: optimize not(isPresent(el)) to isNotPresent(el)
-    if (iasl.Check.isBinaryExpression(expression.rhs)) {
+    if (iasl.Check.isBinaryExpression(expression.rhs)) { //not(isPresent(xxx)) => {IsPresent: false, Variable: xxxx}
+      if ((expression.rhs.operator === "is-present") && iasl.Check.isIdentifier(expression.rhs.rhs)) {
+        const expr = convertExpressionToAsl(expression.rhs.rhs);
+        return {
+          Variable: expr.path,
+          IsPresent: false //todo: consider this https://stackoverflow.com/questions/63039270/aws-step-function-check-for-null
+        }
+      }
+
       return {
         Not: createChoiceOperator(expression.rhs)
       }
@@ -69,6 +76,19 @@ export function createChoiceOperator(expression: iasl.BinaryExpression): Operato
   }
 
   let operatorField = 'String';
+  let type: iasl.Type | undefined = [lhs.type, rhs.type].find(x => x !== "unknown")
+  if (type) {
+    switch (type) {
+      case "numeric":
+        operatorField = "Numeric"
+        break;
+      case "boolean":
+        operatorField = "Boolean"
+        break;
+      case "timestamp":
+        operatorField = "Timestamp"
+    }
+  }
   switch (expression.operator) {
     case "eq":
       operatorField += 'Equals'
@@ -89,6 +109,9 @@ export function createChoiceOperator(expression: iasl.BinaryExpression): Operato
       operatorField += 'Matches'
       break;
   }
+
+
+
   let operand = rhs.value;
   if (rhs.path) {
     operatorField += 'Path';

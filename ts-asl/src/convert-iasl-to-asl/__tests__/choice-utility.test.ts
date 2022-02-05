@@ -3,6 +3,56 @@ import { createChoiceOperator } from "../choice-utility";
 import * as iasl from "../../convert-asllib-to-iasl/ast";
 
 describe("when transpiling simple statements", () => {
+  it("then current type operand is used", () => {
+    const binaryExpression = {
+      lhs: {
+        identifier: "something",
+        type: "numeric",
+        _syntaxKind: iasl.SyntaxKind.Identifier
+      } as iasl.Identifier,
+      operator: "eq",
+      rhs: {
+        value: 23,
+        _syntaxKind: iasl.SyntaxKind.Literal
+      } as iasl.LiteralExpression,
+      _syntaxKind: iasl.SyntaxKind.BinaryExpression
+    } as iasl.BinaryExpression;
+
+    const result = createChoiceOperator(binaryExpression);
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "NumericEquals": 23,
+        "Variable": "$.something",
+      }
+    `);
+  });
+
+  it("then not is-present is optimized to is-preset: false", () => {
+    const binaryExpression = {
+      operator: "not",
+      rhs: {
+        operator: "is-present",
+        rhs: {
+          identifier: "something",
+          type: "numeric",
+          _syntaxKind: iasl.SyntaxKind.Identifier
+        },
+        _syntaxKind: iasl.SyntaxKind.BinaryExpression
+      } as iasl.BinaryExpression,
+      _syntaxKind: iasl.SyntaxKind.BinaryExpression
+    } as iasl.BinaryExpression;
+
+    const result = createChoiceOperator(binaryExpression);
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "IsPresent": false,
+        "Variable": "something",
+      }
+    `);
+  });
+});
+
+describe("when transpiling complex statements", () => {
   it("then assignment ends up in result path", () => {
     const binaryExpression = {
       lhs: {
@@ -174,10 +224,8 @@ describe("when transpiling simple statements", () => {
               Object {
                 "Or": Array [
                   Object {
-                    "Not": Object {
-                      "IsPresent": true,
-                      "Variable": "item.lastBeginDateValue.S",
-                    },
+                    "IsPresent": false,
+                    "Variable": "item.lastBeginDateValue.S",
                   },
                   Object {
                     "StringEqualsPath": "$.item.lastBeginDateValue.S",
@@ -204,10 +252,8 @@ describe("when transpiling simple statements", () => {
               Object {
                 "Or": Array [
                   Object {
-                    "Not": Object {
-                      "IsPresent": true,
-                      "Variable": "item.lastBeginDateValue.S",
-                    },
+                    "IsPresent": false,
+                    "Variable": "item.lastBeginDateValue.S",
                   },
                   Object {
                     "StringEqualsPath": "$.item.lastBeginDateValue.S",

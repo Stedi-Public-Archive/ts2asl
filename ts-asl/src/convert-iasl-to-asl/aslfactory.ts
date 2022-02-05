@@ -165,7 +165,7 @@ interface AslExpressionOrIdentifier {
 
 export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExpressionOrIdentifier => {
   if (iasl.Check.isIdentifier(expr)) {
-    return { path: convertIdentifierToPathExpression(expr), type: "unknown" }
+    return { path: convertIdentifierToPathExpression(expr), type: expr.type ?? "unknown" }
   } else if (iasl.Check.isLiteral(expr)) {
     return {
       value: expr.value,

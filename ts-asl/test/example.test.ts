@@ -803,13 +803,13 @@ describe("when converting example (native)", () => {
                                                     "Variable": "$.item.sk.S",
                                                   },
                                                   Object {
-                                                    "StringLessThanEqualsPath": "$.numericTotal",
+                                                    "NumericLessThanEqualsPath": "$.numericTotal",
                                                     "Variable": "$.threshold.ceiling",
                                                   },
                                                 ],
                                               },
                                               Object {
-                                                "StringGreaterThanPath": "$.numericLastSentOnValue",
+                                                "NumericGreaterThanPath": "$.numericLastSentOnValue",
                                                 "Variable": "$.threshold.ceiling",
                                               },
                                             ],
@@ -817,10 +817,8 @@ describe("when converting example (native)", () => {
                                           Object {
                                             "Or": Array [
                                               Object {
-                                                "Not": Object {
-                                                  "IsPresent": true,
-                                                  "Variable": "item.lastBeginDateValue.S",
-                                                },
+                                                "IsPresent": false,
+                                                "Variable": "item.lastBeginDateValue.S",
                                               },
                                               Object {
                                                 "StringEqualsPath": "$.item.lastBeginDateValue.S",
@@ -839,7 +837,7 @@ describe("when converting example (native)", () => {
                                                 "Variable": "$.item.sk.S",
                                               },
                                               Object {
-                                                "StringLessThanEqualsPath": "$.numericTotal",
+                                                "NumericLessThanEqualsPath": "$.numericTotal",
                                                 "Variable": "$.threshold.ceiling",
                                               },
                                             ],
@@ -847,10 +845,8 @@ describe("when converting example (native)", () => {
                                           Object {
                                             "Or": Array [
                                               Object {
-                                                "Not": Object {
-                                                  "IsPresent": true,
-                                                  "Variable": "item.lastBeginDateValue.S",
-                                                },
+                                                "IsPresent": false,
+                                                "Variable": "item.lastBeginDateValue.S",
                                               },
                                               Object {
                                                 "StringEqualsPath": "$.item.lastBeginDateValue.S",

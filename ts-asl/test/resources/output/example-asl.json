@@ -82,23 +82,21 @@
                                             },
                                             {
                                               "Variable": "$.threshold.ceiling",
-                                              "StringLessThanEqualsPath": "$.numericTotal"
+                                              "NumericLessThanEqualsPath": "$.numericTotal"
                                             }
                                           ]
                                         },
                                         {
                                           "Variable": "$.threshold.ceiling",
-                                          "StringGreaterThanPath": "$.numericLastSentOnValue"
+                                          "NumericGreaterThanPath": "$.numericLastSentOnValue"
                                         }
                                       ]
                                     },
                                     {
                                       "Or": [
                                         {
-                                          "Not": {
-                                            "Variable": "item.lastBeginDateValue.S",
-                                            "IsPresent": true
-                                          }
+                                          "Variable": "item.lastBeginDateValue.S",
+                                          "IsPresent": false
                                         },
                                         {
                                           "Variable": "$.item.beginDate.S",
@@ -118,17 +116,15 @@
                                         },
                                         {
                                           "Variable": "$.threshold.ceiling",
-                                          "StringLessThanEqualsPath": "$.numericTotal"
+                                          "NumericLessThanEqualsPath": "$.numericTotal"
                                         }
                                       ]
                                     },
                                     {
                                       "Or": [
                                         {
-                                          "Not": {
-                                            "Variable": "item.lastBeginDateValue.S",
-                                            "IsPresent": true
-                                          }
+                                          "Variable": "item.lastBeginDateValue.S",
+                                          "IsPresent": false
                                         },
                                         {
                                           "Variable": "$.item.beginDate.S",
