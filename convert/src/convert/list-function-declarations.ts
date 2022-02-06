@@ -4,13 +4,11 @@ import ts from "typescript";
 export interface FunctionDeclaration {
   name: string;
   body: ts.ConciseBody;
-  source: string;
   argumentName: string | undefined;
   kind: "asl" | "lambda";
 }
 
 export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
-  const printer = ts.createPrinter();
   const result: FunctionDeclaration[] = [];
   ts.forEachChild(sourceFile, node => {
     if (ts.isVariableStatement(node)) {
@@ -33,13 +31,11 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
             argumentName = parameter.name.text;
           }
           const kind = AslDeclaration.operation === "AsLambda" ? "lambda" : "asl";
-          const source = printer.printNode(ts.EmitHint.Unspecified, node, sourceFile);
           result.push({
             name,
             body: arrowFunction.body,
             argumentName,
             kind,
-            source,
           })
         }
       }

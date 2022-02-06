@@ -36,7 +36,6 @@ export class Converter {
         stateMachines.push(result);
       } else if (decl.kind == "lambda") {
         lambdas.push({
-          source: decl.source,
           name: decl.name
         })
       }
@@ -45,7 +44,6 @@ export class Converter {
     return {
       lambdas,
       stateMachines,
-      sourceDir: this.sourceDir
     } as Converted;
 
   }
@@ -61,14 +59,12 @@ export class Converter {
 }
 
 export interface Converted {
-  sourceDir: string;
   lambdas: ConvertedLambda[];
   stateMachines: ConvertedStateMachine[];
 }
 
 export interface ConvertedLambda {
   name: string;
-  source: string;
 }
 export interface ConvertedStateMachine {
   name: string;
