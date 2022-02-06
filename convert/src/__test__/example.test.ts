@@ -5,18 +5,18 @@ describe("when converting example (native)", () => {
   let converted;
 
   beforeAll(() => {
-    const converter = Converter.FromSource(readFileSync("test/resources/example.ts").toString("utf-8"));
+    const converter = Converter.FromSource(readFileSync("src/__test__/resources/example.ts").toString("utf-8"));
     converted = converter.convert(true).stateMachines.find(x => x.name === "main");
     writeFileSync(
-      "test/resources/output/example-asllib.ts",
+      "src/__test__/resources/output/example-asllib.ts",
       converted.transformedCode
     );
     writeFileSync(
-      "test/resources/output/example-i-asl.json",
+      "src/__test__/resources/output/example-i-asl.json",
       JSON.stringify(converted.iasl, null, 2)
     );
     writeFileSync(
-      "test/resources/output/example-asl.json",
+      "src/__test__/resources/output/example-asl.json",
       JSON.stringify(converted.asl, null, 2)
     );
   });

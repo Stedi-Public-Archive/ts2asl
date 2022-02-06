@@ -13,8 +13,8 @@
     "bootstrap:convert": "cd convert && npm ci",
     "test:deploy": "cd deploy && npm run test",
     "bootstrap:deploy": "cd deploy && npm ci",
-    "test:cli": "cd cloud-script && npm run test",
-    "bootstrap:cli": "cd cloud-script && npm ci"
+    "test:cli": "",
+    "bootstrap:cli": "cd cli && npm ci"
   },
   "author": "",
   "license": "ISC",
