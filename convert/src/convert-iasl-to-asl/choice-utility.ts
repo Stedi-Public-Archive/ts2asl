@@ -1,7 +1,7 @@
 // import * as ts from 'typescript';
 import * as iasl from "../convert-asllib-to-iasl/ast"
 import { Operator } from 'asl-types/dist/choice';
-import { convertExpressionToAsl, convertIdentifierToPathExpression } from "./aslfactory";
+import { convertExpressionToAsl } from "./aslfactory";
 
 export function createChoiceOperator(expression: iasl.BinaryExpression): Operator {
 

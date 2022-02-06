@@ -5,17 +5,22 @@
   "main": "web.js",
   "scripts": {
     "package": "npx esbuild ./src/index.ts --outdir=packaged --format=esm --bundle --minify --target=chrome58",
-    "bootstrap": "npm ci && npm run bootstrap:asl-lib && npm run bootstrap:ts-asl",
-    "test": "concurrently npm:test:asl-lib npm:test:ts-asl",
+    "bootstrap": "npm ci && npm run bootstrap:asl-lib && npm run bootstrap:convert && npm run bootstrap:deploy && npm run bootstrap:cli",
+    "test": "concurrently npm:test:asl-lib npm:test:convert npm:test:deploy npm:test:cli",
     "test:asl-lib": "cd asl-lib && npm run test",
     "bootstrap:asl-lib": "cd asl-lib && npm ci",
-    "test:ts-asl": "cd ts-asl && npm run test",
-    "bootstrap:ts-asl": "cd ts-asl && npm ci"
+    "test:convert": "cd convert && npm run test",
+    "bootstrap:convert": "cd convert && npm ci",
+    "test:deploy": "cd deploy && npm run test",
+    "bootstrap:deploy": "cd deploy && npm ci",
+    "test:cli": "",
+    "bootstrap:cli": "cd cli && npm ci"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^7.0.0",
-    "esbuild": "^0.14.18"
+    "esbuild": "^0.14.18",
+    "typescript": "^4.5.5"
   }
 }

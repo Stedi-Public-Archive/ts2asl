@@ -1,5 +1,5 @@
 {
-  "name": "ts2asl",
+  "name": "@cloudscript/convert",
   "version": "1.0.0",
   "description": "",
   "main": "web.js",
@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@cloud-script/asl-lib": "file:../asl-lib",
     "asl-lib": "file:../asl-lib",
     "asl-types": "^1.2.1",
     "aws-sdk": "^2.1058.0",
