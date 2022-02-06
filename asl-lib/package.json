@@ -1,5 +1,5 @@
 {
-  "name": "asl-lib",
+  "name": "@cloud-script/asl-lib",
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",

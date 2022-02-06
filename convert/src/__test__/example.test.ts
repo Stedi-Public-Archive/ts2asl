@@ -1,12 +1,12 @@
-import { writeFileSync } from "fs";
-import { Converter } from "../src";
+import { readFileSync, writeFileSync } from "fs";
+import { Converter } from "..";
 
 describe("when converting example (native)", () => {
   let converted;
 
   beforeAll(() => {
-    const converter = Converter.FromFile("test/resources/example.ts");
-    converted = converter.convert();
+    const converter = Converter.FromSource(readFileSync("test/resources/example.ts").toString("utf-8"));
+    converted = converter.convert(true).stateMachines.find(x => x.name === "main");
     writeFileSync(
       "test/resources/output/example-asllib.ts",
       converted.transformedCode
