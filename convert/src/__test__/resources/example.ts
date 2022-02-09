@@ -12,13 +12,12 @@ export const main = asl.deploy.asStateMachine(async () => {
       "ceiling": 1000
     }
   ];
-  let lastEvaluatedKey: any | undefined = undefined;
-
+  let lastEvaluatedKey: any | undefined = undefined; //$.variables.lastEvaluatedKey
   do {
     let scan = await asl.nativeDynamoDBScan({ TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
 
-    for (const item of ((scan.Items || []) as unknown as Item[])) {
-      for (const threshold of thresholds) {
+    for (const item of ((scan.Items || []) as unknown as Item[])) {//$.variables.item, $.enclosed.lastEvaluatedKey
+      for (const threshold of thresholds) { //$.variables.threshold, $.enclosed.item, .lastEvaluatedKey
         let numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number;
         let numericTotal = asl.states.stringToJson(item.total.N) as number;
 
@@ -61,7 +60,6 @@ export const main = asl.deploy.asStateMachine(async () => {
     lastEvaluatedKey = scan.LastEvaluatedKey;
   } while (lastEvaluatedKey)
 });
-
 
 interface Item {
   pk: { S: string };

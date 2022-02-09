@@ -5,8 +5,12 @@ describe("when converting example (native)", () => {
   let converted;
 
   beforeAll(() => {
-    const converter = Converter.FromSource(readFileSync("src/__test__/resources/example.ts").toString("utf-8"));
-    converted = converter.convert(true).stateMachines.find(x => x.name === "main");
+    const converter = Converter.FromSource(
+      readFileSync("src/__test__/resources/example.ts").toString("utf-8")
+    );
+    converted = converter
+      .convert(true)
+      .stateMachines.find(x => x.name === "main");
     writeFileSync(
       "src/__test__/resources/output/example-asllib.ts",
       converted.transformedCode
@@ -23,84 +27,87 @@ describe("when converting example (native)", () => {
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "import * as asl from \\"asl-lib\\";
-      export const main = asl.deploy.asStateMachine(async () => {
-          let thresholds = [
-              {
-                  \\"metric\\": \\"mappings.requests\\",
-                  \\"ceiling\\": 100
-              },
-              {
-                  \\"metric\\": \\"mappings.requests\\",
-                  \\"ceiling\\": 1000
-              }
-          ];
-          let lastEvaluatedKey: any | undefined = undefined;
-          do {
-              let scan = await asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
-              for (const item of ((scan.Items || []) as unknown as Item[])) {
-                  for (const threshold of thresholds) {
-                      let numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number;
-                      let numericTotal = asl.states.stringToJson(item.total.N) as number;
-                      if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
-                          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
-                          await asl.nativeEventBridgePutEvents({
-                              Entries: [
-                                  {
-                                      Detail: asl.states.jsonToString({
-                                          account_id: item.pk,
-                                          threshold: threshold
-                                      }),
-                                      DetailType: \\"xxx.detail.type\\",
-                                      EventBusName: \\"default\\",
-                                      Source: \\"zzz.my.source\\"
-                                  }
-                              ]
-                          });
-                          await asl.nativeDynamoDBUpdateItem({
-                              TableName: \\"MyStorage\\",
-                              Key: {
-                                  pk: item.pk,
-                                  sk: item.sk
-                              },
-                              ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
-                              UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
-                              ExpressionAttributeValues: {
-                                  \\":newLastSentOnValue\\": {
-                                      N: item.total.N as any
-                                  },
-                                  \\":newLastBeginDateValue\\": {
-                                      S: item.beginDate.S
-                                  }
-                              }
-                          });
-                      }
+      "{
+          let thresholds = asl.pass({
+              parameters: () => [
+                  {
+                      \\"metric\\": \\"mappings.requests\\",
+                      \\"ceiling\\": 100
+                  },
+                  {
+                      \\"metric\\": \\"mappings.requests\\",
+                      \\"ceiling\\": 1000
                   }
+              ],
+              comment: \\"thresholds = [\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 100\\\\n    },\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 1000\\\\n    }\\\\n  ]\\"
+          });
+          let lastEvaluatedKey = asl.pass({
+              parameters: () => undefined,
+              comment: \\"lastEvaluatedKey: any | undefined = undefined\\"
+          }); //$.variables.lastEvaluatedKey
+          asl.typescriptDoWhile({
+              condition: () => lastEvaluatedKey,
+              block: async () => {
+                  let scan = await asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
+                  asl.map({
+                      items: () => (scan.Items as unknown as Item[]),
+                      iterator: item => {
+                          asl.map({
+                              items: () => thresholds,
+                              iterator: threshold => {
+                                  let numericLastSentOnValue = asl.pass({
+                                      parameters: () => asl.states.stringToJson(item.lastSentOnValue.N) as number,
+                                      comment: \\"numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number\\"
+                                  });
+                                  let numericTotal = asl.pass({
+                                      parameters: () => asl.states.stringToJson(item.total.N) as number,
+                                      comment: \\"numericTotal = asl.states.stringToJson(item.total.N) as number\\"
+                                  });
+                                  asl.typescriptIf({
+                                      condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
+                                          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
+                                      then: async () => {
+                                          await asl.nativeEventBridgePutEvents({
+                                              Entries: [
+                                                  {
+                                                      Detail: asl.states.jsonToString({
+                                                          account_id: item.pk,
+                                                          threshold: threshold
+                                                      }),
+                                                      DetailType: \\"xxx.detail.type\\",
+                                                      EventBusName: \\"default\\",
+                                                      Source: \\"zzz.my.source\\"
+                                                  }
+                                              ]
+                                          });
+                                          await asl.nativeDynamoDBUpdateItem({
+                                              TableName: \\"MyStorage\\",
+                                              Key: {
+                                                  pk: item.pk,
+                                                  sk: item.sk
+                                              },
+                                              ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
+                                              UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
+                                              ExpressionAttributeValues: {
+                                                  \\":newLastSentOnValue\\": {
+                                                      N: item.total.N as any
+                                                  },
+                                                  \\":newLastBeginDateValue\\": {
+                                                      S: item.beginDate.S
+                                                  }
+                                              }
+                                          });
+                                      },
+                                      comment: \\"if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\\\\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\\\\n\\\\n          await asl.nativeEventBridgePutEvents({\\\\n            Entries: [\\\\n              {\\\\n                Detail: asl.states.jsonToString({\\\\n                  account_id: item.pk,\\\\n                  threshold: threshold\\\\n                }),\\\\n                DetailType: \\\\\\"xxx.detail.type\\\\\\",\\\\n                EventBusName: \\\\\\"default\\\\\\",\\\\n                Source: \\\\\\"zzz.my.source\\\\\\"\\\\n              }\\\\n            ]\\\\n          });\\\\n          await asl.nativeDynamoDBUpdateItem({\\\\n            TableName: \\\\\\"MyStorage\\\\\\",\\\\n            Key: {\\\\n              pk: item.pk,\\\\n              sk: item.sk\\\\n            },\\\\n            ConditionExpression: \\\\\\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\\\\\",\\\\n            UpdateExpression: \\\\\\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\\\\\",\\\\n            ExpressionAttributeValues: {\\\\n              \\\\\\":newLastSentOnValue\\\\\\": {\\\\n                N: item.total.N as any\\\\n              },\\\\n              \\\\\\":newLastBeginDateValue\\\\\\": {\\\\n                S: item.beginDate.S\\\\n              }\\\\n            }\\\\n          });\\\\n        }\\"
+                                  })
+                              }
+                          })
+                      }
+                  })
+                  lastEvaluatedKey = scan.LastEvaluatedKey;
               }
-              lastEvaluatedKey = scan.LastEvaluatedKey;
-          } while (lastEvaluatedKey);
-      });
-      interface Item {
-          pk: {
-              S: string;
-          };
-          sk: {
-              S: string;
-          };
-          total: {
-              N: string;
-          };
-          lastSentOnValue: {
-              N: string;
-          };
-          beginDate: {
-              S: string;
-          };
-          lastBeginDateValue: {
-              S: string;
-          };
-      }
-      "
+          })
+      }"
     `);
   });
 
@@ -231,6 +238,7 @@ describe("when converting example (native)", () => {
                 "items": Object {
                   "_syntaxKind": "identifier",
                   "identifier": "scan.Items",
+                  "type": "unknown",
                 },
                 "iterator": Object {
                   "statements": Array [
@@ -255,6 +263,7 @@ describe("when converting example (native)", () => {
                                   Object {
                                     "_syntaxKind": "identifier",
                                     "identifier": "item.lastSentOnValue.N",
+                                    "type": "unknown",
                                   },
                                 ],
                                 "function": "asl.states.stringToJson",
@@ -277,6 +286,7 @@ describe("when converting example (native)", () => {
                                   Object {
                                     "_syntaxKind": "identifier",
                                     "identifier": "item.total.N",
+                                    "type": "unknown",
                                   },
                                 ],
                                 "function": "asl.states.stringToJson",
@@ -337,11 +347,13 @@ describe("when converting example (native)", () => {
                                       "lhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "item.sk.S",
+                                        "type": "unknown",
                                       },
                                       "operator": "eq",
                                       "rhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "threshold.metric",
+                                        "type": "unknown",
                                       },
                                     },
                                     "operator": "and",
@@ -350,6 +362,7 @@ describe("when converting example (native)", () => {
                                       "lhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "threshold.ceiling",
+                                        "type": "unknown",
                                       },
                                       "operator": "lte",
                                       "rhs": Object {
@@ -365,6 +378,7 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "threshold.ceiling",
+                                      "type": "unknown",
                                     },
                                     "operator": "gt",
                                     "rhs": Object {
@@ -386,6 +400,7 @@ describe("when converting example (native)", () => {
                                       "rhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "item.lastBeginDateValue.S",
+                                        "type": "unknown",
                                       },
                                     },
                                   },
@@ -395,11 +410,13 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.beginDate.S",
+                                      "type": "unknown",
                                     },
                                     "operator": "eq",
                                     "rhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.lastBeginDateValue.S",
+                                      "type": "unknown",
                                     },
                                   },
                                 },
@@ -414,11 +431,13 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.sk.S",
+                                      "type": "unknown",
                                     },
                                     "operator": "eq",
                                     "rhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "threshold.metric",
+                                      "type": "unknown",
                                     },
                                   },
                                   "operator": "and",
@@ -427,6 +446,7 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "threshold.ceiling",
+                                      "type": "unknown",
                                     },
                                     "operator": "lte",
                                     "rhs": Object {
@@ -448,6 +468,7 @@ describe("when converting example (native)", () => {
                                       "rhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "item.lastBeginDateValue.S",
+                                        "type": "unknown",
                                       },
                                     },
                                   },
@@ -457,11 +478,13 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.beginDate.S",
+                                      "type": "unknown",
                                     },
                                     "operator": "eq",
                                     "rhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.lastBeginDateValue.S",
+                                      "type": "unknown",
                                     },
                                   },
                                 },
@@ -489,6 +512,7 @@ describe("when converting example (native)", () => {
                                                       "account_id": Object {
                                                         "_syntaxKind": "identifier",
                                                         "identifier": "item.pk",
+                                                        "type": "unknown",
                                                       },
                                                       "threshold": Object {
                                                         "_syntaxKind": "identifier",
@@ -542,6 +566,7 @@ describe("when converting example (native)", () => {
                                               "S": Object {
                                                 "_syntaxKind": "identifier",
                                                 "identifier": "item.beginDate.S",
+                                                "type": "unknown",
                                               },
                                             },
                                           },
@@ -551,6 +576,7 @@ describe("when converting example (native)", () => {
                                               "N": Object {
                                                 "_syntaxKind": "identifier",
                                                 "identifier": "item.total.N",
+                                                "type": "unknown",
                                               },
                                             },
                                           },
@@ -562,10 +588,12 @@ describe("when converting example (native)", () => {
                                           "pk": Object {
                                             "_syntaxKind": "identifier",
                                             "identifier": "item.pk",
+                                            "type": "unknown",
                                           },
                                           "sk": Object {
                                             "_syntaxKind": "identifier",
                                             "identifier": "item.sk",
+                                            "type": "unknown",
                                           },
                                         },
                                       },
@@ -599,6 +627,7 @@ describe("when converting example (native)", () => {
                 "expression": Object {
                   "_syntaxKind": "identifier",
                   "identifier": "scan.LastEvaluatedKey",
+                  "type": "unknown",
                 },
                 "name": Object {
                   "_syntaxKind": "identifier",
@@ -615,84 +644,87 @@ describe("when converting example (native)", () => {
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "import * as asl from \\"asl-lib\\";
-      export const main = asl.deploy.asStateMachine(async () => {
-          let thresholds = [
-              {
-                  \\"metric\\": \\"mappings.requests\\",
-                  \\"ceiling\\": 100
-              },
-              {
-                  \\"metric\\": \\"mappings.requests\\",
-                  \\"ceiling\\": 1000
-              }
-          ];
-          let lastEvaluatedKey: any | undefined = undefined;
-          do {
-              let scan = await asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
-              for (const item of ((scan.Items || []) as unknown as Item[])) {
-                  for (const threshold of thresholds) {
-                      let numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number;
-                      let numericTotal = asl.states.stringToJson(item.total.N) as number;
-                      if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
-                          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
-                          await asl.nativeEventBridgePutEvents({
-                              Entries: [
-                                  {
-                                      Detail: asl.states.jsonToString({
-                                          account_id: item.pk,
-                                          threshold: threshold
-                                      }),
-                                      DetailType: \\"xxx.detail.type\\",
-                                      EventBusName: \\"default\\",
-                                      Source: \\"zzz.my.source\\"
-                                  }
-                              ]
-                          });
-                          await asl.nativeDynamoDBUpdateItem({
-                              TableName: \\"MyStorage\\",
-                              Key: {
-                                  pk: item.pk,
-                                  sk: item.sk
-                              },
-                              ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
-                              UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
-                              ExpressionAttributeValues: {
-                                  \\":newLastSentOnValue\\": {
-                                      N: item.total.N as any
-                                  },
-                                  \\":newLastBeginDateValue\\": {
-                                      S: item.beginDate.S
-                                  }
-                              }
-                          });
-                      }
+      "{
+          let thresholds = asl.pass({
+              parameters: () => [
+                  {
+                      \\"metric\\": \\"mappings.requests\\",
+                      \\"ceiling\\": 100
+                  },
+                  {
+                      \\"metric\\": \\"mappings.requests\\",
+                      \\"ceiling\\": 1000
                   }
+              ],
+              comment: \\"thresholds = [\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 100\\\\n    },\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 1000\\\\n    }\\\\n  ]\\"
+          });
+          let lastEvaluatedKey = asl.pass({
+              parameters: () => undefined,
+              comment: \\"lastEvaluatedKey: any | undefined = undefined\\"
+          }); //$.variables.lastEvaluatedKey
+          asl.typescriptDoWhile({
+              condition: () => lastEvaluatedKey,
+              block: async () => {
+                  let scan = await asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
+                  asl.map({
+                      items: () => (scan.Items as unknown as Item[]),
+                      iterator: item => {
+                          asl.map({
+                              items: () => thresholds,
+                              iterator: threshold => {
+                                  let numericLastSentOnValue = asl.pass({
+                                      parameters: () => asl.states.stringToJson(item.lastSentOnValue.N) as number,
+                                      comment: \\"numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number\\"
+                                  });
+                                  let numericTotal = asl.pass({
+                                      parameters: () => asl.states.stringToJson(item.total.N) as number,
+                                      comment: \\"numericTotal = asl.states.stringToJson(item.total.N) as number\\"
+                                  });
+                                  asl.typescriptIf({
+                                      condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
+                                          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
+                                      then: async () => {
+                                          await asl.nativeEventBridgePutEvents({
+                                              Entries: [
+                                                  {
+                                                      Detail: asl.states.jsonToString({
+                                                          account_id: item.pk,
+                                                          threshold: threshold
+                                                      }),
+                                                      DetailType: \\"xxx.detail.type\\",
+                                                      EventBusName: \\"default\\",
+                                                      Source: \\"zzz.my.source\\"
+                                                  }
+                                              ]
+                                          });
+                                          await asl.nativeDynamoDBUpdateItem({
+                                              TableName: \\"MyStorage\\",
+                                              Key: {
+                                                  pk: item.pk,
+                                                  sk: item.sk
+                                              },
+                                              ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
+                                              UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
+                                              ExpressionAttributeValues: {
+                                                  \\":newLastSentOnValue\\": {
+                                                      N: item.total.N as any
+                                                  },
+                                                  \\":newLastBeginDateValue\\": {
+                                                      S: item.beginDate.S
+                                                  }
+                                              }
+                                          });
+                                      },
+                                      comment: \\"if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\\\\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\\\\n\\\\n          await asl.nativeEventBridgePutEvents({\\\\n            Entries: [\\\\n              {\\\\n                Detail: asl.states.jsonToString({\\\\n                  account_id: item.pk,\\\\n                  threshold: threshold\\\\n                }),\\\\n                DetailType: \\\\\\"xxx.detail.type\\\\\\",\\\\n                EventBusName: \\\\\\"default\\\\\\",\\\\n                Source: \\\\\\"zzz.my.source\\\\\\"\\\\n              }\\\\n            ]\\\\n          });\\\\n          await asl.nativeDynamoDBUpdateItem({\\\\n            TableName: \\\\\\"MyStorage\\\\\\",\\\\n            Key: {\\\\n              pk: item.pk,\\\\n              sk: item.sk\\\\n            },\\\\n            ConditionExpression: \\\\\\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\\\\\",\\\\n            UpdateExpression: \\\\\\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\\\\\",\\\\n            ExpressionAttributeValues: {\\\\n              \\\\\\":newLastSentOnValue\\\\\\": {\\\\n                N: item.total.N as any\\\\n              },\\\\n              \\\\\\":newLastBeginDateValue\\\\\\": {\\\\n                S: item.beginDate.S\\\\n              }\\\\n            }\\\\n          });\\\\n        }\\"
+                                  })
+                              }
+                          })
+                      }
+                  })
+                  lastEvaluatedKey = scan.LastEvaluatedKey;
               }
-              lastEvaluatedKey = scan.LastEvaluatedKey;
-          } while (lastEvaluatedKey);
-      });
-      interface Item {
-          pk: {
-              S: string;
-          };
-          sk: {
-              S: string;
-          };
-          total: {
-              N: string;
-          };
-          lastSentOnValue: {
-              N: string;
-          };
-          beginDate: {
-              S: string;
-          };
-          lastBeginDateValue: {
-              S: string;
-          };
-      }
-      "
+          })
+      }"
     `);
   });
   it("then can be converted to asl", async () => {

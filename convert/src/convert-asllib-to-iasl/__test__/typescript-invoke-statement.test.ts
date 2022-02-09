@@ -18,6 +18,7 @@ describe("when converting typescript invoke to iasl", () => {
           "parameters": Object {
             "_syntaxKind": "identifier",
             "identifier": "arg.xxx",
+            "type": "unknown",
           },
           "resource": "typeof:SayHello",
         },

@@ -1,6 +1,6 @@
 import { Converted, Converter } from "../../convert/src/convert"
 import * as ts from "typescript";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync } from "fs";
 import * as path from "path";
 import { performPackage } from "./package";
 import { writeTempFile } from "./temp-files";
@@ -37,7 +37,7 @@ export const packageConverted = async (converted: Converted, sourceFile: string,
 
   if (converted.lambdas.length > 0) {
     const zip = await performPackage(sourceFile, "deploy/node_modules/.bin/esbuild");
-    const localPath = writeTempFile(options.tempPath!, "package.zip", zip);
+    const localPath = writeTempFile(".zip", zip);
     for (const lambda of converted.lambdas) {
       const resource = {
         Type: "AWS::Lambda::Function",

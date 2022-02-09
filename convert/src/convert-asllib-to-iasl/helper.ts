@@ -36,7 +36,9 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
 
   let pathAsString = path.reverse().join(".")
   if (ts.isPropertyAccessExpression(expression)) {
-    return { identifier: `${pathAsString}.${expression.name.text}`, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier;
+    const type = typeChecker.getTypeAtLocation(expression);
+    const iaslType = convertType(type);
+    return { identifier: `${pathAsString}.${expression.name.text}`, type: iaslType, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier;
   } else if (ts.isElementAccessExpression(expression)) {
     const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, typeChecker);
     return {

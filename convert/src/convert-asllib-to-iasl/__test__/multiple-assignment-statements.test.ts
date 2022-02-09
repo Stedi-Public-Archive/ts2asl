@@ -104,6 +104,7 @@ describe("when converting pass statements to iasl", () => {
                   "lhs": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "xxx.elements",
+                    "type": "unknown",
                   },
                 },
                 "fn": Object {

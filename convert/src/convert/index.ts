@@ -30,7 +30,7 @@ export class Converter {
         const result = { name: decl.name, asl };
         if (includeDiagnostics) {
           const withDiagnostics: Record<string, unknown> = result;
-          withDiagnostics["transformedCode"] = ts.createPrinter().printNode(ts.EmitHint.Unspecified, this.sourceFile, this.sourceFile);
+          withDiagnostics["transformedCode"] = ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile);
           withDiagnostics["iasl"] = transpiled;
         }
         stateMachines.push(result);

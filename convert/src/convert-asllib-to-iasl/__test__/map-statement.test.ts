@@ -31,6 +31,7 @@ describe("when converting map statement to iasl", () => {
               "lhs": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "something.list",
+                "type": "unknown",
               },
             },
             "iterator": Object {
