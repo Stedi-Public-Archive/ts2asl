@@ -1,4 +1,6 @@
-{
+import * as asl from "@cloudscript/asl-lib"
+
+export const main = asl.deploy.asStateMachine(async () =>{
     let thresholds = asl.pass({
         parameters: () => [
             {
@@ -12,7 +14,7 @@
         ],
         comment: "thresholds = [\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 100\n    },\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 1000\n    }\n  ]"
     });
-    let lastEvaluatedKey = asl.pass({
+    let lastEvaluatedKey: any | undefined = asl.pass({
         parameters: () => undefined,
         comment: "lastEvaluatedKey: any | undefined = undefined"
     }); //$.variables.lastEvaluatedKey
@@ -78,4 +80,13 @@
             lastEvaluatedKey = scan.LastEvaluatedKey;
         }
     })
+});
+
+interface Item {
+  pk: { S: string };
+  sk: { S: string };
+  total: { N: string };
+  lastSentOnValue: { N: string };
+  beginDate: { S: string };
+  lastBeginDateValue: { S: string };
 }

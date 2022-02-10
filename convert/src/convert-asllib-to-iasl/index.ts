@@ -476,6 +476,9 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     return expression;
   } else if (ts.isPrefixUnaryExpression(expr)) {
     if (expr.operator === ts.SyntaxKind.ExclamationToken) {
+      if (ts.isPrefixUnaryExpression(expr.operand) && expr.operand.operator === ts.SyntaxKind.ExclamationToken) {
+        return convertExpressionToLiteralOrIdentifier(expr.operand, typeChecker);
+      }
       return {
         operator: "not",
         rhs: {

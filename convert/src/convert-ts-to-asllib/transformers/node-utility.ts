@@ -1,5 +1,5 @@
-import { userInfo } from 'os';
 import * as ts from 'typescript';
+const factory = ts.factory;
 
 export const findParent = (node: ts.Node, predicate: (node: ts.Node) => boolean) => {
   let contextual = node.parent;
@@ -32,4 +32,9 @@ export const isAslCallExpression = (node: ts.CallExpression) => {
     return parts.reverse().join(".");
   }
   return undefined;
+}
+
+
+export const ensureBooleanExpression = (node: ts.Expression)  => {
+ return node;
 }

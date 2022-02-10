@@ -1,16 +1,12 @@
 import * as ts from 'typescript';
 import { convertToIntermediaryAsl } from '..';
-import { createCompilerHost } from '../../compiler-host';
+import { createCompilerHostFromSource } from '../../compiler-host';
 
 export const testConvertToIntermediaryAst = (source: string) => {
 
-  const sourceFile: ts.SourceFile = ts.createSourceFile(
-    'test.ts', source, ts.ScriptTarget.ES2015, true, ts.ScriptKind.TS
-  );
+  const host = createCompilerHostFromSource(source);
 
-  const host = createCompilerHost(sourceFile);
-
-  return convertToIntermediaryAsl(sourceFile, host.typeChecker);
+  return convertToIntermediaryAsl(host.sourceFile, host.typeChecker);
 }
 
 describe("dummy", () => {

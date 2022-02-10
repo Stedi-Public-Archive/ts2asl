@@ -17,7 +17,8 @@ export declare type DoWhile = {
 export declare type If = {
     condition: boolean | (() => boolean);
     then: Function;
-    else: Function;
+    else?: Function;
+    comment?: string;
 };
 export declare type CatchConfiguration = Array<{
     errorFilter: string[];

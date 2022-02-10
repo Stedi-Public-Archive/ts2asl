@@ -13,7 +13,7 @@ export const variableStatementTransformer = <T extends ts.Node>(context: ts.Tran
 
       const parameters = TransformUtil.createWrappedExpression("parameters", node.initializer);
       const comment = TransformUtil.createComment(node);
-
+      
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [parameters, comment]) {
         if (assignment) {
@@ -24,7 +24,7 @@ export const variableStatementTransformer = <T extends ts.Node>(context: ts.Tran
       node = factory.createVariableDeclaration(
         node.name,
         undefined,
-        undefined,
+        node.type,
         TransformUtil.createAslInvoke("pass", assignments)
       );
 

@@ -4,17 +4,16 @@ import { readFileSync } from "fs";
 import * as path from "path";
 import { performPackage } from "./package";
 import { writeTempFile } from "./temp-files";
+import { createCompilerHostFromFile } from "../../convert/src/compiler-host";
 
 export const deploy = (filepath: string, options: DeployOptions) => {
 
 }
 
 export const convert = (filepath: string, options: PackageOptions): Converted => {
-  const sourceFile = ts.createSourceFile(filepath, readFileSync(filepath).toString(), ts.ScriptTarget.ES2021);
-  if (options.tempPath === undefined) {
-    options.tempPath = path.join(path.dirname(filepath), ".cloudscript");
-  }
-  const converter = new Converter(sourceFile, process.cwd());
+
+  const compilerHost = createCompilerHostFromFile(filepath);
+  const converter = new Converter(compilerHost);
   const converted = converter.convert();
   return converted;
 }

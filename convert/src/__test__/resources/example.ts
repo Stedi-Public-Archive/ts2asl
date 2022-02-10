@@ -1,4 +1,4 @@
-import * as asl from "asl-lib"
+import * as asl from "@cloudscript/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async () => {
 

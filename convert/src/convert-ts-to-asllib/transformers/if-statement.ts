@@ -2,6 +2,7 @@ import * as ts from 'typescript';
 import { convertToBlock } from './block-utility';
 import factory = ts.factory;
 import { TransformUtil } from './transform-utility';
+import { ensureBooleanExpression } from './node-utility';
 
 
 export const ifStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
@@ -10,7 +11,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
 
     if (ts.isIfStatement(node)) {
 
-      const condition = TransformUtil.createWrappedExpression("condition", node.expression)
+      const condition = TransformUtil.createWrappedExpression("condition", ensureBooleanExpression(node.expression))
       const then = TransformUtil.createNamedBlock("then", convertToBlock(node.thenStatement));
       const else_ = TransformUtil.createNamedBlock("else", node.elseStatement ? convertToBlock(node.elseStatement) : undefined);
       const comment = TransformUtil.createComment(node);

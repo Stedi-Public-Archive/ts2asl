@@ -5,16 +5,17 @@ import { listFunctionDeclarations } from "./list-function-declarations";
 import { transformBody } from "../convert-ts-to-asllib";
 import { convertToASl } from "../convert-iasl-to-asl";
 import { convertToIntermediaryAsl } from "../convert-asllib-to-iasl";
-import { createCompilerHost } from "../compiler-host";
+import { ICompilerHost } from "../compiler-host";
 
 export class Converter {
-  host: {
-    program: ts.Program;
-    typeChecker: ts.TypeChecker
-  };
+  sourceFile: ts.SourceFile;
+  typeChecker: ts.TypeChecker;
+  program: ts.Program;
 
-  constructor(private sourceFile: ts.SourceFile, private sourceDir: string) {
-    this.host = createCompilerHost(this.sourceFile);
+  constructor(compilerHost: ICompilerHost) {
+    this.sourceFile = compilerHost.sourceFile;
+    this.typeChecker = compilerHost.typeChecker;
+    this.program = compilerHost.program;
   }
 
   convert(includeDiagnostics: boolean = false): Converted {
@@ -24,13 +25,16 @@ export class Converter {
     const stateMachines: ConvertedStateMachine[] = [];
     for (const decl of declarations) {
       if (decl.kind === "asl") {
+        const blockPosition = {start: decl.body.pos, end: decl.body.end};
         const transformed = transformBody(decl.body);
-        const transpiled = convertToIntermediaryAsl(transformed, this.host.typeChecker, decl.argumentName);
+        const transpiled = convertToIntermediaryAsl(transformed, this.typeChecker, decl.argumentName);
         const asl = convertToASl(transpiled)!;
         const result = { name: decl.name, asl };
         if (includeDiagnostics) {
           const withDiagnostics: Record<string, unknown> = result;
-          withDiagnostics["transformedCode"] = ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile);
+          const transformedBlock = ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile);
+          const transformedCode = this.sourceFile.text.substring(0, blockPosition.start) + transformedBlock + this.sourceFile.text.substring(blockPosition.end);
+          withDiagnostics["transformedCode"] = transformedCode;
           withDiagnostics["iasl"] = transpiled;
         }
         stateMachines.push(result);
@@ -45,16 +49,6 @@ export class Converter {
       lambdas,
       stateMachines,
     } as Converted;
-
-  }
-
-
-  static FromSource(code: string) {
-    const source = code;
-    const sourceFile: ts.SourceFile = ts.createSourceFile(
-      "ad-hoc.ts", source, ts.ScriptTarget.ES2015, true, ts.ScriptKind.TS
-    );
-    return new Converter(sourceFile, "./");
   }
 }
 

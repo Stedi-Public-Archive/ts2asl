@@ -1,13 +1,16 @@
 import { readFileSync, writeFileSync } from "fs";
+import { createCompilerHost } from "typescript";
 import { Converter } from "..";
+import { createCompilerHostFromFile } from "../compiler-host";
 
 describe("when converting example (native)", () => {
   let converted;
 
   beforeAll(() => {
-    const converter = Converter.FromSource(
-      readFileSync("src/__test__/resources/example.ts").toString("utf-8")
+    const host = createCompilerHostFromFile(
+      "src/__test__/resources/example.ts"
     );
+    const converter = new Converter(host);
     converted = converter
       .convert(true)
       .stateMachines.find(x => x.name === "main");
@@ -27,7 +30,9 @@ describe("when converting example (native)", () => {
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "{
+      "import * as asl from \\"@cloudscript/asl-lib\\"
+
+      export const main = asl.deploy.asStateMachine(async () =>{
           let thresholds = asl.pass({
               parameters: () => [
                   {
@@ -41,7 +46,7 @@ describe("when converting example (native)", () => {
               ],
               comment: \\"thresholds = [\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 100\\\\n    },\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 1000\\\\n    }\\\\n  ]\\"
           });
-          let lastEvaluatedKey = asl.pass({
+          let lastEvaluatedKey: any | undefined = asl.pass({
               parameters: () => undefined,
               comment: \\"lastEvaluatedKey: any | undefined = undefined\\"
           }); //$.variables.lastEvaluatedKey
@@ -107,6 +112,15 @@ describe("when converting example (native)", () => {
                   lastEvaluatedKey = scan.LastEvaluatedKey;
               }
           })
+      });
+
+      interface Item {
+        pk: { S: string };
+        sk: { S: string };
+        total: { N: string };
+        lastSentOnValue: { N: string };
+        beginDate: { S: string };
+        lastBeginDateValue: { S: string };
       }"
     `);
   });
@@ -229,7 +243,7 @@ describe("when converting example (native)", () => {
                 "name": Object {
                   "_syntaxKind": "identifier",
                   "identifier": "scan",
-                  "type": "unknown",
+                  "type": "object",
                 },
               },
               Object {
@@ -238,7 +252,7 @@ describe("when converting example (native)", () => {
                 "items": Object {
                   "_syntaxKind": "identifier",
                   "identifier": "scan.Items",
-                  "type": "unknown",
+                  "type": "object",
                 },
                 "iterator": Object {
                   "statements": Array [
@@ -263,7 +277,7 @@ describe("when converting example (native)", () => {
                                   Object {
                                     "_syntaxKind": "identifier",
                                     "identifier": "item.lastSentOnValue.N",
-                                    "type": "unknown",
+                                    "type": "string",
                                   },
                                 ],
                                 "function": "asl.states.stringToJson",
@@ -286,7 +300,7 @@ describe("when converting example (native)", () => {
                                   Object {
                                     "_syntaxKind": "identifier",
                                     "identifier": "item.total.N",
-                                    "type": "unknown",
+                                    "type": "string",
                                   },
                                 ],
                                 "function": "asl.states.stringToJson",
@@ -347,13 +361,13 @@ describe("when converting example (native)", () => {
                                       "lhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "item.sk.S",
-                                        "type": "unknown",
+                                        "type": "string",
                                       },
                                       "operator": "eq",
                                       "rhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "threshold.metric",
-                                        "type": "unknown",
+                                        "type": "string",
                                       },
                                     },
                                     "operator": "and",
@@ -362,7 +376,7 @@ describe("when converting example (native)", () => {
                                       "lhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "threshold.ceiling",
-                                        "type": "unknown",
+                                        "type": "numeric",
                                       },
                                       "operator": "lte",
                                       "rhs": Object {
@@ -378,7 +392,7 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "threshold.ceiling",
-                                      "type": "unknown",
+                                      "type": "numeric",
                                     },
                                     "operator": "gt",
                                     "rhs": Object {
@@ -400,7 +414,7 @@ describe("when converting example (native)", () => {
                                       "rhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "item.lastBeginDateValue.S",
-                                        "type": "unknown",
+                                        "type": "string",
                                       },
                                     },
                                   },
@@ -410,13 +424,13 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.beginDate.S",
-                                      "type": "unknown",
+                                      "type": "string",
                                     },
                                     "operator": "eq",
                                     "rhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.lastBeginDateValue.S",
-                                      "type": "unknown",
+                                      "type": "string",
                                     },
                                   },
                                 },
@@ -431,13 +445,13 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.sk.S",
-                                      "type": "unknown",
+                                      "type": "string",
                                     },
                                     "operator": "eq",
                                     "rhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "threshold.metric",
-                                      "type": "unknown",
+                                      "type": "string",
                                     },
                                   },
                                   "operator": "and",
@@ -446,7 +460,7 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "threshold.ceiling",
-                                      "type": "unknown",
+                                      "type": "numeric",
                                     },
                                     "operator": "lte",
                                     "rhs": Object {
@@ -468,7 +482,7 @@ describe("when converting example (native)", () => {
                                       "rhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "item.lastBeginDateValue.S",
-                                        "type": "unknown",
+                                        "type": "string",
                                       },
                                     },
                                   },
@@ -478,13 +492,13 @@ describe("when converting example (native)", () => {
                                     "lhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.beginDate.S",
-                                      "type": "unknown",
+                                      "type": "string",
                                     },
                                     "operator": "eq",
                                     "rhs": Object {
                                       "_syntaxKind": "identifier",
                                       "identifier": "item.lastBeginDateValue.S",
-                                      "type": "unknown",
+                                      "type": "string",
                                     },
                                   },
                                 },
@@ -512,12 +526,12 @@ describe("when converting example (native)", () => {
                                                       "account_id": Object {
                                                         "_syntaxKind": "identifier",
                                                         "identifier": "item.pk",
-                                                        "type": "unknown",
+                                                        "type": "object",
                                                       },
                                                       "threshold": Object {
                                                         "_syntaxKind": "identifier",
                                                         "identifier": "threshold",
-                                                        "type": "unknown",
+                                                        "type": "object",
                                                       },
                                                     },
                                                   },
@@ -566,7 +580,7 @@ describe("when converting example (native)", () => {
                                               "S": Object {
                                                 "_syntaxKind": "identifier",
                                                 "identifier": "item.beginDate.S",
-                                                "type": "unknown",
+                                                "type": "string",
                                               },
                                             },
                                           },
@@ -576,7 +590,7 @@ describe("when converting example (native)", () => {
                                               "N": Object {
                                                 "_syntaxKind": "identifier",
                                                 "identifier": "item.total.N",
-                                                "type": "unknown",
+                                                "type": "string",
                                               },
                                             },
                                           },
@@ -588,12 +602,12 @@ describe("when converting example (native)", () => {
                                           "pk": Object {
                                             "_syntaxKind": "identifier",
                                             "identifier": "item.pk",
-                                            "type": "unknown",
+                                            "type": "object",
                                           },
                                           "sk": Object {
                                             "_syntaxKind": "identifier",
                                             "identifier": "item.sk",
-                                            "type": "unknown",
+                                            "type": "object",
                                           },
                                         },
                                       },
@@ -627,7 +641,7 @@ describe("when converting example (native)", () => {
                 "expression": Object {
                   "_syntaxKind": "identifier",
                   "identifier": "scan.LastEvaluatedKey",
-                  "type": "unknown",
+                  "type": "object",
                 },
                 "name": Object {
                   "_syntaxKind": "identifier",
@@ -644,7 +658,9 @@ describe("when converting example (native)", () => {
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "{
+      "import * as asl from \\"@cloudscript/asl-lib\\"
+
+      export const main = asl.deploy.asStateMachine(async () =>{
           let thresholds = asl.pass({
               parameters: () => [
                   {
@@ -658,7 +674,7 @@ describe("when converting example (native)", () => {
               ],
               comment: \\"thresholds = [\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 100\\\\n    },\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 1000\\\\n    }\\\\n  ]\\"
           });
-          let lastEvaluatedKey = asl.pass({
+          let lastEvaluatedKey: any | undefined = asl.pass({
               parameters: () => undefined,
               comment: \\"lastEvaluatedKey: any | undefined = undefined\\"
           }); //$.variables.lastEvaluatedKey
@@ -724,6 +740,15 @@ describe("when converting example (native)", () => {
                   lastEvaluatedKey = scan.LastEvaluatedKey;
               }
           })
+      });
+
+      interface Item {
+        pk: { S: string };
+        sk: { S: string };
+        total: { N: string };
+        lastSentOnValue: { N: string };
+        beginDate: { S: string };
+        lastBeginDateValue: { S: string };
       }"
     `);
   });

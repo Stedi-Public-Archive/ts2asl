@@ -5,6 +5,7 @@ import * as iasl from "./ast"
 export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, typeChecker: ts.TypeChecker): iasl.Identifier | undefined => {
 
   if (ts.isIdentifier(expression)) {
+
     const type = typeChecker.getTypeAtLocation(expression);
     const iaslType = convertType(type);
     return { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, type: iaslType } as iasl.Identifier;
@@ -69,6 +70,7 @@ function convertType(type: ts.Type): iasl.Type {
     return "boolean"
   }
   return "unknown";
+  return (type as unknown as {intrinsicName: string}).intrinsicName as iasl.Type;
 
 }
 function hasFlag(type: ts.Type, flag: ts.TypeFlags) {

@@ -20,7 +20,7 @@ describe("when converting source files", () => {
     const output = testTransform(code, transformers);
 
     expect(output).toMatchInlineSnapshot(`
-      "let completedActions = asl.pass({
+      "let completedActions: string[] = asl.pass({
           parameters: () => [],
           comment: \\"completedActions: string[] = []\\"
       });

@@ -78,7 +78,7 @@
           "name": {
             "identifier": "scan",
             "_syntaxKind": "identifier",
-            "type": "unknown"
+            "type": "object"
           },
           "expression": {
             "resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
@@ -109,7 +109,7 @@
         {
           "items": {
             "identifier": "scan.Items",
-            "type": "unknown",
+            "type": "object",
             "_syntaxKind": "identifier"
           },
           "catch": [],
@@ -137,7 +137,7 @@
                           "arguments": [
                             {
                               "identifier": "item.lastSentOnValue.N",
-                              "type": "unknown",
+                              "type": "string",
                               "_syntaxKind": "identifier"
                             }
                           ],
@@ -160,7 +160,7 @@
                           "arguments": [
                             {
                               "identifier": "item.total.N",
-                              "type": "unknown",
+                              "type": "string",
                               "_syntaxKind": "identifier"
                             }
                           ],
@@ -180,13 +180,13 @@
                               "lhs": {
                                 "lhs": {
                                   "identifier": "item.sk.S",
-                                  "type": "unknown",
+                                  "type": "string",
                                   "_syntaxKind": "identifier"
                                 },
                                 "operator": "eq",
                                 "rhs": {
                                   "identifier": "threshold.metric",
-                                  "type": "unknown",
+                                  "type": "string",
                                   "_syntaxKind": "identifier"
                                 },
                                 "_syntaxKind": "binary-expression"
@@ -195,7 +195,7 @@
                               "rhs": {
                                 "lhs": {
                                   "identifier": "threshold.ceiling",
-                                  "type": "unknown",
+                                  "type": "numeric",
                                   "_syntaxKind": "identifier"
                                 },
                                 "operator": "lte",
@@ -212,7 +212,7 @@
                             "rhs": {
                               "lhs": {
                                 "identifier": "threshold.ceiling",
-                                "type": "unknown",
+                                "type": "numeric",
                                 "_syntaxKind": "identifier"
                               },
                               "operator": "gt",
@@ -233,7 +233,7 @@
                                 "operator": "is-present",
                                 "rhs": {
                                   "identifier": "item.lastBeginDateValue.S",
-                                  "type": "unknown",
+                                  "type": "string",
                                   "_syntaxKind": "identifier"
                                 },
                                 "_syntaxKind": "binary-expression"
@@ -244,13 +244,13 @@
                             "rhs": {
                               "lhs": {
                                 "identifier": "item.beginDate.S",
-                                "type": "unknown",
+                                "type": "string",
                                 "_syntaxKind": "identifier"
                               },
                               "operator": "eq",
                               "rhs": {
                                 "identifier": "item.lastBeginDateValue.S",
-                                "type": "unknown",
+                                "type": "string",
                                 "_syntaxKind": "identifier"
                               },
                               "_syntaxKind": "binary-expression"
@@ -265,13 +265,13 @@
                             "lhs": {
                               "lhs": {
                                 "identifier": "item.sk.S",
-                                "type": "unknown",
+                                "type": "string",
                                 "_syntaxKind": "identifier"
                               },
                               "operator": "eq",
                               "rhs": {
                                 "identifier": "threshold.metric",
-                                "type": "unknown",
+                                "type": "string",
                                 "_syntaxKind": "identifier"
                               },
                               "_syntaxKind": "binary-expression"
@@ -280,7 +280,7 @@
                             "rhs": {
                               "lhs": {
                                 "identifier": "threshold.ceiling",
-                                "type": "unknown",
+                                "type": "numeric",
                                 "_syntaxKind": "identifier"
                               },
                               "operator": "lte",
@@ -301,7 +301,7 @@
                                 "operator": "is-present",
                                 "rhs": {
                                   "identifier": "item.lastBeginDateValue.S",
-                                  "type": "unknown",
+                                  "type": "string",
                                   "_syntaxKind": "identifier"
                                 },
                                 "_syntaxKind": "binary-expression"
@@ -312,13 +312,13 @@
                             "rhs": {
                               "lhs": {
                                 "identifier": "item.beginDate.S",
-                                "type": "unknown",
+                                "type": "string",
                                 "_syntaxKind": "identifier"
                               },
                               "operator": "eq",
                               "rhs": {
                                 "identifier": "item.lastBeginDateValue.S",
-                                "type": "unknown",
+                                "type": "string",
                                 "_syntaxKind": "identifier"
                               },
                               "_syntaxKind": "binary-expression"
@@ -346,13 +346,13 @@
                                               "properties": {
                                                 "account_id": {
                                                   "identifier": "item.pk",
-                                                  "type": "unknown",
+                                                  "type": "object",
                                                   "_syntaxKind": "identifier"
                                                 },
                                                 "threshold": {
                                                   "identifier": "threshold",
                                                   "_syntaxKind": "identifier",
-                                                  "type": "unknown"
+                                                  "type": "object"
                                                 }
                                               },
                                               "_syntaxKind": "literal-object"
@@ -400,12 +400,12 @@
                                   "properties": {
                                     "pk": {
                                       "identifier": "item.pk",
-                                      "type": "unknown",
+                                      "type": "object",
                                       "_syntaxKind": "identifier"
                                     },
                                     "sk": {
                                       "identifier": "item.sk",
-                                      "type": "unknown",
+                                      "type": "object",
                                       "_syntaxKind": "identifier"
                                     }
                                   },
@@ -427,7 +427,7 @@
                                       "properties": {
                                         "N": {
                                           "identifier": "item.total.N",
-                                          "type": "unknown",
+                                          "type": "string",
                                           "_syntaxKind": "identifier"
                                         }
                                       },
@@ -437,7 +437,7 @@
                                       "properties": {
                                         "S": {
                                           "identifier": "item.beginDate.S",
-                                          "type": "unknown",
+                                          "type": "string",
                                           "_syntaxKind": "identifier"
                                         }
                                       },
@@ -471,7 +471,7 @@
           },
           "expression": {
             "identifier": "scan.LastEvaluatedKey",
-            "type": "unknown",
+            "type": "object",
             "_syntaxKind": "identifier"
           },
           "_syntaxKind": "variable-assignment"
