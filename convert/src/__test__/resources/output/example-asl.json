@@ -135,61 +135,50 @@
                                   ]
                                 }
                               ],
-                              "Next": "Parallel"
+                              "Next": "Task"
                             }
                           ],
                           "Comment": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\n\n          await asl.nativeEventBridgePutEvents({\n            Entries: [\n              {\n                Detail: asl.states.jsonToString({\n                  account_id: item.pk,\n                  threshold: threshold\n                }),\n                DetailType: \"xxx.detail.type\",\n                EventBusName: \"default\",\n                Source: \"zzz.my.source\"\n              }\n            ]\n          });\n          await asl.nativeDynamoDBUpdateItem({\n            TableName: \"MyStorage\",\n            Key: {\n              pk: item.pk,\n              sk: item.sk\n            },\n            ConditionExpression: \"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\",\n            UpdateExpression: \"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\",\n            ExpressionAttributeValues: {\n              \":newLastSentOnValue\": {\n                N: item.total.N as any\n              },\n              \":newLastBeginDateValue\": {\n                S: item.beginDate.S\n              }\n            }\n          });\n        }",
-                          "Default": "Noop"
+                          "Default": "Empty Default Choice"
                         },
-                        "Parallel": {
-                          "Type": "Parallel",
-                          "Branches": [
-                            {
-                              "StartAt": "Task",
-                              "States": {
-                                "Task": {
-                                  "Type": "Task",
-                                  "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-                                  "Parameters": {
-                                    "Entries": [
-                                      {
-                                        "Detail": "States.JsonToString([object Object])",
-                                        "DetailType": "xxx.detail.type",
-                                        "EventBusName": "default",
-                                        "Source": "zzz.my.source"
-                                      }
-                                    ]
-                                  },
-                                  "Next": "Task_1"
-                                },
-                                "Task_1": {
-                                  "Type": "Task",
-                                  "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
-                                  "Parameters": {
-                                    "TableName": "MyStorage",
-                                    "Key": {
-                                      "pk.$": "$.item.pk",
-                                      "sk.$": "$.item.sk"
-                                    },
-                                    "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
-                                    "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
-                                    "ExpressionAttributeValues": {
-                                      ":newLastSentOnValue": {
-                                        "N.$": "$.item.total.N"
-                                      },
-                                      ":newLastBeginDateValue": {
-                                        "S.$": "$.item.beginDate.S"
-                                      }
-                                    }
-                                  },
-                                  "End": true
-                                }
+                        "Task": {
+                          "Type": "Task",
+                          "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                          "Parameters": {
+                            "Entries": [
+                              {
+                                "Detail": "States.JsonToString([object Object])",
+                                "DetailType": "xxx.detail.type",
+                                "EventBusName": "default",
+                                "Source": "zzz.my.source"
+                              }
+                            ]
+                          },
+                          "Next": "Task_1"
+                        },
+                        "Task_1": {
+                          "Type": "Task",
+                          "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
+                          "Parameters": {
+                            "TableName": "MyStorage",
+                            "Key": {
+                              "pk.$": "$.item.pk",
+                              "sk.$": "$.item.sk"
+                            },
+                            "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+                            "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                            "ExpressionAttributeValues": {
+                              ":newLastSentOnValue": {
+                                "N.$": "$.item.total.N"
+                              },
+                              ":newLastBeginDateValue": {
+                                "S.$": "$.item.beginDate.S"
                               }
                             }
-                          ],
+                          },
                           "End": true
                         },
-                        "Noop": {
+                        "Empty Default Choice": {
                           "Type": "Pass",
                           "End": true
                         }

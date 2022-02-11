@@ -1,38 +1,17 @@
-import { readFileSync, writeFileSync } from "fs";
-import { createCompilerHost } from "typescript";
-import { Converter } from "..";
-import { createCompilerHostFromFile } from "../compiler-host";
+import { runConvertForTest } from "./utility";
 
-describe("when converting example (native)", () => {
+describe("when converting example", () => {
   let converted;
 
   beforeAll(() => {
-    const host = createCompilerHostFromFile(
-      "src/__test__/resources/example.ts"
-    );
-    const converter = new Converter(host);
-    converted = converter
-      .convert(true)
-      .stateMachines.find(x => x.name === "main");
-    writeFileSync(
-      "src/__test__/resources/output/example-asllib.ts",
-      converted.transformedCode
-    );
-    writeFileSync(
-      "src/__test__/resources/output/example-i-asl.json",
-      JSON.stringify(converted.iasl, null, 2)
-    );
-    writeFileSync(
-      "src/__test__/resources/output/example-asl.json",
-      JSON.stringify(converted.asl, null, 2)
-    );
+    converted = runConvertForTest("example");
   });
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
       "import * as asl from \\"@cloudscript/asl-lib\\"
 
-      export const main = asl.deploy.asStateMachine(async () =>{
+      export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
           let thresholds = asl.pass({
               parameters: () => [
                   {
@@ -124,7 +103,6 @@ describe("when converting example (native)", () => {
       }"
     `);
   });
-
   it("then can be converted to iasl", async () => {
     expect(converted.iasl).toMatchInlineSnapshot(`
       Array [
@@ -655,103 +633,6 @@ describe("when converting example (native)", () => {
       ]
     `);
   });
-
-  it("then can be converted to asllib", async () => {
-    expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "import * as asl from \\"@cloudscript/asl-lib\\"
-
-      export const main = asl.deploy.asStateMachine(async () =>{
-          let thresholds = asl.pass({
-              parameters: () => [
-                  {
-                      \\"metric\\": \\"mappings.requests\\",
-                      \\"ceiling\\": 100
-                  },
-                  {
-                      \\"metric\\": \\"mappings.requests\\",
-                      \\"ceiling\\": 1000
-                  }
-              ],
-              comment: \\"thresholds = [\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 100\\\\n    },\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 1000\\\\n    }\\\\n  ]\\"
-          });
-          let lastEvaluatedKey: any | undefined = asl.pass({
-              parameters: () => undefined,
-              comment: \\"lastEvaluatedKey: any | undefined = undefined\\"
-          }); //$.variables.lastEvaluatedKey
-          asl.typescriptDoWhile({
-              condition: () => lastEvaluatedKey,
-              block: async () => {
-                  let scan = await asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
-                  asl.map({
-                      items: () => (scan.Items as unknown as Item[]),
-                      iterator: item => {
-                          asl.map({
-                              items: () => thresholds,
-                              iterator: threshold => {
-                                  let numericLastSentOnValue = asl.pass({
-                                      parameters: () => asl.states.stringToJson(item.lastSentOnValue.N) as number,
-                                      comment: \\"numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number\\"
-                                  });
-                                  let numericTotal = asl.pass({
-                                      parameters: () => asl.states.stringToJson(item.total.N) as number,
-                                      comment: \\"numericTotal = asl.states.stringToJson(item.total.N) as number\\"
-                                  });
-                                  asl.typescriptIf({
-                                      condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
-                                          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
-                                      then: async () => {
-                                          await asl.nativeEventBridgePutEvents({
-                                              Entries: [
-                                                  {
-                                                      Detail: asl.states.jsonToString({
-                                                          account_id: item.pk,
-                                                          threshold: threshold
-                                                      }),
-                                                      DetailType: \\"xxx.detail.type\\",
-                                                      EventBusName: \\"default\\",
-                                                      Source: \\"zzz.my.source\\"
-                                                  }
-                                              ]
-                                          });
-                                          await asl.nativeDynamoDBUpdateItem({
-                                              TableName: \\"MyStorage\\",
-                                              Key: {
-                                                  pk: item.pk,
-                                                  sk: item.sk
-                                              },
-                                              ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
-                                              UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
-                                              ExpressionAttributeValues: {
-                                                  \\":newLastSentOnValue\\": {
-                                                      N: item.total.N as any
-                                                  },
-                                                  \\":newLastBeginDateValue\\": {
-                                                      S: item.beginDate.S
-                                                  }
-                                              }
-                                          });
-                                      },
-                                      comment: \\"if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\\\\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\\\\n\\\\n          await asl.nativeEventBridgePutEvents({\\\\n            Entries: [\\\\n              {\\\\n                Detail: asl.states.jsonToString({\\\\n                  account_id: item.pk,\\\\n                  threshold: threshold\\\\n                }),\\\\n                DetailType: \\\\\\"xxx.detail.type\\\\\\",\\\\n                EventBusName: \\\\\\"default\\\\\\",\\\\n                Source: \\\\\\"zzz.my.source\\\\\\"\\\\n              }\\\\n            ]\\\\n          });\\\\n          await asl.nativeDynamoDBUpdateItem({\\\\n            TableName: \\\\\\"MyStorage\\\\\\",\\\\n            Key: {\\\\n              pk: item.pk,\\\\n              sk: item.sk\\\\n            },\\\\n            ConditionExpression: \\\\\\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\\\\\",\\\\n            UpdateExpression: \\\\\\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\\\\\",\\\\n            ExpressionAttributeValues: {\\\\n              \\\\\\":newLastSentOnValue\\\\\\": {\\\\n                N: item.total.N as any\\\\n              },\\\\n              \\\\\\":newLastBeginDateValue\\\\\\": {\\\\n                S: item.beginDate.S\\\\n              }\\\\n            }\\\\n          });\\\\n        }\\"
-                                  })
-                              }
-                          })
-                      }
-                  })
-                  lastEvaluatedKey = scan.LastEvaluatedKey;
-              }
-          })
-      });
-
-      interface Item {
-        pk: { S: string };
-        sk: { S: string };
-        total: { N: string };
-        lastSentOnValue: { N: string };
-        beginDate: { S: string };
-        lastBeginDateValue: { S: string };
-      }"
-    `);
-  });
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
@@ -844,10 +725,14 @@ describe("when converting example (native)", () => {
                                 "ResultPath": "$.numericTotal",
                                 "Type": "Pass",
                               },
+                              "Empty Default Choice": Object {
+                                "End": true,
+                                "Type": "Pass",
+                              },
                               "If": Object {
                                 "Choices": Array [
                                   Object {
-                                    "Next": "Parallel",
+                                    "Next": "Task",
                                     "Or": Array [
                                       Object {
                                         "And": Array [
@@ -950,70 +835,55 @@ describe("when converting example (native)", () => {
                   }
                 });
               }",
-                                "Default": "Noop",
+                                "Default": "Empty Default Choice",
                                 "Type": "Choice",
                               },
-                              "Noop": Object {
-                                "End": true,
-                                "Type": "Pass",
+                              "Task": Object {
+                                "Catch": undefined,
+                                "Comment": undefined,
+                                "HeartbeatSeconds": undefined,
+                                "Next": "Task_1",
+                                "Parameters": Object {
+                                  "Entries": Array [
+                                    Object {
+                                      "Detail": "States.JsonToString([object Object])",
+                                      "DetailType": "xxx.detail.type",
+                                      "EventBusName": "default",
+                                      "Source": "zzz.my.source",
+                                    },
+                                  ],
+                                },
+                                "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                                "Retry": undefined,
+                                "TimeoutSeconds": undefined,
+                                "Type": "Task",
                               },
-                              "Parallel": Object {
-                                "Branches": Array [
-                                  Object {
-                                    "StartAt": "Task",
-                                    "States": Object {
-                                      "Task": Object {
-                                        "Catch": undefined,
-                                        "Comment": undefined,
-                                        "HeartbeatSeconds": undefined,
-                                        "Next": "Task_1",
-                                        "Parameters": Object {
-                                          "Entries": Array [
-                                            Object {
-                                              "Detail": "States.JsonToString([object Object])",
-                                              "DetailType": "xxx.detail.type",
-                                              "EventBusName": "default",
-                                              "Source": "zzz.my.source",
-                                            },
-                                          ],
-                                        },
-                                        "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-                                        "Retry": undefined,
-                                        "TimeoutSeconds": undefined,
-                                        "Type": "Task",
-                                      },
-                                      "Task_1": Object {
-                                        "Catch": undefined,
-                                        "Comment": undefined,
-                                        "End": true,
-                                        "HeartbeatSeconds": undefined,
-                                        "Parameters": Object {
-                                          "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
-                                          "ExpressionAttributeValues": Object {
-                                            ":newLastBeginDateValue": Object {
-                                              "S.$": "$.item.beginDate.S",
-                                            },
-                                            ":newLastSentOnValue": Object {
-                                              "N.$": "$.item.total.N",
-                                            },
-                                          },
-                                          "Key": Object {
-                                            "pk.$": "$.item.pk",
-                                            "sk.$": "$.item.sk",
-                                          },
-                                          "TableName": "MyStorage",
-                                          "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
-                                        },
-                                        "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
-                                        "Retry": undefined,
-                                        "TimeoutSeconds": undefined,
-                                        "Type": "Task",
-                                      },
+                              "Task_1": Object {
+                                "Catch": undefined,
+                                "Comment": undefined,
+                                "End": true,
+                                "HeartbeatSeconds": undefined,
+                                "Parameters": Object {
+                                  "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+                                  "ExpressionAttributeValues": Object {
+                                    ":newLastBeginDateValue": Object {
+                                      "S.$": "$.item.beginDate.S",
+                                    },
+                                    ":newLastSentOnValue": Object {
+                                      "N.$": "$.item.total.N",
                                     },
                                   },
-                                ],
-                                "End": true,
-                                "Type": "Parallel",
+                                  "Key": Object {
+                                    "pk.$": "$.item.pk",
+                                    "sk.$": "$.item.sk",
+                                  },
+                                  "TableName": "MyStorage",
+                                  "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                                },
+                                "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
+                                "Retry": undefined,
+                                "TimeoutSeconds": undefined,
+                                "Type": "Task",
                               },
                             },
                           },

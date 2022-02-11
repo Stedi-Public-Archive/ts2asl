@@ -27,7 +27,7 @@ export class Converter {
       if (decl.kind === "asl") {
         const blockPosition = {start: decl.body.pos, end: decl.body.end};
         const transformed = transformBody(decl.body);
-        const transpiled = convertToIntermediaryAsl(transformed, this.typeChecker, decl.argumentName);
+        const transpiled = convertToIntermediaryAsl(transformed, this.typeChecker, decl.inputArgName);
         const asl = convertToASl(transpiled)!;
         const result = { name: decl.name, asl };
         if (includeDiagnostics) {
@@ -63,4 +63,8 @@ export interface ConvertedLambda {
 export interface ConvertedStateMachine {
   name: string;
   asl: StateMachine;
+}
+export interface ConvertedStateMachineWithDiagnostics extends ConvertedStateMachine {
+  iasl:  iasl.Expression[];
+  transformedCode: string;
 }

@@ -1,0 +1,30 @@
+{
+  "StartAt": "If",
+  "States": {
+    "If": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.context.testInput.delayInSeconds",
+            "IsNumeric": true
+          },
+          "Next": "Assign context.testInput.delayInSeconds"
+        }
+      ],
+      "Comment": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
+      "Default": "Wait"
+    },
+    "Assign context.testInput.delayInSeconds": {
+      "Type": "Pass",
+      "ResultPath": "$.context.testInput.delayInSeconds",
+      "Result": 5,
+      "Next": "Wait"
+    },
+    "Wait": {
+      "Type": "Wait",
+      "SecondsPath": "context.testInput.delayInSeconds",
+      "End": true
+    }
+  }
+}

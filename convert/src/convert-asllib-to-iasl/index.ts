@@ -369,7 +369,7 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression,
   return result
 }
 
-export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, typeChecker: ts.TypeChecker): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.BinaryExpression | undefined => {
+export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, typeChecker: ts.TypeChecker): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.TypeOfExpression |iasl.BinaryExpression | undefined => {
   if (original === undefined) {
     return undefined;
   }
@@ -457,6 +457,12 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       function: functionName.identifier,
       _syntaxKind: "asl-intrinsic-function"
     } as iasl.AslIntrinsicFunction;
+  } else if (ts.isTypeOfExpression(expr)) {
+      let expression = {
+      operand: convertExpressionToLiteralOrIdentifier(expr.expression, typeChecker),
+      _syntaxKind: iasl.SyntaxKind.TypeOfExpression
+      } as iasl.TypeOfExpression;
+      return expression;
   } else if (ts.isBinaryExpression(expr)) {
     const convertedOperator = convertBinaryOperatorToken(expr.operatorToken)
     let expression = {
@@ -465,7 +471,6 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       rhs: convertExpressionToLiteralOrIdentifier(expr.right, typeChecker),
       _syntaxKind: iasl.SyntaxKind.BinaryExpression
     } as iasl.BinaryExpression;
-
     if (convertedOperator.not) {
       expression = {
         operator: "not",

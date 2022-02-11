@@ -55,10 +55,17 @@ export class ConversionContext {
     }
     this.states[name] = state;
     for (const trailingState of this.trailingStates) {
-      trailingState.Next = name;
+      if (trailingState.Type === "Choice") {
+        const choice = trailingState as asl.Choice;
+        if (choice.Default === undefined) {
+          choice.Default = name;
+        }
+      } else {
+        trailingState.Next = name;
+      }
     }
 
-    this.trailingStates = isNonTerminalState(state) && state.Type != "Choice" ? [state] : []
+    this.trailingStates = isNonTerminalState(state) ? [state] : []
     return name;
   }
 
@@ -68,7 +75,16 @@ export class ConversionContext {
     }
 
     for (const trailingState of this.trailingStates) {
-      trailingState.End = true;
+      if (trailingState.Type === "Choice") {
+        const choice = trailingState as asl.Choice;
+        if (choice.Default === undefined) {
+          const name = this.createName("Empty Default Choice");
+          this.states[name] = { Type: "Pass", End: true} as asl.Pass;
+          choice.Default = name;
+        }
+      } else {
+        trailingState.End = true;
+      }
     }
     if (this.startAt === undefined) return undefined;
     return {

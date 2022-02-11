@@ -1,0 +1,52 @@
+[
+  {
+    "condition": {
+      "operator": "not",
+      "rhs": {
+        "lhs": {
+          "operand": {
+            "identifier": "context.testInput.delayInSeconds",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          },
+          "_syntaxKind": "type-of-expression"
+        },
+        "operator": "eq",
+        "rhs": {
+          "value": "number",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "_syntaxKind": "binary-expression"
+    },
+    "then": {
+      "statements": [
+        {
+          "name": {
+            "identifier": "context.testInput.delayInSeconds",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          },
+          "expression": {
+            "value": 5,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "variable-assignment"
+        }
+      ]
+    },
+    "comment": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
+    "_syntaxKind": "if"
+  },
+  {
+    "seconds": {
+      "identifier": "context.testInput.delayInSeconds",
+      "type": "numeric",
+      "_syntaxKind": "identifier"
+    },
+    "_syntaxKind": "asl-wait-state"
+  }
+]

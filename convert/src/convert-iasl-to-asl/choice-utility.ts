@@ -63,7 +63,32 @@ export function createChoiceOperator(expression: iasl.BinaryExpression): Operato
       }
     }
   }
+  if (iasl.Check.isTypeOfExpression(expression.lhs) || iasl.Check.isTypeOfExpression(expression.rhs)) {
+    if (expression.operator !== "eq") throw new Error("if lhs or rhs is typeof expression, operator must be equals (e.g. typeof myvar === 'string'");
+    if (iasl.Check.isTypeOfExpression(expression.lhs) && iasl.Check.isLiteral(expression.rhs) && iasl.Check.isIdentifier(expression.lhs.operand)) {
+      const convered = convertExpressionToAsl(expression.lhs.operand);
 
+      switch(expression.rhs.value) {
+        case "string":
+          return {
+            Variable: `$.${convered.path}`,
+            IsString: true,
+          }
+        case "number":
+          return {
+            Variable: `$.${convered.path}`,
+            IsNumeric: true,
+          }
+        case "boolean":
+          return {
+            Variable: `$.${convered.path}`,
+            IsBoolean: true,
+          }
+        default:
+          throw new Error("typeof must be one of 'string', 'number' or 'boolean'");
+      }
+    }
+  }
   const lhs = expression.lhs ? convertExpressionToAsl(expression.lhs) : undefined;
   const rhs = convertExpressionToAsl(expression.rhs);
   if (!lhs) throw new Error("expected lhs on binary expression");
@@ -109,8 +134,6 @@ export function createChoiceOperator(expression: iasl.BinaryExpression): Operato
       operatorField += 'Matches'
       break;
   }
-
-
 
   let operand = rhs.value;
   if (rhs.path) {

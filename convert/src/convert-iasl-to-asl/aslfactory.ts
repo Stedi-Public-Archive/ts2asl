@@ -1,6 +1,6 @@
-import * as iasl from "../convert-asllib-to-iasl/ast"
 import * as asl from "asl-types";
-import { ConversionContext, convertToASl } from ".";
+import * as iasl from "../convert-asllib-to-iasl/ast"
+import { ConversionContext, convertToASl, isNonTerminalState } from ".";
 import { createChoiceOperator } from "./choice-utility";
 
 export class AslFactory {
@@ -63,29 +63,7 @@ export class AslFactory {
     } else if (iasl.Check.isIfExpression(expression)) {
 
       const choiceOperator = createChoiceOperator(expression.condition);
-      const contextForThen = context.createChildContext();
-      for (const statement of expression.then.statements) {
-        AslFactory.append(statement, contextForThen);
-      }
-      const statemachineForThen = contextForThen.finalize();
-      const parallelThen = {
-        Type: "Parallel",
-        Branches: [statemachineForThen]
-      } as asl.Parallel;
-
-      let parallelElse: asl.Parallel | undefined = undefined;
-      if (expression.else) {
-        const contextForElse = context.createChildContext();
-        for (const statement of expression.else.statements) {
-          AslFactory.append(statement, contextForElse);
-        }
-        const statemachineForElse = contextForThen.finalize();
-        const parallelElse = {
-          Type: "Parallel",
-          Branches: [statemachineForElse]
-        } as asl.Parallel;
-      }
-
+      
       const choiceState = {
         Type: "Choice",
         ...properties,
@@ -94,22 +72,46 @@ export class AslFactory {
       } as asl.Choice;
       context.appendNextState(choiceState, nameSuggestion ?? "If");
 
-      const thenName = context.appendAdditionalTail(parallelThen);
-      choiceOperator.Next = thenName;
+      const contextForThen = context.createChildContext();
+      for (const statement of expression.then.statements) {
+        AslFactory.append(statement, contextForThen);
+      }
+      const statemachineForThen = contextForThen.finalize();
 
-      const elseName = context.appendAdditionalTail(parallelElse ?? { Type: "Pass" } as asl.Pass, "Noop")
-      choiceState.Default = elseName;
-
+      choiceOperator.Next = contextForThen.startAt;
+      for(const [name, statement] of Object.entries(statemachineForThen?.States!)) {
+        context.states[name] = statement;
+        if (isNonTerminalState(statement) && statement.End) {
+          delete statement.End;
+          context.trailingStates.push(statement);
+        }
+      }
+      
+      if (expression.else) {
+        const contextForElse = context.createChildContext();
+        for (const statement of expression.else.statements) {
+          AslFactory.append(statement, contextForElse);
+        }
+        const statemachineForElse = contextForThen.finalize();
+        choiceState.Default = statemachineForElse?.StartAt;
+        for(const [name, statement] of Object.entries(statemachineForThen?.States!)) {
+          context.states[name] = statement;
+          if (isNonTerminalState(statement) && statement.End) {
+            delete statement.End;
+            context.trailingStates.push(statement);
+          }
+        }
+      }
     } else if (iasl.Check.isWhileStatement(expression)) {
     } else if (iasl.Check.isAslWaitState(expression)) {
-      const seconds = convertExpressionToAsl(expression.seconds);
-      const timestamp = convertExpressionToAsl(expression.timestamp);
+      const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds): undefined;
+      const timestamp = expression.timestamp !== undefined ? convertExpressionToAsl(expression.timestamp): undefined;
 
       context.appendNextState({
         Type: "Wait",
         ...properties,
-        ...(seconds.path !== undefined ? { SecondsPath: seconds.path } : { Seconds: seconds.value }),
-        ...(timestamp.path !== undefined ? { TimestampPath: seconds.path } : { Timestamp: seconds.value }),
+        ...(seconds && seconds.path !== undefined ? { SecondsPath: seconds.path } : seconds ? { Seconds: seconds.value } : {}),
+        ...(timestamp && timestamp.path !== undefined ? { TimestampPath: timestamp.path } : timestamp ? { Timestamp: timestamp.value } : {}),
         Comment: expression.comment,
       } as asl.Wait, nameSuggestion);
     } else if (iasl.Check.isAslParallelState(expression)) {

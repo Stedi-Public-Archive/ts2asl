@@ -23,6 +23,7 @@ export enum SyntaxKind {
   AslMapState = "asl-map-state",
   AslFailState = "asl-fail-state",
   AslSucceedState = "asl-succeed-state",
+  TypeOfExpression = "type-of-expression",
 }
 
 export class Check {
@@ -46,6 +47,9 @@ export class Check {
   }
   static isVariableAssignment(expr: Identifier | Expression | undefined): expr is VariableAssignmentStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.VariableAssignmentStatement;
+  }
+  static isTypeOfExpression(expr: Identifier | Expression | undefined): expr is TypeOfExpression {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.TypeOfExpression;
   }
   static isIfExpression(expr: Identifier | Expression | undefined): expr is IfExpression {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.IfStatement;
@@ -96,6 +100,7 @@ export class Check {
 
 //could be 'name' or 'name.path.parts'
 export interface Identifier {
+  objectContextExpression?: true;
   identifier: string;
   indexExpression?: Identifier | Expression;
   lhs?: Identifier;
@@ -109,6 +114,7 @@ export interface Expression {
 }
 
 export type BinaryOperator = "and" | "or" | "not" | "is-present" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
+
 
 export interface BinaryExpression extends Expression {
   _syntaxKind: SyntaxKind.BinaryExpression;
@@ -134,7 +140,6 @@ export interface AslIntrinsicFunction extends Expression {
   arguments: Array<Identifier | LiteralExpressionLike>;
 }
 
-
 export interface LiteralObjectExpression extends Expression {
   _syntaxKind: SyntaxKind.LiteralObject;
   properties: Record<string, Expression | Identifier>;
@@ -151,6 +156,10 @@ export interface IfExpression extends Expression {
   then: Block;
   else?: Block;
 }
+export interface TypeOfExpression extends Expression {
+  _syntaxKind: SyntaxKind.TypeOfExpression;
+  operand: Identifier | Expression;
+}
 
 export interface TryStatement extends Expression {
   _syntaxKind: SyntaxKind.TryStatement;
@@ -165,8 +174,6 @@ export interface CaseStatement extends Expression {
   cases?: Array<{ when: LiteralExpression[], then: Block }>;
   default?: Block;
 }
-
-
 
 export interface DoWhileStatement extends Expression {
   _syntaxKind: SyntaxKind.DoWhileStatement;

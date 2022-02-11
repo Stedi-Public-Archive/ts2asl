@@ -1,6 +1,6 @@
 import * as asl from "@cloudscript/asl-lib"
 
-export const main = asl.deploy.asStateMachine(async () => {
+export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) => {
 
   let thresholds = [
     {
