@@ -5,10 +5,8 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Not": {
-            "Variable": "$.context.testInput.delayInSeconds",
-            "IsNumeric": true
-          },
+          "Variable": "$.context.testInput.delayInSeconds",
+          "IsNumeric": false,
           "Next": "Assign context.testInput.delayInSeconds"
         }
       ],

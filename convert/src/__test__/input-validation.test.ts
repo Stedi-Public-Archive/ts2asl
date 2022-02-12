@@ -103,11 +103,9 @@ describe("when converting example", () => {
           "If": Object {
             "Choices": Array [
               Object {
+                "IsNumeric": false,
                 "Next": "Assign context.testInput.delayInSeconds",
-                "Not": Object {
-                  "IsNumeric": true,
-                  "Variable": "$.context.testInput.delayInSeconds",
-                },
+                "Variable": "$.context.testInput.delayInSeconds",
               },
             ],
             "Comment": "if (typeof context.testInput.delayInSeconds !== \\"number\\") {

@@ -1,6 +1,7 @@
 import { convertToASl } from "..";
 import { createChoiceOperator } from "../choice-utility";
 import * as iasl from "../../convert-asllib-to-iasl/ast";
+import { identifier } from "aws-sdk/clients/frauddetector";
 
 describe("when transpiling simple statements", () => {
   it("then current type operand is used", () => {
@@ -50,6 +51,38 @@ describe("when transpiling simple statements", () => {
       }
     `);
   });
+});
+
+it("then not typeof is optimized to typeof: false", () => {
+  const binaryExpression = {
+    operator: "not",
+    rhs: {
+      lhs: {
+        operand: {
+          identifier: "number",
+          type: "unknown",
+          _syntaxKind: iasl.SyntaxKind.Identifier
+        } as iasl.Identifier,
+        _syntaxKind: iasl.SyntaxKind.TypeOfExpression
+      } as iasl.TypeOfExpression,
+      operator: "eq",
+      rhs: {
+        value: "number",
+        type: "string",
+        _syntaxKind: iasl.SyntaxKind.Literal
+      } as iasl.LiteralExpression,
+      _syntaxKind: iasl.SyntaxKind.BinaryExpression
+    } as iasl.BinaryExpression,
+    _syntaxKind: iasl.SyntaxKind.BinaryExpression
+  } as iasl.BinaryExpression;
+
+  const result = createChoiceOperator(binaryExpression);
+  expect(result).toMatchInlineSnapshot(`
+    Object {
+      "IsNumeric": false,
+      "Variable": "$.number",
+    }
+  `);
 });
 
 describe("when transpiling complex statements", () => {

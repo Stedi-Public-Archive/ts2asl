@@ -17,14 +17,21 @@ export function createChoiceOperator(expression: iasl.BinaryExpression): Operato
 
   if (expression.operator === "not") {
     if (iasl.Check.isBinaryExpression(expression.rhs)) { //not(isPresent(xxx)) => {IsPresent: false, Variable: xxxx}
-      if ((expression.rhs.operator === "is-present") && iasl.Check.isIdentifier(expression.rhs.rhs)) {
-        const expr = convertExpressionToAsl(expression.rhs.rhs);
-        return {
-          Variable: expr.path,
-          IsPresent: false //todo: consider this https://stackoverflow.com/questions/63039270/aws-step-function-check-for-null
-        }
+      // if ((expression.rhs.operator === "is-present") && iasl.Check.isIdentifier(expression.rhs.rhs)) {
+      //   const expr = convertExpressionToAsl(expression.rhs.rhs);
+      //   return {
+      //     Variable: expr.path,
+      //     IsPresent: false //todo: consider this https://stackoverflow.com/questions/63039270/aws-step-function-check-for-null
+      //   }
+      // }
+      const notExpression = createChoiceOperator(expression.rhs)
+      if (notExpression.IsPresent === true) {
+        return { ...notExpression, IsPresent: false };
+      } else if (notExpression.IsNumeric === true) {
+        return { ...notExpression, IsNumeric: false };
+      } else if (notExpression.IsBoolean === true) {
+        return { ...notExpression, IsBoolean: false };
       }
-
       return {
         Not: createChoiceOperator(expression.rhs)
       }
@@ -68,7 +75,7 @@ export function createChoiceOperator(expression: iasl.BinaryExpression): Operato
     if (iasl.Check.isTypeOfExpression(expression.lhs) && iasl.Check.isLiteral(expression.rhs) && iasl.Check.isIdentifier(expression.lhs.operand)) {
       const convered = convertExpressionToAsl(expression.lhs.operand);
 
-      switch(expression.rhs.value) {
+      switch (expression.rhs.value) {
         case "string":
           return {
             Variable: `$.${convered.path}`,
