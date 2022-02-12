@@ -39,9 +39,9 @@
                 "Limit": 1,
                 "ExclusiveStartKey.$": "$.lastEvaluatedKey"
               },
-              "Next": "Map"
+              "Next": "Map_1"
             },
-            "Map": {
+            "Map_1": {
               "Type": "Map",
               "Iterator": {
                 "StartAt": "Map",
@@ -190,9 +190,9 @@
                 }
               },
               "ItemsPath": "scan.Items",
-              "Next": "Assign lastEvaluatedKey"
+              "Next": "Assign lastEvaluatedKey_1"
             },
-            "Assign lastEvaluatedKey": {
+            "Assign lastEvaluatedKey_1": {
               "Type": "Pass",
               "ResultPath": "$.lastEvaluatedKey",
               "InputPath": "scan.LastEvaluatedKey",

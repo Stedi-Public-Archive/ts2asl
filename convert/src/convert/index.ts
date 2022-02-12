@@ -26,13 +26,21 @@ export class Converter {
     for (const decl of declarations) {
       if (decl.kind === "asl") {
         const blockPosition = {start: decl.body.pos, end: decl.body.end};
-        const transformed = transformBody(decl.body);
-        const transpiled = convertToIntermediaryAsl(transformed, this.typeChecker, decl.inputArgName);
-        const asl = convertToASl(transpiled)!;
+        let transformed : ts.ConciseBody | undefined;
+        let transpiled : iasl.Expression[] = [];
+        let asl: asl.StateMachine | undefined;
+        try{
+        transformed = transformBody(decl.body);
+        transpiled = convertToIntermediaryAsl(transformed, this.typeChecker, decl.inputArgName);
+        asl = convertToASl(transpiled)!;
+        }catch(err) {
+          //if (!includeDiagnostics) 
+          throw err;
+        }
         const result = { name: decl.name, asl };
         if (includeDiagnostics) {
           const withDiagnostics: Record<string, unknown> = result;
-          const transformedBlock = ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile);
+          const transformedBlock =transformed ? ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile) : undefined;
           const transformedCode = this.sourceFile.text.substring(0, blockPosition.start) + transformedBlock + this.sourceFile.text.substring(blockPosition.end);
           withDiagnostics["transformedCode"] = transformedCode;
           withDiagnostics["iasl"] = transpiled;
@@ -62,7 +70,7 @@ export interface ConvertedLambda {
 }
 export interface ConvertedStateMachine {
   name: string;
-  asl: StateMachine;
+  asl?: StateMachine;
 }
 export interface ConvertedStateMachineWithDiagnostics extends ConvertedStateMachine {
   iasl:  iasl.Expression[];

@@ -1,0 +1,95 @@
+{
+  "StartAt": "Assign result",
+  "States": {
+    "Assign result": {
+      "Branches": [
+        {
+          "StartAt": "Pass",
+          "States": {
+            "Pass": {
+              "Type": "Pass",
+              "Result": {
+                "identityChecked": true,
+                "customerName": "name",
+                "customerAddress": "address"
+              },
+              "Next": "Succeed"
+            },
+            "Succeed": {
+              "Type": "Succeed"
+            }
+          }
+        },
+        {
+          "StartAt": "Pass_1",
+          "States": {
+            "Pass_1": {
+              "Type": "Pass",
+              "Result": {
+                "agencyChecked": true
+              },
+              "Next": "Succeed_1"
+            },
+            "Succeed_1": {
+              "Type": "Succeed"
+            }
+          }
+        }
+      ],
+      "ResultPath": "$.result",
+      "Type": "Parallel",
+      "Catch": [],
+      "Retry": [],
+      "Next": "Task"
+    },
+    "Task": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail": "States.JsonToString($.result)",
+            "DetailType": "Identity check completed",
+            "EventBusName": "eventbusname",
+            "Source": "com.aws.kyc"
+          }
+        ]
+      },
+      "Next": "Assign checksPassed"
+    },
+    "Assign checksPassed": {
+      "Type": "Pass",
+      "ResultPath": "$.checksPassed",
+      "Result": true,
+      "Comment": "checksPassed = true",
+      "Next": "If"
+    },
+    "If": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "checksPassed",
+          "IsPresent": true,
+          "Next": "Task_1"
+        }
+      ],
+      "Comment": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }",
+      "Default": "Task_1"
+    },
+    "Task_1": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail": "States.JsonToString($.result)",
+            "DetailType": "AccountApproved",
+            "EventBusName": "eventbusname",
+            "Source": "com.aws.kyc"
+          }
+        ]
+      },
+      "End": true
+    }
+  }
+}

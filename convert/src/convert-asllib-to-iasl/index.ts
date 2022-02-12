@@ -47,7 +47,8 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, typeChecker: ts.
   }
 
   if (ts.isReturnStatement(node)) {
-    const expression = convertExpression(node.expression, typeChecker);
+    const identifier = node.expression ? convertExpressionToLiteralOrIdentifier(node.expression, typeChecker) : undefined;
+    const expression = identifier == undefined ? convertExpression(node.expression, typeChecker): identifier;
 
     return {
       expression,
@@ -91,6 +92,13 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, typeChecker: ts.
 
   if (node && ts.isAwaitExpression(node)) {
     node = node.expression;
+  }
+
+  if (ts.isReturnStatement(node)) {
+    return {
+      expression: convertExpression(node.expression, typeChecker),
+      _syntaxKind: iasl.SyntaxKind.ReturnStatement
+    } as iasl.ReturnStatement
   }
 
   const result = convertExpression(node as ts.Expression, typeChecker);

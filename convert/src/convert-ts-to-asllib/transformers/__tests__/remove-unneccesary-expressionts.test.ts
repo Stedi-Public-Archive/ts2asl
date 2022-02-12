@@ -22,3 +22,39 @@ describe("when converting call statements", () => {
     `);
   });
 });
+
+describe("when converting promise.resolve", () => {
+  it("statement is removed", () => {
+    expect(
+      testTransform(
+        `
+    const x = Promise.resolve(y);
+    `,
+        removeUnnecessaryExpressionsTransformer
+      )
+    ).toMatchInlineSnapshot(`"const x = y;"`);
+  });
+});
+
+describe("when converting promise.resolve inside promise.all", () => {
+  it("statement is removed", () => {
+    expect(
+      testTransform(
+        `
+        const result = await Promise.all([
+          Promise.resolve({identityChecked: true, customerName: "name", customerAddress: "address"}),
+          Promise.resolve({agencyChecked: true}),
+        ])
+        
+        
+    `,
+        removeUnnecessaryExpressionsTransformer
+      )
+    ).toMatchInlineSnapshot(`
+      "const result = await Promise.all([
+          { identityChecked: true, customerName: \\"name\\", customerAddress: \\"address\\" },
+          { agencyChecked: true },
+      ]);"
+    `);
+  });
+});

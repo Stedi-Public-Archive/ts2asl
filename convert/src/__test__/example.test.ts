@@ -675,7 +675,7 @@ describe("when converting example", () => {
               Object {
                 "StartAt": "Assign scan",
                 "States": Object {
-                  "Assign lastEvaluatedKey": Object {
+                  "Assign lastEvaluatedKey_1": Object {
                     "Comment": undefined,
                     "InputPath": "scan.LastEvaluatedKey",
                     "Next": "_WhileCondition",
@@ -686,7 +686,7 @@ describe("when converting example", () => {
                     "Catch": undefined,
                     "Comment": undefined,
                     "HeartbeatSeconds": undefined,
-                    "Next": "Map",
+                    "Next": "Map_1",
                     "Parameters": Object {
                       "ExclusiveStartKey.$": "$.lastEvaluatedKey",
                       "Limit": 1,
@@ -698,7 +698,7 @@ describe("when converting example", () => {
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
-                  "Map": Object {
+                  "Map_1": Object {
                     "Comment": undefined,
                     "ItemsPath": "scan.Items",
                     "Iterator": Object {
@@ -893,7 +893,7 @@ describe("when converting example", () => {
                       },
                     },
                     "MaxConcurrency": undefined,
-                    "Next": "Assign lastEvaluatedKey",
+                    "Next": "Assign lastEvaluatedKey_1",
                     "Type": "Map",
                   },
                   "_WhileCondition": Object {

@@ -28,18 +28,18 @@ describe("when converting Promise.all statement", () => {
       testTransform(
         `await Promise.all(
             [
-              () => { console.log('a'); },
-              () => { console.log('b'); }
+              { val: "xyz"},
+              { val: "xxx"}
             ]);`,
         promiseAllStatementTransformer
       )
     ).toMatchInlineSnapshot(`
       "await asl.parallel({
           branches: [
-              () => { console.log('a'); },
-              () => { console.log('b'); }
+              () => { return { val: \\"xyz\\" }; },
+              () => { return { val: \\"xxx\\" }; }
           ],
-          comment: \\"Promise.all(\\\\n            [\\\\n              () => { console.log('a'); },\\\\n              () => { console.log('b'); }\\\\n            ])\\"
+          comment: \\"Promise.all(\\\\n            [\\\\n              { val: \\\\\\"xyz\\\\\\"},\\\\n              { val: \\\\\\"xxx\\\\\\"}\\\\n            ])\\"
       });"
     `);
   });

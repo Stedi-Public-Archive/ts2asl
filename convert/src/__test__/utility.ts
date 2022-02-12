@@ -17,15 +17,15 @@ export const runConvertForTest = (filename: string, stateMachineName: string = "
 
   writeFileSync(
     `src/__test__/resources/output/${filename}-asllib.ts`,
-    converted.transformedCode
+    converted.transformedCode ?? ""
   );
   writeFileSync(
     `src/__test__/resources/output/${filename}-i-asl.json`,
-    JSON.stringify(converted.iasl, null, 2)
+    JSON.stringify(converted.iasl, null, 2) ?? ""
   );
   writeFileSync(
     `src/__test__/resources/output/${filename}-asl.json`,
-    JSON.stringify(converted.asl, null, 2)
+    JSON.stringify(converted.asl, null, 2) ?? ""
   );
   return converted;
 }

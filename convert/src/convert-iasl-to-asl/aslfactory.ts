@@ -10,7 +10,7 @@ export class AslFactory {
     if (iasl.Check.isVariableAssignment(expression)) {
       properties["ResultPath"] = `$.` + expression.name.identifier;
       nameSuggestion = `Assign ${expression.name.identifier}`;
-      if (iasl.Check.isAslPassState(expression.expression) || iasl.Check.isAslTaskState(expression.expression)) {
+      if (!iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
         expression = { parameters: expression.expression, comment: expression.comment, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
@@ -63,7 +63,7 @@ export class AslFactory {
     } else if (iasl.Check.isIfExpression(expression)) {
 
       const choiceOperator = createChoiceOperator(expression.condition);
-      
+
       const choiceState = {
         Type: "Choice",
         ...properties,
@@ -79,14 +79,14 @@ export class AslFactory {
       const statemachineForThen = contextForThen.finalize();
 
       choiceOperator.Next = contextForThen.startAt;
-      for(const [name, statement] of Object.entries(statemachineForThen?.States!)) {
+      for (const [name, statement] of Object.entries(statemachineForThen?.States!)) {
         context.states[name] = statement;
         if (isNonTerminalState(statement) && statement.End) {
           delete statement.End;
           context.trailingStates.push(statement);
         }
       }
-      
+
       if (expression.else) {
         const contextForElse = context.createChildContext();
         for (const statement of expression.else.statements) {
@@ -94,7 +94,7 @@ export class AslFactory {
         }
         const statemachineForElse = contextForThen.finalize();
         choiceState.Default = statemachineForElse?.StartAt;
-        for(const [name, statement] of Object.entries(statemachineForThen?.States!)) {
+        for (const [name, statement] of Object.entries(statemachineForThen?.States!)) {
           context.states[name] = statement;
           if (isNonTerminalState(statement) && statement.End) {
             delete statement.End;
@@ -104,8 +104,8 @@ export class AslFactory {
       }
     } else if (iasl.Check.isWhileStatement(expression)) {
     } else if (iasl.Check.isAslWaitState(expression)) {
-      const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds): undefined;
-      const timestamp = expression.timestamp !== undefined ? convertExpressionToAsl(expression.timestamp): undefined;
+      const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds) : undefined;
+      const timestamp = expression.timestamp !== undefined ? convertExpressionToAsl(expression.timestamp) : undefined;
 
       context.appendNextState({
         Type: "Wait",
@@ -149,6 +149,20 @@ export class AslFactory {
       context.appendNextState({
         Type: "Succeed",
         ...properties,
+        Comment: expression.comment
+      } as asl.Succeed, nameSuggestion);
+    } else if (iasl.Check.isReturnStatement(expression)) {
+      if (expression.expression) {
+        const parameters = convertExpressionToAsl(expression.expression);
+        context.appendNextState({
+          Type: "Pass",
+          ...properties,
+          ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
+        });
+      }
+
+      context.appendNextState({
+        Type: "Succeed",
         Comment: expression.comment
       } as asl.Succeed, nameSuggestion);
     } else {

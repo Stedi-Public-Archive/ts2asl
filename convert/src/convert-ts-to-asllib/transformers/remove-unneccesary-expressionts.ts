@@ -26,6 +26,14 @@ export const removeUnnecessaryExpressionsTransformer = <T extends ts.Node>(conte
       return node.expression;
     }
 
+    // Promise.resolve(x) => x
+    if (ts.isCallExpression(node) && ts.isPropertyAccessExpression(node.expression)) {
+      if (node.expression.name.text === "resolve" && ts.isIdentifier(node.expression.expression) && node.expression.expression.text === "Promise") {
+        if (node.arguments.length === 1) {
+          return node.arguments[0];
+        }
+      }
+    }
     return node;
   }
   return ts.visitNode(rootNode, visit);

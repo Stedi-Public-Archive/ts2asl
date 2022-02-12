@@ -13,23 +13,26 @@ export const convertToASl = (statements: iasl.Expression[], context: ConversionC
 
 export class ConversionContext {
   names: string[] = [];
-  takenNames: string[] = [];
+  root: ConversionContext;
   startAt: string | undefined;
   trailingStates: NonTerminalState[] = [];
   states: Record<string, asl.State> = {};
 
+  constructor() {
+    this.root = this;
+  }
   createName(nameSuggestion: string): string {
 
     let postFix = "";
     let n = 1;
 
-    while (this.names.includes(nameSuggestion + postFix)) {
+    while (this.root.names.includes(nameSuggestion + postFix)) {
       postFix = `_${n}`;
       n++;
     }
 
-    this.names.push(nameSuggestion + postFix);
-    this.takenNames.push(nameSuggestion + postFix);
+    this.root.names.push(nameSuggestion + postFix);
+
 
     return nameSuggestion + postFix;
   }
@@ -95,7 +98,7 @@ export class ConversionContext {
 
   createChildContext(): ConversionContext {
     const context = new ConversionContext();
-    context.takenNames = this.takenNames;
+    context.root = this.root;
     return context;
   }
 }
