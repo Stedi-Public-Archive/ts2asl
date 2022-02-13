@@ -10,27 +10,9 @@
         {
           "statements": [
             {
-              "expression": {
-                "properties": {
-                  "identityChecked": {
-                    "value": true,
-                    "type": "boolean",
-                    "_syntaxKind": "literal"
-                  },
-                  "customerName": {
-                    "value": "name",
-                    "type": "string",
-                    "_syntaxKind": "literal"
-                  },
-                  "customerAddress": {
-                    "value": "address",
-                    "type": "string",
-                    "_syntaxKind": "literal"
-                  }
-                },
-                "_syntaxKind": "literal-object"
-              },
-              "_syntaxKind": "return"
+              "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
+              "source": "performIdentifyCheck()",
+              "_syntaxKind": "asl-task-state"
             }
           ]
         },
@@ -115,7 +97,7 @@
         "type": "boolean",
         "_syntaxKind": "literal"
       },
-      "comment": "checksPassed = true",
+      "source": "checksPassed = true",
       "_syntaxKind": "asl-pass-state"
     },
     "_syntaxKind": "variable-assignment"
@@ -228,7 +210,7 @@
         }
       ]
     },
-    "comment": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }",
+    "source": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }",
     "_syntaxKind": "if"
   }
 ]

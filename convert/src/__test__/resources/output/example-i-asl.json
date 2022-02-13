@@ -41,7 +41,7 @@
         ],
         "_syntaxKind": "literal-array"
       },
-      "comment": "thresholds = [\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 100\n    },\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 1000\n    }\n  ]",
+      "source": "thresholds = [\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 100\n    },\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 1000\n    }\n  ]",
       "_syntaxKind": "asl-pass-state"
     },
     "_syntaxKind": "variable-assignment"
@@ -58,7 +58,7 @@
         "type": "null",
         "_syntaxKind": "literal"
       },
-      "comment": "lastEvaluatedKey: any | undefined = undefined",
+      "source": "lastEvaluatedKey: any | undefined = undefined",
       "_syntaxKind": "asl-pass-state"
     },
     "_syntaxKind": "variable-assignment"
@@ -145,7 +145,7 @@
                           "function": "asl.states.stringToJson",
                           "_syntaxKind": "asl-intrinsic-function"
                         },
-                        "comment": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
+                        "source": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
                         "_syntaxKind": "asl-pass-state"
                       },
                       "_syntaxKind": "variable-assignment"
@@ -168,7 +168,7 @@
                           "function": "asl.states.stringToJson",
                           "_syntaxKind": "asl-intrinsic-function"
                         },
-                        "comment": "numericTotal = asl.states.stringToJson(item.total.N) as number",
+                        "source": "numericTotal = asl.states.stringToJson(item.total.N) as number",
                         "_syntaxKind": "asl-pass-state"
                       },
                       "_syntaxKind": "variable-assignment"
@@ -453,7 +453,7 @@
                           }
                         ]
                       },
-                      "comment": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\n\n          await asl.nativeEventBridgePutEvents({\n            Entries: [\n              {\n                Detail: asl.states.jsonToString({\n                  account_id: item.pk,\n                  threshold: threshold\n                }),\n                DetailType: \"xxx.detail.type\",\n                EventBusName: \"default\",\n                Source: \"zzz.my.source\"\n              }\n            ]\n          });\n          await asl.nativeDynamoDBUpdateItem({\n            TableName: \"MyStorage\",\n            Key: {\n              pk: item.pk,\n              sk: item.sk\n            },\n            ConditionExpression: \"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\",\n            UpdateExpression: \"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\",\n            ExpressionAttributeValues: {\n              \":newLastSentOnValue\": {\n                N: item.total.N as any\n              },\n              \":newLastBeginDateValue\": {\n                S: item.beginDate.S\n              }\n            }\n          });\n        }",
+                      "source": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\n\n          await asl.nativeEventBridgePutEvents({\n            Entries: [\n              {\n                Detail: asl.states.jsonToString({\n                  account_id: item.pk,\n                  threshold: threshold\n                }),\n                DetailType: \"xxx.detail.type\",\n                EventBusName: \"default\",\n                Source: \"zzz.my.source\"\n              }\n            ]\n          });\n          await asl.nativeDynamoDBUpdateItem({\n            TableName: \"MyStorage\",\n            Key: {\n              pk: item.pk,\n              sk: item.sk\n            },\n            ConditionExpression: \"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\",\n            UpdateExpression: \"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\",\n            ExpressionAttributeValues: {\n              \":newLastSentOnValue\": {\n                N: item.total.N as any\n              },\n              \":newLastBeginDateValue\": {\n                S: item.beginDate.S\n              }\n            }\n          });\n        }",
                       "_syntaxKind": "if"
                     }
                   ]

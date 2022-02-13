@@ -110,16 +110,6 @@ describe("when converting example", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": "thresholds = [
-          {
-            \\"metric\\": \\"mappings.requests\\",
-            \\"ceiling\\": 100
-          },
-          {
-            \\"metric\\": \\"mappings.requests\\",
-            \\"ceiling\\": 1000
-          }
-        ]",
             "parameters": Object {
               "_syntaxKind": "literal-array",
               "elements": Array [
@@ -155,6 +145,16 @@ describe("when converting example", () => {
                 },
               ],
             },
+            "source": "thresholds = [
+          {
+            \\"metric\\": \\"mappings.requests\\",
+            \\"ceiling\\": 100
+          },
+          {
+            \\"metric\\": \\"mappings.requests\\",
+            \\"ceiling\\": 1000
+          }
+        ]",
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -166,12 +166,12 @@ describe("when converting example", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": "lastEvaluatedKey: any | undefined = undefined",
             "parameters": Object {
               "_syntaxKind": "literal",
               "type": "null",
               "value": null,
             },
+            "source": "lastEvaluatedKey: any | undefined = undefined",
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -196,7 +196,6 @@ describe("when converting example", () => {
                 "_syntaxKind": "variable-assignment",
                 "expression": Object {
                   "_syntaxKind": "asl-task-state",
-                  "comment": undefined,
                   "parameters": Object {
                     "_syntaxKind": "literal-object",
                     "properties": Object {
@@ -218,6 +217,7 @@ describe("when converting example", () => {
                     },
                   },
                   "resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
+                  "source": undefined,
                 },
                 "name": Object {
                   "_syntaxKind": "identifier",
@@ -249,7 +249,6 @@ describe("when converting example", () => {
                             "_syntaxKind": "variable-assignment",
                             "expression": Object {
                               "_syntaxKind": "asl-pass-state",
-                              "comment": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
                               "parameters": Object {
                                 "_syntaxKind": "asl-intrinsic-function",
                                 "arguments": Array [
@@ -261,6 +260,7 @@ describe("when converting example", () => {
                                 ],
                                 "function": "asl.states.stringToJson",
                               },
+                              "source": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
                             },
                             "name": Object {
                               "_syntaxKind": "identifier",
@@ -272,7 +272,6 @@ describe("when converting example", () => {
                             "_syntaxKind": "variable-assignment",
                             "expression": Object {
                               "_syntaxKind": "asl-pass-state",
-                              "comment": "numericTotal = asl.states.stringToJson(item.total.N) as number",
                               "parameters": Object {
                                 "_syntaxKind": "asl-intrinsic-function",
                                 "arguments": Array [
@@ -284,6 +283,7 @@ describe("when converting example", () => {
                                 ],
                                 "function": "asl.states.stringToJson",
                               },
+                              "source": "numericTotal = asl.states.stringToJson(item.total.N) as number",
                             },
                             "name": Object {
                               "_syntaxKind": "identifier",
@@ -293,40 +293,6 @@ describe("when converting example", () => {
                           },
                           Object {
                             "_syntaxKind": "if",
-                            "comment": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
-                || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
-
-                await asl.nativeEventBridgePutEvents({
-                  Entries: [
-                    {
-                      Detail: asl.states.jsonToString({
-                        account_id: item.pk,
-                        threshold: threshold
-                      }),
-                      DetailType: \\"xxx.detail.type\\",
-                      EventBusName: \\"default\\",
-                      Source: \\"zzz.my.source\\"
-                    }
-                  ]
-                });
-                await asl.nativeDynamoDBUpdateItem({
-                  TableName: \\"MyStorage\\",
-                  Key: {
-                    pk: item.pk,
-                    sk: item.sk
-                  },
-                  ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
-                  UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
-                  ExpressionAttributeValues: {
-                    \\":newLastSentOnValue\\": {
-                      N: item.total.N as any
-                    },
-                    \\":newLastBeginDateValue\\": {
-                      S: item.beginDate.S
-                    }
-                  }
-                });
-              }",
                             "condition": Object {
                               "_syntaxKind": "binary-expression",
                               "lhs": Object {
@@ -483,6 +449,40 @@ describe("when converting example", () => {
                                 },
                               },
                             },
+                            "source": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
+                || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
+
+                await asl.nativeEventBridgePutEvents({
+                  Entries: [
+                    {
+                      Detail: asl.states.jsonToString({
+                        account_id: item.pk,
+                        threshold: threshold
+                      }),
+                      DetailType: \\"xxx.detail.type\\",
+                      EventBusName: \\"default\\",
+                      Source: \\"zzz.my.source\\"
+                    }
+                  ]
+                });
+                await asl.nativeDynamoDBUpdateItem({
+                  TableName: \\"MyStorage\\",
+                  Key: {
+                    pk: item.pk,
+                    sk: item.sk
+                  },
+                  ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
+                  UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
+                  ExpressionAttributeValues: {
+                    \\":newLastSentOnValue\\": {
+                      N: item.total.N as any
+                    },
+                    \\":newLastBeginDateValue\\": {
+                      S: item.beginDate.S
+                    }
+                  }
+                });
+              }",
                             "then": Object {
                               "statements": Array [
                                 Object {

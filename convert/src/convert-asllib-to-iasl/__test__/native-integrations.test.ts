@@ -16,7 +16,6 @@ describe("when converting native integration statements to iasl", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-task-state",
-            "comment": undefined,
             "parameters": Object {
               "_syntaxKind": "literal-object",
               "properties": Object {
@@ -53,6 +52,7 @@ describe("when converting native integration statements to iasl", () => {
               },
             },
             "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
+            "source": undefined,
           },
           "name": Object {
             "_syntaxKind": "identifier",

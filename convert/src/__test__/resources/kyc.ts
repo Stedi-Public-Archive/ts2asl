@@ -5,10 +5,10 @@ import * as asl from "@cloudscript/asl-lib"
 export const main = asl.deploy.asStateMachine(async () => {
 
   const result = await Promise.all([
-    Promise.resolve({identityChecked: true, customerName: "name", customerAddress: "address"}),
-    Promise.resolve({agencyChecked: true}),
+    performIdentifyCheck(),
+    Promise.resolve({ agencyChecked: true }),
   ])
-  
+
   await asl.nativeEventBridgePutEvents({
     Entries: [
       {
@@ -46,3 +46,9 @@ export const main = asl.deploy.asStateMachine(async () => {
     });
   }
 });
+
+
+
+const performIdentifyCheck = asl.deploy.asLambda(async () => {
+  return { identityChecked: true, customerName: "name", customerAddress: "address" };
+})

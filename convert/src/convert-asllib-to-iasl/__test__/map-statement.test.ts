@@ -19,7 +19,6 @@ describe("when converting map statement to iasl", () => {
           "expression": Object {
             "_syntaxKind": "asl-map-state",
             "catch": Array [],
-            "comment": undefined,
             "items": Object {
               "_syntaxKind": "identifier",
               "identifier": "here",
@@ -42,6 +41,7 @@ describe("when converting map statement to iasl", () => {
               ],
             },
             "retry": Array [],
+            "source": undefined,
           },
           "name": Object {
             "_syntaxKind": "identifier",

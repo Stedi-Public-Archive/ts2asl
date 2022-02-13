@@ -38,7 +38,7 @@
         }
       ]
     },
-    "comment": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
+    "source": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
     "_syntaxKind": "if"
   },
   {

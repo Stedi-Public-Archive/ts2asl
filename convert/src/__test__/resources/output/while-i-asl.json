@@ -42,7 +42,7 @@
               }
             ]
           },
-          "comment": "if (result.Authorized) {\n      break;\n    }",
+          "source": "if (result.Authorized) {\n      break;\n    }",
           "_syntaxKind": "if"
         },
         {

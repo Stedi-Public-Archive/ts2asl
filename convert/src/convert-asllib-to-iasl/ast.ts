@@ -110,6 +110,7 @@ export interface Identifier {
 
 export interface Expression {
   _syntaxKind: string;
+  source?: string;
   comment?: string;
 }
 

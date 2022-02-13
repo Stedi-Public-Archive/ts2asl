@@ -18,7 +18,6 @@ describe("when converting if statement to iasl", () => {
       Array [
         Object {
           "_syntaxKind": "if",
-          "comment": "if (password === 'pwd') throw new Error('wrong password');",
           "condition": Object {
             "_syntaxKind": "binary-expression",
             "lhs": Object {
@@ -33,13 +32,14 @@ describe("when converting if statement to iasl", () => {
               "value": "pwd",
             },
           },
+          "source": "if (password === 'pwd') throw new Error('wrong password');",
           "then": Object {
             "statements": Array [
               Object {
                 "_syntaxKind": "asl-fail-state",
                 "cause": "wrong password",
-                "comment": "throw new Error('wrong password');",
                 "error": "Error",
+                "source": "throw new Error('wrong password');",
               },
             ],
           },

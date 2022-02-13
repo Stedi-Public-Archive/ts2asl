@@ -16,7 +16,10 @@ describe("when converting example", () => {
       export const main = asl.deploy.asStateMachine(async () =>{
           const result = await asl.parallel({
               branches: [
-                  () => { return { identityChecked: true, customerName: \\"name\\", customerAddress: \\"address\\" }; },
+                  () => { asl.typescriptInvoke({
+                      target: performIdentifyCheck,
+                      comment: \\"performIdentifyCheck()\\"
+                  }) },
                   () => { return { agencyChecked: true }; }
               ]
           });
@@ -64,6 +67,12 @@ describe("when converting example", () => {
               comment: \\"if (checksPassed) {\\\\n    //no-op update risk profile\\\\n    await asl.nativeEventBridgePutEvents({\\\\n      Entries: [\\\\n        {\\\\n          Detail: asl.states.jsonToString(result),\\\\n          DetailType: \\\\\\"AccountApproved\\\\\\",\\\\n          EventBusName: \\\\\\"eventbusname\\\\\\",\\\\n          Source: \\\\\\"com.aws.kyc\\\\\\"\\\\n        }\\\\n      ]\\\\n    });\\\\n  } else {\\\\n    await asl.nativeEventBridgePutEvents({\\\\n      Entries: [\\\\n        {\\\\n          Detail: asl.states.jsonToString(result),\\\\n          DetailType: \\\\\\"AccountDeclined\\\\\\",\\\\n          EventBusName: \\\\\\"eventbusname\\\\\\",\\\\n          Source: \\\\\\"com.aws.kyc\\\\\\"\\\\n        }\\\\n      ]\\\\n    });\\\\n  }\\"
           })
       });
+
+
+
+      const performIdentifyCheck = asl.deploy.asLambda(async () => {
+        return { identityChecked: true, customerName: \\"name\\", customerAddress: \\"address\\" };
+      })
       "
     `);
   });
@@ -78,27 +87,9 @@ describe("when converting example", () => {
               Object {
                 "statements": Array [
                   Object {
-                    "_syntaxKind": "return",
-                    "expression": Object {
-                      "_syntaxKind": "literal-object",
-                      "properties": Object {
-                        "customerAddress": Object {
-                          "_syntaxKind": "literal",
-                          "type": "string",
-                          "value": "address",
-                        },
-                        "customerName": Object {
-                          "_syntaxKind": "literal",
-                          "type": "string",
-                          "value": "name",
-                        },
-                        "identityChecked": Object {
-                          "_syntaxKind": "literal",
-                          "type": "boolean",
-                          "value": true,
-                        },
-                      },
-                    },
+                    "_syntaxKind": "asl-task-state",
+                    "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
+                    "source": "performIdentifyCheck()",
                   },
                 ],
               },
@@ -121,8 +112,8 @@ describe("when converting example", () => {
               },
             ],
             "catch": Array [],
-            "comment": undefined,
             "retry": Array [],
+            "source": undefined,
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -179,12 +170,12 @@ describe("when converting example", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": "checksPassed = true",
             "parameters": Object {
               "_syntaxKind": "literal",
               "type": "boolean",
               "value": true,
             },
+            "source": "checksPassed = true",
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -194,30 +185,6 @@ describe("when converting example", () => {
         },
         Object {
           "_syntaxKind": "if",
-          "comment": "if (checksPassed) {
-          //no-op update risk profile
-          await asl.nativeEventBridgePutEvents({
-            Entries: [
-              {
-                Detail: asl.states.jsonToString(result),
-                DetailType: \\"AccountApproved\\",
-                EventBusName: \\"eventbusname\\",
-                Source: \\"com.aws.kyc\\"
-              }
-            ]
-          });
-        } else {
-          await asl.nativeEventBridgePutEvents({
-            Entries: [
-              {
-                Detail: asl.states.jsonToString(result),
-                DetailType: \\"AccountDeclined\\",
-                EventBusName: \\"eventbusname\\",
-                Source: \\"com.aws.kyc\\"
-              }
-            ]
-          });
-        }",
           "condition": Object {
             "_syntaxKind": "binary-expression",
             "operator": "is-present",
@@ -276,6 +243,30 @@ describe("when converting example", () => {
               },
             ],
           },
+          "source": "if (checksPassed) {
+          //no-op update risk profile
+          await asl.nativeEventBridgePutEvents({
+            Entries: [
+              {
+                Detail: asl.states.jsonToString(result),
+                DetailType: \\"AccountApproved\\",
+                EventBusName: \\"eventbusname\\",
+                Source: \\"com.aws.kyc\\"
+              }
+            ]
+          });
+        } else {
+          await asl.nativeEventBridgePutEvents({
+            Entries: [
+              {
+                Detail: asl.states.jsonToString(result),
+                DetailType: \\"AccountDeclined\\",
+                EventBusName: \\"eventbusname\\",
+                Source: \\"com.aws.kyc\\"
+              }
+            ]
+          });
+        }",
           "then": Object {
             "statements": Array [
               Object {
@@ -344,14 +335,27 @@ describe("when converting example", () => {
           "Assign result": Object {
             "Branches": Array [
               Object {
+                "StartAt": "Task",
+                "States": Object {
+                  "Task": Object {
+                    "Catch": undefined,
+                    "Comment": "performIdentifyCheck()",
+                    "End": true,
+                    "HeartbeatSeconds": undefined,
+                    "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
+                    "Retry": undefined,
+                    "TimeoutSeconds": undefined,
+                    "Type": "Task",
+                  },
+                },
+              },
+              Object {
                 "StartAt": "Pass",
                 "States": Object {
                   "Pass": Object {
                     "Next": "Succeed",
                     "Result": Object {
-                      "customerAddress": "address",
-                      "customerName": "name",
-                      "identityChecked": true,
+                      "agencyChecked": true,
                     },
                     "Type": "Pass",
                   },
@@ -361,26 +365,10 @@ describe("when converting example", () => {
                   },
                 },
               },
-              Object {
-                "StartAt": "Pass_1",
-                "States": Object {
-                  "Pass_1": Object {
-                    "Next": "Succeed_1",
-                    "Result": Object {
-                      "agencyChecked": true,
-                    },
-                    "Type": "Pass",
-                  },
-                  "Succeed_1": Object {
-                    "Comment": undefined,
-                    "Type": "Succeed",
-                  },
-                },
-              },
             ],
             "Catch": Array [],
             "Comment": undefined,
-            "Next": "Task",
+            "Next": "Task_1",
             "ResultPath": "$.result",
             "Retry": Array [],
             "Type": "Parallel",
@@ -389,7 +377,7 @@ describe("when converting example", () => {
             "Choices": Array [
               Object {
                 "IsPresent": true,
-                "Next": "Task_1",
+                "Next": "Task_2",
                 "Variable": "checksPassed",
               },
             ],
@@ -417,10 +405,10 @@ describe("when converting example", () => {
             ]
           });
         }",
-            "Default": "Task_1",
+            "Default": "Task_2",
             "Type": "Choice",
           },
-          "Task": Object {
+          "Task_1": Object {
             "Catch": undefined,
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
@@ -440,7 +428,7 @@ describe("when converting example", () => {
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
-          "Task_1": Object {
+          "Task_2": Object {
             "Catch": undefined,
             "Comment": undefined,
             "End": true,

@@ -5,7 +5,10 @@ import * as asl from "@cloudscript/asl-lib"
 export const main = asl.deploy.asStateMachine(async () =>{
     const result = await asl.parallel({
         branches: [
-            () => { return { identityChecked: true, customerName: "name", customerAddress: "address" }; },
+            () => { asl.typescriptInvoke({
+                target: performIdentifyCheck,
+                comment: "performIdentifyCheck()"
+            }) },
             () => { return { agencyChecked: true }; }
         ]
     });
@@ -53,3 +56,9 @@ export const main = asl.deploy.asStateMachine(async () =>{
         comment: "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }"
     })
 });
+
+
+
+const performIdentifyCheck = asl.deploy.asLambda(async () => {
+  return { identityChecked: true, customerName: "name", customerAddress: "address" };
+})

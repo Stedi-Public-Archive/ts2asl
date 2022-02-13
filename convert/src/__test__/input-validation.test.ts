@@ -35,9 +35,6 @@ describe("when converting example", () => {
       Array [
         Object {
           "_syntaxKind": "if",
-          "comment": "if (typeof context.testInput.delayInSeconds !== \\"number\\") {
-          context.testInput.delayInSeconds = 5;
-        }",
           "condition": Object {
             "_syntaxKind": "binary-expression",
             "operator": "not",
@@ -59,6 +56,9 @@ describe("when converting example", () => {
               },
             },
           },
+          "source": "if (typeof context.testInput.delayInSeconds !== \\"number\\") {
+          context.testInput.delayInSeconds = 5;
+        }",
           "then": Object {
             "statements": Array [
               Object {

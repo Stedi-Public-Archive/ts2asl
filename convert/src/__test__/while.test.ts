@@ -42,7 +42,6 @@ describe("when converting example", () => {
           "expression": Object {
             "_syntaxKind": "asl-task-state",
             "catch": Array [],
-            "comment": undefined,
             "heartbeatSeconds": undefined,
             "parameters": Object {
               "_syntaxKind": "literal-object",
@@ -50,6 +49,7 @@ describe("when converting example", () => {
             },
             "resource": "check-password",
             "retry": Array [],
+            "source": undefined,
             "timeoutSeconds": undefined,
           },
           "name": Object {
@@ -69,9 +69,6 @@ describe("when converting example", () => {
             "statements": Array [
               Object {
                 "_syntaxKind": "if",
-                "comment": "if (result.Authorized) {
-            break;
-          }",
                 "condition": Object {
                   "_syntaxKind": "binary-expression",
                   "operator": "is-present",
@@ -81,6 +78,9 @@ describe("when converting example", () => {
                     "type": "boolean",
                   },
                 },
+                "source": "if (result.Authorized) {
+            break;
+          }",
                 "then": Object {
                   "statements": Array [
                     Object {
@@ -102,7 +102,6 @@ describe("when converting example", () => {
                 "expression": Object {
                   "_syntaxKind": "asl-task-state",
                   "catch": Array [],
-                  "comment": undefined,
                   "heartbeatSeconds": undefined,
                   "parameters": Object {
                     "_syntaxKind": "literal-object",
@@ -110,6 +109,7 @@ describe("when converting example", () => {
                   },
                   "resource": "check-password",
                   "retry": Array [],
+                  "source": undefined,
                   "timeoutSeconds": undefined,
                 },
                 "name": Object {

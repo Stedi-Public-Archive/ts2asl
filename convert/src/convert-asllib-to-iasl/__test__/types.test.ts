@@ -24,12 +24,12 @@ describe("when converting choice statement to iasl", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": "xxx = \\"hello\\"",
             "parameters": Object {
               "_syntaxKind": "literal",
               "type": "string",
               "value": "hello",
             },
+            "source": "xxx = \\"hello\\"",
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -59,12 +59,12 @@ describe("when converting choice statement to iasl", () => {
                 "_syntaxKind": "variable-assignment",
                 "expression": Object {
                   "_syntaxKind": "asl-pass-state",
-                  "comment": "num = 42",
                   "parameters": Object {
                     "_syntaxKind": "literal",
                     "type": "numeric",
                     "value": 42,
                   },
+                  "source": "num = 42",
                 },
                 "name": Object {
                   "_syntaxKind": "identifier",
@@ -74,9 +74,6 @@ describe("when converting choice statement to iasl", () => {
               },
               Object {
                 "_syntaxKind": "if",
-                "comment": "if (num === 12) {
-              
-            }",
                 "condition": Object {
                   "_syntaxKind": "binary-expression",
                   "lhs": Object {
@@ -91,6 +88,9 @@ describe("when converting choice statement to iasl", () => {
                     "value": 12,
                   },
                 },
+                "source": "if (num === 12) {
+              
+            }",
                 "then": Object {
                   "statements": Array [],
                 },

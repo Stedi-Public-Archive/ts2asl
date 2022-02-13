@@ -7,6 +7,11 @@ import { removeSyntaxTransformer } from "./remove-syntax-transformer";
 import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-utility";
 const factory = ts.factory;
 
+interface ConverterContext {
+  typeChecker: ts.TypeChecker;
+  fullText: ts.SourceFile;
+}
+
 export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.SourceFile, typeChecker: ts.TypeChecker, argName: string = "context"): iasl.Expression[] => {
   const result: iasl.Expression[] = [];
 
@@ -153,9 +158,9 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
         const parameters = convertedArgs["parameters"];
 
         return {
-          resource: "typeof:" + target?.identifier,
+          resource: "arn:aws:lambda:us-east-1:123123123123:function:my-program-" + target?.identifier,
           parameters,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.AslTaskState
         } as iasl.TaskState;
       };
@@ -172,7 +177,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
           finally: finally_,
           catch: catchConfiguration,
           retry: retryConfiguration,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.TryStatement
         } as iasl.TryStatement;
       };
@@ -184,7 +189,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
         return {
           condition,
           while: while_,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.WhileStatement
         } as iasl.WhileStatement;
       }
@@ -196,7 +201,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
         return {
           condition,
           while: while_,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.DoWhileStatement
         } as iasl.DoWhileStatement;
       }
@@ -210,7 +215,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
           condition,
           then,
           else: else_,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.IfStatement
         } as iasl.IfExpression;
       };
@@ -231,7 +236,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
           retry: retryConfiguration,
           timeoutSeconds,
           heartbeatSeconds,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.AslTaskState
         } as iasl.TaskState;
       };
@@ -243,7 +248,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
         return {
           seconds,
           timestamp,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.AslWaitState
         } as iasl.WaitState;
       };
@@ -258,7 +263,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
           branches,
           catch: catchConfiguration,
           retry: retryConfiguration,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.AslParallelState
         } as iasl.ParallelState;
       };
@@ -271,7 +276,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
         return {
           choices: choices,
           default: _default,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.AslChoiceState
         } as iasl.ChoiceState;
       };
@@ -288,7 +293,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
           catch: catchConfiguration,
           retry: retryConfiguration,
           iterator,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.AslMapState
         } as iasl.MapState;
       };
@@ -299,7 +304,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
 
         return {
           parameters,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.AslPassState
         } as iasl.PassState;
       };
@@ -308,7 +313,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
-          comment,
+          source: comment,
           _syntaxKind: "asl-succeed-state"
         } as iasl.SucceedState;
       };
@@ -321,7 +326,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
         return {
           cause,
           error,
-          comment,
+          source: comment,
           _syntaxKind: iasl.SyntaxKind.AslFailState
         } as iasl.FailState;
       };
@@ -353,7 +358,7 @@ export const convertExpression = (expression: ts.Expression | undefined, typeChe
       return {
         resource,
         parameters,
-        comment: undefined,
+        source: undefined,
         _syntaxKind: iasl.SyntaxKind.AslTaskState
       } as iasl.TaskState;
     }

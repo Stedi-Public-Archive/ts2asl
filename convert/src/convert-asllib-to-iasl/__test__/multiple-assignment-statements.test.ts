@@ -15,12 +15,12 @@ describe("when converting pass statements to iasl", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": "some random comment",
             "parameters": Object {
               "_syntaxKind": "literal",
               "type": "string",
               "value": "hello",
             },
+            "source": "some random comment",
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -32,12 +32,12 @@ describe("when converting pass statements to iasl", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": undefined,
             "parameters": Object {
               "_syntaxKind": "literal",
               "type": "string",
               "value": "hello",
             },
+            "source": undefined,
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -61,7 +61,6 @@ describe("when converting pass statements to iasl", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": undefined,
             "parameters": Object {
               "_syntaxKind": "literal-object",
               "properties": Object {
@@ -82,6 +81,7 @@ describe("when converting pass statements to iasl", () => {
                 },
               },
             },
+            "source": undefined,
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -93,7 +93,6 @@ describe("when converting pass statements to iasl", () => {
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": undefined,
             "parameters": Object {
               "_syntaxKind": "literal-object",
               "properties": Object {
@@ -129,6 +128,7 @@ describe("when converting pass statements to iasl", () => {
                 },
               },
             },
+            "source": undefined,
           },
           "name": Object {
             "_syntaxKind": "identifier",
@@ -152,12 +152,12 @@ const aaaa = asl.pass({ parameters: arg }); `;
           "_syntaxKind": "variable-assignment",
           "expression": Object {
             "_syntaxKind": "asl-pass-state",
-            "comment": undefined,
             "parameters": Object {
               "_syntaxKind": "identifier",
               "identifier": "arg",
               "type": "unknown",
             },
+            "source": undefined,
           },
           "name": Object {
             "_syntaxKind": "identifier",

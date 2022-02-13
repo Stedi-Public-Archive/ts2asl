@@ -13,10 +13,9 @@ export class AslFactory {
       if (!iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
-        expression = { parameters: expression.expression, comment: expression.comment, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
+        expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
       }
     }
-
 
     if (iasl.Check.isAslPassState(expression)) {
       const parameters = convertExpressionToAsl(expression.parameters);
@@ -24,7 +23,7 @@ export class AslFactory {
         Type: "Pass",
         ...properties,
         ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
-        Comment: expression.comment,
+        Comment: expression.source,
       } as asl.Pass, nameSuggestion);
 
     } else if (iasl.Check.isAslTaskState(expression)) {
@@ -39,7 +38,7 @@ export class AslFactory {
         Retry: expression.retry,
         TimeoutSeconds: expression.timeoutSeconds,
         HeartbeatSeconds: expression.heartbeatSeconds,
-        Comment: expression.comment,
+        Comment: expression.source,
       } as asl.Task, nameSuggestion);
     } else if (iasl.Check.isDoWhileStatement(expression)) {
       const contextForBranch = context.createChildContext();
@@ -58,7 +57,7 @@ export class AslFactory {
         Type: "Parallel",
         ...properties,
         Branches: [contextForBranch.finalize()],
-        Comment: expression.comment,
+        Comment: expression.source,
       } as asl.Parallel, 'DoWhile');
     } else if (iasl.Check.isIfExpression(expression)) {
 
@@ -68,7 +67,7 @@ export class AslFactory {
         Type: "Choice",
         ...properties,
         Choices: [choiceOperator],
-        Comment: expression.comment
+        Comment: expression.source
       } as asl.Choice;
       context.appendNextState(choiceState, nameSuggestion ?? "If");
 
@@ -125,7 +124,7 @@ export class AslFactory {
         Type: "Parallel",
         ...properties,
         Branches: [stateMachine],
-        Comment: expression.comment,
+        Comment: expression.source,
       } as asl.Parallel, 'While');
     } else if (iasl.Check.isAslWaitState(expression)) {
       const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds) : undefined;
@@ -136,7 +135,7 @@ export class AslFactory {
         ...properties,
         ...(seconds && seconds.path !== undefined ? { SecondsPath: seconds.path } : seconds ? { Seconds: seconds.value } : {}),
         ...(timestamp && timestamp.path !== undefined ? { TimestampPath: timestamp.path } : timestamp ? { Timestamp: timestamp.value } : {}),
-        Comment: expression.comment,
+        Comment: expression.source,
       } as asl.Wait, nameSuggestion);
     } else if (iasl.Check.isAslParallelState(expression)) {
       const branches = expression.branches.map(x => convertToASl(x.statements, context.createChildContext()));
@@ -147,7 +146,7 @@ export class AslFactory {
         Type: "Parallel",
         Catch: expression.catch,
         Retry: expression.retry,
-        Comment: expression.comment,
+        Comment: expression.source,
       } as asl.Parallel, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
       const iterator = convertToASl(expression.iterator.statements, context.createChildContext())
@@ -159,7 +158,7 @@ export class AslFactory {
         Iterator: iterator,
         ItemsPath: items.path,
         MaxConcurrency: expression.maxConcurrency,
-        Comment: expression.comment,
+        Comment: expression.source,
       } as asl.Map, nameSuggestion);
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({
@@ -167,13 +166,13 @@ export class AslFactory {
         ...properties,
         Error: expression.error,
         Cause: expression.cause,
-        Comment: expression.comment
+        Comment: expression.source
       } as asl.Fail, nameSuggestion);
     } else if (iasl.Check.isAslSucceedState(expression)) {
       context.appendNextState({
         Type: "Succeed",
         ...properties,
-        Comment: expression.comment
+        Comment: expression.source
       } as asl.Succeed, nameSuggestion);
     } else if (iasl.Check.isReturnStatement(expression)) {
       if (expression.expression) {
@@ -187,7 +186,7 @@ export class AslFactory {
 
       context.appendNextState({
         Type: "Succeed",
-        Comment: expression.comment
+        Comment: expression.source
       } as asl.Succeed, nameSuggestion);
     } else {
       throw new Error(`syntax type ${expression._syntaxKind} cannot be converted to ASL`);
