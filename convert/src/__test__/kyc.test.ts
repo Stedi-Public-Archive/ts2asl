@@ -219,6 +219,7 @@ describe("when converting example", () => {
           });
         }",
           "condition": Object {
+            "_syntaxKind": "binary-expression",
             "operator": "is-present",
             "rhs": Object {
               "_syntaxKind": "identifier",

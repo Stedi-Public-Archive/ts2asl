@@ -10,7 +10,6 @@ export const convertToASl = (statements: iasl.Expression[], context: ConversionC
   return context.finalize();
 }
 
-
 export class ConversionContext {
   names: string[] = [];
   root: ConversionContext;
@@ -82,7 +81,7 @@ export class ConversionContext {
         const choice = trailingState as asl.Choice;
         if (choice.Default === undefined) {
           const name = this.createName("Empty Default Choice");
-          this.states[name] = { Type: "Pass", End: true} as asl.Pass;
+          this.states[name] = { Type: "Pass", End: true } as asl.Pass;
           choice.Default = name;
         }
       } else {
@@ -102,8 +101,6 @@ export class ConversionContext {
     return context;
   }
 }
-
-
 
 export const isNonTerminalState = (state?: asl.State): state is NonTerminalState => {
   return (state != undefined && state.Type !== "Succeed" && state.Type !== "Fail");

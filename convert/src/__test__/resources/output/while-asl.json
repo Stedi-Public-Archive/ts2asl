@@ -1,0 +1,68 @@
+{
+  "StartAt": "Assign result",
+  "States": {
+    "Assign result": {
+      "Type": "Task",
+      "ResultPath": "$.result",
+      "Resource": "check-password",
+      "Parameters": {},
+      "Catch": [],
+      "Retry": [],
+      "Next": "While"
+    },
+    "While": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "_WhileCondition",
+          "States": {
+            "_WhileCondition": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$",
+                  "IsNull": false,
+                  "Next": "If"
+                }
+              ],
+              "Default": "_WhileExit"
+            },
+            "If": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "result.Authorized",
+                  "IsPresent": true,
+                  "Next": "Succeed"
+                }
+              ],
+              "Comment": "if (result.Authorized) {\n      break;\n    }",
+              "Default": "Wait"
+            },
+            "Succeed": {
+              "Type": "Succeed"
+            },
+            "Wait": {
+              "Type": "Wait",
+              "Seconds": 1,
+              "Next": "Assign result_1"
+            },
+            "Assign result_1": {
+              "Type": "Task",
+              "ResultPath": "$.result",
+              "Resource": "check-password",
+              "Parameters": {},
+              "Catch": [],
+              "Retry": [],
+              "Next": "_WhileExit"
+            },
+            "_WhileExit": {
+              "Type": "Succeed"
+            }
+          }
+        }
+      ],
+      "End": true
+    }
+  }
+}

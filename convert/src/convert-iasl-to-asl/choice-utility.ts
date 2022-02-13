@@ -1,9 +1,22 @@
-// import * as ts from 'typescript';
 import * as iasl from "../convert-asllib-to-iasl/ast"
 import { Operator } from 'asl-types/dist/choice';
 import { convertExpressionToAsl } from "./aslfactory";
 
-export function createChoiceOperator(expression: iasl.BinaryExpression): Operator {
+export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.LiteralExpression): Operator {
+
+  if (iasl.Check.isLiteral(expression)) {
+    if (expression.value) {
+      return {//always true
+        Variable: "$",
+        IsNull: false
+      }
+    } else {
+      return {//always false
+        Variable: "$",
+        IsNull: true
+      }
+    }
+  }
 
   if (expression.operator === "is-present") {
     if (expression.lhs) throw new Error("binary expression with 'is-present' operand should not have lhs");
@@ -17,13 +30,6 @@ export function createChoiceOperator(expression: iasl.BinaryExpression): Operato
 
   if (expression.operator === "not") {
     if (iasl.Check.isBinaryExpression(expression.rhs)) { //not(isPresent(xxx)) => {IsPresent: false, Variable: xxxx}
-      // if ((expression.rhs.operator === "is-present") && iasl.Check.isIdentifier(expression.rhs.rhs)) {
-      //   const expr = convertExpressionToAsl(expression.rhs.rhs);
-      //   return {
-      //     Variable: expr.path,
-      //     IsPresent: false //todo: consider this https://stackoverflow.com/questions/63039270/aws-step-function-check-for-null
-      //   }
-      // }
       const notExpression = createChoiceOperator(expression.rhs)
       if (notExpression.IsPresent === true) {
         return { ...notExpression, IsPresent: false };

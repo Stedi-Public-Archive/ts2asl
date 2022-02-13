@@ -1,0 +1,78 @@
+[
+  {
+    "name": {
+      "identifier": "result",
+      "_syntaxKind": "identifier",
+      "type": "object"
+    },
+    "expression": {
+      "resource": "check-password",
+      "parameters": {
+        "properties": {},
+        "_syntaxKind": "literal-object"
+      },
+      "catch": [],
+      "retry": [],
+      "_syntaxKind": "asl-task-state"
+    },
+    "_syntaxKind": "variable-assignment"
+  },
+  {
+    "condition": {
+      "type": "boolean",
+      "value": true,
+      "_syntaxKind": "literal"
+    },
+    "while": {
+      "statements": [
+        {
+          "condition": {
+            "operator": "is-present",
+            "rhs": {
+              "identifier": "result.Authorized",
+              "type": "boolean",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "then": {
+            "statements": [
+              {
+                "_syntaxKind": "asl-succeed-state"
+              }
+            ]
+          },
+          "comment": "if (result.Authorized) {\n      break;\n    }",
+          "_syntaxKind": "if"
+        },
+        {
+          "seconds": {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "asl-wait-state"
+        },
+        {
+          "name": {
+            "identifier": "result",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "expression": {
+            "resource": "check-password",
+            "parameters": {
+              "properties": {},
+              "_syntaxKind": "literal-object"
+            },
+            "catch": [],
+            "retry": [],
+            "_syntaxKind": "asl-task-state"
+          },
+          "_syntaxKind": "variable-assignment"
+        }
+      ]
+    },
+    "_syntaxKind": "while"
+  }
+]

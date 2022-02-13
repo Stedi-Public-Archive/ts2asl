@@ -48,7 +48,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, typeChecker: ts.
 
   if (ts.isReturnStatement(node)) {
     const identifier = node.expression ? convertExpressionToLiteralOrIdentifier(node.expression, typeChecker) : undefined;
-    const expression = identifier == undefined ? convertExpression(node.expression, typeChecker): identifier;
+    const expression = identifier == undefined ? convertExpression(node.expression, typeChecker) : identifier;
 
     return {
       expression,
@@ -99,6 +99,12 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, typeChecker: ts.
       expression: convertExpression(node.expression, typeChecker),
       _syntaxKind: iasl.SyntaxKind.ReturnStatement
     } as iasl.ReturnStatement
+  }
+
+  if (ts.isBreakStatement(node)) {
+    return {
+      _syntaxKind: iasl.SyntaxKind.AslSucceedState
+    } as iasl.SucceedState
   }
 
   const result = convertExpression(node as ts.Expression, typeChecker);
@@ -377,7 +383,7 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression,
   return result
 }
 
-export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, typeChecker: ts.TypeChecker): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.TypeOfExpression |iasl.BinaryExpression | undefined => {
+export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, typeChecker: ts.TypeChecker): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.TypeOfExpression | iasl.BinaryExpression | undefined => {
   if (original === undefined) {
     return undefined;
   }
@@ -466,11 +472,11 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       _syntaxKind: "asl-intrinsic-function"
     } as iasl.AslIntrinsicFunction;
   } else if (ts.isTypeOfExpression(expr)) {
-      let expression = {
+    let expression = {
       operand: convertExpressionToLiteralOrIdentifier(expr.expression, typeChecker),
       _syntaxKind: iasl.SyntaxKind.TypeOfExpression
-      } as iasl.TypeOfExpression;
-      return expression;
+    } as iasl.TypeOfExpression;
+    return expression;
   } else if (ts.isBinaryExpression(expr)) {
     const convertedOperator = convertBinaryOperatorToken(expr.operatorToken)
     let expression = {
@@ -524,7 +530,7 @@ const unpackAsLiteral = (args: Record<string, iasl.Expression | iasl.Identifier>
   return propValue.value;
 }
 
-const unpackAsBinaryExpression = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.BinaryExpression | undefined => {
+const unpackAsBinaryExpression = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.BinaryExpression | iasl.LiteralExpression | undefined => {
   const propValue = args[propertyName];
   if (propValue === undefined) return undefined;
 
@@ -532,7 +538,15 @@ const unpackAsBinaryExpression = (args: Record<string, iasl.Expression | iasl.Id
     return {
       operator: "is-present",
       rhs: propValue,
+      _syntaxKind: iasl.SyntaxKind.BinaryExpression,
     } as iasl.BinaryExpression;
+  }
+  if (iasl.Check.isLiteral(propValue)) {
+    return {
+      type: "boolean",
+      value: !!(propValue.value),
+      _syntaxKind: iasl.SyntaxKind.Literal
+    } as iasl.LiteralExpression;
   }
   if (!iasl.Check.isBinaryExpression(propValue)) {
     throw new Error(`property ${propertyName} must be binary expression`);

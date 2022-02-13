@@ -28,13 +28,13 @@ export class AslFactory {
       } as asl.Pass, nameSuggestion);
 
     } else if (iasl.Check.isAslTaskState(expression)) {
-      const parameters = convertExpressionToAsl(expression.parameters);
+      const parameters = expression.parameters ? convertExpressionToAsl(expression.parameters) : undefined;
 
       context.appendNextState({
         Type: "Task",
         ...properties,
         Resource: expression.resource,
-        ...(parameters.path !== undefined ? { InputPath: parameters.path } : { Parameters: parameters.value }),
+        ...(parameters && parameters.path !== undefined ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value } : {}),
         Catch: expression.catch,
         Retry: expression.retry,
         TimeoutSeconds: expression.timeoutSeconds,
@@ -103,6 +103,30 @@ export class AslFactory {
         }
       }
     } else if (iasl.Check.isWhileStatement(expression)) {
+      const whileConditionOperator = createChoiceOperator(expression.condition);
+
+      const contextForBranch = context.createChildContext();
+      const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice
+      const whileConditionName = contextForBranch.appendState(whileCondition, "_WhileCondition");
+
+      for (const statement of expression.while.statements) {
+        AslFactory.append(statement, contextForBranch);
+      }
+
+      whileConditionOperator.Next = contextForBranch.startAt;
+      contextForBranch.startAt = whileConditionName;
+
+      const whileExitName = contextForBranch.appendNextState({ Type: "Succeed" } as asl.Succeed, "_WhileExit");
+      whileCondition.Default = whileExitName;
+      contextForBranch.trailingStates = [];
+      const stateMachine = contextForBranch.finalize();
+
+      context.appendNextState({
+        Type: "Parallel",
+        ...properties,
+        Branches: [stateMachine],
+        Comment: expression.comment,
+      } as asl.Parallel, 'While');
     } else if (iasl.Check.isAslWaitState(expression)) {
       const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds) : undefined;
       const timestamp = expression.timestamp !== undefined ? convertExpressionToAsl(expression.timestamp) : undefined;

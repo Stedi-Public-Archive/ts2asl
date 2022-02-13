@@ -127,7 +127,8 @@
         "identifier": "checksPassed",
         "_syntaxKind": "identifier",
         "type": "unknown"
-      }
+      },
+      "_syntaxKind": "binary-expression"
     },
     "then": {
       "statements": [

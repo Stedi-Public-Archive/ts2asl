@@ -54,7 +54,7 @@ export interface Task {
 }
 
 export interface Pass<T> {
-  parameters: T | (() => T)| (<U>(objectContext: StateMachineContext<U>) => T);
+  parameters: T | (() => T) | (<U>(objectContext: StateMachineContext<U>) => T);
   comment?: string;
 }
 export interface Fail {
@@ -97,8 +97,8 @@ export interface Choice {
 
 
 export interface StateMachineContext<TInput> {
-  execution: { 
-    id: string; 
+  execution: {
+    id: string;
     input: TInput;
     name: string;
     roleArn: string;
@@ -112,7 +112,7 @@ export interface StateMachineContext<TInput> {
     name: string,
     enteredTime: string
   }
-  
+
 }
 
 export const typescriptInvoke = async <P, R>(args: Invoke<P, R>): Promise<R> => {
@@ -140,8 +140,8 @@ export const typescriptWhile = async (args: While) => {
 export const typescriptIf = async (args: If) => {
   return {} as AslState;
 }
-export const task = async (args: Task) => {
-  return {} as AslState;
+export const task = async <TResult>(args: Task): Promise<TResult> => {
+  return Promise.resolve({} as TResult);
 }
 
 export const wait = async (args: Wait) => {

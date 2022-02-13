@@ -182,6 +182,7 @@ describe("when converting example", () => {
         Object {
           "_syntaxKind": "do-while",
           "condition": Object {
+            "_syntaxKind": "binary-expression",
             "operator": "is-present",
             "rhs": Object {
               "_syntaxKind": "identifier",
