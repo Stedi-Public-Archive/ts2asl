@@ -107,8 +107,15 @@ describe("when converting example", () => {
     expect(converted.iasl).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
-        "contextArgumentName": "_context",
-        "inputArgumentName": "_input",
+        "contextArgumentName": Object {
+          "_syntaxKind": "identifier",
+          "identifier": "_context",
+        },
+        "inputArgumentName": Object {
+          "_syntaxKind": "identifier",
+          "identifier": "_input",
+        },
+        "scope": "state-machine1",
         "statements": Array [
           Object {
             "_syntaxKind": "variable-assignment",
@@ -196,6 +203,7 @@ describe("when converting example", () => {
             },
             "while": Object {
               "_syntaxKind": "function",
+              "scope": "ts-do-while2",
               "statements": Array [
                 Object {
                   "_syntaxKind": "variable-assignment",
@@ -240,7 +248,11 @@ describe("when converting example", () => {
                   },
                   "iterator": Object {
                     "_syntaxKind": "function",
-                    "inputArgumentName": "item",
+                    "inputArgumentName": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "item",
+                    },
+                    "scope": "asl-map-state3",
                     "statements": Array [
                       Object {
                         "_syntaxKind": "asl-map-state",
@@ -252,7 +264,11 @@ describe("when converting example", () => {
                         },
                         "iterator": Object {
                           "_syntaxKind": "function",
-                          "inputArgumentName": "threshold",
+                          "inputArgumentName": Object {
+                            "_syntaxKind": "identifier",
+                            "identifier": "threshold",
+                          },
+                          "scope": "asl-map-state4",
                           "statements": Array [
                             Object {
                               "_syntaxKind": "variable-assignment",
@@ -685,6 +701,10 @@ describe("when converting example", () => {
           "DoWhile": Object {
             "Branches": Array [
               Object {
+                "Parameters": Object {
+                  "lastEvaluatedKey.$": "$.lastEvaluatedKey",
+                  "thresholds.$": "$.thresholds",
+                },
                 "StartAt": "Assign scan",
                 "States": Object {
                   "Assign lastEvaluatedKey_1": Object {
@@ -712,14 +732,14 @@ describe("when converting example", () => {
                   },
                   "Map_1": Object {
                     "Comment": undefined,
-                    "ItemsPath": "scan.Items",
+                    "ItemsPath": "$.scan.Items",
                     "Iterator": Object {
                       "StartAt": "Map",
                       "States": Object {
                         "Map": Object {
                           "Comment": undefined,
                           "End": true,
-                          "ItemsPath": "thresholds",
+                          "ItemsPath": "$.thresholds",
                           "Iterator": Object {
                             "StartAt": "Assign numericLastSentOnValue",
                             "States": Object {
@@ -858,7 +878,10 @@ describe("when converting example", () => {
                                 "Parameters": Object {
                                   "Entries": Array [
                                     Object {
-                                      "Detail": "States.JsonToString([object Object])",
+                                      "Detail": "States.JsonToString({
+        \\"account_id.$\\": \\"$.item.pk\\",
+        \\"threshold.$\\": \\"$.threshold\\"
+      })",
                                       "DetailType": "xxx.detail.type",
                                       "EventBusName": "default",
                                       "Source": "zzz.my.source",
@@ -900,12 +923,22 @@ describe("when converting example", () => {
                             },
                           },
                           "MaxConcurrency": undefined,
+                          "Parameters": Object {
+                            "item.$": "$.item",
+                            "threshold.$": "$$.Map.Item.Value",
+                            "thresholds.$": "$.thresholds",
+                          },
                           "Type": "Map",
                         },
                       },
                     },
                     "MaxConcurrency": undefined,
                     "Next": "Assign lastEvaluatedKey_1",
+                    "Parameters": Object {
+                      "item.$": "$$.Map.Item.Value",
+                      "scan.$": "$.scan",
+                      "thresholds.$": "$.thresholds",
+                    },
                     "Type": "Map",
                   },
                   "_WhileCondition": Object {

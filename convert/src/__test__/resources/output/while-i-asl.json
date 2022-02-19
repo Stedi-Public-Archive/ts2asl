@@ -1,6 +1,12 @@
 {
-  "inputArgumentName": "_input",
-  "contextArgumentName": "_context",
+  "inputArgumentName": {
+    "identifier": "_input",
+    "_syntaxKind": "identifier"
+  },
+  "contextArgumentName": {
+    "identifier": "_context",
+    "_syntaxKind": "identifier"
+  },
   "statements": [
     {
       "name": {
@@ -76,10 +82,12 @@
             "_syntaxKind": "variable-assignment"
           }
         ],
-        "_syntaxKind": "function"
+        "_syntaxKind": "function",
+        "scope": "ts-while2"
       },
       "_syntaxKind": "while"
     }
   ],
-  "_syntaxKind": "statemachine"
+  "_syntaxKind": "statemachine",
+  "scope": "state-machine1"
 }

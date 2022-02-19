@@ -1,6 +1,12 @@
 {
-  "inputArgumentName": "_input",
-  "contextArgumentName": "_context",
+  "inputArgumentName": {
+    "identifier": "_input",
+    "_syntaxKind": "identifier"
+  },
+  "contextArgumentName": {
+    "identifier": "_context",
+    "_syntaxKind": "identifier"
+  },
   "statements": [
     {
       "name": {
@@ -119,7 +125,10 @@
             "catch": [],
             "retry": [],
             "iterator": {
-              "inputArgumentName": "item",
+              "inputArgumentName": {
+                "identifier": "item",
+                "_syntaxKind": "identifier"
+              },
               "statements": [
                 {
                   "items": {
@@ -130,7 +139,10 @@
                   "catch": [],
                   "retry": [],
                   "iterator": {
-                    "inputArgumentName": "threshold",
+                    "inputArgumentName": {
+                      "identifier": "threshold",
+                      "_syntaxKind": "identifier"
+                    },
                     "statements": [
                       {
                         "name": {
@@ -463,12 +475,14 @@
                         "_syntaxKind": "if"
                       }
                     ],
-                    "_syntaxKind": "function"
+                    "_syntaxKind": "function",
+                    "scope": "asl-map-state4"
                   },
                   "_syntaxKind": "asl-map-state"
                 }
               ],
-              "_syntaxKind": "function"
+              "_syntaxKind": "function",
+              "scope": "asl-map-state3"
             },
             "_syntaxKind": "asl-map-state"
           },
@@ -486,10 +500,12 @@
             "_syntaxKind": "variable-assignment"
           }
         ],
-        "_syntaxKind": "function"
+        "_syntaxKind": "function",
+        "scope": "ts-do-while2"
       },
       "_syntaxKind": "do-while"
     }
   ],
-  "_syntaxKind": "statemachine"
+  "_syntaxKind": "statemachine",
+  "scope": "state-machine1"
 }

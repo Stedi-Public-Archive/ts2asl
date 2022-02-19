@@ -147,7 +147,7 @@
                           "Parameters": {
                             "Entries": [
                               {
-                                "Detail": "States.JsonToString([object Object])",
+                                "Detail": "States.JsonToString({\n  \"account_id.$\": \"$.item.pk\",\n  \"threshold.$\": \"$.threshold\"\n})",
                                 "DetailType": "xxx.detail.type",
                                 "EventBusName": "default",
                                 "Source": "zzz.my.source"
@@ -184,12 +184,22 @@
                         }
                       }
                     },
-                    "ItemsPath": "thresholds",
+                    "ItemsPath": "$.thresholds",
+                    "Parameters": {
+                      "threshold.$": "$$.Map.Item.Value",
+                      "item.$": "$.item",
+                      "thresholds.$": "$.thresholds"
+                    },
                     "End": true
                   }
                 }
               },
-              "ItemsPath": "scan.Items",
+              "ItemsPath": "$.scan.Items",
+              "Parameters": {
+                "item.$": "$$.Map.Item.Value",
+                "thresholds.$": "$.thresholds",
+                "scan.$": "$.scan"
+              },
               "Next": "Assign lastEvaluatedKey_1"
             },
             "Assign lastEvaluatedKey_1": {
@@ -212,6 +222,10 @@
             "_WhileExit": {
               "Type": "Succeed"
             }
+          },
+          "Parameters": {
+            "thresholds.$": "$.thresholds",
+            "lastEvaluatedKey.$": "$.lastEvaluatedKey"
           }
         }
       ],

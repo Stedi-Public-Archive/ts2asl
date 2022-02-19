@@ -38,8 +38,15 @@ describe("when converting example", () => {
     expect(converted.iasl).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
-        "contextArgumentName": "_context",
-        "inputArgumentName": "_input",
+        "contextArgumentName": Object {
+          "_syntaxKind": "identifier",
+          "identifier": "_context",
+        },
+        "inputArgumentName": Object {
+          "_syntaxKind": "identifier",
+          "identifier": "_input",
+        },
+        "scope": "state-machine1",
         "statements": Array [
           Object {
             "_syntaxKind": "variable-assignment",
@@ -71,6 +78,7 @@ describe("when converting example", () => {
             },
             "while": Object {
               "_syntaxKind": "function",
+              "scope": "ts-while2",
               "statements": Array [
                 Object {
                   "_syntaxKind": "if",
@@ -151,6 +159,9 @@ describe("when converting example", () => {
           "While": Object {
             "Branches": Array [
               Object {
+                "Parameters": Object {
+                  "result.$": "$.result",
+                },
                 "StartAt": "_WhileCondition",
                 "States": Object {
                   "Assign result_1": Object {

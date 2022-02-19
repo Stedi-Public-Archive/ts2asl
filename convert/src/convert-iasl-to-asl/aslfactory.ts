@@ -1,6 +1,6 @@
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast"
-import { ConversionContext, convertBlock, convert, isNonTerminalState } from ".";
+import { ConversionContext, convertBlock, isNonTerminalState } from ".";
 import { createChoiceOperator } from "./choice-utility";
 
 export class AslFactory {
@@ -10,7 +10,7 @@ export class AslFactory {
     if (iasl.Check.isVariableAssignment(expression)) {
       properties["ResultPath"] = `$.` + expression.name.identifier;
       nameSuggestion = `Assign ${expression.name.identifier}`;
-      if (!iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
+      if (!iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isAslIntrinsicFunction(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
         expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
@@ -43,10 +43,6 @@ export class AslFactory {
     } else if (iasl.Check.isDoWhileStatement(expression)) {
       const contextForBranch = context.createChildContext();
 
-      const scope = scopes[expression.while.scope ?? ""];
-      if (scope.enclosed.length) {
-        throw new Error("do something");
-      }
       for (const statement of expression.while.statements) {
         AslFactory.append(statement, scopes, contextForBranch);
       }
@@ -57,16 +53,23 @@ export class AslFactory {
       const whileExitName = contextForBranch.appendState({ Type: "Succeed" } as asl.Succeed, "_WhileExit");
       whileCondition.Default = whileExitName;
 
+
+      const stateMachine = contextForBranch.finalize();
+      const parameters: Record<string, string> = {};
+      const scope = scopes[expression.while.scope ?? ""];
+      for (const enclosed of scope.enclosed) {
+        parameters[`${enclosed}.$`] = `$.${enclosed}`;
+      }
+      (stateMachine as any).Parameters = parameters;
+
       context.appendNextState({
         Type: "Parallel",
         ...properties,
-        Branches: [contextForBranch.finalize()],
+        Branches: [stateMachine],
         Comment: expression.source,
       } as asl.Parallel, 'DoWhile');
     } else if (iasl.Check.isIfExpression(expression)) {
-
       const choiceOperator = createChoiceOperator(expression.condition);
-
       const choiceState = {
         Type: "Choice",
         ...properties,
@@ -106,12 +109,8 @@ export class AslFactory {
         }
       }
     } else if (iasl.Check.isWhileStatement(expression)) {
-      const scope = scopes[expression.while.scope ?? ""];
-      if (scope.enclosed.length) {
-        throw new Error("do something");
-      }
-      const whileConditionOperator = createChoiceOperator(expression.condition);
 
+      const whileConditionOperator = createChoiceOperator(expression.condition);
       const contextForBranch = context.createChildContext();
       const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice
       const whileConditionName = contextForBranch.appendState(whileCondition, "_WhileCondition");
@@ -127,6 +126,14 @@ export class AslFactory {
       whileCondition.Default = whileExitName;
       contextForBranch.trailingStates = [];
       const stateMachine = contextForBranch.finalize();
+      const parameters: Record<string, string> = {};
+
+      const scope = scopes[expression.while.scope ?? ""];
+
+      for (const enclosed of scope.enclosed) {
+        parameters[`${enclosed}.$`] = `$.${enclosed}`;
+      }
+      (stateMachine as any).Parameters = parameters;
 
       context.appendNextState({
         Type: "Parallel",
@@ -252,6 +259,8 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
       } else if (typeof convertedArg.value === "string") {
         if (convertedArg.value.includes("'")) throw new Error("todo implement escaping of string literals passed to intrinsic function args")
         args.push(`'${convertedArg.value}'`);
+      } else if (typeof convertedArg.value === "object") {
+        args.push(`${JSON.stringify(convertedArg.value, null, 2)}`);
       } else {
         args.push(`${convertedArg.value}`);
       }

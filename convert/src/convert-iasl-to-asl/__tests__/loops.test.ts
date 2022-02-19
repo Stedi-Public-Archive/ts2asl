@@ -31,6 +31,9 @@ describe("when transpiling simple statements", () => {
           "While": Object {
             "Branches": Array [
               Object {
+                "Parameters": Object {
+                  "result.$": "$.result",
+                },
                 "StartAt": "_WhileCondition",
                 "States": Object {
                   "Assign result_1": Object {

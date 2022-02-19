@@ -59,6 +59,9 @@
             "_WhileExit": {
               "Type": "Succeed"
             }
+          },
+          "Parameters": {
+            "result.$": "$.result"
           }
         }
       ],
