@@ -100,9 +100,9 @@ describe("when converting example", () => {
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign testInput.delayInSeconds": Object {
+          "Assign DelayInSeconds": Object {
             "Comment": undefined,
             "Next": "Wait",
             "Result": 5,
@@ -113,17 +113,15 @@ describe("when converting example", () => {
             "Choices": Array [
               Object {
                 "IsNumeric": false,
-                "Next": "Assign testInput.delayInSeconds",
+                "Next": "Assign DelayInSeconds",
                 "Variable": "$.vars.testInput.delayInSeconds",
               },
             ],
-            "Comment": "if (typeof context.testInput.delayInSeconds !== \\"number\\") {
-          context.testInput.delayInSeconds = 5;
-        }",
+            "Comment": "source: if (typeof context.testInput.delayInSeconds != ...",
             "Default": "Wait",
             "Type": "Choice",
           },
-          "Initialize Vars": Object {
+          "Initialize": Object {
             "Next": "If",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",

@@ -332,23 +332,23 @@ describe("when converting example", () => {
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign checksPassed": Object {
-            "Comment": "checksPassed = true",
+          "Assign ChecksPassed": Object {
+            "Comment": "source: checksPassed = true",
             "Next": "If",
             "Result": true,
             "ResultPath": "$.vars.checksPassed",
             "Type": "Pass",
           },
-          "Assign result": Object {
+          "Assign Result": Object {
             "Branches": Array [
               Object {
                 "StartAt": "Task",
                 "States": Object {
                   "Task": Object {
                     "Catch": undefined,
-                    "Comment": "performIdentifyCheck()",
+                    "Comment": "source: performIdentifyCheck()",
                     "End": true,
                     "HeartbeatSeconds": undefined,
                     "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
@@ -390,35 +390,12 @@ describe("when converting example", () => {
                 "Variable": "$.vars.checksPassed",
               },
             ],
-            "Comment": "if (checksPassed) {
-          //no-op update risk profile
-          await asl.nativeEventBridgePutEvents({
-            Entries: [
-              {
-                Detail: asl.states.jsonToString(result),
-                DetailType: \\"AccountApproved\\",
-                EventBusName: \\"eventbusname\\",
-                Source: \\"com.aws.kyc\\"
-              }
-            ]
-          });
-        } else {
-          await asl.nativeEventBridgePutEvents({
-            Entries: [
-              {
-                Detail: asl.states.jsonToString(result),
-                DetailType: \\"AccountDeclined\\",
-                EventBusName: \\"eventbusname\\",
-                Source: \\"com.aws.kyc\\"
-              }
-            ]
-          });
-        }",
+            "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
             "Default": "Task_2",
             "Type": "Choice",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign result",
+          "Initialize": Object {
+            "Next": "Assign Result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -429,7 +406,7 @@ describe("when converting example", () => {
             "Catch": undefined,
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "Assign checksPassed",
+            "Next": "Assign ChecksPassed",
             "Parameters": Object {
               "Entries": Array [
                 Object {

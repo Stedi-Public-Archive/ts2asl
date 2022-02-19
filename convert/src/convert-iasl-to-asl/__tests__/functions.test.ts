@@ -15,17 +15,17 @@ describe("when transpiling function", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign result": Object {
-            "Comment": "result = asl.states.stringToJson(\\"0\\") as number",
+          "Assign Result": Object {
+            "Comment": "source: result = asl.states.stringToJson(\\"0\\") as number",
             "End": true,
             "Parameters": "States.StringToJson('0')",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign result",
+          "Initialize": Object {
+            "Next": "Assign Result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -48,17 +48,17 @@ describe("when transpiling function", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign result": Object {
+          "Assign Result": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": "States.StringToJson('s')",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign result",
+          "Initialize": Object {
+            "Next": "Assign Result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -84,9 +84,9 @@ describe("when transpiling function", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign result": Object {
+          "Assign Result": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": "States.JsonToString({
@@ -96,8 +96,8 @@ describe("when transpiling function", () => {
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign result",
+          "Initialize": Object {
+            "Next": "Assign Result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

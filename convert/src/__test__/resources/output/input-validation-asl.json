@@ -1,7 +1,7 @@
 {
-  "StartAt": "Initialize Vars",
+  "StartAt": "Initialize",
   "States": {
-    "Initialize Vars": {
+    "Initialize": {
       "Type": "Pass",
       "ResultPath": "$",
       "Parameters": {
@@ -15,13 +15,13 @@
         {
           "Variable": "$.vars.testInput.delayInSeconds",
           "IsNumeric": false,
-          "Next": "Assign testInput.delayInSeconds"
+          "Next": "Assign DelayInSeconds"
         }
       ],
-      "Comment": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
+      "Comment": "source: if (typeof context.testInput.delayInSeconds != ...",
       "Default": "Wait"
     },
-    "Assign testInput.delayInSeconds": {
+    "Assign DelayInSeconds": {
       "Type": "Pass",
       "ResultPath": "$.vars.testInput.delayInSeconds",
       "Result": 5,

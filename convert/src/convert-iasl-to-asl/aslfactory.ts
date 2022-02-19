@@ -10,7 +10,7 @@ export class AslFactory {
     let properties = {};
     if (iasl.Check.isVariableAssignment(expression)) {
       properties["ResultPath"] = convertIdentifierToPathExpression(expression.name);
-      nameSuggestion = `Assign ${expression.name.identifier}`;
+      nameSuggestion = nameSuggestionForAssignment(expression.name);
       if (!iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isAslIntrinsicFunction(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
@@ -310,3 +310,9 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
   }
 }
 
+export const nameSuggestionForAssignment = (id: iasl.Identifier): string => {
+  const nameParts = id.identifier.split(".");
+  const lastPart = nameParts[nameParts.length - 1];
+  const capitalized = lastPart[0].toUpperCase() + (lastPart.length > 1 ? lastPart.substring(1) : "");
+  return `Assign ${capitalized}`;
+}

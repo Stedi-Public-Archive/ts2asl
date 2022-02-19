@@ -19,17 +19,17 @@ describe("when transpiling simple statements", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign result": Object {
-            "Comment": "result = 0",
+          "Assign Result": Object {
+            "Comment": "source: result = 0",
             "Next": "While",
             "Result": 0,
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign result",
+          "Initialize": Object {
+            "Next": "Assign Result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -46,9 +46,9 @@ describe("when transpiling simple statements", () => {
                 },
                 "StartAt": "_WhileCondition",
                 "States": Object {
-                  "Assign result_1": Object {
+                  "Assign Result_1": Object {
                     "Catch": undefined,
-                    "Comment": "isDone()",
+                    "Comment": "source: isDone()",
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",
                     "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-isDone",
@@ -59,7 +59,7 @@ describe("when transpiling simple statements", () => {
                   },
                   "Wait": Object {
                     "Comment": undefined,
-                    "Next": "Assign result_1",
+                    "Next": "Assign Result_1",
                     "Seconds": 2,
                     "Type": "Wait",
                   },

@@ -140,9 +140,9 @@ describe("when converting example", () => {
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign result": Object {
+          "Assign Result": Object {
             "Catch": Array [],
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
@@ -154,8 +154,8 @@ describe("when converting example", () => {
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign result",
+          "Initialize": Object {
+            "Next": "Assign Result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -172,7 +172,7 @@ describe("when converting example", () => {
                 },
                 "StartAt": "_WhileCondition",
                 "States": Object {
-                  "Assign result_1": Object {
+                  "Assign Result_1": Object {
                     "Catch": Array [],
                     "Comment": undefined,
                     "HeartbeatSeconds": undefined,
@@ -192,9 +192,7 @@ describe("when converting example", () => {
                         "Variable": "$.vars.result.Authorized",
                       },
                     ],
-                    "Comment": "if (result.Authorized) {
-            break;
-          }",
+                    "Comment": "source: if (result.Authorized) { break; }",
                     "Default": "Wait",
                     "Type": "Choice",
                   },
@@ -204,7 +202,7 @@ describe("when converting example", () => {
                   },
                   "Wait": Object {
                     "Comment": undefined,
-                    "Next": "Assign result_1",
+                    "Next": "Assign Result_1",
                     "Seconds": 1,
                     "Type": "Wait",
                   },

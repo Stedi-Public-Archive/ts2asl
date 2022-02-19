@@ -1,15 +1,15 @@
 {
-  "StartAt": "Initialize Vars",
+  "StartAt": "Initialize",
   "States": {
-    "Initialize Vars": {
+    "Initialize": {
       "Type": "Pass",
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign result"
+      "Next": "Assign Result"
     },
-    "Assign result": {
+    "Assign Result": {
       "Type": "Task",
       "ResultPath": "$.vars.result",
       "Resource": "check-password",
@@ -44,7 +44,7 @@
                   "Next": "Succeed"
                 }
               ],
-              "Comment": "if (result.Authorized) {\n      break;\n    }",
+              "Comment": "source: if (result.Authorized) { break; }",
               "Default": "Wait"
             },
             "Succeed": {
@@ -53,9 +53,9 @@
             "Wait": {
               "Type": "Wait",
               "Seconds": 1,
-              "Next": "Assign result_1"
+              "Next": "Assign Result_1"
             },
-            "Assign result_1": {
+            "Assign Result_1": {
               "Type": "Task",
               "ResultPath": "$.vars.result",
               "Resource": "check-password",

@@ -7,17 +7,17 @@ describe("when transpiling simple statements", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign result": Object {
+          "Assign Result": Object {
             "Comment": undefined,
             "End": true,
             "Result": "hello",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign result",
+          "Initialize": Object {
+            "Next": "Assign Result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -44,39 +44,39 @@ describe("when transpiling simple statements", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign complexVariableAssignment": Object {
+          "Assign ComplexVariableAssignment": Object {
             "Comment": undefined,
             "InputPath": "$.vars.anotherVar.path[$.vars.something.pointer]leaf",
-            "Next": "Assign literalArrayAccessExpression",
+            "Next": "Assign LiteralArrayAccessExpression",
             "ResultPath": "$.vars.complexVariableAssignment",
             "Type": "Pass",
           },
-          "Assign literalArrayAccessExpression": Object {
+          "Assign LiteralArrayAccessExpression": Object {
             "Comment": undefined,
             "InputPath": "$.vars.anotherVar.path[0]leaf",
-            "Next": "Assign objectLiteral",
+            "Next": "Assign ObjectLiteral",
             "ResultPath": "$.vars.literalArrayAccessExpression",
             "Type": "Pass",
           },
-          "Assign literalNum": Object {
+          "Assign LiteralNum": Object {
             "Comment": undefined,
-            "Next": "Assign variableAssignment",
+            "Next": "Assign VariableAssignment",
             "Result": 42,
             "ResultPath": "$.vars.literalNum",
             "Type": "Pass",
           },
-          "Assign literalString": Object {
+          "Assign LiteralString": Object {
             "Comment": undefined,
-            "Next": "Assign literalNum",
+            "Next": "Assign LiteralNum",
             "Result": "hello",
             "ResultPath": "$.vars.literalString",
             "Type": "Pass",
           },
-          "Assign objectLiteral": Object {
+          "Assign ObjectLiteral": Object {
             "Comment": undefined,
-            "Next": "Assign objectLiteralWithVariableAssignment",
+            "Next": "Assign ObjectLiteralWithVariableAssignment",
             "Result": Object {
               "name": "literal",
               "num": 42,
@@ -84,7 +84,7 @@ describe("when transpiling simple statements", () => {
             "ResultPath": "$.vars.objectLiteral",
             "Type": "Pass",
           },
-          "Assign objectLiteralWithVariableAssignment": Object {
+          "Assign ObjectLiteralWithVariableAssignment": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {
@@ -94,15 +94,15 @@ describe("when transpiling simple statements", () => {
             "ResultPath": "$.vars.objectLiteralWithVariableAssignment",
             "Type": "Pass",
           },
-          "Assign variableAssignment": Object {
+          "Assign VariableAssignment": Object {
             "Comment": undefined,
             "InputPath": "$.vars.anotherVar",
-            "Next": "Assign complexVariableAssignment",
+            "Next": "Assign ComplexVariableAssignment",
             "ResultPath": "$.vars.variableAssignment",
             "Type": "Pass",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign literalString",
+          "Initialize": Object {
+            "Next": "Assign LiteralString",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

@@ -1,6 +1,4 @@
-import exp = require('constants');
 import * as ts from 'typescript';
-import factory = ts.factory;
 
 export const removeSyntaxTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {

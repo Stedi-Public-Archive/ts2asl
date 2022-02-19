@@ -1,15 +1,15 @@
 {
-  "StartAt": "Initialize Vars",
+  "StartAt": "Initialize",
   "States": {
-    "Initialize Vars": {
+    "Initialize": {
       "Type": "Pass",
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign result"
+      "Next": "Assign Result"
     },
-    "Assign result": {
+    "Assign Result": {
       "Branches": [
         {
           "StartAt": "Task",
@@ -17,7 +17,7 @@
             "Task": {
               "Type": "Task",
               "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
-              "Comment": "performIdentifyCheck()",
+              "Comment": "source: performIdentifyCheck()",
               "End": true
             }
           }
@@ -57,13 +57,13 @@
           }
         ]
       },
-      "Next": "Assign checksPassed"
+      "Next": "Assign ChecksPassed"
     },
-    "Assign checksPassed": {
+    "Assign ChecksPassed": {
       "Type": "Pass",
       "ResultPath": "$.vars.checksPassed",
       "Result": true,
-      "Comment": "checksPassed = true",
+      "Comment": "source: checksPassed = true",
       "Next": "If"
     },
     "If": {
@@ -75,7 +75,7 @@
           "Next": "Task_2"
         }
       ],
-      "Comment": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }",
+      "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
       "Default": "Task_2"
     },
     "Task_2": {

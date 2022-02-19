@@ -1,7 +1,4 @@
-import exp = require('constants');
 import * as ts from 'typescript';
-import { TransformUtil } from './transform-utility';
-import factory = ts.factory;
 
 export const returnStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {

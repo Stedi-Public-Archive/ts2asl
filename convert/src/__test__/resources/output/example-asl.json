@@ -1,15 +1,15 @@
 {
-  "StartAt": "Initialize Vars",
+  "StartAt": "Initialize",
   "States": {
-    "Initialize Vars": {
+    "Initialize": {
       "Type": "Pass",
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign thresholds"
+      "Next": "Assign Thresholds"
     },
-    "Assign thresholds": {
+    "Assign Thresholds": {
       "Type": "Pass",
       "ResultPath": "$.vars.thresholds",
       "Result": [
@@ -22,23 +22,23 @@
           "ceiling": 1000
         }
       ],
-      "Comment": "thresholds = [\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 100\n    },\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 1000\n    }\n  ]",
-      "Next": "Assign lastEvaluatedKey"
+      "Comment": "source: thresholds = [ { \"metric\": \"mappings.requests\" ...",
+      "Next": "Assign LastEvaluatedKey"
     },
-    "Assign lastEvaluatedKey": {
+    "Assign LastEvaluatedKey": {
       "Type": "Pass",
       "ResultPath": "$.vars.lastEvaluatedKey",
       "Result": null,
-      "Comment": "lastEvaluatedKey: any | undefined = undefined",
+      "Comment": "source: lastEvaluatedKey: any | undefined = undefined",
       "Next": "DoWhile"
     },
     "DoWhile": {
       "Type": "Parallel",
       "Branches": [
         {
-          "StartAt": "Assign scan",
+          "StartAt": "Assign Scan",
           "States": {
-            "Assign scan": {
+            "Assign Scan": {
               "Type": "Task",
               "ResultPath": "$.vars.scan",
               "Resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
@@ -59,20 +59,20 @@
                     "Type": "Map",
                     "ResultPath": "$.lastResult",
                     "Iterator": {
-                      "StartAt": "Assign numericLastSentOnValue",
+                      "StartAt": "Assign NumericLastSentOnValue",
                       "States": {
-                        "Assign numericLastSentOnValue": {
+                        "Assign NumericLastSentOnValue": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericLastSentOnValue",
                           "Parameters": "States.StringToJson($.vars.item.lastSentOnValue.N)",
-                          "Comment": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
-                          "Next": "Assign numericTotal"
+                          "Comment": "source: numericLastSentOnValue = asl.states.stringToJs ...",
+                          "Next": "Assign NumericTotal"
                         },
-                        "Assign numericTotal": {
+                        "Assign NumericTotal": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericTotal",
                           "Parameters": "States.StringToJson($.vars.item.total.N)",
-                          "Comment": "numericTotal = asl.states.stringToJson(item.total.N) as number",
+                          "Comment": "source: numericTotal = asl.states.stringToJson(item.to ...",
                           "Next": "If"
                         },
                         "If": {
@@ -148,7 +148,7 @@
                               "Next": "Task"
                             }
                           ],
-                          "Comment": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\n\n          await asl.nativeEventBridgePutEvents({\n            Entries: [\n              {\n                Detail: asl.states.jsonToString({\n                  account_id: item.pk,\n                  threshold: threshold\n                }),\n                DetailType: \"xxx.detail.type\",\n                EventBusName: \"default\",\n                Source: \"zzz.my.source\"\n              }\n            ]\n          });\n          await asl.nativeDynamoDBUpdateItem({\n            TableName: \"MyStorage\",\n            Key: {\n              pk: item.pk,\n              sk: item.sk\n            },\n            ConditionExpression: \"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\",\n            UpdateExpression: \"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\",\n            ExpressionAttributeValues: {\n              \":newLastSentOnValue\": {\n                N: item.total.N as any\n              },\n              \":newLastBeginDateValue\": {\n                S: item.beginDate.S\n              }\n            }\n          });\n        }",
+                          "Comment": "source: if ((item.sk.S === threshold.metric && thresho ...",
                           "Default": "Empty Default Choice"
                         },
                         "Task": {
@@ -214,9 +214,9 @@
                   "scan.$": "$.vars.scan"
                 }
               },
-              "Next": "Assign lastEvaluatedKey_1"
+              "Next": "Assign LastEvaluatedKey_1"
             },
-            "Assign lastEvaluatedKey_1": {
+            "Assign LastEvaluatedKey_1": {
               "Type": "Pass",
               "ResultPath": "$.vars.lastEvaluatedKey",
               "InputPath": "$.vars.scan.LastEvaluatedKey",
@@ -228,7 +228,7 @@
                 {
                   "Variable": "$.vars.lastEvaluatedKey",
                   "IsPresent": true,
-                  "Next": "Assign scan"
+                  "Next": "Assign Scan"
                 }
               ],
               "Default": "_WhileExit"

@@ -1,4 +1,3 @@
-import exp = require('constants');
 import * as ts from 'typescript';
 import factory = ts.factory;
 

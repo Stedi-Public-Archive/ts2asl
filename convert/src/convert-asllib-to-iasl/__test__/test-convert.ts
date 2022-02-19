@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import { convertToIntermediaryAsl } from '..';
-import { createCompilerHostFromSource } from '../../compiler-host';
+import { createCompilerHostFromSource } from '../../compiler-host/node';
 
 export const testConvertToIntermediaryAst = (source: string) => {
 

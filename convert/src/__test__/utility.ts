@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs";
-import { createCompilerHostFromFile } from "../compiler-host";
+import { createCompilerHostFromFile } from "../compiler-host/node";
 import { ConvertedStateMachine, ConvertedStateMachineWithDiagnostics, Converter } from "../convert";
 
 export const runConvertForTest = (filename: string, stateMachineName: string = "main"): ConvertedStateMachine => {

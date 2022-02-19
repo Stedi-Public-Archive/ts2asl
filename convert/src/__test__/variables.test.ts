@@ -102,13 +102,10 @@ describe("when converting variables", () => {
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Initialize Vars",
+        "StartAt": "Initialize",
         "States": Object {
-          "Assign x": Object {
-            "Comment": "x = {
-          name: input.name,
-          execution: context.execution.id
-        }",
+          "Assign X": Object {
+            "Comment": "source: x = { name: input.name, execution: context.exe ...",
             "Next": "Task",
             "Parameters": Object {
               "execution.$": "$$.Execution.Id",
@@ -117,8 +114,8 @@ describe("when converting variables", () => {
             "ResultPath": "$.vars.x",
             "Type": "Pass",
           },
-          "Initialize Vars": Object {
-            "Next": "Assign x",
+          "Initialize": Object {
+            "Next": "Assign X",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -127,7 +124,7 @@ describe("when converting variables", () => {
           },
           "Task": Object {
             "Catch": undefined,
-            "Comment": "consoleLog(x)",
+            "Comment": "source: consoleLog(x)",
             "End": true,
             "HeartbeatSeconds": undefined,
             "InputPath": "$.vars.x",

@@ -64,7 +64,7 @@ export const convert = (stateMachine: iasl.StateMachine, context: ConversionCont
     Parameters: {
       "vars.$": "$$.Execution.Input"
     }
-  }, "Initialize Vars");
+  }, "Initialize");
 
   for (const statement of statements) {
     AslFactory.append(statement, scopes, context);
@@ -120,6 +120,10 @@ export class ConversionContext {
   }
   appendNextState(state: asl.State, nameSuggestion?: string) {
     const name = this.createName(nameSuggestion ?? state.Type);
+    if (state.Comment) {
+      const withoutWhiteSpace = state.Comment.replace(/\s{1,}/g, " ");
+      state.Comment = "source: " + ((withoutWhiteSpace.length > 50) ? withoutWhiteSpace.substring(0, 46) + " ..." : withoutWhiteSpace);
+    }
 
     if (this.startAt === undefined) {
       this.startAt = name;

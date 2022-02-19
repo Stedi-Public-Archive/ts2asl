@@ -1,15 +1,15 @@
 {
-  "StartAt": "Initialize Vars",
+  "StartAt": "Initialize",
   "States": {
-    "Initialize Vars": {
+    "Initialize": {
       "Type": "Pass",
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign numbers"
+      "Next": "Assign Numbers"
     },
-    "Assign numbers": {
+    "Assign Numbers": {
       "Type": "Pass",
       "ResultPath": "$.vars.numbers",
       "Result": [
@@ -18,10 +18,10 @@
         2,
         3
       ],
-      "Comment": "numbers = [0, 1, 2, 3]",
-      "Next": "Assign letters"
+      "Comment": "source: numbers = [0, 1, 2, 3]",
+      "Next": "Assign Letters"
     },
-    "Assign letters": {
+    "Assign Letters": {
       "Type": "Pass",
       "ResultPath": "$.vars.letters",
       "Result": [
@@ -30,14 +30,14 @@
         "c",
         "d"
       ],
-      "Comment": "letters = [\"a\", \"b\", \"c\", \"d\"]",
-      "Next": "Assign global"
+      "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
+      "Next": "Assign Global"
     },
-    "Assign global": {
+    "Assign Global": {
       "Type": "Pass",
       "ResultPath": "$.vars.global",
       "Result": "prefix",
-      "Comment": "global = \"prefix\"",
+      "Comment": "source: global = \"prefix\"",
       "Next": "Map_1"
     },
     "Map_1": {
@@ -50,9 +50,9 @@
             "Type": "Map",
             "ResultPath": "$.lastResult",
             "Iterator": {
-              "StartAt": "Assign combined",
+              "StartAt": "Assign Combined",
               "States": {
-                "Assign combined": {
+                "Assign Combined": {
                   "Type": "Pass",
                   "ResultPath": "$.vars.combined",
                   "Parameters": {
@@ -60,14 +60,14 @@
                     "letter.$": "$.vars.letter",
                     "global.$": "$.vars.global"
                   },
-                  "Comment": "combined = { number, letter, global }",
+                  "Comment": "source: combined = { number, letter, global }",
                   "Next": "Task"
                 },
                 "Task": {
                   "Type": "Task",
                   "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-doSomething",
                   "InputPath": "$.vars.combined",
-                  "Comment": "doSomething(combined)",
+                  "Comment": "source: doSomething(combined)",
                   "End": true
                 }
               }
