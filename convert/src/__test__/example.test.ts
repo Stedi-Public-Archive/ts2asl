@@ -105,47 +105,51 @@ describe("when converting example", () => {
   });
   it("then can be converted to iasl", async () => {
     expect(converted.iasl).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "literal-array",
-              "elements": Array [
-                Object {
-                  "_syntaxKind": "literal-object",
-                  "properties": Object {
-                    "ceiling": Object {
-                      "_syntaxKind": "literal",
-                      "type": "numeric",
-                      "value": 100,
-                    },
-                    "metric": Object {
-                      "_syntaxKind": "literal",
-                      "type": "string",
-                      "value": "mappings.requests",
-                    },
-                  },
-                },
-                Object {
-                  "_syntaxKind": "literal-object",
-                  "properties": Object {
-                    "ceiling": Object {
-                      "_syntaxKind": "literal",
-                      "type": "numeric",
-                      "value": 1000,
-                    },
-                    "metric": Object {
-                      "_syntaxKind": "literal",
-                      "type": "string",
-                      "value": "mappings.requests",
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": "_context",
+        "inputArgumentName": "_input",
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal-array",
+                "elements": Array [
+                  Object {
+                    "_syntaxKind": "literal-object",
+                    "properties": Object {
+                      "ceiling": Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 100,
+                      },
+                      "metric": Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "mappings.requests",
+                      },
                     },
                   },
-                },
-              ],
-            },
-            "source": "thresholds = [
+                  Object {
+                    "_syntaxKind": "literal-object",
+                    "properties": Object {
+                      "ceiling": Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 1000,
+                      },
+                      "metric": Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "mappings.requests",
+                      },
+                    },
+                  },
+                ],
+              },
+              "source": "thresholds = [
           {
             \\"metric\\": \\"mappings.requests\\",
             \\"ceiling\\": 100
@@ -155,149 +159,238 @@ describe("when converting example", () => {
             \\"ceiling\\": 1000
           }
         ]",
-          },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "thresholds",
-            "type": "object",
-          },
-        },
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "literal",
-              "type": "null",
-              "value": null,
             },
-            "source": "lastEvaluatedKey: any | undefined = undefined",
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "thresholds",
+              "type": "object",
+            },
           },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "lastEvaluatedKey",
-            "type": "unknown",
-          },
-        },
-        Object {
-          "_syntaxKind": "do-while",
-          "condition": Object {
-            "_syntaxKind": "binary-expression",
-            "operator": "is-present",
-            "rhs": Object {
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal",
+                "type": "null",
+                "value": null,
+              },
+              "source": "lastEvaluatedKey: any | undefined = undefined",
+            },
+            "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "lastEvaluatedKey",
               "type": "unknown",
             },
           },
-          "while": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "variable-assignment",
-                "expression": Object {
-                  "_syntaxKind": "asl-task-state",
-                  "parameters": Object {
-                    "_syntaxKind": "literal-object",
-                    "properties": Object {
-                      "ExclusiveStartKey": Object {
-                        "_syntaxKind": "identifier",
-                        "identifier": "lastEvaluatedKey",
-                        "type": "unknown",
-                      },
-                      "Limit": Object {
-                        "_syntaxKind": "literal",
-                        "type": "numeric",
-                        "value": 1,
-                      },
-                      "TableName": Object {
-                        "_syntaxKind": "literal",
-                        "type": "string",
-                        "value": "MyStorage",
+          Object {
+            "_syntaxKind": "do-while",
+            "condition": Object {
+              "_syntaxKind": "binary-expression",
+              "operator": "is-present",
+              "rhs": Object {
+                "_syntaxKind": "identifier",
+                "identifier": "lastEvaluatedKey",
+                "type": "unknown",
+              },
+            },
+            "while": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "variable-assignment",
+                  "expression": Object {
+                    "_syntaxKind": "asl-task-state",
+                    "parameters": Object {
+                      "_syntaxKind": "literal-object",
+                      "properties": Object {
+                        "ExclusiveStartKey": Object {
+                          "_syntaxKind": "identifier",
+                          "identifier": "lastEvaluatedKey",
+                          "type": "unknown",
+                        },
+                        "Limit": Object {
+                          "_syntaxKind": "literal",
+                          "type": "numeric",
+                          "value": 1,
+                        },
+                        "TableName": Object {
+                          "_syntaxKind": "literal",
+                          "type": "string",
+                          "value": "MyStorage",
+                        },
                       },
                     },
+                    "resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
+                    "source": undefined,
                   },
-                  "resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
-                  "source": undefined,
+                  "name": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "scan",
+                    "type": "object",
+                  },
                 },
-                "name": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "scan",
-                  "type": "object",
-                },
-              },
-              Object {
-                "_syntaxKind": "asl-map-state",
-                "catch": Array [],
-                "items": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "scan.Items",
-                  "type": "object",
-                },
-                "iterator": Object {
-                  "statements": Array [
-                    Object {
-                      "_syntaxKind": "asl-map-state",
-                      "catch": Array [],
-                      "items": Object {
-                        "_syntaxKind": "identifier",
-                        "identifier": "thresholds",
-                        "type": "object",
-                      },
-                      "iterator": Object {
-                        "statements": Array [
-                          Object {
-                            "_syntaxKind": "variable-assignment",
-                            "expression": Object {
-                              "_syntaxKind": "asl-pass-state",
-                              "parameters": Object {
-                                "_syntaxKind": "asl-intrinsic-function",
-                                "arguments": Array [
-                                  Object {
-                                    "_syntaxKind": "identifier",
-                                    "identifier": "item.lastSentOnValue.N",
-                                    "type": "string",
-                                  },
-                                ],
-                                "function": "asl.states.stringToJson",
+                Object {
+                  "_syntaxKind": "asl-map-state",
+                  "catch": Array [],
+                  "items": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "scan.Items",
+                    "type": "object",
+                  },
+                  "iterator": Object {
+                    "_syntaxKind": "function",
+                    "inputArgumentName": "item",
+                    "statements": Array [
+                      Object {
+                        "_syntaxKind": "asl-map-state",
+                        "catch": Array [],
+                        "items": Object {
+                          "_syntaxKind": "identifier",
+                          "identifier": "thresholds",
+                          "type": "object",
+                        },
+                        "iterator": Object {
+                          "_syntaxKind": "function",
+                          "inputArgumentName": "threshold",
+                          "statements": Array [
+                            Object {
+                              "_syntaxKind": "variable-assignment",
+                              "expression": Object {
+                                "_syntaxKind": "asl-pass-state",
+                                "parameters": Object {
+                                  "_syntaxKind": "asl-intrinsic-function",
+                                  "arguments": Array [
+                                    Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "item.lastSentOnValue.N",
+                                      "type": "string",
+                                    },
+                                  ],
+                                  "function": "asl.states.stringToJson",
+                                },
+                                "source": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
                               },
-                              "source": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
-                            },
-                            "name": Object {
-                              "_syntaxKind": "identifier",
-                              "identifier": "numericLastSentOnValue",
-                              "type": "numeric",
-                            },
-                          },
-                          Object {
-                            "_syntaxKind": "variable-assignment",
-                            "expression": Object {
-                              "_syntaxKind": "asl-pass-state",
-                              "parameters": Object {
-                                "_syntaxKind": "asl-intrinsic-function",
-                                "arguments": Array [
-                                  Object {
-                                    "_syntaxKind": "identifier",
-                                    "identifier": "item.total.N",
-                                    "type": "string",
-                                  },
-                                ],
-                                "function": "asl.states.stringToJson",
+                              "name": Object {
+                                "_syntaxKind": "identifier",
+                                "identifier": "numericLastSentOnValue",
+                                "type": "numeric",
                               },
-                              "source": "numericTotal = asl.states.stringToJson(item.total.N) as number",
                             },
-                            "name": Object {
-                              "_syntaxKind": "identifier",
-                              "identifier": "numericTotal",
-                              "type": "numeric",
+                            Object {
+                              "_syntaxKind": "variable-assignment",
+                              "expression": Object {
+                                "_syntaxKind": "asl-pass-state",
+                                "parameters": Object {
+                                  "_syntaxKind": "asl-intrinsic-function",
+                                  "arguments": Array [
+                                    Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "item.total.N",
+                                      "type": "string",
+                                    },
+                                  ],
+                                  "function": "asl.states.stringToJson",
+                                },
+                                "source": "numericTotal = asl.states.stringToJson(item.total.N) as number",
+                              },
+                              "name": Object {
+                                "_syntaxKind": "identifier",
+                                "identifier": "numericTotal",
+                                "type": "numeric",
+                              },
                             },
-                          },
-                          Object {
-                            "_syntaxKind": "if",
-                            "condition": Object {
-                              "_syntaxKind": "binary-expression",
-                              "lhs": Object {
+                            Object {
+                              "_syntaxKind": "if",
+                              "condition": Object {
                                 "_syntaxKind": "binary-expression",
                                 "lhs": Object {
+                                  "_syntaxKind": "binary-expression",
+                                  "lhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "lhs": Object {
+                                      "_syntaxKind": "binary-expression",
+                                      "lhs": Object {
+                                        "_syntaxKind": "binary-expression",
+                                        "lhs": Object {
+                                          "_syntaxKind": "identifier",
+                                          "identifier": "item.sk.S",
+                                          "type": "string",
+                                        },
+                                        "operator": "eq",
+                                        "rhs": Object {
+                                          "_syntaxKind": "identifier",
+                                          "identifier": "threshold.metric",
+                                          "type": "string",
+                                        },
+                                      },
+                                      "operator": "and",
+                                      "rhs": Object {
+                                        "_syntaxKind": "binary-expression",
+                                        "lhs": Object {
+                                          "_syntaxKind": "identifier",
+                                          "identifier": "threshold.ceiling",
+                                          "type": "numeric",
+                                        },
+                                        "operator": "lte",
+                                        "rhs": Object {
+                                          "_syntaxKind": "identifier",
+                                          "identifier": "numericTotal",
+                                          "type": "numeric",
+                                        },
+                                      },
+                                    },
+                                    "operator": "and",
+                                    "rhs": Object {
+                                      "_syntaxKind": "binary-expression",
+                                      "lhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "threshold.ceiling",
+                                        "type": "numeric",
+                                      },
+                                      "operator": "gt",
+                                      "rhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "numericLastSentOnValue",
+                                        "type": "numeric",
+                                      },
+                                    },
+                                  },
+                                  "operator": "and",
+                                  "rhs": Object {
+                                    "_syntaxKind": "binary-expression",
+                                    "lhs": Object {
+                                      "_syntaxKind": "binary-expression",
+                                      "operator": "not",
+                                      "rhs": Object {
+                                        "_syntaxKind": "binary-expression",
+                                        "operator": "is-present",
+                                        "rhs": Object {
+                                          "_syntaxKind": "identifier",
+                                          "identifier": "item.lastBeginDateValue.S",
+                                          "type": "string",
+                                        },
+                                      },
+                                    },
+                                    "operator": "or",
+                                    "rhs": Object {
+                                      "_syntaxKind": "binary-expression",
+                                      "lhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "item.beginDate.S",
+                                        "type": "string",
+                                      },
+                                      "operator": "eq",
+                                      "rhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "item.lastBeginDateValue.S",
+                                        "type": "string",
+                                      },
+                                    },
+                                  },
+                                },
+                                "operator": "or",
+                                "rhs": Object {
                                   "_syntaxKind": "binary-expression",
                                   "lhs": Object {
                                     "_syntaxKind": "binary-expression",
@@ -335,27 +428,27 @@ describe("when converting example", () => {
                                   "rhs": Object {
                                     "_syntaxKind": "binary-expression",
                                     "lhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "threshold.ceiling",
-                                      "type": "numeric",
+                                      "_syntaxKind": "binary-expression",
+                                      "operator": "not",
+                                      "rhs": Object {
+                                        "_syntaxKind": "binary-expression",
+                                        "operator": "is-present",
+                                        "rhs": Object {
+                                          "_syntaxKind": "identifier",
+                                          "identifier": "item.lastBeginDateValue.S",
+                                          "type": "string",
+                                        },
+                                      },
                                     },
-                                    "operator": "gt",
-                                    "rhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "numericLastSentOnValue",
-                                      "type": "numeric",
-                                    },
-                                  },
-                                },
-                                "operator": "and",
-                                "rhs": Object {
-                                  "_syntaxKind": "binary-expression",
-                                  "lhs": Object {
-                                    "_syntaxKind": "binary-expression",
-                                    "operator": "not",
+                                    "operator": "or",
                                     "rhs": Object {
                                       "_syntaxKind": "binary-expression",
-                                      "operator": "is-present",
+                                      "lhs": Object {
+                                        "_syntaxKind": "identifier",
+                                        "identifier": "item.beginDate.S",
+                                        "type": "string",
+                                      },
+                                      "operator": "eq",
                                       "rhs": Object {
                                         "_syntaxKind": "identifier",
                                         "identifier": "item.lastBeginDateValue.S",
@@ -363,93 +456,9 @@ describe("when converting example", () => {
                                       },
                                     },
                                   },
-                                  "operator": "or",
-                                  "rhs": Object {
-                                    "_syntaxKind": "binary-expression",
-                                    "lhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "item.beginDate.S",
-                                      "type": "string",
-                                    },
-                                    "operator": "eq",
-                                    "rhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "item.lastBeginDateValue.S",
-                                      "type": "string",
-                                    },
-                                  },
                                 },
                               },
-                              "operator": "or",
-                              "rhs": Object {
-                                "_syntaxKind": "binary-expression",
-                                "lhs": Object {
-                                  "_syntaxKind": "binary-expression",
-                                  "lhs": Object {
-                                    "_syntaxKind": "binary-expression",
-                                    "lhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "item.sk.S",
-                                      "type": "string",
-                                    },
-                                    "operator": "eq",
-                                    "rhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "threshold.metric",
-                                      "type": "string",
-                                    },
-                                  },
-                                  "operator": "and",
-                                  "rhs": Object {
-                                    "_syntaxKind": "binary-expression",
-                                    "lhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "threshold.ceiling",
-                                      "type": "numeric",
-                                    },
-                                    "operator": "lte",
-                                    "rhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "numericTotal",
-                                      "type": "numeric",
-                                    },
-                                  },
-                                },
-                                "operator": "and",
-                                "rhs": Object {
-                                  "_syntaxKind": "binary-expression",
-                                  "lhs": Object {
-                                    "_syntaxKind": "binary-expression",
-                                    "operator": "not",
-                                    "rhs": Object {
-                                      "_syntaxKind": "binary-expression",
-                                      "operator": "is-present",
-                                      "rhs": Object {
-                                        "_syntaxKind": "identifier",
-                                        "identifier": "item.lastBeginDateValue.S",
-                                        "type": "string",
-                                      },
-                                    },
-                                  },
-                                  "operator": "or",
-                                  "rhs": Object {
-                                    "_syntaxKind": "binary-expression",
-                                    "lhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "item.beginDate.S",
-                                      "type": "string",
-                                    },
-                                    "operator": "eq",
-                                    "rhs": Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "item.lastBeginDateValue.S",
-                                      "type": "string",
-                                    },
-                                  },
-                                },
-                              },
-                            },
-                            "source": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
+                              "source": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
                 || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
 
                 await asl.nativeEventBridgePutEvents({
@@ -483,155 +492,157 @@ describe("when converting example", () => {
                   }
                 });
               }",
-                            "then": Object {
-                              "statements": Array [
-                                Object {
-                                  "_syntaxKind": "asl-task-state",
-                                  "parameters": Object {
-                                    "_syntaxKind": "literal-object",
-                                    "properties": Object {
-                                      "Entries": Object {
-                                        "_syntaxKind": "literal-array",
-                                        "elements": Array [
-                                          Object {
-                                            "_syntaxKind": "literal-object",
-                                            "properties": Object {
-                                              "Detail": Object {
-                                                "_syntaxKind": "asl-intrinsic-function",
-                                                "arguments": Array [
-                                                  Object {
-                                                    "_syntaxKind": "literal-object",
-                                                    "properties": Object {
-                                                      "account_id": Object {
-                                                        "_syntaxKind": "identifier",
-                                                        "identifier": "item.pk",
-                                                        "type": "object",
-                                                      },
-                                                      "threshold": Object {
-                                                        "_syntaxKind": "identifier",
-                                                        "identifier": "threshold",
-                                                        "type": "object",
+                              "then": Object {
+                                "_syntaxKind": "function",
+                                "statements": Array [
+                                  Object {
+                                    "_syntaxKind": "asl-task-state",
+                                    "parameters": Object {
+                                      "_syntaxKind": "literal-object",
+                                      "properties": Object {
+                                        "Entries": Object {
+                                          "_syntaxKind": "literal-array",
+                                          "elements": Array [
+                                            Object {
+                                              "_syntaxKind": "literal-object",
+                                              "properties": Object {
+                                                "Detail": Object {
+                                                  "_syntaxKind": "asl-intrinsic-function",
+                                                  "arguments": Array [
+                                                    Object {
+                                                      "_syntaxKind": "literal-object",
+                                                      "properties": Object {
+                                                        "account_id": Object {
+                                                          "_syntaxKind": "identifier",
+                                                          "identifier": "item.pk",
+                                                          "type": "object",
+                                                        },
+                                                        "threshold": Object {
+                                                          "_syntaxKind": "identifier",
+                                                          "identifier": "threshold",
+                                                          "type": "object",
+                                                        },
                                                       },
                                                     },
-                                                  },
-                                                ],
-                                                "function": "asl.states.jsonToString",
-                                              },
-                                              "DetailType": Object {
-                                                "_syntaxKind": "literal",
-                                                "type": "string",
-                                                "value": "xxx.detail.type",
-                                              },
-                                              "EventBusName": Object {
-                                                "_syntaxKind": "literal",
-                                                "type": "string",
-                                                "value": "default",
-                                              },
-                                              "Source": Object {
-                                                "_syntaxKind": "literal",
-                                                "type": "string",
-                                                "value": "zzz.my.source",
+                                                  ],
+                                                  "function": "asl.states.jsonToString",
+                                                },
+                                                "DetailType": Object {
+                                                  "_syntaxKind": "literal",
+                                                  "type": "string",
+                                                  "value": "xxx.detail.type",
+                                                },
+                                                "EventBusName": Object {
+                                                  "_syntaxKind": "literal",
+                                                  "type": "string",
+                                                  "value": "default",
+                                                },
+                                                "Source": Object {
+                                                  "_syntaxKind": "literal",
+                                                  "type": "string",
+                                                  "value": "zzz.my.source",
+                                                },
                                               },
                                             },
-                                          },
-                                        ],
+                                          ],
+                                        },
                                       },
                                     },
+                                    "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
                                   },
-                                  "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-                                },
-                                Object {
-                                  "_syntaxKind": "asl-task-state",
-                                  "parameters": Object {
-                                    "_syntaxKind": "literal-object",
-                                    "properties": Object {
-                                      "ConditionExpression": Object {
-                                        "_syntaxKind": "literal",
-                                        "type": "string",
-                                        "value": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
-                                      },
-                                      "ExpressionAttributeValues": Object {
-                                        "_syntaxKind": "literal-object",
-                                        "properties": Object {
-                                          ":newLastBeginDateValue": Object {
-                                            "_syntaxKind": "literal-object",
-                                            "properties": Object {
-                                              "S": Object {
-                                                "_syntaxKind": "identifier",
-                                                "identifier": "item.beginDate.S",
-                                                "type": "string",
+                                  Object {
+                                    "_syntaxKind": "asl-task-state",
+                                    "parameters": Object {
+                                      "_syntaxKind": "literal-object",
+                                      "properties": Object {
+                                        "ConditionExpression": Object {
+                                          "_syntaxKind": "literal",
+                                          "type": "string",
+                                          "value": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+                                        },
+                                        "ExpressionAttributeValues": Object {
+                                          "_syntaxKind": "literal-object",
+                                          "properties": Object {
+                                            ":newLastBeginDateValue": Object {
+                                              "_syntaxKind": "literal-object",
+                                              "properties": Object {
+                                                "S": Object {
+                                                  "_syntaxKind": "identifier",
+                                                  "identifier": "item.beginDate.S",
+                                                  "type": "string",
+                                                },
                                               },
                                             },
-                                          },
-                                          ":newLastSentOnValue": Object {
-                                            "_syntaxKind": "literal-object",
-                                            "properties": Object {
-                                              "N": Object {
-                                                "_syntaxKind": "identifier",
-                                                "identifier": "item.total.N",
-                                                "type": "string",
+                                            ":newLastSentOnValue": Object {
+                                              "_syntaxKind": "literal-object",
+                                              "properties": Object {
+                                                "N": Object {
+                                                  "_syntaxKind": "identifier",
+                                                  "identifier": "item.total.N",
+                                                  "type": "string",
+                                                },
                                               },
                                             },
                                           },
                                         },
-                                      },
-                                      "Key": Object {
-                                        "_syntaxKind": "literal-object",
-                                        "properties": Object {
-                                          "pk": Object {
-                                            "_syntaxKind": "identifier",
-                                            "identifier": "item.pk",
-                                            "type": "object",
-                                          },
-                                          "sk": Object {
-                                            "_syntaxKind": "identifier",
-                                            "identifier": "item.sk",
-                                            "type": "object",
+                                        "Key": Object {
+                                          "_syntaxKind": "literal-object",
+                                          "properties": Object {
+                                            "pk": Object {
+                                              "_syntaxKind": "identifier",
+                                              "identifier": "item.pk",
+                                              "type": "object",
+                                            },
+                                            "sk": Object {
+                                              "_syntaxKind": "identifier",
+                                              "identifier": "item.sk",
+                                              "type": "object",
+                                            },
                                           },
                                         },
-                                      },
-                                      "TableName": Object {
-                                        "_syntaxKind": "literal",
-                                        "type": "string",
-                                        "value": "MyStorage",
-                                      },
-                                      "UpdateExpression": Object {
-                                        "_syntaxKind": "literal",
-                                        "type": "string",
-                                        "value": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                                        "TableName": Object {
+                                          "_syntaxKind": "literal",
+                                          "type": "string",
+                                          "value": "MyStorage",
+                                        },
+                                        "UpdateExpression": Object {
+                                          "_syntaxKind": "literal",
+                                          "type": "string",
+                                          "value": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                                        },
                                       },
                                     },
+                                    "resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
                                   },
-                                  "resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
-                                },
-                              ],
+                                ],
+                              },
                             },
-                          },
-                        ],
+                          ],
+                        },
+                        "retry": Array [],
                       },
-                      "retry": Array [],
-                    },
-                  ],
+                    ],
+                  },
+                  "retry": Array [],
                 },
-                "retry": Array [],
-              },
-              Object {
-                "_syntaxKind": "variable-assignment",
-                "expression": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "scan.LastEvaluatedKey",
-                  "type": "object",
+                Object {
+                  "_syntaxKind": "variable-assignment",
+                  "expression": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "scan.LastEvaluatedKey",
+                    "type": "object",
+                  },
+                  "name": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "lastEvaluatedKey",
+                    "type": "unknown",
+                  },
                 },
-                "name": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "lastEvaluatedKey",
-                  "type": "unknown",
-                },
-              },
-            ],
+              ],
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
   it("then can be converted to asl", async () => {

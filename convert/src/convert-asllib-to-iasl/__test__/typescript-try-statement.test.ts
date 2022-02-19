@@ -17,39 +17,46 @@ describe("when converting choice statement to iasl", () => {
   })`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "try",
-          "catch": Array [
-            Object {
-              "block": Object {
-                "statements": Array [
-                  Object {
-                    "_syntaxKind": "asl-task-state",
-                    "catch": Array [],
-                    "resource": "urn",
-                    "retry": Array [],
-                  },
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "try",
+            "catch": Array [
+              Object {
+                "block": Object {
+                  "_syntaxKind": "function",
+                  "statements": Array [
+                    Object {
+                      "_syntaxKind": "asl-task-state",
+                      "catch": Array [],
+                      "resource": "urn",
+                      "retry": Array [],
+                    },
+                  ],
+                },
+                "errorFilter": Array [
+                  "States.All\\"",
                 ],
               },
-              "errorFilter": Array [
-                "States.All\\"",
+            ],
+            "retry": Array [],
+            "try": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "asl-task-state",
+                  "catch": Array [],
+                  "resource": "urn",
+                  "retry": Array [],
+                },
               ],
             },
-          ],
-          "retry": Array [],
-          "try": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "asl-task-state",
-                "catch": Array [],
-                "resource": "urn",
-                "retry": Array [],
-              },
-            ],
           },
-        },
-      ]
+        ],
+      }
     `);
   });
 });

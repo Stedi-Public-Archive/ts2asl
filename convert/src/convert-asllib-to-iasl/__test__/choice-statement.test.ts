@@ -14,49 +14,56 @@ describe("when converting choice statement to iasl", () => {
     });`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "asl-choice-state",
-          "choices": Array [
-            Object {
-              "then": Object {
-                "statements": Array [
-                  Object {
-                    "_syntaxKind": "asl-fail-state",
-                    "cause": "bad luck",
-                    "error": "MyError",
-                  },
-                ],
-              },
-              "when": Object {
-                "_syntaxKind": "binary-expression",
-                "operator": "not",
-                "rhs": Object {
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "asl-choice-state",
+            "choices": Array [
+              Object {
+                "then": Object {
+                  "_syntaxKind": "function",
+                  "statements": Array [
+                    Object {
+                      "_syntaxKind": "asl-fail-state",
+                      "cause": "bad luck",
+                      "error": "MyError",
+                    },
+                  ],
+                },
+                "when": Object {
                   "_syntaxKind": "binary-expression",
-                  "lhs": Object {
-                    "_syntaxKind": "identifier",
-                    "identifier": "a",
-                    "type": "unknown",
-                  },
-                  "operator": "eq",
+                  "operator": "not",
                   "rhs": Object {
-                    "_syntaxKind": "literal",
-                    "type": "string",
-                    "value": "hello",
+                    "_syntaxKind": "binary-expression",
+                    "lhs": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "a",
+                      "type": "unknown",
+                    },
+                    "operator": "eq",
+                    "rhs": Object {
+                      "_syntaxKind": "literal",
+                      "type": "string",
+                      "value": "hello",
+                    },
                   },
                 },
               },
-            },
-          ],
-          "default": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "return",
-              },
             ],
+            "default": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "return",
+                },
+              ],
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
 });

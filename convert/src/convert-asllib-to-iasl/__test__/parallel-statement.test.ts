@@ -13,29 +13,36 @@ describe("when converting choice statement to iasl", () => {
   });`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "asl-parallel-state",
-          "branches": Array [
-            Object {
-              "statements": Array [
-                Object {
-                  "_syntaxKind": "return",
-                },
-              ],
-            },
-            Object {
-              "statements": Array [
-                Object {
-                  "_syntaxKind": "asl-fail-state",
-                },
-              ],
-            },
-          ],
-          "catch": Array [],
-          "retry": Array [],
-        },
-      ]
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "asl-parallel-state",
+            "branches": Array [
+              Object {
+                "_syntaxKind": "function",
+                "statements": Array [
+                  Object {
+                    "_syntaxKind": "return",
+                  },
+                ],
+              },
+              Object {
+                "_syntaxKind": "function",
+                "statements": Array [
+                  Object {
+                    "_syntaxKind": "asl-fail-state",
+                  },
+                ],
+              },
+            ],
+            "catch": Array [],
+            "retry": Array [],
+          },
+        ],
+      }
     `);
   });
 });

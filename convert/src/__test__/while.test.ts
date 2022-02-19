@@ -36,92 +36,99 @@ describe("when converting example", () => {
   });
   it("then can be converted to iasl", async () => {
     expect(converted.iasl).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-task-state",
-            "catch": Array [],
-            "heartbeatSeconds": undefined,
-            "parameters": Object {
-              "_syntaxKind": "literal-object",
-              "properties": Object {},
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": "_context",
+        "inputArgumentName": "_input",
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-task-state",
+              "catch": Array [],
+              "heartbeatSeconds": undefined,
+              "parameters": Object {
+                "_syntaxKind": "literal-object",
+                "properties": Object {},
+              },
+              "resource": "check-password",
+              "retry": Array [],
+              "source": undefined,
+              "timeoutSeconds": undefined,
             },
-            "resource": "check-password",
-            "retry": Array [],
-            "source": undefined,
-            "timeoutSeconds": undefined,
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "result",
+              "type": "object",
+            },
           },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "result",
-            "type": "object",
-          },
-        },
-        Object {
-          "_syntaxKind": "while",
-          "condition": Object {
-            "_syntaxKind": "literal",
-            "type": "boolean",
-            "value": true,
-          },
-          "while": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "if",
-                "condition": Object {
-                  "_syntaxKind": "binary-expression",
-                  "operator": "is-present",
-                  "rhs": Object {
-                    "_syntaxKind": "identifier",
-                    "identifier": "result.Authorized",
-                    "type": "boolean",
+          Object {
+            "_syntaxKind": "while",
+            "condition": Object {
+              "_syntaxKind": "literal",
+              "type": "boolean",
+              "value": true,
+            },
+            "while": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "if",
+                  "condition": Object {
+                    "_syntaxKind": "binary-expression",
+                    "operator": "is-present",
+                    "rhs": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "result.Authorized",
+                      "type": "boolean",
+                    },
                   },
-                },
-                "source": "if (result.Authorized) {
+                  "source": "if (result.Authorized) {
             break;
           }",
-                "then": Object {
-                  "statements": Array [
-                    Object {
-                      "_syntaxKind": "asl-succeed-state",
-                    },
-                  ],
-                },
-              },
-              Object {
-                "_syntaxKind": "asl-wait-state",
-                "seconds": Object {
-                  "_syntaxKind": "literal",
-                  "type": "numeric",
-                  "value": 1,
-                },
-              },
-              Object {
-                "_syntaxKind": "variable-assignment",
-                "expression": Object {
-                  "_syntaxKind": "asl-task-state",
-                  "catch": Array [],
-                  "heartbeatSeconds": undefined,
-                  "parameters": Object {
-                    "_syntaxKind": "literal-object",
-                    "properties": Object {},
+                  "then": Object {
+                    "_syntaxKind": "function",
+                    "statements": Array [
+                      Object {
+                        "_syntaxKind": "asl-succeed-state",
+                      },
+                    ],
                   },
-                  "resource": "check-password",
-                  "retry": Array [],
-                  "source": undefined,
-                  "timeoutSeconds": undefined,
                 },
-                "name": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "result",
-                  "type": "object",
+                Object {
+                  "_syntaxKind": "asl-wait-state",
+                  "seconds": Object {
+                    "_syntaxKind": "literal",
+                    "type": "numeric",
+                    "value": 1,
+                  },
                 },
-              },
-            ],
+                Object {
+                  "_syntaxKind": "variable-assignment",
+                  "expression": Object {
+                    "_syntaxKind": "asl-task-state",
+                    "catch": Array [],
+                    "heartbeatSeconds": undefined,
+                    "parameters": Object {
+                      "_syntaxKind": "literal-object",
+                      "properties": Object {},
+                    },
+                    "resource": "check-password",
+                    "retry": Array [],
+                    "source": undefined,
+                    "timeoutSeconds": undefined,
+                  },
+                  "name": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "result",
+                    "type": "object",
+                  },
+                },
+              ],
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
   it("then can be converted to asl", async () => {

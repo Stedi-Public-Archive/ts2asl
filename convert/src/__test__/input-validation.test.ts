@@ -32,60 +32,110 @@ describe("when converting example", () => {
   });
   it("then can be converted to iasl", async () => {
     expect(converted.iasl).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "if",
-          "condition": Object {
-            "_syntaxKind": "binary-expression",
-            "operator": "not",
-            "rhs": Object {
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": "context",
+        "scope": Object {
+          "accessed": Array [],
+          "childScopes": Array [
+            Object {
+              "accessed": Array [
+                "context",
+              ],
+              "childScopes": Array [],
+              "enclosed": Array [],
+              "parentScope": [Circular],
+            },
+          ],
+          "enclosed": Array [],
+          "parentScope": Object {
+            "accessed": Array [],
+            "childScopes": Array [
+              [Circular],
+            ],
+            "enclosed": Array [],
+            "parentScope": undefined,
+          },
+        },
+        "statements": Array [
+          Object {
+            "_syntaxKind": "if",
+            "condition": Object {
               "_syntaxKind": "binary-expression",
-              "lhs": Object {
-                "_syntaxKind": "type-of-expression",
-                "operand": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "context.testInput.delayInSeconds",
-                  "type": "numeric",
-                },
-              },
-              "operator": "eq",
+              "operator": "not",
               "rhs": Object {
-                "_syntaxKind": "literal",
-                "type": "string",
-                "value": "number",
+                "_syntaxKind": "binary-expression",
+                "lhs": Object {
+                  "_syntaxKind": "type-of-expression",
+                  "operand": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "context.testInput.delayInSeconds",
+                    "type": "numeric",
+                  },
+                },
+                "operator": "eq",
+                "rhs": Object {
+                  "_syntaxKind": "literal",
+                  "type": "string",
+                  "value": "number",
+                },
               },
             },
-          },
-          "source": "if (typeof context.testInput.delayInSeconds !== \\"number\\") {
+            "source": "if (typeof context.testInput.delayInSeconds !== \\"number\\") {
           context.testInput.delayInSeconds = 5;
         }",
-          "then": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "variable-assignment",
-                "expression": Object {
-                  "_syntaxKind": "literal",
-                  "type": "numeric",
-                  "value": 5,
-                },
-                "name": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "context.testInput.delayInSeconds",
-                  "type": "numeric",
+            "then": Object {
+              "_syntaxKind": "function",
+              "scope": Object {
+                "accessed": Array [
+                  "context",
+                ],
+                "childScopes": Array [],
+                "enclosed": Array [],
+                "parentScope": Object {
+                  "accessed": Array [],
+                  "childScopes": Array [
+                    [Circular],
+                  ],
+                  "enclosed": Array [],
+                  "parentScope": Object {
+                    "accessed": Array [],
+                    "childScopes": Array [
+                      [Circular],
+                    ],
+                    "enclosed": Array [],
+                    "parentScope": undefined,
+                  },
                 },
               },
-            ],
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "variable-assignment",
+                  "expression": Object {
+                    "_syntaxKind": "literal",
+                    "type": "numeric",
+                    "value": 5,
+                  },
+                  "name": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "context.testInput.delayInSeconds",
+                    "type": "numeric",
+                  },
+                },
+              ],
+            },
           },
-        },
-        Object {
-          "_syntaxKind": "asl-wait-state",
-          "seconds": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "context.testInput.delayInSeconds",
-            "type": "numeric",
+          Object {
+            "_syntaxKind": "asl-wait-state",
+            "seconds": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "context.testInput.delayInSeconds",
+              "type": "numeric",
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
   it("then can be converted to asl", async () => {

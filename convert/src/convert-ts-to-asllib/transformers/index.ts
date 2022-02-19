@@ -1,5 +1,6 @@
 import { callStatementTransformer } from "./call-statement";
 import { doWhileStatementTransformer } from "./do-while-statement";
+import { ensureNamedPropertiesTransformer } from "../../convert-asllib-to-iasl/ensure-named-properties";
 import { forOfStatementTransformer } from "./for-of-statement";
 import { ifStatementTransformer } from "./if-statement";
 import { promiseAllStatementTransformer } from "./promise-all-statement";
@@ -25,5 +26,6 @@ export const transformers = [
   callStatementTransformer,
   whileStatementTransformer,
   doWhileStatementTransformer,
-  forOfStatementTransformer
+  forOfStatementTransformer,
+
 ];

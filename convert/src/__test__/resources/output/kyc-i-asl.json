@@ -1,216 +1,296 @@
-[
-  {
-    "name": {
-      "identifier": "result",
-      "_syntaxKind": "identifier",
-      "type": "object"
-    },
-    "expression": {
-      "branches": [
-        {
-          "statements": [
-            {
-              "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
-              "source": "performIdentifyCheck()",
-              "_syntaxKind": "asl-task-state"
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "branches": [
+          {
+            "statements": [
+              {
+                "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
+                "source": "performIdentifyCheck()",
+                "_syntaxKind": "asl-task-state"
+              }
+            ],
+            "_syntaxKind": "function",
+            "scope": {
+              "accessed": [],
+              "enclosed": [],
+              "childScopes": [
+                {
+                  "accessed": [],
+                  "enclosed": [],
+                  "childScopes": []
+                }
+              ]
             }
-          ]
-        },
-        {
-          "statements": [
-            {
-              "expression": {
+          },
+          {
+            "statements": [
+              {
+                "expression": {
+                  "properties": {
+                    "agencyChecked": {
+                      "value": true,
+                      "type": "boolean",
+                      "_syntaxKind": "literal"
+                    }
+                  },
+                  "_syntaxKind": "literal-object"
+                },
+                "_syntaxKind": "return"
+              }
+            ],
+            "_syntaxKind": "function",
+            "scope": {
+              "accessed": [],
+              "enclosed": [],
+              "childScopes": [
+                {
+                  "accessed": [],
+                  "enclosed": [],
+                  "childScopes": []
+                }
+              ]
+            }
+          }
+        ],
+        "catch": [],
+        "retry": [],
+        "_syntaxKind": "asl-parallel-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+      "parameters": {
+        "_syntaxKind": "literal-object",
+        "properties": {
+          "Entries": {
+            "elements": [
+              {
                 "properties": {
-                  "agencyChecked": {
-                    "value": true,
-                    "type": "boolean",
+                  "Detail": {
+                    "arguments": [
+                      {
+                        "identifier": "result",
+                        "_syntaxKind": "identifier",
+                        "type": "object"
+                      }
+                    ],
+                    "function": "asl.states.jsonToString",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "DetailType": {
+                    "value": "Identity check completed",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "EventBusName": {
+                    "value": "eventbusname",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "Source": {
+                    "value": "com.aws.kyc",
+                    "type": "string",
                     "_syntaxKind": "literal"
                   }
                 },
                 "_syntaxKind": "literal-object"
-              },
-              "_syntaxKind": "return"
-            }
-          ]
+              }
+            ],
+            "_syntaxKind": "literal-array"
+          }
         }
-      ],
-      "catch": [],
-      "retry": [],
-      "_syntaxKind": "asl-parallel-state"
-    },
-    "_syntaxKind": "variable-assignment"
-  },
-  {
-    "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-    "parameters": {
-      "_syntaxKind": "literal-object",
-      "properties": {
-        "Entries": {
-          "elements": [
-            {
-              "properties": {
-                "Detail": {
-                  "arguments": [
-                    {
-                      "identifier": "result",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
-                    }
-                  ],
-                  "function": "asl.states.jsonToString",
-                  "_syntaxKind": "asl-intrinsic-function"
-                },
-                "DetailType": {
-                  "value": "Identity check completed",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                },
-                "EventBusName": {
-                  "value": "eventbusname",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                },
-                "Source": {
-                  "value": "com.aws.kyc",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
-              },
-              "_syntaxKind": "literal-object"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        }
-      }
-    },
-    "_syntaxKind": "asl-task-state"
-  },
-  {
-    "name": {
-      "identifier": "checksPassed",
-      "_syntaxKind": "identifier",
-      "type": "unknown"
-    },
-    "expression": {
-      "parameters": {
-        "value": true,
-        "type": "boolean",
-        "_syntaxKind": "literal"
       },
-      "source": "checksPassed = true",
-      "_syntaxKind": "asl-pass-state"
+      "_syntaxKind": "asl-task-state"
     },
-    "_syntaxKind": "variable-assignment"
-  },
-  {
-    "condition": {
-      "operator": "is-present",
-      "rhs": {
+    {
+      "name": {
         "identifier": "checksPassed",
         "_syntaxKind": "identifier",
         "type": "unknown"
       },
-      "_syntaxKind": "binary-expression"
+      "expression": {
+        "parameters": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "source": "checksPassed = true",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "_syntaxKind": "variable-assignment"
     },
-    "then": {
-      "statements": [
-        {
-          "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-          "parameters": {
-            "_syntaxKind": "literal-object",
-            "properties": {
-              "Entries": {
-                "elements": [
-                  {
-                    "properties": {
-                      "Detail": {
-                        "arguments": [
-                          {
-                            "identifier": "result",
-                            "_syntaxKind": "identifier",
-                            "type": "object"
-                          }
-                        ],
-                        "function": "asl.states.jsonToString",
-                        "_syntaxKind": "asl-intrinsic-function"
+    {
+      "condition": {
+        "operator": "is-present",
+        "rhs": {
+          "identifier": "checksPassed",
+          "_syntaxKind": "identifier",
+          "type": "unknown"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+            "parameters": {
+              "_syntaxKind": "literal-object",
+              "properties": {
+                "Entries": {
+                  "elements": [
+                    {
+                      "properties": {
+                        "Detail": {
+                          "arguments": [
+                            {
+                              "identifier": "result",
+                              "_syntaxKind": "identifier",
+                              "type": "object"
+                            }
+                          ],
+                          "function": "asl.states.jsonToString",
+                          "_syntaxKind": "asl-intrinsic-function"
+                        },
+                        "DetailType": {
+                          "value": "AccountApproved",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        },
+                        "EventBusName": {
+                          "value": "eventbusname",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        },
+                        "Source": {
+                          "value": "com.aws.kyc",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
                       },
-                      "DetailType": {
-                        "value": "AccountApproved",
-                        "type": "string",
-                        "_syntaxKind": "literal"
-                      },
-                      "EventBusName": {
-                        "value": "eventbusname",
-                        "type": "string",
-                        "_syntaxKind": "literal"
-                      },
-                      "Source": {
-                        "value": "com.aws.kyc",
-                        "type": "string",
-                        "_syntaxKind": "literal"
-                      }
-                    },
-                    "_syntaxKind": "literal-object"
-                  }
-                ],
-                "_syntaxKind": "literal-array"
+                      "_syntaxKind": "literal-object"
+                    }
+                  ],
+                  "_syntaxKind": "literal-array"
+                }
               }
-            }
-          },
-          "_syntaxKind": "asl-task-state"
+            },
+            "_syntaxKind": "asl-task-state"
+          }
+        ],
+        "_syntaxKind": "function",
+        "scope": {
+          "accessed": [],
+          "enclosed": [],
+          "childScopes": []
         }
-      ]
-    },
-    "else": {
-      "statements": [
-        {
-          "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-          "parameters": {
-            "_syntaxKind": "literal-object",
-            "properties": {
-              "Entries": {
-                "elements": [
-                  {
-                    "properties": {
-                      "Detail": {
-                        "arguments": [
-                          {
-                            "identifier": "result",
-                            "_syntaxKind": "identifier",
-                            "type": "object"
-                          }
-                        ],
-                        "function": "asl.states.jsonToString",
-                        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "else": {
+        "statements": [
+          {
+            "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+            "parameters": {
+              "_syntaxKind": "literal-object",
+              "properties": {
+                "Entries": {
+                  "elements": [
+                    {
+                      "properties": {
+                        "Detail": {
+                          "arguments": [
+                            {
+                              "identifier": "result",
+                              "_syntaxKind": "identifier",
+                              "type": "object"
+                            }
+                          ],
+                          "function": "asl.states.jsonToString",
+                          "_syntaxKind": "asl-intrinsic-function"
+                        },
+                        "DetailType": {
+                          "value": "AccountDeclined",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        },
+                        "EventBusName": {
+                          "value": "eventbusname",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        },
+                        "Source": {
+                          "value": "com.aws.kyc",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
                       },
-                      "DetailType": {
-                        "value": "AccountDeclined",
-                        "type": "string",
-                        "_syntaxKind": "literal"
-                      },
-                      "EventBusName": {
-                        "value": "eventbusname",
-                        "type": "string",
-                        "_syntaxKind": "literal"
-                      },
-                      "Source": {
-                        "value": "com.aws.kyc",
-                        "type": "string",
-                        "_syntaxKind": "literal"
-                      }
-                    },
-                    "_syntaxKind": "literal-object"
-                  }
-                ],
-                "_syntaxKind": "literal-array"
+                      "_syntaxKind": "literal-object"
+                    }
+                  ],
+                  "_syntaxKind": "literal-array"
+                }
               }
-            }
-          },
-          "_syntaxKind": "asl-task-state"
+            },
+            "_syntaxKind": "asl-task-state"
+          }
+        ],
+        "_syntaxKind": "function",
+        "scope": {
+          "accessed": [],
+          "enclosed": [],
+          "childScopes": []
         }
-      ]
-    },
-    "source": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }",
-    "_syntaxKind": "if"
+      },
+      "source": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }",
+      "_syntaxKind": "if"
+    }
+  ],
+  "_syntaxKind": "statemachine",
+  "scope": {
+    "accessed": [
+      "result",
+      "checksPassed"
+    ],
+    "enclosed": [],
+    "childScopes": [
+      {
+        "accessed": [],
+        "enclosed": [],
+        "childScopes": [
+          {
+            "accessed": [],
+            "enclosed": [],
+            "childScopes": []
+          }
+        ]
+      },
+      {
+        "accessed": [],
+        "enclosed": [],
+        "childScopes": [
+          {
+            "accessed": [],
+            "enclosed": [],
+            "childScopes": []
+          }
+        ]
+      },
+      {
+        "accessed": [],
+        "enclosed": [],
+        "childScopes": []
+      },
+      {
+        "accessed": [],
+        "enclosed": [],
+        "childScopes": []
+      }
+    ]
   }
-]
+}

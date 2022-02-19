@@ -1,0 +1,86 @@
+{
+  "StartAt": "Assign numbers",
+  "States": {
+    "Assign numbers": {
+      "Type": "Pass",
+      "ResultPath": "$.numbers",
+      "Result": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "Comment": "numbers = [0, 1, 2, 3]",
+      "Next": "Assign letters"
+    },
+    "Assign letters": {
+      "Type": "Pass",
+      "ResultPath": "$.letters",
+      "Result": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "Comment": "letters = [\"a\", \"b\", \"c\", \"d\"]",
+      "Next": "Assign global"
+    },
+    "Assign global": {
+      "Type": "Pass",
+      "ResultPath": "$.global",
+      "Result": "prefix",
+      "Comment": "global = \"prefix\"",
+      "Next": "Map_1"
+    },
+    "Map_1": {
+      "Type": "Map",
+      "Iterator": {
+        "StartAt": "Map",
+        "States": {
+          "Map": {
+            "Type": "Map",
+            "Iterator": {
+              "StartAt": "Assign combined",
+              "States": {
+                "Assign combined": {
+                  "Type": "Pass",
+                  "ResultPath": "$.combined",
+                  "Parameters": {
+                    "number.$": "$.number",
+                    "letter.$": "$.letter",
+                    "global.$": "$.global"
+                  },
+                  "Comment": "combined = { number, letter, global }",
+                  "Next": "Task"
+                },
+                "Task": {
+                  "Type": "Task",
+                  "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-doSomething",
+                  "InputPath": "combined",
+                  "Comment": "doSomething(combined)",
+                  "End": true
+                }
+              }
+            },
+            "ItemsPath": "$.letters",
+            "Parameters": {
+              "letter.$": "$$.Map.Item.Value",
+              "number.$": "$.number",
+              "global.$": "$.global",
+              "letters.$": "$.letters"
+            },
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.numbers",
+      "Parameters": {
+        "number.$": "$$.Map.Item.Value",
+        "global.$": "$.global",
+        "letters.$": "$.letters",
+        "numbers.$": "$.numbers"
+      },
+      "End": true
+    }
+  }
+}

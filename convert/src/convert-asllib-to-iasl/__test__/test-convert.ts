@@ -6,7 +6,7 @@ export const testConvertToIntermediaryAst = (source: string) => {
 
   const host = createCompilerHostFromSource(source);
 
-  return convertToIntermediaryAsl(host.sourceFile, host.typeChecker);
+  return convertToIntermediaryAsl(host.sourceFile, { typeChecker: host.typeChecker });
 }
 
 describe("dummy", () => {

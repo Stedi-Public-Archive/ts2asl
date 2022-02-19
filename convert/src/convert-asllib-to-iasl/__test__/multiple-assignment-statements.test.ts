@@ -10,42 +10,47 @@ describe("when converting pass statements to iasl", () => {
 
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "literal",
-              "type": "string",
-              "value": "hello",
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal",
+                "type": "string",
+                "value": "hello",
+              },
+              "source": "some random comment",
             },
-            "source": "some random comment",
-          },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "aaaa",
-            "type": "string",
-          },
-        },
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "literal",
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "aaaa",
               "type": "string",
-              "value": "hello",
             },
-            "source": undefined,
           },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "aaaa",
-            "type": "unknown",
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal",
+                "type": "string",
+                "value": "hello",
+              },
+              "source": undefined,
+            },
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "aaaa",
+              "type": "unknown",
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
 
@@ -56,87 +61,92 @@ describe("when converting pass statements to iasl", () => {
     aaaa = asl.pass({ parameters: {field: xxx.elements[0], fn: states.format('Hello, my name is {}.', name)    } });`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "literal-object",
-              "properties": Object {
-                "another": Object {
-                  "_syntaxKind": "literal",
-                  "type": "string",
-                  "value": "literal",
-                },
-                "field": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "xxx",
-                  "type": "unknown",
-                },
-                "third": Object {
-                  "_syntaxKind": "literal",
-                  "type": "numeric",
-                  "value": 23,
-                },
-              },
-            },
-            "source": undefined,
-          },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "aaaa",
-            "type": "object",
-          },
-        },
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "literal-object",
-              "properties": Object {
-                "field": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "xxx.elements",
-                  "indexExpression": Object {
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal-object",
+                "properties": Object {
+                  "another": Object {
                     "_syntaxKind": "literal",
-                    "type": "numeric",
-                    "value": 0,
+                    "type": "string",
+                    "value": "literal",
                   },
-                  "lhs": Object {
+                  "field": Object {
                     "_syntaxKind": "identifier",
-                    "identifier": "xxx.elements",
+                    "identifier": "xxx",
                     "type": "unknown",
                   },
-                },
-                "fn": Object {
-                  "_syntaxKind": "asl-intrinsic-function",
-                  "arguments": Array [
-                    Object {
-                      "_syntaxKind": "literal",
-                      "type": "string",
-                      "value": "Hello, my name is {}.",
-                    },
-                    Object {
-                      "_syntaxKind": "identifier",
-                      "identifier": "name",
-                      "type": "unknown",
-                    },
-                  ],
-                  "function": "states.format",
+                  "third": Object {
+                    "_syntaxKind": "literal",
+                    "type": "numeric",
+                    "value": 23,
+                  },
                 },
               },
+              "source": undefined,
             },
-            "source": undefined,
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "aaaa",
+              "type": "object",
+            },
           },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "aaaa",
-            "type": "unknown",
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal-object",
+                "properties": Object {
+                  "field": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "xxx.elements",
+                    "indexExpression": Object {
+                      "_syntaxKind": "literal",
+                      "type": "numeric",
+                      "value": 0,
+                    },
+                    "lhs": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "xxx.elements",
+                      "type": "unknown",
+                    },
+                  },
+                  "fn": Object {
+                    "_syntaxKind": "asl-intrinsic-function",
+                    "arguments": Array [
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "Hello, my name is {}.",
+                      },
+                      Object {
+                        "_syntaxKind": "identifier",
+                        "identifier": "name",
+                        "type": "unknown",
+                      },
+                    ],
+                    "function": "states.format",
+                  },
+                },
+              },
+              "source": undefined,
+            },
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "aaaa",
+              "type": "unknown",
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
 
@@ -147,25 +157,30 @@ import * as asl from "@cloudscript/asl-lib";
 const aaaa = asl.pass({ parameters: arg }); `;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "identifier",
+                "identifier": "arg",
+                "type": "unknown",
+              },
+              "source": undefined,
+            },
+            "name": Object {
               "_syntaxKind": "identifier",
-              "identifier": "arg",
+              "identifier": "aaaa",
               "type": "unknown",
             },
-            "source": undefined,
           },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "aaaa",
-            "type": "unknown",
-          },
-        },
-      ]
+        ],
+      }
     `);
   });
 });

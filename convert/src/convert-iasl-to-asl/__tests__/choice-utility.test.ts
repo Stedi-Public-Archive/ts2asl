@@ -1,7 +1,5 @@
-import { convertToASl } from "..";
 import { createChoiceOperator } from "../choice-utility";
 import * as iasl from "../../convert-asllib-to-iasl/ast";
-import { identifier } from "aws-sdk/clients/frauddetector";
 
 describe("when transpiling simple statements", () => {
   it("then current type operand is used", () => {

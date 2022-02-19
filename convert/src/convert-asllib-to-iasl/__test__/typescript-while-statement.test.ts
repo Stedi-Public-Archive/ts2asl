@@ -9,45 +9,51 @@ describe("when converting while look to iasl", () => {
   })`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "while",
-          "condition": Object {
-            "_syntaxKind": "binary-expression",
-            "lhs": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "code",
-              "type": "unknown",
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "while",
+            "condition": Object {
+              "_syntaxKind": "binary-expression",
+              "lhs": Object {
+                "_syntaxKind": "identifier",
+                "identifier": "code",
+                "type": "unknown",
+              },
+              "operator": "eq",
+              "rhs": Object {
+                "_syntaxKind": "literal",
+                "type": "string",
+                "value": "continue",
+              },
             },
-            "operator": "eq",
-            "rhs": Object {
-              "_syntaxKind": "literal",
-              "type": "string",
-              "value": "continue",
+            "while": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "asl-wait-state",
+                  "seconds": Object {
+                    "_syntaxKind": "literal",
+                    "type": "numeric",
+                    "value": 1,
+                  },
+                },
+                Object {
+                  "_syntaxKind": "asl-wait-state",
+                  "seconds": Object {
+                    "_syntaxKind": "literal",
+                    "type": "numeric",
+                    "value": 2,
+                  },
+                },
+              ],
             },
           },
-          "while": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "asl-wait-state",
-                "seconds": Object {
-                  "_syntaxKind": "literal",
-                  "type": "numeric",
-                  "value": 1,
-                },
-              },
-              Object {
-                "_syntaxKind": "asl-wait-state",
-                "seconds": Object {
-                  "_syntaxKind": "literal",
-                  "type": "numeric",
-                  "value": 2,
-                },
-              },
-            ],
-          },
-        },
-      ]
+        ],
+      }
     `);
   });
 });

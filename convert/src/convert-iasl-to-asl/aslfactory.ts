@@ -1,10 +1,10 @@
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast"
-import { ConversionContext, convertToASl, isNonTerminalState } from ".";
+import { ConversionContext, convertBlock, convert, isNonTerminalState } from ".";
 import { createChoiceOperator } from "./choice-utility";
 
 export class AslFactory {
-  static append(expression: iasl.Expression, context: ConversionContext) {
+  static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
     let nameSuggestion: string | undefined = undefined;
     let properties = {};
     if (iasl.Check.isVariableAssignment(expression)) {
@@ -43,8 +43,12 @@ export class AslFactory {
     } else if (iasl.Check.isDoWhileStatement(expression)) {
       const contextForBranch = context.createChildContext();
 
+      const scope = scopes[expression.while.scope ?? ""];
+      if (scope.enclosed.length) {
+        throw new Error("do something");
+      }
       for (const statement of expression.while.statements) {
-        AslFactory.append(statement, contextForBranch);
+        AslFactory.append(statement, scopes, contextForBranch);
       }
       const whileConditionOperator = createChoiceOperator(expression.condition);
       whileConditionOperator.Next = contextForBranch.startAt ?? "XXXX";
@@ -73,7 +77,7 @@ export class AslFactory {
 
       const contextForThen = context.createChildContext();
       for (const statement of expression.then.statements) {
-        AslFactory.append(statement, contextForThen);
+        AslFactory.append(statement, scopes, contextForThen);
       }
       const statemachineForThen = contextForThen.finalize();
 
@@ -89,7 +93,7 @@ export class AslFactory {
       if (expression.else) {
         const contextForElse = context.createChildContext();
         for (const statement of expression.else.statements) {
-          AslFactory.append(statement, contextForElse);
+          AslFactory.append(statement, scopes, contextForElse);
         }
         const statemachineForElse = contextForThen.finalize();
         choiceState.Default = statemachineForElse?.StartAt;
@@ -102,6 +106,10 @@ export class AslFactory {
         }
       }
     } else if (iasl.Check.isWhileStatement(expression)) {
+      const scope = scopes[expression.while.scope ?? ""];
+      if (scope.enclosed.length) {
+        throw new Error("do something");
+      }
       const whileConditionOperator = createChoiceOperator(expression.condition);
 
       const contextForBranch = context.createChildContext();
@@ -109,7 +117,7 @@ export class AslFactory {
       const whileConditionName = contextForBranch.appendState(whileCondition, "_WhileCondition");
 
       for (const statement of expression.while.statements) {
-        AslFactory.append(statement, contextForBranch);
+        AslFactory.append(statement, scopes, contextForBranch);
       }
 
       whileConditionOperator.Next = contextForBranch.startAt;
@@ -138,7 +146,11 @@ export class AslFactory {
         Comment: expression.source,
       } as asl.Wait, nameSuggestion);
     } else if (iasl.Check.isAslParallelState(expression)) {
-      const branches = expression.branches.map(x => convertToASl(x.statements, context.createChildContext()));
+      const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext()));
+
+      if (expression.branches.find(x => scopes[x.scope ?? ""]?.enclosed?.length)) {
+        throw new Error("do something");
+      }
 
       context.appendNextState({
         Branches: branches,
@@ -149,16 +161,29 @@ export class AslFactory {
         Comment: expression.source,
       } as asl.Parallel, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
-      const iterator = convertToASl(expression.iterator.statements, context.createChildContext())
+      const parameters: Record<string, string> = {};
+      const scope = scopes[expression.iterator.scope ?? ""];
+
+      if (expression.iterator.inputArgumentName) {
+        const name = expression.iterator.inputArgumentName.identifier;
+        parameters[`${name}.$`] = "$$.Map.Item.Value";
+      }
+
+      for (const enclosed of scope.enclosed) {
+        parameters[`${enclosed}.$`] = `$.${enclosed}`;
+      }
+
+      const iterator = convertBlock(expression.iterator, scopes, context.createChildContext())
       const items = convertExpressionToAsl(expression.items);
 
       context.appendNextState({
         Type: "Map",
         ...properties,
         Iterator: iterator,
-        ItemsPath: items.path,
+        ItemsPath: "$." + items.path,
         MaxConcurrency: expression.maxConcurrency,
         Comment: expression.source,
+        Parameters: parameters,
       } as asl.Map, nameSuggestion);
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({

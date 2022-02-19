@@ -1,4 +1,4 @@
-import { convertToASl } from "..";
+import { convert } from "..";
 import { testConvertToIntermediaryAst } from "../../convert-asllib-to-iasl/__test__/test-convert";
 import { transformers } from "../../convert-ts-to-asllib/transformers";
 import { testTransform } from "../../convert-ts-to-asllib/__tests__/test-transform";
@@ -16,7 +16,7 @@ describe("when transpiling simple statements", () => {
       transformers
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convertToASl(iasl);
+    const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Assign result",

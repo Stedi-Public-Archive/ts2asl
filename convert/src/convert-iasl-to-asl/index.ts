@@ -2,14 +2,55 @@ import * as iasl from "../convert-asllib-to-iasl/ast"
 import * as asl from "asl-types";
 import { AslFactory } from "./aslfactory";
 
-export const convertToASl = (statements: iasl.Expression[], context: ConversionContext = new ConversionContext()): asl.StateMachine | undefined => {
+export const convert = (stateMachine: iasl.StateMachine, context: ConversionContext = new ConversionContext()): asl.StateMachine | undefined => {
 
+  const rootScope = { accessed: [], enclosed: [], childScopes: [], parentScope: undefined, id: "root" };
+  iasl.assignScopes(stateMachine, rootScope, (expression, scope) => {
+    if (iasl.Check.isIdentifier(expression)) {
+      const parts = expression.identifier.split('.');
+      if (!scope.accessed.includes(parts[0])) {
+        scope.accessed.push(parts[0]);
+      }
+    }
+  });
+
+  let scopes: Record<string, iasl.Scope> = {};
+  iasl.visitScopes(rootScope, scope => {
+    scopes[scope.id] = scope;
+    for (const accessed of scope.accessed) {
+      let contextual = scope.parentScope;
+      let parents: iasl.Scope[] = [];
+      let enclosed = false;
+      while (contextual) {
+        if (contextual.accessed.includes(accessed)) {
+          enclosed = true;
+          break;
+        }
+        parents.push(contextual);
+        contextual = contextual.parentScope;
+      }
+      if (!enclosed) continue;
+      for (const p of parents) {
+        p.enclosed.push(accessed);
+      }
+      scope.enclosed.push(accessed);
+    }
+  })
+
+  const { statements } = stateMachine;
   for (const statement of statements) {
-    AslFactory.append(statement, context);
+    AslFactory.append(statement, scopes, context);
   }
   return context.finalize();
 }
 
+export const convertBlock = (stateMachine: iasl.Block, scopes: Record<string, iasl.Scope>, context: ConversionContext = new ConversionContext()): asl.StateMachine | undefined => {
+  const { statements } = stateMachine;
+  for (const statement of statements) {
+    AslFactory.append(statement, scopes, context);
+  }
+  return context.finalize();
+}
 export class ConversionContext {
   names: string[] = [];
   root: ConversionContext;

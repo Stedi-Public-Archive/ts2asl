@@ -1,52 +1,77 @@
-[
-  {
-    "condition": {
-      "operator": "not",
-      "rhs": {
-        "lhs": {
-          "operand": {
-            "identifier": "context.testInput.delayInSeconds",
-            "type": "numeric",
-            "_syntaxKind": "identifier"
-          },
-          "_syntaxKind": "type-of-expression"
-        },
-        "operator": "eq",
+{
+  "inputArgumentName": "context",
+  "statements": [
+    {
+      "condition": {
+        "operator": "not",
         "rhs": {
-          "value": "number",
-          "type": "string",
-          "_syntaxKind": "literal"
+          "lhs": {
+            "operand": {
+              "identifier": "context.testInput.delayInSeconds",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "number",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
         },
         "_syntaxKind": "binary-expression"
       },
-      "_syntaxKind": "binary-expression"
-    },
-    "then": {
-      "statements": [
-        {
-          "name": {
-            "identifier": "context.testInput.delayInSeconds",
-            "type": "numeric",
-            "_syntaxKind": "identifier"
-          },
-          "expression": {
-            "value": 5,
-            "type": "numeric",
-            "_syntaxKind": "literal"
-          },
-          "_syntaxKind": "variable-assignment"
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "context.testInput.delayInSeconds",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": 5,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function",
+        "scope": {
+          "accessed": [
+            "context"
+          ],
+          "enclosed": [],
+          "childScopes": []
         }
-      ]
+      },
+      "source": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
+      "_syntaxKind": "if"
     },
-    "source": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
-    "_syntaxKind": "if"
-  },
-  {
-    "seconds": {
-      "identifier": "context.testInput.delayInSeconds",
-      "type": "numeric",
-      "_syntaxKind": "identifier"
-    },
-    "_syntaxKind": "asl-wait-state"
+    {
+      "seconds": {
+        "identifier": "context.testInput.delayInSeconds",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "asl-wait-state"
+    }
+  ],
+  "_syntaxKind": "statemachine",
+  "scope": {
+    "accessed": [],
+    "enclosed": [],
+    "childScopes": [
+      {
+        "accessed": [
+          "context"
+        ],
+        "enclosed": [],
+        "childScopes": []
+      }
+    ]
   }
-]
+}

@@ -78,172 +78,399 @@ describe("when converting example", () => {
   });
   it("then can be converted to iasl", async () => {
     expect(converted.iasl).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-parallel-state",
-            "branches": Array [
-              Object {
-                "statements": Array [
-                  Object {
-                    "_syntaxKind": "asl-task-state",
-                    "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
-                    "source": "performIdentifyCheck()",
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "scope": Object {
+          "accessed": Array [
+            "result",
+            "checksPassed",
+          ],
+          "childScopes": Array [
+            Object {
+              "accessed": Array [],
+              "childScopes": Array [
+                Object {
+                  "accessed": Array [],
+                  "childScopes": Array [],
+                  "enclosed": Array [],
+                  "parentScope": [Circular],
+                },
+              ],
+              "enclosed": Array [],
+              "parentScope": [Circular],
+            },
+            Object {
+              "accessed": Array [],
+              "childScopes": Array [
+                Object {
+                  "accessed": Array [],
+                  "childScopes": Array [],
+                  "enclosed": Array [],
+                  "parentScope": [Circular],
+                },
+              ],
+              "enclosed": Array [],
+              "parentScope": [Circular],
+            },
+            Object {
+              "accessed": Array [],
+              "childScopes": Array [],
+              "enclosed": Array [],
+              "parentScope": [Circular],
+            },
+            Object {
+              "accessed": Array [],
+              "childScopes": Array [],
+              "enclosed": Array [],
+              "parentScope": [Circular],
+            },
+          ],
+          "enclosed": Array [],
+          "parentScope": Object {
+            "accessed": Array [],
+            "childScopes": Array [
+              [Circular],
+            ],
+            "enclosed": Array [],
+            "parentScope": undefined,
+          },
+        },
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-parallel-state",
+              "branches": Array [
+                Object {
+                  "_syntaxKind": "function",
+                  "scope": Object {
+                    "accessed": Array [],
+                    "childScopes": Array [
+                      Object {
+                        "accessed": Array [],
+                        "childScopes": Array [],
+                        "enclosed": Array [],
+                        "parentScope": [Circular],
+                      },
+                    ],
+                    "enclosed": Array [],
+                    "parentScope": Object {
+                      "accessed": Array [
+                        "result",
+                        "checksPassed",
+                      ],
+                      "childScopes": Array [
+                        [Circular],
+                        Object {
+                          "accessed": Array [],
+                          "childScopes": Array [
+                            Object {
+                              "accessed": Array [],
+                              "childScopes": Array [],
+                              "enclosed": Array [],
+                              "parentScope": [Circular],
+                            },
+                          ],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
+                        },
+                        Object {
+                          "accessed": Array [],
+                          "childScopes": Array [],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
+                        },
+                        Object {
+                          "accessed": Array [],
+                          "childScopes": Array [],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
+                        },
+                      ],
+                      "enclosed": Array [],
+                      "parentScope": Object {
+                        "accessed": Array [],
+                        "childScopes": Array [
+                          [Circular],
+                        ],
+                        "enclosed": Array [],
+                        "parentScope": undefined,
+                      },
+                    },
                   },
-                ],
-              },
-              Object {
-                "statements": Array [
-                  Object {
-                    "_syntaxKind": "return",
-                    "expression": Object {
-                      "_syntaxKind": "literal-object",
-                      "properties": Object {
-                        "agencyChecked": Object {
-                          "_syntaxKind": "literal",
-                          "type": "boolean",
-                          "value": true,
+                  "statements": Array [
+                    Object {
+                      "_syntaxKind": "asl-task-state",
+                      "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
+                      "source": "performIdentifyCheck()",
+                    },
+                  ],
+                },
+                Object {
+                  "_syntaxKind": "function",
+                  "scope": Object {
+                    "accessed": Array [],
+                    "childScopes": Array [
+                      Object {
+                        "accessed": Array [],
+                        "childScopes": Array [],
+                        "enclosed": Array [],
+                        "parentScope": [Circular],
+                      },
+                    ],
+                    "enclosed": Array [],
+                    "parentScope": Object {
+                      "accessed": Array [
+                        "result",
+                        "checksPassed",
+                      ],
+                      "childScopes": Array [
+                        Object {
+                          "accessed": Array [],
+                          "childScopes": Array [
+                            Object {
+                              "accessed": Array [],
+                              "childScopes": Array [],
+                              "enclosed": Array [],
+                              "parentScope": [Circular],
+                            },
+                          ],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
+                        },
+                        [Circular],
+                        Object {
+                          "accessed": Array [],
+                          "childScopes": Array [],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
+                        },
+                        Object {
+                          "accessed": Array [],
+                          "childScopes": Array [],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
+                        },
+                      ],
+                      "enclosed": Array [],
+                      "parentScope": Object {
+                        "accessed": Array [],
+                        "childScopes": Array [
+                          [Circular],
+                        ],
+                        "enclosed": Array [],
+                        "parentScope": undefined,
+                      },
+                    },
+                  },
+                  "statements": Array [
+                    Object {
+                      "_syntaxKind": "return",
+                      "expression": Object {
+                        "_syntaxKind": "literal-object",
+                        "properties": Object {
+                          "agencyChecked": Object {
+                            "_syntaxKind": "literal",
+                            "type": "boolean",
+                            "value": true,
+                          },
                         },
                       },
                     },
-                  },
-                ],
-              },
-            ],
-            "catch": Array [],
-            "retry": Array [],
-            "source": undefined,
+                  ],
+                },
+              ],
+              "catch": Array [],
+              "retry": Array [],
+              "source": undefined,
+            },
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "result",
+              "type": "object",
+            },
           },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "result",
-            "type": "object",
-          },
-        },
-        Object {
-          "_syntaxKind": "asl-task-state",
-          "parameters": Object {
-            "_syntaxKind": "literal-object",
-            "properties": Object {
-              "Entries": Object {
-                "_syntaxKind": "literal-array",
-                "elements": Array [
-                  Object {
-                    "_syntaxKind": "literal-object",
-                    "properties": Object {
-                      "Detail": Object {
-                        "_syntaxKind": "asl-intrinsic-function",
-                        "arguments": Array [
-                          Object {
-                            "_syntaxKind": "identifier",
-                            "identifier": "result",
-                            "type": "object",
-                          },
-                        ],
-                        "function": "asl.states.jsonToString",
-                      },
-                      "DetailType": Object {
-                        "_syntaxKind": "literal",
-                        "type": "string",
-                        "value": "Identity check completed",
-                      },
-                      "EventBusName": Object {
-                        "_syntaxKind": "literal",
-                        "type": "string",
-                        "value": "eventbusname",
-                      },
-                      "Source": Object {
-                        "_syntaxKind": "literal",
-                        "type": "string",
-                        "value": "com.aws.kyc",
+          Object {
+            "_syntaxKind": "asl-task-state",
+            "parameters": Object {
+              "_syntaxKind": "literal-object",
+              "properties": Object {
+                "Entries": Object {
+                  "_syntaxKind": "literal-array",
+                  "elements": Array [
+                    Object {
+                      "_syntaxKind": "literal-object",
+                      "properties": Object {
+                        "Detail": Object {
+                          "_syntaxKind": "asl-intrinsic-function",
+                          "arguments": Array [
+                            Object {
+                              "_syntaxKind": "identifier",
+                              "identifier": "result",
+                              "type": "object",
+                            },
+                          ],
+                          "function": "asl.states.jsonToString",
+                        },
+                        "DetailType": Object {
+                          "_syntaxKind": "literal",
+                          "type": "string",
+                          "value": "Identity check completed",
+                        },
+                        "EventBusName": Object {
+                          "_syntaxKind": "literal",
+                          "type": "string",
+                          "value": "eventbusname",
+                        },
+                        "Source": Object {
+                          "_syntaxKind": "literal",
+                          "type": "string",
+                          "value": "com.aws.kyc",
+                        },
                       },
                     },
-                  },
-                ],
+                  ],
+                },
               },
             },
+            "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
           },
-          "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-        },
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "literal",
-              "type": "boolean",
-              "value": true,
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal",
+                "type": "boolean",
+                "value": true,
+              },
+              "source": "checksPassed = true",
             },
-            "source": "checksPassed = true",
-          },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "checksPassed",
-            "type": "unknown",
-          },
-        },
-        Object {
-          "_syntaxKind": "if",
-          "condition": Object {
-            "_syntaxKind": "binary-expression",
-            "operator": "is-present",
-            "rhs": Object {
+            "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "checksPassed",
               "type": "unknown",
             },
           },
-          "else": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "asl-task-state",
-                "parameters": Object {
-                  "_syntaxKind": "literal-object",
-                  "properties": Object {
-                    "Entries": Object {
-                      "_syntaxKind": "literal-array",
-                      "elements": Array [
+          Object {
+            "_syntaxKind": "if",
+            "condition": Object {
+              "_syntaxKind": "binary-expression",
+              "operator": "is-present",
+              "rhs": Object {
+                "_syntaxKind": "identifier",
+                "identifier": "checksPassed",
+                "type": "unknown",
+              },
+            },
+            "else": Object {
+              "_syntaxKind": "function",
+              "scope": Object {
+                "accessed": Array [],
+                "childScopes": Array [],
+                "enclosed": Array [],
+                "parentScope": Object {
+                  "accessed": Array [
+                    "result",
+                    "checksPassed",
+                  ],
+                  "childScopes": Array [
+                    Object {
+                      "accessed": Array [],
+                      "childScopes": Array [
                         Object {
-                          "_syntaxKind": "literal-object",
-                          "properties": Object {
-                            "Detail": Object {
-                              "_syntaxKind": "asl-intrinsic-function",
-                              "arguments": Array [
-                                Object {
-                                  "_syntaxKind": "identifier",
-                                  "identifier": "result",
-                                  "type": "object",
-                                },
-                              ],
-                              "function": "asl.states.jsonToString",
-                            },
-                            "DetailType": Object {
-                              "_syntaxKind": "literal",
-                              "type": "string",
-                              "value": "AccountDeclined",
-                            },
-                            "EventBusName": Object {
-                              "_syntaxKind": "literal",
-                              "type": "string",
-                              "value": "eventbusname",
-                            },
-                            "Source": Object {
-                              "_syntaxKind": "literal",
-                              "type": "string",
-                              "value": "com.aws.kyc",
-                            },
-                          },
+                          "accessed": Array [],
+                          "childScopes": Array [],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
                         },
                       ],
+                      "enclosed": Array [],
+                      "parentScope": [Circular],
                     },
+                    Object {
+                      "accessed": Array [],
+                      "childScopes": Array [
+                        Object {
+                          "accessed": Array [],
+                          "childScopes": Array [],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
+                        },
+                      ],
+                      "enclosed": Array [],
+                      "parentScope": [Circular],
+                    },
+                    Object {
+                      "accessed": Array [],
+                      "childScopes": Array [],
+                      "enclosed": Array [],
+                      "parentScope": [Circular],
+                    },
+                    [Circular],
+                  ],
+                  "enclosed": Array [],
+                  "parentScope": Object {
+                    "accessed": Array [],
+                    "childScopes": Array [
+                      [Circular],
+                    ],
+                    "enclosed": Array [],
+                    "parentScope": undefined,
                   },
                 },
-                "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
               },
-            ],
-          },
-          "source": "if (checksPassed) {
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "asl-task-state",
+                  "parameters": Object {
+                    "_syntaxKind": "literal-object",
+                    "properties": Object {
+                      "Entries": Object {
+                        "_syntaxKind": "literal-array",
+                        "elements": Array [
+                          Object {
+                            "_syntaxKind": "literal-object",
+                            "properties": Object {
+                              "Detail": Object {
+                                "_syntaxKind": "asl-intrinsic-function",
+                                "arguments": Array [
+                                  Object {
+                                    "_syntaxKind": "identifier",
+                                    "identifier": "result",
+                                    "type": "object",
+                                  },
+                                ],
+                                "function": "asl.states.jsonToString",
+                              },
+                              "DetailType": Object {
+                                "_syntaxKind": "literal",
+                                "type": "string",
+                                "value": "AccountDeclined",
+                              },
+                              "EventBusName": Object {
+                                "_syntaxKind": "literal",
+                                "type": "string",
+                                "value": "eventbusname",
+                              },
+                              "Source": Object {
+                                "_syntaxKind": "literal",
+                                "type": "string",
+                                "value": "com.aws.kyc",
+                              },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                },
+              ],
+            },
+            "source": "if (checksPassed) {
           //no-op update risk profile
           await asl.nativeEventBridgePutEvents({
             Entries: [
@@ -267,57 +494,114 @@ describe("when converting example", () => {
             ]
           });
         }",
-          "then": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "asl-task-state",
-                "parameters": Object {
-                  "_syntaxKind": "literal-object",
-                  "properties": Object {
-                    "Entries": Object {
-                      "_syntaxKind": "literal-array",
-                      "elements": Array [
+            "then": Object {
+              "_syntaxKind": "function",
+              "scope": Object {
+                "accessed": Array [],
+                "childScopes": Array [],
+                "enclosed": Array [],
+                "parentScope": Object {
+                  "accessed": Array [
+                    "result",
+                    "checksPassed",
+                  ],
+                  "childScopes": Array [
+                    Object {
+                      "accessed": Array [],
+                      "childScopes": Array [
                         Object {
-                          "_syntaxKind": "literal-object",
-                          "properties": Object {
-                            "Detail": Object {
-                              "_syntaxKind": "asl-intrinsic-function",
-                              "arguments": Array [
-                                Object {
-                                  "_syntaxKind": "identifier",
-                                  "identifier": "result",
-                                  "type": "object",
-                                },
-                              ],
-                              "function": "asl.states.jsonToString",
-                            },
-                            "DetailType": Object {
-                              "_syntaxKind": "literal",
-                              "type": "string",
-                              "value": "AccountApproved",
-                            },
-                            "EventBusName": Object {
-                              "_syntaxKind": "literal",
-                              "type": "string",
-                              "value": "eventbusname",
-                            },
-                            "Source": Object {
-                              "_syntaxKind": "literal",
-                              "type": "string",
-                              "value": "com.aws.kyc",
-                            },
-                          },
+                          "accessed": Array [],
+                          "childScopes": Array [],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
                         },
                       ],
+                      "enclosed": Array [],
+                      "parentScope": [Circular],
                     },
+                    Object {
+                      "accessed": Array [],
+                      "childScopes": Array [
+                        Object {
+                          "accessed": Array [],
+                          "childScopes": Array [],
+                          "enclosed": Array [],
+                          "parentScope": [Circular],
+                        },
+                      ],
+                      "enclosed": Array [],
+                      "parentScope": [Circular],
+                    },
+                    [Circular],
+                    Object {
+                      "accessed": Array [],
+                      "childScopes": Array [],
+                      "enclosed": Array [],
+                      "parentScope": [Circular],
+                    },
+                  ],
+                  "enclosed": Array [],
+                  "parentScope": Object {
+                    "accessed": Array [],
+                    "childScopes": Array [
+                      [Circular],
+                    ],
+                    "enclosed": Array [],
+                    "parentScope": undefined,
                   },
                 },
-                "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
               },
-            ],
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "asl-task-state",
+                  "parameters": Object {
+                    "_syntaxKind": "literal-object",
+                    "properties": Object {
+                      "Entries": Object {
+                        "_syntaxKind": "literal-array",
+                        "elements": Array [
+                          Object {
+                            "_syntaxKind": "literal-object",
+                            "properties": Object {
+                              "Detail": Object {
+                                "_syntaxKind": "asl-intrinsic-function",
+                                "arguments": Array [
+                                  Object {
+                                    "_syntaxKind": "identifier",
+                                    "identifier": "result",
+                                    "type": "object",
+                                  },
+                                ],
+                                "function": "asl.states.jsonToString",
+                              },
+                              "DetailType": Object {
+                                "_syntaxKind": "literal",
+                                "type": "string",
+                                "value": "AccountApproved",
+                              },
+                              "EventBusName": Object {
+                                "_syntaxKind": "literal",
+                                "type": "string",
+                                "value": "eventbusname",
+                              },
+                              "Source": Object {
+                                "_syntaxKind": "literal",
+                                "type": "string",
+                                "value": "com.aws.kyc",
+                              },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                },
+              ],
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
   it("then can be converted to asl", async () => {

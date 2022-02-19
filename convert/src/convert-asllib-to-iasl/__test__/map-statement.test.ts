@@ -13,43 +13,50 @@ describe("when converting map statement to iasl", () => {
     });`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-map-state",
-            "catch": Array [],
-            "items": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "here",
-              "indexExpression": Object {
-                "_syntaxKind": "literal",
-                "type": "numeric",
-                "value": 0,
-              },
-              "lhs": Object {
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-map-state",
+              "catch": Array [],
+              "items": Object {
                 "_syntaxKind": "identifier",
-                "identifier": "something.list",
-                "type": "unknown",
-              },
-            },
-            "iterator": Object {
-              "statements": Array [
-                Object {
-                  "_syntaxKind": "return",
+                "identifier": "here",
+                "indexExpression": Object {
+                  "_syntaxKind": "literal",
+                  "type": "numeric",
+                  "value": 0,
                 },
-              ],
+                "lhs": Object {
+                  "_syntaxKind": "identifier",
+                  "identifier": "something.list",
+                  "type": "unknown",
+                },
+              },
+              "iterator": Object {
+                "_syntaxKind": "function",
+                "inputArgumentName": "localName",
+                "statements": Array [
+                  Object {
+                    "_syntaxKind": "return",
+                  },
+                ],
+              },
+              "retry": Array [],
+              "source": undefined,
             },
-            "retry": Array [],
-            "source": undefined,
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "aaaa",
+              "type": "unknown",
+            },
           },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "aaaa",
-            "type": "unknown",
-          },
-        },
-      ]
+        ],
+      }
     `);
   });
 });

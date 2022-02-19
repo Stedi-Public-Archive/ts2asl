@@ -1,10 +1,10 @@
-import { convertToASl } from "..";
+import { convert } from "..";
 import { testConvertToIntermediaryAst } from "../../convert-asllib-to-iasl/__test__/test-convert";
 
 describe("when transpiling simple statements", () => {
   it("then assignment ends up in result path", () => {
     const iasl = testConvertToIntermediaryAst("let result = 'hello';");
-    const result = convertToASl(iasl);
+    const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Assign result",
@@ -33,7 +33,7 @@ describe("when transpiling simple statements", () => {
       
       //result = asl.stringToJson('something')`
     );
-    const result = convertToASl(iasl);
+    const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Assign literalString",

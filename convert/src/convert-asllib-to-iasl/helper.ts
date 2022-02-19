@@ -1,9 +1,9 @@
 import * as ts from "typescript"
-import { convertExpressionToLiteralOrIdentifier } from ".";
+import { ConverterContext, convertExpressionToLiteralOrIdentifier } from ".";
 import * as iasl from "./ast"
 
-export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, typeChecker: ts.TypeChecker): iasl.Identifier | undefined => {
-
+export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, context: ConverterContext): iasl.Identifier | undefined => {
+  const { typeChecker } = context;
   if (ts.isIdentifier(expression)) {
 
     const type = typeChecker.getTypeAtLocation(expression);
@@ -41,11 +41,11 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
     const iaslType = convertType(type);
     return { identifier: `${pathAsString}.${expression.name.text}`, type: iaslType, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier;
   } else if (ts.isElementAccessExpression(expression)) {
-    const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, typeChecker);
+    const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, context);
     return {
       identifier: pathAsString,
       indexExpression: convertedIndexExpression,
-      lhs: convertToIdentifier(expression.expression, typeChecker),
+      lhs: convertToIdentifier(expression.expression, context),
       _syntaxKind: iasl.SyntaxKind.Identifier,
     } as iasl.Identifier
   }
@@ -70,15 +70,9 @@ function convertType(type: ts.Type): iasl.Type {
     return "boolean"
   }
   return "unknown";
-  return (type as unknown as {intrinsicName: string}).intrinsicName as iasl.Type;
+  return (type as unknown as { intrinsicName: string }).intrinsicName as iasl.Type;
 
 }
 function hasFlag(type: ts.Type, flag: ts.TypeFlags) {
   return (type.flags & flag) === flag;
 }
-// export const convertToLiteralOrIdentifierString = (expression: ts.Expression | ts.BindingName): string | undefined => {
-//   if (ts.isLiteralExpression(expression)) {
-//     return expression.text;
-//   }
-//   return convertToIdentifierString(expression);
-// }

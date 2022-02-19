@@ -15,36 +15,42 @@ describe("when converting if statement to iasl", () => {
   })`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "if",
-          "condition": Object {
-            "_syntaxKind": "binary-expression",
-            "lhs": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "password",
-              "type": "unknown",
-            },
-            "operator": "eq",
-            "rhs": Object {
-              "_syntaxKind": "literal",
-              "type": "string",
-              "value": "pwd",
-            },
-          },
-          "source": "if (password === 'pwd') throw new Error('wrong password');",
-          "then": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "asl-fail-state",
-                "cause": "wrong password",
-                "error": "Error",
-                "source": "throw new Error('wrong password');",
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "if",
+            "condition": Object {
+              "_syntaxKind": "binary-expression",
+              "lhs": Object {
+                "_syntaxKind": "identifier",
+                "identifier": "password",
+                "type": "unknown",
               },
-            ],
+              "operator": "eq",
+              "rhs": Object {
+                "_syntaxKind": "literal",
+                "type": "string",
+                "value": "pwd",
+              },
+            },
+            "source": "if (password === 'pwd') throw new Error('wrong password');",
+            "then": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "asl-fail-state",
+                  "cause": "wrong password",
+                  "error": "Error",
+                  "source": "throw new Error('wrong password');",
+                },
+              ],
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
 });

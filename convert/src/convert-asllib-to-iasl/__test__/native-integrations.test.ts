@@ -11,56 +11,61 @@ describe("when converting native integration statements to iasl", () => {
     });`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-task-state",
-            "parameters": Object {
-              "_syntaxKind": "literal-object",
-              "properties": Object {
-                "Key": Object {
-                  "_syntaxKind": "literal-object",
-                  "properties": Object {
-                    "pk": Object {
-                      "_syntaxKind": "literal-object",
-                      "properties": Object {
-                        "S": Object {
-                          "_syntaxKind": "literal",
-                          "type": "string",
-                          "value": "something",
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-task-state",
+              "parameters": Object {
+                "_syntaxKind": "literal-object",
+                "properties": Object {
+                  "Key": Object {
+                    "_syntaxKind": "literal-object",
+                    "properties": Object {
+                      "pk": Object {
+                        "_syntaxKind": "literal-object",
+                        "properties": Object {
+                          "S": Object {
+                            "_syntaxKind": "literal",
+                            "type": "string",
+                            "value": "something",
+                          },
                         },
                       },
-                    },
-                    "sk": Object {
-                      "_syntaxKind": "literal-object",
-                      "properties": Object {
-                        "S": Object {
-                          "_syntaxKind": "literal",
-                          "type": "string",
-                          "value": "something",
+                      "sk": Object {
+                        "_syntaxKind": "literal-object",
+                        "properties": Object {
+                          "S": Object {
+                            "_syntaxKind": "literal",
+                            "type": "string",
+                            "value": "something",
+                          },
                         },
                       },
                     },
                   },
-                },
-                "TableName": Object {
-                  "_syntaxKind": "literal",
-                  "type": "string",
-                  "value": "mytable",
+                  "TableName": Object {
+                    "_syntaxKind": "literal",
+                    "type": "string",
+                    "value": "mytable",
+                  },
                 },
               },
+              "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
+              "source": undefined,
             },
-            "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
-            "source": undefined,
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "aaaa",
+              "type": "unknown",
+            },
           },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "aaaa",
-            "type": "unknown",
-          },
-        },
-      ]
+        ],
+      }
     `);
   });
 });

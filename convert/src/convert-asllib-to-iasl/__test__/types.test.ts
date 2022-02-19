@@ -19,86 +19,93 @@ describe("when converting choice statement to iasl", () => {
     const transformed = testTransform(code, transformers);
     const result = testConvertToIntermediaryAst(transformed);
     expect(result).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "_syntaxKind": "variable-assignment",
-          "expression": Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "literal",
-              "type": "string",
-              "value": "hello",
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal",
+                "type": "string",
+                "value": "hello",
+              },
+              "source": "xxx = \\"hello\\"",
             },
-            "source": "xxx = \\"hello\\"",
-          },
-          "name": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "xxx",
-            "type": "string",
-          },
-        },
-        Object {
-          "_syntaxKind": "if",
-          "condition": Object {
-            "_syntaxKind": "binary-expression",
-            "lhs": Object {
+            "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "xxx",
               "type": "string",
             },
-            "operator": "eq",
-            "rhs": Object {
-              "_syntaxKind": "literal",
-              "type": "string",
-              "value": "anotherString",
-            },
           },
-          "then": Object {
-            "statements": Array [
-              Object {
-                "_syntaxKind": "variable-assignment",
-                "expression": Object {
-                  "_syntaxKind": "asl-pass-state",
-                  "parameters": Object {
-                    "_syntaxKind": "literal",
-                    "type": "numeric",
-                    "value": 42,
-                  },
-                  "source": "num = 42",
-                },
-                "name": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "num",
-                  "type": "numeric",
-                },
+          Object {
+            "_syntaxKind": "if",
+            "condition": Object {
+              "_syntaxKind": "binary-expression",
+              "lhs": Object {
+                "_syntaxKind": "identifier",
+                "identifier": "xxx",
+                "type": "string",
               },
-              Object {
-                "_syntaxKind": "if",
-                "condition": Object {
-                  "_syntaxKind": "binary-expression",
-                  "lhs": Object {
+              "operator": "eq",
+              "rhs": Object {
+                "_syntaxKind": "literal",
+                "type": "string",
+                "value": "anotherString",
+              },
+            },
+            "then": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "variable-assignment",
+                  "expression": Object {
+                    "_syntaxKind": "asl-pass-state",
+                    "parameters": Object {
+                      "_syntaxKind": "literal",
+                      "type": "numeric",
+                      "value": 42,
+                    },
+                    "source": "num = 42",
+                  },
+                  "name": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "num",
                     "type": "numeric",
                   },
-                  "operator": "eq",
-                  "rhs": Object {
-                    "_syntaxKind": "literal",
-                    "type": "numeric",
-                    "value": 12,
-                  },
                 },
-                "source": "if (num === 12) {
+                Object {
+                  "_syntaxKind": "if",
+                  "condition": Object {
+                    "_syntaxKind": "binary-expression",
+                    "lhs": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "num",
+                      "type": "numeric",
+                    },
+                    "operator": "eq",
+                    "rhs": Object {
+                      "_syntaxKind": "literal",
+                      "type": "numeric",
+                      "value": 12,
+                    },
+                  },
+                  "source": "if (num === 12) {
               
             }",
-                "then": Object {
-                  "statements": Array [],
+                  "then": Object {
+                    "_syntaxKind": "function",
+                    "statements": Array [],
+                  },
                 },
-              },
-            ],
+              ],
+            },
           },
-        },
-      ]
+        ],
+      }
     `);
   });
 });
