@@ -1,5 +1,8 @@
 {
-  "inputArgumentName": "context",
+  "inputArgumentName": {
+    "identifier": "context",
+    "_syntaxKind": "identifier"
+  },
   "statements": [
     {
       "condition": {
@@ -39,14 +42,7 @@
             "_syntaxKind": "variable-assignment"
           }
         ],
-        "_syntaxKind": "function",
-        "scope": {
-          "accessed": [
-            "context"
-          ],
-          "enclosed": [],
-          "childScopes": []
-        }
+        "_syntaxKind": "function"
       },
       "source": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
       "_syntaxKind": "if"
@@ -61,17 +57,5 @@
     }
   ],
   "_syntaxKind": "statemachine",
-  "scope": {
-    "accessed": [],
-    "enclosed": [],
-    "childScopes": [
-      {
-        "accessed": [
-          "context"
-        ],
-        "enclosed": [],
-        "childScopes": []
-      }
-    ]
-  }
+  "scope": "state-machine1"
 }

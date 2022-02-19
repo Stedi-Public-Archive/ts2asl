@@ -37,8 +37,8 @@ export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.So
   }
 
   return {
-    inputArgumentName: { identifier: context.inputArgumentName, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier,
-    contextArgumentName: { identifier: context.contextArgumentName, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier,
+    inputArgumentName: context.inputArgumentName ? { identifier: context.inputArgumentName, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier : undefined,
+    contextArgumentName: context.contextArgumentName ? { identifier: context.contextArgumentName, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier : undefined,
     statements: result,
     _syntaxKind: iasl.SyntaxKind.StateMachine
   }

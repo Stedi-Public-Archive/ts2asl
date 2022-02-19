@@ -82,61 +82,7 @@ describe("when converting example", () => {
         "_syntaxKind": "statemachine",
         "contextArgumentName": undefined,
         "inputArgumentName": undefined,
-        "scope": Object {
-          "accessed": Array [
-            "result",
-            "checksPassed",
-          ],
-          "childScopes": Array [
-            Object {
-              "accessed": Array [],
-              "childScopes": Array [
-                Object {
-                  "accessed": Array [],
-                  "childScopes": Array [],
-                  "enclosed": Array [],
-                  "parentScope": [Circular],
-                },
-              ],
-              "enclosed": Array [],
-              "parentScope": [Circular],
-            },
-            Object {
-              "accessed": Array [],
-              "childScopes": Array [
-                Object {
-                  "accessed": Array [],
-                  "childScopes": Array [],
-                  "enclosed": Array [],
-                  "parentScope": [Circular],
-                },
-              ],
-              "enclosed": Array [],
-              "parentScope": [Circular],
-            },
-            Object {
-              "accessed": Array [],
-              "childScopes": Array [],
-              "enclosed": Array [],
-              "parentScope": [Circular],
-            },
-            Object {
-              "accessed": Array [],
-              "childScopes": Array [],
-              "enclosed": Array [],
-              "parentScope": [Circular],
-            },
-          ],
-          "enclosed": Array [],
-          "parentScope": Object {
-            "accessed": Array [],
-            "childScopes": Array [
-              [Circular],
-            ],
-            "enclosed": Array [],
-            "parentScope": undefined,
-          },
-        },
+        "scope": "state-machine1",
         "statements": Array [
           Object {
             "_syntaxKind": "variable-assignment",
@@ -145,61 +91,7 @@ describe("when converting example", () => {
               "branches": Array [
                 Object {
                   "_syntaxKind": "function",
-                  "scope": Object {
-                    "accessed": Array [],
-                    "childScopes": Array [
-                      Object {
-                        "accessed": Array [],
-                        "childScopes": Array [],
-                        "enclosed": Array [],
-                        "parentScope": [Circular],
-                      },
-                    ],
-                    "enclosed": Array [],
-                    "parentScope": Object {
-                      "accessed": Array [
-                        "result",
-                        "checksPassed",
-                      ],
-                      "childScopes": Array [
-                        [Circular],
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [
-                            Object {
-                              "accessed": Array [],
-                              "childScopes": Array [],
-                              "enclosed": Array [],
-                              "parentScope": [Circular],
-                            },
-                          ],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                      ],
-                      "enclosed": Array [],
-                      "parentScope": Object {
-                        "accessed": Array [],
-                        "childScopes": Array [
-                          [Circular],
-                        ],
-                        "enclosed": Array [],
-                        "parentScope": undefined,
-                      },
-                    },
-                  },
+                  "scope": "asl-parallel-branch2",
                   "statements": Array [
                     Object {
                       "_syntaxKind": "asl-task-state",
@@ -210,61 +102,7 @@ describe("when converting example", () => {
                 },
                 Object {
                   "_syntaxKind": "function",
-                  "scope": Object {
-                    "accessed": Array [],
-                    "childScopes": Array [
-                      Object {
-                        "accessed": Array [],
-                        "childScopes": Array [],
-                        "enclosed": Array [],
-                        "parentScope": [Circular],
-                      },
-                    ],
-                    "enclosed": Array [],
-                    "parentScope": Object {
-                      "accessed": Array [
-                        "result",
-                        "checksPassed",
-                      ],
-                      "childScopes": Array [
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [
-                            Object {
-                              "accessed": Array [],
-                              "childScopes": Array [],
-                              "enclosed": Array [],
-                              "parentScope": [Circular],
-                            },
-                          ],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                        [Circular],
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                      ],
-                      "enclosed": Array [],
-                      "parentScope": Object {
-                        "accessed": Array [],
-                        "childScopes": Array [
-                          [Circular],
-                        ],
-                        "enclosed": Array [],
-                        "parentScope": undefined,
-                      },
-                    },
-                  },
+                  "scope": "asl-parallel-branch3",
                   "statements": Array [
                     Object {
                       "_syntaxKind": "return",
@@ -367,61 +205,6 @@ describe("when converting example", () => {
             },
             "else": Object {
               "_syntaxKind": "function",
-              "scope": Object {
-                "accessed": Array [],
-                "childScopes": Array [],
-                "enclosed": Array [],
-                "parentScope": Object {
-                  "accessed": Array [
-                    "result",
-                    "checksPassed",
-                  ],
-                  "childScopes": Array [
-                    Object {
-                      "accessed": Array [],
-                      "childScopes": Array [
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                      ],
-                      "enclosed": Array [],
-                      "parentScope": [Circular],
-                    },
-                    Object {
-                      "accessed": Array [],
-                      "childScopes": Array [
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                      ],
-                      "enclosed": Array [],
-                      "parentScope": [Circular],
-                    },
-                    Object {
-                      "accessed": Array [],
-                      "childScopes": Array [],
-                      "enclosed": Array [],
-                      "parentScope": [Circular],
-                    },
-                    [Circular],
-                  ],
-                  "enclosed": Array [],
-                  "parentScope": Object {
-                    "accessed": Array [],
-                    "childScopes": Array [
-                      [Circular],
-                    ],
-                    "enclosed": Array [],
-                    "parentScope": undefined,
-                  },
-                },
-              },
               "statements": Array [
                 Object {
                   "_syntaxKind": "asl-task-state",
@@ -496,61 +279,6 @@ describe("when converting example", () => {
         }",
             "then": Object {
               "_syntaxKind": "function",
-              "scope": Object {
-                "accessed": Array [],
-                "childScopes": Array [],
-                "enclosed": Array [],
-                "parentScope": Object {
-                  "accessed": Array [
-                    "result",
-                    "checksPassed",
-                  ],
-                  "childScopes": Array [
-                    Object {
-                      "accessed": Array [],
-                      "childScopes": Array [
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                      ],
-                      "enclosed": Array [],
-                      "parentScope": [Circular],
-                    },
-                    Object {
-                      "accessed": Array [],
-                      "childScopes": Array [
-                        Object {
-                          "accessed": Array [],
-                          "childScopes": Array [],
-                          "enclosed": Array [],
-                          "parentScope": [Circular],
-                        },
-                      ],
-                      "enclosed": Array [],
-                      "parentScope": [Circular],
-                    },
-                    [Circular],
-                    Object {
-                      "accessed": Array [],
-                      "childScopes": Array [],
-                      "enclosed": Array [],
-                      "parentScope": [Circular],
-                    },
-                  ],
-                  "enclosed": Array [],
-                  "parentScope": Object {
-                    "accessed": Array [],
-                    "childScopes": Array [
-                      [Circular],
-                    ],
-                    "enclosed": Array [],
-                    "parentScope": undefined,
-                  },
-                },
-              },
               "statements": Array [
                 Object {
                   "_syntaxKind": "asl-task-state",

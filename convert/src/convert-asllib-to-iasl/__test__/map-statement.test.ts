@@ -39,7 +39,10 @@ describe("when converting map statement to iasl", () => {
               },
               "iterator": Object {
                 "_syntaxKind": "function",
-                "inputArgumentName": "localName",
+                "inputArgumentName": Object {
+                  "_syntaxKind": "identifier",
+                  "identifier": "localName",
+                },
                 "statements": Array [
                   Object {
                     "_syntaxKind": "return",

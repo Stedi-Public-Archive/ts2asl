@@ -35,29 +35,11 @@ describe("when converting example", () => {
       Object {
         "_syntaxKind": "statemachine",
         "contextArgumentName": undefined,
-        "inputArgumentName": "context",
-        "scope": Object {
-          "accessed": Array [],
-          "childScopes": Array [
-            Object {
-              "accessed": Array [
-                "context",
-              ],
-              "childScopes": Array [],
-              "enclosed": Array [],
-              "parentScope": [Circular],
-            },
-          ],
-          "enclosed": Array [],
-          "parentScope": Object {
-            "accessed": Array [],
-            "childScopes": Array [
-              [Circular],
-            ],
-            "enclosed": Array [],
-            "parentScope": undefined,
-          },
+        "inputArgumentName": Object {
+          "_syntaxKind": "identifier",
+          "identifier": "context",
         },
+        "scope": "state-machine1",
         "statements": Array [
           Object {
             "_syntaxKind": "if",
@@ -87,28 +69,6 @@ describe("when converting example", () => {
         }",
             "then": Object {
               "_syntaxKind": "function",
-              "scope": Object {
-                "accessed": Array [
-                  "context",
-                ],
-                "childScopes": Array [],
-                "enclosed": Array [],
-                "parentScope": Object {
-                  "accessed": Array [],
-                  "childScopes": Array [
-                    [Circular],
-                  ],
-                  "enclosed": Array [],
-                  "parentScope": Object {
-                    "accessed": Array [],
-                    "childScopes": Array [
-                      [Circular],
-                    ],
-                    "enclosed": Array [],
-                    "parentScope": undefined,
-                  },
-                },
-              },
               "statements": Array [
                 Object {
                   "_syntaxKind": "variable-assignment",

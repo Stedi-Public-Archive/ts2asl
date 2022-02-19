@@ -17,17 +17,7 @@
               }
             ],
             "_syntaxKind": "function",
-            "scope": {
-              "accessed": [],
-              "enclosed": [],
-              "childScopes": [
-                {
-                  "accessed": [],
-                  "enclosed": [],
-                  "childScopes": []
-                }
-              ]
-            }
+            "scope": "asl-parallel-branch2"
           },
           {
             "statements": [
@@ -46,17 +36,7 @@
               }
             ],
             "_syntaxKind": "function",
-            "scope": {
-              "accessed": [],
-              "enclosed": [],
-              "childScopes": [
-                {
-                  "accessed": [],
-                  "enclosed": [],
-                  "childScopes": []
-                }
-              ]
-            }
+            "scope": "asl-parallel-branch3"
           }
         ],
         "catch": [],
@@ -185,12 +165,7 @@
             "_syntaxKind": "asl-task-state"
           }
         ],
-        "_syntaxKind": "function",
-        "scope": {
-          "accessed": [],
-          "enclosed": [],
-          "childScopes": []
-        }
+        "_syntaxKind": "function"
       },
       "else": {
         "statements": [
@@ -240,57 +215,12 @@
             "_syntaxKind": "asl-task-state"
           }
         ],
-        "_syntaxKind": "function",
-        "scope": {
-          "accessed": [],
-          "enclosed": [],
-          "childScopes": []
-        }
+        "_syntaxKind": "function"
       },
       "source": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }",
       "_syntaxKind": "if"
     }
   ],
   "_syntaxKind": "statemachine",
-  "scope": {
-    "accessed": [
-      "result",
-      "checksPassed"
-    ],
-    "enclosed": [],
-    "childScopes": [
-      {
-        "accessed": [],
-        "enclosed": [],
-        "childScopes": [
-          {
-            "accessed": [],
-            "enclosed": [],
-            "childScopes": []
-          }
-        ]
-      },
-      {
-        "accessed": [],
-        "enclosed": [],
-        "childScopes": [
-          {
-            "accessed": [],
-            "enclosed": [],
-            "childScopes": []
-          }
-        ]
-      },
-      {
-        "accessed": [],
-        "enclosed": [],
-        "childScopes": []
-      },
-      {
-        "accessed": [],
-        "enclosed": [],
-        "childScopes": []
-      }
-    ]
-  }
+  "scope": "state-machine1"
 }
