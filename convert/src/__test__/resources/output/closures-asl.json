@@ -1,9 +1,17 @@
 {
-  "StartAt": "Assign numbers",
+  "StartAt": "Initialize Vars",
   "States": {
+    "Initialize Vars": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign numbers"
+    },
     "Assign numbers": {
       "Type": "Pass",
-      "ResultPath": "$.numbers",
+      "ResultPath": "$.vars.numbers",
       "Result": [
         0,
         1,
@@ -15,7 +23,7 @@
     },
     "Assign letters": {
       "Type": "Pass",
-      "ResultPath": "$.letters",
+      "ResultPath": "$.vars.letters",
       "Result": [
         "a",
         "b",
@@ -27,28 +35,30 @@
     },
     "Assign global": {
       "Type": "Pass",
-      "ResultPath": "$.global",
+      "ResultPath": "$.vars.global",
       "Result": "prefix",
       "Comment": "global = \"prefix\"",
       "Next": "Map_1"
     },
     "Map_1": {
       "Type": "Map",
+      "ResultPath": "$.lastResult",
       "Iterator": {
         "StartAt": "Map",
         "States": {
           "Map": {
             "Type": "Map",
+            "ResultPath": "$.lastResult",
             "Iterator": {
               "StartAt": "Assign combined",
               "States": {
                 "Assign combined": {
                   "Type": "Pass",
-                  "ResultPath": "$.combined",
+                  "ResultPath": "$.vars.combined",
                   "Parameters": {
-                    "number.$": "$.number",
-                    "letter.$": "$.letter",
-                    "global.$": "$.global"
+                    "number.$": "$.vars.number",
+                    "letter.$": "$.vars.letter",
+                    "global.$": "$.vars.global"
                   },
                   "Comment": "combined = { number, letter, global }",
                   "Next": "Task"
@@ -56,29 +66,33 @@
                 "Task": {
                   "Type": "Task",
                   "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-doSomething",
-                  "InputPath": "combined",
+                  "InputPath": "$.vars.combined",
                   "Comment": "doSomething(combined)",
                   "End": true
                 }
               }
             },
-            "ItemsPath": "$.letters",
+            "ItemsPath": "$.vars.letters",
             "Parameters": {
-              "letter.$": "$$.Map.Item.Value",
-              "number.$": "$.number",
-              "global.$": "$.global",
-              "letters.$": "$.letters"
+              "vars": {
+                "letter.$": "$$.Map.Item.Value",
+                "number.$": "$.vars.number",
+                "global.$": "$.vars.global",
+                "letters.$": "$.vars.letters"
+              }
             },
             "End": true
           }
         }
       },
-      "ItemsPath": "$.numbers",
+      "ItemsPath": "$.vars.numbers",
       "Parameters": {
-        "number.$": "$$.Map.Item.Value",
-        "global.$": "$.global",
-        "letters.$": "$.letters",
-        "numbers.$": "$.numbers"
+        "vars": {
+          "number.$": "$$.Map.Item.Value",
+          "global.$": "$.vars.global",
+          "letters.$": "$.vars.letters",
+          "numbers.$": "$.vars.numbers"
+        }
       },
       "End": true
     }

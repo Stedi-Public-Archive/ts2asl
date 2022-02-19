@@ -1,9 +1,17 @@
 {
-  "StartAt": "Assign result",
+  "StartAt": "Initialize Vars",
   "States": {
+    "Initialize Vars": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign result"
+    },
     "Assign result": {
       "Type": "Task",
-      "ResultPath": "$.result",
+      "ResultPath": "$.vars.result",
       "Resource": "check-password",
       "Parameters": {},
       "Catch": [],
@@ -31,7 +39,7 @@
               "Type": "Choice",
               "Choices": [
                 {
-                  "Variable": "result.Authorized",
+                  "Variable": "$.vars.result.Authorized",
                   "IsPresent": true,
                   "Next": "Succeed"
                 }
@@ -49,7 +57,7 @@
             },
             "Assign result_1": {
               "Type": "Task",
-              "ResultPath": "$.result",
+              "ResultPath": "$.vars.result",
               "Resource": "check-password",
               "Parameters": {},
               "Catch": [],
@@ -61,7 +69,9 @@
             }
           },
           "Parameters": {
-            "result.$": "$.result"
+            "vars": {
+              "result.$": "$.vars.result"
+            }
           }
         }
       ],

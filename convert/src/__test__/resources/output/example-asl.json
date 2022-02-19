@@ -1,9 +1,17 @@
 {
-  "StartAt": "Assign thresholds",
+  "StartAt": "Initialize Vars",
   "States": {
+    "Initialize Vars": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign thresholds"
+    },
     "Assign thresholds": {
       "Type": "Pass",
-      "ResultPath": "$.thresholds",
+      "ResultPath": "$.vars.thresholds",
       "Result": [
         {
           "metric": "mappings.requests",
@@ -19,7 +27,7 @@
     },
     "Assign lastEvaluatedKey": {
       "Type": "Pass",
-      "ResultPath": "$.lastEvaluatedKey",
+      "ResultPath": "$.vars.lastEvaluatedKey",
       "Result": null,
       "Comment": "lastEvaluatedKey: any | undefined = undefined",
       "Next": "DoWhile"
@@ -32,36 +40,38 @@
           "States": {
             "Assign scan": {
               "Type": "Task",
-              "ResultPath": "$.scan",
+              "ResultPath": "$.vars.scan",
               "Resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
               "Parameters": {
                 "TableName": "MyStorage",
                 "Limit": 1,
-                "ExclusiveStartKey.$": "$.lastEvaluatedKey"
+                "ExclusiveStartKey.$": "$.vars.lastEvaluatedKey"
               },
               "Next": "Map_1"
             },
             "Map_1": {
               "Type": "Map",
+              "ResultPath": "$.lastResult",
               "Iterator": {
                 "StartAt": "Map",
                 "States": {
                   "Map": {
                     "Type": "Map",
+                    "ResultPath": "$.lastResult",
                     "Iterator": {
                       "StartAt": "Assign numericLastSentOnValue",
                       "States": {
                         "Assign numericLastSentOnValue": {
                           "Type": "Pass",
-                          "ResultPath": "$.numericLastSentOnValue",
-                          "Parameters": "States.StringToJson($.item.lastSentOnValue.N)",
+                          "ResultPath": "$.vars.numericLastSentOnValue",
+                          "Parameters": "States.StringToJson($.vars.item.lastSentOnValue.N)",
                           "Comment": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
                           "Next": "Assign numericTotal"
                         },
                         "Assign numericTotal": {
                           "Type": "Pass",
-                          "ResultPath": "$.numericTotal",
-                          "Parameters": "States.StringToJson($.item.total.N)",
+                          "ResultPath": "$.vars.numericTotal",
+                          "Parameters": "States.StringToJson($.vars.item.total.N)",
                           "Comment": "numericTotal = asl.states.stringToJson(item.total.N) as number",
                           "Next": "If"
                         },
@@ -77,30 +87,30 @@
                                         {
                                           "And": [
                                             {
-                                              "Variable": "$.item.sk.S",
-                                              "StringEqualsPath": "$.threshold.metric"
+                                              "Variable": "$.vars.item.sk.S",
+                                              "StringEqualsPath": "$.vars.threshold.metric"
                                             },
                                             {
-                                              "Variable": "$.threshold.ceiling",
-                                              "NumericLessThanEqualsPath": "$.numericTotal"
+                                              "Variable": "$.vars.threshold.ceiling",
+                                              "NumericLessThanEqualsPath": "$.vars.numericTotal"
                                             }
                                           ]
                                         },
                                         {
-                                          "Variable": "$.threshold.ceiling",
-                                          "NumericGreaterThanPath": "$.numericLastSentOnValue"
+                                          "Variable": "$.vars.threshold.ceiling",
+                                          "NumericGreaterThanPath": "$.vars.numericLastSentOnValue"
                                         }
                                       ]
                                     },
                                     {
                                       "Or": [
                                         {
-                                          "Variable": "item.lastBeginDateValue.S",
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
                                           "IsPresent": false
                                         },
                                         {
-                                          "Variable": "$.item.beginDate.S",
-                                          "StringEqualsPath": "$.item.lastBeginDateValue.S"
+                                          "Variable": "$.vars.item.beginDate.S",
+                                          "StringEqualsPath": "$.vars.item.lastBeginDateValue.S"
                                         }
                                       ]
                                     }
@@ -111,24 +121,24 @@
                                     {
                                       "And": [
                                         {
-                                          "Variable": "$.item.sk.S",
-                                          "StringEqualsPath": "$.threshold.metric"
+                                          "Variable": "$.vars.item.sk.S",
+                                          "StringEqualsPath": "$.vars.threshold.metric"
                                         },
                                         {
-                                          "Variable": "$.threshold.ceiling",
-                                          "NumericLessThanEqualsPath": "$.numericTotal"
+                                          "Variable": "$.vars.threshold.ceiling",
+                                          "NumericLessThanEqualsPath": "$.vars.numericTotal"
                                         }
                                       ]
                                     },
                                     {
                                       "Or": [
                                         {
-                                          "Variable": "item.lastBeginDateValue.S",
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
                                           "IsPresent": false
                                         },
                                         {
-                                          "Variable": "$.item.beginDate.S",
-                                          "StringEqualsPath": "$.item.lastBeginDateValue.S"
+                                          "Variable": "$.vars.item.beginDate.S",
+                                          "StringEqualsPath": "$.vars.item.lastBeginDateValue.S"
                                         }
                                       ]
                                     }
@@ -147,7 +157,7 @@
                           "Parameters": {
                             "Entries": [
                               {
-                                "Detail": "States.JsonToString({\n  \"account_id.$\": \"$.item.pk\",\n  \"threshold.$\": \"$.threshold\"\n})",
+                                "Detail": "States.JsonToString({\n  \"account_id.$\": \"$.vars.item.pk\",\n  \"threshold.$\": \"$.vars.threshold\"\n})",
                                 "DetailType": "xxx.detail.type",
                                 "EventBusName": "default",
                                 "Source": "zzz.my.source"
@@ -162,17 +172,17 @@
                           "Parameters": {
                             "TableName": "MyStorage",
                             "Key": {
-                              "pk.$": "$.item.pk",
-                              "sk.$": "$.item.sk"
+                              "pk.$": "$.vars.item.pk",
+                              "sk.$": "$.vars.item.sk"
                             },
                             "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
                             "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
                             "ExpressionAttributeValues": {
                               ":newLastSentOnValue": {
-                                "N.$": "$.item.total.N"
+                                "N.$": "$.vars.item.total.N"
                               },
                               ":newLastBeginDateValue": {
-                                "S.$": "$.item.beginDate.S"
+                                "S.$": "$.vars.item.beginDate.S"
                               }
                             }
                           },
@@ -184,35 +194,39 @@
                         }
                       }
                     },
-                    "ItemsPath": "$.thresholds",
+                    "ItemsPath": "$.vars.thresholds",
                     "Parameters": {
-                      "threshold.$": "$$.Map.Item.Value",
-                      "item.$": "$.item",
-                      "thresholds.$": "$.thresholds"
+                      "vars": {
+                        "threshold.$": "$$.Map.Item.Value",
+                        "item.$": "$.vars.item",
+                        "thresholds.$": "$.vars.thresholds"
+                      }
                     },
                     "End": true
                   }
                 }
               },
-              "ItemsPath": "$.scan.Items",
+              "ItemsPath": "$.vars.scan.Items",
               "Parameters": {
-                "item.$": "$$.Map.Item.Value",
-                "thresholds.$": "$.thresholds",
-                "scan.$": "$.scan"
+                "vars": {
+                  "item.$": "$$.Map.Item.Value",
+                  "thresholds.$": "$.vars.thresholds",
+                  "scan.$": "$.vars.scan"
+                }
               },
               "Next": "Assign lastEvaluatedKey_1"
             },
             "Assign lastEvaluatedKey_1": {
               "Type": "Pass",
-              "ResultPath": "$.lastEvaluatedKey",
-              "InputPath": "scan.LastEvaluatedKey",
+              "ResultPath": "$.vars.lastEvaluatedKey",
+              "InputPath": "$.vars.scan.LastEvaluatedKey",
               "Next": "_WhileCondition"
             },
             "_WhileCondition": {
               "Type": "Choice",
               "Choices": [
                 {
-                  "Variable": "lastEvaluatedKey",
+                  "Variable": "$.vars.lastEvaluatedKey",
                   "IsPresent": true,
                   "Next": "Assign scan"
                 }
@@ -224,8 +238,10 @@
             }
           },
           "Parameters": {
-            "thresholds.$": "$.thresholds",
-            "lastEvaluatedKey.$": "$.lastEvaluatedKey"
+            "vars": {
+              "thresholds.$": "$.vars.thresholds",
+              "lastEvaluatedKey.$": "$.vars.lastEvaluatedKey"
+            }
           }
         }
       ],

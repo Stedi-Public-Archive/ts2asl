@@ -84,17 +84,17 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
       switch (expression.rhs.value) {
         case "string":
           return {
-            Variable: `$.${convered.path}`,
+            Variable: convered.path,
             IsString: true,
           }
         case "number":
           return {
-            Variable: `$.${convered.path}`,
+            Variable: convered.path,
             IsNumeric: true,
           }
         case "boolean":
           return {
-            Variable: `$.${convered.path}`,
+            Variable: convered.path,
             IsBoolean: true,
           }
         default:
@@ -151,11 +151,11 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
   let operand = rhs.value;
   if (rhs.path) {
     operatorField += 'Path';
-    operand = '$.' + rhs.path;
+    operand = rhs.path;
   }
 
   return {
-    Variable: `$.${lhs.path}`,
+    Variable: lhs.path,
     [operatorField]: operand
   }
 }
@@ -206,7 +206,7 @@ const reverseBinaryExpression = (expression: iasl.BinaryExpression): iasl.Binary
       }
   }
 
-  throw new Error(`unable to reverse expression, ${JSON.stringify(expression, null, 2)}`)
+  throw new Error(`unable to reverse expression, ${JSON.stringify(expression, null, 2)} `)
 }
 
 

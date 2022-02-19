@@ -56,6 +56,5 @@
       "_syntaxKind": "asl-wait-state"
     }
   ],
-  "_syntaxKind": "statemachine",
-  "scope": "state-machine1"
+  "_syntaxKind": "statemachine"
 }

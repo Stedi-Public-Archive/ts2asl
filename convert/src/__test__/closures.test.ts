@@ -62,7 +62,6 @@ describe("when converting closures", () => {
           "_syntaxKind": "identifier",
           "identifier": "_input",
         },
-        "scope": "state-machine1",
         "statements": Array [
           Object {
             "_syntaxKind": "variable-assignment",
@@ -169,7 +168,6 @@ describe("when converting closures", () => {
                 "_syntaxKind": "identifier",
                 "identifier": "number",
               },
-              "scope": "asl-map-state2",
               "statements": Array [
                 Object {
                   "_syntaxKind": "asl-map-state",
@@ -185,7 +183,6 @@ describe("when converting closures", () => {
                       "_syntaxKind": "identifier",
                       "identifier": "letter",
                     },
-                    "scope": "asl-map-state3",
                     "statements": Array [
                       Object {
                         "_syntaxKind": "variable-assignment",
@@ -244,13 +241,13 @@ describe("when converting closures", () => {
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign numbers",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign global": Object {
             "Comment": "global = \\"prefix\\"",
             "Next": "Map_1",
             "Result": "prefix",
-            "ResultPath": "$.global",
+            "ResultPath": "$.vars.global",
             "Type": "Pass",
           },
           "Assign letters": Object {
@@ -262,7 +259,7 @@ describe("when converting closures", () => {
               "c",
               "d",
             ],
-            "ResultPath": "$.letters",
+            "ResultPath": "$.vars.letters",
             "Type": "Pass",
           },
           "Assign numbers": Object {
@@ -274,20 +271,28 @@ describe("when converting closures", () => {
               2,
               3,
             ],
-            "ResultPath": "$.numbers",
+            "ResultPath": "$.vars.numbers",
+            "Type": "Pass",
+          },
+          "Initialize Vars": Object {
+            "Next": "Assign numbers",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
             "Type": "Pass",
           },
           "Map_1": Object {
             "Comment": undefined,
             "End": true,
-            "ItemsPath": "$.numbers",
+            "ItemsPath": "$.vars.numbers",
             "Iterator": Object {
               "StartAt": "Map",
               "States": Object {
                 "Map": Object {
                   "Comment": undefined,
                   "End": true,
-                  "ItemsPath": "$.letters",
+                  "ItemsPath": "$.vars.letters",
                   "Iterator": Object {
                     "StartAt": "Assign combined",
                     "States": Object {
@@ -295,11 +300,11 @@ describe("when converting closures", () => {
                         "Comment": "combined = { number, letter, global }",
                         "Next": "Task",
                         "Parameters": Object {
-                          "global.$": "$.global",
-                          "letter.$": "$.letter",
-                          "number.$": "$.number",
+                          "global.$": "$.vars.global",
+                          "letter.$": "$.vars.letter",
+                          "number.$": "$.vars.number",
                         },
-                        "ResultPath": "$.combined",
+                        "ResultPath": "$.vars.combined",
                         "Type": "Pass",
                       },
                       "Task": Object {
@@ -307,7 +312,7 @@ describe("when converting closures", () => {
                         "Comment": "doSomething(combined)",
                         "End": true,
                         "HeartbeatSeconds": undefined,
-                        "InputPath": "combined",
+                        "InputPath": "$.vars.combined",
                         "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-doSomething",
                         "Retry": undefined,
                         "TimeoutSeconds": undefined,
@@ -317,10 +322,12 @@ describe("when converting closures", () => {
                   },
                   "MaxConcurrency": undefined,
                   "Parameters": Object {
-                    "global.$": "$.global",
-                    "letter.$": "$$.Map.Item.Value",
-                    "letters.$": "$.letters",
-                    "number.$": "$.number",
+                    "vars": Object {
+                      "global.$": "$.vars.global",
+                      "letter.$": "$$.Map.Item.Value",
+                      "letters.$": "$.vars.letters",
+                      "number.$": "$.vars.number",
+                    },
                   },
                   "Type": "Map",
                 },
@@ -328,10 +335,12 @@ describe("when converting closures", () => {
             },
             "MaxConcurrency": undefined,
             "Parameters": Object {
-              "global.$": "$.global",
-              "letters.$": "$.letters",
-              "number.$": "$$.Map.Item.Value",
-              "numbers.$": "$.numbers",
+              "vars": Object {
+                "global.$": "$.vars.global",
+                "letters.$": "$.vars.letters",
+                "number.$": "$$.Map.Item.Value",
+                "numbers.$": "$.vars.numbers",
+              },
             },
             "Type": "Map",
           },

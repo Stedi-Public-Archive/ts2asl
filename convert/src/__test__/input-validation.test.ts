@@ -39,7 +39,6 @@ describe("when converting example", () => {
           "_syntaxKind": "identifier",
           "identifier": "context",
         },
-        "scope": "state-machine1",
         "statements": Array [
           Object {
             "_syntaxKind": "if",
@@ -101,21 +100,21 @@ describe("when converting example", () => {
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "If",
+        "StartAt": "Initialize Vars",
         "States": Object {
-          "Assign context.testInput.delayInSeconds": Object {
+          "Assign testInput.delayInSeconds": Object {
             "Comment": undefined,
             "Next": "Wait",
             "Result": 5,
-            "ResultPath": "$.context.testInput.delayInSeconds",
+            "ResultPath": "$.vars.testInput.delayInSeconds",
             "Type": "Pass",
           },
           "If": Object {
             "Choices": Array [
               Object {
                 "IsNumeric": false,
-                "Next": "Assign context.testInput.delayInSeconds",
-                "Variable": "$.context.testInput.delayInSeconds",
+                "Next": "Assign testInput.delayInSeconds",
+                "Variable": "$.vars.testInput.delayInSeconds",
               },
             ],
             "Comment": "if (typeof context.testInput.delayInSeconds !== \\"number\\") {
@@ -124,10 +123,18 @@ describe("when converting example", () => {
             "Default": "Wait",
             "Type": "Choice",
           },
+          "Initialize Vars": Object {
+            "Next": "If",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
           "Wait": Object {
             "Comment": undefined,
             "End": true,
-            "SecondsPath": "context.testInput.delayInSeconds",
+            "SecondsPath": "$.vars.testInput.delayInSeconds",
             "Type": "Wait",
           },
         },

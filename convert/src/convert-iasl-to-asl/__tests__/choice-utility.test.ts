@@ -21,7 +21,7 @@ describe("when transpiling simple statements", () => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "NumericEquals": 23,
-        "Variable": "$.something",
+        "Variable": "$.vars.something",
       }
     `);
   });
@@ -45,7 +45,7 @@ describe("when transpiling simple statements", () => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "IsPresent": false,
-        "Variable": "something",
+        "Variable": "$.vars.something",
       }
     `);
   });
@@ -78,7 +78,7 @@ it("then not typeof is optimized to typeof: false", () => {
   expect(result).toMatchInlineSnapshot(`
     Object {
       "IsNumeric": false,
-      "Variable": "$.number",
+      "Variable": "$.vars.number",
     }
   `);
 });
@@ -237,18 +237,18 @@ describe("when transpiling complex statements", () => {
                   Object {
                     "And": Array [
                       Object {
-                        "StringEqualsPath": "$.threshold.metric",
-                        "Variable": "$.item.sk.S",
+                        "StringEqualsPath": "$.vars.threshold.metric",
+                        "Variable": "$.vars.item.sk.S",
                       },
                       Object {
-                        "StringLessThanEqualsPath": "$.numericTotal",
-                        "Variable": "$.threshold.ceiling",
+                        "StringLessThanEqualsPath": "$.vars.numericTotal",
+                        "Variable": "$.vars.threshold.ceiling",
                       },
                     ],
                   },
                   Object {
-                    "StringGreaterThanPath": "$.numericLastSentOnValue",
-                    "Variable": "$.threshold.ceiling",
+                    "StringGreaterThanPath": "$.vars.numericLastSentOnValue",
+                    "Variable": "$.vars.threshold.ceiling",
                   },
                 ],
               },
@@ -256,11 +256,11 @@ describe("when transpiling complex statements", () => {
                 "Or": Array [
                   Object {
                     "IsPresent": false,
-                    "Variable": "item.lastBeginDateValue.S",
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
                   },
                   Object {
-                    "StringEqualsPath": "$.item.lastBeginDateValue.S",
-                    "Variable": "$.item.beginDate.S",
+                    "StringEqualsPath": "$.vars.item.lastBeginDateValue.S",
+                    "Variable": "$.vars.item.beginDate.S",
                   },
                 ],
               },
@@ -271,12 +271,12 @@ describe("when transpiling complex statements", () => {
               Object {
                 "And": Array [
                   Object {
-                    "StringEqualsPath": "$.threshold.metric",
-                    "Variable": "$.item.sk.S",
+                    "StringEqualsPath": "$.vars.threshold.metric",
+                    "Variable": "$.vars.item.sk.S",
                   },
                   Object {
-                    "StringLessThanEqualsPath": "$.numericTotal",
-                    "Variable": "$.threshold.ceiling",
+                    "StringLessThanEqualsPath": "$.vars.numericTotal",
+                    "Variable": "$.vars.threshold.ceiling",
                   },
                 ],
               },
@@ -284,11 +284,11 @@ describe("when transpiling complex statements", () => {
                 "Or": Array [
                   Object {
                     "IsPresent": false,
-                    "Variable": "item.lastBeginDateValue.S",
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
                   },
                   Object {
-                    "StringEqualsPath": "$.item.lastBeginDateValue.S",
-                    "Variable": "$.item.beginDate.S",
+                    "StringEqualsPath": "$.vars.item.lastBeginDateValue.S",
+                    "Variable": "$.vars.item.beginDate.S",
                   },
                 ],
               },

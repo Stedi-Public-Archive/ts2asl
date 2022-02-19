@@ -16,8 +16,7 @@
                 "_syntaxKind": "asl-task-state"
               }
             ],
-            "_syntaxKind": "function",
-            "scope": "asl-parallel-branch2"
+            "_syntaxKind": "function"
           },
           {
             "statements": [
@@ -35,8 +34,7 @@
                 "_syntaxKind": "return"
               }
             ],
-            "_syntaxKind": "function",
-            "scope": "asl-parallel-branch3"
+            "_syntaxKind": "function"
           }
         ],
         "catch": [],
@@ -221,6 +219,5 @@
       "_syntaxKind": "if"
     }
   ],
-  "_syntaxKind": "statemachine",
-  "scope": "state-machine1"
+  "_syntaxKind": "statemachine"
 }

@@ -1,6 +1,14 @@
 {
-  "StartAt": "Assign result",
+  "StartAt": "Initialize Vars",
   "States": {
+    "Initialize Vars": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign result"
+    },
     "Assign result": {
       "Branches": [
         {
@@ -30,7 +38,7 @@
           }
         }
       ],
-      "ResultPath": "$.result",
+      "ResultPath": "$.vars.result",
       "Type": "Parallel",
       "Catch": [],
       "Retry": [],
@@ -42,7 +50,7 @@
       "Parameters": {
         "Entries": [
           {
-            "Detail": "States.JsonToString($.result)",
+            "Detail": "States.JsonToString($.vars.result)",
             "DetailType": "Identity check completed",
             "EventBusName": "eventbusname",
             "Source": "com.aws.kyc"
@@ -53,7 +61,7 @@
     },
     "Assign checksPassed": {
       "Type": "Pass",
-      "ResultPath": "$.checksPassed",
+      "ResultPath": "$.vars.checksPassed",
       "Result": true,
       "Comment": "checksPassed = true",
       "Next": "If"
@@ -62,7 +70,7 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "checksPassed",
+          "Variable": "$.vars.checksPassed",
           "IsPresent": true,
           "Next": "Task_2"
         }
@@ -76,7 +84,7 @@
       "Parameters": {
         "Entries": [
           {
-            "Detail": "States.JsonToString($.result)",
+            "Detail": "States.JsonToString($.vars.result)",
             "DetailType": "AccountApproved",
             "EventBusName": "eventbusname",
             "Source": "com.aws.kyc"

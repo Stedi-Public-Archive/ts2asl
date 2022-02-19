@@ -170,18 +170,15 @@
                   "_syntaxKind": "asl-task-state"
                 }
               ],
-              "_syntaxKind": "function",
-              "scope": "asl-map-state3"
+              "_syntaxKind": "function"
             },
             "_syntaxKind": "asl-map-state"
           }
         ],
-        "_syntaxKind": "function",
-        "scope": "asl-map-state2"
+        "_syntaxKind": "function"
       },
       "_syntaxKind": "asl-map-state"
     }
   ],
-  "_syntaxKind": "statemachine",
-  "scope": "state-machine1"
+  "_syntaxKind": "statemachine"
 }

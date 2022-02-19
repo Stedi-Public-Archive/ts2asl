@@ -114,89 +114,89 @@ export const visitScopes = (scope: Scope, visitor: (scope: Scope) => void) => {
 
 let scopeCounter = 0;
 
-export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Expression, scope: Scope) => void) => {
+export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expression, scope: Scope) => void) => {
   visitor(node, scope);
   if (Check.isVariableAssignment(node)) {
-    assignScopes(node.name, scope, visitor);
-    assignScopes(node.expression, scope, visitor);
+    visitNodes(node.name, scope, visitor);
+    visitNodes(node.expression, scope, visitor);
+  } else if (Check.isTypeOfExpression(node)) {
+    visitNodes(node.operand, scope, visitor)
   } else if (Check.isBinaryExpression(node)) {
-    if (node.lhs) assignScopes(node.lhs, scope, visitor)
-    assignScopes(node.rhs, scope, visitor)
+    if (node.lhs) visitNodes(node.lhs, scope, visitor)
+    visitNodes(node.rhs, scope, visitor)
   } else if (Check.isBlock(node)) {
     for (const child of node.statements) {
-      assignScopes(child, scope, visitor)
+      visitNodes(child, scope, visitor)
     }
   } else if (Check.isFunction(node)) {
-    if (node.inputArgumentName) assignScopes(node.inputArgumentName, scope, visitor)
+    if (node.inputArgumentName) visitNodes(node.inputArgumentName, scope, visitor)
     for (const child of node.statements) {
-      assignScopes(child, scope, visitor)
+      visitNodes(child, scope, visitor)
     }
   } else if (Check.isStateMachine(node)) {
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "state-machine" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
-    console.debug(`create child scope for ${node._syntaxKind}, source: ${node.source}`);
     for (const child of node.statements) {
-      assignScopes(child, childScope, visitor)
+      visitNodes(child, childScope, visitor)
     }
     node.scope = childScope.id;
   } else if (Check.isAslChoiceState(node)) {
     for (const choice of (node.choices || [])) {
-      assignScopes(choice.when, scope, visitor)
-      assignScopes(choice.then, scope, visitor);
+      visitNodes(choice.when, scope, visitor)
+      visitNodes(choice.then, scope, visitor);
     }
-    if (node.default) assignScopes(node.default, scope, visitor);
+    if (node.default) visitNodes(node.default, scope, visitor);
   } else if (Check.isAslMapState(node)) {
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "asl-map-state" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
-    console.debug(`create child scope for ${node._syntaxKind}, source: ${node.source}`);
-    assignScopes(node.iterator, childScope, visitor);
-    assignScopes(node.items, childScope, visitor);
+    visitNodes(node.iterator, childScope, visitor);
+    visitNodes(node.items, childScope, visitor);
     node.iterator.scope = childScope.id;
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
       const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "asl-parallel-branch" + (scopeCounter += 1) } as Scope;
       scope.childScopes.push(childScope);
-      console.debug(`create child scope for ${node._syntaxKind}, source: ${node.source}`);
-      assignScopes(child, childScope, visitor)
+      visitNodes(child, childScope, visitor)
       child.scope = childScope.id;
     }
   } else if (Check.isIfExpression(node)) {
-    assignScopes(node.condition, scope, visitor);
-    assignScopes(node.then, scope, visitor);
-    if (node.else) assignScopes(node.else, scope, visitor);
+    visitNodes(node.condition, scope, visitor);
+    visitNodes(node.then, scope, visitor);
+    if (node.else) visitNodes(node.else, scope, visitor);
   } else if (Check.isCaseStatement(node)) {
     for (const child of (node.cases || [])) {
       for (const when of child.when) {
-        assignScopes(when, scope, visitor);
+        visitNodes(when, scope, visitor);
       }
-      assignScopes(child.then, scope, visitor)
+      visitNodes(child.then, scope, visitor)
     }
   } else if (Check.isDoWhileStatement(node)) {
-    assignScopes(node.condition, scope, visitor);
+    visitNodes(node.condition, scope, visitor);
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "ts-do-while" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
-    console.debug(`create child scope for ${node._syntaxKind}, source: ${node.source}`);
-    assignScopes(node.while, childScope, visitor)
+    visitNodes(node.while, childScope, visitor)
     node.while.scope = childScope.id;
   } else if (Check.isTryExpression(node)) {
-    assignScopes(node.try, scope, visitor);
+    visitNodes(node.try, scope, visitor);
     for (const child of (node.catch || [])) {
-      assignScopes(child.block, scope, visitor)
+      visitNodes(child.block, scope, visitor)
     }
-    if (node.finally) assignScopes(node.finally, scope, visitor);
+    if (node.finally) visitNodes(node.finally, scope, visitor);
   } else if (Check.isWhileStatement(node)) {
-    assignScopes(node.condition, scope, visitor);
+    visitNodes(node.condition, scope, visitor);
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "ts-while" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
-    console.debug(`create child scope for ${node._syntaxKind}, source: ${node.source}`);
-    assignScopes(node.while, childScope, visitor);
+    visitNodes(node.while, childScope, visitor);
     node.while.scope = childScope.id;
   } else if (Check.isAslPassState(node)) {
-    assignScopes(node.parameters, scope, visitor)
+    visitNodes(node.parameters, scope, visitor)
   } else if (Check.isLiteralObject(node)) {
     for (const prop of Object.values(node.properties)) {
-      assignScopes(prop, scope, visitor)
+      visitNodes(prop, scope, visitor)
     }
+  } else if (Check.isAslWaitState(node)) {
+    visitNodes(node.seconds, scope, visitor)
+    visitNodes(node.timestamp, scope, visitor)
   }
 }
 

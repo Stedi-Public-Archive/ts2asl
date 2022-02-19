@@ -4,12 +4,31 @@ import { AslFactory } from "./aslfactory";
 
 export const convert = (stateMachine: iasl.StateMachine, context: ConversionContext = new ConversionContext()): asl.StateMachine | undefined => {
 
+  const stateMachineCopy = JSON.parse(JSON.stringify(stateMachine)) as iasl.StateMachine;
   const rootScope = { accessed: [], enclosed: [], childScopes: [], parentScope: undefined, id: "root" };
-  iasl.assignScopes(stateMachine, rootScope, (expression, scope) => {
+  iasl.visitNodes(stateMachineCopy, rootScope, (expression, scope) => {
     if (iasl.Check.isIdentifier(expression)) {
       const parts = expression.identifier.split('.');
       if (!scope.accessed.includes(parts[0])) {
         scope.accessed.push(parts[0]);
+      }
+
+      if (stateMachineCopy.inputArgumentName) {
+        const inputArgumentName = stateMachineCopy.inputArgumentName.identifier;
+        if (expression.identifier.startsWith(inputArgumentName + ".")) {
+          expression.identifier = expression.identifier.replace(inputArgumentName + ".", "");
+        }
+      }
+
+
+      if (stateMachineCopy.contextArgumentName) {
+        const inputArgumentName = stateMachineCopy.contextArgumentName.identifier;
+        if (expression.identifier.startsWith(inputArgumentName + ".")) {
+          const parts = expression.identifier.replace(inputArgumentName + ".", "").split(".");
+          const converted = parts.map(x => x[0].toUpperCase() + x.substring(1)).join(".");
+          expression.identifier = converted;
+          expression.objectContextExpression = true;
+        }
       }
     }
   });
@@ -37,7 +56,16 @@ export const convert = (stateMachine: iasl.StateMachine, context: ConversionCont
     }
   })
 
-  const { statements } = stateMachine;
+  const { statements } = stateMachineCopy;
+
+  context.appendNextState({
+    Type: "Pass",
+    ResultPath: "$",
+    Parameters: {
+      "vars.$": "$$.Execution.Input"
+    }
+  }, "Initialize Vars");
+
   for (const statement of statements) {
     AslFactory.append(statement, scopes, context);
   }

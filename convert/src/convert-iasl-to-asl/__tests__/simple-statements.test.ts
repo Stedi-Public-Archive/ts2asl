@@ -7,13 +7,21 @@ describe("when transpiling simple statements", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign result",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign result": Object {
             "Comment": undefined,
             "End": true,
             "Result": "hello",
-            "ResultPath": "$.result",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
+          "Initialize Vars": Object {
+            "Next": "Assign result",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
             "Type": "Pass",
           },
         },
@@ -36,34 +44,34 @@ describe("when transpiling simple statements", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign literalString",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign complexVariableAssignment": Object {
             "Comment": undefined,
-            "InputPath": "anotherVar.path[$.something.pointer]leaf",
+            "InputPath": "$.vars.anotherVar.path[$.vars.something.pointer]leaf",
             "Next": "Assign literalArrayAccessExpression",
-            "ResultPath": "$.complexVariableAssignment",
+            "ResultPath": "$.vars.complexVariableAssignment",
             "Type": "Pass",
           },
           "Assign literalArrayAccessExpression": Object {
             "Comment": undefined,
-            "InputPath": "anotherVar.path[0]leaf",
+            "InputPath": "$.vars.anotherVar.path[0]leaf",
             "Next": "Assign objectLiteral",
-            "ResultPath": "$.literalArrayAccessExpression",
+            "ResultPath": "$.vars.literalArrayAccessExpression",
             "Type": "Pass",
           },
           "Assign literalNum": Object {
             "Comment": undefined,
             "Next": "Assign variableAssignment",
             "Result": 42,
-            "ResultPath": "$.literalNum",
+            "ResultPath": "$.vars.literalNum",
             "Type": "Pass",
           },
           "Assign literalString": Object {
             "Comment": undefined,
             "Next": "Assign literalNum",
             "Result": "hello",
-            "ResultPath": "$.literalString",
+            "ResultPath": "$.vars.literalString",
             "Type": "Pass",
           },
           "Assign objectLiteral": Object {
@@ -73,24 +81,32 @@ describe("when transpiling simple statements", () => {
               "name": "literal",
               "num": 42,
             },
-            "ResultPath": "$.objectLiteral",
+            "ResultPath": "$.vars.objectLiteral",
             "Type": "Pass",
           },
           "Assign objectLiteralWithVariableAssignment": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {
-              "age.$": "$.anotherVar",
+              "age.$": "$.vars.anotherVar",
               "name": "literal",
             },
-            "ResultPath": "$.objectLiteralWithVariableAssignment",
+            "ResultPath": "$.vars.objectLiteralWithVariableAssignment",
             "Type": "Pass",
           },
           "Assign variableAssignment": Object {
             "Comment": undefined,
-            "InputPath": "anotherVar",
+            "InputPath": "$.vars.anotherVar",
             "Next": "Assign complexVariableAssignment",
-            "ResultPath": "$.variableAssignment",
+            "ResultPath": "$.vars.variableAssignment",
+            "Type": "Pass",
+          },
+          "Initialize Vars": Object {
+            "Next": "Assign literalString",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
             "Type": "Pass",
           },
         },

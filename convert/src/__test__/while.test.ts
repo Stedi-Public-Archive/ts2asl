@@ -46,7 +46,6 @@ describe("when converting example", () => {
           "_syntaxKind": "identifier",
           "identifier": "_input",
         },
-        "scope": "state-machine1",
         "statements": Array [
           Object {
             "_syntaxKind": "variable-assignment",
@@ -78,7 +77,6 @@ describe("when converting example", () => {
             },
             "while": Object {
               "_syntaxKind": "function",
-              "scope": "ts-while2",
               "statements": Array [
                 Object {
                   "_syntaxKind": "if",
@@ -142,7 +140,7 @@ describe("when converting example", () => {
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign result",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign result": Object {
             "Catch": Array [],
@@ -151,16 +149,26 @@ describe("when converting example", () => {
             "Next": "While",
             "Parameters": Object {},
             "Resource": "check-password",
-            "ResultPath": "$.result",
+            "ResultPath": "$.vars.result",
             "Retry": Array [],
             "TimeoutSeconds": undefined,
             "Type": "Task",
+          },
+          "Initialize Vars": Object {
+            "Next": "Assign result",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
           },
           "While": Object {
             "Branches": Array [
               Object {
                 "Parameters": Object {
-                  "result.$": "$.result",
+                  "vars": Object {
+                    "result.$": "$.vars.result",
+                  },
                 },
                 "StartAt": "_WhileCondition",
                 "States": Object {
@@ -171,7 +179,7 @@ describe("when converting example", () => {
                     "Next": "_WhileExit",
                     "Parameters": Object {},
                     "Resource": "check-password",
-                    "ResultPath": "$.result",
+                    "ResultPath": "$.vars.result",
                     "Retry": Array [],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
@@ -181,7 +189,7 @@ describe("when converting example", () => {
                       Object {
                         "IsPresent": true,
                         "Next": "Succeed",
-                        "Variable": "result.Authorized",
+                        "Variable": "$.vars.result.Authorized",
                       },
                     ],
                     "Comment": "if (result.Authorized) {

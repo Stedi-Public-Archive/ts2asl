@@ -15,13 +15,21 @@ describe("when transpiling function", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign result",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign result": Object {
             "Comment": "result = asl.states.stringToJson(\\"0\\") as number",
             "End": true,
             "Parameters": "States.StringToJson('0')",
-            "ResultPath": "$.result",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
+          "Initialize Vars": Object {
+            "Next": "Assign result",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
             "Type": "Pass",
           },
         },
@@ -40,13 +48,21 @@ describe("when transpiling function", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign result",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign result": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": "States.StringToJson('s')",
-            "ResultPath": "$.result",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
+          "Initialize Vars": Object {
+            "Next": "Assign result",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
             "Type": "Pass",
           },
         },
@@ -68,7 +84,7 @@ describe("when transpiling function", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign result",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign result": Object {
             "Comment": undefined,
@@ -77,7 +93,15 @@ describe("when transpiling function", () => {
         \\"num\\": 12,
         \\"str\\": \\"val\\"
       })",
-            "ResultPath": "$.result",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
+          "Initialize Vars": Object {
+            "Next": "Assign result",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
             "Type": "Pass",
           },
         },

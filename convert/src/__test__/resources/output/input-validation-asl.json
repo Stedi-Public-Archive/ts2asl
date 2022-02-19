@@ -1,27 +1,35 @@
 {
-  "StartAt": "If",
+  "StartAt": "Initialize Vars",
   "States": {
+    "Initialize Vars": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "If"
+    },
     "If": {
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.context.testInput.delayInSeconds",
+          "Variable": "$.vars.testInput.delayInSeconds",
           "IsNumeric": false,
-          "Next": "Assign context.testInput.delayInSeconds"
+          "Next": "Assign testInput.delayInSeconds"
         }
       ],
       "Comment": "if (typeof context.testInput.delayInSeconds !== \"number\") {\n    context.testInput.delayInSeconds = 5;\n  }",
       "Default": "Wait"
     },
-    "Assign context.testInput.delayInSeconds": {
+    "Assign testInput.delayInSeconds": {
       "Type": "Pass",
-      "ResultPath": "$.context.testInput.delayInSeconds",
+      "ResultPath": "$.vars.testInput.delayInSeconds",
       "Result": 5,
       "Next": "Wait"
     },
     "Wait": {
       "Type": "Wait",
-      "SecondsPath": "context.testInput.delayInSeconds",
+      "SecondsPath": "$.vars.testInput.delayInSeconds",
       "End": true
     }
   }

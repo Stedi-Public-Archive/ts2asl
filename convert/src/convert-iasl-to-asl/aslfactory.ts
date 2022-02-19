@@ -2,18 +2,23 @@ import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast"
 import { ConversionContext, convertBlock, isNonTerminalState } from ".";
 import { createChoiceOperator } from "./choice-utility";
+import { createParameters } from "./parameters";
 
 export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
     let nameSuggestion: string | undefined = undefined;
     let properties = {};
     if (iasl.Check.isVariableAssignment(expression)) {
-      properties["ResultPath"] = `$.` + expression.name.identifier;
+      properties["ResultPath"] = convertIdentifierToPathExpression(expression.name);
       nameSuggestion = `Assign ${expression.name.identifier}`;
       if (!iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isAslIntrinsicFunction(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
         expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
+      }
+    } else {
+      if (iasl.Check.isAslMapState(expression)) {
+        properties["ResultPath"] = "$.lastResult"
       }
     }
 
@@ -54,13 +59,8 @@ export class AslFactory {
       whileCondition.Default = whileExitName;
 
 
-      const stateMachine = contextForBranch.finalize();
-      const parameters: Record<string, string> = {};
       const scope = scopes[expression.while.scope ?? ""];
-      for (const enclosed of scope.enclosed) {
-        parameters[`${enclosed}.$`] = `$.${enclosed}`;
-      }
-      (stateMachine as any).Parameters = parameters;
+      const stateMachine = { ...contextForBranch.finalize()!, ...createParameters(scope) };
 
       context.appendNextState({
         Type: "Parallel",
@@ -125,15 +125,9 @@ export class AslFactory {
       const whileExitName = contextForBranch.appendNextState({ Type: "Succeed" } as asl.Succeed, "_WhileExit");
       whileCondition.Default = whileExitName;
       contextForBranch.trailingStates = [];
-      const stateMachine = contextForBranch.finalize();
-      const parameters: Record<string, string> = {};
 
       const scope = scopes[expression.while.scope ?? ""];
-
-      for (const enclosed of scope.enclosed) {
-        parameters[`${enclosed}.$`] = `$.${enclosed}`;
-      }
-      (stateMachine as any).Parameters = parameters;
+      const stateMachine = { ...contextForBranch.finalize()!, ...createParameters(scope) };
 
       context.appendNextState({
         Type: "Parallel",
@@ -168,18 +162,7 @@ export class AslFactory {
         Comment: expression.source,
       } as asl.Parallel, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
-      const parameters: Record<string, string> = {};
       const scope = scopes[expression.iterator.scope ?? ""];
-
-      if (expression.iterator.inputArgumentName) {
-        const name = expression.iterator.inputArgumentName.identifier;
-        parameters[`${name}.$`] = "$$.Map.Item.Value";
-      }
-
-      for (const enclosed of scope.enclosed) {
-        parameters[`${enclosed}.$`] = `$.${enclosed}`;
-      }
-
       const iterator = convertBlock(expression.iterator, scopes, context.createChildContext())
       const items = convertExpressionToAsl(expression.items);
 
@@ -187,10 +170,10 @@ export class AslFactory {
         Type: "Map",
         ...properties,
         Iterator: iterator,
-        ItemsPath: "$." + items.path,
+        ItemsPath: items.path,
         MaxConcurrency: expression.maxConcurrency,
         Comment: expression.source,
-        Parameters: parameters,
+        ...createParameters(scope, { mapInputArgument: expression.iterator.inputArgumentName }),
       } as asl.Map, nameSuggestion);
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({
@@ -255,7 +238,7 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
     for (const arg of expr.arguments) {
       const convertedArg = convertExpressionToAsl(arg);
       if (convertedArg.path) {
-        args.push('$.' + convertedArg.path);
+        args.push(convertedArg.path);
       } else if (typeof convertedArg.value === "string") {
         if (convertedArg.value.includes("'")) throw new Error("todo implement escaping of string literals passed to intrinsic function args")
         args.push(`'${convertedArg.value}'`);
@@ -283,7 +266,7 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
       const result = convertExpressionToAsl(propValue);
       if (result.path) {
         valueContainsReplacements = true;
-        value[propName + ".$"] = "$." + result.path;
+        value[propName + ".$"] = result.path;
       } else {
         value[propName] = result.value;
         if (result.valueContainsReplacements) {
@@ -308,14 +291,17 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
   if (expr.indexExpression) {
     const indexExpr = convertExpressionToAsl(expr.indexExpression);
     if (indexExpr.path) {
-      return lhs + "[$." + indexExpr.path + "]" + expr.identifier;
+      return lhs + "[" + indexExpr.path + "]" + expr.identifier;
     } else {
       return lhs + "[" + indexExpr.value + "]" + expr.identifier;
     }
   }
   if (expr.identifier) {
     if (!lhs) {
-      return expr.identifier;
+      if (expr.objectContextExpression) {
+        return "$$." + expr.identifier;
+      }
+      return "$.vars." + expr.identifier;
     }
     return lhs + "." + expr.identifier;
 
@@ -323,3 +309,4 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
     return lhs;
   }
 }
+

@@ -1,0 +1,30 @@
+{
+  "StartAt": "Initialize Vars",
+  "States": {
+    "Initialize Vars": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign x"
+    },
+    "Assign x": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.x",
+      "Parameters": {
+        "name.$": "$.vars.name",
+        "execution.$": "$$.Execution.Id"
+      },
+      "Comment": "x = {\n    name: input.name,\n    execution: context.execution.id\n  }",
+      "Next": "Task"
+    },
+    "Task": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-consoleLog",
+      "InputPath": "$.vars.x",
+      "Comment": "consoleLog(x)",
+      "End": true
+    }
+  }
+}

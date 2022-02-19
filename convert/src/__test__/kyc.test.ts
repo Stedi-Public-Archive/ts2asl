@@ -82,7 +82,6 @@ describe("when converting example", () => {
         "_syntaxKind": "statemachine",
         "contextArgumentName": undefined,
         "inputArgumentName": undefined,
-        "scope": "state-machine1",
         "statements": Array [
           Object {
             "_syntaxKind": "variable-assignment",
@@ -91,7 +90,6 @@ describe("when converting example", () => {
               "branches": Array [
                 Object {
                   "_syntaxKind": "function",
-                  "scope": "asl-parallel-branch2",
                   "statements": Array [
                     Object {
                       "_syntaxKind": "asl-task-state",
@@ -102,7 +100,6 @@ describe("when converting example", () => {
                 },
                 Object {
                   "_syntaxKind": "function",
-                  "scope": "asl-parallel-branch3",
                   "statements": Array [
                     Object {
                       "_syntaxKind": "return",
@@ -335,13 +332,13 @@ describe("when converting example", () => {
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign result",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign checksPassed": Object {
             "Comment": "checksPassed = true",
             "Next": "If",
             "Result": true,
-            "ResultPath": "$.checksPassed",
+            "ResultPath": "$.vars.checksPassed",
             "Type": "Pass",
           },
           "Assign result": Object {
@@ -381,7 +378,7 @@ describe("when converting example", () => {
             "Catch": Array [],
             "Comment": undefined,
             "Next": "Task_1",
-            "ResultPath": "$.result",
+            "ResultPath": "$.vars.result",
             "Retry": Array [],
             "Type": "Parallel",
           },
@@ -390,7 +387,7 @@ describe("when converting example", () => {
               Object {
                 "IsPresent": true,
                 "Next": "Task_2",
-                "Variable": "checksPassed",
+                "Variable": "$.vars.checksPassed",
               },
             ],
             "Comment": "if (checksPassed) {
@@ -420,6 +417,14 @@ describe("when converting example", () => {
             "Default": "Task_2",
             "Type": "Choice",
           },
+          "Initialize Vars": Object {
+            "Next": "Assign result",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
           "Task_1": Object {
             "Catch": undefined,
             "Comment": undefined,
@@ -428,7 +433,7 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "Detail": "States.JsonToString($.result)",
+                  "Detail": "States.JsonToString($.vars.result)",
                   "DetailType": "Identity check completed",
                   "EventBusName": "eventbusname",
                   "Source": "com.aws.kyc",
@@ -448,7 +453,7 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "Detail": "States.JsonToString($.result)",
+                  "Detail": "States.JsonToString($.vars.result)",
                   "DetailType": "AccountApproved",
                   "EventBusName": "eventbusname",
                   "Source": "com.aws.kyc",

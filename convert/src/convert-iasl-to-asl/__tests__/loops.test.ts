@@ -19,20 +19,30 @@ describe("when transpiling simple statements", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "StartAt": "Assign result",
+        "StartAt": "Initialize Vars",
         "States": Object {
           "Assign result": Object {
             "Comment": "result = 0",
             "Next": "While",
             "Result": 0,
-            "ResultPath": "$.result",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
+          "Initialize Vars": Object {
+            "Next": "Assign result",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
             "Type": "Pass",
           },
           "While": Object {
             "Branches": Array [
               Object {
                 "Parameters": Object {
-                  "result.$": "$.result",
+                  "vars": Object {
+                    "result.$": "$.vars.result",
+                  },
                 },
                 "StartAt": "_WhileCondition",
                 "States": Object {
@@ -42,7 +52,7 @@ describe("when transpiling simple statements", () => {
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",
                     "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-isDone",
-                    "ResultPath": "$.result",
+                    "ResultPath": "$.vars.result",
                     "Retry": undefined,
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
@@ -58,7 +68,7 @@ describe("when transpiling simple statements", () => {
                       Object {
                         "Next": "Wait",
                         "NumericEquals": 0,
-                        "Variable": "$.result",
+                        "Variable": "$.vars.result",
                       },
                     ],
                     "Default": "_WhileExit",

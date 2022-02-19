@@ -475,14 +475,12 @@
                         "_syntaxKind": "if"
                       }
                     ],
-                    "_syntaxKind": "function",
-                    "scope": "asl-map-state4"
+                    "_syntaxKind": "function"
                   },
                   "_syntaxKind": "asl-map-state"
                 }
               ],
-              "_syntaxKind": "function",
-              "scope": "asl-map-state3"
+              "_syntaxKind": "function"
             },
             "_syntaxKind": "asl-map-state"
           },
@@ -500,12 +498,10 @@
             "_syntaxKind": "variable-assignment"
           }
         ],
-        "_syntaxKind": "function",
-        "scope": "ts-do-while2"
+        "_syntaxKind": "function"
       },
       "_syntaxKind": "do-while"
     }
   ],
-  "_syntaxKind": "statemachine",
-  "scope": "state-machine1"
+  "_syntaxKind": "statemachine"
 }

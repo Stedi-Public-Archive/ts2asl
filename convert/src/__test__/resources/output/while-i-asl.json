@@ -82,12 +82,10 @@
             "_syntaxKind": "variable-assignment"
           }
         ],
-        "_syntaxKind": "function",
-        "scope": "ts-while2"
+        "_syntaxKind": "function"
       },
       "_syntaxKind": "while"
     }
   ],
-  "_syntaxKind": "statemachine",
-  "scope": "state-machine1"
+  "_syntaxKind": "statemachine"
 }

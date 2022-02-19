@@ -41,20 +41,16 @@ export interface Try {
     finally?: Function;
     comment?: string;
 }
-export interface Return {
-    result: unknown | (() => unknown);
-    comment?: string;
-}
 export interface Task {
     resource: string;
-    parameters?: unknown | (() => unknown);
+    parameters?: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
     catch?: CatchConfiguration;
     retry?: RetryConfiguration;
     timeoutSeconds?: number;
     heartbeatSeconds?: number;
 }
 export interface Pass<T> {
-    parameters: T | (() => T);
+    parameters: T | (() => T) | (<U>(objectContext: StateMachineContext<U>) => T);
     comment?: string;
 }
 export interface Fail {
@@ -63,9 +59,9 @@ export interface Fail {
     comment?: string;
 }
 export interface Map<T> {
-    parameters?: unknown | (() => unknown);
+    parameters?: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
     items: T[] | undefined | (() => T[]);
-    iterator: (item: T) => void | {};
+    iterator: <U>(item: T, objectContext: StateMachineContext<U>) => void | {};
     maxConcurrency?: number;
     comment?: string;
 }
@@ -73,18 +69,19 @@ export interface Succeed {
     comment?: string;
 }
 export interface Parallel<T> {
-    items: T[] | undefined | (() => T[]);
+    items?: T[] | undefined | (() => T[]);
     branches: ((item: T) => void | {})[];
     catch?: CatchConfiguration;
     retry?: RetryConfiguration;
     comment?: string;
 }
 export interface Invoke<P, R> {
-    target: (parameters?: P) => Promise<R>;
+    target: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
     parameters?: P | (() => P);
+    comment?: string;
 }
 export interface Choice {
-    input: unknown | (() => unknown);
+    input: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
     choices: Array<{
         condition: () => boolean;
         block: Function;
@@ -92,12 +89,29 @@ export interface Choice {
     default: boolean | (() => boolean);
     comment?: string;
 }
+export interface StateMachineContext<TInput> {
+    execution: {
+        id: string;
+        input: TInput;
+        name: string;
+        roleArn: string;
+        startTime: string;
+    };
+    stateMachine: {
+        id: string;
+        name: string;
+    };
+    state: {
+        name: string;
+        enteredTime: string;
+    };
+}
 export declare const typescriptInvoke: <P, R>(args: Invoke<P, R>) => Promise<R>;
 export declare const typescriptTry: (args: Try) => Promise<AslState>;
 export declare const typescriptDoWhile: (args: DoWhile) => Promise<AslState>;
 export declare const typescriptWhile: (args: While) => Promise<AslState>;
 export declare const typescriptIf: (args: If) => Promise<AslState>;
-export declare const task: (args: Task) => Promise<AslState>;
+export declare const task: <TResult>(args: Task) => Promise<TResult>;
 export declare const wait: (args: Wait) => Promise<void>;
 export declare const parallel: <Item>(args: Parallel<Item>) => Promise<AslState>;
 export declare const choice: (args: Choice) => Promise<AslState>;
