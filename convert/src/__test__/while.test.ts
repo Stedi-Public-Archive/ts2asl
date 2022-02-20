@@ -165,11 +165,6 @@ describe("when converting example", () => {
           "While": Object {
             "Branches": Array [
               Object {
-                "Parameters": Object {
-                  "vars": Object {
-                    "result.$": "$.vars.result",
-                  },
-                },
                 "StartAt": "_WhileCondition",
                 "States": Object {
                   "Assign Result_1": Object {
@@ -225,6 +220,11 @@ describe("when converting example", () => {
             ],
             "Comment": undefined,
             "End": true,
+            "Parameters": Object {
+              "vars": Object {
+                "result.$": "$.vars.result",
+              },
+            },
             "Type": "Parallel",
           },
         },

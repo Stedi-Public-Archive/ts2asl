@@ -34,6 +34,12 @@
     },
     "DoWhile": {
       "Type": "Parallel",
+      "Parameters": {
+        "vars": {
+          "thresholds.$": "$.vars.thresholds",
+          "lastEvaluatedKey.$": "$.vars.lastEvaluatedKey"
+        }
+      },
       "Branches": [
         {
           "StartAt": "Assign Scan",
@@ -235,12 +241,6 @@
             },
             "_WhileExit": {
               "Type": "Succeed"
-            }
-          },
-          "Parameters": {
-            "vars": {
-              "thresholds.$": "$.vars.thresholds",
-              "lastEvaluatedKey.$": "$.vars.lastEvaluatedKey"
             }
           }
         }

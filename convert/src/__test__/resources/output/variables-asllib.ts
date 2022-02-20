@@ -20,12 +20,13 @@ export const main = asl.deploy.asStateMachine(async (input: IInput, context: Sta
     const y = asl.pass({
         parameters: () => ({
             x,
+            somethingLiteral: ["one", 2, "three"],
             startTime: context.execution.startTime,
             func: asl.states.jsonToString(x),
             number: asl.states.stringToJson("123") as number,
             arr: asl.states.array(1, 2, 3, 4, 5, 6),
         }),
-        comment: "y = {\n    x,\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }"
+        comment: "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }"
     });
     return y;
 });
@@ -34,9 +35,5 @@ export const main = asl.deploy.asStateMachine(async (input: IInput, context: Sta
 interface IInput {
   name: string;
   totalDue: number;
-  orders: [{ orderId: string, date: DateTime }];
-}
-
-function consoleLog(x: { name: string; execution: string; }) {
-  throw new Error("Function not implemented.");
+  orders: [{ orderId: string, date: Date }];
 }

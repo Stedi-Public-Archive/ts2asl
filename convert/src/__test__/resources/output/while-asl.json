@@ -20,6 +20,11 @@
     },
     "While": {
       "Type": "Parallel",
+      "Parameters": {
+        "vars": {
+          "result.$": "$.vars.result"
+        }
+      },
       "Branches": [
         {
           "StartAt": "_WhileCondition",
@@ -66,11 +71,6 @@
             },
             "_WhileExit": {
               "Type": "Succeed"
-            }
-          },
-          "Parameters": {
-            "vars": {
-              "result.$": "$.vars.result"
             }
           }
         }

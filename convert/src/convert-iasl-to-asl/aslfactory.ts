@@ -60,11 +60,12 @@ export class AslFactory {
 
 
       const scope = scopes[expression.while.scope ?? ""];
-      const stateMachine = { ...contextForBranch.finalize()!, ...createParameters(scope) };
+      const stateMachine = contextForBranch.finalize();
 
       context.appendNextState({
         Type: "Parallel",
         ...properties,
+        ...createParameters(scope),
         Branches: [stateMachine],
         Comment: expression.source,
       } as asl.Parallel, 'DoWhile');
@@ -127,11 +128,12 @@ export class AslFactory {
       contextForBranch.trailingStates = [];
 
       const scope = scopes[expression.while.scope ?? ""];
-      const stateMachine = { ...contextForBranch.finalize()!, ...createParameters(scope) };
+      const stateMachine = contextForBranch.finalize();
 
       context.appendNextState({
         Type: "Parallel",
         ...properties,
+        ...createParameters(scope),
         Branches: [stateMachine],
         Comment: expression.source,
       } as asl.Parallel, 'While');

@@ -31,12 +31,13 @@ describe("when converting variables", () => {
           const y = asl.pass({
               parameters: () => ({
                   x,
+                  somethingLiteral: [\\"one\\", 2, \\"three\\"],
                   startTime: context.execution.startTime,
                   func: asl.states.jsonToString(x),
                   number: asl.states.stringToJson(\\"123\\") as number,
                   arr: asl.states.array(1, 2, 3, 4, 5, 6),
               }),
-              comment: \\"y = {\\\\n    x,\\\\n    startTime: context.execution.startTime,\\\\n    func: asl.states.jsonToString(x),\\\\n    number: asl.states.stringToJson(\\\\\\"123\\\\\\") as number,\\\\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\\\\n  }\\"
+              comment: \\"y = {\\\\n    x,\\\\n    somethingLiteral: [\\\\\\"one\\\\\\", 2, \\\\\\"three\\\\\\"],\\\\n    startTime: context.execution.startTime,\\\\n    func: asl.states.jsonToString(x),\\\\n    number: asl.states.stringToJson(\\\\\\"123\\\\\\") as number,\\\\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\\\\n  }\\"
           });
           return y;
       });
@@ -45,11 +46,7 @@ describe("when converting variables", () => {
       interface IInput {
         name: string;
         totalDue: number;
-        orders: [{ orderId: string, date: DateTime }];
-      }
-
-      function consoleLog(x: { name: string; execution: string; }) {
-        throw new Error(\\"Function not implemented.\\");
+        orders: [{ orderId: string, date: Date }];
       }
       "
     `);
@@ -207,6 +204,26 @@ describe("when converting variables", () => {
                     ],
                     "function": "asl.states.stringToJson",
                   },
+                  "somethingLiteral": Object {
+                    "_syntaxKind": "literal-array",
+                    "elements": Array [
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "one",
+                      },
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 2,
+                      },
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "three",
+                      },
+                    ],
+                  },
                   "startTime": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "context.execution.startTime",
@@ -221,6 +238,7 @@ describe("when converting variables", () => {
               },
               "source": "y = {
           x,
+          somethingLiteral: [\\"one\\", 2, \\"three\\"],
           startTime: context.execution.startTime,
           func: asl.states.jsonToString(x),
           number: asl.states.stringToJson(\\"123\\") as number,
@@ -268,12 +286,17 @@ describe("when converting variables", () => {
             "Type": "Pass",
           },
           "Assign Y": Object {
-            "Comment": "source: y = { x, startTime: context.execution.startTim ...",
+            "Comment": "source: y = { x, somethingLiteral: [\\"one\\", 2, \\"three\\"] ...",
             "Next": "Pass",
             "Parameters": Object {
               "arr.$": "States.Array(1, 2, 3, 4, 5, 6)",
               "func.$": "States.JsonToString($.vars.x)",
               "number.$": "States.StringToJson('123')",
+              "somethingLiteral": Array [
+                "one",
+                2,
+                "three",
+              ],
               "startTime.$": "$$.Execution.StartTime",
               "x.$": "$.vars.x",
             },

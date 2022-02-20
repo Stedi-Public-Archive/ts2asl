@@ -688,12 +688,6 @@ describe("when converting example", () => {
           "DoWhile": Object {
             "Branches": Array [
               Object {
-                "Parameters": Object {
-                  "vars": Object {
-                    "lastEvaluatedKey.$": "$.vars.lastEvaluatedKey",
-                    "thresholds.$": "$.vars.thresholds",
-                  },
-                },
                 "StartAt": "Assign Scan",
                 "States": Object {
                   "Assign LastEvaluatedKey_1": Object {
@@ -922,6 +916,12 @@ describe("when converting example", () => {
             ],
             "Comment": undefined,
             "End": true,
+            "Parameters": Object {
+              "vars": Object {
+                "lastEvaluatedKey.$": "$.vars.lastEvaluatedKey",
+                "thresholds.$": "$.vars.thresholds",
+              },
+            },
             "Type": "Parallel",
           },
           "Initialize": Object {

@@ -39,11 +39,6 @@ describe("when transpiling simple statements", () => {
           "While": Object {
             "Branches": Array [
               Object {
-                "Parameters": Object {
-                  "vars": Object {
-                    "result.$": "$.vars.result",
-                  },
-                },
                 "StartAt": "_WhileCondition",
                 "States": Object {
                   "Assign Result_1": Object {
@@ -82,6 +77,11 @@ describe("when transpiling simple statements", () => {
             ],
             "Comment": undefined,
             "End": true,
+            "Parameters": Object {
+              "vars": Object {
+                "result.$": "$.vars.result",
+              },
+            },
             "Type": "Parallel",
           },
         },
