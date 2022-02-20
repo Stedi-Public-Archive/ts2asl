@@ -734,15 +734,15 @@ describe("when converting example", () => {
                             "States": Object {
                               "Assign NumericLastSentOnValue": Object {
                                 "Comment": "source: numericLastSentOnValue = asl.states.stringToJs ...",
+                                "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
                                 "Next": "Assign NumericTotal",
-                                "Parameters": "States.StringToJson($.vars.item.lastSentOnValue.N)",
                                 "ResultPath": "$.vars.numericLastSentOnValue",
                                 "Type": "Pass",
                               },
                               "Assign NumericTotal": Object {
                                 "Comment": "source: numericTotal = asl.states.stringToJson(item.to ...",
+                                "InputPath": "States.StringToJson($.vars.item.total.N)",
                                 "Next": "If",
-                                "Parameters": "States.StringToJson($.vars.item.total.N)",
                                 "ResultPath": "$.vars.numericTotal",
                                 "Type": "Pass",
                               },
@@ -834,7 +834,7 @@ describe("when converting example", () => {
                                 "Parameters": Object {
                                   "Entries": Array [
                                     Object {
-                                      "Detail": "States.JsonToString({
+                                      "Detail.$": "States.JsonToString({
         \\"account_id.$\\": \\"$.vars.item.pk\\",
         \\"threshold.$\\": \\"$.vars.threshold\\"
       })",

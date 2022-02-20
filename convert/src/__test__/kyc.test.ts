@@ -410,7 +410,7 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "Detail": "States.JsonToString($.vars.result)",
+                  "Detail.$": "States.JsonToString($.vars.result)",
                   "DetailType": "Identity check completed",
                   "EventBusName": "eventbusname",
                   "Source": "com.aws.kyc",
@@ -430,7 +430,7 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "Detail": "States.JsonToString($.vars.result)",
+                  "Detail.$": "States.JsonToString($.vars.result)",
                   "DetailType": "AccountApproved",
                   "EventBusName": "eventbusname",
                   "Source": "com.aws.kyc",

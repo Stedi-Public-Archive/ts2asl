@@ -20,7 +20,7 @@ describe("when transpiling function", () => {
           "Assign Result": Object {
             "Comment": "source: result = asl.states.stringToJson(\\"0\\") as number",
             "End": true,
-            "Parameters": "States.StringToJson('0')",
+            "InputPath": "States.StringToJson('0')",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -53,7 +53,7 @@ describe("when transpiling function", () => {
           "Assign Result": Object {
             "Comment": undefined,
             "End": true,
-            "Parameters": "States.StringToJson('s')",
+            "InputPath": "States.StringToJson('s')",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -89,7 +89,7 @@ describe("when transpiling function", () => {
           "Assign Result": Object {
             "Comment": undefined,
             "End": true,
-            "Parameters": "States.JsonToString({
+            "InputPath": "States.JsonToString({
         \\"num\\": 12,
         \\"str\\": \\"val\\"
       })",

@@ -19,7 +19,7 @@ describe("when converting example", () => {
     );
     writeFileSync(
       "__test__/examples/output/example-i-asl.json",
-      JSON.stringify(converted.iasl, null, 2)
+      JSON.stringify(converted.iasl, function (this: any, key: string, val: any) { return key === "parentScope" ? undefined : val }, 2)
     );
     writeFileSync(
       "__test__/examples/output/example-asl.json",
@@ -34,7 +34,7 @@ describe("when converting example", () => {
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(``);
   });
-  
+
   it("then can be converted to asl", async () => {
     expect(converted.asl).toMatchInlineSnapshot(``);
   });

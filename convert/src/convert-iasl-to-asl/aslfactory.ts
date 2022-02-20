@@ -255,7 +255,7 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
     }
 
     return {
-      value: `${intrinsicFunctionName}(${args.join(', ')})`,
+      path: `${intrinsicFunctionName}(${args.join(', ')})`,
       type: "unknown",
       valueContainsReplacements: true
     }

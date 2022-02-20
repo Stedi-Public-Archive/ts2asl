@@ -84,8 +84,9 @@ export interface Parallel<T> {
 }
 
 export interface Invoke<P, R> {
-  target: (parameters?: P) => Promise<R>;
+  target: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
   parameters?: P | (() => P);
+  comment?: string;
 }
 
 export interface Choice {
@@ -97,26 +98,25 @@ export interface Choice {
 
 
 export interface StateMachineContext<TInput> {
-  execution: {
-    id: string;
-    input: TInput;
-    name: string;
-    roleArn: string;
-    startTime: string;
-  },
-  stateMachine: {
-    id: string,
-    name: string
-  },
-  state: {
-    name: string,
-    enteredTime: string
-  }
-
+  readonly execution: {
+    readonly id: string;
+    readonly input: TInput;
+    readonly name: string;
+    readonly roleArn: string;
+    readonly startTime: string;
+  };
+  readonly stateMachine: {
+    readonly id: string;
+    readonly name: string;
+  };
+  readonly state: {
+    readonly name: string;
+    readonly enteredTime: string;
+  };
 }
 
 export const typescriptInvoke = async <P, R>(args: Invoke<P, R>): Promise<R> => {
-  return await args.target(args.parameters as P);
+  return args.target(args.parameters as P);
 }
 
 export const typescriptTry = async (args: Try) => {

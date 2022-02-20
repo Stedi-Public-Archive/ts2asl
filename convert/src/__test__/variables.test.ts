@@ -12,21 +12,33 @@ describe("when converting variables", () => {
       "
       import * as asl from \\"@cloudscript/asl-lib\\"
       import { StateMachineContext } from \\"@cloudscript/asl-lib\\";
-      import { DateTime } from \\"aws-sdk/clients/devicefarm\\";
 
       export const main = asl.deploy.asStateMachine(async (input: IInput, context: StateMachineContext<IInput>) =>{
+          asl.typescriptIf({
+              condition: () => typeof input.name !== \\"string\\",
+              then: async () => {
+                  input.name = \\"fred\\";
+              },
+              comment: \\"if (typeof input.name !== \\\\\\"string\\\\\\") {\\\\n    input.name = \\\\\\"fred\\\\\\";\\\\n  }\\"
+          })
           const x = asl.pass({
               parameters: () => ({
                   name: input.name,
-                  execution: context.execution.id
+                  executionId: context.execution.id
               }),
-              comment: \\"x = {\\\\n    name: input.name,\\\\n    execution: context.execution.id\\\\n  }\\"
+              comment: \\"x = {\\\\n    name: input.name,\\\\n    executionId: context.execution.id\\\\n  }\\"
           });
-          asl.typescriptInvoke({
-              target: consoleLog,
-              parameters: () => x,
-              comment: \\"consoleLog(x)\\"
+          const y = asl.pass({
+              parameters: () => ({
+                  x,
+                  startTime: context.execution.startTime,
+                  func: asl.states.jsonToString(x),
+                  number: asl.states.stringToJson(\\"123\\") as number,
+                  arr: asl.states.array(1, 2, 3, 4, 5, 6),
+              }),
+              comment: \\"y = {\\\\n    x,\\\\n    startTime: context.execution.startTime,\\\\n    func: asl.states.jsonToString(x),\\\\n    number: asl.states.stringToJson(\\\\\\"123\\\\\\") as number,\\\\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\\\\n  }\\"
           });
+          return y;
       });
 
 
@@ -56,13 +68,58 @@ describe("when converting variables", () => {
         },
         "statements": Array [
           Object {
+            "_syntaxKind": "if",
+            "condition": Object {
+              "_syntaxKind": "binary-expression",
+              "operator": "not",
+              "rhs": Object {
+                "_syntaxKind": "binary-expression",
+                "lhs": Object {
+                  "_syntaxKind": "type-of-expression",
+                  "operand": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "input.name",
+                    "type": "string",
+                  },
+                },
+                "operator": "eq",
+                "rhs": Object {
+                  "_syntaxKind": "literal",
+                  "type": "string",
+                  "value": "string",
+                },
+              },
+            },
+            "source": "if (typeof input.name !== \\"string\\") {
+          input.name = \\"fred\\";
+        }",
+            "then": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "variable-assignment",
+                  "expression": Object {
+                    "_syntaxKind": "literal",
+                    "type": "string",
+                    "value": "fred",
+                  },
+                  "name": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "input.name",
+                    "type": "string",
+                  },
+                },
+              ],
+            },
+          },
+          Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-pass-state",
               "parameters": Object {
                 "_syntaxKind": "literal-object",
                 "properties": Object {
-                  "execution": Object {
+                  "executionId": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "context.execution.id",
                     "type": "string",
@@ -76,7 +133,7 @@ describe("when converting variables", () => {
               },
               "source": "x = {
           name: input.name,
-          execution: context.execution.id
+          executionId: context.execution.id
         }",
             },
             "name": Object {
@@ -86,14 +143,103 @@ describe("when converting variables", () => {
             },
           },
           Object {
-            "_syntaxKind": "asl-task-state",
-            "parameters": Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal-object",
+                "properties": Object {
+                  "arr": Object {
+                    "_syntaxKind": "asl-intrinsic-function",
+                    "arguments": Array [
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 1,
+                      },
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 2,
+                      },
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 3,
+                      },
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 4,
+                      },
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 5,
+                      },
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 6,
+                      },
+                    ],
+                    "function": "asl.states.array",
+                  },
+                  "func": Object {
+                    "_syntaxKind": "asl-intrinsic-function",
+                    "arguments": Array [
+                      Object {
+                        "_syntaxKind": "identifier",
+                        "identifier": "x",
+                        "type": "object",
+                      },
+                    ],
+                    "function": "asl.states.jsonToString",
+                  },
+                  "number": Object {
+                    "_syntaxKind": "asl-intrinsic-function",
+                    "arguments": Array [
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "123",
+                      },
+                    ],
+                    "function": "asl.states.stringToJson",
+                  },
+                  "startTime": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "context.execution.startTime",
+                    "type": "string",
+                  },
+                  "x": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "x",
+                    "type": "object",
+                  },
+                },
+              },
+              "source": "y = {
+          x,
+          startTime: context.execution.startTime,
+          func: asl.states.jsonToString(x),
+          number: asl.states.stringToJson(\\"123\\") as number,
+          arr: asl.states.array(1, 2, 3, 4, 5, 6),
+        }",
+            },
+            "name": Object {
               "_syntaxKind": "identifier",
-              "identifier": "x",
+              "identifier": "y",
               "type": "object",
             },
-            "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-consoleLog",
-            "source": "consoleLog(x)",
+          },
+          Object {
+            "_syntaxKind": "return",
+            "expression": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "y",
+              "type": "object",
+            },
           },
         ],
       }
@@ -104,34 +250,74 @@ describe("when converting variables", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign Name": Object {
+            "Comment": undefined,
+            "Next": "Assign X",
+            "Result": "fred",
+            "ResultPath": "$.vars.name",
+            "Type": "Pass",
+          },
           "Assign X": Object {
-            "Comment": "source: x = { name: input.name, execution: context.exe ...",
-            "Next": "Task",
+            "Comment": "source: x = { name: input.name, executionId: context.e ...",
+            "Next": "Assign Y",
             "Parameters": Object {
-              "execution.$": "$$.Execution.Id",
+              "executionId.$": "$$.Execution.Id",
               "name.$": "$.vars.name",
             },
             "ResultPath": "$.vars.x",
             "Type": "Pass",
           },
+          "Assign Y": Object {
+            "Comment": "source: y = { x, startTime: context.execution.startTim ...",
+            "Next": "Pass",
+            "Parameters": Object {
+              "arr.$": "States.Array(1, 2, 3, 4, 5, 6)",
+              "func.$": "States.JsonToString($.vars.x)",
+              "number.$": "States.StringToJson('123')",
+              "startTime.$": "$$.Execution.StartTime",
+              "x.$": "$.vars.x",
+            },
+            "ResultPath": "$.vars.y",
+            "Type": "Pass",
+          },
+          "If": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Assign Name",
+                "Not": Object {
+                  "And": Array [
+                    Object {
+                      "IsPresent": true,
+                      "Variable": "$.vars.name",
+                    },
+                    Object {
+                      "IsString": true,
+                      "Variable": "$.vars.name",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": "source: if (typeof input.name !== \\"string\\") { input.na ...",
+            "Default": "Assign X",
+            "Type": "Choice",
+          },
           "Initialize": Object {
-            "Next": "Assign X",
+            "Next": "If",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Task": Object {
-            "Catch": undefined,
-            "Comment": "source: consoleLog(x)",
-            "End": true,
-            "HeartbeatSeconds": undefined,
-            "InputPath": "$.vars.x",
-            "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-consoleLog",
-            "Retry": undefined,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
+          "Pass": Object {
+            "InputPath": "$.vars.y",
+            "Next": "Succeed",
+            "Type": "Pass",
+          },
+          "Succeed": Object {
+            "Comment": undefined,
+            "Type": "Succeed",
           },
         },
       }

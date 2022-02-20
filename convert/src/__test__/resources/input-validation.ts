@@ -1,16 +1,24 @@
-//source: https://github.com/aws-samples/aws-stepfunctions-examples/blob/main/sam/app-decompose-for-parallelism/statemachine/runner-simplewait.asl.json
 import * as asl from "@cloudscript/asl-lib"
 
-export const main = asl.deploy.asStateMachine(async (context: Input) => {
-  if (typeof context.testInput.delayInSeconds !== "number") {
-    context.testInput.delayInSeconds = 5;
+export const main = asl.deploy.asStateMachine(async (input: Input) => {
+
+  if (typeof input.delayInSeconds !== "number") {
+    input.delayInSeconds = 5;
   }
 
-  await asl.wait({seconds: context.testInput.delayInSeconds});
+  if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {
+    throw new ValidationError("delay in seconds must be numeric value no greater than 10 and no smaller than 1")
+  }
+
+  await asl.wait({ seconds: input.delayInSeconds });
 });
 
 interface Input {
-  testInput: {
-    delayInSeconds: number | undefined;
-  } 
+  delayInSeconds: number | undefined;
+}
+
+class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
 }

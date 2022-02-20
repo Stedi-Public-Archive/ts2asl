@@ -77,8 +77,18 @@ it("then not typeof is optimized to typeof: false", () => {
   const result = createChoiceOperator(binaryExpression);
   expect(result).toMatchInlineSnapshot(`
     Object {
-      "IsNumeric": false,
-      "Variable": "$.vars.number",
+      "Not": Object {
+        "And": Array [
+          Object {
+            "IsPresent": true,
+            "Variable": "$.vars.number",
+          },
+          Object {
+            "IsNumeric": true,
+            "Variable": "$.vars.number",
+          },
+        ],
+      },
     }
   `);
 });

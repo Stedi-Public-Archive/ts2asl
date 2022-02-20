@@ -80,26 +80,36 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
     if (expression.operator !== "eq") throw new Error("if lhs or rhs is typeof expression, operator must be equals (e.g. typeof myvar === 'string'");
     if (iasl.Check.isTypeOfExpression(expression.lhs) && iasl.Check.isLiteral(expression.rhs) && iasl.Check.isIdentifier(expression.lhs.operand)) {
       const convered = convertExpressionToAsl(expression.lhs.operand);
+      const result = {
+        And: [{
+          Variable: convered.path,
+          IsPresent: true
+        } as any]
+      };
 
       switch (expression.rhs.value) {
         case "string":
-          return {
+          result.And.push({
             Variable: convered.path,
             IsString: true,
-          }
+          })
+          break;
         case "number":
-          return {
+          result.And.push({
             Variable: convered.path,
             IsNumeric: true,
-          }
+          })
+          break;
         case "boolean":
-          return {
+          result.And.push({
             Variable: convered.path,
             IsBoolean: true,
-          }
+          })
+          break;
         default:
           throw new Error("typeof must be one of 'string', 'number' or 'boolean'");
       }
+      return result;
     }
   }
   const lhs = expression.lhs ? convertExpressionToAsl(expression.lhs) : undefined;

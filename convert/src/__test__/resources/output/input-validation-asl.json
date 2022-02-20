@@ -13,23 +13,59 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.vars.testInput.delayInSeconds",
-          "IsNumeric": false,
+          "Not": {
+            "And": [
+              {
+                "Variable": "$.vars.delayInSeconds",
+                "IsPresent": true
+              },
+              {
+                "Variable": "$.vars.delayInSeconds",
+                "IsNumeric": true
+              }
+            ]
+          },
           "Next": "Assign DelayInSeconds"
         }
       ],
-      "Comment": "source: if (typeof context.testInput.delayInSeconds != ...",
-      "Default": "Wait"
+      "Comment": "source: if (typeof input.delayInSeconds !== \"number\")  ...",
+      "Default": "If_1"
     },
     "Assign DelayInSeconds": {
       "Type": "Pass",
-      "ResultPath": "$.vars.testInput.delayInSeconds",
+      "ResultPath": "$.vars.delayInSeconds",
       "Result": 5,
-      "Next": "Wait"
+      "Next": "If_1"
+    },
+    "If_1": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            {
+              "Variable": "$.vars.delayInSeconds",
+              "NumericGreaterThan": 10
+            },
+            {
+              "Variable": "$.vars.delayInSeconds",
+              "NumericLessThan": 1
+            }
+          ],
+          "Next": "Fail"
+        }
+      ],
+      "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
+      "Default": "Wait"
+    },
+    "Fail": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
+      "Comment": "source: throw new ValidationError(\"delay in seconds mu ..."
     },
     "Wait": {
       "Type": "Wait",
-      "SecondsPath": "$.vars.testInput.delayInSeconds",
+      "SecondsPath": "$.vars.delayInSeconds",
       "End": true
     }
   }

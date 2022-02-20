@@ -64,14 +64,14 @@
                         "Assign NumericLastSentOnValue": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericLastSentOnValue",
-                          "Parameters": "States.StringToJson($.vars.item.lastSentOnValue.N)",
+                          "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
                           "Comment": "source: numericLastSentOnValue = asl.states.stringToJs ...",
                           "Next": "Assign NumericTotal"
                         },
                         "Assign NumericTotal": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericTotal",
-                          "Parameters": "States.StringToJson($.vars.item.total.N)",
+                          "InputPath": "States.StringToJson($.vars.item.total.N)",
                           "Comment": "source: numericTotal = asl.states.stringToJson(item.to ...",
                           "Next": "If"
                         },
@@ -157,7 +157,7 @@
                           "Parameters": {
                             "Entries": [
                               {
-                                "Detail": "States.JsonToString({\n  \"account_id.$\": \"$.vars.item.pk\",\n  \"threshold.$\": \"$.vars.threshold\"\n})",
+                                "Detail.$": "States.JsonToString({\n  \"account_id.$\": \"$.vars.item.pk\",\n  \"threshold.$\": \"$.vars.threshold\"\n})",
                                 "DetailType": "xxx.detail.type",
                                 "EventBusName": "default",
                                 "Source": "zzz.my.source"
