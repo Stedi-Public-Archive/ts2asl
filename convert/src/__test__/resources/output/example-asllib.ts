@@ -21,6 +21,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
     asl.typescriptDoWhile({
         condition: () => lastEvaluatedKey,
         block: async () => {
+            const x = asl.nativeS3PutObject({ Bucket: "sdfsdf", Key: "sdf" });
             let scan = await asl.nativeDynamoDBScan({ TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
             asl.map({
                 items: () => (scan.Items as unknown as Item[]),

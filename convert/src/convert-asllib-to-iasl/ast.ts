@@ -124,6 +124,9 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
       visitNodes(arg, scope, visitor);
     }
   }
+  else if (Check.isReturnStatement(node)) {
+    visitNodes(node.expression, scope, visitor)
+  }
   else if (Check.isTypeOfExpression(node)) {
     visitNodes(node.operand, scope, visitor)
   } else if (Check.isBinaryExpression(node)) {

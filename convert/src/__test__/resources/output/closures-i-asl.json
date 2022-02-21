@@ -160,7 +160,7 @@
                   "_syntaxKind": "variable-assignment"
                 },
                 {
-                  "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-doSomething",
+                  "resource": "typescript:doSomething",
                   "parameters": {
                     "identifier": "combined",
                     "_syntaxKind": "identifier",

@@ -1,0 +1,94 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "input.name",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "string",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "input.name",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "World",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof input.name !== \"string\") {\n    input.name = \"World\";\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "name": {
+        "identifier": "rnd",
+        "_syntaxKind": "identifier",
+        "type": "numeric"
+      },
+      "expression": {
+        "resource": "typescript:random",
+        "source": "random()",
+        "_syntaxKind": "asl-task-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "properties": {
+          "greeting": {
+            "arguments": [
+              {
+                "value": "Hello {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "input.name",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "luckyNumber": {
+            "identifier": "rnd",
+            "_syntaxKind": "identifier",
+            "type": "numeric"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
