@@ -46,6 +46,7 @@ describe("when converting closures", () => {
       });
 
 
+
       export const doSomething = asl.deploy.asLambda(x => { })"
     `);
   });
@@ -222,7 +223,7 @@ describe("when converting closures", () => {
                           "identifier": "combined",
                           "type": "object",
                         },
-                        "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-doSomething",
+                        "resource": "typescript:doSomething",
                         "source": "doSomething(combined)",
                       },
                     ],
@@ -312,7 +313,7 @@ describe("when converting closures", () => {
                         "End": true,
                         "HeartbeatSeconds": undefined,
                         "InputPath": "$.vars.combined",
-                        "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-doSomething",
+                        "Resource": "typescript:doSomething",
                         "Retry": undefined,
                         "TimeoutSeconds": undefined,
                         "Type": "Task",

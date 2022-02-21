@@ -42,18 +42,8 @@
       },
       "Branches": [
         {
-          "StartAt": "Assign X",
+          "StartAt": "Assign Scan",
           "States": {
-            "Assign X": {
-              "Type": "Task",
-              "ResultPath": "$.vars.x",
-              "Resource": "arn:aws:states:::aws-sdk:s3:putObject",
-              "Parameters": {
-                "Bucket": "sdfsdf",
-                "Key": "sdf"
-              },
-              "Next": "Assign Scan"
-            },
             "Assign Scan": {
               "Type": "Task",
               "ResultPath": "$.vars.scan",
@@ -244,7 +234,7 @@
                 {
                   "Variable": "$.vars.lastEvaluatedKey",
                   "IsPresent": true,
-                  "Next": "Assign X"
+                  "Next": "Assign Scan"
                 }
               ],
               "Default": "_WhileExit"

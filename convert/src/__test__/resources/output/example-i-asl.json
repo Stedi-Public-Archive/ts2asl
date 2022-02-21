@@ -86,33 +86,6 @@
         "statements": [
           {
             "name": {
-              "identifier": "x",
-              "_syntaxKind": "identifier",
-              "type": "object"
-            },
-            "expression": {
-              "resource": "arn:aws:states:::aws-sdk:s3:putObject",
-              "parameters": {
-                "_syntaxKind": "literal-object",
-                "properties": {
-                  "Bucket": {
-                    "value": "sdfsdf",
-                    "type": "string",
-                    "_syntaxKind": "literal"
-                  },
-                  "Key": {
-                    "value": "sdf",
-                    "type": "string",
-                    "_syntaxKind": "literal"
-                  }
-                }
-              },
-              "_syntaxKind": "asl-task-state"
-            },
-            "_syntaxKind": "variable-assignment"
-          },
-          {
-            "name": {
               "identifier": "scan",
               "_syntaxKind": "identifier",
               "type": "object"

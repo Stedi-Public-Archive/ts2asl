@@ -13,6 +13,7 @@ describe("when converting example", () => {
 
       import * as asl from \\"@cloudscript/asl-lib\\"
 
+
       export const main = asl.deploy.asStateMachine(async () =>{
           const result = await asl.parallel({
               branches: [
@@ -93,7 +94,7 @@ describe("when converting example", () => {
                   "statements": Array [
                     Object {
                       "_syntaxKind": "asl-task-state",
-                      "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
+                      "resource": "typescript:performIdentifyCheck",
                       "source": "performIdentifyCheck()",
                     },
                   ],
@@ -351,7 +352,7 @@ describe("when converting example", () => {
                     "Comment": "source: performIdentifyCheck()",
                     "End": true,
                     "HeartbeatSeconds": undefined,
-                    "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-performIdentifyCheck",
+                    "Resource": "typescript:performIdentifyCheck",
                     "Retry": undefined,
                     "TimeoutSeconds": undefined,
                     "Type": "Task",

@@ -199,7 +199,7 @@ describe("when converting example", () => {
           "Pass": Object {
             "Next": "Succeed",
             "Parameters": Object {
-              "greeting.$": "States.Format('Hello {}', $.vars.input.name)",
+              "greeting.$": "States.Format('Hello {}', $.vars.name)",
               "luckyNumber.$": "$.vars.rnd",
             },
             "Type": "Pass",

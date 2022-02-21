@@ -24,7 +24,7 @@ describe("when converting typescript invoke to iasl", () => {
               "identifier": "arg.xxx",
               "type": "unknown",
             },
-            "resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-SayHello",
+            "resource": "typescript:SayHello",
             "source": "SayHello(arg.xxx)",
           },
         ],

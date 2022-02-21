@@ -46,7 +46,7 @@ describe("when transpiling simple statements", () => {
                     "Comment": "source: isDone()",
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",
-                    "Resource": "arn:aws:lambda:us-east-1:123123123123:function:my-program-isDone",
+                    "Resource": "typescript:isDone",
                     "ResultPath": "$.vars.result",
                     "Retry": undefined,
                     "TimeoutSeconds": undefined,
