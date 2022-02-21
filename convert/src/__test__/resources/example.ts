@@ -14,6 +14,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
   ];
   let lastEvaluatedKey: any | undefined = undefined; //$.variables.lastEvaluatedKey
   do {
+    const x = asl.nativeS3PutObject({ Bucket: "sdfsdf", Key: "sdf" });
     let scan = await asl.nativeDynamoDBScan({ TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
 
     for (const item of ((scan.Items || []) as unknown as Item[])) {//$.variables.item, $.enclosed.lastEvaluatedKey

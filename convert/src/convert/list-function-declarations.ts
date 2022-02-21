@@ -37,7 +37,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
             if (!ts.isIdentifier(parameter2.name)) throw new Error(`Parameter name of ASL decl ${name} must be identifier`);
             argument2Name = parameter2.name.text;
           }
-          const kind = AslDeclaration.operation === "AsLambda" ? "lambda" : "asl";
+          const kind = AslDeclaration.operation === "asLambda" ? "lambda" : "asl";
           result.push({
             name,
             body: arrowFunction.body,

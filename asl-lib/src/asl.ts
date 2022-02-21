@@ -173,8 +173,8 @@ export const fail = (x: Fail): never => {
 }
 export namespace states {
   export function format(format: string, ...args: unknown[]): unknown {
-    const formatNode = format.replace('{}', '%s')
-    return util.format(formatNode, args);
+    const formatNode = format.replace(/{}/g, '%s')
+    return util.format(formatNode, ...args);
   }
 
   export function stringToJson(arg: string | undefined): unknown {

@@ -8,7 +8,7 @@ export const createCompilerHostFromSourceForWeb = (source: string) => {
   const sourceFile = ts.createSourceFile("ad-hoc.ts", contents, ts.ScriptTarget.ES2015);
   const aslLibSource = ts.createSourceFile("asl-lib.ts", aslLibContents, ts.ScriptTarget.Latest)
   const host: ts.CompilerHost = {
-    getSourceFile: function (fileName: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void, shouldCreateNewSourceFile?: boolean): SourceFile | undefined {
+    getSourceFile: function (fileName: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void, shouldCreateNewSourceFile?: boolean): ts.SourceFile | undefined {
       const result = [sourceFile, aslLibSource].find(x => x.fileName === fileName);
 
       return result;

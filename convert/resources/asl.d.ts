@@ -90,20 +90,20 @@ export interface Choice {
     comment?: string;
 }
 export interface StateMachineContext<TInput> {
-    execution: {
-        id: string;
-        input: TInput;
-        name: string;
-        roleArn: string;
-        startTime: string;
+    readonly execution: {
+        readonly id: string;
+        readonly input: TInput;
+        readonly name: string;
+        readonly roleArn: string;
+        readonly startTime: string;
     };
-    stateMachine: {
-        id: string;
-        name: string;
+    readonly stateMachine: {
+        readonly id: string;
+        readonly name: string;
     };
-    state: {
-        name: string;
-        enteredTime: string;
+    readonly state: {
+        readonly name: string;
+        readonly enteredTime: string;
     };
 }
 export declare const typescriptInvoke: <P, R>(args: Invoke<P, R>) => Promise<R>;

@@ -164,7 +164,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         const parameters = convertedArgs["parameters"];
 
         return {
-          resource: "arn:aws:lambda:us-east-1:123123123123:function:my-program-" + target?.identifier,
+          resource: "typescript:" + target?.identifier,
           parameters,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslTaskState

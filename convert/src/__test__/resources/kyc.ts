@@ -2,6 +2,7 @@
 
 import * as asl from "@cloudscript/asl-lib"
 
+
 export const main = asl.deploy.asStateMachine(async () => {
   const result = await Promise.all([
     performIdentifyCheck(),

@@ -119,7 +119,12 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
   if (Check.isVariableAssignment(node)) {
     visitNodes(node.name, scope, visitor);
     visitNodes(node.expression, scope, visitor);
-  } else if (Check.isTypeOfExpression(node)) {
+  } else if (Check.isAslIntrinsicFunction(node)) {
+    for (const arg of node.arguments) {
+      visitNodes(arg, scope, visitor);
+    }
+  }
+  else if (Check.isTypeOfExpression(node)) {
     visitNodes(node.operand, scope, visitor)
   } else if (Check.isBinaryExpression(node)) {
     if (node.lhs) visitNodes(node.lhs, scope, visitor)
