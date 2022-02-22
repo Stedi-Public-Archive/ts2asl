@@ -27,6 +27,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "While (true)",
       "condition": {
         "type": "boolean",
         "value": true,
@@ -35,6 +36,7 @@
       "while": {
         "statements": [
           {
+            "stateName": "If (result.Authorized)",
             "condition": {
               "operator": "is-present",
               "rhs": {

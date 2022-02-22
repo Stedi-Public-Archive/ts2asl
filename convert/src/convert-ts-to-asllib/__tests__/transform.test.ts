@@ -34,6 +34,7 @@ describe("when converting source files", () => {
           comment: \\"getNextActions(getNextActionsArg)\\"
       });
       asl.typescriptWhile({
+          name: \\"While (remainingActions.l ...\\",
           condition: () => remainingActions.length !== 0,
           block: async () => {
               const results = await asl.typescriptInvoke({
@@ -42,9 +43,11 @@ describe("when converting source files", () => {
                   comment: \\"performAction(getActionsArgs)\\"
               });
               asl.typescriptIf({
+                  name: \\"If (results[0].status === ...\\",
                   condition: () => results[0].status === \\"failed\\",
                   then: async () => {
                       asl.fail({
+                          name: \\"Throw (???)\\",
                           error: \\"Error\\",
                           cause: \\"task failed\\",
                           comment: \\"throw new Error(\\\\\\"task failed\\\\\\")\\"
@@ -53,6 +56,7 @@ describe("when converting source files", () => {
                   comment: \\"if (results[0].status === \\\\\\"failed\\\\\\") {\\\\n      throw new Error(\\\\\\"task failed\\\\\\")\\\\n    }\\"
               })
               asl.typescriptIf({
+                  name: \\"If (results[0].status !== ...\\",
                   condition: () => results[0].status !== \\"failed\\",
                   then: async () => {
                       remainingActions = await asl.typescriptInvoke({
@@ -79,6 +83,7 @@ describe("when converting source files", () => {
     expect(output).toMatchInlineSnapshot(`
       "let page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
       asl.typescriptWhile({
+          name: \\"While (page.nextPageToken)\\",
           condition: () => page.nextPageToken,
           block: async () => {
               await ASL.Wait({ Seconds: 2 });

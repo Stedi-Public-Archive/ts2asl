@@ -19,6 +19,7 @@ export type If = {
   then: Function;
   else?: Function;
   comment?: string;
+  name?: string;
 };
 export declare type CatchConfiguration = Array<{
   errorFilter: string[];
@@ -36,6 +37,7 @@ export interface Wait {
   seconds?: number | (() => number);
   timestamp?: string | (() => string);
   comment?: string;
+  name?: string;
 }
 
 export interface Try {
@@ -43,6 +45,7 @@ export interface Try {
   catch?: CatchConfiguration;
   finally?: Function;
   comment?: string;
+  name?: string;
 }
 export interface Task {
   resource: string;
@@ -56,11 +59,13 @@ export interface Task {
 export interface Pass<T> {
   parameters: T | (() => T) | (<U>(objectContext: StateMachineContext<U>) => T);
   comment?: string;
+  name?: string;
 }
 export interface Fail {
   error?: string;
   cause?: string;
   comment?: string;
+  name?: string;
 }
 
 export interface Map<T> {
@@ -69,10 +74,12 @@ export interface Map<T> {
   iterator: <U>(item: T, objectContext: StateMachineContext<U>) => void | {};
   maxConcurrency?: number;
   comment?: string;
+  name?: string;
 }
 
 export interface Succeed {
   comment?: string;
+  name?: string;
 }
 
 export interface Parallel<T> {
@@ -81,12 +88,14 @@ export interface Parallel<T> {
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
   comment?: string;
+  name?: string;
 }
 
 export interface Invoke<P, R> {
   target: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
   parameters?: P | (() => P);
   comment?: string;
+  name?: string;
 }
 
 export interface Choice {
@@ -94,6 +103,7 @@ export interface Choice {
   choices: Array<{ condition: () => boolean; block: Function }>;
   default: boolean | (() => boolean);
   comment?: string;
+  name?: string;
 }
 
 

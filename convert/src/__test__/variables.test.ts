@@ -15,6 +15,7 @@ describe("when converting variables", () => {
 
       export const main = asl.deploy.asStateMachine(async (input: IInput, context: StateMachineContext<IInput>) =>{
           asl.typescriptIf({
+              name: \\"If (typeof input.name !== ...\\",
               condition: () => typeof input.name !== \\"string\\",
               then: async () => {
                   input.name = \\"fred\\";
@@ -90,6 +91,7 @@ describe("when converting variables", () => {
             "source": "if (typeof input.name !== \\"string\\") {
           input.name = \\"fred\\";
         }",
+            "stateName": "If (typeof input.name !== ...",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -132,6 +134,7 @@ describe("when converting variables", () => {
           name: input.name,
           executionId: context.execution.id
         }",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -244,6 +247,7 @@ describe("when converting variables", () => {
           number: asl.states.stringToJson(\\"123\\") as number,
           arr: asl.states.array(1, 2, 3, 4, 5, 6),
         }",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -303,7 +307,7 @@ describe("when converting variables", () => {
             "ResultPath": "$.vars.y",
             "Type": "Pass",
           },
-          "If": Object {
+          "If (typeof input.name !== ...": Object {
             "Choices": Array [
               Object {
                 "Next": "Assign Name",
@@ -326,7 +330,7 @@ describe("when converting variables", () => {
             "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "If",
+            "Next": "If (typeof input.name !== ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

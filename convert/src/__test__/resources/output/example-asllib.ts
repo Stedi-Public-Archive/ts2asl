@@ -19,13 +19,16 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
         comment: "lastEvaluatedKey: any | undefined = undefined"
     }); //$.variables.lastEvaluatedKey
     asl.typescriptDoWhile({
+        name: "Do While (lastEvaluatedKey)",
         condition: () => lastEvaluatedKey,
         block: async () => {
             let scan = await asl.nativeDynamoDBScan({ TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
             asl.map({
+                name: "For item Of ???",
                 items: () => (scan.Items as unknown as Item[]),
                 iterator: item => {
                     asl.map({
+                        name: "For threshold Of thresholds",
                         items: () => thresholds,
                         iterator: threshold => {
                             let numericLastSentOnValue = asl.pass({
@@ -37,6 +40,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                                 comment: "numericTotal = asl.states.stringToJson(item.total.N) as number"
                             });
                             asl.typescriptIf({
+                                name: "If ((item.sk.S === thresh ...",
                                 condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
                                     || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                 then: async () => {

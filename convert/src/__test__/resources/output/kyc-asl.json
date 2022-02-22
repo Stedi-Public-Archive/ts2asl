@@ -64,9 +64,9 @@
       "ResultPath": "$.vars.checksPassed",
       "Result": true,
       "Comment": "source: checksPassed = true",
-      "Next": "If"
+      "Next": "If (checksPassed)"
     },
-    "If": {
+    "If (checksPassed)": {
       "Type": "Choice",
       "Choices": [
         {

@@ -24,7 +24,8 @@ export const throwStatementTransformer = <T extends ts.Node>(context: ts.Transfo
         cause = TransformUtil.createLiteral("cause", causeLiteral.text);
       }
 
-      for (const assignment of [error, cause, comment]) {
+      const name = TransformUtil.createName("Throw (%s)", error);
+      for (const assignment of [name, error, cause, comment]) {
         if (assignment) {
           assignments.push(assignment);
         }

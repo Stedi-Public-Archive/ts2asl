@@ -11,8 +11,10 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (password === 'pwd')\\",
           condition: () => password === 'pwd',
           then: async () => { asl.fail({
+              name: \\"Throw (???)\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -30,8 +32,10 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (password === 'pwd')\\",
           condition: () => password === 'pwd',
           then: async () => { asl.fail({
+              name: \\"Throw (???)\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -49,8 +53,10 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (password !== 'pwd')\\",
           condition: () => password !== 'pwd',
           then: async () => { asl.fail({
+              name: \\"Throw (???)\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -68,6 +74,7 @@ describe("when converting if statements", () => {
       ])
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (age > 18)\\",
           condition: () => age > 18,
           then: async () => { console.log(); },
           comment: \\"if (age > 18) console.log();\\"
@@ -83,6 +90,7 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (optIn === true)\\",
           condition: () => optIn === true,
           then: async () => { console.log(); },
           comment: \\"if (optIn === true) console.log();\\"
@@ -96,6 +104,7 @@ describe("when converting if statements", () => {
       testTransform("if (lhs === rhs) console.log();", ifStatementTransformer)
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
           then: async () => { console.log(); },
           comment: \\"if (lhs === rhs) console.log();\\"
@@ -111,6 +120,7 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
           then: async () => { console.log(); },
           else: async () => { console.log(); },
@@ -127,6 +137,7 @@ describe("when converting if statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
           then: async () => { console.log(); },
           else: async () => { console.log(); },

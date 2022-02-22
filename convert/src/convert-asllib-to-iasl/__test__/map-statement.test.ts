@@ -51,6 +51,7 @@ describe("when converting map statement to iasl", () => {
               },
               "retry": Array [],
               "source": undefined,
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",

@@ -159,11 +159,13 @@ export const convertExpression = (expression: ts.Expression | undefined, context
     const convertedArgs = convertObjectLiteralExpression(argument, context);
     switch (type) {
       case "typescriptInvoke": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const comment = unpackAsLiteral(convertedArgs, "comment");
         const target = unpackAsIdentifier(convertedArgs, "target");
         const parameters = convertedArgs["parameters"];
 
         return {
+          stateName: name,
           resource: "typescript:" + target?.identifier,
           parameters,
           source: comment,
@@ -172,6 +174,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "typescriptTry": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const try_ = unpackBlock(convertedArgs, "try");
         const finally_ = unpackBlock(convertedArgs, "finally");
         const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
@@ -179,6 +182,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
+          stateName: name,
           try: try_,
           finally: finally_,
           catch: catchConfiguration,
@@ -189,10 +193,12 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "typescriptWhile": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const while_ = unpackBlock(convertedArgs, "block");
         const comment = unpackAsLiteral(convertedArgs, "comment");
         return {
+          stateName: name,
           condition,
           while: while_,
           source: comment,
@@ -201,10 +207,12 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       }
 
       case "typescriptDoWhile": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const while_ = unpackBlock(convertedArgs, "block");
         const comment = unpackAsLiteral(convertedArgs, "comment");
         return {
+          stateName: name,
           condition,
           while: while_,
           source: comment,
@@ -213,11 +221,13 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       }
 
       case "typescriptIf": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const then = unpackBlock(convertedArgs, "then");
         const else_ = unpackBlock(convertedArgs, "else");
         const comment = unpackAsLiteral(convertedArgs, "comment");
         return {
+          stateName: name,
           condition,
           then,
           else: else_,
@@ -227,6 +237,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "task": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const parameters = convertedArgs["parameters"];
         const resource = unpackAsLiteral(convertedArgs, "resource");
         const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
@@ -236,6 +247,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
+          stateName: name,
           resource: resource,
           parameters: parameters,
           catch: catchConfiguration,
@@ -248,10 +260,12 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "wait": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const seconds = convertedArgs["seconds"];
         const timestamp = convertedArgs["timestamp"];
         const comment = unpackAsLiteral(convertedArgs, "comment");
         return {
+          stateName: name,
           seconds,
           timestamp,
           source: comment,
@@ -260,12 +274,14 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "parallel": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const branches = unpackArray(convertedArgs, "branches", element => unpackLiteralValue(element));
         const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
         const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
+          stateName: name,
           branches,
           catch: catchConfiguration,
           retry: retryConfiguration,
@@ -275,11 +291,13 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "choice": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const choices = unpackArray(convertedArgs, "choices", element => unpackLiteralValue(element));
         const _default = unpackBlock(convertedArgs, "default");
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
+          stateName: name,
           choices: choices,
           default: _default,
           source: comment,
@@ -288,6 +306,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "map": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const items = unpackAsIdentifier(convertedArgs, "items");
         const iterator = unpackBlock(convertedArgs, "iterator");
         const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
@@ -295,6 +314,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
+          stateName: name,
           items,
           catch: catchConfiguration,
           retry: retryConfiguration,
@@ -305,10 +325,12 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "pass": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const parameters = convertedArgs["parameters"];
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
+          stateName: name,
           parameters,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslPassState
@@ -316,20 +338,24 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "succeed": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
+          stateName: name,
           source: comment,
           _syntaxKind: "asl-succeed-state"
         } as iasl.SucceedState;
       };
 
       case "fail": {
+        const name = unpackAsLiteral(convertedArgs, "name");
         const cause = unpackAsLiteral(convertedArgs, "cause");
         const error = unpackAsLiteral(convertedArgs, "error");
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
         return {
+          stateName: name,
           cause,
           error,
           source: comment,

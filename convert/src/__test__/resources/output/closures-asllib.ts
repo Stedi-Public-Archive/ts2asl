@@ -14,9 +14,11 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
         comment: "global = \"prefix\""
     });
     asl.map({
+        name: "For number Of numbers",
         items: () => numbers,
         iterator: number => {
             asl.map({
+                name: "For letter Of letters",
                 items: () => letters,
                 iterator: letter => {
                     const combined = asl.pass({

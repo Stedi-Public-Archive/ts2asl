@@ -30,13 +30,16 @@ describe("when converting example", () => {
               comment: \\"lastEvaluatedKey: any | undefined = undefined\\"
           }); //$.variables.lastEvaluatedKey
           asl.typescriptDoWhile({
+              name: \\"Do While (lastEvaluatedKey)\\",
               condition: () => lastEvaluatedKey,
               block: async () => {
                   let scan = await asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
                   asl.map({
+                      name: \\"For item Of ???\\",
                       items: () => (scan.Items as unknown as Item[]),
                       iterator: item => {
                           asl.map({
+                              name: \\"For threshold Of thresholds\\",
                               items: () => thresholds,
                               iterator: threshold => {
                                   let numericLastSentOnValue = asl.pass({
@@ -48,6 +51,7 @@ describe("when converting example", () => {
                                       comment: \\"numericTotal = asl.states.stringToJson(item.total.N) as number\\"
                                   });
                                   asl.typescriptIf({
+                                      name: \\"If ((item.sk.S === thresh ...\\",
                                       condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
                                           || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                       then: async () => {
@@ -165,6 +169,7 @@ describe("when converting example", () => {
             \\"ceiling\\": 1000
           }
         ]",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -182,6 +187,7 @@ describe("when converting example", () => {
                 "value": null,
               },
               "source": "lastEvaluatedKey: any | undefined = undefined",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -200,6 +206,7 @@ describe("when converting example", () => {
                 "type": "unknown",
               },
             },
+            "stateName": "Do While (lastEvaluatedKey)",
             "while": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -282,6 +289,7 @@ describe("when converting example", () => {
                                   "function": "asl.states.stringToJson",
                                 },
                                 "source": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
+                                "stateName": undefined,
                               },
                               "name": Object {
                                 "_syntaxKind": "identifier",
@@ -305,6 +313,7 @@ describe("when converting example", () => {
                                   "function": "asl.states.stringToJson",
                                 },
                                 "source": "numericTotal = asl.states.stringToJson(item.total.N) as number",
+                                "stateName": undefined,
                               },
                               "name": Object {
                                 "_syntaxKind": "identifier",
@@ -504,6 +513,7 @@ describe("when converting example", () => {
                   }
                 });
               }",
+                              "stateName": "If ((item.sk.S === thresh ...",
                               "then": Object {
                                 "_syntaxKind": "function",
                                 "statements": Array [
@@ -632,10 +642,12 @@ describe("when converting example", () => {
                           ],
                         },
                         "retry": Array [],
+                        "stateName": "For threshold Of thresholds",
                       },
                     ],
                   },
                   "retry": Array [],
+                  "stateName": "For item Of ???",
                 },
                 Object {
                   "_syntaxKind": "variable-assignment",
@@ -701,7 +713,7 @@ describe("when converting example", () => {
                     "Catch": undefined,
                     "Comment": undefined,
                     "HeartbeatSeconds": undefined,
-                    "Next": "Map_1",
+                    "Next": "For item Of ???",
                     "Parameters": Object {
                       "ExclusiveStartKey.$": "$.vars.lastEvaluatedKey",
                       "Limit": 1,
@@ -713,13 +725,13 @@ describe("when converting example", () => {
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
-                  "Map_1": Object {
+                  "For item Of ???": Object {
                     "Comment": undefined,
                     "ItemsPath": "$.vars.scan.Items",
                     "Iterator": Object {
-                      "StartAt": "Map",
+                      "StartAt": "For threshold Of thresholds",
                       "States": Object {
-                        "Map": Object {
+                        "For threshold Of thresholds": Object {
                           "Comment": undefined,
                           "End": true,
                           "ItemsPath": "$.vars.thresholds",
@@ -736,7 +748,7 @@ describe("when converting example", () => {
                               "Assign NumericTotal": Object {
                                 "Comment": "source: numericTotal = asl.states.stringToJson(item.to ...",
                                 "InputPath": "States.StringToJson($.vars.item.total.N)",
-                                "Next": "If",
+                                "Next": "If ((item.sk.S === thresh ...",
                                 "ResultPath": "$.vars.numericTotal",
                                 "Type": "Pass",
                               },
@@ -744,7 +756,7 @@ describe("when converting example", () => {
                                 "End": true,
                                 "Type": "Pass",
                               },
-                              "If": Object {
+                              "If ((item.sk.S === thresh ...": Object {
                                 "Choices": Array [
                                   Object {
                                     "Next": "Task",

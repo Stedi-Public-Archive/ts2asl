@@ -14,9 +14,11 @@ export const tryStatementTransformer = <T extends ts.Node>(context: ts.Transform
       const catch_ = TransformUtil.createCatchAllBlock(node.catchClause?.block);
       const finally_ = TransformUtil.createNamedBlock("finally", node.finallyBlock);
       const comment = TransformUtil.createComment(node);
+      let nameTemplate = "Try" + (catch_ ? " Catch" : "") + (finally_ ? " Finally" : "");
+      const name = TransformUtil.createName(nameTemplate);
 
       const assignments: ts.PropertyAssignment[] = []
-      for (const assignment of [try_, catch_, finally_, comment]) {
+      for (const assignment of [name, try_, catch_, finally_, comment]) {
         if (assignment) {
           assignments.push(assignment);
         }

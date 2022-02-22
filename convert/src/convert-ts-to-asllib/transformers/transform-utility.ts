@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+
 import factory = ts.factory;
 
 export class TransformUtil {
@@ -156,6 +157,27 @@ export class TransformUtil {
     );
   }
 
+  static createName(format: string, ...nodes: ts.Node[]) {
+    let texts: string[] = [];
+    for (const node of nodes) {
+      try {
+        const text = node.getText();
+        texts.push(text);
+      } catch {
+        const text = "???";
+        texts.push(text);
+      }
+    }
+    let name = sprintf(format, texts);
+    if (name.length > 29) {
+      name = name.substring(0, 25) + " ...";
+    }
+    return factory.createPropertyAssignment(
+      factory.createIdentifier("name"),
+      factory.createStringLiteral(name)
+    );
+  }
+
 
   static createAslInvoke(operationName: string, assignments: ts.PropertyAssignment[]) {
     return factory.createCallExpression(
@@ -170,4 +192,15 @@ export class TransformUtil {
       )]
     );
   }
+}
+
+
+function sprintf(fmt: string, args: string[]) {
+  var i = 0;
+  return fmt.replace(/%((%)|s|d)/g, (m: string) => {
+    let val: string = "";
+    val = args[i];
+    i++;
+    return val;
+  });
 }

@@ -38,15 +38,15 @@
       "ResultPath": "$.vars.global",
       "Result": "prefix",
       "Comment": "source: global = \"prefix\"",
-      "Next": "Map_1"
+      "Next": "For number Of numbers"
     },
-    "Map_1": {
+    "For number Of numbers": {
       "Type": "Map",
       "ResultPath": "$.lastResult",
       "Iterator": {
-        "StartAt": "Map",
+        "StartAt": "For letter Of letters",
         "States": {
-          "Map": {
+          "For letter Of letters": {
             "Type": "Map",
             "ResultPath": "$.lastResult",
             "Iterator": {

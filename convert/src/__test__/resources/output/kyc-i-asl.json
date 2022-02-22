@@ -106,6 +106,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "If (checksPassed)",
       "condition": {
         "operator": "is-present",
         "rhs": {

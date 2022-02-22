@@ -6,11 +6,11 @@ import { createParameters } from "./parameters";
 
 export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
-    let nameSuggestion: string | undefined = undefined;
+    let nameSuggestion: string | undefined = expression.stateName;
     let properties = {};
     if (iasl.Check.isVariableAssignment(expression)) {
       properties["ResultPath"] = convertIdentifierToPathExpression(expression.name);
-      nameSuggestion = nameSuggestionForAssignment(expression.name);
+      nameSuggestion = nameSuggestionForAssignment(expression.name, expression.stateName);
       if (!iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isAslIntrinsicFunction(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
@@ -312,9 +312,12 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
   }
 }
 
-export const nameSuggestionForAssignment = (id: iasl.Identifier): string => {
+export const nameSuggestionForAssignment = (id: iasl.Identifier, stateName: string | undefined): string => {
   const nameParts = id.identifier.split(".");
   const lastPart = nameParts[nameParts.length - 1];
   const capitalized = lastPart[0].toUpperCase() + (lastPart.length > 1 ? lastPart.substring(1) : "");
+  if (stateName) {
+    return `${capitalized} = ${stateName}`;
+  }
   return `Assign ${capitalized}`;
 }

@@ -73,6 +73,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Do While (lastEvaluatedKey)",
       "condition": {
         "operator": "is-present",
         "rhs": {
@@ -117,6 +118,7 @@
             "_syntaxKind": "variable-assignment"
           },
           {
+            "stateName": "For item Of ???",
             "items": {
               "identifier": "scan.Items",
               "type": "object",
@@ -131,6 +133,7 @@
               },
               "statements": [
                 {
+                  "stateName": "For threshold Of thresholds",
                   "items": {
                     "identifier": "thresholds",
                     "_syntaxKind": "identifier",
@@ -191,6 +194,7 @@
                         "_syntaxKind": "variable-assignment"
                       },
                       {
+                        "stateName": "If ((item.sk.S === thresh ...",
                         "condition": {
                           "lhs": {
                             "lhs": {

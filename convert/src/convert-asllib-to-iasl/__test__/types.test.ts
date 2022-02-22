@@ -34,6 +34,7 @@ describe("when converting choice statement to iasl", () => {
                 "value": "hello",
               },
               "source": "xxx = \\"hello\\"",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -57,6 +58,7 @@ describe("when converting choice statement to iasl", () => {
                 "value": "anotherString",
               },
             },
+            "stateName": "If (xxx === \\"anotherString\\")",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -70,6 +72,7 @@ describe("when converting choice statement to iasl", () => {
                       "value": 42,
                     },
                     "source": "num = 42",
+                    "stateName": undefined,
                   },
                   "name": Object {
                     "_syntaxKind": "identifier",
@@ -96,6 +99,7 @@ describe("when converting choice statement to iasl", () => {
                   "source": "if (num === 12) {
               
             }",
+                  "stateName": "If (num === 12)",
                   "then": Object {
                     "_syntaxKind": "function",
                     "statements": Array [],

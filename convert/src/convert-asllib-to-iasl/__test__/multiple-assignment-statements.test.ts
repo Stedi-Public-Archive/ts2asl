@@ -25,6 +25,7 @@ describe("when converting pass statements to iasl", () => {
                 "value": "hello",
               },
               "source": "some random comment",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -42,6 +43,7 @@ describe("when converting pass statements to iasl", () => {
                 "value": "hello",
               },
               "source": undefined,
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -91,6 +93,7 @@ describe("when converting pass statements to iasl", () => {
                 },
               },
               "source": undefined,
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -138,6 +141,7 @@ describe("when converting pass statements to iasl", () => {
                 },
               },
               "source": undefined,
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -172,6 +176,7 @@ const aaaa = asl.pass({ parameters: arg }); `;
                 "type": "unknown",
               },
               "source": undefined,
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",

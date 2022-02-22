@@ -17,9 +17,11 @@ describe("when converting example", () => {
       export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
           let result: Result = await asl.task({ resource: \\"check-password\\", parameters: {} });
           asl.typescriptWhile({
+              name: \\"While (true)\\",
               condition: () => true,
               block: async () => {
                   asl.typescriptIf({
+                      name: \\"If (result.Authorized)\\",
                       condition: () => result.Authorized,
                       then: async () => {
                           break;
@@ -60,6 +62,7 @@ describe("when converting example", () => {
               "resource": "check-password",
               "retry": Array [],
               "source": undefined,
+              "stateName": undefined,
               "timeoutSeconds": undefined,
             },
             "name": Object {
@@ -75,6 +78,7 @@ describe("when converting example", () => {
               "type": "boolean",
               "value": true,
             },
+            "stateName": "While (true)",
             "while": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -92,6 +96,7 @@ describe("when converting example", () => {
                   "source": "if (result.Authorized) {
             break;
           }",
+                  "stateName": "If (result.Authorized)",
                   "then": Object {
                     "_syntaxKind": "function",
                     "statements": Array [
@@ -122,6 +127,7 @@ describe("when converting example", () => {
                     "resource": "check-password",
                     "retry": Array [],
                     "source": undefined,
+                    "stateName": undefined,
                     "timeoutSeconds": undefined,
                   },
                   "name": Object {
@@ -179,7 +185,7 @@ describe("when converting example", () => {
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
-                  "If": Object {
+                  "If (result.Authorized)": Object {
                     "Choices": Array [
                       Object {
                         "IsPresent": true,
@@ -205,7 +211,7 @@ describe("when converting example", () => {
                     "Choices": Array [
                       Object {
                         "IsNull": false,
-                        "Next": "If",
+                        "Next": "If (result.Authorized)",
                         "Variable": "$",
                       },
                     ],

@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "If"
+      "Next": "If (typeof input.name !== ..."
     },
-    "If": {
+    "If (typeof input.name !== ...": {
       "Type": "Choice",
       "Choices": [
         {

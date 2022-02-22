@@ -23,6 +23,7 @@ export const callStatementTransformer = <T extends ts.Node>(context: ts.Transfor
       const target = TransformUtil.createIdentifier("target", node.expression);
       const parameters = TransformUtil.createWrappedExpression("parameters", node.arguments.length === 1 ? node.arguments[0] : undefined);
       const comment = TransformUtil.createComment(node);
+      const name = TransformUtil.createName("%s", node);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [target, parameters, comment]) {

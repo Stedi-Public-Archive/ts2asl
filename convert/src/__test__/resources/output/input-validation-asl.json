@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "If"
+      "Next": "If (typeof input.delayInS ..."
     },
-    "If": {
+    "If (typeof input.delayInS ...": {
       "Type": "Choice",
       "Choices": [
         {
@@ -29,15 +29,15 @@
         }
       ],
       "Comment": "source: if (typeof input.delayInSeconds !== \"number\")  ...",
-      "Default": "If_1"
+      "Default": "If (input.delayInSeconds  ..."
     },
     "Assign DelayInSeconds": {
       "Type": "Pass",
       "ResultPath": "$.vars.delayInSeconds",
       "Result": 5,
-      "Next": "If_1"
+      "Next": "If (input.delayInSeconds  ..."
     },
-    "If_1": {
+    "If (input.delayInSeconds  ...": {
       "Type": "Choice",
       "Choices": [
         {
@@ -51,13 +51,13 @@
               "NumericLessThan": 1
             }
           ],
-          "Next": "Fail"
+          "Next": "Throw (???)"
         }
       ],
       "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
       "Default": "Wait"
     },
-    "Fail": {
+    "Throw (???)": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",

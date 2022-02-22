@@ -4,6 +4,7 @@ import { StateMachineContext } from "@cloudscript/asl-lib";
 
 export const main = asl.deploy.asStateMachine(async (input: IInput, context: StateMachineContext<IInput>) =>{
     asl.typescriptIf({
+        name: "If (typeof input.name !== ...",
         condition: () => typeof input.name !== "string",
         then: async () => {
             input.name = "fred";

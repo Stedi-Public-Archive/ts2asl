@@ -13,6 +13,7 @@ describe("when converting example", () => {
 
       export const main = asl.deploy.asStateMachine(async (input: Input) =>{
           asl.typescriptIf({
+              name: \\"If (typeof input.delayInS ...\\",
               condition: () => typeof input.delayInSeconds !== \\"number\\",
               then: async () => {
                   input.delayInSeconds = 5;
@@ -20,9 +21,11 @@ describe("when converting example", () => {
               comment: \\"if (typeof input.delayInSeconds !== \\\\\\"number\\\\\\") {\\\\n    input.delayInSeconds = 5;\\\\n  }\\"
           })
           asl.typescriptIf({
+              name: \\"If (input.delayInSeconds  ...\\",
               condition: () => input.delayInSeconds > 10 || input.delayInSeconds < 1,
               then: async () => {
                   asl.fail({
+                      name: \\"Throw (???)\\",
                       error: \\"ValidationError\\",
                       cause: \\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\\",
                       comment: \\"throw new ValidationError(\\\\\\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\\\\\\")\\"
@@ -80,6 +83,7 @@ describe("when converting example", () => {
             "source": "if (typeof input.delayInSeconds !== \\"number\\") {
           input.delayInSeconds = 5;
         }",
+            "stateName": "If (typeof input.delayInS ...",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -136,6 +140,7 @@ describe("when converting example", () => {
             "source": "if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {
           throw new ValidationError(\\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\\")
         }",
+            "stateName": "If (input.delayInSeconds  ...",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -144,6 +149,7 @@ describe("when converting example", () => {
                   "cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
                   "error": "ValidationError",
                   "source": "throw new ValidationError(\\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\\")",
+                  "stateName": "Throw (???)",
                 },
               ],
             },
@@ -167,18 +173,32 @@ describe("when converting example", () => {
         "States": Object {
           "Assign DelayInSeconds": Object {
             "Comment": undefined,
-            "Next": "If_1",
+            "Next": "If (input.delayInSeconds  ...",
             "Result": 5,
             "ResultPath": "$.vars.delayInSeconds",
             "Type": "Pass",
           },
-          "Fail": Object {
-            "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
-            "Comment": "source: throw new ValidationError(\\"delay in seconds mu ...",
-            "Error": "ValidationError",
-            "Type": "Fail",
+          "If (input.delayInSeconds  ...": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Throw (???)",
+                "Or": Array [
+                  Object {
+                    "NumericGreaterThan": 10,
+                    "Variable": "$.vars.delayInSeconds",
+                  },
+                  Object {
+                    "NumericLessThan": 1,
+                    "Variable": "$.vars.delayInSeconds",
+                  },
+                ],
+              },
+            ],
+            "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
+            "Default": "Wait",
+            "Type": "Choice",
           },
-          "If": Object {
+          "If (typeof input.delayInS ...": Object {
             "Choices": Array [
               Object {
                 "Next": "Assign DelayInSeconds",
@@ -197,36 +217,22 @@ describe("when converting example", () => {
               },
             ],
             "Comment": "source: if (typeof input.delayInSeconds !== \\"number\\")  ...",
-            "Default": "If_1",
-            "Type": "Choice",
-          },
-          "If_1": Object {
-            "Choices": Array [
-              Object {
-                "Next": "Fail",
-                "Or": Array [
-                  Object {
-                    "NumericGreaterThan": 10,
-                    "Variable": "$.vars.delayInSeconds",
-                  },
-                  Object {
-                    "NumericLessThan": 1,
-                    "Variable": "$.vars.delayInSeconds",
-                  },
-                ],
-              },
-            ],
-            "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
-            "Default": "Wait",
+            "Default": "If (input.delayInSeconds  ...",
             "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "If",
+            "Next": "If (typeof input.delayInS ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
+          },
+          "Throw (???)": Object {
+            "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
+            "Comment": "source: throw new ValidationError(\\"delay in seconds mu ...",
+            "Error": "ValidationError",
+            "Type": "Fail",
           },
           "Wait": Object {
             "Comment": undefined,

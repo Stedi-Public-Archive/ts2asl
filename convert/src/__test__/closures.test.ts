@@ -25,9 +25,11 @@ describe("when converting closures", () => {
               comment: \\"global = \\\\\\"prefix\\\\\\"\\"
           });
           asl.map({
+              name: \\"For number Of numbers\\",
               items: () => numbers,
               iterator: number => {
                   asl.map({
+                      name: \\"For letter Of letters\\",
                       items: () => letters,
                       iterator: letter => {
                           const combined = asl.pass({
@@ -93,6 +95,7 @@ describe("when converting closures", () => {
                 ],
               },
               "source": "numbers = [0, 1, 2, 3]",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -130,6 +133,7 @@ describe("when converting closures", () => {
                 ],
               },
               "source": "letters = [\\"a\\", \\"b\\", \\"c\\", \\"d\\"]",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -147,6 +151,7 @@ describe("when converting closures", () => {
                 "value": "prefix",
               },
               "source": "global = \\"prefix\\"",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -209,6 +214,7 @@ describe("when converting closures", () => {
                             },
                           },
                           "source": "combined = { number, letter, global }",
+                          "stateName": undefined,
                         },
                         "name": Object {
                           "_syntaxKind": "identifier",
@@ -229,10 +235,12 @@ describe("when converting closures", () => {
                     ],
                   },
                   "retry": Array [],
+                  "stateName": "For letter Of letters",
                 },
               ],
             },
             "retry": Array [],
+            "stateName": "For number Of numbers",
           },
         ],
       }
@@ -245,7 +253,7 @@ describe("when converting closures", () => {
         "States": Object {
           "Assign Global": Object {
             "Comment": "source: global = \\"prefix\\"",
-            "Next": "Map_1",
+            "Next": "For number Of numbers",
             "Result": "prefix",
             "ResultPath": "$.vars.global",
             "Type": "Pass",
@@ -274,22 +282,14 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.numbers",
             "Type": "Pass",
           },
-          "Initialize": Object {
-            "Next": "Assign Numbers",
-            "Parameters": Object {
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Map_1": Object {
+          "For number Of numbers": Object {
             "Comment": undefined,
             "End": true,
             "ItemsPath": "$.vars.numbers",
             "Iterator": Object {
-              "StartAt": "Map",
+              "StartAt": "For letter Of letters",
               "States": Object {
-                "Map": Object {
+                "For letter Of letters": Object {
                   "Comment": undefined,
                   "End": true,
                   "ItemsPath": "$.vars.letters",
@@ -345,6 +345,14 @@ describe("when converting closures", () => {
             },
             "ResultPath": "$.lastResult",
             "Type": "Map",
+          },
+          "Initialize": Object {
+            "Next": "Assign Numbers",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
           },
         },
       }

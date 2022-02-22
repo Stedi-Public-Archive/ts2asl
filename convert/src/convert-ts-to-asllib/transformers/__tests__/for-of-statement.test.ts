@@ -12,6 +12,7 @@ describe("when converting switch statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.map({
+          name: \\"For element Of collection\\",
           items: () => collection,
           iterator: element => {
               console.log(element);
@@ -31,6 +32,7 @@ describe("when converting switch statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.map({
+          name: \\"For element Of result.list\\",
           items: () => result.list,
           iterator: element => {
               console.log(element);

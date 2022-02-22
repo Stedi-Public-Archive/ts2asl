@@ -53,15 +53,15 @@
                 "Limit": 1,
                 "ExclusiveStartKey.$": "$.vars.lastEvaluatedKey"
               },
-              "Next": "Map_1"
+              "Next": "For item Of ???"
             },
-            "Map_1": {
+            "For item Of ???": {
               "Type": "Map",
               "ResultPath": "$.lastResult",
               "Iterator": {
-                "StartAt": "Map",
+                "StartAt": "For threshold Of thresholds",
                 "States": {
-                  "Map": {
+                  "For threshold Of thresholds": {
                     "Type": "Map",
                     "ResultPath": "$.lastResult",
                     "Iterator": {
@@ -79,9 +79,9 @@
                           "ResultPath": "$.vars.numericTotal",
                           "InputPath": "States.StringToJson($.vars.item.total.N)",
                           "Comment": "source: numericTotal = asl.states.stringToJson(item.to ...",
-                          "Next": "If"
+                          "Next": "If ((item.sk.S === thresh ..."
                         },
-                        "If": {
+                        "If ((item.sk.S === thresh ...": {
                           "Type": "Choice",
                           "Choices": [
                             {

@@ -11,8 +11,10 @@ describe("when converting if with throw statements", () => {
       ])
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
+          name: \\"If (optIn === false)\\",
           condition: () => optIn === false,
           then: async () => { asl.fail({
+              name: \\"Throw (???)\\",
               error: \\"NotOptedInError\\",
               cause: \\"oops\\",
               comment: \\"throw new NotOptedInError('oops');\\"

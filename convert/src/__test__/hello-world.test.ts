@@ -13,6 +13,7 @@ describe("when converting example", () => {
 
       export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
           asl.typescriptIf({
+              name: \\"If (typeof input.name !== ...\\",
               condition: () => typeof input.name !== \\"string\\",
               then: async () => {
                   input.name = \\"World\\";
@@ -77,6 +78,7 @@ describe("when converting example", () => {
             "source": "if (typeof input.name !== \\"string\\") {
           input.name = \\"World\\";
         }",
+            "stateName": "If (typeof input.name !== ...",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -103,6 +105,7 @@ describe("when converting example", () => {
               "parameters": undefined,
               "resource": "typescript:random",
               "source": "random()",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -166,7 +169,7 @@ describe("when converting example", () => {
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
-          "If": Object {
+          "If (typeof input.name !== ...": Object {
             "Choices": Array [
               Object {
                 "Next": "Assign Name",
@@ -189,7 +192,7 @@ describe("when converting example", () => {
             "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "If",
+            "Next": "If (typeof input.name !== ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

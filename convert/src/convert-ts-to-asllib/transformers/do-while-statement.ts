@@ -12,9 +12,10 @@ export const doWhileStatementTransformer = <T extends ts.Node>(context: ts.Trans
       const condition = TransformUtil.createWrappedExpression("condition", ensureBooleanExpression(node.expression));
       const block = TransformUtil.createNamedBlock("block", convertToBlock(node.statement));
       const comment = TransformUtil.createComment(node);
+      const name = TransformUtil.createName("Do While (%s)", node.expression);
 
       const assignments: ts.PropertyAssignment[] = []
-      for (const assignment of [condition, block, comment]) {
+      for (const assignment of [name, condition, block, comment]) {
         if (assignment) {
           assignments.push(assignment);
         }

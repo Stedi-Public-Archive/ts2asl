@@ -231,6 +231,7 @@ export interface Expression {
   _syntaxKind: string;
   source?: string;
   comment?: string;
+  stateName?: string;
 }
 
 export interface DeclaresScope {

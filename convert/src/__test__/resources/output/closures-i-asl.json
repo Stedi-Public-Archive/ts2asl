@@ -100,6 +100,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "For number Of numbers",
       "items": {
         "identifier": "numbers",
         "_syntaxKind": "identifier",
@@ -114,6 +115,7 @@
         },
         "statements": [
           {
+            "stateName": "For letter Of letters",
             "items": {
               "identifier": "letters",
               "_syntaxKind": "identifier",

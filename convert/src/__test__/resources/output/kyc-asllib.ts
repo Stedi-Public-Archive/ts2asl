@@ -28,6 +28,7 @@ export const main = asl.deploy.asStateMachine(async () =>{
         comment: "checksPassed = true"
     });
     asl.typescriptIf({
+        name: "If (checksPassed)",
         condition: () => checksPassed,
         then: async () => {
             //no-op update risk profile

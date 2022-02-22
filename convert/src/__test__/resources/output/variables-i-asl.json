@@ -9,6 +9,7 @@
   },
   "statements": [
     {
+      "stateName": "If (typeof input.name !== ...",
       "condition": {
         "operator": "not",
         "rhs": {

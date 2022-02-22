@@ -35,12 +35,12 @@
                 {
                   "Variable": "$",
                   "IsNull": false,
-                  "Next": "If"
+                  "Next": "If (result.Authorized)"
                 }
               ],
               "Default": "_WhileExit"
             },
-            "If": {
+            "If (result.Authorized)": {
               "Type": "Choice",
               "Choices": [
                 {

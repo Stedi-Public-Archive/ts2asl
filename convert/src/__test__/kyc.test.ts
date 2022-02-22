@@ -39,6 +39,7 @@ describe("when converting example", () => {
               comment: \\"checksPassed = true\\"
           });
           asl.typescriptIf({
+              name: \\"If (checksPassed)\\",
               condition: () => checksPassed,
               then: async () => {
                   //no-op update risk profile
@@ -121,6 +122,7 @@ describe("when converting example", () => {
               "catch": Array [],
               "retry": Array [],
               "source": undefined,
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -183,6 +185,7 @@ describe("when converting example", () => {
                 "value": true,
               },
               "source": "checksPassed = true",
+              "stateName": undefined,
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -275,6 +278,7 @@ describe("when converting example", () => {
             ]
           });
         }",
+            "stateName": "If (checksPassed)",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -337,7 +341,7 @@ describe("when converting example", () => {
         "States": Object {
           "Assign ChecksPassed": Object {
             "Comment": "source: checksPassed = true",
-            "Next": "If",
+            "Next": "If (checksPassed)",
             "Result": true,
             "ResultPath": "$.vars.checksPassed",
             "Type": "Pass",
@@ -383,7 +387,7 @@ describe("when converting example", () => {
             "Retry": Array [],
             "Type": "Parallel",
           },
-          "If": Object {
+          "If (checksPassed)": Object {
             "Choices": Array [
               Object {
                 "IsPresent": true,
