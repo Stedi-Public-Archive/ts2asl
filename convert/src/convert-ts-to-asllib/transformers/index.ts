@@ -1,6 +1,5 @@
 import { callStatementTransformer } from "./call-statement";
 import { doWhileStatementTransformer } from "./do-while-statement";
-import { ensureNamedPropertiesTransformer } from "../../convert-asllib-to-iasl/ensure-named-properties";
 import { forOfStatementTransformer } from "./for-of-statement";
 import { ifStatementTransformer } from "./if-statement";
 import { promiseAllStatementTransformer } from "./promise-all-statement";
@@ -12,20 +11,25 @@ import { tryStatementTransformer } from "./try-statement";
 import { unsupportedStatementTransformer } from "./unsupported";
 import { variableStatementTransformer } from "./variable-statement";
 import { whileStatementTransformer } from "./while-statement";
+import { consoleLogStatementTransformer } from "./log-statement";
+import { arrayFilterTransformer } from "./array-filter-statement";
+import { arrayMapTransformer } from "./array-map-statement";
 
 export const transformers = [
   removeUnnecessaryExpressionsTransformer,
   unsupportedStatementTransformer,
   ifStatementTransformer,
   returnStatementTransformer,
+  arrayFilterTransformer,
+  arrayMapTransformer,
   switchStatementTransformer,
   throwStatementTransformer,
   tryStatementTransformer,
   variableStatementTransformer,
   promiseAllStatementTransformer,
+  consoleLogStatementTransformer,
   callStatementTransformer,
   whileStatementTransformer,
   doWhileStatementTransformer,
   forOfStatementTransformer,
-
 ];

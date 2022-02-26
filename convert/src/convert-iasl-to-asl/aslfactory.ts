@@ -3,6 +3,7 @@ import * as iasl from "../convert-asllib-to-iasl/ast"
 import { ConversionContext, convertBlock, isNonTerminalState } from ".";
 import { createChoiceOperator } from "./choice-utility";
 import { createParameters } from "./parameters";
+import { createFilterExpression } from "./jsonpath-filter";
 
 export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
@@ -298,17 +299,29 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
       return lhs + "[" + indexExpr.value + "]" + expr.identifier;
     }
   }
+
+  let trailing = "";
+  if (expr.jsonPathExpression) {
+    trailing = expr.jsonPathExpression;
+  } else if (expr.sliceExpression) {
+    throw new Error("todo implement slice expressions;")
+  } else if (expr.filterExpression) {
+    const expression = createFilterExpression(expr.filterExpression.argument.identifier, expr.filterExpression.expression);
+    trailing = `[?(${expression})]`;
+  }
+
+
   if (expr.identifier) {
     if (!lhs) {
       if (expr.objectContextExpression) {
-        return "$$." + expr.identifier;
+        return "$$." + expr.identifier + trailing;
       }
-      return "$.vars." + expr.identifier;
+      return "$.vars." + expr.identifier + trailing;
     }
-    return lhs + "." + expr.identifier;
+    return lhs + "." + expr.identifier + trailing;
 
   } else {
-    return lhs;
+    return lhs + trailing;
   }
 }
 

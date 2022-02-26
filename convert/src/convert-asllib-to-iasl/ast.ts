@@ -205,6 +205,14 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
   } else if (Check.isAslWaitState(node)) {
     visitNodes(node.seconds, scope, visitor)
     visitNodes(node.timestamp, scope, visitor)
+  } else if (Check.isIdentifier(node)) {
+    if (node.filterExpression) {
+      visitNodes(node.filterExpression.argument, scope, visitor)
+      visitNodes(node.filterExpression.expression, scope, visitor);
+    }
+    if (node.indexExpression) {
+      visitNodes(node.indexExpression, scope, visitor)
+    }
   }
 }
 
@@ -222,6 +230,12 @@ export interface Identifier {
   objectContextExpression?: true;
   identifier: string;
   indexExpression?: Identifier | Expression;
+  sliceExpression?: { start: number, end?: number, step?: number };
+  filterExpression?: {
+    argument: Identifier,
+    expression: BinaryExpression
+  },
+  jsonPathExpression?: string;
   lhs?: Identifier;
   type: Type;
   _syntaxKind: SyntaxKind.Identifier;

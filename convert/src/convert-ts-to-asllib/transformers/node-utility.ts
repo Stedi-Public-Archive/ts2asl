@@ -19,7 +19,6 @@ export const isIdentifier = (node?: ts.Node): node is ts.Identifier | ts.Propert
   return (node !== undefined && ((ts.isIdentifier(node) || ts.isPropertyAccessExpression(node)) || ts.isParenthesizedExpression(node) && isIdentifier(node.expression) || (ts.isAsExpression(node) && isIdentifier(node.expression))));
 }
 
-
 export const isAslCallExpression = (node: ts.CallExpression) => {
   let parts: string[] = [];
   let context = node.expression;
@@ -34,7 +33,6 @@ export const isAslCallExpression = (node: ts.CallExpression) => {
   return undefined;
 }
 
-
-export const ensureBooleanExpression = (node: ts.Expression)  => {
- return node;
+export const ensureBooleanExpression = (node: ts.Expression) => {
+  return node;
 }

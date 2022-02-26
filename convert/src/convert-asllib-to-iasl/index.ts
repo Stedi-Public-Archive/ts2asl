@@ -143,7 +143,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
     let type = isAslCallExpression(expression);
     if (!type) throw new Error("Call expression expected to be on asl module");
 
-    if (type.startsWith("states.")) {
+    if (type.startsWith("states.") || type.startsWith("jsonPath")) {
       return convertExpressionToLiteralOrIdentifier(expression, context);
     }
     let argument = factory.createObjectLiteralExpression([], false);
@@ -496,16 +496,90 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     return fn;
   }
   else if (ts.isCallExpression(expr)) {
-    const _arguments = expr.arguments.map(x => convertExpressionToLiteralOrIdentifier(x, context));
-    const functionName = convertToIdentifier(expr.expression, context);
-    if (!(functionName?.identifier) || functionName.indexExpression || functionName.lhs) {
-      throw new Error("call expression must be simple identifier")
+    const expressionType = isAslCallExpression(expr);
+    if (expressionType?.startsWith("states.")) {
+      const _arguments = expr.arguments.map(x => convertExpressionToLiteralOrIdentifier(x, context));
+      const functionName = convertToIdentifier(expr.expression, context);
+
+      if (!(functionName?.identifier) || functionName.indexExpression || functionName.lhs) {
+        throw new Error("call expression must be simple identifier")
+      }
+      return {
+        arguments: _arguments,
+        function: functionName.identifier,
+        _syntaxKind: "asl-intrinsic-function"
+      } as iasl.AslIntrinsicFunction;
+    } else if (expressionType?.startsWith("jsonPath")) {
+      switch (expressionType) {
+        case "jsonPathFilter":
+          {
+            if (expr.arguments.length !== 2) throw new Error("asl.jsonPathFilter must have 2 arguments");
+            const lhs = convertToIdentifier(expr.arguments[0], context);
+            if (!lhs) throw new Error("asl.jsonPathFilter first arg must be identifier");
+
+            const expression = expr.arguments[1];
+            if (!ts.isArrowFunction(expression)) throw new Error("asl.jsonPathFilter must have arrow func as 2nd arg");
+            if (expression.parameters.length !== 1) throw new Error("asl.jsonPathFilter filter func must have 1 param");
+
+            return {
+              ...lhs,
+              filterExpression: {
+                argument: convertToIdentifier(expression.parameters[0].name, context),
+                expression: convertExpressionToLiteralOrIdentifier(expression, context)
+              }
+            } as iasl.Identifier;
+          }
+
+        case "jsonPathExpression":
+          {
+            if (expr.arguments.length !== 2) throw new Error("asl.jsonPathExpression must have 2 arguments");
+            const lhs = convertToIdentifier(expr.arguments[0], context);
+            if (!lhs) throw new Error("asl.jsonPathExpression 1st arg must be identifier");
+
+            const expression = expr.arguments[1];
+            if (!ts.isStringLiteral(expression)) throw new Error("asl.jsonPathExpression 2nd arg must be string literal");
+
+            return {
+              ...lhs,
+              jsonPathExpression: expression.text
+            } as iasl.Identifier;
+          }
+
+        case "jsonPathSlice":
+          {
+            if (expr.arguments.length <= 2) throw new Error("asl.jsonPathSlice must have at least 2 arguments");
+            if (expr.arguments.length > 4) throw new Error("asl.jsonPathSlice must have at most 4 arguments");
+            const lhs = convertToIdentifier(expr.arguments[0], context);
+            if (!lhs) throw new Error("asl.jsonPathExpression 1st arg must be identifier");
+
+
+            const startArg = expr.arguments[1];
+            if (!ts.isNumericLiteral(startArg)) throw new Error("asl.jsonPathExpression 2nd arg must be number literal");
+            const sliceExpression = {
+              start: Number(startArg.text),
+            } as { start: number, end: number | undefined, step: number | undefined };
+
+            if (expr.arguments.length > 2) {
+              const endArg = expr.arguments[2];
+              if (!ts.isNumericLiteral(endArg)) throw new Error("asl.jsonPathExpression 3rd arg must be number literal");
+              sliceExpression.end = Number(endArg.text);
+            }
+
+            if (expr.arguments.length > 3) {
+              const stepArg = expr.arguments[3];
+              if (!ts.isNumericLiteral(stepArg)) throw new Error("asl.jsonPathExpression 4th arg must be number literal");
+              sliceExpression.step = Number(stepArg.text);
+            }
+            return {
+              ...lhs,
+              sliceExpression,
+            } as iasl.Identifier;
+          }
+
+
+
+      }
     }
-    return {
-      arguments: _arguments,
-      function: functionName.identifier,
-      _syntaxKind: "asl-intrinsic-function"
-    } as iasl.AslIntrinsicFunction;
   } else if (ts.isTypeOfExpression(expr)) {
     let expression = {
       operand: convertExpressionToLiteralOrIdentifier(expr.expression, context),

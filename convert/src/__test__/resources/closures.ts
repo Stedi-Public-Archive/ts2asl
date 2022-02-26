@@ -4,9 +4,10 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
   const numbers = [0, 1, 2, 3];
   const letters = ["a", "b", "c", "d"];
   const global = "prefix";
+  const outer = { middle: { inner: 3 } }
   for (const number of numbers) {
     for (const letter of letters) {
-      const combined = { number, letter, global };
+      const combined = { number, letter, global, inner: outer.middle.inner };
       doSomething(combined);
     }
   }

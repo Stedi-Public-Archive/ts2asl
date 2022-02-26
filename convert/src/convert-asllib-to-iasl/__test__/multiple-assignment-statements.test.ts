@@ -60,7 +60,7 @@ describe("when converting pass statements to iasl", () => {
     const code = `
     import * as asl from "@cloudscript/asl-lib";
     const aaaa = asl.pass({ parameters: { field: xxx, another: 'literal', third: 23 }}); 
-    aaaa = asl.pass({ parameters: {field: xxx.elements[0], fn: states.format('Hello, my name is {}.', name)    } });`;
+    aaaa = asl.pass({ parameters: {field: xxx.elements[0], fn: asl.states.format('Hello, my name is {}.', name)    } });`;
     const result = testConvertToIntermediaryAst(code);
     expect(result).toMatchInlineSnapshot(`
       Object {
@@ -136,7 +136,7 @@ describe("when converting pass statements to iasl", () => {
                         "type": "unknown",
                       },
                     ],
-                    "function": "states.format",
+                    "function": "asl.states.format",
                   },
                 },
               },

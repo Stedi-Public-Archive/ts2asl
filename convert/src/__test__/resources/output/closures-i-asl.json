@@ -100,6 +100,33 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "name": {
+        "identifier": "outer",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "parameters": {
+          "properties": {
+            "middle": {
+              "properties": {
+                "inner": {
+                  "value": 3,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "outer = { middle: { inner: 3 } }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
       "stateName": "For number Of numbers",
       "items": {
         "identifier": "numbers",
@@ -152,11 +179,16 @@
                           "identifier": "global",
                           "_syntaxKind": "identifier",
                           "type": "string"
+                        },
+                        "inner": {
+                          "identifier": "outer.middle.inner",
+                          "type": "numeric",
+                          "_syntaxKind": "identifier"
                         }
                       },
                       "_syntaxKind": "literal-object"
                     },
-                    "source": "combined = { number, letter, global }",
+                    "source": "combined = { number, letter, global, inner: outer.middle.inner }",
                     "_syntaxKind": "asl-pass-state"
                   },
                   "_syntaxKind": "variable-assignment"

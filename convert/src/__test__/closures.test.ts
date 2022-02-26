@@ -24,6 +24,10 @@ describe("when converting closures", () => {
               parameters: () => \\"prefix\\",
               comment: \\"global = \\\\\\"prefix\\\\\\"\\"
           });
+          const outer = asl.pass({
+              parameters: () => ({ middle: { inner: 3 } }),
+              comment: \\"outer = { middle: { inner: 3 } }\\"
+          });
           asl.map({
               name: \\"For number Of numbers\\",
               items: () => numbers,
@@ -33,8 +37,8 @@ describe("when converting closures", () => {
                       items: () => letters,
                       iterator: letter => {
                           const combined = asl.pass({
-                              parameters: () => ({ number, letter, global }),
-                              comment: \\"combined = { number, letter, global }\\"
+                              parameters: () => ({ number, letter, global, inner: outer.middle.inner }),
+                              comment: \\"combined = { number, letter, global, inner: outer.middle.inner }\\"
                           });
                           asl.typescriptInvoke({
                               target: doSomething,
@@ -160,6 +164,34 @@ describe("when converting closures", () => {
             },
           },
           Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "asl-pass-state",
+              "parameters": Object {
+                "_syntaxKind": "literal-object",
+                "properties": Object {
+                  "middle": Object {
+                    "_syntaxKind": "literal-object",
+                    "properties": Object {
+                      "inner": Object {
+                        "_syntaxKind": "literal",
+                        "type": "numeric",
+                        "value": 3,
+                      },
+                    },
+                  },
+                },
+              },
+              "source": "outer = { middle: { inner: 3 } }",
+              "stateName": undefined,
+            },
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "outer",
+              "type": "object",
+            },
+          },
+          Object {
             "_syntaxKind": "asl-map-state",
             "catch": Array [],
             "items": Object {
@@ -201,6 +233,11 @@ describe("when converting closures", () => {
                                 "identifier": "global",
                                 "type": "string",
                               },
+                              "inner": Object {
+                                "_syntaxKind": "identifier",
+                                "identifier": "outer.middle.inner",
+                                "type": "numeric",
+                              },
                               "letter": Object {
                                 "_syntaxKind": "identifier",
                                 "identifier": "letter",
@@ -213,7 +250,7 @@ describe("when converting closures", () => {
                               },
                             },
                           },
-                          "source": "combined = { number, letter, global }",
+                          "source": "combined = { number, letter, global, inner: outer.middle.inner }",
                           "stateName": undefined,
                         },
                         "name": Object {
@@ -253,7 +290,7 @@ describe("when converting closures", () => {
         "States": Object {
           "Assign Global": Object {
             "Comment": "source: global = \\"prefix\\"",
-            "Next": "For number Of numbers",
+            "Next": "Assign Outer",
             "Result": "prefix",
             "ResultPath": "$.vars.global",
             "Type": "Pass",
@@ -282,6 +319,17 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.numbers",
             "Type": "Pass",
           },
+          "Assign Outer": Object {
+            "Comment": "source: outer = { middle: { inner: 3 } }",
+            "Next": "For number Of numbers",
+            "Result": Object {
+              "middle": Object {
+                "inner": 3,
+              },
+            },
+            "ResultPath": "$.vars.outer",
+            "Type": "Pass",
+          },
           "For number Of numbers": Object {
             "Comment": undefined,
             "End": true,
@@ -297,10 +345,11 @@ describe("when converting closures", () => {
                     "StartAt": "Assign Combined",
                     "States": Object {
                       "Assign Combined": Object {
-                        "Comment": "source: combined = { number, letter, global }",
+                        "Comment": "source: combined = { number, letter, global, inner: ou ...",
                         "Next": "Task",
                         "Parameters": Object {
                           "global.$": "$.vars.global",
+                          "inner.$": "$.vars.outer.middle.inner",
                           "letter.$": "$.vars.letter",
                           "number.$": "$.vars.number",
                         },
@@ -327,6 +376,7 @@ describe("when converting closures", () => {
                       "letter.$": "$$.Map.Item.Value",
                       "letters.$": "$.vars.letters",
                       "number.$": "$.vars.number",
+                      "outer.$": "$.vars.outer",
                     },
                   },
                   "ResultPath": "$.lastResult",
@@ -341,6 +391,7 @@ describe("when converting closures", () => {
                 "letters.$": "$.vars.letters",
                 "number.$": "$$.Map.Item.Value",
                 "numbers.$": "$.vars.numbers",
+                "outer.$": "$.vars.outer",
               },
             },
             "ResultPath": "$.lastResult",

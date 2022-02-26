@@ -13,6 +13,10 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
         parameters: () => "prefix",
         comment: "global = \"prefix\""
     });
+    const outer = asl.pass({
+        parameters: () => ({ middle: { inner: 3 } }),
+        comment: "outer = { middle: { inner: 3 } }"
+    });
     asl.map({
         name: "For number Of numbers",
         items: () => numbers,
@@ -22,8 +26,8 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                 items: () => letters,
                 iterator: letter => {
                     const combined = asl.pass({
-                        parameters: () => ({ number, letter, global }),
-                        comment: "combined = { number, letter, global }"
+                        parameters: () => ({ number, letter, global, inner: outer.middle.inner }),
+                        comment: "combined = { number, letter, global, inner: outer.middle.inner }"
                     });
                     asl.typescriptInvoke({
                         target: doSomething,

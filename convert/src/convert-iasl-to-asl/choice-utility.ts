@@ -49,7 +49,7 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
   }
 
   if (iasl.Check.isBinaryExpression(expression.lhs) || iasl.Check.isBinaryExpression(expression.rhs)) {
-    let operands: any[] = [];
+    let operands: Operator[] = [];
     if (expression.lhs) {
       if (iasl.Check.isBinaryExpression(expression.lhs)) {
         operands.push(createChoiceOperator(expression.lhs));
@@ -67,12 +67,28 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
     }
 
     if (expression.operator === "and") {
+      const And: Operator[] = [];
+      for (const operator of operands) {
+        if (operator.And) {
+          And.push(...operator.And);
+        } else {
+          And.push(operator)
+        }
+      }
       return {
         And: operands
       }
     } else if (expression.operator === "or") {
+      const Or: Operator[] = [];
+      for (const operator of operands) {
+        if (operator.Or) {
+          Or.push(...operator.Or);
+        } else {
+          Or.push(operator)
+        }
+      }
       return {
-        Or: operands
+        Or
       }
     }
   }

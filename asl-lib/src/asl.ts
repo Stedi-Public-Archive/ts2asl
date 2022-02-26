@@ -7,11 +7,6 @@ export interface AslStateMachine extends AslResource { }
 export interface AslLambdaFunction extends AslResource { }
 export interface AslState { }
 
-// export type Operator = Omit<AslOperator, "Next"> & { NextInvoke: Function };
-// //export type Choice = Omit<asl.Choice, "Type" | "Choices" | "Default" | "InputPath"> & { input: unknown, default: Function, choices: { when: boolean, then: Function }[] };
-// //export type Task = Omit<asl.Task, "Type" | "Resource" | "InputPath"> & { TypescriptInvoke?: Function, Resource?: string, Input?: unknown };
-// export type Parallel_ = Omit<asl.Parallel, "Type" | "Branches"> & { branches: Function[] };
-
 export type While = { condition: () => boolean; block: Function };
 export type DoWhile = { block: Function; condition: () => boolean };
 export type If = {
@@ -68,10 +63,10 @@ export interface Fail {
   name?: string;
 }
 
-export interface Map<T> {
+export interface Map<T, O> {
   parameters?: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
   items: T[] | undefined | (() => T[]);
-  iterator: <U>(item: T, objectContext: StateMachineContext<U>) => void | {};
+  iterator: <U>(item: T, objectContext: StateMachineContext<U>) => O;
   maxConcurrency?: number;
   comment?: string;
   name?: string;
@@ -166,8 +161,8 @@ export const choice = async (args: Choice) => {
   return {} as AslState;
 }
 
-export const map = async <Item>(args: Map<Item>) => {
-  return {} as AslState;
+export const map = async <Input, Output>(args: Map<Input, Output>) => {
+  return {} as Output[];
 }
 
 export const pass = <T>(args: Pass<T>): T => {
@@ -181,6 +176,19 @@ export const succeed = (x: Succeed) => {
 export const fail = (x: Fail): never => {
   throw new Error(x.cause);
 }
+
+export function jsonPathFilter<T>(items: T[], predicate: (x: T) => boolean): T[] {
+  return items.filter(predicate);
+}
+
+export function jsonPathSlice<T>(items: T[], start: number, end?: number, step?: number): T[] {
+  return items;
+}
+
+export function jsonPathExpression(items: [], expression: string): [] {
+  return items;
+}
+
 export namespace states {
   export function format(format: string, ...args: unknown[]): unknown {
     const formatNode = format.replace(/{}/g, '%s')
@@ -205,3 +213,4 @@ export namespace states {
     return args;
   }
 }
+

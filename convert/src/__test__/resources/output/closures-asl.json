@@ -38,6 +38,17 @@
       "ResultPath": "$.vars.global",
       "Result": "prefix",
       "Comment": "source: global = \"prefix\"",
+      "Next": "Assign Outer"
+    },
+    "Assign Outer": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.outer",
+      "Result": {
+        "middle": {
+          "inner": 3
+        }
+      },
+      "Comment": "source: outer = { middle: { inner: 3 } }",
       "Next": "For number Of numbers"
     },
     "For number Of numbers": {
@@ -58,9 +69,10 @@
                   "Parameters": {
                     "number.$": "$.vars.number",
                     "letter.$": "$.vars.letter",
-                    "global.$": "$.vars.global"
+                    "global.$": "$.vars.global",
+                    "inner.$": "$.vars.outer.middle.inner"
                   },
-                  "Comment": "source: combined = { number, letter, global }",
+                  "Comment": "source: combined = { number, letter, global, inner: ou ...",
                   "Next": "Task"
                 },
                 "Task": {
@@ -78,6 +90,7 @@
                 "letter.$": "$$.Map.Item.Value",
                 "number.$": "$.vars.number",
                 "global.$": "$.vars.global",
+                "outer.$": "$.vars.outer",
                 "letters.$": "$.vars.letters"
               }
             },
@@ -90,6 +103,7 @@
         "vars": {
           "number.$": "$$.Map.Item.Value",
           "global.$": "$.vars.global",
+          "outer.$": "$.vars.outer",
           "letters.$": "$.vars.letters",
           "numbers.$": "$.vars.numbers"
         }

@@ -1,4 +1,5 @@
 import * as asl from "@cloudscript/asl-lib"
+import { deploy } from "@cloudscript/asl-lib";
 
 export const main = asl.deploy.asStateMachine(async (input: IInput) => {
   if (typeof input.name !== "string") {
