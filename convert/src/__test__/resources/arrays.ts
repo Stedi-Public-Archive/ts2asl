@@ -39,5 +39,13 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, context: asl.St
 
   //Add array of unique ages using JSONPath Expression
   let uniqueAges = asl.jsonPathExpression(bySpecies, "..age");
-  let falttenedPets = asl.jsonPathExpression(bySpecies, "[*][*][*]")
+  let flattenedPets = asl.jsonPathExpression(bySpecies, "[*][*][*]")
+  let slicedArr = asl.jsonPathSlice(pets, 3, 5)
+
+  return {
+    bySpecies,
+    uniqueAges,
+    flattenedPets,
+    slicedArr
+  }
 });

@@ -14,7 +14,8 @@ export const throwStatementTransformer = <T extends ts.Node>(context: ts.Transfo
       if (node.expression.arguments && node.expression.arguments.length === 1 && !ts.isStringLiteral(node.expression.arguments[0])) throw new ParserError(`error thrown must have string literal as argument`, node);
 
 
-      const error = TransformUtil.createLiteral("error", node.expression.expression.getText());
+      const errorName = node.expression.expression.getText();
+      const error = TransformUtil.createLiteral("error", errorName);
       const comment = TransformUtil.createComment(node);
       let cause: ts.PropertyAssignment | undefined;
       const assignments: ts.PropertyAssignment[] = []
@@ -24,7 +25,7 @@ export const throwStatementTransformer = <T extends ts.Node>(context: ts.Transfo
         cause = TransformUtil.createLiteral("cause", causeLiteral.text);
       }
 
-      const name = TransformUtil.createName("Throw (%s)", error);
+      const name = TransformUtil.createName(`Throw ${errorName}`);
       for (const assignment of [name, error, cause, comment]) {
         if (assignment) {
           assignments.push(assignment);

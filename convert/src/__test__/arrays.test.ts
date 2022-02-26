@@ -64,7 +64,14 @@ describe("when converting closures", () => {
           });
           //Add array of unique ages using JSONPath Expression
           let uniqueAges = asl.jsonPathExpression(bySpecies, \\"..age\\");
-          let falttenedPets = asl.jsonPathExpression(bySpecies, \\"[*][*][*]\\");
+          let flattenedPets = asl.jsonPathExpression(bySpecies, \\"[*][*][*]\\");
+          let slicedArr = asl.jsonPathSlice(pets, 3, 5);
+          return {
+              bySpecies,
+              uniqueAges,
+              flattenedPets,
+              slicedArr
+          };
       });
       "
     `);
@@ -635,8 +642,53 @@ describe("when converting closures", () => {
             },
             "name": Object {
               "_syntaxKind": "identifier",
-              "identifier": "falttenedPets",
+              "identifier": "flattenedPets",
               "type": "object",
+            },
+          },
+          Object {
+            "_syntaxKind": "variable-assignment",
+            "expression": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "pets",
+              "sliceExpression": Object {
+                "end": 5,
+                "start": 3,
+              },
+              "type": "object",
+            },
+            "name": Object {
+              "_syntaxKind": "identifier",
+              "identifier": "slicedArr",
+              "type": "object",
+            },
+          },
+          Object {
+            "_syntaxKind": "return",
+            "expression": Object {
+              "_syntaxKind": "literal-object",
+              "properties": Object {
+                "bySpecies": Object {
+                  "_syntaxKind": "identifier",
+                  "identifier": "bySpecies",
+                  "type": "object",
+                },
+                "flattenedPets": Object {
+                  "_syntaxKind": "identifier",
+                  "identifier": "flattenedPets",
+                  "type": "object",
+                },
+                "slicedArr": Object {
+                  "_syntaxKind": "identifier",
+                  "identifier": "slicedArr",
+                  "type": "object",
+                },
+                "uniqueAges": Object {
+                  "_syntaxKind": "identifier",
+                  "identifier": "uniqueAges",
+                  "type": "object",
+                },
+              },
             },
           },
         ],
@@ -653,22 +705,22 @@ describe("when converting closures", () => {
             "Next": "Assign UniqueAges",
             "Parameters": Object {
               "cats": Object {
-                "old.$": "$.vars.pets[?(@.species == cat && @.age >= 5)]",
-                "young.$": "$.vars.pets[?(@.species == cat && @.age < 5)]",
+                "old.$": "$.vars.pets[?(@.species == 'cat' && @.age >= 5)]",
+                "young.$": "$.vars.pets[?(@.species == 'cat' && @.age < 5)]",
               },
               "dogs": Object {
-                "old.$": "$.vars.pets[?(@.species == dog && @.age >= 5)]",
-                "young.$": "$.vars.pets[?(@.species == dog && @.age < 5)]",
+                "old.$": "$.vars.pets[?(@.species == 'dog' && @.age >= 5)]",
+                "young.$": "$.vars.pets[?(@.species == 'dog' && @.age < 5)]",
               },
             },
             "ResultPath": "$.vars.bySpecies",
             "Type": "Pass",
           },
-          "Assign FalttenedPets": Object {
+          "Assign FlattenedPets": Object {
             "Comment": undefined,
-            "End": true,
             "InputPath": "$.vars.bySpecies[*][*][*]",
-            "ResultPath": "$.vars.falttenedPets",
+            "Next": "Assign SlicedArr",
+            "ResultPath": "$.vars.flattenedPets",
             "Type": "Pass",
           },
           "Assign MyArray": Object {
@@ -757,10 +809,17 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.pets",
             "Type": "Map",
           },
+          "Assign SlicedArr": Object {
+            "Comment": undefined,
+            "InputPath": "$.vars.pets[3:5]",
+            "Next": "Pass_3",
+            "ResultPath": "$.vars.slicedArr",
+            "Type": "Pass",
+          },
           "Assign UniqueAges": Object {
             "Comment": undefined,
             "InputPath": "$.vars.bySpecies..age",
-            "Next": "Assign FalttenedPets",
+            "Next": "Assign FlattenedPets",
             "ResultPath": "$.vars.uniqueAges",
             "Type": "Pass",
           },
@@ -777,6 +836,20 @@ describe("when converting closures", () => {
             "InputPath": "States.Format('Starting execution of {} at {} with role of {}', $$.StateMachine.Name, $$.Execution.StartTime, $$.Execution.RoleArn)",
             "Next": "Assign MyArray",
             "Type": "Pass",
+          },
+          "Pass_3": Object {
+            "Next": "Succeed_2",
+            "Parameters": Object {
+              "bySpecies.$": "$.vars.bySpecies",
+              "flattenedPets.$": "$.vars.flattenedPets",
+              "slicedArr.$": "$.vars.slicedArr",
+              "uniqueAges.$": "$.vars.uniqueAges",
+            },
+            "Type": "Pass",
+          },
+          "Succeed_2": Object {
+            "Comment": undefined,
+            "Type": "Succeed",
           },
         },
       }

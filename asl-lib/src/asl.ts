@@ -185,7 +185,7 @@ export function jsonPathSlice<T>(items: T[], start: number, end?: number, step?:
   return items;
 }
 
-export function jsonPathExpression(items: [], expression: string): [] {
+export function jsonPathExpression(items: unknown, expression: string): unknown {
   return items;
 }
 

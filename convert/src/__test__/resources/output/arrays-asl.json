@@ -101,12 +101,12 @@
       "ResultPath": "$.vars.bySpecies",
       "Parameters": {
         "cats": {
-          "young.$": "$.vars.pets[?(@.species == cat && @.age < 5)]",
-          "old.$": "$.vars.pets[?(@.species == cat && @.age >= 5)]"
+          "young.$": "$.vars.pets[?(@.species == 'cat' && @.age < 5)]",
+          "old.$": "$.vars.pets[?(@.species == 'cat' && @.age >= 5)]"
         },
         "dogs": {
-          "young.$": "$.vars.pets[?(@.species == dog && @.age < 5)]",
-          "old.$": "$.vars.pets[?(@.species == dog && @.age >= 5)]"
+          "young.$": "$.vars.pets[?(@.species == 'dog' && @.age < 5)]",
+          "old.$": "$.vars.pets[?(@.species == 'dog' && @.age >= 5)]"
         }
       },
       "Next": "Assign UniqueAges"
@@ -115,13 +115,32 @@
       "Type": "Pass",
       "ResultPath": "$.vars.uniqueAges",
       "InputPath": "$.vars.bySpecies..age",
-      "Next": "Assign FalttenedPets"
+      "Next": "Assign FlattenedPets"
     },
-    "Assign FalttenedPets": {
+    "Assign FlattenedPets": {
       "Type": "Pass",
-      "ResultPath": "$.vars.falttenedPets",
+      "ResultPath": "$.vars.flattenedPets",
       "InputPath": "$.vars.bySpecies[*][*][*]",
-      "End": true
+      "Next": "Assign SlicedArr"
+    },
+    "Assign SlicedArr": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.slicedArr",
+      "InputPath": "$.vars.pets[3:5]",
+      "Next": "Pass_3"
+    },
+    "Pass_3": {
+      "Type": "Pass",
+      "Parameters": {
+        "bySpecies.$": "$.vars.bySpecies",
+        "uniqueAges.$": "$.vars.uniqueAges",
+        "flattenedPets.$": "$.vars.flattenedPets",
+        "slicedArr.$": "$.vars.slicedArr"
+      },
+      "Next": "Succeed_2"
+    },
+    "Succeed_2": {
+      "Type": "Succeed"
     }
   }
 }

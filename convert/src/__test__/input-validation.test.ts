@@ -25,7 +25,7 @@ describe("when converting example", () => {
               condition: () => input.delayInSeconds > 10 || input.delayInSeconds < 1,
               then: async () => {
                   asl.fail({
-                      name: \\"Throw (???)\\",
+                      name: \\"Throw ValidationError\\",
                       error: \\"ValidationError\\",
                       cause: \\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\\",
                       comment: \\"throw new ValidationError(\\\\\\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\\\\\\")\\"
@@ -149,7 +149,7 @@ describe("when converting example", () => {
                   "cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
                   "error": "ValidationError",
                   "source": "throw new ValidationError(\\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\\")",
-                  "stateName": "Throw (???)",
+                  "stateName": "Throw ValidationError",
                 },
               ],
             },
@@ -181,7 +181,7 @@ describe("when converting example", () => {
           "If (input.delayInSeconds  ...": Object {
             "Choices": Array [
               Object {
-                "Next": "Throw (???)",
+                "Next": "Throw ValidationError",
                 "Or": Array [
                   Object {
                     "NumericGreaterThan": 10,
@@ -228,7 +228,7 @@ describe("when converting example", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Throw (???)": Object {
+          "Throw ValidationError": Object {
             "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
             "Comment": "source: throw new ValidationError(\\"delay in seconds mu ...",
             "Error": "ValidationError",

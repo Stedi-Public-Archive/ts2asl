@@ -14,7 +14,7 @@ describe("when converting if statements", () => {
           name: \\"If (password === 'pwd')\\",
           condition: () => password === 'pwd',
           then: async () => { asl.fail({
-              name: \\"Throw (???)\\",
+              name: \\"Throw Error\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -35,7 +35,7 @@ describe("when converting if statements", () => {
           name: \\"If (password === 'pwd')\\",
           condition: () => password === 'pwd',
           then: async () => { asl.fail({
-              name: \\"Throw (???)\\",
+              name: \\"Throw Error\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -56,7 +56,7 @@ describe("when converting if statements", () => {
           name: \\"If (password !== 'pwd')\\",
           condition: () => password !== 'pwd',
           then: async () => { asl.fail({
-              name: \\"Throw (???)\\",
+              name: \\"Throw Error\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"

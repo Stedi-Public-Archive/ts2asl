@@ -14,7 +14,7 @@ describe("when converting if with throw statements", () => {
           name: \\"If (optIn === false)\\",
           condition: () => optIn === false,
           then: async () => { asl.fail({
-              name: \\"Throw (???)\\",
+              name: \\"Throw NotOptedInError\\",
               error: \\"NotOptedInError\\",
               cause: \\"oops\\",
               comment: \\"throw new NotOptedInError('oops');\\"

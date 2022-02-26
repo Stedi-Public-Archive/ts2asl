@@ -304,12 +304,14 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
   if (expr.jsonPathExpression) {
     trailing = expr.jsonPathExpression;
   } else if (expr.sliceExpression) {
-    throw new Error("todo implement slice expressions;")
+    let expression = expr.sliceExpression.start + ':';
+    if (expr.sliceExpression.end) expression += expr.sliceExpression.end;
+    if (expr.sliceExpression.step) expression += ":" + expr.sliceExpression.step;
+    trailing = `[${expression}]`;
   } else if (expr.filterExpression) {
     const expression = createFilterExpression(expr.filterExpression.argument.identifier, expr.filterExpression.expression);
     trailing = `[?(${expression})]`;
   }
-
 
   if (expr.identifier) {
     if (!lhs) {

@@ -51,13 +51,13 @@
               "NumericLessThan": 1
             }
           ],
-          "Next": "Throw (???)"
+          "Next": "Throw ValidationError"
         }
       ],
       "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
       "Default": "Wait"
     },
-    "Throw (???)": {
+    "Throw ValidationError": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",

@@ -14,7 +14,7 @@ export const main = asl.deploy.asStateMachine(async (input: Input) =>{
         condition: () => input.delayInSeconds > 10 || input.delayInSeconds < 1,
         then: async () => {
             asl.fail({
-                name: "Throw (???)",
+                name: "Throw ValidationError",
                 error: "ValidationError",
                 cause: "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
                 comment: "throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")"

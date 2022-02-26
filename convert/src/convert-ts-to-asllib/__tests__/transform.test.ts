@@ -47,7 +47,7 @@ describe("when converting source files", () => {
                   condition: () => results[0].status === \\"failed\\",
                   then: async () => {
                       asl.fail({
-                          name: \\"Throw (???)\\",
+                          name: \\"Throw Error\\",
                           error: \\"Error\\",
                           cause: \\"task failed\\",
                           comment: \\"throw new Error(\\\\\\"task failed\\\\\\")\\"

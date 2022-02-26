@@ -537,7 +537,7 @@
     },
     {
       "name": {
-        "identifier": "falttenedPets",
+        "identifier": "flattenedPets",
         "_syntaxKind": "identifier",
         "type": "object"
       },
@@ -548,6 +548,51 @@
         "jsonPathExpression": "[*][*][*]"
       },
       "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "slicedArr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "identifier": "pets",
+        "_syntaxKind": "identifier",
+        "type": "object",
+        "sliceExpression": {
+          "start": 3,
+          "end": 5
+        }
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "properties": {
+          "bySpecies": {
+            "identifier": "bySpecies",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "uniqueAges": {
+            "identifier": "uniqueAges",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "flattenedPets": {
+            "identifier": "flattenedPets",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "slicedArr": {
+            "identifier": "slicedArr",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

@@ -69,6 +69,9 @@ const convertOperand = (argumentName, operand: iasl.Expression | iasl.Identifier
   if (iasl.Check.isIdentifier(operand)) {
     return checkLocalVariable(argumentName, operand);
   } else if (iasl.Check.isLiteral(operand)) {
+    if (typeof operand.value === "string") {
+      return `'${operand.value}'`;
+    }
     return String(operand.value);
   }
   throw new Error(`unable to convert operand of type ${operand._syntaxKind} to json path operand`);

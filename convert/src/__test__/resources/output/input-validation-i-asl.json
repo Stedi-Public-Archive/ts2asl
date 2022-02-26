@@ -85,7 +85,7 @@
       "then": {
         "statements": [
           {
-            "stateName": "Throw (???)",
+            "stateName": "Throw ValidationError",
             "cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
             "error": "ValidationError",
             "source": "throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")",
