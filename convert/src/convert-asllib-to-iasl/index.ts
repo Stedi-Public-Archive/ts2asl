@@ -369,7 +369,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       let remainder = type.substring(6);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
-      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "S3", "SES", "SQS", "SNS", "SSM", "Textract"];
+      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway"];
       for (const serviceName of servicesNames) {
         if (remainder.startsWith(serviceName)) {
           resource += serviceName.toLowerCase() + ':';
@@ -388,6 +388,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       }
 
       return {
+        stateName: remainder,
         resource,
         parameters,
         source: undefined,
@@ -420,7 +421,7 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression,
   return result
 }
 
-export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, context: ConverterContext): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.TypeOfExpression | iasl.BinaryExpression | undefined => {
+export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, context: ConverterContext): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.TypeOfExpression | iasl.BinaryExpression | iasl.Expression | undefined => {
   if (original === undefined) {
     return undefined;
   }
@@ -529,7 +530,18 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
               }
             } as iasl.Identifier;
           }
+        case "jsonPathLength":
+          {
+            if (expr.arguments.length !== 1) throw new Error("asl.jsonPathLength must have 1 arguments");
+            const lhs = convertToIdentifier(expr.arguments[0], context);
+            if (!lhs) throw new Error("asl.jsonPathExpression 1st arg must be identifier");
 
+            return {
+              ...lhs,
+              jsonPathExpression: ".length()"
+            } as iasl.Identifier;
+          }
+          break;
         case "jsonPathExpression":
           {
             if (expr.arguments.length !== 2) throw new Error("asl.jsonPathExpression must have 2 arguments");
@@ -575,9 +587,6 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
               sliceExpression,
             } as iasl.Identifier;
           }
-
-
-
       }
     }
   } else if (ts.isTypeOfExpression(expr)) {
@@ -620,7 +629,13 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     //
   }
 
-
+  const converted = convertExpression(expr, context)
+  if (converted) {
+    if (Array.isArray(converted)) {
+      throw new Error("not sure what to do here");
+    }
+    return converted;
+  }
   //not a literal, try identifier
   const identifier = convertToIdentifier(expr, context);
   if (identifier) {

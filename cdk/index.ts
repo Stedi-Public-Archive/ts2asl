@@ -1,12 +1,12 @@
 import { CfnStateMachine, CfnStateMachineProps } from "@aws-cdk/aws-stepfunctions";
 import { Runtime } from "@aws-cdk/aws-lambda";
 import { Construct } from "@aws-cdk/core";
-import { createCompilerHostFromFile } from "@cloudscript/convert/lib/compiler-host/node"
-import { Converter } from "@cloudscript/convert/lib/convert/index"
+import { Converter } from "@ts2asl/convert"
+import { createCompilerHostFromFile } from "@ts2asl/convert"
 import { NodejsFunction, NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
-import { State, StateMachine, Task } from "asl-types";
+import { StateMachine, Task } from "asl-types";
 
-export interface CloudScriptProps {
+export interface TypescriptStateMachineProps {
   defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
   defaultFunctionProps: Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
   programName: string;
@@ -15,8 +15,8 @@ export interface CloudScriptProps {
   diagnostics?: true; // when true additional diagnostics are printed
 }
 
-export class CloudScript extends Construct {
-  constructor(scope: Construct, id: string, props: CloudScriptProps) {
+export class TypescriptStateMachine extends Construct {
+  constructor(scope: Construct, id: string, props: TypescriptStateMachineProps) {
 
     //sourceFile, cwd & diagnostics are converted to a definitionString.
     const { sourceFile, cwd, diagnostics } = props;

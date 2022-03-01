@@ -12,9 +12,9 @@
     "Assign Result": {
       "Branches": [
         {
-          "StartAt": "Task",
+          "StartAt": "performIdentifyCheck()",
           "States": {
-            "Task": {
+            "performIdentifyCheck()": {
               "Type": "Task",
               "Resource": "typescript:performIdentifyCheck",
               "Comment": "source: performIdentifyCheck()",
@@ -42,9 +42,9 @@
       "Type": "Parallel",
       "Catch": [],
       "Retry": [],
-      "Next": "Task_1"
+      "Next": "PutEvents"
     },
-    "Task_1": {
+    "PutEvents": {
       "Type": "Task",
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
@@ -72,13 +72,12 @@
         {
           "Variable": "$.vars.checksPassed",
           "IsPresent": true,
-          "Next": "Task_2"
+          "Next": "PutEvents_1"
         }
       ],
-      "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
-      "Default": "Task_2"
+      "Default": "PutEvents_1"
     },
-    "Task_2": {
+    "PutEvents_1": {
       "Type": "Task",
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {

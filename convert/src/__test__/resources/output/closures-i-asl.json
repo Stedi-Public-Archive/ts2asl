@@ -194,6 +194,7 @@
                   "_syntaxKind": "variable-assignment"
                 },
                 {
+                  "stateName": "doSomething(combined)",
                   "resource": "typescript:doSomething",
                   "parameters": {
                     "identifier": "combined",

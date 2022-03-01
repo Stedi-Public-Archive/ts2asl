@@ -14,6 +14,7 @@ import { whileStatementTransformer } from "./while-statement";
 import { consoleLogStatementTransformer } from "./log-statement";
 import { arrayFilterTransformer } from "./array-filter-statement";
 import { arrayMapTransformer } from "./array-map-statement";
+import { arrayLengthTransformer } from "./array-length-statement";
 
 export const transformers = [
   removeUnnecessaryExpressionsTransformer,
@@ -22,6 +23,7 @@ export const transformers = [
   returnStatementTransformer,
   arrayFilterTransformer,
   arrayMapTransformer,
+  arrayLengthTransformer,
   switchStatementTransformer,
   throwStatementTransformer,
   tryStatementTransformer,

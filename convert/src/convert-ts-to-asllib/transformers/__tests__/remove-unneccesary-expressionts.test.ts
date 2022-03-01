@@ -15,7 +15,7 @@ describe("when converting call statements", () => {
         removeUnnecessaryExpressionsTransformer
       )
     ).toMatchInlineSnapshot(`
-      "for (const item of (scan.Items as unknown as Item[])) {
+      "for (const item of scan.Items) {
           for (const threshold of thresholds) {
           }
       }"
@@ -51,7 +51,7 @@ describe("when converting promise.resolve inside promise.all", () => {
         removeUnnecessaryExpressionsTransformer
       )
     ).toMatchInlineSnapshot(`
-      "const result = await Promise.all([
+      "const result = Promise.all([
           { identityChecked: true, customerName: \\"name\\", customerAddress: \\"address\\" },
           { agencyChecked: true },
       ]);"

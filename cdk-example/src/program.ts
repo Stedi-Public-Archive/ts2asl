@@ -1,5 +1,5 @@
-import * as asl from "@cloudscript/asl-lib"
-import { deploy } from "@cloudscript/asl-lib";
+import * as asl from "@ts2asl/asl-lib"
+import { deploy } from "@ts2asl/asl-lib";
 
 export const main = asl.deploy.asStateMachine(async (input: IInput) => {
   if (typeof input.name !== "string") {

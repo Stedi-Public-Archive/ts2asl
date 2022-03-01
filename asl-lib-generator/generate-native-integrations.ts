@@ -1,5 +1,4 @@
 import nativeIntegrations from "./native-integrations.json"
-import fetch from 'node-fetch';
 import * as ts from "typescript";
 import factory = ts.factory;
 import { writeFileSync } from "fs";
@@ -17,7 +16,7 @@ const supportedServices = [
   { serviceId: "sns", serviceName: "SNS" },
   { serviceId: "ssm", serviceName: "SSM" },
   { serviceId: "textract", serviceName: "Textract" },
-  //  { serviceId: "secretsmanager", serviceName: "SecretsManager" }
+  { serviceId: "apigateway", serviceName: "APIGateway" }
 ]
 
 // interface NativeIntegrationDefinition {
@@ -31,6 +30,7 @@ const supportedServices = [
 
 const generateServiceAst = (serviceName: string): { importAst: ts.Node } => {
   const lowercaseServiceId = serviceName.toLowerCase();
+  const moduleName = (lowercaseServiceId === "apigateway") ? "api-gateway" : lowercaseServiceId;
 
   return {
     importAst: factory.createImportDeclaration(
@@ -47,13 +47,14 @@ const generateServiceAst = (serviceName: string): { importAst: ts.Node } => {
           ),
         ])
       ),
-      factory.createStringLiteral(`@aws-sdk/client-${lowercaseServiceId}`),
+      factory.createStringLiteral(`@aws-sdk/client-${moduleName}`),
       undefined
     ),
   }
 }
 const generateFunctionAst = (serviceName: string, actionName: string): { functionAst: ts.Statement, importAst: ts.Node } => {
   const lowercaseServiceId = serviceName.toLowerCase();
+  const moduleName = (lowercaseServiceId === "apigateway") ? "api-gateway" : lowercaseServiceId;
   const actionNameCamel = actionName[0].toLowerCase() + actionName.substring(1);
 
   const result = {
@@ -81,7 +82,7 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
           )
         ])
       ),
-      factory.createStringLiteral(`@aws-sdk/client-${lowercaseServiceId}`),
+      factory.createStringLiteral(`@aws-sdk/client-${moduleName}`),
       undefined
     ),
     functionAst:

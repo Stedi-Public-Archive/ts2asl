@@ -1,4 +1,4 @@
-import * as asl from "@cloudscript/asl-lib"
+import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) => {
   const numbers = [0, 1, 2, 3];

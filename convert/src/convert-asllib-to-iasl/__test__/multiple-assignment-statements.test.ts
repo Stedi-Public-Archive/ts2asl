@@ -3,7 +3,7 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 describe("when converting pass statements to iasl", () => {
   it("then statements object literal expressions get converted", () => {
     const code = `
-    import * as asl from "@cloudscript/asl-lib";
+    import * as asl from "@ts2asl/asl-lib";
 
     const aaaa = asl.pass({ parameters: 'hello', comment: 'some random comment' }); 
     aaaa = asl.pass({ parameters: 'hello' });`;
@@ -58,7 +58,7 @@ describe("when converting pass statements to iasl", () => {
 
   it("then statements object literal expressions that contain identifiers get converted well", () => {
     const code = `
-    import * as asl from "@cloudscript/asl-lib";
+    import * as asl from "@ts2asl/asl-lib";
     const aaaa = asl.pass({ parameters: { field: xxx, another: 'literal', third: 23 }}); 
     aaaa = asl.pass({ parameters: {field: xxx.elements[0], fn: asl.states.format('Hello, my name is {}.', name)    } });`;
     const result = testConvertToIntermediaryAst(code);
@@ -156,7 +156,7 @@ describe("when converting pass statements to iasl", () => {
 
   it("then statements object literal expressions that contain identifiers get converted well", () => {
     const code = `
-import * as asl from "@cloudscript/asl-lib";
+import * as asl from "@ts2asl/asl-lib";
 
 const aaaa = asl.pass({ parameters: arg }); `;
     const result = testConvertToIntermediaryAst(code);

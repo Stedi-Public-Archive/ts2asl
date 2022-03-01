@@ -1,4 +1,4 @@
-import * as asl from "@cloudscript/asl-lib"
+import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
     let thresholds = asl.pass({
@@ -22,29 +22,23 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
         name: "Do While (lastEvaluatedKey)",
         condition: () => lastEvaluatedKey,
         block: async () => {
-            let scan = await asl.nativeDynamoDBScan({ TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
+            let scan = asl.nativeDynamoDBScan({ TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
             asl.map({
-                name: "For item Of ???",
-                items: () => (scan.Items as unknown as Item[]),
+                name: "For item Of scan.Items",
+                items: () => scan.Items,
                 iterator: item => {
                     asl.map({
                         name: "For threshold Of thresholds",
                         items: () => thresholds,
                         iterator: threshold => {
-                            let numericLastSentOnValue = asl.pass({
-                                parameters: () => asl.states.stringToJson(item.lastSentOnValue.N) as number,
-                                comment: "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number"
-                            });
-                            let numericTotal = asl.pass({
-                                parameters: () => asl.states.stringToJson(item.total.N) as number,
-                                comment: "numericTotal = asl.states.stringToJson(item.total.N) as number"
-                            });
+                            let numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N);
+                            let numericTotal = asl.states.stringToJson(item.total.N);
                             asl.typescriptIf({
                                 name: "If ((item.sk.S === thresh ...",
                                 condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
                                     || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                 then: async () => {
-                                    await asl.nativeEventBridgePutEvents({
+                                    asl.nativeEventBridgePutEvents({
                                         Entries: [
                                             {
                                                 Detail: asl.states.jsonToString({
@@ -57,7 +51,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                                             }
                                         ]
                                     });
-                                    await asl.nativeDynamoDBUpdateItem({
+                                    asl.nativeDynamoDBUpdateItem({
                                         TableName: "MyStorage",
                                         Key: {
                                             pk: item.pk,
@@ -67,15 +61,14 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                                         UpdateExpression: "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
                                         ExpressionAttributeValues: {
                                             ":newLastSentOnValue": {
-                                                N: item.total.N as any
+                                                N: item.total.N
                                             },
                                             ":newLastBeginDateValue": {
                                                 S: item.beginDate.S
                                             }
                                         }
                                     });
-                                },
-                                comment: "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\n\n          await asl.nativeEventBridgePutEvents({\n            Entries: [\n              {\n                Detail: asl.states.jsonToString({\n                  account_id: item.pk,\n                  threshold: threshold\n                }),\n                DetailType: \"xxx.detail.type\",\n                EventBusName: \"default\",\n                Source: \"zzz.my.source\"\n              }\n            ]\n          });\n          await asl.nativeDynamoDBUpdateItem({\n            TableName: \"MyStorage\",\n            Key: {\n              pk: item.pk,\n              sk: item.sk\n            },\n            ConditionExpression: \"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\",\n            UpdateExpression: \"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\",\n            ExpressionAttributeValues: {\n              \":newLastSentOnValue\": {\n                N: item.total.N as any\n              },\n              \":newLastBeginDateValue\": {\n                S: item.beginDate.S\n              }\n            }\n          });\n        }"
+                                }
                             })
                         }
                     })

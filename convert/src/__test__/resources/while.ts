@@ -1,4 +1,4 @@
-import * as asl from "@cloudscript/asl-lib"
+import * as asl from "@ts2asl/asl-lib"
 interface Result {
   Authorized: boolean;
 }

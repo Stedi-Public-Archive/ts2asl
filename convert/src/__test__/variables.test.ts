@@ -10,8 +10,8 @@ describe("when converting variables", () => {
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
       "
-      import * as asl from \\"@cloudscript/asl-lib\\"
-      import { StateMachineContext } from \\"@cloudscript/asl-lib\\";
+      import * as asl from \\"@ts2asl/asl-lib\\"
+      import { StateMachineContext } from \\"@ts2asl/asl-lib\\";
 
       export const main = asl.deploy.asStateMachine(async (input: IInput, context: StateMachineContext<IInput>) =>{
           asl.typescriptIf({
@@ -35,10 +35,9 @@ describe("when converting variables", () => {
                   somethingLiteral: [\\"one\\", 2, \\"three\\"],
                   startTime: context.execution.startTime,
                   func: asl.states.jsonToString(x),
-                  number: asl.states.stringToJson(\\"123\\") as number,
+                  number: asl.states.stringToJson(\\"123\\"),
                   arr: asl.states.array(1, 2, 3, 4, 5, 6),
-              }),
-              comment: \\"y = {\\\\n    x,\\\\n    somethingLiteral: [\\\\\\"one\\\\\\", 2, \\\\\\"three\\\\\\"],\\\\n    startTime: context.execution.startTime,\\\\n    func: asl.states.jsonToString(x),\\\\n    number: asl.states.stringToJson(\\\\\\"123\\\\\\") as number,\\\\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\\\\n  }\\"
+              })
           });
           return y;
       });
@@ -239,14 +238,7 @@ describe("when converting variables", () => {
                   },
                 },
               },
-              "source": "y = {
-          x,
-          somethingLiteral: [\\"one\\", 2, \\"three\\"],
-          startTime: context.execution.startTime,
-          func: asl.states.jsonToString(x),
-          number: asl.states.stringToJson(\\"123\\") as number,
-          arr: asl.states.array(1, 2, 3, 4, 5, 6),
-        }",
+              "source": undefined,
               "stateName": undefined,
             },
             "name": Object {
@@ -290,7 +282,7 @@ describe("when converting variables", () => {
             "Type": "Pass",
           },
           "Assign Y": Object {
-            "Comment": "source: y = { x, somethingLiteral: [\\"one\\", 2, \\"three\\"] ...",
+            "Comment": undefined,
             "Next": "Pass",
             "Parameters": Object {
               "arr.$": "States.Array(1, 2, 3, 4, 5, 6)",

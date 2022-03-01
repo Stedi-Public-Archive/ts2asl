@@ -15,7 +15,9 @@ export const convert = (stateMachine: iasl.StateMachine, context: ConversionCont
 
       if (stateMachineCopy.inputArgumentName) {
         const inputArgumentName = stateMachineCopy.inputArgumentName.identifier;
-        if (expression.identifier.startsWith(inputArgumentName + ".")) {
+        if (expression.identifier === inputArgumentName) {
+          expression.identifier = "$.vars"
+        } else if (expression.identifier.startsWith(inputArgumentName + ".")) {
           expression.identifier = expression.identifier.replace(inputArgumentName + ".", "");
         }
       }
@@ -23,7 +25,9 @@ export const convert = (stateMachine: iasl.StateMachine, context: ConversionCont
 
       if (stateMachineCopy.contextArgumentName) {
         const inputArgumentName = stateMachineCopy.contextArgumentName.identifier;
-        if (expression.identifier.startsWith(inputArgumentName + ".")) {
+        if (expression.identifier === inputArgumentName) {
+          expression.identifier = "$$"
+        } else if (expression.identifier.startsWith(inputArgumentName + ".")) {
           const parts = expression.identifier.replace(inputArgumentName + ".", "").split(".");
           const converted = parts.map(x => x[0].toUpperCase() + x.substring(1)).join(".");
           expression.identifier = converted;

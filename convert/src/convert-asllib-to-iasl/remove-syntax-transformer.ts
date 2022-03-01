@@ -4,9 +4,14 @@ export const removeSyntaxTransformer = <T extends ts.Node>(context: ts.Transform
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
+    if (ts.isParenthesizedExpression(node) && ts.isIdentifier(node.expression)) {
+      return node.expression;
+    }
+
     if (ts.isAwaitExpression(node)) {
       return node.expression;
     }
+
     if (ts.isAsExpression(node)) {
       return node.expression;
     }

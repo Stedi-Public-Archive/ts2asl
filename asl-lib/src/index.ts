@@ -11,3 +11,8 @@ export * from "./native-integrations-sqs";
 export * from "./native-integrations-ssm";
 export * from "./native-integrations-textract";
 export * from "./deploy"
+
+/* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:invoke'*/
+export const nativeAPIGatewayInvoke = (input: unknown): Promise<unknown> => {
+  return Promise.resolve({});
+};

@@ -123,8 +123,9 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
     for (const arg of node.arguments) {
       visitNodes(arg, scope, visitor);
     }
-  }
-  else if (Check.isReturnStatement(node)) {
+  } else if (Check.isAslTaskState(node)) {
+    visitNodes(node.parameters, scope, visitor)
+  } else if (Check.isReturnStatement(node)) {
     visitNodes(node.expression, scope, visitor)
   }
   else if (Check.isTypeOfExpression(node)) {

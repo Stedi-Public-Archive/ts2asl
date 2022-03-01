@@ -57,6 +57,7 @@ describe("when converting native integration statements to iasl", () => {
               },
               "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
               "source": undefined,
+              "stateName": "GetItem",
             },
             "name": Object {
               "_syntaxKind": "identifier",

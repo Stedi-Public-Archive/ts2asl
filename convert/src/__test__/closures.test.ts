@@ -9,7 +9,7 @@ describe("when converting closures", () => {
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "import * as asl from \\"@cloudscript/asl-lib\\"
+      "import * as asl from \\"@ts2asl/asl-lib\\"
 
       export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
           const numbers = asl.pass({
@@ -41,6 +41,7 @@ describe("when converting closures", () => {
                               comment: \\"combined = { number, letter, global, inner: outer.middle.inner }\\"
                           });
                           asl.typescriptInvoke({
+                              name: \\"doSomething(combined)\\",
                               target: doSomething,
                               parameters: () => combined,
                               comment: \\"doSomething(combined)\\"
@@ -268,6 +269,7 @@ describe("when converting closures", () => {
                         },
                         "resource": "typescript:doSomething",
                         "source": "doSomething(combined)",
+                        "stateName": "doSomething(combined)",
                       },
                     ],
                   },
@@ -346,7 +348,7 @@ describe("when converting closures", () => {
                     "States": Object {
                       "Assign Combined": Object {
                         "Comment": "source: combined = { number, letter, global, inner: ou ...",
-                        "Next": "Task",
+                        "Next": "doSomething(combined)",
                         "Parameters": Object {
                           "global.$": "$.vars.global",
                           "inner.$": "$.vars.outer.middle.inner",
@@ -356,7 +358,7 @@ describe("when converting closures", () => {
                         "ResultPath": "$.vars.combined",
                         "Type": "Pass",
                       },
-                      "Task": Object {
+                      "doSomething(combined)": Object {
                         "Catch": undefined,
                         "Comment": "source: doSomething(combined)",
                         "End": true,

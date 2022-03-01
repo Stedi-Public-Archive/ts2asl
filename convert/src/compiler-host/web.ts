@@ -14,7 +14,7 @@ export const createCompilerHostFromSourceForWeb = (source: string) => {
       return result;
     },
     resolveModuleNames: (moduleNames: string[]): (ts.ResolvedModule | undefined)[] => {
-      return moduleNames.map(x => (x === "@cloudscript/asl-lib") ? { resolvedFileName: "asl-lib.ts" } : undefined);
+      return moduleNames.map(x => (x === "@ts2asl/asl-lib") ? { resolvedFileName: "asl-lib.ts" } : undefined);
     },
     getDefaultLibFileName: function (options: ts.CompilerOptions): string {
       return getDefaultLibFileName(options)

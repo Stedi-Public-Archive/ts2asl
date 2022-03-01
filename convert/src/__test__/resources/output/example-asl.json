@@ -53,9 +53,9 @@
                 "Limit": 1,
                 "ExclusiveStartKey.$": "$.vars.lastEvaluatedKey"
               },
-              "Next": "For item Of ???"
+              "Next": "For item Of scan.Items"
             },
-            "For item Of ???": {
+            "For item Of scan.Items": {
               "Type": "Map",
               "ResultPath": "$.lastResult",
               "Iterator": {
@@ -71,14 +71,12 @@
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericLastSentOnValue",
                           "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
-                          "Comment": "source: numericLastSentOnValue = asl.states.stringToJs ...",
                           "Next": "Assign NumericTotal"
                         },
                         "Assign NumericTotal": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericTotal",
                           "InputPath": "States.StringToJson($.vars.item.total.N)",
-                          "Comment": "source: numericTotal = asl.states.stringToJson(item.to ...",
                           "Next": "If ((item.sk.S === thresh ..."
                         },
                         "If ((item.sk.S === thresh ...": {
@@ -151,13 +149,12 @@
                                   ]
                                 }
                               ],
-                              "Next": "Task"
+                              "Next": "PutEvents"
                             }
                           ],
-                          "Comment": "source: if ((item.sk.S === threshold.metric && thresho ...",
                           "Default": "Empty Default Choice"
                         },
-                        "Task": {
+                        "PutEvents": {
                           "Type": "Task",
                           "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
                           "Parameters": {
@@ -170,9 +167,9 @@
                               }
                             ]
                           },
-                          "Next": "Task_1"
+                          "Next": "UpdateItem"
                         },
-                        "Task_1": {
+                        "UpdateItem": {
                           "Type": "Task",
                           "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
                           "Parameters": {

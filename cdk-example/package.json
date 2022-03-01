@@ -25,9 +25,8 @@
     "@aws-cdk/aws-lambda": "1.145.0",
     "@aws-cdk/aws-stepfunctions": "1.145.0",
     "@aws-cdk/core": "1.145.0",
-    "@cloudscript/asl-lib": "file:../asl-lib",
-    "@cloudscript/cdk": "file:../cdk",
-    "@cloudscript/convert": "file:../convert",
+    "@ts2asl/asl-lib": "^0.1.4",
+    "@ts2asl/cdk-typescript-statemachine": "^0.1.0",
     "esbuild": "^0.14.23",
     "source-map-support": "^0.5.16"
   }

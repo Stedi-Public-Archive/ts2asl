@@ -1,21 +1,29 @@
 {
-  "name": "@cloudscript/cdk",
-  "version": "1.0.0",
+  "name": "@ts2asl/cdk-typescript-statemachine",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "lib/**/*"
   ],
   "author": "",
   "license": "ISC",
+  "peerDependencies": {
+    "@aws-cdk/aws-lambda-nodejs": "1.145.0",
+    "@aws-cdk/aws-stepfunctions": "1.145.0",
+    "@aws-cdk/core": "1.145.0"
+  },
   "dependencies": {
-    "@aws-cdk/aws-lambda-nodejs": "^1.145.0",
+    "@aws-cdk/aws-lambda-nodejs": "1.145.0",
     "@aws-cdk/aws-stepfunctions": "1.145.0",
     "@aws-cdk/core": "1.145.0",
-    "@cloudscript/convert": "file:../convert",
+    "@ts2asl/convert": "^0.1.1",
     "asl-types": "^1.2.1",
     "aws-cdk": "1.145.0",
     "typescript": "^4.5.5"

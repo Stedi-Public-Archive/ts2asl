@@ -1,4 +1,4 @@
-import * as asl from "@cloudscript/asl-lib"
+import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
     asl.typescriptIf({
@@ -9,7 +9,8 @@ export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
         },
         comment: "if (typeof input.name !== \"string\") {\n    input.name = \"World\";\n  }"
     })
-    const rnd = await asl.typescriptInvoke({
+    const rnd = asl.typescriptInvoke({
+        name: "random()",
         target: random,
         comment: "random()"
     });

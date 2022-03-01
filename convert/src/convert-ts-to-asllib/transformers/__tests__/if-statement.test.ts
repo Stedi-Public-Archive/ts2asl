@@ -146,7 +146,24 @@ describe("when converting if statements", () => {
     `);
   });
 
-  // it("then equals is supported on boolean ", () => {
-  //   expect(testTransform("if (optIn === true) console.log();", ifStatementTransformer)).toMatchInlineSnapshot();
-  // });
+  it("then else if is supported", () => {
+    expect(
+      testTransform(
+        "if (lhs === rhs) console.log(); else if (1 === 2) console.log();",
+        ifStatementTransformer
+      )
+    ).toMatchInlineSnapshot(`
+      "asl.typescriptIf({
+          name: \\"If (lhs === rhs)\\",
+          condition: () => lhs === rhs,
+          then: async () => { console.log(); },
+          else: async () => { asl.typescriptIf({
+              name: \\"If (1 === 2)\\",
+              condition: () => 1 === 2,
+              then: async () => { console.log(); },
+              comment: \\"if (1 === 2) console.log();\\"
+          }) }
+      })"
+    `);
+  });
 });

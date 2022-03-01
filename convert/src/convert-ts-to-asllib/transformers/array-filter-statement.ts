@@ -36,8 +36,6 @@ export const arrayFilterTransformer = <T extends ts.Node>(context: ts.Transforma
 
       }
     }
-
-
     return node;
   }
   return ts.visitNode(rootNode, visit);

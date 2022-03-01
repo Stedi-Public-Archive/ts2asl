@@ -26,7 +26,7 @@ export const callStatementTransformer = <T extends ts.Node>(context: ts.Transfor
       const name = TransformUtil.createName("%s", node);
 
       const assignments: ts.PropertyAssignment[] = []
-      for (const assignment of [target, parameters, comment]) {
+      for (const assignment of [name, target, parameters, comment]) {
         if (assignment) {
           assignments.push(assignment);
         }

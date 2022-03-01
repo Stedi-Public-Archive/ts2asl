@@ -161,8 +161,13 @@ export class TransformUtil {
     let texts: string[] = [];
     for (const node of nodes) {
       try {
-        const text = node.getText();
-        texts.push(text);
+        if ((node as any).original) {
+          const text = (node as any).original.getText();
+          texts.push(text);
+        } else {
+          const text = node.getText();
+          texts.push(text);
+        }
       } catch {
         const text = "???";
         texts.push(text);

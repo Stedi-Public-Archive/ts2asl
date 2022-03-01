@@ -9,10 +9,12 @@ export interface AslState {
 export declare type While = {
     condition: () => boolean;
     block: Function;
+    name?: string;
 };
 export declare type DoWhile = {
-    block: Function;
     condition: () => boolean;
+    block: Function;
+    name?: string;
 };
 export declare type If = {
     condition: boolean | (() => boolean);
@@ -45,6 +47,7 @@ export interface Try {
     name?: string;
 }
 export interface Task {
+    name?: string;
     resource: string;
     parameters?: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
     catch?: CatchConfiguration;
@@ -129,9 +132,9 @@ export declare const map: <Input, Output>(args: Map<Input, Output>) => Promise<O
 export declare const pass: <T>(args: Pass<T>) => T;
 export declare const succeed: (x: Succeed) => AslState;
 export declare const fail: (x: Fail) => never;
-export declare function jsonPathFilter<T>(items: T[], predicate: (x: T) => boolean): T[];
-export declare function jsonPathSlice<T>(items: T[], start: number, end?: number, step?: number): T[];
-export declare function jsonPathExpression(items: [], expression: string): [];
+export declare const jsonPathFilter: <T>(items: T[], predicate: (x: T) => boolean) => T[];
+export declare const jsonPathSlice: <T>(items: T[], start: number, end?: number | undefined, step?: number | undefined) => T[];
+export declare const jsonPathExpression: (items: unknown, expression: string) => unknown;
 export declare namespace states {
     function format(format: string, ...args: unknown[]): unknown;
     function stringToJson(arg: string | undefined): unknown;

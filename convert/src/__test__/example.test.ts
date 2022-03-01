@@ -9,7 +9,7 @@ describe("when converting example", () => {
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "import * as asl from \\"@cloudscript/asl-lib\\"
+      "import * as asl from \\"@ts2asl/asl-lib\\"
 
       export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
           let thresholds = asl.pass({
@@ -33,29 +33,23 @@ describe("when converting example", () => {
               name: \\"Do While (lastEvaluatedKey)\\",
               condition: () => lastEvaluatedKey,
               block: async () => {
-                  let scan = await asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
+                  let scan = asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
                   asl.map({
-                      name: \\"For item Of ???\\",
-                      items: () => (scan.Items as unknown as Item[]),
+                      name: \\"For item Of scan.Items\\",
+                      items: () => scan.Items,
                       iterator: item => {
                           asl.map({
                               name: \\"For threshold Of thresholds\\",
                               items: () => thresholds,
                               iterator: threshold => {
-                                  let numericLastSentOnValue = asl.pass({
-                                      parameters: () => asl.states.stringToJson(item.lastSentOnValue.N) as number,
-                                      comment: \\"numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number\\"
-                                  });
-                                  let numericTotal = asl.pass({
-                                      parameters: () => asl.states.stringToJson(item.total.N) as number,
-                                      comment: \\"numericTotal = asl.states.stringToJson(item.total.N) as number\\"
-                                  });
+                                  let numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N);
+                                  let numericTotal = asl.states.stringToJson(item.total.N);
                                   asl.typescriptIf({
                                       name: \\"If ((item.sk.S === thresh ...\\",
                                       condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
                                           || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                       then: async () => {
-                                          await asl.nativeEventBridgePutEvents({
+                                          asl.nativeEventBridgePutEvents({
                                               Entries: [
                                                   {
                                                       Detail: asl.states.jsonToString({
@@ -68,7 +62,7 @@ describe("when converting example", () => {
                                                   }
                                               ]
                                           });
-                                          await asl.nativeDynamoDBUpdateItem({
+                                          asl.nativeDynamoDBUpdateItem({
                                               TableName: \\"MyStorage\\",
                                               Key: {
                                                   pk: item.pk,
@@ -78,15 +72,14 @@ describe("when converting example", () => {
                                               UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
                                               ExpressionAttributeValues: {
                                                   \\":newLastSentOnValue\\": {
-                                                      N: item.total.N as any
+                                                      N: item.total.N
                                                   },
                                                   \\":newLastBeginDateValue\\": {
                                                       S: item.beginDate.S
                                                   }
                                               }
                                           });
-                                      },
-                                      comment: \\"if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\\\\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\\\\n\\\\n          await asl.nativeEventBridgePutEvents({\\\\n            Entries: [\\\\n              {\\\\n                Detail: asl.states.jsonToString({\\\\n                  account_id: item.pk,\\\\n                  threshold: threshold\\\\n                }),\\\\n                DetailType: \\\\\\"xxx.detail.type\\\\\\",\\\\n                EventBusName: \\\\\\"default\\\\\\",\\\\n                Source: \\\\\\"zzz.my.source\\\\\\"\\\\n              }\\\\n            ]\\\\n          });\\\\n          await asl.nativeDynamoDBUpdateItem({\\\\n            TableName: \\\\\\"MyStorage\\\\\\",\\\\n            Key: {\\\\n              pk: item.pk,\\\\n              sk: item.sk\\\\n            },\\\\n            ConditionExpression: \\\\\\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\\\\\",\\\\n            UpdateExpression: \\\\\\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\\\\\",\\\\n            ExpressionAttributeValues: {\\\\n              \\\\\\":newLastSentOnValue\\\\\\": {\\\\n                N: item.total.N as any\\\\n              },\\\\n              \\\\\\":newLastBeginDateValue\\\\\\": {\\\\n                S: item.beginDate.S\\\\n              }\\\\n            }\\\\n          });\\\\n        }\\"
+                                      }
                                   })
                               }
                           })
@@ -236,6 +229,7 @@ describe("when converting example", () => {
                     },
                     "resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
                     "source": undefined,
+                    "stateName": "Scan",
                   },
                   "name": Object {
                     "_syntaxKind": "identifier",
@@ -276,20 +270,15 @@ describe("when converting example", () => {
                             Object {
                               "_syntaxKind": "variable-assignment",
                               "expression": Object {
-                                "_syntaxKind": "asl-pass-state",
-                                "parameters": Object {
-                                  "_syntaxKind": "asl-intrinsic-function",
-                                  "arguments": Array [
-                                    Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "item.lastSentOnValue.N",
-                                      "type": "string",
-                                    },
-                                  ],
-                                  "function": "asl.states.stringToJson",
-                                },
-                                "source": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
-                                "stateName": undefined,
+                                "_syntaxKind": "asl-intrinsic-function",
+                                "arguments": Array [
+                                  Object {
+                                    "_syntaxKind": "identifier",
+                                    "identifier": "item.lastSentOnValue.N",
+                                    "type": "string",
+                                  },
+                                ],
+                                "function": "asl.states.stringToJson",
                               },
                               "name": Object {
                                 "_syntaxKind": "identifier",
@@ -300,20 +289,15 @@ describe("when converting example", () => {
                             Object {
                               "_syntaxKind": "variable-assignment",
                               "expression": Object {
-                                "_syntaxKind": "asl-pass-state",
-                                "parameters": Object {
-                                  "_syntaxKind": "asl-intrinsic-function",
-                                  "arguments": Array [
-                                    Object {
-                                      "_syntaxKind": "identifier",
-                                      "identifier": "item.total.N",
-                                      "type": "string",
-                                    },
-                                  ],
-                                  "function": "asl.states.stringToJson",
-                                },
-                                "source": "numericTotal = asl.states.stringToJson(item.total.N) as number",
-                                "stateName": undefined,
+                                "_syntaxKind": "asl-intrinsic-function",
+                                "arguments": Array [
+                                  Object {
+                                    "_syntaxKind": "identifier",
+                                    "identifier": "item.total.N",
+                                    "type": "string",
+                                  },
+                                ],
+                                "function": "asl.states.stringToJson",
                               },
                               "name": Object {
                                 "_syntaxKind": "identifier",
@@ -479,40 +463,6 @@ describe("when converting example", () => {
                                   },
                                 },
                               },
-                              "source": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
-                || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
-
-                await asl.nativeEventBridgePutEvents({
-                  Entries: [
-                    {
-                      Detail: asl.states.jsonToString({
-                        account_id: item.pk,
-                        threshold: threshold
-                      }),
-                      DetailType: \\"xxx.detail.type\\",
-                      EventBusName: \\"default\\",
-                      Source: \\"zzz.my.source\\"
-                    }
-                  ]
-                });
-                await asl.nativeDynamoDBUpdateItem({
-                  TableName: \\"MyStorage\\",
-                  Key: {
-                    pk: item.pk,
-                    sk: item.sk
-                  },
-                  ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
-                  UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
-                  ExpressionAttributeValues: {
-                    \\":newLastSentOnValue\\": {
-                      N: item.total.N as any
-                    },
-                    \\":newLastBeginDateValue\\": {
-                      S: item.beginDate.S
-                    }
-                  }
-                });
-              }",
                               "stateName": "If ((item.sk.S === thresh ...",
                               "then": Object {
                                 "_syntaxKind": "function",
@@ -571,6 +521,7 @@ describe("when converting example", () => {
                                       },
                                     },
                                     "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                                    "stateName": "PutEvents",
                                   },
                                   Object {
                                     "_syntaxKind": "asl-task-state",
@@ -635,6 +586,7 @@ describe("when converting example", () => {
                                       },
                                     },
                                     "resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
+                                    "stateName": "UpdateItem",
                                   },
                                 ],
                               },
@@ -647,7 +599,7 @@ describe("when converting example", () => {
                     ],
                   },
                   "retry": Array [],
-                  "stateName": "For item Of ???",
+                  "stateName": "For item Of scan.Items",
                 },
                 Object {
                   "_syntaxKind": "variable-assignment",
@@ -713,7 +665,7 @@ describe("when converting example", () => {
                     "Catch": undefined,
                     "Comment": undefined,
                     "HeartbeatSeconds": undefined,
-                    "Next": "For item Of ???",
+                    "Next": "For item Of scan.Items",
                     "Parameters": Object {
                       "ExclusiveStartKey.$": "$.vars.lastEvaluatedKey",
                       "Limit": 1,
@@ -725,7 +677,7 @@ describe("when converting example", () => {
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
-                  "For item Of ???": Object {
+                  "For item Of scan.Items": Object {
                     "Comment": undefined,
                     "ItemsPath": "$.vars.scan.Items",
                     "Iterator": Object {
@@ -739,14 +691,14 @@ describe("when converting example", () => {
                             "StartAt": "Assign NumericLastSentOnValue",
                             "States": Object {
                               "Assign NumericLastSentOnValue": Object {
-                                "Comment": "source: numericLastSentOnValue = asl.states.stringToJs ...",
+                                "Comment": undefined,
                                 "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
                                 "Next": "Assign NumericTotal",
                                 "ResultPath": "$.vars.numericLastSentOnValue",
                                 "Type": "Pass",
                               },
                               "Assign NumericTotal": Object {
-                                "Comment": "source: numericTotal = asl.states.stringToJson(item.to ...",
+                                "Comment": undefined,
                                 "InputPath": "States.StringToJson($.vars.item.total.N)",
                                 "Next": "If ((item.sk.S === thresh ...",
                                 "ResultPath": "$.vars.numericTotal",
@@ -759,7 +711,7 @@ describe("when converting example", () => {
                               "If ((item.sk.S === thresh ...": Object {
                                 "Choices": Array [
                                   Object {
-                                    "Next": "Task",
+                                    "Next": "PutEvents",
                                     "Or": Array [
                                       Object {
                                         "And": Array [
@@ -828,15 +780,15 @@ describe("when converting example", () => {
                                     ],
                                   },
                                 ],
-                                "Comment": "source: if ((item.sk.S === threshold.metric && thresho ...",
+                                "Comment": undefined,
                                 "Default": "Empty Default Choice",
                                 "Type": "Choice",
                               },
-                              "Task": Object {
+                              "PutEvents": Object {
                                 "Catch": undefined,
                                 "Comment": undefined,
                                 "HeartbeatSeconds": undefined,
-                                "Next": "Task_1",
+                                "Next": "UpdateItem",
                                 "Parameters": Object {
                                   "Entries": Array [
                                     Object {
@@ -855,7 +807,7 @@ describe("when converting example", () => {
                                 "TimeoutSeconds": undefined,
                                 "Type": "Task",
                               },
-                              "Task_1": Object {
+                              "UpdateItem": Object {
                                 "Catch": undefined,
                                 "Comment": undefined,
                                 "End": true,

@@ -1,4 +1,4 @@
-import * as asl from "@cloudscript/asl-lib"
+import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
     const numbers = asl.pass({
@@ -30,6 +30,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                         comment: "combined = { number, letter, global, inner: outer.middle.inner }"
                     });
                     asl.typescriptInvoke({
+                        name: "doSomething(combined)",
                         target: doSomething,
                         parameters: () => combined,
                         comment: "doSomething(combined)"

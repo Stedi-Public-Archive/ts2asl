@@ -26,28 +26,28 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 exports.__esModule = true;
-exports.CloudScript = void 0;
+exports.TypescriptStateMachine = void 0;
 var aws_stepfunctions_1 = require("@aws-cdk/aws-stepfunctions");
 var aws_lambda_1 = require("@aws-cdk/aws-lambda");
 var core_1 = require("@aws-cdk/core");
-var node_1 = require("@cloudscript/convert/lib/compiler-host/node");
-var index_1 = require("@cloudscript/convert/lib/convert/index");
+var convert_1 = require("@ts2asl/convert");
+var convert_2 = require("@ts2asl/convert");
 var aws_lambda_nodejs_1 = require("@aws-cdk/aws-lambda-nodejs");
-var CloudScript = /** @class */ (function (_super) {
-    __extends(CloudScript, _super);
-    function CloudScript(scope, id, props) {
+var TypescriptStateMachine = /** @class */ (function (_super) {
+    __extends(TypescriptStateMachine, _super);
+    function TypescriptStateMachine(scope, id, props) {
         var _this = this;
         //sourceFile, cwd & diagnostics are converted to a definitionString.
         var sourceFile = props.sourceFile, cwd = props.cwd, diagnostics = props.diagnostics;
-        var compilerHost = (0, node_1.createCompilerHostFromFile)(sourceFile, cwd);
-        var converter = new index_1.Converter(compilerHost);
+        var compilerHost = (0, convert_2.createCompilerHostFromFile)(sourceFile, cwd);
+        var converter = new convert_1.Converter(compilerHost);
         var converted = converter.convert(diagnostics);
         _this = _super.call(this, scope, id) || this;
         var typescriptDict = {};
         for (var _i = 0, _a = converted.lambdas; _i < _a.length; _i++) {
             var lambda = _a[_i];
             var entry = sourceFile;
-            var handler = "index." + lambda.name;
+            var handler = lambda.name;
             var fn = new aws_lambda_nodejs_1.NodejsFunction(scope, lambda.name, __assign(__assign({}, props.defaultFunctionProps), { functionName: "".concat(props.programName, "_").concat(lambda.name), entry: entry, handler: handler, runtime: aws_lambda_1.Runtime.NODEJS_14_X }));
             typescriptDict["typescript:" + lambda.name] = fn.functionArn;
         }
@@ -58,9 +58,9 @@ var CloudScript = /** @class */ (function (_super) {
         }
         return _this;
     }
-    return CloudScript;
+    return TypescriptStateMachine;
 }(core_1.Construct));
-exports.CloudScript = CloudScript;
+exports.TypescriptStateMachine = TypescriptStateMachine;
 var replaceFunctionArns = function (statemachine, typescriptDict) {
     for (var _i = 0, _a = Object.values(statemachine.States); _i < _a.length; _i++) {
         var state = _a[_i];
@@ -71,4 +71,5 @@ var replaceFunctionArns = function (statemachine, typescriptDict) {
             }
         }
     }
+    return statemachine;
 };

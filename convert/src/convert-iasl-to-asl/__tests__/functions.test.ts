@@ -18,7 +18,7 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign Result": Object {
-            "Comment": "source: result = asl.states.stringToJson(\\"0\\") as number",
+            "Comment": undefined,
             "End": true,
             "InputPath": "States.StringToJson('0')",
             "ResultPath": "$.vars.result",

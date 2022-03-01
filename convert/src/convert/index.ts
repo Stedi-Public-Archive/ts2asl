@@ -25,12 +25,13 @@ export class Converter {
     const stateMachines: ConvertedStateMachine[] = [];
     for (const decl of declarations) {
       if (decl.kind === "asl") {
-        const blockPosition = { start: decl.body.pos, end: decl.body.end };
+        const body = decl.body!
+        const blockPosition = { start: body.pos, end: body.end };
         let transformed: ts.ConciseBody | undefined;
         let transpiled: iasl.StateMachine = { _syntaxKind: iasl.SyntaxKind.StateMachine, statements: [] };
         let asl: asl.StateMachine | undefined;
         try {
-          transformed = transformBody(decl.body);
+          transformed = transformBody(body);
           transpiled = convertToIntermediaryAsl(transformed, { typeChecker: this.typeChecker, inputArgumentName: decl.inputArgName, contextArgumentName: decl.contextArgName });
           asl = convert(transpiled)!;
         } catch (err) {

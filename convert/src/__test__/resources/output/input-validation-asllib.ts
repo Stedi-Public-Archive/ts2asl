@@ -1,4 +1,4 @@
-import * as asl from "@cloudscript/asl-lib"
+import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async (input: Input) =>{
     asl.typescriptIf({
@@ -22,7 +22,7 @@ export const main = asl.deploy.asStateMachine(async (input: Input) =>{
         },
         comment: "if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {\n    throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")\n  }"
     })
-    await asl.wait({ seconds: input.delayInSeconds });
+    asl.wait({ seconds: input.delayInSeconds });
 });
 
 interface Input {

@@ -41,7 +41,7 @@ export const createCompilerHostFromSource = (source: string) => {
     return result;
   };
   host.resolveModuleNames = (moduleNames: string[]): (ts.ResolvedModule | undefined)[] => {
-    return moduleNames.map(x => (x === "@cloudscript/asl-lib") ? { resolvedFileName: "asl-lib.ts" } : undefined);
+    return moduleNames.map(x => (x === "@ts2asl/asl-lib") ? { resolvedFileName: "asl-lib.ts" } : undefined);
   };
   host.getCurrentDirectory = () => "/";
   const program = ts.createProgram(["ad-hoc.ts"], compilerOptions, host);

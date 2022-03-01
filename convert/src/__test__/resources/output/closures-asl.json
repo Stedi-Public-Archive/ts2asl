@@ -73,9 +73,9 @@
                     "inner.$": "$.vars.outer.middle.inner"
                   },
                   "Comment": "source: combined = { number, letter, global, inner: ou ...",
-                  "Next": "Task"
+                  "Next": "doSomething(combined)"
                 },
-                "Task": {
+                "doSomething(combined)": {
                   "Type": "Task",
                   "Resource": "typescript:doSomething",
                   "InputPath": "$.vars.combined",

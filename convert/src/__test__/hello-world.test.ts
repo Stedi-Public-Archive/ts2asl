@@ -9,7 +9,7 @@ describe("when converting example", () => {
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "import * as asl from \\"@cloudscript/asl-lib\\"
+      "import * as asl from \\"@ts2asl/asl-lib\\"
 
       export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
           asl.typescriptIf({
@@ -20,7 +20,8 @@ describe("when converting example", () => {
               },
               comment: \\"if (typeof input.name !== \\\\\\"string\\\\\\") {\\\\n    input.name = \\\\\\"World\\\\\\";\\\\n  }\\"
           })
-          const rnd = await asl.typescriptInvoke({
+          const rnd = asl.typescriptInvoke({
+              name: \\"random()\\",
               target: random,
               comment: \\"random()\\"
           });
@@ -105,7 +106,7 @@ describe("when converting example", () => {
               "parameters": undefined,
               "resource": "typescript:random",
               "source": "random()",
-              "stateName": undefined,
+              "stateName": "random()",
             },
             "name": Object {
               "_syntaxKind": "identifier",

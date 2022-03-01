@@ -55,6 +55,7 @@
         "type": "numeric"
       },
       "expression": {
+        "stateName": "random()",
         "resource": "typescript:random",
         "source": "random()",
         "_syntaxKind": "asl-task-state"

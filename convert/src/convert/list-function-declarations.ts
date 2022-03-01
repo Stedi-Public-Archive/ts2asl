@@ -3,7 +3,7 @@ import ts from "typescript";
 
 export interface FunctionDeclaration {
   name: string;
-  body: ts.ConciseBody;
+  body: ts.ConciseBody | undefined;
   inputArgName: string | undefined;
   contextArgName: string | undefined;
   kind: "asl" | "lambda";
@@ -21,28 +21,31 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
         const AslDeclaration = aslDeclStyleCallExpression(sourceFile, decl.initializer);
 
         if (AslDeclaration) {
-          if (!ts.isArrowFunction(AslDeclaration.argument)) throw new Error(`ASL decl ${name} must have arrow function as argument`);
-          const arrowFunction: ts.ArrowFunction = AslDeclaration.argument;
-          if (arrowFunction.parameters.length > 2) throw new Error(`ASL decl ${name} arrow function must have no more than 2 parameters (first is input, second is context)`);
-
-          let argumentName: string | undefined;
-          let argument2Name: string | undefined;
-          const parameter = arrowFunction.parameters[0];
-          if (parameter) {
-            if (!ts.isIdentifier(parameter.name)) throw new Error(`Parameter name of ASL decl ${name} must be identifier`);
-            argumentName = parameter.name.text;
-          }
-          const parameter2 = arrowFunction.parameters[1];
-          if (parameter2) {
-            if (!ts.isIdentifier(parameter2.name)) throw new Error(`Parameter name of ASL decl ${name} must be identifier`);
-            argument2Name = parameter2.name.text;
-          }
           const kind = AslDeclaration.operation === "asLambda" ? "lambda" : "asl";
+          let body: ts.ConciseBody | undefined;
+          let inputArgName: string | undefined;
+          let contextArgName: string | undefined;
+          if (kind === "asl") {
+            if (!ts.isArrowFunction(AslDeclaration.argument)) throw new Error(`ASL decl ${name} must have arrow function as argument`);
+            const arrowFunction: ts.ArrowFunction = AslDeclaration.argument;
+            body = arrowFunction.body;
+            if (arrowFunction.parameters.length > 2) throw new Error(`ASL decl ${name} arrow function must have no more than 2 parameters (first is input, second is context)`);
+            const parameter = arrowFunction.parameters[0];
+            if (parameter) {
+              if (!ts.isIdentifier(parameter.name)) throw new Error(`Parameter name of ASL decl ${name} must be identifier`);
+              inputArgName = parameter.name.text;
+            }
+            const parameter2 = arrowFunction.parameters[1];
+            if (parameter2) {
+              if (!ts.isIdentifier(parameter2.name)) throw new Error(`Parameter name of ASL decl ${name} must be identifier`);
+              contextArgName = parameter2.name.text;
+            }
+          }
           result.push({
             name,
-            body: arrowFunction.body,
-            inputArgName: argumentName,
-            contextArgName: argument2Name,
+            body,
+            inputArgName,
+            contextArgName,
             kind,
           })
         }

@@ -1,6 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
-import * as cs from '@cloudscript/cdk';
+import * as ts2asl from '@ts2asl/cdk-typescript-statemachine';
 
 export class CdkExampleStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -15,7 +15,7 @@ export class CdkExampleStack extends cdk.Stack {
     executionRole.addManagedPolicy(iam.ManagedPolicy.fromManagedPolicyArn(this, "executionRolePolicy", "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"))
 
     // // example resource
-    new cs.CloudScript(this, "cs", {
+    new ts2asl.TypescriptStateMachine(this, "cs", {
       programName: "hello-world",
       defaultFunctionProps: {},
       defaultStepFunctionProps: { roleArn: executionRole.roleArn },

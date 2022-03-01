@@ -9,7 +9,7 @@ describe("when converting example", () => {
 
   it("then can be converted to asllib", async () => {
     expect(converted.transformedCode).toMatchInlineSnapshot(`
-      "import * as asl from \\"@cloudscript/asl-lib\\"
+      "import * as asl from \\"@ts2asl/asl-lib\\"
 
       export const main = asl.deploy.asStateMachine(async (input: Input) =>{
           asl.typescriptIf({
@@ -33,7 +33,7 @@ describe("when converting example", () => {
               },
               comment: \\"if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {\\\\n    throw new ValidationError(\\\\\\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\\\\\\")\\\\n  }\\"
           })
-          await asl.wait({ seconds: input.delayInSeconds });
+          asl.wait({ seconds: input.delayInSeconds });
       });
 
       interface Input {

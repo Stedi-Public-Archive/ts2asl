@@ -36,6 +36,7 @@ describe("when converting return statements", () => {
       ])
     ).toMatchInlineSnapshot(`
       "return asl.typescriptInvoke({
+          name: \\"xxx()\\",
           target: xxx,
           comment: \\"xxx()\\"
       });"

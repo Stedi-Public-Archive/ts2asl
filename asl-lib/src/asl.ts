@@ -7,8 +7,16 @@ export interface AslStateMachine extends AslResource { }
 export interface AslLambdaFunction extends AslResource { }
 export interface AslState { }
 
-export type While = { condition: () => boolean; block: Function };
-export type DoWhile = { block: Function; condition: () => boolean };
+export type While = {
+  condition: () => boolean;
+  block: Function;
+  name?: string;
+};
+export type DoWhile = {
+  condition: () => boolean;
+  block: Function;
+  name?: string;
+};
 export type If = {
   condition: boolean | (() => boolean),
   then: Function;
@@ -43,6 +51,7 @@ export interface Try {
   name?: string;
 }
 export interface Task {
+  name?: string;
   resource: string;
   parameters?: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
   catch?: CatchConfiguration;
@@ -177,15 +186,18 @@ export const fail = (x: Fail): never => {
   throw new Error(x.cause);
 }
 
-export function jsonPathFilter<T>(items: T[], predicate: (x: T) => boolean): T[] {
+export const jsonPathLength = <T>(items: T[]): number => {
+  return items.length;
+}
+export const jsonPathFilter = <T>(items: T[], predicate: (x: T) => boolean): T[] => {
   return items.filter(predicate);
 }
 
-export function jsonPathSlice<T>(items: T[], start: number, end?: number, step?: number): T[] {
+export const jsonPathSlice = <T>(items: T[], start: number, end?: number, step?: number): T[] => {
   return items;
 }
 
-export function jsonPathExpression(items: unknown, expression: string): unknown {
+export const jsonPathExpression = (items: unknown, expression: string): unknown => {
   return items;
 }
 

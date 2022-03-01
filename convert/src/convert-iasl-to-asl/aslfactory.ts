@@ -314,6 +314,9 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
   }
 
   if (expr.identifier) {
+    if (expr.identifier.startsWith("$")) {
+      return expr.identifier + trailing;
+    }
     if (!lhs) {
       if (expr.objectContextExpression) {
         return "$$." + expr.identifier + trailing;

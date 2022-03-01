@@ -11,6 +11,7 @@
           {
             "statements": [
               {
+                "stateName": "performIdentifyCheck()",
                 "resource": "typescript:performIdentifyCheck",
                 "source": "performIdentifyCheck()",
                 "_syntaxKind": "asl-task-state"
@@ -44,6 +45,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "PutEvents",
       "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "parameters": {
         "_syntaxKind": "literal-object",
@@ -119,6 +121,7 @@
       "then": {
         "statements": [
           {
+            "stateName": "PutEvents",
             "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
             "parameters": {
               "_syntaxKind": "literal-object",
@@ -169,6 +172,7 @@
       "else": {
         "statements": [
           {
+            "stateName": "PutEvents",
             "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
             "parameters": {
               "_syntaxKind": "literal-object",
@@ -216,7 +220,6 @@
         ],
         "_syntaxKind": "function"
       },
-      "source": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountApproved\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      Entries: [\n        {\n          Detail: asl.states.jsonToString(result),\n          DetailType: \"AccountDeclined\",\n          EventBusName: \"eventbusname\",\n          Source: \"com.aws.kyc\"\n        }\n      ]\n    });\n  }",
       "_syntaxKind": "if"
     }
   ],

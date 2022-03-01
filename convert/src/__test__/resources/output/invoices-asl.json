@@ -1,0 +1,240 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign BillJob"
+    },
+    "Assign BillJob": {
+      "Type": "Task",
+      "ResultPath": "$.vars.billJob",
+      "Resource": "typescript:createBillJob",
+      "InputPath": "$.vars",
+      "Comment": "source: createBillJob(input)",
+      "Next": "Wait"
+    },
+    "Wait": {
+      "Type": "Wait",
+      "Seconds": 120,
+      "Next": "Assign JobResult"
+    },
+    "Assign JobResult": {
+      "Type": "Task",
+      "ResultPath": "$.vars.jobResult",
+      "Resource": "typescript:createNonEmptyBills",
+      "InputPath": "$.vars.billJob",
+      "Comment": "source: createNonEmptyBills(billJob)",
+      "Next": "Assign BillPromises"
+    },
+    "Assign BillPromises": {
+      "Type": "Map",
+      "ResultPath": "$.vars.billPromises",
+      "Iterator": {
+        "StartAt": "Assign ApproveNonEmptyBillRequest",
+        "States": {
+          "Assign ApproveNonEmptyBillRequest": {
+            "Type": "Pass",
+            "ResultPath": "$.vars.approveNonEmptyBillRequest",
+            "Parameters": {
+              "lastDateInBillingPeriod.$": "$.vars.jobResult.lastDateInBillingPeriod",
+              "bill.$": "$.vars.bill"
+            },
+            "Comment": "source: approveNonEmptyBillRequest = { lastDateInBilli ...",
+            "Next": "Assign ApprovalResult"
+          },
+          "Assign ApprovalResult": {
+            "Type": "Task",
+            "ResultPath": "$.vars.approvalResult",
+            "Resource": "typescript:approveNonEmptyBill",
+            "InputPath": "$.vars.approveNonEmptyBillRequest",
+            "Comment": "source: approveNonEmptyBill(approveNonEmptyBillRequest)",
+            "Next": "If (approvalResult.valid)"
+          },
+          "If (approvalResult.valid)": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.vars.approvalResult.valid",
+                "IsPresent": true,
+                "Next": "Pass"
+              }
+            ],
+            "Default": "Pass"
+          },
+          "Pass": {
+            "Type": "Pass",
+            "Parameters": {
+              "valid.$": "$.vars.approvalResult.valid",
+              "billable.$": "$.vars.approvalResult.billable",
+              "billId.$": "$.vars.approvalResult.billId",
+              "accountId.$": "$.vars.approvalResult.accountId",
+              "accountCode.$": "$.vars.approvalResult.accountCode",
+              "accountType.$": "$.vars.approvalResult.accountType"
+            },
+            "Next": "Succeed"
+          },
+          "Succeed": {
+            "Type": "Succeed"
+          }
+        }
+      },
+      "ItemsPath": "$.vars.jobResult.bills",
+      "Parameters": {
+        "vars": {
+          "bill.$": "$$.Map.Item.Value",
+          "jobResult.$": "$.vars.jobResult"
+        }
+      },
+      "Next": "Assign Bills"
+    },
+    "Assign Bills": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.bills",
+      "InputPath": "$.vars.billPromises",
+      "Next": "Assign ValidBills"
+    },
+    "Assign ValidBills": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.validBills",
+      "InputPath": "$.vars.bills[?(!(@.valid))]",
+      "Next": "Assign Invoices"
+    },
+    "Assign Invoices": {
+      "Type": "Map",
+      "ResultPath": "$.vars.invoices",
+      "Iterator": {
+        "StartAt": "createInvoice(x)",
+        "States": {
+          "createInvoice(x)": {
+            "Type": "Task",
+            "Resource": "typescript:createInvoice",
+            "InputPath": "$.vars.x",
+            "Comment": "source: createInvoice(x)",
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.validBills",
+      "Comment": "source: validBills.map(async x => createInvoice(x))",
+      "Parameters": {
+        "vars": {
+          "x.$": "$.vars.x",
+          "validBills.$": "$.vars.validBills"
+        }
+      },
+      "Next": "Assign ValidatedInvoices"
+    },
+    "Assign ValidatedInvoices": {
+      "Type": "Map",
+      "ResultPath": "$.vars.validatedInvoices",
+      "Iterator": {
+        "StartAt": "validateInvoice(x)",
+        "States": {
+          "validateInvoice(x)": {
+            "Type": "Task",
+            "Resource": "typescript:validateInvoice",
+            "InputPath": "$.vars.x",
+            "Comment": "source: validateInvoice(x)",
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.invoices",
+      "Comment": "source: invoices.map(async x => validateInvoice(x))",
+      "Parameters": {
+        "vars": {
+          "x.$": "$.vars.x",
+          "invoices.$": "$.vars.invoices"
+        }
+      },
+      "Next": "Assign InvalidInvoices"
+    },
+    "Assign InvalidInvoices": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.invalidInvoices",
+      "InputPath": "$.vars.validatedInvoices[?(!(@.valid))]",
+      "Next": "If (invalidInvoices.lengt ..."
+    },
+    "If (invalidInvoices.lengt ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.invalidInvoices.length()",
+          "StringGreaterThan": 0,
+          "Next": "createGithubIssue({ bills ..."
+        }
+      ],
+      "Default": "Assign ValidInvoices"
+    },
+    "createGithubIssue({ bills ...": {
+      "Type": "Task",
+      "Resource": "typescript:createGithubIssue",
+      "Parameters": {
+        "bills": {
+          "invalid.$": "$.vars.invalidInvoices"
+        }
+      },
+      "Comment": "source: createGithubIssue({ bills: { invalid: invalidI ...",
+      "Next": "Assign ValidInvoices"
+    },
+    "Assign ValidInvoices": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.validInvoices",
+      "InputPath": "$.vars.validatedInvoices[?(@.valid == true)]",
+      "Next": "If (!input.shouldFinalize)"
+    },
+    "If (!input.shouldFinalize)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.shouldFinalize",
+          "IsPresent": false,
+          "Next": "Succeed_2"
+        }
+      ],
+      "Comment": "source: if (!input.shouldFinalize) { return; }",
+      "Default": "For invoice Of validInvoices"
+    },
+    "Succeed_2": {
+      "Type": "Succeed"
+    },
+    "For invoice Of validInvoices": {
+      "Type": "Map",
+      "ResultPath": "$.lastResult",
+      "Iterator": {
+        "StartAt": "If (invoice.billable)",
+        "States": {
+          "If (invoice.billable)": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.vars.invoice.billable",
+                "IsPresent": true,
+                "Next": "finallizeInvoice(invoice  ..."
+              }
+            ],
+            "Default": "finallizeInvoice(invoice  ..."
+          },
+          "finallizeInvoice(invoice  ...": {
+            "Type": "Task",
+            "Resource": "typescript:finallizeInvoice",
+            "InputPath": "$.vars.invoice",
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.validInvoices",
+      "Parameters": {
+        "vars": {
+          "invoice.$": "$$.Map.Item.Value",
+          "validInvoices.$": "$.vars.validInvoices"
+        }
+      },
+      "End": true
+    }
+  }
+}

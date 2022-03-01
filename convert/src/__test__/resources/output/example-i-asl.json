@@ -92,6 +92,7 @@
               "type": "object"
             },
             "expression": {
+              "stateName": "Scan",
               "resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
               "parameters": {
                 "_syntaxKind": "literal-object",
@@ -118,7 +119,7 @@
             "_syntaxKind": "variable-assignment"
           },
           {
-            "stateName": "For item Of ???",
+            "stateName": "For item Of scan.Items",
             "items": {
               "identifier": "scan.Items",
               "type": "object",
@@ -154,19 +155,15 @@
                           "type": "numeric"
                         },
                         "expression": {
-                          "parameters": {
-                            "arguments": [
-                              {
-                                "identifier": "item.lastSentOnValue.N",
-                                "type": "string",
-                                "_syntaxKind": "identifier"
-                              }
-                            ],
-                            "function": "asl.states.stringToJson",
-                            "_syntaxKind": "asl-intrinsic-function"
-                          },
-                          "source": "numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N) as number",
-                          "_syntaxKind": "asl-pass-state"
+                          "arguments": [
+                            {
+                              "identifier": "item.lastSentOnValue.N",
+                              "type": "string",
+                              "_syntaxKind": "identifier"
+                            }
+                          ],
+                          "function": "asl.states.stringToJson",
+                          "_syntaxKind": "asl-intrinsic-function"
                         },
                         "_syntaxKind": "variable-assignment"
                       },
@@ -177,19 +174,15 @@
                           "type": "numeric"
                         },
                         "expression": {
-                          "parameters": {
-                            "arguments": [
-                              {
-                                "identifier": "item.total.N",
-                                "type": "string",
-                                "_syntaxKind": "identifier"
-                              }
-                            ],
-                            "function": "asl.states.stringToJson",
-                            "_syntaxKind": "asl-intrinsic-function"
-                          },
-                          "source": "numericTotal = asl.states.stringToJson(item.total.N) as number",
-                          "_syntaxKind": "asl-pass-state"
+                          "arguments": [
+                            {
+                              "identifier": "item.total.N",
+                              "type": "string",
+                              "_syntaxKind": "identifier"
+                            }
+                          ],
+                          "function": "asl.states.stringToJson",
+                          "_syntaxKind": "asl-intrinsic-function"
                         },
                         "_syntaxKind": "variable-assignment"
                       },
@@ -354,6 +347,7 @@
                         "then": {
                           "statements": [
                             {
+                              "stateName": "PutEvents",
                               "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
                               "parameters": {
                                 "_syntaxKind": "literal-object",
@@ -409,6 +403,7 @@
                               "_syntaxKind": "asl-task-state"
                             },
                             {
+                              "stateName": "UpdateItem",
                               "resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
                               "parameters": {
                                 "_syntaxKind": "literal-object",
@@ -475,7 +470,6 @@
                           ],
                           "_syntaxKind": "function"
                         },
-                        "source": "if ((item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))\n          || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {\n\n          await asl.nativeEventBridgePutEvents({\n            Entries: [\n              {\n                Detail: asl.states.jsonToString({\n                  account_id: item.pk,\n                  threshold: threshold\n                }),\n                DetailType: \"xxx.detail.type\",\n                EventBusName: \"default\",\n                Source: \"zzz.my.source\"\n              }\n            ]\n          });\n          await asl.nativeDynamoDBUpdateItem({\n            TableName: \"MyStorage\",\n            Key: {\n              pk: item.pk,\n              sk: item.sk\n            },\n            ConditionExpression: \"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\",\n            UpdateExpression: \"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\",\n            ExpressionAttributeValues: {\n              \":newLastSentOnValue\": {\n                N: item.total.N as any\n              },\n              \":newLastBeginDateValue\": {\n                S: item.beginDate.S\n              }\n            }\n          });\n        }",
                         "_syntaxKind": "if"
                       }
                     ],

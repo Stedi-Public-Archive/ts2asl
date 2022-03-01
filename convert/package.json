@@ -1,19 +1,23 @@
 {
-  "name": "@cloudscript/convert",
-  "version": "1.0.0",
+  "name": "@ts2asl/convert",
+  "version": "0.1.1",
   "description": "",
-  "main": "web.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "npx jest",
-    "package": "npx esbuild ./src/index.ts --outdir=packaged --format=esm --bundle --minify --target=chrome58",
+    "build": "npx tsc",
+    "prepublishOnly": "npm run build",
     "test:e2e": "npx jest --config ./jest.config.e2e.js"
   },
+  "files": [
+    "lib/**/*"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@cloudscript/asl-lib": "file:../asl-lib",
+    "@ts2asl/asl-lib": "^0.1.6",
     "asl-types": "^1.2.1",
-    "aws-sdk": "^2.1058.0",
     "typescript": "^4.5.5"
   },
   "devDependencies": {

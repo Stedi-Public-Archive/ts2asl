@@ -45,64 +45,60 @@
         "type": "object"
       },
       "expression": {
-        "parameters": {
-          "arguments": [
-            {
-              "value": 1,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 2,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 3,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 4,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 5,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 6,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 7,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 8,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 9,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 10,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "function": "asl.states.array",
-          "_syntaxKind": "asl-intrinsic-function"
-        },
-        "source": "myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) as number[]",
-        "_syntaxKind": "asl-pass-state"
+        "arguments": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 4,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 5,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 6,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 7,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 8,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 9,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 10,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "function": "asl.states.array",
+        "_syntaxKind": "asl-intrinsic-function"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -525,7 +521,7 @@
       "name": {
         "identifier": "uniqueAges",
         "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "unknown"
       },
       "expression": {
         "identifier": "bySpecies",
@@ -539,7 +535,7 @@
       "name": {
         "identifier": "flattenedPets",
         "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "unknown"
       },
       "expression": {
         "identifier": "bySpecies",
@@ -577,12 +573,12 @@
           "uniqueAges": {
             "identifier": "uniqueAges",
             "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "unknown"
           },
           "flattenedPets": {
             "identifier": "flattenedPets",
             "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "unknown"
           },
           "slicedArr": {
             "identifier": "slicedArr",
