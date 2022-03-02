@@ -51,7 +51,7 @@ export const main = asl.deploy.asStateMachine(
 
     const invalidInvoices = validatedInvoices.filter(x => !x.valid);
     if (invalidInvoices.length > 0) {
-      await createGithubIssue({ bills: { invalid: invalidInvoices } })
+      await createGithubIssue({ bills: { invalid: invalidInvoices as InvalidInvoice[] } })
     }
 
     const validInvoices = validatedInvoices.filter(x => x.valid === true);

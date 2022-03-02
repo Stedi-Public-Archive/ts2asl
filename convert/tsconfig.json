@@ -12,6 +12,6 @@
     "src"
   ],
   "exclude": [
-    "src/__test__/resources/output"
+    "src/__test__/resources"
   ]
 }

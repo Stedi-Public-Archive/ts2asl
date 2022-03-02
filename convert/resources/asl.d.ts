@@ -132,6 +132,7 @@ export declare const map: <Input, Output>(args: Map<Input, Output>) => Promise<O
 export declare const pass: <T>(args: Pass<T>) => T;
 export declare const succeed: (x: Succeed) => AslState;
 export declare const fail: (x: Fail) => never;
+export declare const jsonPathLength: <T>(items: T[]) => number;
 export declare const jsonPathFilter: <T>(items: T[], predicate: (x: T) => boolean) => T[];
 export declare const jsonPathSlice: <T>(items: T[], start: number, end?: number | undefined, step?: number | undefined) => T[];
 export declare const jsonPathExpression: (items: unknown, expression: string) => unknown;

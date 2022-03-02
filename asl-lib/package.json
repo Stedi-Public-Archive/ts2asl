@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/asl-lib",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -14,7 +14,7 @@
   ],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "@aws-sdk/client-api-gateway": "^3.53.0",
     "@aws-sdk/client-dynamodb": "^3.48.0",
     "@aws-sdk/client-ecs": "^3.48.0",
@@ -25,7 +25,9 @@
     "@aws-sdk/client-sns": "^3.48.0",
     "@aws-sdk/client-sqs": "^3.48.0",
     "@aws-sdk/client-ssm": "^3.48.0",
-    "@aws-sdk/client-textract": "^3.48.0",
+    "@aws-sdk/client-textract": "^3.48.0"
+  },
+  "devDependencies": {
     "@types/jest": "^27.4.0",
     "@types/mocha": "^9.1.0",
     "asl-types": "^1.2.1",
