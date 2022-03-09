@@ -156,10 +156,10 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
     }
     if (node.default) visitNodes(node.default, scope, visitor);
   } else if (Check.isAslMapState(node)) {
+    visitNodes(node.items, scope, visitor);
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "asl-map-state" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
     visitNodes(node.iterator, childScope, visitor);
-    visitNodes(node.items, childScope, visitor);
     node.iterator.scope = childScope.id;
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {

@@ -24,7 +24,6 @@ export const createName = (mainNode: ts.Node, format: string, ...nodes: (ts.Node
   const pos: number | undefined = evalPreferOriginal(mainNode, node => node.pos);
   let ln: string | undefined;
 
-
   if (pos >= 0) {
     ln = evalPreferOriginal(mainNode, node => getLineNumber(node, pos));
   }

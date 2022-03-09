@@ -90,8 +90,7 @@
                 "letter.$": "$$.Map.Item.Value",
                 "number.$": "$.vars.number",
                 "global.$": "$.vars.global",
-                "outer.$": "$.vars.outer",
-                "letters.$": "$.vars.letters"
+                "outer.$": "$.vars.outer"
               }
             },
             "End": true
@@ -104,8 +103,7 @@
           "number.$": "$$.Map.Item.Value",
           "global.$": "$.vars.global",
           "outer.$": "$.vars.outer",
-          "letters.$": "$.vars.letters",
-          "numbers.$": "$.vars.numbers"
+          "letters.$": "$.vars.letters"
         }
       },
       "End": true

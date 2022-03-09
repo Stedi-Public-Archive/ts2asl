@@ -758,7 +758,6 @@ describe("when converting closures", () => {
             "Parameters": Object {
               "vars": Object {
                 "context.$": "$.vars.context",
-                "myArray.$": "$.vars.myArray",
                 "x.$": "$.vars.x",
               },
             },

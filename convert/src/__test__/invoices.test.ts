@@ -1029,7 +1029,6 @@ describe("when converting closures", () => {
             "Next": "50: Assign validatedInvoices",
             "Parameters": Object {
               "vars": Object {
-                "validBills.$": "$.vars.validBills",
                 "x.$": "$.vars.x",
               },
             },
@@ -1059,7 +1058,6 @@ describe("when converting closures", () => {
             "Next": "51: Assign invalidInvoices",
             "Parameters": Object {
               "vars": Object {
-                "invoices.$": "$.vars.invoices",
                 "x.$": "$.vars.x",
               },
             },
@@ -1155,7 +1153,6 @@ describe("when converting closures", () => {
             "Parameters": Object {
               "vars": Object {
                 "invoice.$": "$$.Map.Item.Value",
-                "validInvoices.$": "$.vars.validInvoices",
               },
             },
             "ResultPath": "$.lastResult",

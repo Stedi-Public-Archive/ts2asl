@@ -1,0 +1,386 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "contextArgumentName": {
+    "identifier": "context",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "6: If (typeof input.numberOf ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "input.numberOfNewAccount",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "number",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "input.numberOfNewAccount",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": 20,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "8: Assign input.numberOfNewA ...",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof input.numberOfNewAccount !== \"number\") {\n    input.numberOfNewAccount = 20;\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "10: If (typeof input.emailAcc ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "input.emailAccountPrefix",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "string",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "input.emailAccountPrefix",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "aws+stedi-customer-account",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "12: Assign input.emailAccount ...",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof input.emailAccountPrefix !== \"string\") {\n    input.emailAccountPrefix = \"aws+stedi-customer-account\";\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "14: If (typeof input.organiza ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "input.organizationalUnitName",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "string",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "input.organizationalUnitName",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "customer-accounts",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "16: Assign input.organization ...",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof input.organizationalUnitName !== \"string\") {\n    input.organizationalUnitName = \"customer-accounts\";\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "name": {
+        "identifier": "customerOUIds",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "20: retrieveAccountCreationId ...",
+        "resource": "typescript:retrieveAccountCreationIds",
+        "parameters": {
+          "properties": {
+            "organizationalUnitName": {
+              "identifier": "input.organizationalUnitName",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "retrieveAccountCreationIds({ organizationalUnitName: input.organizationalUnitName })",
+        "_syntaxKind": "asl-task-state"
+      },
+      "stateName": "18: Assign customerOUIds",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "newAccounts",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "22: createListOfAccountsToBeC ...",
+        "resource": "typescript:createListOfAccountsToBeCreated",
+        "parameters": {
+          "properties": {
+            "prefix": {
+              "identifier": "input.emailAccountPrefix",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "currentNumberOfAccounts": {
+              "identifier": "customerOUIds.currentNumberOfAccounts",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "numberOfAccounts": {
+              "identifier": "input.numberOfNewAccount",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "createListOfAccountsToBeCreated({ prefix: input.emailAccountPrefix, currentNumberOfAccounts: customerOUIds.currentNumberOfAccounts, numberOfAccounts: input.numberOfNewAccount })",
+        "_syntaxKind": "asl-task-state"
+      },
+      "stateName": "20: Assign newAccounts",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "accounts",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "23: For x Of newAccounts.map",
+        "items": {
+          "identifier": "newAccounts",
+          "_syntaxKind": "identifier",
+          "type": "object"
+        },
+        "catch": [],
+        "retry": [],
+        "iterator": {
+          "inputArgumentName": {
+            "identifier": "x",
+            "_syntaxKind": "identifier"
+          },
+          "statements": [
+            {
+              "name": {
+                "identifier": "accountCreationResult",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "expression": {
+                "stateName": "CreateAccount",
+                "resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
+                "parameters": {
+                  "_syntaxKind": "literal-object",
+                  "properties": {
+                    "parameters": {
+                      "properties": {
+                        "Email": {
+                          "identifier": "x.rootEmail",
+                          "type": "string",
+                          "_syntaxKind": "identifier"
+                        },
+                        "AccountName": {
+                          "identifier": "x.name",
+                          "type": "string",
+                          "_syntaxKind": "identifier"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    }
+                  }
+                },
+                "_syntaxKind": "asl-task-state"
+              },
+              "stateName": "23: Assign accountCreationResult",
+              "_syntaxKind": "variable-assignment"
+            },
+            {
+              "name": {
+                "identifier": "createdAccount",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "expression": {
+                "stateName": "25: Assign createdAccount",
+                "parameters": {
+                  "identifier": "accountCreationResult.CreateAccountStatus",
+                  "type": "object",
+                  "_syntaxKind": "identifier"
+                },
+                "source": "createdAccount = accountCreationResult.CreateAccountStatus",
+                "_syntaxKind": "asl-pass-state"
+              },
+              "stateName": "24: Assign createdAccount",
+              "_syntaxKind": "variable-assignment"
+            },
+            {
+              "stateName": "25: If (!createdAccount)",
+              "condition": {
+                "operator": "not",
+                "rhs": {
+                  "operator": "is-present",
+                  "rhs": {
+                    "identifier": "createdAccount",
+                    "_syntaxKind": "identifier",
+                    "type": "object"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "_syntaxKind": "binary-expression"
+              },
+              "then": {
+                "statements": [
+                  {
+                    "stateName": "26: Throw UnexpectedError",
+                    "error": "UnexpectedError",
+                    "source": "throw new UnexpectedError();",
+                    "_syntaxKind": "asl-fail-state"
+                  }
+                ],
+                "_syntaxKind": "function"
+              },
+              "source": "if (!createdAccount) throw new UnexpectedError();",
+              "_syntaxKind": "if"
+            },
+            {
+              "name": {
+                "identifier": "result",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "expression": {
+                "stateName": "Typescript Invoke checkAccountCreationDone",
+                "resource": "typescript:checkAccountCreationDone",
+                "parameters": {
+                  "identifier": "createdAccount",
+                  "_syntaxKind": "identifier",
+                  "type": "object"
+                },
+                "_syntaxKind": "asl-task-state"
+              },
+              "stateName": "26: Assign result",
+              "_syntaxKind": "variable-assignment"
+            },
+            {
+              "stateName": "38: moveAccount({ sourceParen ...",
+              "resource": "typescript:moveAccount",
+              "parameters": {
+                "properties": {
+                  "sourceParentId": {
+                    "identifier": "customerOUIds.rootId",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "destinationParentId": {
+                    "identifier": "customerOUIds.customerAccountsOU",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "accountId": {
+                    "identifier": "result.AccountId",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              },
+              "_syntaxKind": "asl-task-state"
+            },
+            {
+              "expression": {
+                "identifier": "result",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "_syntaxKind": "return",
+              "stateName": "38: Return result"
+            }
+          ],
+          "_syntaxKind": "function"
+        },
+        "_syntaxKind": "asl-map-state"
+      },
+      "stateName": "22: Assign accounts",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "properties": {
+          "accountIds": {
+            "identifier": "accounts",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "40: Return { accountIds: ..."
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

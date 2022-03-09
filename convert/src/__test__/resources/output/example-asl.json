@@ -201,8 +201,7 @@
                     "Parameters": {
                       "vars": {
                         "threshold.$": "$$.Map.Item.Value",
-                        "item.$": "$.vars.item",
-                        "thresholds.$": "$.vars.thresholds"
+                        "item.$": "$.vars.item"
                       }
                     },
                     "End": true
@@ -213,8 +212,7 @@
               "Parameters": {
                 "vars": {
                   "item.$": "$$.Map.Item.Value",
-                  "thresholds.$": "$.vars.thresholds",
-                  "scan.$": "$.vars.scan"
+                  "thresholds.$": "$.vars.thresholds"
                 }
               },
               "Next": "60: Assign lastEvaluatedKey"

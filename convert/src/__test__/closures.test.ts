@@ -386,7 +386,6 @@ describe("when converting closures", () => {
                     "vars": Object {
                       "global.$": "$.vars.global",
                       "letter.$": "$$.Map.Item.Value",
-                      "letters.$": "$.vars.letters",
                       "number.$": "$.vars.number",
                       "outer.$": "$.vars.outer",
                     },
@@ -402,7 +401,6 @@ describe("when converting closures", () => {
                 "global.$": "$.vars.global",
                 "letters.$": "$.vars.letters",
                 "number.$": "$$.Map.Item.Value",
-                "numbers.$": "$.vars.numbers",
                 "outer.$": "$.vars.outer",
               },
             },

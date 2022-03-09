@@ -119,8 +119,7 @@
       "Comment": "source: validBills.map(async x => createInvoice(x))",
       "Parameters": {
         "vars": {
-          "x.$": "$.vars.x",
-          "validBills.$": "$.vars.validBills"
+          "x.$": "$.vars.x"
         }
       },
       "Next": "50: Assign validatedInvoices"
@@ -144,8 +143,7 @@
       "Comment": "source: invoices.map(async x => validateInvoice(x))",
       "Parameters": {
         "vars": {
-          "x.$": "$.vars.x",
-          "invoices.$": "$.vars.invoices"
+          "x.$": "$.vars.x"
         }
       },
       "Next": "51: Assign invalidInvoices"
@@ -226,8 +224,7 @@
       "ItemsPath": "$.vars.validInvoices",
       "Parameters": {
         "vars": {
-          "invoice.$": "$$.Map.Item.Value",
-          "validInvoices.$": "$.vars.validInvoices"
+          "invoice.$": "$$.Map.Item.Value"
         }
       },
       "End": true

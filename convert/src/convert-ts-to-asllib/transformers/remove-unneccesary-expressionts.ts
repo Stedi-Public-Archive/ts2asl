@@ -4,7 +4,6 @@ export const removeUnnecessaryExpressionsTransformer = <T extends ts.Node>(conte
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
-
     if (ts.isParenthesizedExpression(node) && ts.isIdentifier(node.expression)) {
       return node.expression;
     }

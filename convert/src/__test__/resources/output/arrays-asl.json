@@ -86,8 +86,7 @@
       "Parameters": {
         "vars": {
           "x.$": "$.vars.x",
-          "context.$": "$.vars.context",
-          "myArray.$": "$.vars.myArray"
+          "context.$": "$.vars.context"
         }
       },
       "Next": "27: Assign bySpecies"

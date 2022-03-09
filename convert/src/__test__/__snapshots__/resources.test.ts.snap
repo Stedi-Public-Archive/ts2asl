@@ -759,7 +759,6 @@ Object {
       "Parameters": Object {
         "vars": Object {
           "customerOUIds.$": "$.vars.customerOUIds",
-          "newAccounts.$": "$.vars.newAccounts",
           "x.$": "$$.Map.Item.Value",
         },
       },
