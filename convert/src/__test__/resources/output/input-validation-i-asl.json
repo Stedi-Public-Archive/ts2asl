@@ -5,7 +5,7 @@
   },
   "statements": [
     {
-      "stateName": "If (typeof input.delayInS ...",
+      "stateName": "4: If (typeof input.delayInS ...",
       "condition": {
         "operator": "not",
         "rhs": {
@@ -40,6 +40,7 @@
               "type": "numeric",
               "_syntaxKind": "literal"
             },
+            "stateName": "6: Assign input.delayInSeconds",
             "_syntaxKind": "variable-assignment"
           }
         ],
@@ -49,7 +50,7 @@
       "_syntaxKind": "if"
     },
     {
-      "stateName": "If (input.delayInSeconds  ...",
+      "stateName": "8: If (input.delayInSeconds ...",
       "condition": {
         "lhs": {
           "lhs": {
@@ -85,7 +86,7 @@
       "then": {
         "statements": [
           {
-            "stateName": "Throw ValidationError",
+            "stateName": "10: Throw ValidationError",
             "cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
             "error": "ValidationError",
             "source": "throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")",

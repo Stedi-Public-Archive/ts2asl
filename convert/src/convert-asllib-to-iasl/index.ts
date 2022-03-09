@@ -6,6 +6,7 @@ import { convertToIdentifier } from "./helper";
 import { removeSyntaxTransformer } from "./remove-syntax-transformer";
 import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-utility";
 import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
+import { createName } from "../create-name";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -65,6 +66,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     return {
       expression,
       _syntaxKind: "return",
+      stateName: createName(node, `Return %s`, node.expression)
     } as iasl.ReturnStatement;
   }
 
@@ -82,6 +84,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     return {
       name: identifier,
       expression: expression,
+      stateName: createName(node, `Assign %s`, decl.name),
       _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
     } as iasl.VariableAssignmentStatement
   }
@@ -98,6 +101,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     return {
       name: identifier,
       expression: expression,
+      stateName: createName(node, `Assign %s`, node.left),
       _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
     } as iasl.VariableAssignmentStatement
   }
@@ -108,6 +112,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
 
   if (ts.isReturnStatement(node)) {
     return {
+      stateName: createName(node, "Return %s", node.expression!),
       expression: convertExpression(node.expression, context),
       _syntaxKind: iasl.SyntaxKind.ReturnStatement
     } as iasl.ReturnStatement
@@ -115,6 +120,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
 
   if (ts.isBreakStatement(node)) {
     return {
+      stateName: createName(node, "Break"),
       _syntaxKind: iasl.SyntaxKind.AslSucceedState
     } as iasl.SucceedState
   }
@@ -161,12 +167,12 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       case "typescriptInvoke": {
         const name = unpackAsLiteral(convertedArgs, "name");
         const comment = unpackAsLiteral(convertedArgs, "comment");
-        const target = unpackAsIdentifier(convertedArgs, "target");
+        const resource = unpackAsIdentifier(convertedArgs, "resource");
         const parameters = convertedArgs["parameters"];
 
         return {
-          stateName: name,
-          resource: "typescript:" + target?.identifier,
+          stateName: name ?? "Typescript Invoke " + resource?.identifier,
+          resource: "typescript:" + resource?.identifier,
           parameters,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslTaskState
@@ -369,7 +375,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       let remainder = type.substring(6);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
-      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway"];
+      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations"];
       for (const serviceName of servicesNames) {
         if (remainder.startsWith(serviceName)) {
           resource += serviceName.toLowerCase() + ':';

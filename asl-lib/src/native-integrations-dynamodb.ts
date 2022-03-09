@@ -1,4 +1,5 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { SdkIntegrationTask } from "./asl";
 import { BatchExecuteStatementCommandInput, BatchExecuteStatementCommandOutput, BatchExecuteStatementCommand } from "@aws-sdk/client-dynamodb";
 import { BatchGetItemCommandInput, BatchGetItemCommandOutput, BatchGetItemCommand } from "@aws-sdk/client-dynamodb";
 import { BatchWriteItemCommandInput, BatchWriteItemCommandOutput, BatchWriteItemCommand } from "@aws-sdk/client-dynamodb";
@@ -52,352 +53,352 @@ import { UpdateTimeToLiveCommandInput, UpdateTimeToLiveCommandOutput, UpdateTime
 
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:batchExecuteStatement'*/
-export const nativeDynamoDBBatchExecuteStatement = (input: BatchExecuteStatementCommandInput): Promise<BatchExecuteStatementCommandOutput> => {
+export const nativeDynamoDBBatchExecuteStatement = (input: SdkIntegrationTask<BatchExecuteStatementCommandInput>): Promise<BatchExecuteStatementCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new BatchExecuteStatementCommand(input);
+    const command = new BatchExecuteStatementCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:batchGetItem'*/
-export const nativeDynamoDBBatchGetItem = (input: BatchGetItemCommandInput): Promise<BatchGetItemCommandOutput> => {
+export const nativeDynamoDBBatchGetItem = (input: SdkIntegrationTask<BatchGetItemCommandInput>): Promise<BatchGetItemCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new BatchGetItemCommand(input);
+    const command = new BatchGetItemCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:batchWriteItem'*/
-export const nativeDynamoDBBatchWriteItem = (input: BatchWriteItemCommandInput): Promise<BatchWriteItemCommandOutput> => {
+export const nativeDynamoDBBatchWriteItem = (input: SdkIntegrationTask<BatchWriteItemCommandInput>): Promise<BatchWriteItemCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new BatchWriteItemCommand(input);
+    const command = new BatchWriteItemCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:createBackup'*/
-export const nativeDynamoDBCreateBackup = (input: CreateBackupCommandInput): Promise<CreateBackupCommandOutput> => {
+export const nativeDynamoDBCreateBackup = (input: SdkIntegrationTask<CreateBackupCommandInput>): Promise<CreateBackupCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new CreateBackupCommand(input);
+    const command = new CreateBackupCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:createGlobalTable'*/
-export const nativeDynamoDBCreateGlobalTable = (input: CreateGlobalTableCommandInput): Promise<CreateGlobalTableCommandOutput> => {
+export const nativeDynamoDBCreateGlobalTable = (input: SdkIntegrationTask<CreateGlobalTableCommandInput>): Promise<CreateGlobalTableCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new CreateGlobalTableCommand(input);
+    const command = new CreateGlobalTableCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:createTable'*/
-export const nativeDynamoDBCreateTable = (input: CreateTableCommandInput): Promise<CreateTableCommandOutput> => {
+export const nativeDynamoDBCreateTable = (input: SdkIntegrationTask<CreateTableCommandInput>): Promise<CreateTableCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new CreateTableCommand(input);
+    const command = new CreateTableCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:deleteBackup'*/
-export const nativeDynamoDBDeleteBackup = (input: DeleteBackupCommandInput): Promise<DeleteBackupCommandOutput> => {
+export const nativeDynamoDBDeleteBackup = (input: SdkIntegrationTask<DeleteBackupCommandInput>): Promise<DeleteBackupCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DeleteBackupCommand(input);
+    const command = new DeleteBackupCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:deleteItem'*/
-export const nativeDynamoDBDeleteItem = (input: DeleteItemCommandInput): Promise<DeleteItemCommandOutput> => {
+export const nativeDynamoDBDeleteItem = (input: SdkIntegrationTask<DeleteItemCommandInput>): Promise<DeleteItemCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DeleteItemCommand(input);
+    const command = new DeleteItemCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:deleteTable'*/
-export const nativeDynamoDBDeleteTable = (input: DeleteTableCommandInput): Promise<DeleteTableCommandOutput> => {
+export const nativeDynamoDBDeleteTable = (input: SdkIntegrationTask<DeleteTableCommandInput>): Promise<DeleteTableCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DeleteTableCommand(input);
+    const command = new DeleteTableCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeBackup'*/
-export const nativeDynamoDBDescribeBackup = (input: DescribeBackupCommandInput): Promise<DescribeBackupCommandOutput> => {
+export const nativeDynamoDBDescribeBackup = (input: SdkIntegrationTask<DescribeBackupCommandInput>): Promise<DescribeBackupCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeBackupCommand(input);
+    const command = new DescribeBackupCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeContinuousBackups'*/
-export const nativeDynamoDBDescribeContinuousBackups = (input: DescribeContinuousBackupsCommandInput): Promise<DescribeContinuousBackupsCommandOutput> => {
+export const nativeDynamoDBDescribeContinuousBackups = (input: SdkIntegrationTask<DescribeContinuousBackupsCommandInput>): Promise<DescribeContinuousBackupsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeContinuousBackupsCommand(input);
+    const command = new DescribeContinuousBackupsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeContributorInsights'*/
-export const nativeDynamoDBDescribeContributorInsights = (input: DescribeContributorInsightsCommandInput): Promise<DescribeContributorInsightsCommandOutput> => {
+export const nativeDynamoDBDescribeContributorInsights = (input: SdkIntegrationTask<DescribeContributorInsightsCommandInput>): Promise<DescribeContributorInsightsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeContributorInsightsCommand(input);
+    const command = new DescribeContributorInsightsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeEndpoints'*/
-export const nativeDynamoDBDescribeEndpoints = (input: DescribeEndpointsCommandInput): Promise<DescribeEndpointsCommandOutput> => {
+export const nativeDynamoDBDescribeEndpoints = (input: SdkIntegrationTask<DescribeEndpointsCommandInput>): Promise<DescribeEndpointsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeEndpointsCommand(input);
+    const command = new DescribeEndpointsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeExport'*/
-export const nativeDynamoDBDescribeExport = (input: DescribeExportCommandInput): Promise<DescribeExportCommandOutput> => {
+export const nativeDynamoDBDescribeExport = (input: SdkIntegrationTask<DescribeExportCommandInput>): Promise<DescribeExportCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeExportCommand(input);
+    const command = new DescribeExportCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeGlobalTable'*/
-export const nativeDynamoDBDescribeGlobalTable = (input: DescribeGlobalTableCommandInput): Promise<DescribeGlobalTableCommandOutput> => {
+export const nativeDynamoDBDescribeGlobalTable = (input: SdkIntegrationTask<DescribeGlobalTableCommandInput>): Promise<DescribeGlobalTableCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeGlobalTableCommand(input);
+    const command = new DescribeGlobalTableCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeGlobalTableSettings'*/
-export const nativeDynamoDBDescribeGlobalTableSettings = (input: DescribeGlobalTableSettingsCommandInput): Promise<DescribeGlobalTableSettingsCommandOutput> => {
+export const nativeDynamoDBDescribeGlobalTableSettings = (input: SdkIntegrationTask<DescribeGlobalTableSettingsCommandInput>): Promise<DescribeGlobalTableSettingsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeGlobalTableSettingsCommand(input);
+    const command = new DescribeGlobalTableSettingsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeKinesisStreamingDestination'*/
-export const nativeDynamoDBDescribeKinesisStreamingDestination = (input: DescribeKinesisStreamingDestinationCommandInput): Promise<DescribeKinesisStreamingDestinationCommandOutput> => {
+export const nativeDynamoDBDescribeKinesisStreamingDestination = (input: SdkIntegrationTask<DescribeKinesisStreamingDestinationCommandInput>): Promise<DescribeKinesisStreamingDestinationCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeKinesisStreamingDestinationCommand(input);
+    const command = new DescribeKinesisStreamingDestinationCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeLimits'*/
-export const nativeDynamoDBDescribeLimits = (input: DescribeLimitsCommandInput): Promise<DescribeLimitsCommandOutput> => {
+export const nativeDynamoDBDescribeLimits = (input: SdkIntegrationTask<DescribeLimitsCommandInput>): Promise<DescribeLimitsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeLimitsCommand(input);
+    const command = new DescribeLimitsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeTable'*/
-export const nativeDynamoDBDescribeTable = (input: DescribeTableCommandInput): Promise<DescribeTableCommandOutput> => {
+export const nativeDynamoDBDescribeTable = (input: SdkIntegrationTask<DescribeTableCommandInput>): Promise<DescribeTableCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeTableCommand(input);
+    const command = new DescribeTableCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeTableReplicaAutoScaling'*/
-export const nativeDynamoDBDescribeTableReplicaAutoScaling = (input: DescribeTableReplicaAutoScalingCommandInput): Promise<DescribeTableReplicaAutoScalingCommandOutput> => {
+export const nativeDynamoDBDescribeTableReplicaAutoScaling = (input: SdkIntegrationTask<DescribeTableReplicaAutoScalingCommandInput>): Promise<DescribeTableReplicaAutoScalingCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeTableReplicaAutoScalingCommand(input);
+    const command = new DescribeTableReplicaAutoScalingCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:describeTimeToLive'*/
-export const nativeDynamoDBDescribeTimeToLive = (input: DescribeTimeToLiveCommandInput): Promise<DescribeTimeToLiveCommandOutput> => {
+export const nativeDynamoDBDescribeTimeToLive = (input: SdkIntegrationTask<DescribeTimeToLiveCommandInput>): Promise<DescribeTimeToLiveCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DescribeTimeToLiveCommand(input);
+    const command = new DescribeTimeToLiveCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:disableKinesisStreamingDestination'*/
-export const nativeDynamoDBDisableKinesisStreamingDestination = (input: DisableKinesisStreamingDestinationCommandInput): Promise<DisableKinesisStreamingDestinationCommandOutput> => {
+export const nativeDynamoDBDisableKinesisStreamingDestination = (input: SdkIntegrationTask<DisableKinesisStreamingDestinationCommandInput>): Promise<DisableKinesisStreamingDestinationCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new DisableKinesisStreamingDestinationCommand(input);
+    const command = new DisableKinesisStreamingDestinationCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:enableKinesisStreamingDestination'*/
-export const nativeDynamoDBEnableKinesisStreamingDestination = (input: EnableKinesisStreamingDestinationCommandInput): Promise<EnableKinesisStreamingDestinationCommandOutput> => {
+export const nativeDynamoDBEnableKinesisStreamingDestination = (input: SdkIntegrationTask<EnableKinesisStreamingDestinationCommandInput>): Promise<EnableKinesisStreamingDestinationCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new EnableKinesisStreamingDestinationCommand(input);
+    const command = new EnableKinesisStreamingDestinationCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:executeStatement'*/
-export const nativeDynamoDBExecuteStatement = (input: ExecuteStatementCommandInput): Promise<ExecuteStatementCommandOutput> => {
+export const nativeDynamoDBExecuteStatement = (input: SdkIntegrationTask<ExecuteStatementCommandInput>): Promise<ExecuteStatementCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ExecuteStatementCommand(input);
+    const command = new ExecuteStatementCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:executeTransaction'*/
-export const nativeDynamoDBExecuteTransaction = (input: ExecuteTransactionCommandInput): Promise<ExecuteTransactionCommandOutput> => {
+export const nativeDynamoDBExecuteTransaction = (input: SdkIntegrationTask<ExecuteTransactionCommandInput>): Promise<ExecuteTransactionCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ExecuteTransactionCommand(input);
+    const command = new ExecuteTransactionCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:exportTableToPointInTime'*/
-export const nativeDynamoDBExportTableToPointInTime = (input: ExportTableToPointInTimeCommandInput): Promise<ExportTableToPointInTimeCommandOutput> => {
+export const nativeDynamoDBExportTableToPointInTime = (input: SdkIntegrationTask<ExportTableToPointInTimeCommandInput>): Promise<ExportTableToPointInTimeCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ExportTableToPointInTimeCommand(input);
+    const command = new ExportTableToPointInTimeCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:getItem'*/
-export const nativeDynamoDBGetItem = (input: GetItemCommandInput): Promise<GetItemCommandOutput> => {
+export const nativeDynamoDBGetItem = (input: SdkIntegrationTask<GetItemCommandInput>): Promise<GetItemCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new GetItemCommand(input);
+    const command = new GetItemCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:listBackups'*/
-export const nativeDynamoDBListBackups = (input: ListBackupsCommandInput): Promise<ListBackupsCommandOutput> => {
+export const nativeDynamoDBListBackups = (input: SdkIntegrationTask<ListBackupsCommandInput>): Promise<ListBackupsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ListBackupsCommand(input);
+    const command = new ListBackupsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:listContributorInsights'*/
-export const nativeDynamoDBListContributorInsights = (input: ListContributorInsightsCommandInput): Promise<ListContributorInsightsCommandOutput> => {
+export const nativeDynamoDBListContributorInsights = (input: SdkIntegrationTask<ListContributorInsightsCommandInput>): Promise<ListContributorInsightsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ListContributorInsightsCommand(input);
+    const command = new ListContributorInsightsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:listExports'*/
-export const nativeDynamoDBListExports = (input: ListExportsCommandInput): Promise<ListExportsCommandOutput> => {
+export const nativeDynamoDBListExports = (input: SdkIntegrationTask<ListExportsCommandInput>): Promise<ListExportsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ListExportsCommand(input);
+    const command = new ListExportsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:listGlobalTables'*/
-export const nativeDynamoDBListGlobalTables = (input: ListGlobalTablesCommandInput): Promise<ListGlobalTablesCommandOutput> => {
+export const nativeDynamoDBListGlobalTables = (input: SdkIntegrationTask<ListGlobalTablesCommandInput>): Promise<ListGlobalTablesCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ListGlobalTablesCommand(input);
+    const command = new ListGlobalTablesCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:listTables'*/
-export const nativeDynamoDBListTables = (input: ListTablesCommandInput): Promise<ListTablesCommandOutput> => {
+export const nativeDynamoDBListTables = (input: SdkIntegrationTask<ListTablesCommandInput>): Promise<ListTablesCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ListTablesCommand(input);
+    const command = new ListTablesCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:listTagsOfResource'*/
-export const nativeDynamoDBListTagsOfResource = (input: ListTagsOfResourceCommandInput): Promise<ListTagsOfResourceCommandOutput> => {
+export const nativeDynamoDBListTagsOfResource = (input: SdkIntegrationTask<ListTagsOfResourceCommandInput>): Promise<ListTagsOfResourceCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ListTagsOfResourceCommand(input);
+    const command = new ListTagsOfResourceCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:putItem'*/
-export const nativeDynamoDBPutItem = (input: PutItemCommandInput): Promise<PutItemCommandOutput> => {
+export const nativeDynamoDBPutItem = (input: SdkIntegrationTask<PutItemCommandInput>): Promise<PutItemCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new PutItemCommand(input);
+    const command = new PutItemCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:query'*/
-export const nativeDynamoDBQuery = (input: QueryCommandInput): Promise<QueryCommandOutput> => {
+export const nativeDynamoDBQuery = (input: SdkIntegrationTask<QueryCommandInput>): Promise<QueryCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new QueryCommand(input);
+    const command = new QueryCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:restoreTableFromBackup'*/
-export const nativeDynamoDBRestoreTableFromBackup = (input: RestoreTableFromBackupCommandInput): Promise<RestoreTableFromBackupCommandOutput> => {
+export const nativeDynamoDBRestoreTableFromBackup = (input: SdkIntegrationTask<RestoreTableFromBackupCommandInput>): Promise<RestoreTableFromBackupCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new RestoreTableFromBackupCommand(input);
+    const command = new RestoreTableFromBackupCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:restoreTableToPointInTime'*/
-export const nativeDynamoDBRestoreTableToPointInTime = (input: RestoreTableToPointInTimeCommandInput): Promise<RestoreTableToPointInTimeCommandOutput> => {
+export const nativeDynamoDBRestoreTableToPointInTime = (input: SdkIntegrationTask<RestoreTableToPointInTimeCommandInput>): Promise<RestoreTableToPointInTimeCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new RestoreTableToPointInTimeCommand(input);
+    const command = new RestoreTableToPointInTimeCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:scan'*/
-export const nativeDynamoDBScan = (input: ScanCommandInput): Promise<ScanCommandOutput> => {
+export const nativeDynamoDBScan = (input: SdkIntegrationTask<ScanCommandInput>): Promise<ScanCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new ScanCommand(input);
+    const command = new ScanCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:tagResource'*/
-export const nativeDynamoDBTagResource = (input: TagResourceCommandInput): Promise<TagResourceCommandOutput> => {
+export const nativeDynamoDBTagResource = (input: SdkIntegrationTask<TagResourceCommandInput>): Promise<TagResourceCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new TagResourceCommand(input);
+    const command = new TagResourceCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:transactGetItems'*/
-export const nativeDynamoDBTransactGetItems = (input: TransactGetItemsCommandInput): Promise<TransactGetItemsCommandOutput> => {
+export const nativeDynamoDBTransactGetItems = (input: SdkIntegrationTask<TransactGetItemsCommandInput>): Promise<TransactGetItemsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new TransactGetItemsCommand(input);
+    const command = new TransactGetItemsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:transactWriteItems'*/
-export const nativeDynamoDBTransactWriteItems = (input: TransactWriteItemsCommandInput): Promise<TransactWriteItemsCommandOutput> => {
+export const nativeDynamoDBTransactWriteItems = (input: SdkIntegrationTask<TransactWriteItemsCommandInput>): Promise<TransactWriteItemsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new TransactWriteItemsCommand(input);
+    const command = new TransactWriteItemsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:untagResource'*/
-export const nativeDynamoDBUntagResource = (input: UntagResourceCommandInput): Promise<UntagResourceCommandOutput> => {
+export const nativeDynamoDBUntagResource = (input: SdkIntegrationTask<UntagResourceCommandInput>): Promise<UntagResourceCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UntagResourceCommand(input);
+    const command = new UntagResourceCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:updateContinuousBackups'*/
-export const nativeDynamoDBUpdateContinuousBackups = (input: UpdateContinuousBackupsCommandInput): Promise<UpdateContinuousBackupsCommandOutput> => {
+export const nativeDynamoDBUpdateContinuousBackups = (input: SdkIntegrationTask<UpdateContinuousBackupsCommandInput>): Promise<UpdateContinuousBackupsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UpdateContinuousBackupsCommand(input);
+    const command = new UpdateContinuousBackupsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:updateContributorInsights'*/
-export const nativeDynamoDBUpdateContributorInsights = (input: UpdateContributorInsightsCommandInput): Promise<UpdateContributorInsightsCommandOutput> => {
+export const nativeDynamoDBUpdateContributorInsights = (input: SdkIntegrationTask<UpdateContributorInsightsCommandInput>): Promise<UpdateContributorInsightsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UpdateContributorInsightsCommand(input);
+    const command = new UpdateContributorInsightsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:updateGlobalTable'*/
-export const nativeDynamoDBUpdateGlobalTable = (input: UpdateGlobalTableCommandInput): Promise<UpdateGlobalTableCommandOutput> => {
+export const nativeDynamoDBUpdateGlobalTable = (input: SdkIntegrationTask<UpdateGlobalTableCommandInput>): Promise<UpdateGlobalTableCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UpdateGlobalTableCommand(input);
+    const command = new UpdateGlobalTableCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:updateGlobalTableSettings'*/
-export const nativeDynamoDBUpdateGlobalTableSettings = (input: UpdateGlobalTableSettingsCommandInput): Promise<UpdateGlobalTableSettingsCommandOutput> => {
+export const nativeDynamoDBUpdateGlobalTableSettings = (input: SdkIntegrationTask<UpdateGlobalTableSettingsCommandInput>): Promise<UpdateGlobalTableSettingsCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UpdateGlobalTableSettingsCommand(input);
+    const command = new UpdateGlobalTableSettingsCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:updateItem'*/
-export const nativeDynamoDBUpdateItem = (input: UpdateItemCommandInput): Promise<UpdateItemCommandOutput> => {
+export const nativeDynamoDBUpdateItem = (input: SdkIntegrationTask<UpdateItemCommandInput>): Promise<UpdateItemCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UpdateItemCommand(input);
+    const command = new UpdateItemCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:updateTable'*/
-export const nativeDynamoDBUpdateTable = (input: UpdateTableCommandInput): Promise<UpdateTableCommandOutput> => {
+export const nativeDynamoDBUpdateTable = (input: SdkIntegrationTask<UpdateTableCommandInput>): Promise<UpdateTableCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UpdateTableCommand(input);
+    const command = new UpdateTableCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:updateTableReplicaAutoScaling'*/
-export const nativeDynamoDBUpdateTableReplicaAutoScaling = (input: UpdateTableReplicaAutoScalingCommandInput): Promise<UpdateTableReplicaAutoScalingCommandOutput> => {
+export const nativeDynamoDBUpdateTableReplicaAutoScaling = (input: SdkIntegrationTask<UpdateTableReplicaAutoScalingCommandInput>): Promise<UpdateTableReplicaAutoScalingCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UpdateTableReplicaAutoScalingCommand(input);
+    const command = new UpdateTableReplicaAutoScalingCommand(input.parameters);
     return dynamodb.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:dynamodb:updateTimeToLive'*/
-export const nativeDynamoDBUpdateTimeToLive = (input: UpdateTimeToLiveCommandInput): Promise<UpdateTimeToLiveCommandOutput> => {
+export const nativeDynamoDBUpdateTimeToLive = (input: SdkIntegrationTask<UpdateTimeToLiveCommandInput>): Promise<UpdateTimeToLiveCommandOutput> => {
     const dynamodb = new DynamoDBClient({});
-    const command = new UpdateTimeToLiveCommand(input);
+    const command = new UpdateTimeToLiveCommand(input.parameters);
     return dynamodb.send(command);
 };
 

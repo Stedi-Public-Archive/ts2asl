@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "If (typeof input.name !== ..."
+      "Next": "6: If (typeof input.name !== ..."
     },
-    "If (typeof input.name !== ...": {
+    "6: If (typeof input.name !== ...": {
       "Type": "Choice",
       "Choices": [
         {
@@ -25,19 +25,19 @@
               }
             ]
           },
-          "Next": "Assign Name"
+          "Next": "7: Assign input.name"
         }
       ],
       "Comment": "source: if (typeof input.name !== \"string\") { input.na ...",
-      "Default": "Assign X"
+      "Default": "9: Assign x"
     },
-    "Assign Name": {
+    "7: Assign input.name": {
       "Type": "Pass",
       "ResultPath": "$.vars.name",
       "Result": "fred",
-      "Next": "Assign X"
+      "Next": "9: Assign x"
     },
-    "Assign X": {
+    "9: Assign x": {
       "Type": "Pass",
       "ResultPath": "$.vars.x",
       "Parameters": {
@@ -45,9 +45,9 @@
         "executionId.$": "$$.Execution.Id"
       },
       "Comment": "source: x = { name: input.name, executionId: context.e ...",
-      "Next": "Assign Y"
+      "Next": "14: Assign y"
     },
-    "Assign Y": {
+    "14: Assign y": {
       "Type": "Pass",
       "ResultPath": "$.vars.y",
       "Parameters": {
@@ -65,12 +65,9 @@
       "Next": "Pass"
     },
     "Pass": {
+      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.y",
-      "Next": "Succeed"
-    },
-    "Succeed": {
-      "Type": "Succeed"
+      "InputPath": "$.vars.y"
     }
   }
 }

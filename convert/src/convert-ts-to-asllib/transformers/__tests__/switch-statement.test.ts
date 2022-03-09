@@ -18,7 +18,7 @@ describe("when converting switch statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.choice({
-          name: \\"Switch (color)\\",
+          name: \\"2: Switch (color)\\",
           choices: [
               {
                   block: async () => {

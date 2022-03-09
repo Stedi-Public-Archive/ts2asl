@@ -17,7 +17,7 @@ export const forOfStatementTransformer = <T extends ts.Node>(context: ts.Transfo
       const items = TransformUtil.createWrappedExpression("items", node.expression);
       const iterator = TransformUtil.createFunction("iterator", (decl.name as ts.Identifier).text, convertToBlock(node.statement));
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createName("For %s Of %s", decl.name, node.expression);
+      const name = TransformUtil.createNamePropertyAssignment(node, "For %s Of %s", decl.name, node.expression);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, items, iterator, comment]) {

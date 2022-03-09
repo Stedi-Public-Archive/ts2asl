@@ -3,8 +3,6 @@ import * as ts from "typescript";
 import factory = ts.factory;
 import { writeFileSync } from "fs";
 
-
-
 const supportedServices = [
   { serviceId: "dynamodb", serviceName: "DynamoDB" },
   { serviceId: "ecs", serviceName: "ECS" },
@@ -16,7 +14,8 @@ const supportedServices = [
   { serviceId: "sns", serviceName: "SNS" },
   { serviceId: "ssm", serviceName: "SSM" },
   { serviceId: "textract", serviceName: "Textract" },
-  { serviceId: "apigateway", serviceName: "APIGateway" }
+  { serviceId: "apigateway", serviceName: "APIGateway" },
+  { serviceId: "organizations", serviceName: "Organizations" },
 ]
 
 // interface NativeIntegrationDefinition {
@@ -28,28 +27,47 @@ const supportedServices = [
 //   }
 // }
 
-const generateServiceAst = (serviceName: string): { importAst: ts.Node } => {
+const generateServiceAst = (serviceName: string): { importAst: ts.Node[] } => {
   const lowercaseServiceId = serviceName.toLowerCase();
   const moduleName = (lowercaseServiceId === "apigateway") ? "api-gateway" : lowercaseServiceId;
 
   return {
-    importAst: factory.createImportDeclaration(
-      undefined,
-      undefined,
-      factory.createImportClause(
-        false,
+    importAst: [
+      factory.createImportDeclaration(
         undefined,
-        factory.createNamedImports([
-          factory.createImportSpecifier(
-            false,
-            undefined,
-            factory.createIdentifier(`${serviceName}Client`)
-          ),
-        ])
+        undefined,
+        factory.createImportClause(
+          false,
+          undefined,
+          factory.createNamedImports([
+            factory.createImportSpecifier(
+              false,
+              undefined,
+              factory.createIdentifier(`${serviceName}Client`)
+            ),
+          ])
+        ),
+        factory.createStringLiteral(`@aws-sdk/client-${moduleName}`),
+        undefined
       ),
-      factory.createStringLiteral(`@aws-sdk/client-${moduleName}`),
-      undefined
-    ),
+      factory.createImportDeclaration(
+        undefined,
+        undefined,
+        factory.createImportClause(
+          false,
+          undefined,
+          factory.createNamedImports([
+            factory.createImportSpecifier(
+              false,
+              undefined,
+              factory.createIdentifier(`SdkIntegrationTask`)
+            ),
+          ])
+        ),
+        factory.createStringLiteral(`./asl`),
+        undefined
+      ),
+    ],
   }
 }
 const generateFunctionAst = (serviceName: string, actionName: string): { functionAst: ts.Statement, importAst: ts.Node } => {
@@ -103,8 +121,11 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
                 factory.createIdentifier("input"),
                 undefined,
                 factory.createTypeReferenceNode(
-                  factory.createIdentifier(`${actionName}CommandInput`),
-                  undefined
+                  factory.createIdentifier("SdkIntegrationTask"),
+                  [factory.createTypeReferenceNode(
+                    factory.createIdentifier(`${actionName}CommandInput`),
+                    undefined
+                  )]
                 ),
                 undefined
               )],
@@ -147,7 +168,10 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
                         factory.createNewExpression(
                           factory.createIdentifier(`${actionName}Command`),
                           undefined,
-                          [factory.createIdentifier("input")]
+                          [factory.createPropertyAccessExpression(
+                            factory.createIdentifier("input"),
+                            factory.createIdentifier("parameters")
+                          )]
                         )
                       )],
                       ts.NodeFlags.Const
@@ -188,7 +212,7 @@ for (const service of nativeIntegrations.services) {
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
   const serviceAst = generateServiceAst(serviceConfig.serviceName);
-  importNodes.push(serviceAst.importAst);
+  importNodes.push(...serviceAst.importAst);
 
   for (const action of service.actions) {
     const result = generateFunctionAst(serviceConfig.serviceName, action.actionName);

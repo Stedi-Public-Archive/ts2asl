@@ -24,10 +24,11 @@
         "retry": [],
         "_syntaxKind": "asl-task-state"
       },
+      "stateName": "7: Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "While (true)",
+      "stateName": "8: While (true)",
       "condition": {
         "type": "boolean",
         "value": true,
@@ -36,7 +37,7 @@
       "while": {
         "statements": [
           {
-            "stateName": "If (result.Authorized)",
+            "stateName": "9: If (result.Authorized)",
             "condition": {
               "operator": "is-present",
               "rhs": {
@@ -49,6 +50,7 @@
             "then": {
               "statements": [
                 {
+                  "stateName": "10: Break",
                   "_syntaxKind": "asl-succeed-state"
                 }
               ],
@@ -81,6 +83,7 @@
               "retry": [],
               "_syntaxKind": "asl-task-state"
             },
+            "stateName": "13: Assign result",
             "_syntaxKind": "variable-assignment"
           }
         ],

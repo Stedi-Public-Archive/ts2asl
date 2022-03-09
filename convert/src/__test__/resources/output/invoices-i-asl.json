@@ -15,7 +15,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "createBillJob(input)",
+        "stateName": "13: createBillJob(input)",
         "resource": "typescript:createBillJob",
         "parameters": {
           "identifier": "input",
@@ -25,6 +25,7 @@
         "source": "createBillJob(input)",
         "_syntaxKind": "asl-task-state"
       },
+      "stateName": "12: Assign billJob",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -42,7 +43,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "createNonEmptyBills(billJob)",
+        "stateName": "16: createNonEmptyBills(billJob)",
         "resource": "typescript:createNonEmptyBills",
         "parameters": {
           "identifier": "billJob",
@@ -52,6 +53,7 @@
         "source": "createNonEmptyBills(billJob)",
         "_syntaxKind": "asl-task-state"
       },
+      "stateName": "14: Assign jobResult",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -61,7 +63,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "For bill Of jobResult.bil ...",
+        "stateName": "18: For bill Of jobResult.bil ...",
         "items": {
           "identifier": "jobResult.bills",
           "type": "object",
@@ -82,6 +84,7 @@
                 "type": "object"
               },
               "expression": {
+                "stateName": "19: Assign approveNonEmptyBil ...",
                 "parameters": {
                   "properties": {
                     "lastDateInBillingPeriod": {
@@ -100,6 +103,7 @@
                 "source": "approveNonEmptyBillRequest = { lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }",
                 "_syntaxKind": "asl-pass-state"
               },
+              "stateName": "18: Assign approveNonEmptyBil ...",
               "_syntaxKind": "variable-assignment"
             },
             {
@@ -109,7 +113,7 @@
                 "type": "object"
               },
               "expression": {
-                "stateName": "approveNonEmptyBill(appro ...",
+                "stateName": "20: approveNonEmptyBill(appro ...",
                 "resource": "typescript:approveNonEmptyBill",
                 "parameters": {
                   "identifier": "approveNonEmptyBillRequest",
@@ -119,10 +123,11 @@
                 "source": "approveNonEmptyBill(approveNonEmptyBillRequest)",
                 "_syntaxKind": "asl-task-state"
               },
+              "stateName": "19: Assign approvalResult",
               "_syntaxKind": "variable-assignment"
             },
             {
-              "stateName": "If (approvalResult.valid)",
+              "stateName": "20: If (approvalResult.valid)",
               "condition": {
                 "operator": "is-present",
                 "rhs": {
@@ -170,7 +175,8 @@
                       },
                       "_syntaxKind": "literal-object"
                     },
-                    "_syntaxKind": "return"
+                    "_syntaxKind": "return",
+                    "stateName": "21: Return { valid: ..."
                   }
                 ],
                 "_syntaxKind": "function"
@@ -238,6 +244,7 @@
                       },
                       "_syntaxKind": "asl-task-state"
                     },
+                    "stateName": "30: Assign result",
                     "_syntaxKind": "variable-assignment"
                   },
                   {
@@ -246,7 +253,8 @@
                       "_syntaxKind": "identifier",
                       "type": "unknown"
                     },
-                    "_syntaxKind": "return"
+                    "_syntaxKind": "return",
+                    "stateName": "42: Return result"
                   }
                 ],
                 "_syntaxKind": "function"
@@ -258,6 +266,7 @@
         },
         "_syntaxKind": "asl-map-state"
       },
+      "stateName": "16: Assign billPromises",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -267,6 +276,7 @@
         "type": "object"
       },
       "expression": {
+        "stateName": "47: Assign bills",
         "parameters": {
           "identifier": "billPromises",
           "_syntaxKind": "identifier",
@@ -274,6 +284,7 @@
         },
         "_syntaxKind": "asl-pass-state"
       },
+      "stateName": "45: Assign bills",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -307,6 +318,7 @@
           }
         }
       },
+      "stateName": "47: Assign validBills",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -316,7 +328,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "For x Of validBills.map",
+        "stateName": "50: For x Of validBills.map",
         "items": {
           "identifier": "validBills",
           "_syntaxKind": "identifier",
@@ -331,7 +343,7 @@
           },
           "statements": [
             {
-              "stateName": "createInvoice(x)",
+              "stateName": "50: createInvoice(x)",
               "resource": "typescript:createInvoice",
               "parameters": {
                 "identifier": "x",
@@ -347,6 +359,7 @@
         "source": "validBills.map(async x => createInvoice(x))",
         "_syntaxKind": "asl-map-state"
       },
+      "stateName": "48: Assign invoices",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -356,7 +369,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "For x Of invoices.map",
+        "stateName": "51: For x Of invoices.map",
         "items": {
           "identifier": "invoices",
           "_syntaxKind": "identifier",
@@ -371,7 +384,7 @@
           },
           "statements": [
             {
-              "stateName": "validateInvoice(x)",
+              "stateName": "51: validateInvoice(x)",
               "resource": "typescript:validateInvoice",
               "parameters": {
                 "identifier": "x",
@@ -387,6 +400,7 @@
         "source": "invoices.map(async x => validateInvoice(x))",
         "_syntaxKind": "asl-map-state"
       },
+      "stateName": "50: Assign validatedInvoices",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -420,10 +434,11 @@
           }
         }
       },
+      "stateName": "51: Assign invalidInvoices",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "If (invalidInvoices.lengt ...",
+      "stateName": "53: If (invalidInvoices.lengt ...",
       "condition": {
         "lhs": {
           "identifier": "invalidInvoices",
@@ -442,7 +457,7 @@
       "then": {
         "statements": [
           {
-            "stateName": "createGithubIssue({ bills ...",
+            "stateName": "55: createGithubIssue({ bills ...",
             "resource": "typescript:createGithubIssue",
             "parameters": {
               "properties": {
@@ -459,7 +474,6 @@
               },
               "_syntaxKind": "literal-object"
             },
-            "source": "createGithubIssue({ bills: { invalid: invalidInvoices } })",
             "_syntaxKind": "asl-task-state"
           }
         ],
@@ -499,10 +513,11 @@
           }
         }
       },
+      "stateName": "56: Assign validInvoices",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "If (!input.shouldFinalize)",
+      "stateName": "58: If (!input.shouldFinalize)",
       "condition": {
         "operator": "not",
         "rhs": {
@@ -519,7 +534,8 @@
       "then": {
         "statements": [
           {
-            "_syntaxKind": "return"
+            "_syntaxKind": "return",
+            "stateName": "60: Return undefined"
           }
         ],
         "_syntaxKind": "function"
@@ -528,7 +544,7 @@
       "_syntaxKind": "if"
     },
     {
-      "stateName": "For invoice Of validInvoices",
+      "stateName": "62: For invoice Of validInvoices",
       "items": {
         "identifier": "validInvoices",
         "_syntaxKind": "identifier",
@@ -543,7 +559,7 @@
         },
         "statements": [
           {
-            "stateName": "If (invoice.billable)",
+            "stateName": "64: If (invoice.billable)",
             "condition": {
               "operator": "is-present",
               "rhs": {
@@ -556,7 +572,7 @@
             "then": {
               "statements": [
                 {
-                  "stateName": "finallizeInvoice(invoice  ...",
+                  "stateName": "66: finallizeInvoice(invoice ...",
                   "resource": "typescript:finallizeInvoice",
                   "parameters": {
                     "identifier": "invoice",

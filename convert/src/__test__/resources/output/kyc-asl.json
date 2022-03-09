@@ -7,14 +7,14 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign Result"
+      "Next": "7: Assign result"
     },
-    "Assign Result": {
+    "7: Assign result": {
       "Branches": [
         {
-          "StartAt": "performIdentifyCheck()",
+          "StartAt": "8: performIdentifyCheck()",
           "States": {
-            "performIdentifyCheck()": {
+            "8: performIdentifyCheck()": {
               "Type": "Task",
               "Resource": "typescript:performIdentifyCheck",
               "Comment": "source: performIdentifyCheck()",
@@ -26,14 +26,11 @@
           "StartAt": "Pass",
           "States": {
             "Pass": {
+              "End": true,
               "Type": "Pass",
               "Result": {
                 "agencyChecked": true
-              },
-              "Next": "Succeed"
-            },
-            "Succeed": {
-              "Type": "Succeed"
+              }
             }
           }
         }
@@ -57,16 +54,16 @@
           }
         ]
       },
-      "Next": "Assign ChecksPassed"
+      "Next": "22: Assign checksPassed"
     },
-    "Assign ChecksPassed": {
+    "22: Assign checksPassed": {
       "Type": "Pass",
       "ResultPath": "$.vars.checksPassed",
       "Result": true,
       "Comment": "source: checksPassed = true",
-      "Next": "If (checksPassed)"
+      "Next": "24: If (checksPassed)"
     },
-    "If (checksPassed)": {
+    "24: If (checksPassed)": {
       "Type": "Choice",
       "Choices": [
         {

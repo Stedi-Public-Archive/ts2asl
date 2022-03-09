@@ -13,9 +13,10 @@ export const variableStatementTransformer = <T extends ts.Node>(context: ts.Tran
 
       const parameters = TransformUtil.createWrappedExpression("parameters", node.initializer);
       const comment = TransformUtil.createComment(node);
-      
+      const name = TransformUtil.createNamePropertyAssignment(node, `Assign %s`, node.name)
+
       const assignments: ts.PropertyAssignment[] = []
-      for (const assignment of [parameters, comment]) {
+      for (const assignment of [name, parameters, comment]) {
         if (assignment) {
           assignments.push(assignment);
         }

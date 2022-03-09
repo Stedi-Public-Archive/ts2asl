@@ -15,6 +15,7 @@
         "type": "object"
       },
       "expression": {
+        "stateName": "5: Assign numbers",
         "parameters": {
           "elements": [
             {
@@ -43,6 +44,7 @@
         "source": "numbers = [0, 1, 2, 3]",
         "_syntaxKind": "asl-pass-state"
       },
+      "stateName": "4: Assign numbers",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -52,6 +54,7 @@
         "type": "object"
       },
       "expression": {
+        "stateName": "6: Assign letters",
         "parameters": {
           "elements": [
             {
@@ -80,6 +83,7 @@
         "source": "letters = [\"a\", \"b\", \"c\", \"d\"]",
         "_syntaxKind": "asl-pass-state"
       },
+      "stateName": "5: Assign letters",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -89,6 +93,7 @@
         "type": "unknown"
       },
       "expression": {
+        "stateName": "7: Assign global",
         "parameters": {
           "value": "prefix",
           "type": "string",
@@ -97,6 +102,7 @@
         "source": "global = \"prefix\"",
         "_syntaxKind": "asl-pass-state"
       },
+      "stateName": "6: Assign global",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -106,6 +112,7 @@
         "type": "object"
       },
       "expression": {
+        "stateName": "8: Assign outer",
         "parameters": {
           "properties": {
             "middle": {
@@ -124,10 +131,11 @@
         "source": "outer = { middle: { inner: 3 } }",
         "_syntaxKind": "asl-pass-state"
       },
+      "stateName": "7: Assign outer",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "For number Of numbers",
+      "stateName": "8: For number Of numbers",
       "items": {
         "identifier": "numbers",
         "_syntaxKind": "identifier",
@@ -142,7 +150,7 @@
         },
         "statements": [
           {
-            "stateName": "For letter Of letters",
+            "stateName": "9: For letter Of letters",
             "items": {
               "identifier": "letters",
               "_syntaxKind": "identifier",
@@ -163,6 +171,7 @@
                     "type": "object"
                   },
                   "expression": {
+                    "stateName": "11: Assign combined",
                     "parameters": {
                       "properties": {
                         "number": {
@@ -191,10 +200,11 @@
                     "source": "combined = { number, letter, global, inner: outer.middle.inner }",
                     "_syntaxKind": "asl-pass-state"
                   },
+                  "stateName": "10: Assign combined",
                   "_syntaxKind": "variable-assignment"
                 },
                 {
-                  "stateName": "doSomething(combined)",
+                  "stateName": "11: doSomething(combined)",
                   "resource": "typescript:doSomething",
                   "parameters": {
                     "identifier": "combined",

@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign Thresholds"
+      "Next": "4: Assign thresholds"
     },
-    "Assign Thresholds": {
+    "4: Assign thresholds": {
       "Type": "Pass",
       "ResultPath": "$.vars.thresholds",
       "Result": [
@@ -23,16 +23,16 @@
         }
       ],
       "Comment": "source: thresholds = [ { \"metric\": \"mappings.requests\" ...",
-      "Next": "Assign LastEvaluatedKey"
+      "Next": "15: Assign lastEvaluatedKey"
     },
-    "Assign LastEvaluatedKey": {
+    "15: Assign lastEvaluatedKey": {
       "Type": "Pass",
       "ResultPath": "$.vars.lastEvaluatedKey",
       "Result": null,
       "Comment": "source: lastEvaluatedKey: any | undefined = undefined",
-      "Next": "DoWhile"
+      "Next": "16: Do While (lastEvaluatedKey)"
     },
-    "DoWhile": {
+    "16: Do While (lastEvaluatedKey)": {
       "Type": "Parallel",
       "Parameters": {
         "vars": {
@@ -42,9 +42,9 @@
       },
       "Branches": [
         {
-          "StartAt": "Assign Scan",
+          "StartAt": "Scan",
           "States": {
-            "Assign Scan": {
+            "Scan": {
               "Type": "Task",
               "ResultPath": "$.vars.scan",
               "Resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
@@ -53,33 +53,33 @@
                 "Limit": 1,
                 "ExclusiveStartKey.$": "$.vars.lastEvaluatedKey"
               },
-              "Next": "For item Of scan.Items"
+              "Next": "18: For item Of scan.Items"
             },
-            "For item Of scan.Items": {
+            "18: For item Of scan.Items": {
               "Type": "Map",
               "ResultPath": "$.lastResult",
               "Iterator": {
-                "StartAt": "For threshold Of thresholds",
+                "StartAt": "20: For threshold Of thresholds",
                 "States": {
-                  "For threshold Of thresholds": {
+                  "20: For threshold Of thresholds": {
                     "Type": "Map",
                     "ResultPath": "$.lastResult",
                     "Iterator": {
-                      "StartAt": "Assign NumericLastSentOnValue",
+                      "StartAt": "21: Assign numericLastSentOnValue",
                       "States": {
-                        "Assign NumericLastSentOnValue": {
+                        "21: Assign numericLastSentOnValue": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericLastSentOnValue",
                           "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
-                          "Next": "Assign NumericTotal"
+                          "Next": "22: Assign numericTotal"
                         },
-                        "Assign NumericTotal": {
+                        "22: Assign numericTotal": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericTotal",
                           "InputPath": "States.StringToJson($.vars.item.total.N)",
-                          "Next": "If ((item.sk.S === thresh ..."
+                          "Next": "23: If ((item.sk.S === thresh ..."
                         },
-                        "If ((item.sk.S === thresh ...": {
+                        "23: If ((item.sk.S === thresh ...": {
                           "Type": "Choice",
                           "Choices": [
                             {
@@ -217,9 +217,9 @@
                   "scan.$": "$.vars.scan"
                 }
               },
-              "Next": "Assign LastEvaluatedKey_1"
+              "Next": "60: Assign lastEvaluatedKey"
             },
-            "Assign LastEvaluatedKey_1": {
+            "60: Assign lastEvaluatedKey": {
               "Type": "Pass",
               "ResultPath": "$.vars.lastEvaluatedKey",
               "InputPath": "$.vars.scan.LastEvaluatedKey",
@@ -231,7 +231,7 @@
                 {
                   "Variable": "$.vars.lastEvaluatedKey",
                   "IsPresent": true,
-                  "Next": "Assign Scan"
+                  "Next": "Scan"
                 }
               ],
               "Default": "_WhileExit"

@@ -64,6 +64,7 @@ describe("when converting native integration statements to iasl", () => {
               "identifier": "aaaa",
               "type": "unknown",
             },
+            "stateName": "3: Assign aaaa",
           },
         ],
       }

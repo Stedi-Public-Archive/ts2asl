@@ -4,7 +4,7 @@ import { Construct } from "@aws-cdk/core";
 import { Converter } from "@ts2asl/convert"
 import { createCompilerHostFromFile } from "@ts2asl/convert"
 import { NodejsFunction, NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
-import { StateMachine, Task } from "asl-types";
+import { StateMachine, Task, Map, Parallel } from "asl-types";
 
 export interface TypescriptStateMachineProps {
   defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
@@ -58,6 +58,15 @@ export class TypescriptStateMachine extends Construct {
 
 const replaceFunctionArns = (statemachine: StateMachine, typescriptDict: Record<string, string>) => {
   for (const state of Object.values(statemachine.States)) {
+
+    if (state.Type === "Map") {
+      replaceFunctionArns((state as Map).Iterator, typescriptDict);
+    }
+    if (state.Type === "Parallel") {
+      for (const branch of (state as Parallel).Branches) {
+        replaceFunctionArns(branch, typescriptDict);
+      }
+    }
     if (state.Type === "Task") {
       const task = state as Task;
       if (typescriptDict[task.Resource as string]) {

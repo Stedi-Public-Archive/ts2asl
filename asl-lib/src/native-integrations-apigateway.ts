@@ -1,5 +1,5 @@
 import { APIGatewayClient } from "@aws-sdk/client-api-gateway";
-// import { InvokeCommandInput, InvokeCommandOutput, InvokeCommand } from "@aws-sdk/client-api-gateway";
+import { SdkIntegrationTask } from "./asl";
 import { CreateApiKeyCommandInput, CreateApiKeyCommandOutput, CreateApiKeyCommand } from "@aws-sdk/client-api-gateway";
 import { CreateAuthorizerCommandInput, CreateAuthorizerCommandOutput, CreateAuthorizerCommand } from "@aws-sdk/client-api-gateway";
 import { CreateBasePathMappingCommandInput, CreateBasePathMappingCommandOutput, CreateBasePathMappingCommand } from "@aws-sdk/client-api-gateway";
@@ -121,846 +121,843 @@ import { UpdateUsageCommandInput, UpdateUsageCommandOutput, UpdateUsageCommand }
 import { UpdateUsagePlanCommandInput, UpdateUsagePlanCommandOutput, UpdateUsagePlanCommand } from "@aws-sdk/client-api-gateway";
 import { UpdateVpcLinkCommandInput, UpdateVpcLinkCommandOutput, UpdateVpcLinkCommand } from "@aws-sdk/client-api-gateway";
 
-
-
-
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createApiKey'*/
-export const nativeAPIGatewayCreateApiKey = (input: CreateApiKeyCommandInput): Promise<CreateApiKeyCommandOutput> => {
+export const nativeAPIGatewayCreateApiKey = (input: SdkIntegrationTask<CreateApiKeyCommandInput>): Promise<CreateApiKeyCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateApiKeyCommand(input);
+    const command = new CreateApiKeyCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createAuthorizer'*/
-export const nativeAPIGatewayCreateAuthorizer = (input: CreateAuthorizerCommandInput): Promise<CreateAuthorizerCommandOutput> => {
+export const nativeAPIGatewayCreateAuthorizer = (input: SdkIntegrationTask<CreateAuthorizerCommandInput>): Promise<CreateAuthorizerCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateAuthorizerCommand(input);
+    const command = new CreateAuthorizerCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createBasePathMapping'*/
-export const nativeAPIGatewayCreateBasePathMapping = (input: CreateBasePathMappingCommandInput): Promise<CreateBasePathMappingCommandOutput> => {
+export const nativeAPIGatewayCreateBasePathMapping = (input: SdkIntegrationTask<CreateBasePathMappingCommandInput>): Promise<CreateBasePathMappingCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateBasePathMappingCommand(input);
+    const command = new CreateBasePathMappingCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createDeployment'*/
-export const nativeAPIGatewayCreateDeployment = (input: CreateDeploymentCommandInput): Promise<CreateDeploymentCommandOutput> => {
+export const nativeAPIGatewayCreateDeployment = (input: SdkIntegrationTask<CreateDeploymentCommandInput>): Promise<CreateDeploymentCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateDeploymentCommand(input);
+    const command = new CreateDeploymentCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createDocumentationPart'*/
-export const nativeAPIGatewayCreateDocumentationPart = (input: CreateDocumentationPartCommandInput): Promise<CreateDocumentationPartCommandOutput> => {
+export const nativeAPIGatewayCreateDocumentationPart = (input: SdkIntegrationTask<CreateDocumentationPartCommandInput>): Promise<CreateDocumentationPartCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateDocumentationPartCommand(input);
+    const command = new CreateDocumentationPartCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createDocumentationVersion'*/
-export const nativeAPIGatewayCreateDocumentationVersion = (input: CreateDocumentationVersionCommandInput): Promise<CreateDocumentationVersionCommandOutput> => {
+export const nativeAPIGatewayCreateDocumentationVersion = (input: SdkIntegrationTask<CreateDocumentationVersionCommandInput>): Promise<CreateDocumentationVersionCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateDocumentationVersionCommand(input);
+    const command = new CreateDocumentationVersionCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createDomainName'*/
-export const nativeAPIGatewayCreateDomainName = (input: CreateDomainNameCommandInput): Promise<CreateDomainNameCommandOutput> => {
+export const nativeAPIGatewayCreateDomainName = (input: SdkIntegrationTask<CreateDomainNameCommandInput>): Promise<CreateDomainNameCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateDomainNameCommand(input);
+    const command = new CreateDomainNameCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createModel'*/
-export const nativeAPIGatewayCreateModel = (input: CreateModelCommandInput): Promise<CreateModelCommandOutput> => {
+export const nativeAPIGatewayCreateModel = (input: SdkIntegrationTask<CreateModelCommandInput>): Promise<CreateModelCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateModelCommand(input);
+    const command = new CreateModelCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createRequestValidator'*/
-export const nativeAPIGatewayCreateRequestValidator = (input: CreateRequestValidatorCommandInput): Promise<CreateRequestValidatorCommandOutput> => {
+export const nativeAPIGatewayCreateRequestValidator = (input: SdkIntegrationTask<CreateRequestValidatorCommandInput>): Promise<CreateRequestValidatorCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateRequestValidatorCommand(input);
+    const command = new CreateRequestValidatorCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createResource'*/
-export const nativeAPIGatewayCreateResource = (input: CreateResourceCommandInput): Promise<CreateResourceCommandOutput> => {
+export const nativeAPIGatewayCreateResource = (input: SdkIntegrationTask<CreateResourceCommandInput>): Promise<CreateResourceCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateResourceCommand(input);
+    const command = new CreateResourceCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createRestApi'*/
-export const nativeAPIGatewayCreateRestApi = (input: CreateRestApiCommandInput): Promise<CreateRestApiCommandOutput> => {
+export const nativeAPIGatewayCreateRestApi = (input: SdkIntegrationTask<CreateRestApiCommandInput>): Promise<CreateRestApiCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateRestApiCommand(input);
+    const command = new CreateRestApiCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createStage'*/
-export const nativeAPIGatewayCreateStage = (input: CreateStageCommandInput): Promise<CreateStageCommandOutput> => {
+export const nativeAPIGatewayCreateStage = (input: SdkIntegrationTask<CreateStageCommandInput>): Promise<CreateStageCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateStageCommand(input);
+    const command = new CreateStageCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createUsagePlan'*/
-export const nativeAPIGatewayCreateUsagePlan = (input: CreateUsagePlanCommandInput): Promise<CreateUsagePlanCommandOutput> => {
+export const nativeAPIGatewayCreateUsagePlan = (input: SdkIntegrationTask<CreateUsagePlanCommandInput>): Promise<CreateUsagePlanCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateUsagePlanCommand(input);
+    const command = new CreateUsagePlanCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createUsagePlanKey'*/
-export const nativeAPIGatewayCreateUsagePlanKey = (input: CreateUsagePlanKeyCommandInput): Promise<CreateUsagePlanKeyCommandOutput> => {
+export const nativeAPIGatewayCreateUsagePlanKey = (input: SdkIntegrationTask<CreateUsagePlanKeyCommandInput>): Promise<CreateUsagePlanKeyCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateUsagePlanKeyCommand(input);
+    const command = new CreateUsagePlanKeyCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createVpcLink'*/
-export const nativeAPIGatewayCreateVpcLink = (input: CreateVpcLinkCommandInput): Promise<CreateVpcLinkCommandOutput> => {
+export const nativeAPIGatewayCreateVpcLink = (input: SdkIntegrationTask<CreateVpcLinkCommandInput>): Promise<CreateVpcLinkCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new CreateVpcLinkCommand(input);
+    const command = new CreateVpcLinkCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteApiKey'*/
-export const nativeAPIGatewayDeleteApiKey = (input: DeleteApiKeyCommandInput): Promise<DeleteApiKeyCommandOutput> => {
+export const nativeAPIGatewayDeleteApiKey = (input: SdkIntegrationTask<DeleteApiKeyCommandInput>): Promise<DeleteApiKeyCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteApiKeyCommand(input);
+    const command = new DeleteApiKeyCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteAuthorizer'*/
-export const nativeAPIGatewayDeleteAuthorizer = (input: DeleteAuthorizerCommandInput): Promise<DeleteAuthorizerCommandOutput> => {
+export const nativeAPIGatewayDeleteAuthorizer = (input: SdkIntegrationTask<DeleteAuthorizerCommandInput>): Promise<DeleteAuthorizerCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteAuthorizerCommand(input);
+    const command = new DeleteAuthorizerCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteBasePathMapping'*/
-export const nativeAPIGatewayDeleteBasePathMapping = (input: DeleteBasePathMappingCommandInput): Promise<DeleteBasePathMappingCommandOutput> => {
+export const nativeAPIGatewayDeleteBasePathMapping = (input: SdkIntegrationTask<DeleteBasePathMappingCommandInput>): Promise<DeleteBasePathMappingCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteBasePathMappingCommand(input);
+    const command = new DeleteBasePathMappingCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteClientCertificate'*/
-export const nativeAPIGatewayDeleteClientCertificate = (input: DeleteClientCertificateCommandInput): Promise<DeleteClientCertificateCommandOutput> => {
+export const nativeAPIGatewayDeleteClientCertificate = (input: SdkIntegrationTask<DeleteClientCertificateCommandInput>): Promise<DeleteClientCertificateCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteClientCertificateCommand(input);
+    const command = new DeleteClientCertificateCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteDeployment'*/
-export const nativeAPIGatewayDeleteDeployment = (input: DeleteDeploymentCommandInput): Promise<DeleteDeploymentCommandOutput> => {
+export const nativeAPIGatewayDeleteDeployment = (input: SdkIntegrationTask<DeleteDeploymentCommandInput>): Promise<DeleteDeploymentCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteDeploymentCommand(input);
+    const command = new DeleteDeploymentCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteDocumentationPart'*/
-export const nativeAPIGatewayDeleteDocumentationPart = (input: DeleteDocumentationPartCommandInput): Promise<DeleteDocumentationPartCommandOutput> => {
+export const nativeAPIGatewayDeleteDocumentationPart = (input: SdkIntegrationTask<DeleteDocumentationPartCommandInput>): Promise<DeleteDocumentationPartCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteDocumentationPartCommand(input);
+    const command = new DeleteDocumentationPartCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteDocumentationVersion'*/
-export const nativeAPIGatewayDeleteDocumentationVersion = (input: DeleteDocumentationVersionCommandInput): Promise<DeleteDocumentationVersionCommandOutput> => {
+export const nativeAPIGatewayDeleteDocumentationVersion = (input: SdkIntegrationTask<DeleteDocumentationVersionCommandInput>): Promise<DeleteDocumentationVersionCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteDocumentationVersionCommand(input);
+    const command = new DeleteDocumentationVersionCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteDomainName'*/
-export const nativeAPIGatewayDeleteDomainName = (input: DeleteDomainNameCommandInput): Promise<DeleteDomainNameCommandOutput> => {
+export const nativeAPIGatewayDeleteDomainName = (input: SdkIntegrationTask<DeleteDomainNameCommandInput>): Promise<DeleteDomainNameCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteDomainNameCommand(input);
+    const command = new DeleteDomainNameCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteGatewayResponse'*/
-export const nativeAPIGatewayDeleteGatewayResponse = (input: DeleteGatewayResponseCommandInput): Promise<DeleteGatewayResponseCommandOutput> => {
+export const nativeAPIGatewayDeleteGatewayResponse = (input: SdkIntegrationTask<DeleteGatewayResponseCommandInput>): Promise<DeleteGatewayResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteGatewayResponseCommand(input);
+    const command = new DeleteGatewayResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteIntegration'*/
-export const nativeAPIGatewayDeleteIntegration = (input: DeleteIntegrationCommandInput): Promise<DeleteIntegrationCommandOutput> => {
+export const nativeAPIGatewayDeleteIntegration = (input: SdkIntegrationTask<DeleteIntegrationCommandInput>): Promise<DeleteIntegrationCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteIntegrationCommand(input);
+    const command = new DeleteIntegrationCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteIntegrationResponse'*/
-export const nativeAPIGatewayDeleteIntegrationResponse = (input: DeleteIntegrationResponseCommandInput): Promise<DeleteIntegrationResponseCommandOutput> => {
+export const nativeAPIGatewayDeleteIntegrationResponse = (input: SdkIntegrationTask<DeleteIntegrationResponseCommandInput>): Promise<DeleteIntegrationResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteIntegrationResponseCommand(input);
+    const command = new DeleteIntegrationResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteMethod'*/
-export const nativeAPIGatewayDeleteMethod = (input: DeleteMethodCommandInput): Promise<DeleteMethodCommandOutput> => {
+export const nativeAPIGatewayDeleteMethod = (input: SdkIntegrationTask<DeleteMethodCommandInput>): Promise<DeleteMethodCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteMethodCommand(input);
+    const command = new DeleteMethodCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteMethodResponse'*/
-export const nativeAPIGatewayDeleteMethodResponse = (input: DeleteMethodResponseCommandInput): Promise<DeleteMethodResponseCommandOutput> => {
+export const nativeAPIGatewayDeleteMethodResponse = (input: SdkIntegrationTask<DeleteMethodResponseCommandInput>): Promise<DeleteMethodResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteMethodResponseCommand(input);
+    const command = new DeleteMethodResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteModel'*/
-export const nativeAPIGatewayDeleteModel = (input: DeleteModelCommandInput): Promise<DeleteModelCommandOutput> => {
+export const nativeAPIGatewayDeleteModel = (input: SdkIntegrationTask<DeleteModelCommandInput>): Promise<DeleteModelCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteModelCommand(input);
+    const command = new DeleteModelCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteRequestValidator'*/
-export const nativeAPIGatewayDeleteRequestValidator = (input: DeleteRequestValidatorCommandInput): Promise<DeleteRequestValidatorCommandOutput> => {
+export const nativeAPIGatewayDeleteRequestValidator = (input: SdkIntegrationTask<DeleteRequestValidatorCommandInput>): Promise<DeleteRequestValidatorCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteRequestValidatorCommand(input);
+    const command = new DeleteRequestValidatorCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteResource'*/
-export const nativeAPIGatewayDeleteResource = (input: DeleteResourceCommandInput): Promise<DeleteResourceCommandOutput> => {
+export const nativeAPIGatewayDeleteResource = (input: SdkIntegrationTask<DeleteResourceCommandInput>): Promise<DeleteResourceCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteResourceCommand(input);
+    const command = new DeleteResourceCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteRestApi'*/
-export const nativeAPIGatewayDeleteRestApi = (input: DeleteRestApiCommandInput): Promise<DeleteRestApiCommandOutput> => {
+export const nativeAPIGatewayDeleteRestApi = (input: SdkIntegrationTask<DeleteRestApiCommandInput>): Promise<DeleteRestApiCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteRestApiCommand(input);
+    const command = new DeleteRestApiCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteStage'*/
-export const nativeAPIGatewayDeleteStage = (input: DeleteStageCommandInput): Promise<DeleteStageCommandOutput> => {
+export const nativeAPIGatewayDeleteStage = (input: SdkIntegrationTask<DeleteStageCommandInput>): Promise<DeleteStageCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteStageCommand(input);
+    const command = new DeleteStageCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteUsagePlan'*/
-export const nativeAPIGatewayDeleteUsagePlan = (input: DeleteUsagePlanCommandInput): Promise<DeleteUsagePlanCommandOutput> => {
+export const nativeAPIGatewayDeleteUsagePlan = (input: SdkIntegrationTask<DeleteUsagePlanCommandInput>): Promise<DeleteUsagePlanCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteUsagePlanCommand(input);
+    const command = new DeleteUsagePlanCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteUsagePlanKey'*/
-export const nativeAPIGatewayDeleteUsagePlanKey = (input: DeleteUsagePlanKeyCommandInput): Promise<DeleteUsagePlanKeyCommandOutput> => {
+export const nativeAPIGatewayDeleteUsagePlanKey = (input: SdkIntegrationTask<DeleteUsagePlanKeyCommandInput>): Promise<DeleteUsagePlanKeyCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteUsagePlanKeyCommand(input);
+    const command = new DeleteUsagePlanKeyCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:deleteVpcLink'*/
-export const nativeAPIGatewayDeleteVpcLink = (input: DeleteVpcLinkCommandInput): Promise<DeleteVpcLinkCommandOutput> => {
+export const nativeAPIGatewayDeleteVpcLink = (input: SdkIntegrationTask<DeleteVpcLinkCommandInput>): Promise<DeleteVpcLinkCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new DeleteVpcLinkCommand(input);
+    const command = new DeleteVpcLinkCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:flushStageAuthorizersCache'*/
-export const nativeAPIGatewayFlushStageAuthorizersCache = (input: FlushStageAuthorizersCacheCommandInput): Promise<FlushStageAuthorizersCacheCommandOutput> => {
+export const nativeAPIGatewayFlushStageAuthorizersCache = (input: SdkIntegrationTask<FlushStageAuthorizersCacheCommandInput>): Promise<FlushStageAuthorizersCacheCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new FlushStageAuthorizersCacheCommand(input);
+    const command = new FlushStageAuthorizersCacheCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:flushStageCache'*/
-export const nativeAPIGatewayFlushStageCache = (input: FlushStageCacheCommandInput): Promise<FlushStageCacheCommandOutput> => {
+export const nativeAPIGatewayFlushStageCache = (input: SdkIntegrationTask<FlushStageCacheCommandInput>): Promise<FlushStageCacheCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new FlushStageCacheCommand(input);
+    const command = new FlushStageCacheCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:generateClientCertificate'*/
-export const nativeAPIGatewayGenerateClientCertificate = (input: GenerateClientCertificateCommandInput): Promise<GenerateClientCertificateCommandOutput> => {
+export const nativeAPIGatewayGenerateClientCertificate = (input: SdkIntegrationTask<GenerateClientCertificateCommandInput>): Promise<GenerateClientCertificateCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GenerateClientCertificateCommand(input);
+    const command = new GenerateClientCertificateCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getAccount'*/
-export const nativeAPIGatewayGetAccount = (input: GetAccountCommandInput): Promise<GetAccountCommandOutput> => {
+export const nativeAPIGatewayGetAccount = (input: SdkIntegrationTask<GetAccountCommandInput>): Promise<GetAccountCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetAccountCommand(input);
+    const command = new GetAccountCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getApiKey'*/
-export const nativeAPIGatewayGetApiKey = (input: GetApiKeyCommandInput): Promise<GetApiKeyCommandOutput> => {
+export const nativeAPIGatewayGetApiKey = (input: SdkIntegrationTask<GetApiKeyCommandInput>): Promise<GetApiKeyCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetApiKeyCommand(input);
+    const command = new GetApiKeyCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getApiKeys'*/
-export const nativeAPIGatewayGetApiKeys = (input: GetApiKeysCommandInput): Promise<GetApiKeysCommandOutput> => {
+export const nativeAPIGatewayGetApiKeys = (input: SdkIntegrationTask<GetApiKeysCommandInput>): Promise<GetApiKeysCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetApiKeysCommand(input);
+    const command = new GetApiKeysCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getAuthorizer'*/
-export const nativeAPIGatewayGetAuthorizer = (input: GetAuthorizerCommandInput): Promise<GetAuthorizerCommandOutput> => {
+export const nativeAPIGatewayGetAuthorizer = (input: SdkIntegrationTask<GetAuthorizerCommandInput>): Promise<GetAuthorizerCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetAuthorizerCommand(input);
+    const command = new GetAuthorizerCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getAuthorizers'*/
-export const nativeAPIGatewayGetAuthorizers = (input: GetAuthorizersCommandInput): Promise<GetAuthorizersCommandOutput> => {
+export const nativeAPIGatewayGetAuthorizers = (input: SdkIntegrationTask<GetAuthorizersCommandInput>): Promise<GetAuthorizersCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetAuthorizersCommand(input);
+    const command = new GetAuthorizersCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getBasePathMapping'*/
-export const nativeAPIGatewayGetBasePathMapping = (input: GetBasePathMappingCommandInput): Promise<GetBasePathMappingCommandOutput> => {
+export const nativeAPIGatewayGetBasePathMapping = (input: SdkIntegrationTask<GetBasePathMappingCommandInput>): Promise<GetBasePathMappingCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetBasePathMappingCommand(input);
+    const command = new GetBasePathMappingCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getBasePathMappings'*/
-export const nativeAPIGatewayGetBasePathMappings = (input: GetBasePathMappingsCommandInput): Promise<GetBasePathMappingsCommandOutput> => {
+export const nativeAPIGatewayGetBasePathMappings = (input: SdkIntegrationTask<GetBasePathMappingsCommandInput>): Promise<GetBasePathMappingsCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetBasePathMappingsCommand(input);
+    const command = new GetBasePathMappingsCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getClientCertificate'*/
-export const nativeAPIGatewayGetClientCertificate = (input: GetClientCertificateCommandInput): Promise<GetClientCertificateCommandOutput> => {
+export const nativeAPIGatewayGetClientCertificate = (input: SdkIntegrationTask<GetClientCertificateCommandInput>): Promise<GetClientCertificateCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetClientCertificateCommand(input);
+    const command = new GetClientCertificateCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getClientCertificates'*/
-export const nativeAPIGatewayGetClientCertificates = (input: GetClientCertificatesCommandInput): Promise<GetClientCertificatesCommandOutput> => {
+export const nativeAPIGatewayGetClientCertificates = (input: SdkIntegrationTask<GetClientCertificatesCommandInput>): Promise<GetClientCertificatesCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetClientCertificatesCommand(input);
+    const command = new GetClientCertificatesCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getDeployment'*/
-export const nativeAPIGatewayGetDeployment = (input: GetDeploymentCommandInput): Promise<GetDeploymentCommandOutput> => {
+export const nativeAPIGatewayGetDeployment = (input: SdkIntegrationTask<GetDeploymentCommandInput>): Promise<GetDeploymentCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetDeploymentCommand(input);
+    const command = new GetDeploymentCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getDeployments'*/
-export const nativeAPIGatewayGetDeployments = (input: GetDeploymentsCommandInput): Promise<GetDeploymentsCommandOutput> => {
+export const nativeAPIGatewayGetDeployments = (input: SdkIntegrationTask<GetDeploymentsCommandInput>): Promise<GetDeploymentsCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetDeploymentsCommand(input);
+    const command = new GetDeploymentsCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getDocumentationPart'*/
-export const nativeAPIGatewayGetDocumentationPart = (input: GetDocumentationPartCommandInput): Promise<GetDocumentationPartCommandOutput> => {
+export const nativeAPIGatewayGetDocumentationPart = (input: SdkIntegrationTask<GetDocumentationPartCommandInput>): Promise<GetDocumentationPartCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetDocumentationPartCommand(input);
+    const command = new GetDocumentationPartCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getDocumentationParts'*/
-export const nativeAPIGatewayGetDocumentationParts = (input: GetDocumentationPartsCommandInput): Promise<GetDocumentationPartsCommandOutput> => {
+export const nativeAPIGatewayGetDocumentationParts = (input: SdkIntegrationTask<GetDocumentationPartsCommandInput>): Promise<GetDocumentationPartsCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetDocumentationPartsCommand(input);
+    const command = new GetDocumentationPartsCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getDocumentationVersion'*/
-export const nativeAPIGatewayGetDocumentationVersion = (input: GetDocumentationVersionCommandInput): Promise<GetDocumentationVersionCommandOutput> => {
+export const nativeAPIGatewayGetDocumentationVersion = (input: SdkIntegrationTask<GetDocumentationVersionCommandInput>): Promise<GetDocumentationVersionCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetDocumentationVersionCommand(input);
+    const command = new GetDocumentationVersionCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getDocumentationVersions'*/
-export const nativeAPIGatewayGetDocumentationVersions = (input: GetDocumentationVersionsCommandInput): Promise<GetDocumentationVersionsCommandOutput> => {
+export const nativeAPIGatewayGetDocumentationVersions = (input: SdkIntegrationTask<GetDocumentationVersionsCommandInput>): Promise<GetDocumentationVersionsCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetDocumentationVersionsCommand(input);
+    const command = new GetDocumentationVersionsCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getDomainName'*/
-export const nativeAPIGatewayGetDomainName = (input: GetDomainNameCommandInput): Promise<GetDomainNameCommandOutput> => {
+export const nativeAPIGatewayGetDomainName = (input: SdkIntegrationTask<GetDomainNameCommandInput>): Promise<GetDomainNameCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetDomainNameCommand(input);
+    const command = new GetDomainNameCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getDomainNames'*/
-export const nativeAPIGatewayGetDomainNames = (input: GetDomainNamesCommandInput): Promise<GetDomainNamesCommandOutput> => {
+export const nativeAPIGatewayGetDomainNames = (input: SdkIntegrationTask<GetDomainNamesCommandInput>): Promise<GetDomainNamesCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetDomainNamesCommand(input);
+    const command = new GetDomainNamesCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getExport'*/
-export const nativeAPIGatewayGetExport = (input: GetExportCommandInput): Promise<GetExportCommandOutput> => {
+export const nativeAPIGatewayGetExport = (input: SdkIntegrationTask<GetExportCommandInput>): Promise<GetExportCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetExportCommand(input);
+    const command = new GetExportCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getGatewayResponse'*/
-export const nativeAPIGatewayGetGatewayResponse = (input: GetGatewayResponseCommandInput): Promise<GetGatewayResponseCommandOutput> => {
+export const nativeAPIGatewayGetGatewayResponse = (input: SdkIntegrationTask<GetGatewayResponseCommandInput>): Promise<GetGatewayResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetGatewayResponseCommand(input);
+    const command = new GetGatewayResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getGatewayResponses'*/
-export const nativeAPIGatewayGetGatewayResponses = (input: GetGatewayResponsesCommandInput): Promise<GetGatewayResponsesCommandOutput> => {
+export const nativeAPIGatewayGetGatewayResponses = (input: SdkIntegrationTask<GetGatewayResponsesCommandInput>): Promise<GetGatewayResponsesCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetGatewayResponsesCommand(input);
+    const command = new GetGatewayResponsesCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getIntegration'*/
-export const nativeAPIGatewayGetIntegration = (input: GetIntegrationCommandInput): Promise<GetIntegrationCommandOutput> => {
+export const nativeAPIGatewayGetIntegration = (input: SdkIntegrationTask<GetIntegrationCommandInput>): Promise<GetIntegrationCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetIntegrationCommand(input);
+    const command = new GetIntegrationCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getIntegrationResponse'*/
-export const nativeAPIGatewayGetIntegrationResponse = (input: GetIntegrationResponseCommandInput): Promise<GetIntegrationResponseCommandOutput> => {
+export const nativeAPIGatewayGetIntegrationResponse = (input: SdkIntegrationTask<GetIntegrationResponseCommandInput>): Promise<GetIntegrationResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetIntegrationResponseCommand(input);
+    const command = new GetIntegrationResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getMethod'*/
-export const nativeAPIGatewayGetMethod = (input: GetMethodCommandInput): Promise<GetMethodCommandOutput> => {
+export const nativeAPIGatewayGetMethod = (input: SdkIntegrationTask<GetMethodCommandInput>): Promise<GetMethodCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetMethodCommand(input);
+    const command = new GetMethodCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getMethodResponse'*/
-export const nativeAPIGatewayGetMethodResponse = (input: GetMethodResponseCommandInput): Promise<GetMethodResponseCommandOutput> => {
+export const nativeAPIGatewayGetMethodResponse = (input: SdkIntegrationTask<GetMethodResponseCommandInput>): Promise<GetMethodResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetMethodResponseCommand(input);
+    const command = new GetMethodResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getModel'*/
-export const nativeAPIGatewayGetModel = (input: GetModelCommandInput): Promise<GetModelCommandOutput> => {
+export const nativeAPIGatewayGetModel = (input: SdkIntegrationTask<GetModelCommandInput>): Promise<GetModelCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetModelCommand(input);
+    const command = new GetModelCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getModelTemplate'*/
-export const nativeAPIGatewayGetModelTemplate = (input: GetModelTemplateCommandInput): Promise<GetModelTemplateCommandOutput> => {
+export const nativeAPIGatewayGetModelTemplate = (input: SdkIntegrationTask<GetModelTemplateCommandInput>): Promise<GetModelTemplateCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetModelTemplateCommand(input);
+    const command = new GetModelTemplateCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getModels'*/
-export const nativeAPIGatewayGetModels = (input: GetModelsCommandInput): Promise<GetModelsCommandOutput> => {
+export const nativeAPIGatewayGetModels = (input: SdkIntegrationTask<GetModelsCommandInput>): Promise<GetModelsCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetModelsCommand(input);
+    const command = new GetModelsCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getRequestValidator'*/
-export const nativeAPIGatewayGetRequestValidator = (input: GetRequestValidatorCommandInput): Promise<GetRequestValidatorCommandOutput> => {
+export const nativeAPIGatewayGetRequestValidator = (input: SdkIntegrationTask<GetRequestValidatorCommandInput>): Promise<GetRequestValidatorCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetRequestValidatorCommand(input);
+    const command = new GetRequestValidatorCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getRequestValidators'*/
-export const nativeAPIGatewayGetRequestValidators = (input: GetRequestValidatorsCommandInput): Promise<GetRequestValidatorsCommandOutput> => {
+export const nativeAPIGatewayGetRequestValidators = (input: SdkIntegrationTask<GetRequestValidatorsCommandInput>): Promise<GetRequestValidatorsCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetRequestValidatorsCommand(input);
+    const command = new GetRequestValidatorsCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getResource'*/
-export const nativeAPIGatewayGetResource = (input: GetResourceCommandInput): Promise<GetResourceCommandOutput> => {
+export const nativeAPIGatewayGetResource = (input: SdkIntegrationTask<GetResourceCommandInput>): Promise<GetResourceCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetResourceCommand(input);
+    const command = new GetResourceCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getResources'*/
-export const nativeAPIGatewayGetResources = (input: GetResourcesCommandInput): Promise<GetResourcesCommandOutput> => {
+export const nativeAPIGatewayGetResources = (input: SdkIntegrationTask<GetResourcesCommandInput>): Promise<GetResourcesCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetResourcesCommand(input);
+    const command = new GetResourcesCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getRestApi'*/
-export const nativeAPIGatewayGetRestApi = (input: GetRestApiCommandInput): Promise<GetRestApiCommandOutput> => {
+export const nativeAPIGatewayGetRestApi = (input: SdkIntegrationTask<GetRestApiCommandInput>): Promise<GetRestApiCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetRestApiCommand(input);
+    const command = new GetRestApiCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getRestApis'*/
-export const nativeAPIGatewayGetRestApis = (input: GetRestApisCommandInput): Promise<GetRestApisCommandOutput> => {
+export const nativeAPIGatewayGetRestApis = (input: SdkIntegrationTask<GetRestApisCommandInput>): Promise<GetRestApisCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetRestApisCommand(input);
+    const command = new GetRestApisCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getSdk'*/
-export const nativeAPIGatewayGetSdk = (input: GetSdkCommandInput): Promise<GetSdkCommandOutput> => {
+export const nativeAPIGatewayGetSdk = (input: SdkIntegrationTask<GetSdkCommandInput>): Promise<GetSdkCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetSdkCommand(input);
+    const command = new GetSdkCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getSdkType'*/
-export const nativeAPIGatewayGetSdkType = (input: GetSdkTypeCommandInput): Promise<GetSdkTypeCommandOutput> => {
+export const nativeAPIGatewayGetSdkType = (input: SdkIntegrationTask<GetSdkTypeCommandInput>): Promise<GetSdkTypeCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetSdkTypeCommand(input);
+    const command = new GetSdkTypeCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getSdkTypes'*/
-export const nativeAPIGatewayGetSdkTypes = (input: GetSdkTypesCommandInput): Promise<GetSdkTypesCommandOutput> => {
+export const nativeAPIGatewayGetSdkTypes = (input: SdkIntegrationTask<GetSdkTypesCommandInput>): Promise<GetSdkTypesCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetSdkTypesCommand(input);
+    const command = new GetSdkTypesCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getStage'*/
-export const nativeAPIGatewayGetStage = (input: GetStageCommandInput): Promise<GetStageCommandOutput> => {
+export const nativeAPIGatewayGetStage = (input: SdkIntegrationTask<GetStageCommandInput>): Promise<GetStageCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetStageCommand(input);
+    const command = new GetStageCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getStages'*/
-export const nativeAPIGatewayGetStages = (input: GetStagesCommandInput): Promise<GetStagesCommandOutput> => {
+export const nativeAPIGatewayGetStages = (input: SdkIntegrationTask<GetStagesCommandInput>): Promise<GetStagesCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetStagesCommand(input);
+    const command = new GetStagesCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getTags'*/
-export const nativeAPIGatewayGetTags = (input: GetTagsCommandInput): Promise<GetTagsCommandOutput> => {
+export const nativeAPIGatewayGetTags = (input: SdkIntegrationTask<GetTagsCommandInput>): Promise<GetTagsCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetTagsCommand(input);
+    const command = new GetTagsCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getUsage'*/
-export const nativeAPIGatewayGetUsage = (input: GetUsageCommandInput): Promise<GetUsageCommandOutput> => {
+export const nativeAPIGatewayGetUsage = (input: SdkIntegrationTask<GetUsageCommandInput>): Promise<GetUsageCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetUsageCommand(input);
+    const command = new GetUsageCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getUsagePlan'*/
-export const nativeAPIGatewayGetUsagePlan = (input: GetUsagePlanCommandInput): Promise<GetUsagePlanCommandOutput> => {
+export const nativeAPIGatewayGetUsagePlan = (input: SdkIntegrationTask<GetUsagePlanCommandInput>): Promise<GetUsagePlanCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetUsagePlanCommand(input);
+    const command = new GetUsagePlanCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getUsagePlanKey'*/
-export const nativeAPIGatewayGetUsagePlanKey = (input: GetUsagePlanKeyCommandInput): Promise<GetUsagePlanKeyCommandOutput> => {
+export const nativeAPIGatewayGetUsagePlanKey = (input: SdkIntegrationTask<GetUsagePlanKeyCommandInput>): Promise<GetUsagePlanKeyCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetUsagePlanKeyCommand(input);
+    const command = new GetUsagePlanKeyCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getUsagePlanKeys'*/
-export const nativeAPIGatewayGetUsagePlanKeys = (input: GetUsagePlanKeysCommandInput): Promise<GetUsagePlanKeysCommandOutput> => {
+export const nativeAPIGatewayGetUsagePlanKeys = (input: SdkIntegrationTask<GetUsagePlanKeysCommandInput>): Promise<GetUsagePlanKeysCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetUsagePlanKeysCommand(input);
+    const command = new GetUsagePlanKeysCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getUsagePlans'*/
-export const nativeAPIGatewayGetUsagePlans = (input: GetUsagePlansCommandInput): Promise<GetUsagePlansCommandOutput> => {
+export const nativeAPIGatewayGetUsagePlans = (input: SdkIntegrationTask<GetUsagePlansCommandInput>): Promise<GetUsagePlansCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetUsagePlansCommand(input);
+    const command = new GetUsagePlansCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getVpcLink'*/
-export const nativeAPIGatewayGetVpcLink = (input: GetVpcLinkCommandInput): Promise<GetVpcLinkCommandOutput> => {
+export const nativeAPIGatewayGetVpcLink = (input: SdkIntegrationTask<GetVpcLinkCommandInput>): Promise<GetVpcLinkCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetVpcLinkCommand(input);
+    const command = new GetVpcLinkCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:getVpcLinks'*/
-export const nativeAPIGatewayGetVpcLinks = (input: GetVpcLinksCommandInput): Promise<GetVpcLinksCommandOutput> => {
+export const nativeAPIGatewayGetVpcLinks = (input: SdkIntegrationTask<GetVpcLinksCommandInput>): Promise<GetVpcLinksCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new GetVpcLinksCommand(input);
+    const command = new GetVpcLinksCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:importApiKeys'*/
-export const nativeAPIGatewayImportApiKeys = (input: ImportApiKeysCommandInput): Promise<ImportApiKeysCommandOutput> => {
+export const nativeAPIGatewayImportApiKeys = (input: SdkIntegrationTask<ImportApiKeysCommandInput>): Promise<ImportApiKeysCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new ImportApiKeysCommand(input);
+    const command = new ImportApiKeysCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:importDocumentationParts'*/
-export const nativeAPIGatewayImportDocumentationParts = (input: ImportDocumentationPartsCommandInput): Promise<ImportDocumentationPartsCommandOutput> => {
+export const nativeAPIGatewayImportDocumentationParts = (input: SdkIntegrationTask<ImportDocumentationPartsCommandInput>): Promise<ImportDocumentationPartsCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new ImportDocumentationPartsCommand(input);
+    const command = new ImportDocumentationPartsCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:importRestApi'*/
-export const nativeAPIGatewayImportRestApi = (input: ImportRestApiCommandInput): Promise<ImportRestApiCommandOutput> => {
+export const nativeAPIGatewayImportRestApi = (input: SdkIntegrationTask<ImportRestApiCommandInput>): Promise<ImportRestApiCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new ImportRestApiCommand(input);
+    const command = new ImportRestApiCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:putGatewayResponse'*/
-export const nativeAPIGatewayPutGatewayResponse = (input: PutGatewayResponseCommandInput): Promise<PutGatewayResponseCommandOutput> => {
+export const nativeAPIGatewayPutGatewayResponse = (input: SdkIntegrationTask<PutGatewayResponseCommandInput>): Promise<PutGatewayResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new PutGatewayResponseCommand(input);
+    const command = new PutGatewayResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:putIntegration'*/
-export const nativeAPIGatewayPutIntegration = (input: PutIntegrationCommandInput): Promise<PutIntegrationCommandOutput> => {
+export const nativeAPIGatewayPutIntegration = (input: SdkIntegrationTask<PutIntegrationCommandInput>): Promise<PutIntegrationCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new PutIntegrationCommand(input);
+    const command = new PutIntegrationCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:putIntegrationResponse'*/
-export const nativeAPIGatewayPutIntegrationResponse = (input: PutIntegrationResponseCommandInput): Promise<PutIntegrationResponseCommandOutput> => {
+export const nativeAPIGatewayPutIntegrationResponse = (input: SdkIntegrationTask<PutIntegrationResponseCommandInput>): Promise<PutIntegrationResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new PutIntegrationResponseCommand(input);
+    const command = new PutIntegrationResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:putMethod'*/
-export const nativeAPIGatewayPutMethod = (input: PutMethodCommandInput): Promise<PutMethodCommandOutput> => {
+export const nativeAPIGatewayPutMethod = (input: SdkIntegrationTask<PutMethodCommandInput>): Promise<PutMethodCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new PutMethodCommand(input);
+    const command = new PutMethodCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:putMethodResponse'*/
-export const nativeAPIGatewayPutMethodResponse = (input: PutMethodResponseCommandInput): Promise<PutMethodResponseCommandOutput> => {
+export const nativeAPIGatewayPutMethodResponse = (input: SdkIntegrationTask<PutMethodResponseCommandInput>): Promise<PutMethodResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new PutMethodResponseCommand(input);
+    const command = new PutMethodResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:putRestApi'*/
-export const nativeAPIGatewayPutRestApi = (input: PutRestApiCommandInput): Promise<PutRestApiCommandOutput> => {
+export const nativeAPIGatewayPutRestApi = (input: SdkIntegrationTask<PutRestApiCommandInput>): Promise<PutRestApiCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new PutRestApiCommand(input);
+    const command = new PutRestApiCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:tagResource'*/
-export const nativeAPIGatewayTagResource = (input: TagResourceCommandInput): Promise<TagResourceCommandOutput> => {
+export const nativeAPIGatewayTagResource = (input: SdkIntegrationTask<TagResourceCommandInput>): Promise<TagResourceCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new TagResourceCommand(input);
+    const command = new TagResourceCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:testInvokeAuthorizer'*/
-export const nativeAPIGatewayTestInvokeAuthorizer = (input: TestInvokeAuthorizerCommandInput): Promise<TestInvokeAuthorizerCommandOutput> => {
+export const nativeAPIGatewayTestInvokeAuthorizer = (input: SdkIntegrationTask<TestInvokeAuthorizerCommandInput>): Promise<TestInvokeAuthorizerCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new TestInvokeAuthorizerCommand(input);
+    const command = new TestInvokeAuthorizerCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:testInvokeMethod'*/
-export const nativeAPIGatewayTestInvokeMethod = (input: TestInvokeMethodCommandInput): Promise<TestInvokeMethodCommandOutput> => {
+export const nativeAPIGatewayTestInvokeMethod = (input: SdkIntegrationTask<TestInvokeMethodCommandInput>): Promise<TestInvokeMethodCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new TestInvokeMethodCommand(input);
+    const command = new TestInvokeMethodCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:untagResource'*/
-export const nativeAPIGatewayUntagResource = (input: UntagResourceCommandInput): Promise<UntagResourceCommandOutput> => {
+export const nativeAPIGatewayUntagResource = (input: SdkIntegrationTask<UntagResourceCommandInput>): Promise<UntagResourceCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UntagResourceCommand(input);
+    const command = new UntagResourceCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateAccount'*/
-export const nativeAPIGatewayUpdateAccount = (input: UpdateAccountCommandInput): Promise<UpdateAccountCommandOutput> => {
+export const nativeAPIGatewayUpdateAccount = (input: SdkIntegrationTask<UpdateAccountCommandInput>): Promise<UpdateAccountCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateAccountCommand(input);
+    const command = new UpdateAccountCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateApiKey'*/
-export const nativeAPIGatewayUpdateApiKey = (input: UpdateApiKeyCommandInput): Promise<UpdateApiKeyCommandOutput> => {
+export const nativeAPIGatewayUpdateApiKey = (input: SdkIntegrationTask<UpdateApiKeyCommandInput>): Promise<UpdateApiKeyCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateApiKeyCommand(input);
+    const command = new UpdateApiKeyCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateAuthorizer'*/
-export const nativeAPIGatewayUpdateAuthorizer = (input: UpdateAuthorizerCommandInput): Promise<UpdateAuthorizerCommandOutput> => {
+export const nativeAPIGatewayUpdateAuthorizer = (input: SdkIntegrationTask<UpdateAuthorizerCommandInput>): Promise<UpdateAuthorizerCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateAuthorizerCommand(input);
+    const command = new UpdateAuthorizerCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateBasePathMapping'*/
-export const nativeAPIGatewayUpdateBasePathMapping = (input: UpdateBasePathMappingCommandInput): Promise<UpdateBasePathMappingCommandOutput> => {
+export const nativeAPIGatewayUpdateBasePathMapping = (input: SdkIntegrationTask<UpdateBasePathMappingCommandInput>): Promise<UpdateBasePathMappingCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateBasePathMappingCommand(input);
+    const command = new UpdateBasePathMappingCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateClientCertificate'*/
-export const nativeAPIGatewayUpdateClientCertificate = (input: UpdateClientCertificateCommandInput): Promise<UpdateClientCertificateCommandOutput> => {
+export const nativeAPIGatewayUpdateClientCertificate = (input: SdkIntegrationTask<UpdateClientCertificateCommandInput>): Promise<UpdateClientCertificateCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateClientCertificateCommand(input);
+    const command = new UpdateClientCertificateCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateDeployment'*/
-export const nativeAPIGatewayUpdateDeployment = (input: UpdateDeploymentCommandInput): Promise<UpdateDeploymentCommandOutput> => {
+export const nativeAPIGatewayUpdateDeployment = (input: SdkIntegrationTask<UpdateDeploymentCommandInput>): Promise<UpdateDeploymentCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateDeploymentCommand(input);
+    const command = new UpdateDeploymentCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateDocumentationPart'*/
-export const nativeAPIGatewayUpdateDocumentationPart = (input: UpdateDocumentationPartCommandInput): Promise<UpdateDocumentationPartCommandOutput> => {
+export const nativeAPIGatewayUpdateDocumentationPart = (input: SdkIntegrationTask<UpdateDocumentationPartCommandInput>): Promise<UpdateDocumentationPartCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateDocumentationPartCommand(input);
+    const command = new UpdateDocumentationPartCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateDocumentationVersion'*/
-export const nativeAPIGatewayUpdateDocumentationVersion = (input: UpdateDocumentationVersionCommandInput): Promise<UpdateDocumentationVersionCommandOutput> => {
+export const nativeAPIGatewayUpdateDocumentationVersion = (input: SdkIntegrationTask<UpdateDocumentationVersionCommandInput>): Promise<UpdateDocumentationVersionCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateDocumentationVersionCommand(input);
+    const command = new UpdateDocumentationVersionCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateDomainName'*/
-export const nativeAPIGatewayUpdateDomainName = (input: UpdateDomainNameCommandInput): Promise<UpdateDomainNameCommandOutput> => {
+export const nativeAPIGatewayUpdateDomainName = (input: SdkIntegrationTask<UpdateDomainNameCommandInput>): Promise<UpdateDomainNameCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateDomainNameCommand(input);
+    const command = new UpdateDomainNameCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateGatewayResponse'*/
-export const nativeAPIGatewayUpdateGatewayResponse = (input: UpdateGatewayResponseCommandInput): Promise<UpdateGatewayResponseCommandOutput> => {
+export const nativeAPIGatewayUpdateGatewayResponse = (input: SdkIntegrationTask<UpdateGatewayResponseCommandInput>): Promise<UpdateGatewayResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateGatewayResponseCommand(input);
+    const command = new UpdateGatewayResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateIntegration'*/
-export const nativeAPIGatewayUpdateIntegration = (input: UpdateIntegrationCommandInput): Promise<UpdateIntegrationCommandOutput> => {
+export const nativeAPIGatewayUpdateIntegration = (input: SdkIntegrationTask<UpdateIntegrationCommandInput>): Promise<UpdateIntegrationCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateIntegrationCommand(input);
+    const command = new UpdateIntegrationCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateIntegrationResponse'*/
-export const nativeAPIGatewayUpdateIntegrationResponse = (input: UpdateIntegrationResponseCommandInput): Promise<UpdateIntegrationResponseCommandOutput> => {
+export const nativeAPIGatewayUpdateIntegrationResponse = (input: SdkIntegrationTask<UpdateIntegrationResponseCommandInput>): Promise<UpdateIntegrationResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateIntegrationResponseCommand(input);
+    const command = new UpdateIntegrationResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateMethod'*/
-export const nativeAPIGatewayUpdateMethod = (input: UpdateMethodCommandInput): Promise<UpdateMethodCommandOutput> => {
+export const nativeAPIGatewayUpdateMethod = (input: SdkIntegrationTask<UpdateMethodCommandInput>): Promise<UpdateMethodCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateMethodCommand(input);
+    const command = new UpdateMethodCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateMethodResponse'*/
-export const nativeAPIGatewayUpdateMethodResponse = (input: UpdateMethodResponseCommandInput): Promise<UpdateMethodResponseCommandOutput> => {
+export const nativeAPIGatewayUpdateMethodResponse = (input: SdkIntegrationTask<UpdateMethodResponseCommandInput>): Promise<UpdateMethodResponseCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateMethodResponseCommand(input);
+    const command = new UpdateMethodResponseCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateModel'*/
-export const nativeAPIGatewayUpdateModel = (input: UpdateModelCommandInput): Promise<UpdateModelCommandOutput> => {
+export const nativeAPIGatewayUpdateModel = (input: SdkIntegrationTask<UpdateModelCommandInput>): Promise<UpdateModelCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateModelCommand(input);
+    const command = new UpdateModelCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateRequestValidator'*/
-export const nativeAPIGatewayUpdateRequestValidator = (input: UpdateRequestValidatorCommandInput): Promise<UpdateRequestValidatorCommandOutput> => {
+export const nativeAPIGatewayUpdateRequestValidator = (input: SdkIntegrationTask<UpdateRequestValidatorCommandInput>): Promise<UpdateRequestValidatorCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateRequestValidatorCommand(input);
+    const command = new UpdateRequestValidatorCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateResource'*/
-export const nativeAPIGatewayUpdateResource = (input: UpdateResourceCommandInput): Promise<UpdateResourceCommandOutput> => {
+export const nativeAPIGatewayUpdateResource = (input: SdkIntegrationTask<UpdateResourceCommandInput>): Promise<UpdateResourceCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateResourceCommand(input);
+    const command = new UpdateResourceCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateRestApi'*/
-export const nativeAPIGatewayUpdateRestApi = (input: UpdateRestApiCommandInput): Promise<UpdateRestApiCommandOutput> => {
+export const nativeAPIGatewayUpdateRestApi = (input: SdkIntegrationTask<UpdateRestApiCommandInput>): Promise<UpdateRestApiCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateRestApiCommand(input);
+    const command = new UpdateRestApiCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateStage'*/
-export const nativeAPIGatewayUpdateStage = (input: UpdateStageCommandInput): Promise<UpdateStageCommandOutput> => {
+export const nativeAPIGatewayUpdateStage = (input: SdkIntegrationTask<UpdateStageCommandInput>): Promise<UpdateStageCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateStageCommand(input);
+    const command = new UpdateStageCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateUsage'*/
-export const nativeAPIGatewayUpdateUsage = (input: UpdateUsageCommandInput): Promise<UpdateUsageCommandOutput> => {
+export const nativeAPIGatewayUpdateUsage = (input: SdkIntegrationTask<UpdateUsageCommandInput>): Promise<UpdateUsageCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateUsageCommand(input);
+    const command = new UpdateUsageCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateUsagePlan'*/
-export const nativeAPIGatewayUpdateUsagePlan = (input: UpdateUsagePlanCommandInput): Promise<UpdateUsagePlanCommandOutput> => {
+export const nativeAPIGatewayUpdateUsagePlan = (input: SdkIntegrationTask<UpdateUsagePlanCommandInput>): Promise<UpdateUsagePlanCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateUsagePlanCommand(input);
+    const command = new UpdateUsagePlanCommand(input.parameters);
     return apigateway.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:updateVpcLink'*/
-export const nativeAPIGatewayUpdateVpcLink = (input: UpdateVpcLinkCommandInput): Promise<UpdateVpcLinkCommandOutput> => {
+export const nativeAPIGatewayUpdateVpcLink = (input: SdkIntegrationTask<UpdateVpcLinkCommandInput>): Promise<UpdateVpcLinkCommandOutput> => {
     const apigateway = new APIGatewayClient({});
-    const command = new UpdateVpcLinkCommand(input);
+    const command = new UpdateVpcLinkCommand(input.parameters);
     return apigateway.send(command);
 };
 

@@ -17,7 +17,7 @@ describe("when transpiling function", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
+          "2: Assign result": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "States.StringToJson('0')",
@@ -25,7 +25,7 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "Assign Result",
+            "Next": "2: Assign result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -50,7 +50,7 @@ describe("when transpiling function", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
+          "2: Assign result": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "States.StringToJson('s')",
@@ -58,7 +58,7 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "Assign Result",
+            "Next": "2: Assign result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -86,7 +86,7 @@ describe("when transpiling function", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
+          "2: Assign result": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "States.JsonToString({
@@ -97,7 +97,7 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "Assign Result",
+            "Next": "2: Assign result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

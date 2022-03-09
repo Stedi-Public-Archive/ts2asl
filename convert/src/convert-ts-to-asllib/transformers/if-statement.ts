@@ -15,7 +15,7 @@ export const ifStatementTransformer = <T extends ts.Node>(context: ts.Transforma
       const then = TransformUtil.createNamedBlock("then", convertToBlock(node.thenStatement));
       const else_ = TransformUtil.createNamedBlock("else", node.elseStatement ? convertToBlock(node.elseStatement) : undefined);
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createName("If (%s)", node.expression);
+      const name = TransformUtil.createNamePropertyAssignment(node, "If (%s)", node.expression);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, condition, then, else_, comment]) {

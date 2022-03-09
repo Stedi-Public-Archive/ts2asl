@@ -47,6 +47,7 @@ describe("when converting jsonpath", () => {
               "identifier": "items",
               "type": "unknown",
             },
+            "stateName": "3: Assign items",
           },
         ],
       }
@@ -83,6 +84,7 @@ describe("when converting jsonpath", () => {
               "identifier": "items",
               "type": "unknown",
             },
+            "stateName": "3: Assign items",
           },
         ],
       }
@@ -115,6 +117,7 @@ describe("when converting jsonpath", () => {
               "identifier": "items",
               "type": "unknown",
             },
+            "stateName": "3: Assign items",
           },
         ],
       }

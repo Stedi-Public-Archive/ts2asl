@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign Numbers"
+      "Next": "4: Assign numbers"
     },
-    "Assign Numbers": {
+    "4: Assign numbers": {
       "Type": "Pass",
       "ResultPath": "$.vars.numbers",
       "Result": [
@@ -19,9 +19,9 @@
         3
       ],
       "Comment": "source: numbers = [0, 1, 2, 3]",
-      "Next": "Assign Letters"
+      "Next": "5: Assign letters"
     },
-    "Assign Letters": {
+    "5: Assign letters": {
       "Type": "Pass",
       "ResultPath": "$.vars.letters",
       "Result": [
@@ -31,16 +31,16 @@
         "d"
       ],
       "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
-      "Next": "Assign Global"
+      "Next": "6: Assign global"
     },
-    "Assign Global": {
+    "6: Assign global": {
       "Type": "Pass",
       "ResultPath": "$.vars.global",
       "Result": "prefix",
       "Comment": "source: global = \"prefix\"",
-      "Next": "Assign Outer"
+      "Next": "7: Assign outer"
     },
-    "Assign Outer": {
+    "7: Assign outer": {
       "Type": "Pass",
       "ResultPath": "$.vars.outer",
       "Result": {
@@ -49,21 +49,21 @@
         }
       },
       "Comment": "source: outer = { middle: { inner: 3 } }",
-      "Next": "For number Of numbers"
+      "Next": "8: For number Of numbers"
     },
-    "For number Of numbers": {
+    "8: For number Of numbers": {
       "Type": "Map",
       "ResultPath": "$.lastResult",
       "Iterator": {
-        "StartAt": "For letter Of letters",
+        "StartAt": "9: For letter Of letters",
         "States": {
-          "For letter Of letters": {
+          "9: For letter Of letters": {
             "Type": "Map",
             "ResultPath": "$.lastResult",
             "Iterator": {
-              "StartAt": "Assign Combined",
+              "StartAt": "10: Assign combined",
               "States": {
-                "Assign Combined": {
+                "10: Assign combined": {
                   "Type": "Pass",
                   "ResultPath": "$.vars.combined",
                   "Parameters": {
@@ -73,9 +73,9 @@
                     "inner.$": "$.vars.outer.middle.inner"
                   },
                   "Comment": "source: combined = { number, letter, global, inner: ou ...",
-                  "Next": "doSomething(combined)"
+                  "Next": "11: doSomething(combined)"
                 },
-                "doSomething(combined)": {
+                "11: doSomething(combined)": {
                   "Type": "Task",
                   "Resource": "typescript:doSomething",
                   "InputPath": "$.vars.combined",

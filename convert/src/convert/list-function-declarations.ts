@@ -9,7 +9,7 @@ export interface FunctionDeclaration {
   kind: "asl" | "lambda";
 }
 
-export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
+export const listFunctionDeclarations = (sourceFile: ts.SourceFile, typeChecker: ts.TypeChecker) => {
   const result: FunctionDeclaration[] = [];
   ts.forEachChild(sourceFile, node => {
     if (ts.isVariableStatement(node)) {
@@ -39,6 +39,22 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile) => {
             if (parameter2) {
               if (!ts.isIdentifier(parameter2.name)) throw new Error(`Parameter name of ASL decl ${name} must be identifier`);
               contextArgName = parameter2.name.text;
+            }
+          } else if (kind === "lambda") {
+            const arg = AslDeclaration.argument;
+            const type = typeChecker.getTypeAtLocation(arg);
+            if (type !== undefined) {
+              const signatures = type.getCallSignatures();
+              if (signatures.length === 0) throw new Error(`Lambda declaration must be callable`);
+              for (const signature of signatures) {
+                const parameters = signature.getParameters();
+                if (parameters.length > 1) throw new Error(`Lambda declaration must be callable with 0 or 1 argument`);
+                if (parameters.length === 1) {
+                  //TODO: analysis of argument
+                }
+              }
+              const parameters = signatures.filter(x => x.getParameters().length > 1);
+              if (parameters.length > 0) throw new Error(`Lambda declaration must be callable with 0 or 1 argument`);
             }
           }
           result.push({
@@ -81,4 +97,8 @@ export const aslStyleCallExpression = (source: ts.SourceFile, expression: ts.Nod
     }
   }
   return undefined;
+}
+
+function hasFlag(type: ts.Type, flag: ts.TypeFlags) {
+  return (type.flags & flag) === flag;
 }

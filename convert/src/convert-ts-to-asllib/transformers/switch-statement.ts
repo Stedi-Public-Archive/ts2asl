@@ -33,7 +33,7 @@ export const switchStatementTransformer = <T extends ts.Node>(context: ts.Transf
       })
       const choices = TransformUtil.createArrayOfObjects("choices", choices_)
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createName("Switch (%s)", node.expression);
+      const name = TransformUtil.createNamePropertyAssignment(node, "Switch (%s)", node.expression);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, choices, default_, comment]) {

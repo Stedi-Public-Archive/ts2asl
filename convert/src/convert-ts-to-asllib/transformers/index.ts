@@ -4,7 +4,6 @@ import { forOfStatementTransformer } from "./for-of-statement";
 import { ifStatementTransformer } from "./if-statement";
 import { promiseAllStatementTransformer } from "./promise-all-statement";
 import { removeUnnecessaryExpressionsTransformer } from "./remove-unneccesary-expressionts";
-import { returnStatementTransformer } from "./return-statement";
 import { switchStatementTransformer } from "./switch-statement";
 import { throwStatementTransformer } from "./throw-statement";
 import { tryStatementTransformer } from "./try-statement";
@@ -20,7 +19,6 @@ export const transformers = [
   removeUnnecessaryExpressionsTransformer,
   unsupportedStatementTransformer,
   ifStatementTransformer,
-  returnStatementTransformer,
   arrayFilterTransformer,
   arrayMapTransformer,
   arrayLengthTransformer,

@@ -20,13 +20,13 @@ export const callStatementTransformer = <T extends ts.Node>(context: ts.Transfor
         if (!isLiteralOrIdentifier(node.arguments[0])) throw new ParserError(`call expression must have argument that is identifier or property access expression`, node);
       }
 
-      const target = TransformUtil.createIdentifier("target", node.expression);
+      const resource = TransformUtil.createIdentifier("resource", node.expression);
       const parameters = TransformUtil.createWrappedExpression("parameters", node.arguments.length === 1 ? node.arguments[0] : undefined);
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createName("%s", node);
+      const name = TransformUtil.createNamePropertyAssignment(node, "%s", node);
 
       const assignments: ts.PropertyAssignment[] = []
-      for (const assignment of [name, target, parameters, comment]) {
+      for (const assignment of [name, resource, parameters, comment]) {
         if (assignment) {
           assignments.push(assignment);
         }

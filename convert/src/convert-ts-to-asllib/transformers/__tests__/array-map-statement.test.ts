@@ -11,7 +11,7 @@ describe("when converting array map statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "const x = asl.map({
-          name: \\"For x Of items.map\\",
+          name: \\"2: For x Of items.map\\",
           items: () => items,
           iterator: x => { return \\"something\\"; },
           comment: \\"items.map(x => return \\\\\\"something\\\\\\";)\\"
@@ -27,7 +27,7 @@ describe("when converting array map statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "const x = asl.map({
-          name: \\"For x Of items.map\\",
+          name: \\"2: For x Of items.map\\",
           items: () => items,
           iterator: x => { console.log(x); return asl.states.format(\\"something {}\\", x); },
           comment: \\"items.map(x => { console.log(x); return asl.states.format(\\\\\\"something {}\\\\\\", x); })\\"
@@ -42,7 +42,7 @@ describe("when converting array map statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "const x = asl.map({
-          name: \\"For x Of items.map\\",
+          name: \\"2: For x Of items.map\\",
           items: () => items,
           iterator: x => { return ({ x: x, num: 32 }); },
           comment: \\"items.map(x => ({x: x, num: 32}))\\"

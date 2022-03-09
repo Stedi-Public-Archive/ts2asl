@@ -15,7 +15,7 @@ describe("when converting variables", () => {
 
       export const main = asl.deploy.asStateMachine(async (input: IInput, context: StateMachineContext<IInput>) =>{
           asl.typescriptIf({
-              name: \\"If (typeof input.name !== ...\\",
+              name: \\"6: If (typeof input.name !== ...\\",
               condition: () => typeof input.name !== \\"string\\",
               then: async () => {
                   input.name = \\"fred\\";
@@ -23,6 +23,7 @@ describe("when converting variables", () => {
               comment: \\"if (typeof input.name !== \\\\\\"string\\\\\\") {\\\\n    input.name = \\\\\\"fred\\\\\\";\\\\n  }\\"
           })
           const x = asl.pass({
+              name: \\"11: Assign x\\",
               parameters: () => ({
                   name: input.name,
                   executionId: context.execution.id
@@ -30,6 +31,7 @@ describe("when converting variables", () => {
               comment: \\"x = {\\\\n    name: input.name,\\\\n    executionId: context.execution.id\\\\n  }\\"
           });
           const y = asl.pass({
+              name: \\"16: Assign y\\",
               parameters: () => ({
                   x,
                   somethingLiteral: [\\"one\\", 2, \\"three\\"],
@@ -90,7 +92,7 @@ describe("when converting variables", () => {
             "source": "if (typeof input.name !== \\"string\\") {
           input.name = \\"fred\\";
         }",
-            "stateName": "If (typeof input.name !== ...",
+            "stateName": "6: If (typeof input.name !== ...",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -106,6 +108,7 @@ describe("when converting variables", () => {
                     "identifier": "input.name",
                     "type": "string",
                   },
+                  "stateName": "7: Assign input.name",
                 },
               ],
             },
@@ -133,13 +136,14 @@ describe("when converting variables", () => {
           name: input.name,
           executionId: context.execution.id
         }",
-              "stateName": undefined,
+              "stateName": "11: Assign x",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "x",
               "type": "object",
             },
+            "stateName": "9: Assign x",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -239,13 +243,14 @@ describe("when converting variables", () => {
                 },
               },
               "source": undefined,
-              "stateName": undefined,
+              "stateName": "16: Assign y",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "y",
               "type": "object",
             },
+            "stateName": "14: Assign y",
           },
           Object {
             "_syntaxKind": "return",
@@ -254,6 +259,7 @@ describe("when converting variables", () => {
               "identifier": "y",
               "type": "object",
             },
+            "stateName": "23: Return y",
           },
         ],
       }
@@ -264,24 +270,7 @@ describe("when converting variables", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Name": Object {
-            "Comment": undefined,
-            "Next": "Assign X",
-            "Result": "fred",
-            "ResultPath": "$.vars.name",
-            "Type": "Pass",
-          },
-          "Assign X": Object {
-            "Comment": "source: x = { name: input.name, executionId: context.e ...",
-            "Next": "Assign Y",
-            "Parameters": Object {
-              "executionId.$": "$$.Execution.Id",
-              "name.$": "$.vars.name",
-            },
-            "ResultPath": "$.vars.x",
-            "Type": "Pass",
-          },
-          "Assign Y": Object {
+          "14: Assign y": Object {
             "Comment": undefined,
             "Next": "Pass",
             "Parameters": Object {
@@ -299,10 +288,10 @@ describe("when converting variables", () => {
             "ResultPath": "$.vars.y",
             "Type": "Pass",
           },
-          "If (typeof input.name !== ...": Object {
+          "6: If (typeof input.name !== ...": Object {
             "Choices": Array [
               Object {
-                "Next": "Assign Name",
+                "Next": "7: Assign input.name",
                 "Not": Object {
                   "And": Array [
                     Object {
@@ -318,11 +307,28 @@ describe("when converting variables", () => {
               },
             ],
             "Comment": "source: if (typeof input.name !== \\"string\\") { input.na ...",
-            "Default": "Assign X",
+            "Default": "9: Assign x",
             "Type": "Choice",
           },
+          "7: Assign input.name": Object {
+            "Comment": undefined,
+            "Next": "9: Assign x",
+            "Result": "fred",
+            "ResultPath": "$.vars.name",
+            "Type": "Pass",
+          },
+          "9: Assign x": Object {
+            "Comment": "source: x = { name: input.name, executionId: context.e ...",
+            "Next": "14: Assign y",
+            "Parameters": Object {
+              "executionId.$": "$$.Execution.Id",
+              "name.$": "$.vars.name",
+            },
+            "ResultPath": "$.vars.x",
+            "Type": "Pass",
+          },
           "Initialize": Object {
-            "Next": "If (typeof input.name !== ...",
+            "Next": "6: If (typeof input.name !== ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -330,13 +336,9 @@ describe("when converting variables", () => {
             "Type": "Pass",
           },
           "Pass": Object {
+            "End": true,
             "InputPath": "$.vars.y",
-            "Next": "Succeed",
             "Type": "Pass",
-          },
-          "Succeed": Object {
-            "Comment": undefined,
-            "Type": "Succeed",
           },
         },
       }

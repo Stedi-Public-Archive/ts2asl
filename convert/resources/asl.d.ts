@@ -55,6 +55,14 @@ export interface Task {
     timeoutSeconds?: number;
     heartbeatSeconds?: number;
 }
+export interface SdkIntegrationTask<TInput> {
+    name?: string;
+    parameters: TInput;
+    catch?: CatchConfiguration;
+    retry?: RetryConfiguration;
+    timeoutSeconds?: number;
+    heartbeatSeconds?: number;
+}
 export interface Pass<T> {
     parameters: T | (() => T) | (<U>(objectContext: StateMachineContext<U>) => T);
     comment?: string;
@@ -86,12 +94,19 @@ export interface Parallel<T> {
     comment?: string;
     name?: string;
 }
-export interface Invoke<P, R> {
-    target: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
-    parameters?: P | (() => P);
+export declare type TypescriptInvoke<P, R> = {
+    catch?: CatchConfiguration;
+    retry?: RetryConfiguration;
+    timeoutSeconds?: number;
+    heartbeatSeconds?: number;
     comment?: string;
     name?: string;
-}
+} & ({
+    resource: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
+    parameters: P | (() => P);
+} | {
+    resource: () => (R | Promise<R>);
+});
 export interface Choice {
     input: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
     choices: Array<{
@@ -119,7 +134,7 @@ export interface StateMachineContext<TInput> {
         readonly enteredTime: string;
     };
 }
-export declare const typescriptInvoke: <P, R>(args: Invoke<P, R>) => Promise<R>;
+export declare const typescriptInvoke: <P, R>(args: TypescriptInvoke<P, R>) => Promise<R>;
 export declare const typescriptTry: (args: Try) => Promise<AslState>;
 export declare const typescriptDoWhile: (args: DoWhile) => Promise<AslState>;
 export declare const typescriptWhile: (args: While) => Promise<AslState>;

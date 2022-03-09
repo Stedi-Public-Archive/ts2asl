@@ -18,11 +18,7 @@ describe("when transpiling binary expressions", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Empty Default Choice": Object {
-            "End": true,
-            "Type": "Pass",
-          },
-          "If (x == 1 || x === 2 ||  ...": Object {
+          "2: If (x == 1 || x === 2 || ...": Object {
             "Choices": Array [
               Object {
                 "Next": "Pass",
@@ -46,8 +42,12 @@ describe("when transpiling binary expressions", () => {
             "Default": "Empty Default Choice",
             "Type": "Choice",
           },
+          "Empty Default Choice": Object {
+            "End": true,
+            "Type": "Pass",
+          },
           "Initialize": Object {
-            "Next": "If (x == 1 || x === 2 ||  ...",
+            "Next": "2: If (x == 1 || x === 2 || ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -78,11 +78,7 @@ describe("when transpiling binary expressions", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Empty Default Choice": Object {
-            "End": true,
-            "Type": "Pass",
-          },
-          "If (x == 1 && x === 2 &&  ...": Object {
+          "2: If (x == 1 && x === 2 && ...": Object {
             "Choices": Array [
               Object {
                 "And": Array [
@@ -110,8 +106,12 @@ describe("when transpiling binary expressions", () => {
             "Default": "Empty Default Choice",
             "Type": "Choice",
           },
+          "Empty Default Choice": Object {
+            "End": true,
+            "Type": "Pass",
+          },
           "Initialize": Object {
-            "Next": "If (x == 1 && x === 2 &&  ...",
+            "Next": "2: If (x == 1 && x === 2 && ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

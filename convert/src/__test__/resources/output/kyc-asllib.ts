@@ -7,8 +7,8 @@ export const main = asl.deploy.asStateMachine(async () =>{
     const result = asl.parallel({
         branches: [
             () => { asl.typescriptInvoke({
-                name: "performIdentifyCheck()",
-                target: performIdentifyCheck,
+                name: "8: performIdentifyCheck()",
+                resource: performIdentifyCheck,
                 comment: "performIdentifyCheck()"
             }) },
             () => { return { agencyChecked: true }; }
@@ -25,11 +25,12 @@ export const main = asl.deploy.asStateMachine(async () =>{
         ]
     });
     const checksPassed = asl.pass({
+        name: "24: Assign checksPassed",
         parameters: () => true,
         comment: "checksPassed = true"
     });
     asl.typescriptIf({
-        name: "If (checksPassed)",
+        name: "24: If (checksPassed)",
         condition: () => checksPassed,
         then: async () => {
             //no-op update risk profile

@@ -17,11 +17,11 @@ describe("when converting example", () => {
       export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
           let result: Result = asl.task({ resource: \\"check-password\\", parameters: {} });
           asl.typescriptWhile({
-              name: \\"While (true)\\",
+              name: \\"8: While (true)\\",
               condition: () => true,
               block: async () => {
                   asl.typescriptIf({
-                      name: \\"If (result.Authorized)\\",
+                      name: \\"9: If (result.Authorized)\\",
                       condition: () => result.Authorized,
                       then: async () => {
                           break;
@@ -70,6 +70,7 @@ describe("when converting example", () => {
               "identifier": "result",
               "type": "object",
             },
+            "stateName": "7: Assign result",
           },
           Object {
             "_syntaxKind": "while",
@@ -78,7 +79,7 @@ describe("when converting example", () => {
               "type": "boolean",
               "value": true,
             },
-            "stateName": "While (true)",
+            "stateName": "8: While (true)",
             "while": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -96,12 +97,13 @@ describe("when converting example", () => {
                   "source": "if (result.Authorized) {
             break;
           }",
-                  "stateName": "If (result.Authorized)",
+                  "stateName": "9: If (result.Authorized)",
                   "then": Object {
                     "_syntaxKind": "function",
                     "statements": Array [
                       Object {
                         "_syntaxKind": "asl-succeed-state",
+                        "stateName": "10: Break",
                       },
                     ],
                   },
@@ -135,6 +137,7 @@ describe("when converting example", () => {
                     "identifier": "result",
                     "type": "object",
                   },
+                  "stateName": "13: Assign result",
                 },
               ],
             },
@@ -148,32 +151,28 @@ describe("when converting example", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
-            "Catch": Array [],
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "While",
-            "Parameters": Object {},
-            "Resource": "check-password",
-            "ResultPath": "$.vars.result",
-            "Retry": Array [],
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          "Initialize": Object {
-            "Next": "Assign Result",
-            "Parameters": Object {
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "While": Object {
+          "8: While (true)": Object {
             "Branches": Array [
               Object {
                 "StartAt": "_WhileCondition",
                 "States": Object {
-                  "Assign Result_1": Object {
+                  "10: Break": Object {
+                    "Comment": undefined,
+                    "Type": "Succeed",
+                  },
+                  "9: If (result.Authorized)": Object {
+                    "Choices": Array [
+                      Object {
+                        "IsPresent": true,
+                        "Next": "10: Break",
+                        "Variable": "$.vars.result.Authorized",
+                      },
+                    ],
+                    "Comment": "source: if (result.Authorized) { break; }",
+                    "Default": "Wait",
+                    "Type": "Choice",
+                  },
+                  "Task_1": Object {
                     "Catch": Array [],
                     "Comment": undefined,
                     "HeartbeatSeconds": undefined,
@@ -185,25 +184,9 @@ describe("when converting example", () => {
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
-                  "If (result.Authorized)": Object {
-                    "Choices": Array [
-                      Object {
-                        "IsPresent": true,
-                        "Next": "Succeed",
-                        "Variable": "$.vars.result.Authorized",
-                      },
-                    ],
-                    "Comment": "source: if (result.Authorized) { break; }",
-                    "Default": "Wait",
-                    "Type": "Choice",
-                  },
-                  "Succeed": Object {
-                    "Comment": undefined,
-                    "Type": "Succeed",
-                  },
                   "Wait": Object {
                     "Comment": undefined,
-                    "Next": "Assign Result_1",
+                    "Next": "Task_1",
                     "Seconds": 1,
                     "Type": "Wait",
                   },
@@ -211,7 +194,7 @@ describe("when converting example", () => {
                     "Choices": Array [
                       Object {
                         "IsNull": false,
-                        "Next": "If (result.Authorized)",
+                        "Next": "9: If (result.Authorized)",
                         "Variable": "$",
                       },
                     ],
@@ -232,6 +215,26 @@ describe("when converting example", () => {
               },
             },
             "Type": "Parallel",
+          },
+          "Initialize": Object {
+            "Next": "Task",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Task": Object {
+            "Catch": Array [],
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "8: While (true)",
+            "Parameters": Object {},
+            "Resource": "check-password",
+            "ResultPath": "$.vars.result",
+            "Retry": Array [],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
         },
       }

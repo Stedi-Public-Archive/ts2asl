@@ -10,7 +10,7 @@ describe("when converting do-while statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptDoWhile({
-          name: \\"Do While (code === 'conti ...\\",
+          name: \\"2: Do While (code === 'conti ...\\",
           condition: () => code === 'continue',
           block: async () => { console.log(); ASL.Wait({ Seconds: 2 }); },
           comment: \\"do{ console.log(); ASL.Wait({Seconds: 2})} while (code === 'continue');\\"

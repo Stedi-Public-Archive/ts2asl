@@ -1,4 +1,5 @@
 import { SNSClient } from "@aws-sdk/client-sns";
+import { SdkIntegrationTask } from "./asl";
 import { AddPermissionCommandInput, AddPermissionCommandOutput, AddPermissionCommand } from "@aws-sdk/client-sns";
 import { CheckIfPhoneNumberIsOptedOutCommandInput, CheckIfPhoneNumberIsOptedOutCommandOutput, CheckIfPhoneNumberIsOptedOutCommand } from "@aws-sdk/client-sns";
 import { ConfirmSubscriptionCommandInput, ConfirmSubscriptionCommandOutput, ConfirmSubscriptionCommand } from "@aws-sdk/client-sns";
@@ -41,275 +42,275 @@ import { VerifySMSSandboxPhoneNumberCommandInput, VerifySMSSandboxPhoneNumberCom
 
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:addPermission'*/
-export const nativeSNSAddPermission = (input: AddPermissionCommandInput): Promise<AddPermissionCommandOutput> => {
+export const nativeSNSAddPermission = (input: SdkIntegrationTask<AddPermissionCommandInput>): Promise<AddPermissionCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new AddPermissionCommand(input);
+    const command = new AddPermissionCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:checkIfPhoneNumberIsOptedOut'*/
-export const nativeSNSCheckIfPhoneNumberIsOptedOut = (input: CheckIfPhoneNumberIsOptedOutCommandInput): Promise<CheckIfPhoneNumberIsOptedOutCommandOutput> => {
+export const nativeSNSCheckIfPhoneNumberIsOptedOut = (input: SdkIntegrationTask<CheckIfPhoneNumberIsOptedOutCommandInput>): Promise<CheckIfPhoneNumberIsOptedOutCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new CheckIfPhoneNumberIsOptedOutCommand(input);
+    const command = new CheckIfPhoneNumberIsOptedOutCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:confirmSubscription'*/
-export const nativeSNSConfirmSubscription = (input: ConfirmSubscriptionCommandInput): Promise<ConfirmSubscriptionCommandOutput> => {
+export const nativeSNSConfirmSubscription = (input: SdkIntegrationTask<ConfirmSubscriptionCommandInput>): Promise<ConfirmSubscriptionCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ConfirmSubscriptionCommand(input);
+    const command = new ConfirmSubscriptionCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:createPlatformApplication'*/
-export const nativeSNSCreatePlatformApplication = (input: CreatePlatformApplicationCommandInput): Promise<CreatePlatformApplicationCommandOutput> => {
+export const nativeSNSCreatePlatformApplication = (input: SdkIntegrationTask<CreatePlatformApplicationCommandInput>): Promise<CreatePlatformApplicationCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new CreatePlatformApplicationCommand(input);
+    const command = new CreatePlatformApplicationCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:createPlatformEndpoint'*/
-export const nativeSNSCreatePlatformEndpoint = (input: CreatePlatformEndpointCommandInput): Promise<CreatePlatformEndpointCommandOutput> => {
+export const nativeSNSCreatePlatformEndpoint = (input: SdkIntegrationTask<CreatePlatformEndpointCommandInput>): Promise<CreatePlatformEndpointCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new CreatePlatformEndpointCommand(input);
+    const command = new CreatePlatformEndpointCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:createSMSSandboxPhoneNumber'*/
-export const nativeSNSCreateSMSSandboxPhoneNumber = (input: CreateSMSSandboxPhoneNumberCommandInput): Promise<CreateSMSSandboxPhoneNumberCommandOutput> => {
+export const nativeSNSCreateSMSSandboxPhoneNumber = (input: SdkIntegrationTask<CreateSMSSandboxPhoneNumberCommandInput>): Promise<CreateSMSSandboxPhoneNumberCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new CreateSMSSandboxPhoneNumberCommand(input);
+    const command = new CreateSMSSandboxPhoneNumberCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:createTopic'*/
-export const nativeSNSCreateTopic = (input: CreateTopicCommandInput): Promise<CreateTopicCommandOutput> => {
+export const nativeSNSCreateTopic = (input: SdkIntegrationTask<CreateTopicCommandInput>): Promise<CreateTopicCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new CreateTopicCommand(input);
+    const command = new CreateTopicCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:deleteEndpoint'*/
-export const nativeSNSDeleteEndpoint = (input: DeleteEndpointCommandInput): Promise<DeleteEndpointCommandOutput> => {
+export const nativeSNSDeleteEndpoint = (input: SdkIntegrationTask<DeleteEndpointCommandInput>): Promise<DeleteEndpointCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new DeleteEndpointCommand(input);
+    const command = new DeleteEndpointCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:deletePlatformApplication'*/
-export const nativeSNSDeletePlatformApplication = (input: DeletePlatformApplicationCommandInput): Promise<DeletePlatformApplicationCommandOutput> => {
+export const nativeSNSDeletePlatformApplication = (input: SdkIntegrationTask<DeletePlatformApplicationCommandInput>): Promise<DeletePlatformApplicationCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new DeletePlatformApplicationCommand(input);
+    const command = new DeletePlatformApplicationCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:deleteSMSSandboxPhoneNumber'*/
-export const nativeSNSDeleteSMSSandboxPhoneNumber = (input: DeleteSMSSandboxPhoneNumberCommandInput): Promise<DeleteSMSSandboxPhoneNumberCommandOutput> => {
+export const nativeSNSDeleteSMSSandboxPhoneNumber = (input: SdkIntegrationTask<DeleteSMSSandboxPhoneNumberCommandInput>): Promise<DeleteSMSSandboxPhoneNumberCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new DeleteSMSSandboxPhoneNumberCommand(input);
+    const command = new DeleteSMSSandboxPhoneNumberCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:deleteTopic'*/
-export const nativeSNSDeleteTopic = (input: DeleteTopicCommandInput): Promise<DeleteTopicCommandOutput> => {
+export const nativeSNSDeleteTopic = (input: SdkIntegrationTask<DeleteTopicCommandInput>): Promise<DeleteTopicCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new DeleteTopicCommand(input);
+    const command = new DeleteTopicCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:getEndpointAttributes'*/
-export const nativeSNSGetEndpointAttributes = (input: GetEndpointAttributesCommandInput): Promise<GetEndpointAttributesCommandOutput> => {
+export const nativeSNSGetEndpointAttributes = (input: SdkIntegrationTask<GetEndpointAttributesCommandInput>): Promise<GetEndpointAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new GetEndpointAttributesCommand(input);
+    const command = new GetEndpointAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:getPlatformApplicationAttributes'*/
-export const nativeSNSGetPlatformApplicationAttributes = (input: GetPlatformApplicationAttributesCommandInput): Promise<GetPlatformApplicationAttributesCommandOutput> => {
+export const nativeSNSGetPlatformApplicationAttributes = (input: SdkIntegrationTask<GetPlatformApplicationAttributesCommandInput>): Promise<GetPlatformApplicationAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new GetPlatformApplicationAttributesCommand(input);
+    const command = new GetPlatformApplicationAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:getSMSAttributes'*/
-export const nativeSNSGetSMSAttributes = (input: GetSMSAttributesCommandInput): Promise<GetSMSAttributesCommandOutput> => {
+export const nativeSNSGetSMSAttributes = (input: SdkIntegrationTask<GetSMSAttributesCommandInput>): Promise<GetSMSAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new GetSMSAttributesCommand(input);
+    const command = new GetSMSAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:getSMSSandboxAccountStatus'*/
-export const nativeSNSGetSMSSandboxAccountStatus = (input: GetSMSSandboxAccountStatusCommandInput): Promise<GetSMSSandboxAccountStatusCommandOutput> => {
+export const nativeSNSGetSMSSandboxAccountStatus = (input: SdkIntegrationTask<GetSMSSandboxAccountStatusCommandInput>): Promise<GetSMSSandboxAccountStatusCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new GetSMSSandboxAccountStatusCommand(input);
+    const command = new GetSMSSandboxAccountStatusCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:getSubscriptionAttributes'*/
-export const nativeSNSGetSubscriptionAttributes = (input: GetSubscriptionAttributesCommandInput): Promise<GetSubscriptionAttributesCommandOutput> => {
+export const nativeSNSGetSubscriptionAttributes = (input: SdkIntegrationTask<GetSubscriptionAttributesCommandInput>): Promise<GetSubscriptionAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new GetSubscriptionAttributesCommand(input);
+    const command = new GetSubscriptionAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:getTopicAttributes'*/
-export const nativeSNSGetTopicAttributes = (input: GetTopicAttributesCommandInput): Promise<GetTopicAttributesCommandOutput> => {
+export const nativeSNSGetTopicAttributes = (input: SdkIntegrationTask<GetTopicAttributesCommandInput>): Promise<GetTopicAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new GetTopicAttributesCommand(input);
+    const command = new GetTopicAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listEndpointsByPlatformApplication'*/
-export const nativeSNSListEndpointsByPlatformApplication = (input: ListEndpointsByPlatformApplicationCommandInput): Promise<ListEndpointsByPlatformApplicationCommandOutput> => {
+export const nativeSNSListEndpointsByPlatformApplication = (input: SdkIntegrationTask<ListEndpointsByPlatformApplicationCommandInput>): Promise<ListEndpointsByPlatformApplicationCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListEndpointsByPlatformApplicationCommand(input);
+    const command = new ListEndpointsByPlatformApplicationCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listOriginationNumbers'*/
-export const nativeSNSListOriginationNumbers = (input: ListOriginationNumbersCommandInput): Promise<ListOriginationNumbersCommandOutput> => {
+export const nativeSNSListOriginationNumbers = (input: SdkIntegrationTask<ListOriginationNumbersCommandInput>): Promise<ListOriginationNumbersCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListOriginationNumbersCommand(input);
+    const command = new ListOriginationNumbersCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listPhoneNumbersOptedOut'*/
-export const nativeSNSListPhoneNumbersOptedOut = (input: ListPhoneNumbersOptedOutCommandInput): Promise<ListPhoneNumbersOptedOutCommandOutput> => {
+export const nativeSNSListPhoneNumbersOptedOut = (input: SdkIntegrationTask<ListPhoneNumbersOptedOutCommandInput>): Promise<ListPhoneNumbersOptedOutCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListPhoneNumbersOptedOutCommand(input);
+    const command = new ListPhoneNumbersOptedOutCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listPlatformApplications'*/
-export const nativeSNSListPlatformApplications = (input: ListPlatformApplicationsCommandInput): Promise<ListPlatformApplicationsCommandOutput> => {
+export const nativeSNSListPlatformApplications = (input: SdkIntegrationTask<ListPlatformApplicationsCommandInput>): Promise<ListPlatformApplicationsCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListPlatformApplicationsCommand(input);
+    const command = new ListPlatformApplicationsCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listSMSSandboxPhoneNumbers'*/
-export const nativeSNSListSMSSandboxPhoneNumbers = (input: ListSMSSandboxPhoneNumbersCommandInput): Promise<ListSMSSandboxPhoneNumbersCommandOutput> => {
+export const nativeSNSListSMSSandboxPhoneNumbers = (input: SdkIntegrationTask<ListSMSSandboxPhoneNumbersCommandInput>): Promise<ListSMSSandboxPhoneNumbersCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListSMSSandboxPhoneNumbersCommand(input);
+    const command = new ListSMSSandboxPhoneNumbersCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listSubscriptions'*/
-export const nativeSNSListSubscriptions = (input: ListSubscriptionsCommandInput): Promise<ListSubscriptionsCommandOutput> => {
+export const nativeSNSListSubscriptions = (input: SdkIntegrationTask<ListSubscriptionsCommandInput>): Promise<ListSubscriptionsCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListSubscriptionsCommand(input);
+    const command = new ListSubscriptionsCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listSubscriptionsByTopic'*/
-export const nativeSNSListSubscriptionsByTopic = (input: ListSubscriptionsByTopicCommandInput): Promise<ListSubscriptionsByTopicCommandOutput> => {
+export const nativeSNSListSubscriptionsByTopic = (input: SdkIntegrationTask<ListSubscriptionsByTopicCommandInput>): Promise<ListSubscriptionsByTopicCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListSubscriptionsByTopicCommand(input);
+    const command = new ListSubscriptionsByTopicCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listTagsForResource'*/
-export const nativeSNSListTagsForResource = (input: ListTagsForResourceCommandInput): Promise<ListTagsForResourceCommandOutput> => {
+export const nativeSNSListTagsForResource = (input: SdkIntegrationTask<ListTagsForResourceCommandInput>): Promise<ListTagsForResourceCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListTagsForResourceCommand(input);
+    const command = new ListTagsForResourceCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:listTopics'*/
-export const nativeSNSListTopics = (input: ListTopicsCommandInput): Promise<ListTopicsCommandOutput> => {
+export const nativeSNSListTopics = (input: SdkIntegrationTask<ListTopicsCommandInput>): Promise<ListTopicsCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new ListTopicsCommand(input);
+    const command = new ListTopicsCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:optInPhoneNumber'*/
-export const nativeSNSOptInPhoneNumber = (input: OptInPhoneNumberCommandInput): Promise<OptInPhoneNumberCommandOutput> => {
+export const nativeSNSOptInPhoneNumber = (input: SdkIntegrationTask<OptInPhoneNumberCommandInput>): Promise<OptInPhoneNumberCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new OptInPhoneNumberCommand(input);
+    const command = new OptInPhoneNumberCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:publish'*/
-export const nativeSNSPublish = (input: PublishCommandInput): Promise<PublishCommandOutput> => {
+export const nativeSNSPublish = (input: SdkIntegrationTask<PublishCommandInput>): Promise<PublishCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new PublishCommand(input);
+    const command = new PublishCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:removePermission'*/
-export const nativeSNSRemovePermission = (input: RemovePermissionCommandInput): Promise<RemovePermissionCommandOutput> => {
+export const nativeSNSRemovePermission = (input: SdkIntegrationTask<RemovePermissionCommandInput>): Promise<RemovePermissionCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new RemovePermissionCommand(input);
+    const command = new RemovePermissionCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:setEndpointAttributes'*/
-export const nativeSNSSetEndpointAttributes = (input: SetEndpointAttributesCommandInput): Promise<SetEndpointAttributesCommandOutput> => {
+export const nativeSNSSetEndpointAttributes = (input: SdkIntegrationTask<SetEndpointAttributesCommandInput>): Promise<SetEndpointAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new SetEndpointAttributesCommand(input);
+    const command = new SetEndpointAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:setPlatformApplicationAttributes'*/
-export const nativeSNSSetPlatformApplicationAttributes = (input: SetPlatformApplicationAttributesCommandInput): Promise<SetPlatformApplicationAttributesCommandOutput> => {
+export const nativeSNSSetPlatformApplicationAttributes = (input: SdkIntegrationTask<SetPlatformApplicationAttributesCommandInput>): Promise<SetPlatformApplicationAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new SetPlatformApplicationAttributesCommand(input);
+    const command = new SetPlatformApplicationAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:setSMSAttributes'*/
-export const nativeSNSSetSMSAttributes = (input: SetSMSAttributesCommandInput): Promise<SetSMSAttributesCommandOutput> => {
+export const nativeSNSSetSMSAttributes = (input: SdkIntegrationTask<SetSMSAttributesCommandInput>): Promise<SetSMSAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new SetSMSAttributesCommand(input);
+    const command = new SetSMSAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:setSubscriptionAttributes'*/
-export const nativeSNSSetSubscriptionAttributes = (input: SetSubscriptionAttributesCommandInput): Promise<SetSubscriptionAttributesCommandOutput> => {
+export const nativeSNSSetSubscriptionAttributes = (input: SdkIntegrationTask<SetSubscriptionAttributesCommandInput>): Promise<SetSubscriptionAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new SetSubscriptionAttributesCommand(input);
+    const command = new SetSubscriptionAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:setTopicAttributes'*/
-export const nativeSNSSetTopicAttributes = (input: SetTopicAttributesCommandInput): Promise<SetTopicAttributesCommandOutput> => {
+export const nativeSNSSetTopicAttributes = (input: SdkIntegrationTask<SetTopicAttributesCommandInput>): Promise<SetTopicAttributesCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new SetTopicAttributesCommand(input);
+    const command = new SetTopicAttributesCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:subscribe'*/
-export const nativeSNSSubscribe = (input: SubscribeCommandInput): Promise<SubscribeCommandOutput> => {
+export const nativeSNSSubscribe = (input: SdkIntegrationTask<SubscribeCommandInput>): Promise<SubscribeCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new SubscribeCommand(input);
+    const command = new SubscribeCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:tagResource'*/
-export const nativeSNSTagResource = (input: TagResourceCommandInput): Promise<TagResourceCommandOutput> => {
+export const nativeSNSTagResource = (input: SdkIntegrationTask<TagResourceCommandInput>): Promise<TagResourceCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new TagResourceCommand(input);
+    const command = new TagResourceCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:unsubscribe'*/
-export const nativeSNSUnsubscribe = (input: UnsubscribeCommandInput): Promise<UnsubscribeCommandOutput> => {
+export const nativeSNSUnsubscribe = (input: SdkIntegrationTask<UnsubscribeCommandInput>): Promise<UnsubscribeCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new UnsubscribeCommand(input);
+    const command = new UnsubscribeCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:untagResource'*/
-export const nativeSNSUntagResource = (input: UntagResourceCommandInput): Promise<UntagResourceCommandOutput> => {
+export const nativeSNSUntagResource = (input: SdkIntegrationTask<UntagResourceCommandInput>): Promise<UntagResourceCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new UntagResourceCommand(input);
+    const command = new UntagResourceCommand(input.parameters);
     return sns.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:sns:verifySMSSandboxPhoneNumber'*/
-export const nativeSNSVerifySMSSandboxPhoneNumber = (input: VerifySMSSandboxPhoneNumberCommandInput): Promise<VerifySMSSandboxPhoneNumberCommandOutput> => {
+export const nativeSNSVerifySMSSandboxPhoneNumber = (input: SdkIntegrationTask<VerifySMSSandboxPhoneNumberCommandInput>): Promise<VerifySMSSandboxPhoneNumberCommandOutput> => {
     const sns = new SNSClient({});
-    const command = new VerifySMSSandboxPhoneNumberCommand(input);
+    const command = new VerifySMSSandboxPhoneNumberCommand(input.parameters);
     return sns.send(command);
 };
 

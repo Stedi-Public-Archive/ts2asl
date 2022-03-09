@@ -1,4 +1,5 @@
 import { EventBridgeClient } from "@aws-sdk/client-eventbridge";
+import { SdkIntegrationTask } from "./asl";
 import { ActivateEventSourceCommandInput, ActivateEventSourceCommandOutput, ActivateEventSourceCommand } from "@aws-sdk/client-eventbridge";
 import { CancelReplayCommandInput, CancelReplayCommandOutput, CancelReplayCommand } from "@aws-sdk/client-eventbridge";
 import { CreateApiDestinationCommandInput, CreateApiDestinationCommandOutput, CreateApiDestinationCommand } from "@aws-sdk/client-eventbridge";
@@ -53,359 +54,359 @@ import { UpdateConnectionCommandInput, UpdateConnectionCommandOutput, UpdateConn
 
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:activateEventSource'*/
-export const nativeEventBridgeActivateEventSource = (input: ActivateEventSourceCommandInput): Promise<ActivateEventSourceCommandOutput> => {
+export const nativeEventBridgeActivateEventSource = (input: SdkIntegrationTask<ActivateEventSourceCommandInput>): Promise<ActivateEventSourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ActivateEventSourceCommand(input);
+    const command = new ActivateEventSourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:cancelReplay'*/
-export const nativeEventBridgeCancelReplay = (input: CancelReplayCommandInput): Promise<CancelReplayCommandOutput> => {
+export const nativeEventBridgeCancelReplay = (input: SdkIntegrationTask<CancelReplayCommandInput>): Promise<CancelReplayCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new CancelReplayCommand(input);
+    const command = new CancelReplayCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:createApiDestination'*/
-export const nativeEventBridgeCreateApiDestination = (input: CreateApiDestinationCommandInput): Promise<CreateApiDestinationCommandOutput> => {
+export const nativeEventBridgeCreateApiDestination = (input: SdkIntegrationTask<CreateApiDestinationCommandInput>): Promise<CreateApiDestinationCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new CreateApiDestinationCommand(input);
+    const command = new CreateApiDestinationCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:createArchive'*/
-export const nativeEventBridgeCreateArchive = (input: CreateArchiveCommandInput): Promise<CreateArchiveCommandOutput> => {
+export const nativeEventBridgeCreateArchive = (input: SdkIntegrationTask<CreateArchiveCommandInput>): Promise<CreateArchiveCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new CreateArchiveCommand(input);
+    const command = new CreateArchiveCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:createConnection'*/
-export const nativeEventBridgeCreateConnection = (input: CreateConnectionCommandInput): Promise<CreateConnectionCommandOutput> => {
+export const nativeEventBridgeCreateConnection = (input: SdkIntegrationTask<CreateConnectionCommandInput>): Promise<CreateConnectionCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new CreateConnectionCommand(input);
+    const command = new CreateConnectionCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:createEventBus'*/
-export const nativeEventBridgeCreateEventBus = (input: CreateEventBusCommandInput): Promise<CreateEventBusCommandOutput> => {
+export const nativeEventBridgeCreateEventBus = (input: SdkIntegrationTask<CreateEventBusCommandInput>): Promise<CreateEventBusCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new CreateEventBusCommand(input);
+    const command = new CreateEventBusCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:createPartnerEventSource'*/
-export const nativeEventBridgeCreatePartnerEventSource = (input: CreatePartnerEventSourceCommandInput): Promise<CreatePartnerEventSourceCommandOutput> => {
+export const nativeEventBridgeCreatePartnerEventSource = (input: SdkIntegrationTask<CreatePartnerEventSourceCommandInput>): Promise<CreatePartnerEventSourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new CreatePartnerEventSourceCommand(input);
+    const command = new CreatePartnerEventSourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:deactivateEventSource'*/
-export const nativeEventBridgeDeactivateEventSource = (input: DeactivateEventSourceCommandInput): Promise<DeactivateEventSourceCommandOutput> => {
+export const nativeEventBridgeDeactivateEventSource = (input: SdkIntegrationTask<DeactivateEventSourceCommandInput>): Promise<DeactivateEventSourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DeactivateEventSourceCommand(input);
+    const command = new DeactivateEventSourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:deauthorizeConnection'*/
-export const nativeEventBridgeDeauthorizeConnection = (input: DeauthorizeConnectionCommandInput): Promise<DeauthorizeConnectionCommandOutput> => {
+export const nativeEventBridgeDeauthorizeConnection = (input: SdkIntegrationTask<DeauthorizeConnectionCommandInput>): Promise<DeauthorizeConnectionCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DeauthorizeConnectionCommand(input);
+    const command = new DeauthorizeConnectionCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:deleteApiDestination'*/
-export const nativeEventBridgeDeleteApiDestination = (input: DeleteApiDestinationCommandInput): Promise<DeleteApiDestinationCommandOutput> => {
+export const nativeEventBridgeDeleteApiDestination = (input: SdkIntegrationTask<DeleteApiDestinationCommandInput>): Promise<DeleteApiDestinationCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DeleteApiDestinationCommand(input);
+    const command = new DeleteApiDestinationCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:deleteArchive'*/
-export const nativeEventBridgeDeleteArchive = (input: DeleteArchiveCommandInput): Promise<DeleteArchiveCommandOutput> => {
+export const nativeEventBridgeDeleteArchive = (input: SdkIntegrationTask<DeleteArchiveCommandInput>): Promise<DeleteArchiveCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DeleteArchiveCommand(input);
+    const command = new DeleteArchiveCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:deleteConnection'*/
-export const nativeEventBridgeDeleteConnection = (input: DeleteConnectionCommandInput): Promise<DeleteConnectionCommandOutput> => {
+export const nativeEventBridgeDeleteConnection = (input: SdkIntegrationTask<DeleteConnectionCommandInput>): Promise<DeleteConnectionCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DeleteConnectionCommand(input);
+    const command = new DeleteConnectionCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:deleteEventBus'*/
-export const nativeEventBridgeDeleteEventBus = (input: DeleteEventBusCommandInput): Promise<DeleteEventBusCommandOutput> => {
+export const nativeEventBridgeDeleteEventBus = (input: SdkIntegrationTask<DeleteEventBusCommandInput>): Promise<DeleteEventBusCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DeleteEventBusCommand(input);
+    const command = new DeleteEventBusCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:deletePartnerEventSource'*/
-export const nativeEventBridgeDeletePartnerEventSource = (input: DeletePartnerEventSourceCommandInput): Promise<DeletePartnerEventSourceCommandOutput> => {
+export const nativeEventBridgeDeletePartnerEventSource = (input: SdkIntegrationTask<DeletePartnerEventSourceCommandInput>): Promise<DeletePartnerEventSourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DeletePartnerEventSourceCommand(input);
+    const command = new DeletePartnerEventSourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:deleteRule'*/
-export const nativeEventBridgeDeleteRule = (input: DeleteRuleCommandInput): Promise<DeleteRuleCommandOutput> => {
+export const nativeEventBridgeDeleteRule = (input: SdkIntegrationTask<DeleteRuleCommandInput>): Promise<DeleteRuleCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DeleteRuleCommand(input);
+    const command = new DeleteRuleCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:describeApiDestination'*/
-export const nativeEventBridgeDescribeApiDestination = (input: DescribeApiDestinationCommandInput): Promise<DescribeApiDestinationCommandOutput> => {
+export const nativeEventBridgeDescribeApiDestination = (input: SdkIntegrationTask<DescribeApiDestinationCommandInput>): Promise<DescribeApiDestinationCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DescribeApiDestinationCommand(input);
+    const command = new DescribeApiDestinationCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:describeArchive'*/
-export const nativeEventBridgeDescribeArchive = (input: DescribeArchiveCommandInput): Promise<DescribeArchiveCommandOutput> => {
+export const nativeEventBridgeDescribeArchive = (input: SdkIntegrationTask<DescribeArchiveCommandInput>): Promise<DescribeArchiveCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DescribeArchiveCommand(input);
+    const command = new DescribeArchiveCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:describeConnection'*/
-export const nativeEventBridgeDescribeConnection = (input: DescribeConnectionCommandInput): Promise<DescribeConnectionCommandOutput> => {
+export const nativeEventBridgeDescribeConnection = (input: SdkIntegrationTask<DescribeConnectionCommandInput>): Promise<DescribeConnectionCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DescribeConnectionCommand(input);
+    const command = new DescribeConnectionCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:describeEventBus'*/
-export const nativeEventBridgeDescribeEventBus = (input: DescribeEventBusCommandInput): Promise<DescribeEventBusCommandOutput> => {
+export const nativeEventBridgeDescribeEventBus = (input: SdkIntegrationTask<DescribeEventBusCommandInput>): Promise<DescribeEventBusCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DescribeEventBusCommand(input);
+    const command = new DescribeEventBusCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:describeEventSource'*/
-export const nativeEventBridgeDescribeEventSource = (input: DescribeEventSourceCommandInput): Promise<DescribeEventSourceCommandOutput> => {
+export const nativeEventBridgeDescribeEventSource = (input: SdkIntegrationTask<DescribeEventSourceCommandInput>): Promise<DescribeEventSourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DescribeEventSourceCommand(input);
+    const command = new DescribeEventSourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:describePartnerEventSource'*/
-export const nativeEventBridgeDescribePartnerEventSource = (input: DescribePartnerEventSourceCommandInput): Promise<DescribePartnerEventSourceCommandOutput> => {
+export const nativeEventBridgeDescribePartnerEventSource = (input: SdkIntegrationTask<DescribePartnerEventSourceCommandInput>): Promise<DescribePartnerEventSourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DescribePartnerEventSourceCommand(input);
+    const command = new DescribePartnerEventSourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:describeReplay'*/
-export const nativeEventBridgeDescribeReplay = (input: DescribeReplayCommandInput): Promise<DescribeReplayCommandOutput> => {
+export const nativeEventBridgeDescribeReplay = (input: SdkIntegrationTask<DescribeReplayCommandInput>): Promise<DescribeReplayCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DescribeReplayCommand(input);
+    const command = new DescribeReplayCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:describeRule'*/
-export const nativeEventBridgeDescribeRule = (input: DescribeRuleCommandInput): Promise<DescribeRuleCommandOutput> => {
+export const nativeEventBridgeDescribeRule = (input: SdkIntegrationTask<DescribeRuleCommandInput>): Promise<DescribeRuleCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DescribeRuleCommand(input);
+    const command = new DescribeRuleCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:disableRule'*/
-export const nativeEventBridgeDisableRule = (input: DisableRuleCommandInput): Promise<DisableRuleCommandOutput> => {
+export const nativeEventBridgeDisableRule = (input: SdkIntegrationTask<DisableRuleCommandInput>): Promise<DisableRuleCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new DisableRuleCommand(input);
+    const command = new DisableRuleCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:enableRule'*/
-export const nativeEventBridgeEnableRule = (input: EnableRuleCommandInput): Promise<EnableRuleCommandOutput> => {
+export const nativeEventBridgeEnableRule = (input: SdkIntegrationTask<EnableRuleCommandInput>): Promise<EnableRuleCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new EnableRuleCommand(input);
+    const command = new EnableRuleCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listApiDestinations'*/
-export const nativeEventBridgeListApiDestinations = (input: ListApiDestinationsCommandInput): Promise<ListApiDestinationsCommandOutput> => {
+export const nativeEventBridgeListApiDestinations = (input: SdkIntegrationTask<ListApiDestinationsCommandInput>): Promise<ListApiDestinationsCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListApiDestinationsCommand(input);
+    const command = new ListApiDestinationsCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listArchives'*/
-export const nativeEventBridgeListArchives = (input: ListArchivesCommandInput): Promise<ListArchivesCommandOutput> => {
+export const nativeEventBridgeListArchives = (input: SdkIntegrationTask<ListArchivesCommandInput>): Promise<ListArchivesCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListArchivesCommand(input);
+    const command = new ListArchivesCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listConnections'*/
-export const nativeEventBridgeListConnections = (input: ListConnectionsCommandInput): Promise<ListConnectionsCommandOutput> => {
+export const nativeEventBridgeListConnections = (input: SdkIntegrationTask<ListConnectionsCommandInput>): Promise<ListConnectionsCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListConnectionsCommand(input);
+    const command = new ListConnectionsCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listEventBuses'*/
-export const nativeEventBridgeListEventBuses = (input: ListEventBusesCommandInput): Promise<ListEventBusesCommandOutput> => {
+export const nativeEventBridgeListEventBuses = (input: SdkIntegrationTask<ListEventBusesCommandInput>): Promise<ListEventBusesCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListEventBusesCommand(input);
+    const command = new ListEventBusesCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listEventSources'*/
-export const nativeEventBridgeListEventSources = (input: ListEventSourcesCommandInput): Promise<ListEventSourcesCommandOutput> => {
+export const nativeEventBridgeListEventSources = (input: SdkIntegrationTask<ListEventSourcesCommandInput>): Promise<ListEventSourcesCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListEventSourcesCommand(input);
+    const command = new ListEventSourcesCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listPartnerEventSourceAccounts'*/
-export const nativeEventBridgeListPartnerEventSourceAccounts = (input: ListPartnerEventSourceAccountsCommandInput): Promise<ListPartnerEventSourceAccountsCommandOutput> => {
+export const nativeEventBridgeListPartnerEventSourceAccounts = (input: SdkIntegrationTask<ListPartnerEventSourceAccountsCommandInput>): Promise<ListPartnerEventSourceAccountsCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListPartnerEventSourceAccountsCommand(input);
+    const command = new ListPartnerEventSourceAccountsCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listPartnerEventSources'*/
-export const nativeEventBridgeListPartnerEventSources = (input: ListPartnerEventSourcesCommandInput): Promise<ListPartnerEventSourcesCommandOutput> => {
+export const nativeEventBridgeListPartnerEventSources = (input: SdkIntegrationTask<ListPartnerEventSourcesCommandInput>): Promise<ListPartnerEventSourcesCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListPartnerEventSourcesCommand(input);
+    const command = new ListPartnerEventSourcesCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listReplays'*/
-export const nativeEventBridgeListReplays = (input: ListReplaysCommandInput): Promise<ListReplaysCommandOutput> => {
+export const nativeEventBridgeListReplays = (input: SdkIntegrationTask<ListReplaysCommandInput>): Promise<ListReplaysCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListReplaysCommand(input);
+    const command = new ListReplaysCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listRuleNamesByTarget'*/
-export const nativeEventBridgeListRuleNamesByTarget = (input: ListRuleNamesByTargetCommandInput): Promise<ListRuleNamesByTargetCommandOutput> => {
+export const nativeEventBridgeListRuleNamesByTarget = (input: SdkIntegrationTask<ListRuleNamesByTargetCommandInput>): Promise<ListRuleNamesByTargetCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListRuleNamesByTargetCommand(input);
+    const command = new ListRuleNamesByTargetCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listRules'*/
-export const nativeEventBridgeListRules = (input: ListRulesCommandInput): Promise<ListRulesCommandOutput> => {
+export const nativeEventBridgeListRules = (input: SdkIntegrationTask<ListRulesCommandInput>): Promise<ListRulesCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListRulesCommand(input);
+    const command = new ListRulesCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listTagsForResource'*/
-export const nativeEventBridgeListTagsForResource = (input: ListTagsForResourceCommandInput): Promise<ListTagsForResourceCommandOutput> => {
+export const nativeEventBridgeListTagsForResource = (input: SdkIntegrationTask<ListTagsForResourceCommandInput>): Promise<ListTagsForResourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListTagsForResourceCommand(input);
+    const command = new ListTagsForResourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:listTargetsByRule'*/
-export const nativeEventBridgeListTargetsByRule = (input: ListTargetsByRuleCommandInput): Promise<ListTargetsByRuleCommandOutput> => {
+export const nativeEventBridgeListTargetsByRule = (input: SdkIntegrationTask<ListTargetsByRuleCommandInput>): Promise<ListTargetsByRuleCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new ListTargetsByRuleCommand(input);
+    const command = new ListTargetsByRuleCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:putEvents'*/
-export const nativeEventBridgePutEvents = (input: PutEventsCommandInput): Promise<PutEventsCommandOutput> => {
+export const nativeEventBridgePutEvents = (input: SdkIntegrationTask<PutEventsCommandInput>): Promise<PutEventsCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new PutEventsCommand(input);
+    const command = new PutEventsCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:putPartnerEvents'*/
-export const nativeEventBridgePutPartnerEvents = (input: PutPartnerEventsCommandInput): Promise<PutPartnerEventsCommandOutput> => {
+export const nativeEventBridgePutPartnerEvents = (input: SdkIntegrationTask<PutPartnerEventsCommandInput>): Promise<PutPartnerEventsCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new PutPartnerEventsCommand(input);
+    const command = new PutPartnerEventsCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:putPermission'*/
-export const nativeEventBridgePutPermission = (input: PutPermissionCommandInput): Promise<PutPermissionCommandOutput> => {
+export const nativeEventBridgePutPermission = (input: SdkIntegrationTask<PutPermissionCommandInput>): Promise<PutPermissionCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new PutPermissionCommand(input);
+    const command = new PutPermissionCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:putRule'*/
-export const nativeEventBridgePutRule = (input: PutRuleCommandInput): Promise<PutRuleCommandOutput> => {
+export const nativeEventBridgePutRule = (input: SdkIntegrationTask<PutRuleCommandInput>): Promise<PutRuleCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new PutRuleCommand(input);
+    const command = new PutRuleCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:putTargets'*/
-export const nativeEventBridgePutTargets = (input: PutTargetsCommandInput): Promise<PutTargetsCommandOutput> => {
+export const nativeEventBridgePutTargets = (input: SdkIntegrationTask<PutTargetsCommandInput>): Promise<PutTargetsCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new PutTargetsCommand(input);
+    const command = new PutTargetsCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:removePermission'*/
-export const nativeEventBridgeRemovePermission = (input: RemovePermissionCommandInput): Promise<RemovePermissionCommandOutput> => {
+export const nativeEventBridgeRemovePermission = (input: SdkIntegrationTask<RemovePermissionCommandInput>): Promise<RemovePermissionCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new RemovePermissionCommand(input);
+    const command = new RemovePermissionCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:removeTargets'*/
-export const nativeEventBridgeRemoveTargets = (input: RemoveTargetsCommandInput): Promise<RemoveTargetsCommandOutput> => {
+export const nativeEventBridgeRemoveTargets = (input: SdkIntegrationTask<RemoveTargetsCommandInput>): Promise<RemoveTargetsCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new RemoveTargetsCommand(input);
+    const command = new RemoveTargetsCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:startReplay'*/
-export const nativeEventBridgeStartReplay = (input: StartReplayCommandInput): Promise<StartReplayCommandOutput> => {
+export const nativeEventBridgeStartReplay = (input: SdkIntegrationTask<StartReplayCommandInput>): Promise<StartReplayCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new StartReplayCommand(input);
+    const command = new StartReplayCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:tagResource'*/
-export const nativeEventBridgeTagResource = (input: TagResourceCommandInput): Promise<TagResourceCommandOutput> => {
+export const nativeEventBridgeTagResource = (input: SdkIntegrationTask<TagResourceCommandInput>): Promise<TagResourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new TagResourceCommand(input);
+    const command = new TagResourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:testEventPattern'*/
-export const nativeEventBridgeTestEventPattern = (input: TestEventPatternCommandInput): Promise<TestEventPatternCommandOutput> => {
+export const nativeEventBridgeTestEventPattern = (input: SdkIntegrationTask<TestEventPatternCommandInput>): Promise<TestEventPatternCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new TestEventPatternCommand(input);
+    const command = new TestEventPatternCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:untagResource'*/
-export const nativeEventBridgeUntagResource = (input: UntagResourceCommandInput): Promise<UntagResourceCommandOutput> => {
+export const nativeEventBridgeUntagResource = (input: SdkIntegrationTask<UntagResourceCommandInput>): Promise<UntagResourceCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new UntagResourceCommand(input);
+    const command = new UntagResourceCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:updateApiDestination'*/
-export const nativeEventBridgeUpdateApiDestination = (input: UpdateApiDestinationCommandInput): Promise<UpdateApiDestinationCommandOutput> => {
+export const nativeEventBridgeUpdateApiDestination = (input: SdkIntegrationTask<UpdateApiDestinationCommandInput>): Promise<UpdateApiDestinationCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new UpdateApiDestinationCommand(input);
+    const command = new UpdateApiDestinationCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:updateArchive'*/
-export const nativeEventBridgeUpdateArchive = (input: UpdateArchiveCommandInput): Promise<UpdateArchiveCommandOutput> => {
+export const nativeEventBridgeUpdateArchive = (input: SdkIntegrationTask<UpdateArchiveCommandInput>): Promise<UpdateArchiveCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new UpdateArchiveCommand(input);
+    const command = new UpdateArchiveCommand(input.parameters);
     return eventbridge.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:eventbridge:updateConnection'*/
-export const nativeEventBridgeUpdateConnection = (input: UpdateConnectionCommandInput): Promise<UpdateConnectionCommandOutput> => {
+export const nativeEventBridgeUpdateConnection = (input: SdkIntegrationTask<UpdateConnectionCommandInput>): Promise<UpdateConnectionCommandOutput> => {
     const eventbridge = new EventBridgeClient({});
-    const command = new UpdateConnectionCommand(input);
+    const command = new UpdateConnectionCommand(input.parameters);
     return eventbridge.send(command);
 };
 

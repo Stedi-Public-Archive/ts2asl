@@ -1,4 +1,5 @@
 import { SSMClient } from "@aws-sdk/client-ssm";
+import { SdkIntegrationTask } from "./asl";
 import { AddTagsToResourceCommandInput, AddTagsToResourceCommandOutput, AddTagsToResourceCommand } from "@aws-sdk/client-ssm";
 import { AssociateOpsItemRelatedItemCommandInput, AssociateOpsItemRelatedItemCommandOutput, AssociateOpsItemRelatedItemCommand } from "@aws-sdk/client-ssm";
 import { CancelCommandCommandInput, CancelCommandCommandOutput, CancelCommandCommand } from "@aws-sdk/client-ssm";
@@ -137,947 +138,947 @@ import { UpdateServiceSettingCommandInput, UpdateServiceSettingCommandOutput, Up
 
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:addTagsToResource'*/
-export const nativeSSMAddTagsToResource = (input: AddTagsToResourceCommandInput): Promise<AddTagsToResourceCommandOutput> => {
+export const nativeSSMAddTagsToResource = (input: SdkIntegrationTask<AddTagsToResourceCommandInput>): Promise<AddTagsToResourceCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new AddTagsToResourceCommand(input);
+    const command = new AddTagsToResourceCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:associateOpsItemRelatedItem'*/
-export const nativeSSMAssociateOpsItemRelatedItem = (input: AssociateOpsItemRelatedItemCommandInput): Promise<AssociateOpsItemRelatedItemCommandOutput> => {
+export const nativeSSMAssociateOpsItemRelatedItem = (input: SdkIntegrationTask<AssociateOpsItemRelatedItemCommandInput>): Promise<AssociateOpsItemRelatedItemCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new AssociateOpsItemRelatedItemCommand(input);
+    const command = new AssociateOpsItemRelatedItemCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:cancelCommand'*/
-export const nativeSSMCancelCommand = (input: CancelCommandCommandInput): Promise<CancelCommandCommandOutput> => {
+export const nativeSSMCancelCommand = (input: SdkIntegrationTask<CancelCommandCommandInput>): Promise<CancelCommandCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CancelCommandCommand(input);
+    const command = new CancelCommandCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:cancelMaintenanceWindowExecution'*/
-export const nativeSSMCancelMaintenanceWindowExecution = (input: CancelMaintenanceWindowExecutionCommandInput): Promise<CancelMaintenanceWindowExecutionCommandOutput> => {
+export const nativeSSMCancelMaintenanceWindowExecution = (input: SdkIntegrationTask<CancelMaintenanceWindowExecutionCommandInput>): Promise<CancelMaintenanceWindowExecutionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CancelMaintenanceWindowExecutionCommand(input);
+    const command = new CancelMaintenanceWindowExecutionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createActivation'*/
-export const nativeSSMCreateActivation = (input: CreateActivationCommandInput): Promise<CreateActivationCommandOutput> => {
+export const nativeSSMCreateActivation = (input: SdkIntegrationTask<CreateActivationCommandInput>): Promise<CreateActivationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreateActivationCommand(input);
+    const command = new CreateActivationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createAssociation'*/
-export const nativeSSMCreateAssociation = (input: CreateAssociationCommandInput): Promise<CreateAssociationCommandOutput> => {
+export const nativeSSMCreateAssociation = (input: SdkIntegrationTask<CreateAssociationCommandInput>): Promise<CreateAssociationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreateAssociationCommand(input);
+    const command = new CreateAssociationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createAssociationBatch'*/
-export const nativeSSMCreateAssociationBatch = (input: CreateAssociationBatchCommandInput): Promise<CreateAssociationBatchCommandOutput> => {
+export const nativeSSMCreateAssociationBatch = (input: SdkIntegrationTask<CreateAssociationBatchCommandInput>): Promise<CreateAssociationBatchCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreateAssociationBatchCommand(input);
+    const command = new CreateAssociationBatchCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createDocument'*/
-export const nativeSSMCreateDocument = (input: CreateDocumentCommandInput): Promise<CreateDocumentCommandOutput> => {
+export const nativeSSMCreateDocument = (input: SdkIntegrationTask<CreateDocumentCommandInput>): Promise<CreateDocumentCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreateDocumentCommand(input);
+    const command = new CreateDocumentCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createMaintenanceWindow'*/
-export const nativeSSMCreateMaintenanceWindow = (input: CreateMaintenanceWindowCommandInput): Promise<CreateMaintenanceWindowCommandOutput> => {
+export const nativeSSMCreateMaintenanceWindow = (input: SdkIntegrationTask<CreateMaintenanceWindowCommandInput>): Promise<CreateMaintenanceWindowCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreateMaintenanceWindowCommand(input);
+    const command = new CreateMaintenanceWindowCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createOpsItem'*/
-export const nativeSSMCreateOpsItem = (input: CreateOpsItemCommandInput): Promise<CreateOpsItemCommandOutput> => {
+export const nativeSSMCreateOpsItem = (input: SdkIntegrationTask<CreateOpsItemCommandInput>): Promise<CreateOpsItemCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreateOpsItemCommand(input);
+    const command = new CreateOpsItemCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createOpsMetadata'*/
-export const nativeSSMCreateOpsMetadata = (input: CreateOpsMetadataCommandInput): Promise<CreateOpsMetadataCommandOutput> => {
+export const nativeSSMCreateOpsMetadata = (input: SdkIntegrationTask<CreateOpsMetadataCommandInput>): Promise<CreateOpsMetadataCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreateOpsMetadataCommand(input);
+    const command = new CreateOpsMetadataCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createPatchBaseline'*/
-export const nativeSSMCreatePatchBaseline = (input: CreatePatchBaselineCommandInput): Promise<CreatePatchBaselineCommandOutput> => {
+export const nativeSSMCreatePatchBaseline = (input: SdkIntegrationTask<CreatePatchBaselineCommandInput>): Promise<CreatePatchBaselineCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreatePatchBaselineCommand(input);
+    const command = new CreatePatchBaselineCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:createResourceDataSync'*/
-export const nativeSSMCreateResourceDataSync = (input: CreateResourceDataSyncCommandInput): Promise<CreateResourceDataSyncCommandOutput> => {
+export const nativeSSMCreateResourceDataSync = (input: SdkIntegrationTask<CreateResourceDataSyncCommandInput>): Promise<CreateResourceDataSyncCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new CreateResourceDataSyncCommand(input);
+    const command = new CreateResourceDataSyncCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteActivation'*/
-export const nativeSSMDeleteActivation = (input: DeleteActivationCommandInput): Promise<DeleteActivationCommandOutput> => {
+export const nativeSSMDeleteActivation = (input: SdkIntegrationTask<DeleteActivationCommandInput>): Promise<DeleteActivationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteActivationCommand(input);
+    const command = new DeleteActivationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteAssociation'*/
-export const nativeSSMDeleteAssociation = (input: DeleteAssociationCommandInput): Promise<DeleteAssociationCommandOutput> => {
+export const nativeSSMDeleteAssociation = (input: SdkIntegrationTask<DeleteAssociationCommandInput>): Promise<DeleteAssociationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteAssociationCommand(input);
+    const command = new DeleteAssociationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteDocument'*/
-export const nativeSSMDeleteDocument = (input: DeleteDocumentCommandInput): Promise<DeleteDocumentCommandOutput> => {
+export const nativeSSMDeleteDocument = (input: SdkIntegrationTask<DeleteDocumentCommandInput>): Promise<DeleteDocumentCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteDocumentCommand(input);
+    const command = new DeleteDocumentCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteInventory'*/
-export const nativeSSMDeleteInventory = (input: DeleteInventoryCommandInput): Promise<DeleteInventoryCommandOutput> => {
+export const nativeSSMDeleteInventory = (input: SdkIntegrationTask<DeleteInventoryCommandInput>): Promise<DeleteInventoryCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteInventoryCommand(input);
+    const command = new DeleteInventoryCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteMaintenanceWindow'*/
-export const nativeSSMDeleteMaintenanceWindow = (input: DeleteMaintenanceWindowCommandInput): Promise<DeleteMaintenanceWindowCommandOutput> => {
+export const nativeSSMDeleteMaintenanceWindow = (input: SdkIntegrationTask<DeleteMaintenanceWindowCommandInput>): Promise<DeleteMaintenanceWindowCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteMaintenanceWindowCommand(input);
+    const command = new DeleteMaintenanceWindowCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteOpsMetadata'*/
-export const nativeSSMDeleteOpsMetadata = (input: DeleteOpsMetadataCommandInput): Promise<DeleteOpsMetadataCommandOutput> => {
+export const nativeSSMDeleteOpsMetadata = (input: SdkIntegrationTask<DeleteOpsMetadataCommandInput>): Promise<DeleteOpsMetadataCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteOpsMetadataCommand(input);
+    const command = new DeleteOpsMetadataCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteParameter'*/
-export const nativeSSMDeleteParameter = (input: DeleteParameterCommandInput): Promise<DeleteParameterCommandOutput> => {
+export const nativeSSMDeleteParameter = (input: SdkIntegrationTask<DeleteParameterCommandInput>): Promise<DeleteParameterCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteParameterCommand(input);
+    const command = new DeleteParameterCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteParameters'*/
-export const nativeSSMDeleteParameters = (input: DeleteParametersCommandInput): Promise<DeleteParametersCommandOutput> => {
+export const nativeSSMDeleteParameters = (input: SdkIntegrationTask<DeleteParametersCommandInput>): Promise<DeleteParametersCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteParametersCommand(input);
+    const command = new DeleteParametersCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deletePatchBaseline'*/
-export const nativeSSMDeletePatchBaseline = (input: DeletePatchBaselineCommandInput): Promise<DeletePatchBaselineCommandOutput> => {
+export const nativeSSMDeletePatchBaseline = (input: SdkIntegrationTask<DeletePatchBaselineCommandInput>): Promise<DeletePatchBaselineCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeletePatchBaselineCommand(input);
+    const command = new DeletePatchBaselineCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deleteResourceDataSync'*/
-export const nativeSSMDeleteResourceDataSync = (input: DeleteResourceDataSyncCommandInput): Promise<DeleteResourceDataSyncCommandOutput> => {
+export const nativeSSMDeleteResourceDataSync = (input: SdkIntegrationTask<DeleteResourceDataSyncCommandInput>): Promise<DeleteResourceDataSyncCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeleteResourceDataSyncCommand(input);
+    const command = new DeleteResourceDataSyncCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deregisterManagedInstance'*/
-export const nativeSSMDeregisterManagedInstance = (input: DeregisterManagedInstanceCommandInput): Promise<DeregisterManagedInstanceCommandOutput> => {
+export const nativeSSMDeregisterManagedInstance = (input: SdkIntegrationTask<DeregisterManagedInstanceCommandInput>): Promise<DeregisterManagedInstanceCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeregisterManagedInstanceCommand(input);
+    const command = new DeregisterManagedInstanceCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deregisterPatchBaselineForPatchGroup'*/
-export const nativeSSMDeregisterPatchBaselineForPatchGroup = (input: DeregisterPatchBaselineForPatchGroupCommandInput): Promise<DeregisterPatchBaselineForPatchGroupCommandOutput> => {
+export const nativeSSMDeregisterPatchBaselineForPatchGroup = (input: SdkIntegrationTask<DeregisterPatchBaselineForPatchGroupCommandInput>): Promise<DeregisterPatchBaselineForPatchGroupCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeregisterPatchBaselineForPatchGroupCommand(input);
+    const command = new DeregisterPatchBaselineForPatchGroupCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deregisterTargetFromMaintenanceWindow'*/
-export const nativeSSMDeregisterTargetFromMaintenanceWindow = (input: DeregisterTargetFromMaintenanceWindowCommandInput): Promise<DeregisterTargetFromMaintenanceWindowCommandOutput> => {
+export const nativeSSMDeregisterTargetFromMaintenanceWindow = (input: SdkIntegrationTask<DeregisterTargetFromMaintenanceWindowCommandInput>): Promise<DeregisterTargetFromMaintenanceWindowCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeregisterTargetFromMaintenanceWindowCommand(input);
+    const command = new DeregisterTargetFromMaintenanceWindowCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:deregisterTaskFromMaintenanceWindow'*/
-export const nativeSSMDeregisterTaskFromMaintenanceWindow = (input: DeregisterTaskFromMaintenanceWindowCommandInput): Promise<DeregisterTaskFromMaintenanceWindowCommandOutput> => {
+export const nativeSSMDeregisterTaskFromMaintenanceWindow = (input: SdkIntegrationTask<DeregisterTaskFromMaintenanceWindowCommandInput>): Promise<DeregisterTaskFromMaintenanceWindowCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DeregisterTaskFromMaintenanceWindowCommand(input);
+    const command = new DeregisterTaskFromMaintenanceWindowCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeActivations'*/
-export const nativeSSMDescribeActivations = (input: DescribeActivationsCommandInput): Promise<DescribeActivationsCommandOutput> => {
+export const nativeSSMDescribeActivations = (input: SdkIntegrationTask<DescribeActivationsCommandInput>): Promise<DescribeActivationsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeActivationsCommand(input);
+    const command = new DescribeActivationsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeAssociation'*/
-export const nativeSSMDescribeAssociation = (input: DescribeAssociationCommandInput): Promise<DescribeAssociationCommandOutput> => {
+export const nativeSSMDescribeAssociation = (input: SdkIntegrationTask<DescribeAssociationCommandInput>): Promise<DescribeAssociationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeAssociationCommand(input);
+    const command = new DescribeAssociationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeAssociationExecutionTargets'*/
-export const nativeSSMDescribeAssociationExecutionTargets = (input: DescribeAssociationExecutionTargetsCommandInput): Promise<DescribeAssociationExecutionTargetsCommandOutput> => {
+export const nativeSSMDescribeAssociationExecutionTargets = (input: SdkIntegrationTask<DescribeAssociationExecutionTargetsCommandInput>): Promise<DescribeAssociationExecutionTargetsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeAssociationExecutionTargetsCommand(input);
+    const command = new DescribeAssociationExecutionTargetsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeAssociationExecutions'*/
-export const nativeSSMDescribeAssociationExecutions = (input: DescribeAssociationExecutionsCommandInput): Promise<DescribeAssociationExecutionsCommandOutput> => {
+export const nativeSSMDescribeAssociationExecutions = (input: SdkIntegrationTask<DescribeAssociationExecutionsCommandInput>): Promise<DescribeAssociationExecutionsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeAssociationExecutionsCommand(input);
+    const command = new DescribeAssociationExecutionsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeAutomationExecutions'*/
-export const nativeSSMDescribeAutomationExecutions = (input: DescribeAutomationExecutionsCommandInput): Promise<DescribeAutomationExecutionsCommandOutput> => {
+export const nativeSSMDescribeAutomationExecutions = (input: SdkIntegrationTask<DescribeAutomationExecutionsCommandInput>): Promise<DescribeAutomationExecutionsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeAutomationExecutionsCommand(input);
+    const command = new DescribeAutomationExecutionsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeAutomationStepExecutions'*/
-export const nativeSSMDescribeAutomationStepExecutions = (input: DescribeAutomationStepExecutionsCommandInput): Promise<DescribeAutomationStepExecutionsCommandOutput> => {
+export const nativeSSMDescribeAutomationStepExecutions = (input: SdkIntegrationTask<DescribeAutomationStepExecutionsCommandInput>): Promise<DescribeAutomationStepExecutionsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeAutomationStepExecutionsCommand(input);
+    const command = new DescribeAutomationStepExecutionsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeAvailablePatches'*/
-export const nativeSSMDescribeAvailablePatches = (input: DescribeAvailablePatchesCommandInput): Promise<DescribeAvailablePatchesCommandOutput> => {
+export const nativeSSMDescribeAvailablePatches = (input: SdkIntegrationTask<DescribeAvailablePatchesCommandInput>): Promise<DescribeAvailablePatchesCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeAvailablePatchesCommand(input);
+    const command = new DescribeAvailablePatchesCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeDocument'*/
-export const nativeSSMDescribeDocument = (input: DescribeDocumentCommandInput): Promise<DescribeDocumentCommandOutput> => {
+export const nativeSSMDescribeDocument = (input: SdkIntegrationTask<DescribeDocumentCommandInput>): Promise<DescribeDocumentCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeDocumentCommand(input);
+    const command = new DescribeDocumentCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeDocumentPermission'*/
-export const nativeSSMDescribeDocumentPermission = (input: DescribeDocumentPermissionCommandInput): Promise<DescribeDocumentPermissionCommandOutput> => {
+export const nativeSSMDescribeDocumentPermission = (input: SdkIntegrationTask<DescribeDocumentPermissionCommandInput>): Promise<DescribeDocumentPermissionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeDocumentPermissionCommand(input);
+    const command = new DescribeDocumentPermissionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeEffectiveInstanceAssociations'*/
-export const nativeSSMDescribeEffectiveInstanceAssociations = (input: DescribeEffectiveInstanceAssociationsCommandInput): Promise<DescribeEffectiveInstanceAssociationsCommandOutput> => {
+export const nativeSSMDescribeEffectiveInstanceAssociations = (input: SdkIntegrationTask<DescribeEffectiveInstanceAssociationsCommandInput>): Promise<DescribeEffectiveInstanceAssociationsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeEffectiveInstanceAssociationsCommand(input);
+    const command = new DescribeEffectiveInstanceAssociationsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeEffectivePatchesForPatchBaseline'*/
-export const nativeSSMDescribeEffectivePatchesForPatchBaseline = (input: DescribeEffectivePatchesForPatchBaselineCommandInput): Promise<DescribeEffectivePatchesForPatchBaselineCommandOutput> => {
+export const nativeSSMDescribeEffectivePatchesForPatchBaseline = (input: SdkIntegrationTask<DescribeEffectivePatchesForPatchBaselineCommandInput>): Promise<DescribeEffectivePatchesForPatchBaselineCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeEffectivePatchesForPatchBaselineCommand(input);
+    const command = new DescribeEffectivePatchesForPatchBaselineCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeInstanceAssociationsStatus'*/
-export const nativeSSMDescribeInstanceAssociationsStatus = (input: DescribeInstanceAssociationsStatusCommandInput): Promise<DescribeInstanceAssociationsStatusCommandOutput> => {
+export const nativeSSMDescribeInstanceAssociationsStatus = (input: SdkIntegrationTask<DescribeInstanceAssociationsStatusCommandInput>): Promise<DescribeInstanceAssociationsStatusCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeInstanceAssociationsStatusCommand(input);
+    const command = new DescribeInstanceAssociationsStatusCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeInstanceInformation'*/
-export const nativeSSMDescribeInstanceInformation = (input: DescribeInstanceInformationCommandInput): Promise<DescribeInstanceInformationCommandOutput> => {
+export const nativeSSMDescribeInstanceInformation = (input: SdkIntegrationTask<DescribeInstanceInformationCommandInput>): Promise<DescribeInstanceInformationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeInstanceInformationCommand(input);
+    const command = new DescribeInstanceInformationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeInstancePatchStates'*/
-export const nativeSSMDescribeInstancePatchStates = (input: DescribeInstancePatchStatesCommandInput): Promise<DescribeInstancePatchStatesCommandOutput> => {
+export const nativeSSMDescribeInstancePatchStates = (input: SdkIntegrationTask<DescribeInstancePatchStatesCommandInput>): Promise<DescribeInstancePatchStatesCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeInstancePatchStatesCommand(input);
+    const command = new DescribeInstancePatchStatesCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeInstancePatchStatesForPatchGroup'*/
-export const nativeSSMDescribeInstancePatchStatesForPatchGroup = (input: DescribeInstancePatchStatesForPatchGroupCommandInput): Promise<DescribeInstancePatchStatesForPatchGroupCommandOutput> => {
+export const nativeSSMDescribeInstancePatchStatesForPatchGroup = (input: SdkIntegrationTask<DescribeInstancePatchStatesForPatchGroupCommandInput>): Promise<DescribeInstancePatchStatesForPatchGroupCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeInstancePatchStatesForPatchGroupCommand(input);
+    const command = new DescribeInstancePatchStatesForPatchGroupCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeInstancePatches'*/
-export const nativeSSMDescribeInstancePatches = (input: DescribeInstancePatchesCommandInput): Promise<DescribeInstancePatchesCommandOutput> => {
+export const nativeSSMDescribeInstancePatches = (input: SdkIntegrationTask<DescribeInstancePatchesCommandInput>): Promise<DescribeInstancePatchesCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeInstancePatchesCommand(input);
+    const command = new DescribeInstancePatchesCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeInventoryDeletions'*/
-export const nativeSSMDescribeInventoryDeletions = (input: DescribeInventoryDeletionsCommandInput): Promise<DescribeInventoryDeletionsCommandOutput> => {
+export const nativeSSMDescribeInventoryDeletions = (input: SdkIntegrationTask<DescribeInventoryDeletionsCommandInput>): Promise<DescribeInventoryDeletionsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeInventoryDeletionsCommand(input);
+    const command = new DescribeInventoryDeletionsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeMaintenanceWindowExecutionTaskInvocations'*/
-export const nativeSSMDescribeMaintenanceWindowExecutionTaskInvocations = (input: DescribeMaintenanceWindowExecutionTaskInvocationsCommandInput): Promise<DescribeMaintenanceWindowExecutionTaskInvocationsCommandOutput> => {
+export const nativeSSMDescribeMaintenanceWindowExecutionTaskInvocations = (input: SdkIntegrationTask<DescribeMaintenanceWindowExecutionTaskInvocationsCommandInput>): Promise<DescribeMaintenanceWindowExecutionTaskInvocationsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeMaintenanceWindowExecutionTaskInvocationsCommand(input);
+    const command = new DescribeMaintenanceWindowExecutionTaskInvocationsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeMaintenanceWindowExecutionTasks'*/
-export const nativeSSMDescribeMaintenanceWindowExecutionTasks = (input: DescribeMaintenanceWindowExecutionTasksCommandInput): Promise<DescribeMaintenanceWindowExecutionTasksCommandOutput> => {
+export const nativeSSMDescribeMaintenanceWindowExecutionTasks = (input: SdkIntegrationTask<DescribeMaintenanceWindowExecutionTasksCommandInput>): Promise<DescribeMaintenanceWindowExecutionTasksCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeMaintenanceWindowExecutionTasksCommand(input);
+    const command = new DescribeMaintenanceWindowExecutionTasksCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeMaintenanceWindowExecutions'*/
-export const nativeSSMDescribeMaintenanceWindowExecutions = (input: DescribeMaintenanceWindowExecutionsCommandInput): Promise<DescribeMaintenanceWindowExecutionsCommandOutput> => {
+export const nativeSSMDescribeMaintenanceWindowExecutions = (input: SdkIntegrationTask<DescribeMaintenanceWindowExecutionsCommandInput>): Promise<DescribeMaintenanceWindowExecutionsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeMaintenanceWindowExecutionsCommand(input);
+    const command = new DescribeMaintenanceWindowExecutionsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeMaintenanceWindowSchedule'*/
-export const nativeSSMDescribeMaintenanceWindowSchedule = (input: DescribeMaintenanceWindowScheduleCommandInput): Promise<DescribeMaintenanceWindowScheduleCommandOutput> => {
+export const nativeSSMDescribeMaintenanceWindowSchedule = (input: SdkIntegrationTask<DescribeMaintenanceWindowScheduleCommandInput>): Promise<DescribeMaintenanceWindowScheduleCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeMaintenanceWindowScheduleCommand(input);
+    const command = new DescribeMaintenanceWindowScheduleCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeMaintenanceWindowTargets'*/
-export const nativeSSMDescribeMaintenanceWindowTargets = (input: DescribeMaintenanceWindowTargetsCommandInput): Promise<DescribeMaintenanceWindowTargetsCommandOutput> => {
+export const nativeSSMDescribeMaintenanceWindowTargets = (input: SdkIntegrationTask<DescribeMaintenanceWindowTargetsCommandInput>): Promise<DescribeMaintenanceWindowTargetsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeMaintenanceWindowTargetsCommand(input);
+    const command = new DescribeMaintenanceWindowTargetsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeMaintenanceWindowTasks'*/
-export const nativeSSMDescribeMaintenanceWindowTasks = (input: DescribeMaintenanceWindowTasksCommandInput): Promise<DescribeMaintenanceWindowTasksCommandOutput> => {
+export const nativeSSMDescribeMaintenanceWindowTasks = (input: SdkIntegrationTask<DescribeMaintenanceWindowTasksCommandInput>): Promise<DescribeMaintenanceWindowTasksCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeMaintenanceWindowTasksCommand(input);
+    const command = new DescribeMaintenanceWindowTasksCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeMaintenanceWindows'*/
-export const nativeSSMDescribeMaintenanceWindows = (input: DescribeMaintenanceWindowsCommandInput): Promise<DescribeMaintenanceWindowsCommandOutput> => {
+export const nativeSSMDescribeMaintenanceWindows = (input: SdkIntegrationTask<DescribeMaintenanceWindowsCommandInput>): Promise<DescribeMaintenanceWindowsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeMaintenanceWindowsCommand(input);
+    const command = new DescribeMaintenanceWindowsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeMaintenanceWindowsForTarget'*/
-export const nativeSSMDescribeMaintenanceWindowsForTarget = (input: DescribeMaintenanceWindowsForTargetCommandInput): Promise<DescribeMaintenanceWindowsForTargetCommandOutput> => {
+export const nativeSSMDescribeMaintenanceWindowsForTarget = (input: SdkIntegrationTask<DescribeMaintenanceWindowsForTargetCommandInput>): Promise<DescribeMaintenanceWindowsForTargetCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeMaintenanceWindowsForTargetCommand(input);
+    const command = new DescribeMaintenanceWindowsForTargetCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeOpsItems'*/
-export const nativeSSMDescribeOpsItems = (input: DescribeOpsItemsCommandInput): Promise<DescribeOpsItemsCommandOutput> => {
+export const nativeSSMDescribeOpsItems = (input: SdkIntegrationTask<DescribeOpsItemsCommandInput>): Promise<DescribeOpsItemsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeOpsItemsCommand(input);
+    const command = new DescribeOpsItemsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeParameters'*/
-export const nativeSSMDescribeParameters = (input: DescribeParametersCommandInput): Promise<DescribeParametersCommandOutput> => {
+export const nativeSSMDescribeParameters = (input: SdkIntegrationTask<DescribeParametersCommandInput>): Promise<DescribeParametersCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeParametersCommand(input);
+    const command = new DescribeParametersCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describePatchBaselines'*/
-export const nativeSSMDescribePatchBaselines = (input: DescribePatchBaselinesCommandInput): Promise<DescribePatchBaselinesCommandOutput> => {
+export const nativeSSMDescribePatchBaselines = (input: SdkIntegrationTask<DescribePatchBaselinesCommandInput>): Promise<DescribePatchBaselinesCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribePatchBaselinesCommand(input);
+    const command = new DescribePatchBaselinesCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describePatchGroupState'*/
-export const nativeSSMDescribePatchGroupState = (input: DescribePatchGroupStateCommandInput): Promise<DescribePatchGroupStateCommandOutput> => {
+export const nativeSSMDescribePatchGroupState = (input: SdkIntegrationTask<DescribePatchGroupStateCommandInput>): Promise<DescribePatchGroupStateCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribePatchGroupStateCommand(input);
+    const command = new DescribePatchGroupStateCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describePatchGroups'*/
-export const nativeSSMDescribePatchGroups = (input: DescribePatchGroupsCommandInput): Promise<DescribePatchGroupsCommandOutput> => {
+export const nativeSSMDescribePatchGroups = (input: SdkIntegrationTask<DescribePatchGroupsCommandInput>): Promise<DescribePatchGroupsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribePatchGroupsCommand(input);
+    const command = new DescribePatchGroupsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describePatchProperties'*/
-export const nativeSSMDescribePatchProperties = (input: DescribePatchPropertiesCommandInput): Promise<DescribePatchPropertiesCommandOutput> => {
+export const nativeSSMDescribePatchProperties = (input: SdkIntegrationTask<DescribePatchPropertiesCommandInput>): Promise<DescribePatchPropertiesCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribePatchPropertiesCommand(input);
+    const command = new DescribePatchPropertiesCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:describeSessions'*/
-export const nativeSSMDescribeSessions = (input: DescribeSessionsCommandInput): Promise<DescribeSessionsCommandOutput> => {
+export const nativeSSMDescribeSessions = (input: SdkIntegrationTask<DescribeSessionsCommandInput>): Promise<DescribeSessionsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DescribeSessionsCommand(input);
+    const command = new DescribeSessionsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:disassociateOpsItemRelatedItem'*/
-export const nativeSSMDisassociateOpsItemRelatedItem = (input: DisassociateOpsItemRelatedItemCommandInput): Promise<DisassociateOpsItemRelatedItemCommandOutput> => {
+export const nativeSSMDisassociateOpsItemRelatedItem = (input: SdkIntegrationTask<DisassociateOpsItemRelatedItemCommandInput>): Promise<DisassociateOpsItemRelatedItemCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new DisassociateOpsItemRelatedItemCommand(input);
+    const command = new DisassociateOpsItemRelatedItemCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getAutomationExecution'*/
-export const nativeSSMGetAutomationExecution = (input: GetAutomationExecutionCommandInput): Promise<GetAutomationExecutionCommandOutput> => {
+export const nativeSSMGetAutomationExecution = (input: SdkIntegrationTask<GetAutomationExecutionCommandInput>): Promise<GetAutomationExecutionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetAutomationExecutionCommand(input);
+    const command = new GetAutomationExecutionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getCalendarState'*/
-export const nativeSSMGetCalendarState = (input: GetCalendarStateCommandInput): Promise<GetCalendarStateCommandOutput> => {
+export const nativeSSMGetCalendarState = (input: SdkIntegrationTask<GetCalendarStateCommandInput>): Promise<GetCalendarStateCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetCalendarStateCommand(input);
+    const command = new GetCalendarStateCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getCommandInvocation'*/
-export const nativeSSMGetCommandInvocation = (input: GetCommandInvocationCommandInput): Promise<GetCommandInvocationCommandOutput> => {
+export const nativeSSMGetCommandInvocation = (input: SdkIntegrationTask<GetCommandInvocationCommandInput>): Promise<GetCommandInvocationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetCommandInvocationCommand(input);
+    const command = new GetCommandInvocationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getConnectionStatus'*/
-export const nativeSSMGetConnectionStatus = (input: GetConnectionStatusCommandInput): Promise<GetConnectionStatusCommandOutput> => {
+export const nativeSSMGetConnectionStatus = (input: SdkIntegrationTask<GetConnectionStatusCommandInput>): Promise<GetConnectionStatusCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetConnectionStatusCommand(input);
+    const command = new GetConnectionStatusCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getDefaultPatchBaseline'*/
-export const nativeSSMGetDefaultPatchBaseline = (input: GetDefaultPatchBaselineCommandInput): Promise<GetDefaultPatchBaselineCommandOutput> => {
+export const nativeSSMGetDefaultPatchBaseline = (input: SdkIntegrationTask<GetDefaultPatchBaselineCommandInput>): Promise<GetDefaultPatchBaselineCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetDefaultPatchBaselineCommand(input);
+    const command = new GetDefaultPatchBaselineCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getDeployablePatchSnapshotForInstance'*/
-export const nativeSSMGetDeployablePatchSnapshotForInstance = (input: GetDeployablePatchSnapshotForInstanceCommandInput): Promise<GetDeployablePatchSnapshotForInstanceCommandOutput> => {
+export const nativeSSMGetDeployablePatchSnapshotForInstance = (input: SdkIntegrationTask<GetDeployablePatchSnapshotForInstanceCommandInput>): Promise<GetDeployablePatchSnapshotForInstanceCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetDeployablePatchSnapshotForInstanceCommand(input);
+    const command = new GetDeployablePatchSnapshotForInstanceCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getDocument'*/
-export const nativeSSMGetDocument = (input: GetDocumentCommandInput): Promise<GetDocumentCommandOutput> => {
+export const nativeSSMGetDocument = (input: SdkIntegrationTask<GetDocumentCommandInput>): Promise<GetDocumentCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetDocumentCommand(input);
+    const command = new GetDocumentCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getInventory'*/
-export const nativeSSMGetInventory = (input: GetInventoryCommandInput): Promise<GetInventoryCommandOutput> => {
+export const nativeSSMGetInventory = (input: SdkIntegrationTask<GetInventoryCommandInput>): Promise<GetInventoryCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetInventoryCommand(input);
+    const command = new GetInventoryCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getInventorySchema'*/
-export const nativeSSMGetInventorySchema = (input: GetInventorySchemaCommandInput): Promise<GetInventorySchemaCommandOutput> => {
+export const nativeSSMGetInventorySchema = (input: SdkIntegrationTask<GetInventorySchemaCommandInput>): Promise<GetInventorySchemaCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetInventorySchemaCommand(input);
+    const command = new GetInventorySchemaCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getMaintenanceWindow'*/
-export const nativeSSMGetMaintenanceWindow = (input: GetMaintenanceWindowCommandInput): Promise<GetMaintenanceWindowCommandOutput> => {
+export const nativeSSMGetMaintenanceWindow = (input: SdkIntegrationTask<GetMaintenanceWindowCommandInput>): Promise<GetMaintenanceWindowCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetMaintenanceWindowCommand(input);
+    const command = new GetMaintenanceWindowCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getMaintenanceWindowExecution'*/
-export const nativeSSMGetMaintenanceWindowExecution = (input: GetMaintenanceWindowExecutionCommandInput): Promise<GetMaintenanceWindowExecutionCommandOutput> => {
+export const nativeSSMGetMaintenanceWindowExecution = (input: SdkIntegrationTask<GetMaintenanceWindowExecutionCommandInput>): Promise<GetMaintenanceWindowExecutionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetMaintenanceWindowExecutionCommand(input);
+    const command = new GetMaintenanceWindowExecutionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getMaintenanceWindowExecutionTask'*/
-export const nativeSSMGetMaintenanceWindowExecutionTask = (input: GetMaintenanceWindowExecutionTaskCommandInput): Promise<GetMaintenanceWindowExecutionTaskCommandOutput> => {
+export const nativeSSMGetMaintenanceWindowExecutionTask = (input: SdkIntegrationTask<GetMaintenanceWindowExecutionTaskCommandInput>): Promise<GetMaintenanceWindowExecutionTaskCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetMaintenanceWindowExecutionTaskCommand(input);
+    const command = new GetMaintenanceWindowExecutionTaskCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getMaintenanceWindowExecutionTaskInvocation'*/
-export const nativeSSMGetMaintenanceWindowExecutionTaskInvocation = (input: GetMaintenanceWindowExecutionTaskInvocationCommandInput): Promise<GetMaintenanceWindowExecutionTaskInvocationCommandOutput> => {
+export const nativeSSMGetMaintenanceWindowExecutionTaskInvocation = (input: SdkIntegrationTask<GetMaintenanceWindowExecutionTaskInvocationCommandInput>): Promise<GetMaintenanceWindowExecutionTaskInvocationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetMaintenanceWindowExecutionTaskInvocationCommand(input);
+    const command = new GetMaintenanceWindowExecutionTaskInvocationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getMaintenanceWindowTask'*/
-export const nativeSSMGetMaintenanceWindowTask = (input: GetMaintenanceWindowTaskCommandInput): Promise<GetMaintenanceWindowTaskCommandOutput> => {
+export const nativeSSMGetMaintenanceWindowTask = (input: SdkIntegrationTask<GetMaintenanceWindowTaskCommandInput>): Promise<GetMaintenanceWindowTaskCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetMaintenanceWindowTaskCommand(input);
+    const command = new GetMaintenanceWindowTaskCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getOpsItem'*/
-export const nativeSSMGetOpsItem = (input: GetOpsItemCommandInput): Promise<GetOpsItemCommandOutput> => {
+export const nativeSSMGetOpsItem = (input: SdkIntegrationTask<GetOpsItemCommandInput>): Promise<GetOpsItemCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetOpsItemCommand(input);
+    const command = new GetOpsItemCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getOpsMetadata'*/
-export const nativeSSMGetOpsMetadata = (input: GetOpsMetadataCommandInput): Promise<GetOpsMetadataCommandOutput> => {
+export const nativeSSMGetOpsMetadata = (input: SdkIntegrationTask<GetOpsMetadataCommandInput>): Promise<GetOpsMetadataCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetOpsMetadataCommand(input);
+    const command = new GetOpsMetadataCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getOpsSummary'*/
-export const nativeSSMGetOpsSummary = (input: GetOpsSummaryCommandInput): Promise<GetOpsSummaryCommandOutput> => {
+export const nativeSSMGetOpsSummary = (input: SdkIntegrationTask<GetOpsSummaryCommandInput>): Promise<GetOpsSummaryCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetOpsSummaryCommand(input);
+    const command = new GetOpsSummaryCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getParameter'*/
-export const nativeSSMGetParameter = (input: GetParameterCommandInput): Promise<GetParameterCommandOutput> => {
+export const nativeSSMGetParameter = (input: SdkIntegrationTask<GetParameterCommandInput>): Promise<GetParameterCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetParameterCommand(input);
+    const command = new GetParameterCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getParameterHistory'*/
-export const nativeSSMGetParameterHistory = (input: GetParameterHistoryCommandInput): Promise<GetParameterHistoryCommandOutput> => {
+export const nativeSSMGetParameterHistory = (input: SdkIntegrationTask<GetParameterHistoryCommandInput>): Promise<GetParameterHistoryCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetParameterHistoryCommand(input);
+    const command = new GetParameterHistoryCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getParameters'*/
-export const nativeSSMGetParameters = (input: GetParametersCommandInput): Promise<GetParametersCommandOutput> => {
+export const nativeSSMGetParameters = (input: SdkIntegrationTask<GetParametersCommandInput>): Promise<GetParametersCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetParametersCommand(input);
+    const command = new GetParametersCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getParametersByPath'*/
-export const nativeSSMGetParametersByPath = (input: GetParametersByPathCommandInput): Promise<GetParametersByPathCommandOutput> => {
+export const nativeSSMGetParametersByPath = (input: SdkIntegrationTask<GetParametersByPathCommandInput>): Promise<GetParametersByPathCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetParametersByPathCommand(input);
+    const command = new GetParametersByPathCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getPatchBaseline'*/
-export const nativeSSMGetPatchBaseline = (input: GetPatchBaselineCommandInput): Promise<GetPatchBaselineCommandOutput> => {
+export const nativeSSMGetPatchBaseline = (input: SdkIntegrationTask<GetPatchBaselineCommandInput>): Promise<GetPatchBaselineCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetPatchBaselineCommand(input);
+    const command = new GetPatchBaselineCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getPatchBaselineForPatchGroup'*/
-export const nativeSSMGetPatchBaselineForPatchGroup = (input: GetPatchBaselineForPatchGroupCommandInput): Promise<GetPatchBaselineForPatchGroupCommandOutput> => {
+export const nativeSSMGetPatchBaselineForPatchGroup = (input: SdkIntegrationTask<GetPatchBaselineForPatchGroupCommandInput>): Promise<GetPatchBaselineForPatchGroupCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetPatchBaselineForPatchGroupCommand(input);
+    const command = new GetPatchBaselineForPatchGroupCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:getServiceSetting'*/
-export const nativeSSMGetServiceSetting = (input: GetServiceSettingCommandInput): Promise<GetServiceSettingCommandOutput> => {
+export const nativeSSMGetServiceSetting = (input: SdkIntegrationTask<GetServiceSettingCommandInput>): Promise<GetServiceSettingCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new GetServiceSettingCommand(input);
+    const command = new GetServiceSettingCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:labelParameterVersion'*/
-export const nativeSSMLabelParameterVersion = (input: LabelParameterVersionCommandInput): Promise<LabelParameterVersionCommandOutput> => {
+export const nativeSSMLabelParameterVersion = (input: SdkIntegrationTask<LabelParameterVersionCommandInput>): Promise<LabelParameterVersionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new LabelParameterVersionCommand(input);
+    const command = new LabelParameterVersionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listAssociationVersions'*/
-export const nativeSSMListAssociationVersions = (input: ListAssociationVersionsCommandInput): Promise<ListAssociationVersionsCommandOutput> => {
+export const nativeSSMListAssociationVersions = (input: SdkIntegrationTask<ListAssociationVersionsCommandInput>): Promise<ListAssociationVersionsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListAssociationVersionsCommand(input);
+    const command = new ListAssociationVersionsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listAssociations'*/
-export const nativeSSMListAssociations = (input: ListAssociationsCommandInput): Promise<ListAssociationsCommandOutput> => {
+export const nativeSSMListAssociations = (input: SdkIntegrationTask<ListAssociationsCommandInput>): Promise<ListAssociationsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListAssociationsCommand(input);
+    const command = new ListAssociationsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listCommandInvocations'*/
-export const nativeSSMListCommandInvocations = (input: ListCommandInvocationsCommandInput): Promise<ListCommandInvocationsCommandOutput> => {
+export const nativeSSMListCommandInvocations = (input: SdkIntegrationTask<ListCommandInvocationsCommandInput>): Promise<ListCommandInvocationsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListCommandInvocationsCommand(input);
+    const command = new ListCommandInvocationsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listCommands'*/
-export const nativeSSMListCommands = (input: ListCommandsCommandInput): Promise<ListCommandsCommandOutput> => {
+export const nativeSSMListCommands = (input: SdkIntegrationTask<ListCommandsCommandInput>): Promise<ListCommandsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListCommandsCommand(input);
+    const command = new ListCommandsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listComplianceItems'*/
-export const nativeSSMListComplianceItems = (input: ListComplianceItemsCommandInput): Promise<ListComplianceItemsCommandOutput> => {
+export const nativeSSMListComplianceItems = (input: SdkIntegrationTask<ListComplianceItemsCommandInput>): Promise<ListComplianceItemsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListComplianceItemsCommand(input);
+    const command = new ListComplianceItemsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listComplianceSummaries'*/
-export const nativeSSMListComplianceSummaries = (input: ListComplianceSummariesCommandInput): Promise<ListComplianceSummariesCommandOutput> => {
+export const nativeSSMListComplianceSummaries = (input: SdkIntegrationTask<ListComplianceSummariesCommandInput>): Promise<ListComplianceSummariesCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListComplianceSummariesCommand(input);
+    const command = new ListComplianceSummariesCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listDocumentMetadataHistory'*/
-export const nativeSSMListDocumentMetadataHistory = (input: ListDocumentMetadataHistoryCommandInput): Promise<ListDocumentMetadataHistoryCommandOutput> => {
+export const nativeSSMListDocumentMetadataHistory = (input: SdkIntegrationTask<ListDocumentMetadataHistoryCommandInput>): Promise<ListDocumentMetadataHistoryCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListDocumentMetadataHistoryCommand(input);
+    const command = new ListDocumentMetadataHistoryCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listDocumentVersions'*/
-export const nativeSSMListDocumentVersions = (input: ListDocumentVersionsCommandInput): Promise<ListDocumentVersionsCommandOutput> => {
+export const nativeSSMListDocumentVersions = (input: SdkIntegrationTask<ListDocumentVersionsCommandInput>): Promise<ListDocumentVersionsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListDocumentVersionsCommand(input);
+    const command = new ListDocumentVersionsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listDocuments'*/
-export const nativeSSMListDocuments = (input: ListDocumentsCommandInput): Promise<ListDocumentsCommandOutput> => {
+export const nativeSSMListDocuments = (input: SdkIntegrationTask<ListDocumentsCommandInput>): Promise<ListDocumentsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListDocumentsCommand(input);
+    const command = new ListDocumentsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listInventoryEntries'*/
-export const nativeSSMListInventoryEntries = (input: ListInventoryEntriesCommandInput): Promise<ListInventoryEntriesCommandOutput> => {
+export const nativeSSMListInventoryEntries = (input: SdkIntegrationTask<ListInventoryEntriesCommandInput>): Promise<ListInventoryEntriesCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListInventoryEntriesCommand(input);
+    const command = new ListInventoryEntriesCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listOpsItemEvents'*/
-export const nativeSSMListOpsItemEvents = (input: ListOpsItemEventsCommandInput): Promise<ListOpsItemEventsCommandOutput> => {
+export const nativeSSMListOpsItemEvents = (input: SdkIntegrationTask<ListOpsItemEventsCommandInput>): Promise<ListOpsItemEventsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListOpsItemEventsCommand(input);
+    const command = new ListOpsItemEventsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listOpsItemRelatedItems'*/
-export const nativeSSMListOpsItemRelatedItems = (input: ListOpsItemRelatedItemsCommandInput): Promise<ListOpsItemRelatedItemsCommandOutput> => {
+export const nativeSSMListOpsItemRelatedItems = (input: SdkIntegrationTask<ListOpsItemRelatedItemsCommandInput>): Promise<ListOpsItemRelatedItemsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListOpsItemRelatedItemsCommand(input);
+    const command = new ListOpsItemRelatedItemsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listOpsMetadata'*/
-export const nativeSSMListOpsMetadata = (input: ListOpsMetadataCommandInput): Promise<ListOpsMetadataCommandOutput> => {
+export const nativeSSMListOpsMetadata = (input: SdkIntegrationTask<ListOpsMetadataCommandInput>): Promise<ListOpsMetadataCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListOpsMetadataCommand(input);
+    const command = new ListOpsMetadataCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listResourceComplianceSummaries'*/
-export const nativeSSMListResourceComplianceSummaries = (input: ListResourceComplianceSummariesCommandInput): Promise<ListResourceComplianceSummariesCommandOutput> => {
+export const nativeSSMListResourceComplianceSummaries = (input: SdkIntegrationTask<ListResourceComplianceSummariesCommandInput>): Promise<ListResourceComplianceSummariesCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListResourceComplianceSummariesCommand(input);
+    const command = new ListResourceComplianceSummariesCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listResourceDataSync'*/
-export const nativeSSMListResourceDataSync = (input: ListResourceDataSyncCommandInput): Promise<ListResourceDataSyncCommandOutput> => {
+export const nativeSSMListResourceDataSync = (input: SdkIntegrationTask<ListResourceDataSyncCommandInput>): Promise<ListResourceDataSyncCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListResourceDataSyncCommand(input);
+    const command = new ListResourceDataSyncCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:listTagsForResource'*/
-export const nativeSSMListTagsForResource = (input: ListTagsForResourceCommandInput): Promise<ListTagsForResourceCommandOutput> => {
+export const nativeSSMListTagsForResource = (input: SdkIntegrationTask<ListTagsForResourceCommandInput>): Promise<ListTagsForResourceCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ListTagsForResourceCommand(input);
+    const command = new ListTagsForResourceCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:modifyDocumentPermission'*/
-export const nativeSSMModifyDocumentPermission = (input: ModifyDocumentPermissionCommandInput): Promise<ModifyDocumentPermissionCommandOutput> => {
+export const nativeSSMModifyDocumentPermission = (input: SdkIntegrationTask<ModifyDocumentPermissionCommandInput>): Promise<ModifyDocumentPermissionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ModifyDocumentPermissionCommand(input);
+    const command = new ModifyDocumentPermissionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:putComplianceItems'*/
-export const nativeSSMPutComplianceItems = (input: PutComplianceItemsCommandInput): Promise<PutComplianceItemsCommandOutput> => {
+export const nativeSSMPutComplianceItems = (input: SdkIntegrationTask<PutComplianceItemsCommandInput>): Promise<PutComplianceItemsCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new PutComplianceItemsCommand(input);
+    const command = new PutComplianceItemsCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:putInventory'*/
-export const nativeSSMPutInventory = (input: PutInventoryCommandInput): Promise<PutInventoryCommandOutput> => {
+export const nativeSSMPutInventory = (input: SdkIntegrationTask<PutInventoryCommandInput>): Promise<PutInventoryCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new PutInventoryCommand(input);
+    const command = new PutInventoryCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:putParameter'*/
-export const nativeSSMPutParameter = (input: PutParameterCommandInput): Promise<PutParameterCommandOutput> => {
+export const nativeSSMPutParameter = (input: SdkIntegrationTask<PutParameterCommandInput>): Promise<PutParameterCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new PutParameterCommand(input);
+    const command = new PutParameterCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:registerDefaultPatchBaseline'*/
-export const nativeSSMRegisterDefaultPatchBaseline = (input: RegisterDefaultPatchBaselineCommandInput): Promise<RegisterDefaultPatchBaselineCommandOutput> => {
+export const nativeSSMRegisterDefaultPatchBaseline = (input: SdkIntegrationTask<RegisterDefaultPatchBaselineCommandInput>): Promise<RegisterDefaultPatchBaselineCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new RegisterDefaultPatchBaselineCommand(input);
+    const command = new RegisterDefaultPatchBaselineCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:registerPatchBaselineForPatchGroup'*/
-export const nativeSSMRegisterPatchBaselineForPatchGroup = (input: RegisterPatchBaselineForPatchGroupCommandInput): Promise<RegisterPatchBaselineForPatchGroupCommandOutput> => {
+export const nativeSSMRegisterPatchBaselineForPatchGroup = (input: SdkIntegrationTask<RegisterPatchBaselineForPatchGroupCommandInput>): Promise<RegisterPatchBaselineForPatchGroupCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new RegisterPatchBaselineForPatchGroupCommand(input);
+    const command = new RegisterPatchBaselineForPatchGroupCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:registerTargetWithMaintenanceWindow'*/
-export const nativeSSMRegisterTargetWithMaintenanceWindow = (input: RegisterTargetWithMaintenanceWindowCommandInput): Promise<RegisterTargetWithMaintenanceWindowCommandOutput> => {
+export const nativeSSMRegisterTargetWithMaintenanceWindow = (input: SdkIntegrationTask<RegisterTargetWithMaintenanceWindowCommandInput>): Promise<RegisterTargetWithMaintenanceWindowCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new RegisterTargetWithMaintenanceWindowCommand(input);
+    const command = new RegisterTargetWithMaintenanceWindowCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:registerTaskWithMaintenanceWindow'*/
-export const nativeSSMRegisterTaskWithMaintenanceWindow = (input: RegisterTaskWithMaintenanceWindowCommandInput): Promise<RegisterTaskWithMaintenanceWindowCommandOutput> => {
+export const nativeSSMRegisterTaskWithMaintenanceWindow = (input: SdkIntegrationTask<RegisterTaskWithMaintenanceWindowCommandInput>): Promise<RegisterTaskWithMaintenanceWindowCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new RegisterTaskWithMaintenanceWindowCommand(input);
+    const command = new RegisterTaskWithMaintenanceWindowCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:removeTagsFromResource'*/
-export const nativeSSMRemoveTagsFromResource = (input: RemoveTagsFromResourceCommandInput): Promise<RemoveTagsFromResourceCommandOutput> => {
+export const nativeSSMRemoveTagsFromResource = (input: SdkIntegrationTask<RemoveTagsFromResourceCommandInput>): Promise<RemoveTagsFromResourceCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new RemoveTagsFromResourceCommand(input);
+    const command = new RemoveTagsFromResourceCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:resetServiceSetting'*/
-export const nativeSSMResetServiceSetting = (input: ResetServiceSettingCommandInput): Promise<ResetServiceSettingCommandOutput> => {
+export const nativeSSMResetServiceSetting = (input: SdkIntegrationTask<ResetServiceSettingCommandInput>): Promise<ResetServiceSettingCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ResetServiceSettingCommand(input);
+    const command = new ResetServiceSettingCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:resumeSession'*/
-export const nativeSSMResumeSession = (input: ResumeSessionCommandInput): Promise<ResumeSessionCommandOutput> => {
+export const nativeSSMResumeSession = (input: SdkIntegrationTask<ResumeSessionCommandInput>): Promise<ResumeSessionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new ResumeSessionCommand(input);
+    const command = new ResumeSessionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:sendAutomationSignal'*/
-export const nativeSSMSendAutomationSignal = (input: SendAutomationSignalCommandInput): Promise<SendAutomationSignalCommandOutput> => {
+export const nativeSSMSendAutomationSignal = (input: SdkIntegrationTask<SendAutomationSignalCommandInput>): Promise<SendAutomationSignalCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new SendAutomationSignalCommand(input);
+    const command = new SendAutomationSignalCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:sendCommand'*/
-export const nativeSSMSendCommand = (input: SendCommandCommandInput): Promise<SendCommandCommandOutput> => {
+export const nativeSSMSendCommand = (input: SdkIntegrationTask<SendCommandCommandInput>): Promise<SendCommandCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new SendCommandCommand(input);
+    const command = new SendCommandCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:startAssociationsOnce'*/
-export const nativeSSMStartAssociationsOnce = (input: StartAssociationsOnceCommandInput): Promise<StartAssociationsOnceCommandOutput> => {
+export const nativeSSMStartAssociationsOnce = (input: SdkIntegrationTask<StartAssociationsOnceCommandInput>): Promise<StartAssociationsOnceCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new StartAssociationsOnceCommand(input);
+    const command = new StartAssociationsOnceCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:startAutomationExecution'*/
-export const nativeSSMStartAutomationExecution = (input: StartAutomationExecutionCommandInput): Promise<StartAutomationExecutionCommandOutput> => {
+export const nativeSSMStartAutomationExecution = (input: SdkIntegrationTask<StartAutomationExecutionCommandInput>): Promise<StartAutomationExecutionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new StartAutomationExecutionCommand(input);
+    const command = new StartAutomationExecutionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:startChangeRequestExecution'*/
-export const nativeSSMStartChangeRequestExecution = (input: StartChangeRequestExecutionCommandInput): Promise<StartChangeRequestExecutionCommandOutput> => {
+export const nativeSSMStartChangeRequestExecution = (input: SdkIntegrationTask<StartChangeRequestExecutionCommandInput>): Promise<StartChangeRequestExecutionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new StartChangeRequestExecutionCommand(input);
+    const command = new StartChangeRequestExecutionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:startSession'*/
-export const nativeSSMStartSession = (input: StartSessionCommandInput): Promise<StartSessionCommandOutput> => {
+export const nativeSSMStartSession = (input: SdkIntegrationTask<StartSessionCommandInput>): Promise<StartSessionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new StartSessionCommand(input);
+    const command = new StartSessionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:stopAutomationExecution'*/
-export const nativeSSMStopAutomationExecution = (input: StopAutomationExecutionCommandInput): Promise<StopAutomationExecutionCommandOutput> => {
+export const nativeSSMStopAutomationExecution = (input: SdkIntegrationTask<StopAutomationExecutionCommandInput>): Promise<StopAutomationExecutionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new StopAutomationExecutionCommand(input);
+    const command = new StopAutomationExecutionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:terminateSession'*/
-export const nativeSSMTerminateSession = (input: TerminateSessionCommandInput): Promise<TerminateSessionCommandOutput> => {
+export const nativeSSMTerminateSession = (input: SdkIntegrationTask<TerminateSessionCommandInput>): Promise<TerminateSessionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new TerminateSessionCommand(input);
+    const command = new TerminateSessionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:unlabelParameterVersion'*/
-export const nativeSSMUnlabelParameterVersion = (input: UnlabelParameterVersionCommandInput): Promise<UnlabelParameterVersionCommandOutput> => {
+export const nativeSSMUnlabelParameterVersion = (input: SdkIntegrationTask<UnlabelParameterVersionCommandInput>): Promise<UnlabelParameterVersionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UnlabelParameterVersionCommand(input);
+    const command = new UnlabelParameterVersionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateAssociation'*/
-export const nativeSSMUpdateAssociation = (input: UpdateAssociationCommandInput): Promise<UpdateAssociationCommandOutput> => {
+export const nativeSSMUpdateAssociation = (input: SdkIntegrationTask<UpdateAssociationCommandInput>): Promise<UpdateAssociationCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateAssociationCommand(input);
+    const command = new UpdateAssociationCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateAssociationStatus'*/
-export const nativeSSMUpdateAssociationStatus = (input: UpdateAssociationStatusCommandInput): Promise<UpdateAssociationStatusCommandOutput> => {
+export const nativeSSMUpdateAssociationStatus = (input: SdkIntegrationTask<UpdateAssociationStatusCommandInput>): Promise<UpdateAssociationStatusCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateAssociationStatusCommand(input);
+    const command = new UpdateAssociationStatusCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateDocument'*/
-export const nativeSSMUpdateDocument = (input: UpdateDocumentCommandInput): Promise<UpdateDocumentCommandOutput> => {
+export const nativeSSMUpdateDocument = (input: SdkIntegrationTask<UpdateDocumentCommandInput>): Promise<UpdateDocumentCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateDocumentCommand(input);
+    const command = new UpdateDocumentCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateDocumentDefaultVersion'*/
-export const nativeSSMUpdateDocumentDefaultVersion = (input: UpdateDocumentDefaultVersionCommandInput): Promise<UpdateDocumentDefaultVersionCommandOutput> => {
+export const nativeSSMUpdateDocumentDefaultVersion = (input: SdkIntegrationTask<UpdateDocumentDefaultVersionCommandInput>): Promise<UpdateDocumentDefaultVersionCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateDocumentDefaultVersionCommand(input);
+    const command = new UpdateDocumentDefaultVersionCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateDocumentMetadata'*/
-export const nativeSSMUpdateDocumentMetadata = (input: UpdateDocumentMetadataCommandInput): Promise<UpdateDocumentMetadataCommandOutput> => {
+export const nativeSSMUpdateDocumentMetadata = (input: SdkIntegrationTask<UpdateDocumentMetadataCommandInput>): Promise<UpdateDocumentMetadataCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateDocumentMetadataCommand(input);
+    const command = new UpdateDocumentMetadataCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateMaintenanceWindow'*/
-export const nativeSSMUpdateMaintenanceWindow = (input: UpdateMaintenanceWindowCommandInput): Promise<UpdateMaintenanceWindowCommandOutput> => {
+export const nativeSSMUpdateMaintenanceWindow = (input: SdkIntegrationTask<UpdateMaintenanceWindowCommandInput>): Promise<UpdateMaintenanceWindowCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateMaintenanceWindowCommand(input);
+    const command = new UpdateMaintenanceWindowCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateMaintenanceWindowTarget'*/
-export const nativeSSMUpdateMaintenanceWindowTarget = (input: UpdateMaintenanceWindowTargetCommandInput): Promise<UpdateMaintenanceWindowTargetCommandOutput> => {
+export const nativeSSMUpdateMaintenanceWindowTarget = (input: SdkIntegrationTask<UpdateMaintenanceWindowTargetCommandInput>): Promise<UpdateMaintenanceWindowTargetCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateMaintenanceWindowTargetCommand(input);
+    const command = new UpdateMaintenanceWindowTargetCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateMaintenanceWindowTask'*/
-export const nativeSSMUpdateMaintenanceWindowTask = (input: UpdateMaintenanceWindowTaskCommandInput): Promise<UpdateMaintenanceWindowTaskCommandOutput> => {
+export const nativeSSMUpdateMaintenanceWindowTask = (input: SdkIntegrationTask<UpdateMaintenanceWindowTaskCommandInput>): Promise<UpdateMaintenanceWindowTaskCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateMaintenanceWindowTaskCommand(input);
+    const command = new UpdateMaintenanceWindowTaskCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateManagedInstanceRole'*/
-export const nativeSSMUpdateManagedInstanceRole = (input: UpdateManagedInstanceRoleCommandInput): Promise<UpdateManagedInstanceRoleCommandOutput> => {
+export const nativeSSMUpdateManagedInstanceRole = (input: SdkIntegrationTask<UpdateManagedInstanceRoleCommandInput>): Promise<UpdateManagedInstanceRoleCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateManagedInstanceRoleCommand(input);
+    const command = new UpdateManagedInstanceRoleCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateOpsItem'*/
-export const nativeSSMUpdateOpsItem = (input: UpdateOpsItemCommandInput): Promise<UpdateOpsItemCommandOutput> => {
+export const nativeSSMUpdateOpsItem = (input: SdkIntegrationTask<UpdateOpsItemCommandInput>): Promise<UpdateOpsItemCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateOpsItemCommand(input);
+    const command = new UpdateOpsItemCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateOpsMetadata'*/
-export const nativeSSMUpdateOpsMetadata = (input: UpdateOpsMetadataCommandInput): Promise<UpdateOpsMetadataCommandOutput> => {
+export const nativeSSMUpdateOpsMetadata = (input: SdkIntegrationTask<UpdateOpsMetadataCommandInput>): Promise<UpdateOpsMetadataCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateOpsMetadataCommand(input);
+    const command = new UpdateOpsMetadataCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updatePatchBaseline'*/
-export const nativeSSMUpdatePatchBaseline = (input: UpdatePatchBaselineCommandInput): Promise<UpdatePatchBaselineCommandOutput> => {
+export const nativeSSMUpdatePatchBaseline = (input: SdkIntegrationTask<UpdatePatchBaselineCommandInput>): Promise<UpdatePatchBaselineCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdatePatchBaselineCommand(input);
+    const command = new UpdatePatchBaselineCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateResourceDataSync'*/
-export const nativeSSMUpdateResourceDataSync = (input: UpdateResourceDataSyncCommandInput): Promise<UpdateResourceDataSyncCommandOutput> => {
+export const nativeSSMUpdateResourceDataSync = (input: SdkIntegrationTask<UpdateResourceDataSyncCommandInput>): Promise<UpdateResourceDataSyncCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateResourceDataSyncCommand(input);
+    const command = new UpdateResourceDataSyncCommand(input.parameters);
     return ssm.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:ssm:updateServiceSetting'*/
-export const nativeSSMUpdateServiceSetting = (input: UpdateServiceSettingCommandInput): Promise<UpdateServiceSettingCommandOutput> => {
+export const nativeSSMUpdateServiceSetting = (input: SdkIntegrationTask<UpdateServiceSettingCommandInput>): Promise<UpdateServiceSettingCommandOutput> => {
     const ssm = new SSMClient({});
-    const command = new UpdateServiceSettingCommand(input);
+    const command = new UpdateServiceSettingCommand(input.parameters);
     return ssm.send(command);
 };
 

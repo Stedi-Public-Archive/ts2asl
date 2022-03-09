@@ -12,6 +12,7 @@ export type While = {
   block: Function;
   name?: string;
 };
+
 export type DoWhile = {
   condition: () => boolean;
   block: Function;
@@ -60,6 +61,15 @@ export interface Task {
   heartbeatSeconds?: number;
 }
 
+export interface SdkIntegrationTask<TInput> {
+  name?: string;
+  parameters: TInput;
+  catch?: CatchConfiguration;
+  retry?: RetryConfiguration;
+  timeoutSeconds?: number;
+  heartbeatSeconds?: number;
+}
+
 export interface Pass<T> {
   parameters: T | (() => T) | (<U>(objectContext: StateMachineContext<U>) => T);
   comment?: string;
@@ -95,12 +105,19 @@ export interface Parallel<T> {
   name?: string;
 }
 
-export interface Invoke<P, R> {
-  target: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
-  parameters?: P | (() => P);
+export type TypescriptInvoke<P, R> = {
+  catch?: CatchConfiguration;
+  retry?: RetryConfiguration;
+  timeoutSeconds?: number;
+  heartbeatSeconds?: number;
   comment?: string;
   name?: string;
-}
+} & ({
+  resource: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
+  parameters: P | (() => P);
+} | {
+  resource: () => (R | Promise<R>)
+})
 
 export interface Choice {
   input: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
@@ -129,8 +146,12 @@ export interface StateMachineContext<TInput> {
   };
 }
 
-export const typescriptInvoke = async <P, R>(args: Invoke<P, R>): Promise<R> => {
-  return args.target(args.parameters as P);
+export const typescriptInvoke = async <P, R>(args: TypescriptInvoke<P, R>): Promise<R> => {
+  if ("parameters" in args) {
+    return args.resource(args.parameters as P);
+  } else {
+    return args.resource();
+  }
 }
 
 export const typescriptTry = async (args: Try) => {
@@ -154,6 +175,7 @@ export const typescriptWhile = async (args: While) => {
 export const typescriptIf = async (args: If) => {
   return {} as AslState;
 }
+
 export const task = async <TResult>(args: Task): Promise<TResult> => {
   return Promise.resolve({} as TResult);
 }

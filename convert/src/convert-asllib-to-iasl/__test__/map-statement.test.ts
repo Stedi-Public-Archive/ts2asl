@@ -46,6 +46,7 @@ describe("when converting map statement to iasl", () => {
                 "statements": Array [
                   Object {
                     "_syntaxKind": "return",
+                    "stateName": "7: Return undefined",
                   },
                 ],
               },
@@ -58,6 +59,7 @@ describe("when converting map statement to iasl", () => {
               "identifier": "aaaa",
               "type": "unknown",
             },
+            "stateName": "3: Assign aaaa",
           },
         ],
       }

@@ -25,6 +25,8 @@
     "@aws-cdk/aws-lambda": "1.145.0",
     "@aws-cdk/aws-stepfunctions": "1.145.0",
     "@aws-cdk/core": "1.145.0",
+    "@aws-sdk/client-dynamodb": "^3.53.0",
+    "@aws-sdk/client-ecs": "^3.53.0",
     "@ts2asl/asl-lib": "^0.1.4",
     "@ts2asl/cdk-typescript-statemachine": "^0.1.0",
     "esbuild": "^0.14.23",

@@ -6,7 +6,7 @@ describe("when converting throw statements", () => {
     expect(testTransform("throw new Error()", throwStatementTransformer))
       .toMatchInlineSnapshot(`
       "asl.fail({
-          name: \\"Throw Error\\",
+          name: \\"2: Throw Error\\",
           error: \\"Error\\",
           comment: \\"throw new Error()\\"
       })"
@@ -18,7 +18,7 @@ describe("when converting throw statements", () => {
       testTransform("throw new Error('bad luck')", throwStatementTransformer)
     ).toMatchInlineSnapshot(`
       "asl.fail({
-          name: \\"Throw Error\\",
+          name: \\"2: Throw Error\\",
           error: \\"Error\\",
           cause: \\"bad luck\\",
           comment: \\"throw new Error('bad luck')\\"
@@ -31,7 +31,7 @@ describe("when converting throw statements", () => {
       testTransform('throw new Error("bad luck")', throwStatementTransformer)
     ).toMatchInlineSnapshot(`
       "asl.fail({
-          name: \\"Throw Error\\",
+          name: \\"2: Throw Error\\",
           error: \\"Error\\",
           cause: \\"bad luck\\",
           comment: \\"throw new Error(\\\\\\"bad luck\\\\\\")\\"
@@ -47,7 +47,7 @@ describe("when converting throw statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.fail({
-          name: \\"Throw SpecialError\\",
+          name: \\"2: Throw SpecialError\\",
           error: \\"SpecialError\\",
           cause: \\"bad luck\\",
           comment: \\"throw new SpecialError(\\\\\\"bad luck\\\\\\")\\"

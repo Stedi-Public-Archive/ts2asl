@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "If (typeof input.name !== ..."
+      "Next": "4: If (typeof input.name !== ..."
     },
-    "If (typeof input.name !== ...": {
+    "4: If (typeof input.name !== ...": {
       "Type": "Choice",
       "Choices": [
         {
@@ -25,19 +25,19 @@
               }
             ]
           },
-          "Next": "Assign Name"
+          "Next": "5: Assign input.name"
         }
       ],
       "Comment": "source: if (typeof input.name !== \"string\") { input.na ...",
-      "Default": "Assign Rnd"
+      "Default": "8: random()"
     },
-    "Assign Name": {
+    "5: Assign input.name": {
       "Type": "Pass",
       "ResultPath": "$.vars.name",
       "Result": "World",
-      "Next": "Assign Rnd"
+      "Next": "8: random()"
     },
-    "Assign Rnd": {
+    "8: random()": {
       "Type": "Task",
       "ResultPath": "$.vars.rnd",
       "Resource": "typescript:random",
@@ -45,15 +45,12 @@
       "Next": "Pass"
     },
     "Pass": {
+      "End": true,
       "Type": "Pass",
       "Parameters": {
         "greeting.$": "States.Format('Hello {}', $.vars.name)",
         "luckyNumber.$": "$.vars.rnd"
-      },
-      "Next": "Succeed"
-    },
-    "Succeed": {
-      "Type": "Succeed"
+      }
     }
   }
 }

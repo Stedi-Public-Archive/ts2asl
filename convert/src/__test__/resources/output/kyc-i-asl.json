@@ -11,7 +11,7 @@
           {
             "statements": [
               {
-                "stateName": "performIdentifyCheck()",
+                "stateName": "8: performIdentifyCheck()",
                 "resource": "typescript:performIdentifyCheck",
                 "source": "performIdentifyCheck()",
                 "_syntaxKind": "asl-task-state"
@@ -32,7 +32,8 @@
                   },
                   "_syntaxKind": "literal-object"
                 },
-                "_syntaxKind": "return"
+                "_syntaxKind": "return",
+                "stateName": "Return { agencyChecked: t ..."
               }
             ],
             "_syntaxKind": "function"
@@ -42,6 +43,7 @@
         "retry": [],
         "_syntaxKind": "asl-parallel-state"
       },
+      "stateName": "7: Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -97,6 +99,7 @@
         "type": "unknown"
       },
       "expression": {
+        "stateName": "24: Assign checksPassed",
         "parameters": {
           "value": true,
           "type": "boolean",
@@ -105,10 +108,11 @@
         "source": "checksPassed = true",
         "_syntaxKind": "asl-pass-state"
       },
+      "stateName": "22: Assign checksPassed",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "If (checksPassed)",
+      "stateName": "24: If (checksPassed)",
       "condition": {
         "operator": "is-present",
         "rhs": {

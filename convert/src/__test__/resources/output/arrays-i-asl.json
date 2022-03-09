@@ -100,6 +100,7 @@
         "function": "asl.states.array",
         "_syntaxKind": "asl-intrinsic-function"
       },
+      "stateName": "6: Assign myArray",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -119,6 +120,7 @@
         "function": "asl.states.jsonToString",
         "_syntaxKind": "asl-intrinsic-function"
       },
+      "stateName": "8: Assign mySerializedArray",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -138,6 +140,7 @@
         "function": "asl.states.stringToJson",
         "_syntaxKind": "asl-intrinsic-function"
       },
+      "stateName": "9: Assign myArray",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -147,7 +150,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "For x Of myArray.map",
+        "stateName": "13: For x Of myArray.map",
         "items": {
           "identifier": "myArray",
           "_syntaxKind": "identifier",
@@ -162,7 +165,7 @@
           },
           "statements": [
             {
-              "stateName": "If (x === 1 || x === 3 || ...",
+              "stateName": "13: If (x === 1 || x === 3 || ...",
               "condition": {
                 "lhs": {
                   "lhs": {
@@ -272,7 +275,8 @@
                       },
                       "_syntaxKind": "literal-object"
                     },
-                    "_syntaxKind": "return"
+                    "_syntaxKind": "return",
+                    "stateName": "14: Return { age: x, ..."
                   }
                 ],
                 "_syntaxKind": "function"
@@ -300,7 +304,8 @@
                       },
                       "_syntaxKind": "literal-object"
                     },
-                    "_syntaxKind": "return"
+                    "_syntaxKind": "return",
+                    "stateName": "20: Return { age: x, ..."
                   }
                 ],
                 "_syntaxKind": "function"
@@ -313,6 +318,7 @@
         },
         "_syntaxKind": "asl-map-state"
       },
+      "stateName": "10: Assign pets",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -322,6 +328,7 @@
         "type": "object"
       },
       "expression": {
+        "stateName": "30: Assign bySpecies",
         "parameters": {
           "properties": {
             "cats": {
@@ -515,6 +522,7 @@
         },
         "_syntaxKind": "asl-pass-state"
       },
+      "stateName": "27: Assign bySpecies",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -529,6 +537,7 @@
         "type": "object",
         "jsonPathExpression": "..age"
       },
+      "stateName": "39: Assign uniqueAges",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -543,6 +552,7 @@
         "type": "object",
         "jsonPathExpression": "[*][*][*]"
       },
+      "stateName": "42: Assign flattenedPets",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -560,6 +570,7 @@
           "end": 5
         }
       },
+      "stateName": "43: Assign slicedArr",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -588,7 +599,8 @@
         },
         "_syntaxKind": "literal-object"
       },
-      "_syntaxKind": "return"
+      "_syntaxKind": "return",
+      "stateName": "44: Return { bySpecies, ..."
     }
   ],
   "_syntaxKind": "statemachine"

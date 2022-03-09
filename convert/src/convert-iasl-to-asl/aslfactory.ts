@@ -45,7 +45,7 @@ export class AslFactory {
         TimeoutSeconds: expression.timeoutSeconds,
         HeartbeatSeconds: expression.heartbeatSeconds,
         Comment: expression.source,
-      } as asl.Task, nameSuggestion);
+      } as asl.Task, expression.stateName);
     } else if (iasl.Check.isDoWhileStatement(expression)) {
       const contextForBranch = context.createChildContext();
 
@@ -69,7 +69,7 @@ export class AslFactory {
         ...createParameters(scope),
         Branches: [stateMachine],
         Comment: expression.source,
-      } as asl.Parallel, 'DoWhile');
+      } as asl.Parallel, expression.stateName);
     } else if (iasl.Check.isIfExpression(expression)) {
       const choiceOperator = createChoiceOperator(expression.condition);
       const choiceState = {
@@ -78,7 +78,7 @@ export class AslFactory {
         Choices: [choiceOperator],
         Comment: expression.source
       } as asl.Choice;
-      context.appendNextState(choiceState, nameSuggestion ?? "If");
+      context.appendNextState(choiceState, expression.stateName ?? "If");
 
       const contextForThen = context.createChildContext();
       for (const statement of expression.then.statements) {
@@ -137,7 +137,7 @@ export class AslFactory {
         ...createParameters(scope),
         Branches: [stateMachine],
         Comment: expression.source,
-      } as asl.Parallel, 'While');
+      } as asl.Parallel, expression.stateName);
     } else if (iasl.Check.isAslWaitState(expression)) {
       const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds) : undefined;
       const timestamp = expression.timestamp !== undefined ? convertExpressionToAsl(expression.timestamp) : undefined;
@@ -148,7 +148,7 @@ export class AslFactory {
         ...(seconds && seconds.path !== undefined ? { SecondsPath: seconds.path } : seconds ? { Seconds: seconds.value } : {}),
         ...(timestamp && timestamp.path !== undefined ? { TimestampPath: timestamp.path } : timestamp ? { Timestamp: timestamp.value } : {}),
         Comment: expression.source,
-      } as asl.Wait, nameSuggestion);
+      } as asl.Wait, expression.stateName);
     } else if (iasl.Check.isAslParallelState(expression)) {
       const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext()));
 
@@ -196,16 +196,13 @@ export class AslFactory {
       if (expression.expression) {
         const parameters = convertExpressionToAsl(expression.expression);
         context.appendNextState({
+          End: true,
           Type: "Pass",
           ...properties,
           ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
         });
       }
 
-      context.appendNextState({
-        Type: "Succeed",
-        Comment: expression.source
-      } as asl.Succeed, nameSuggestion);
     } else {
       throw new Error(`syntax type ${expression._syntaxKind} cannot be converted to ASL`);
 
@@ -331,11 +328,10 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
 }
 
 export const nameSuggestionForAssignment = (id: iasl.Identifier, stateName: string | undefined): string => {
+  if (stateName) return stateName;
   const nameParts = id.identifier.split(".");
   const lastPart = nameParts[nameParts.length - 1];
   const capitalized = lastPart[0].toUpperCase() + (lastPart.length > 1 ? lastPart.substring(1) : "");
-  if (stateName) {
-    return `${capitalized} = ${stateName}`;
-  }
+
   return `Assign ${capitalized}`;
 }

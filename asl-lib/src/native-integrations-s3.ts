@@ -1,4 +1,5 @@
 import { S3Client } from "@aws-sdk/client-s3";
+import { SdkIntegrationTask } from "./asl";
 import { AbortMultipartUploadCommandInput, AbortMultipartUploadCommandOutput, AbortMultipartUploadCommand } from "@aws-sdk/client-s3";
 import { CompleteMultipartUploadCommandInput, CompleteMultipartUploadCommandOutput, CompleteMultipartUploadCommand } from "@aws-sdk/client-s3";
 import { CopyObjectCommandInput, CopyObjectCommandOutput, CopyObjectCommand } from "@aws-sdk/client-s3";
@@ -93,639 +94,639 @@ import { WriteGetObjectResponseCommandInput, WriteGetObjectResponseCommandOutput
 
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:abortMultipartUpload'*/
-export const nativeS3AbortMultipartUpload = (input: AbortMultipartUploadCommandInput): Promise<AbortMultipartUploadCommandOutput> => {
+export const nativeS3AbortMultipartUpload = (input: SdkIntegrationTask<AbortMultipartUploadCommandInput>): Promise<AbortMultipartUploadCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new AbortMultipartUploadCommand(input);
+    const command = new AbortMultipartUploadCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:completeMultipartUpload'*/
-export const nativeS3CompleteMultipartUpload = (input: CompleteMultipartUploadCommandInput): Promise<CompleteMultipartUploadCommandOutput> => {
+export const nativeS3CompleteMultipartUpload = (input: SdkIntegrationTask<CompleteMultipartUploadCommandInput>): Promise<CompleteMultipartUploadCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new CompleteMultipartUploadCommand(input);
+    const command = new CompleteMultipartUploadCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:copyObject'*/
-export const nativeS3CopyObject = (input: CopyObjectCommandInput): Promise<CopyObjectCommandOutput> => {
+export const nativeS3CopyObject = (input: SdkIntegrationTask<CopyObjectCommandInput>): Promise<CopyObjectCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new CopyObjectCommand(input);
+    const command = new CopyObjectCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:createBucket'*/
-export const nativeS3CreateBucket = (input: CreateBucketCommandInput): Promise<CreateBucketCommandOutput> => {
+export const nativeS3CreateBucket = (input: SdkIntegrationTask<CreateBucketCommandInput>): Promise<CreateBucketCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new CreateBucketCommand(input);
+    const command = new CreateBucketCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:createMultipartUpload'*/
-export const nativeS3CreateMultipartUpload = (input: CreateMultipartUploadCommandInput): Promise<CreateMultipartUploadCommandOutput> => {
+export const nativeS3CreateMultipartUpload = (input: SdkIntegrationTask<CreateMultipartUploadCommandInput>): Promise<CreateMultipartUploadCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new CreateMultipartUploadCommand(input);
+    const command = new CreateMultipartUploadCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucket'*/
-export const nativeS3DeleteBucket = (input: DeleteBucketCommandInput): Promise<DeleteBucketCommandOutput> => {
+export const nativeS3DeleteBucket = (input: SdkIntegrationTask<DeleteBucketCommandInput>): Promise<DeleteBucketCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketCommand(input);
+    const command = new DeleteBucketCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketAnalyticsConfiguration'*/
-export const nativeS3DeleteBucketAnalyticsConfiguration = (input: DeleteBucketAnalyticsConfigurationCommandInput): Promise<DeleteBucketAnalyticsConfigurationCommandOutput> => {
+export const nativeS3DeleteBucketAnalyticsConfiguration = (input: SdkIntegrationTask<DeleteBucketAnalyticsConfigurationCommandInput>): Promise<DeleteBucketAnalyticsConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketAnalyticsConfigurationCommand(input);
+    const command = new DeleteBucketAnalyticsConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketCors'*/
-export const nativeS3DeleteBucketCors = (input: DeleteBucketCorsCommandInput): Promise<DeleteBucketCorsCommandOutput> => {
+export const nativeS3DeleteBucketCors = (input: SdkIntegrationTask<DeleteBucketCorsCommandInput>): Promise<DeleteBucketCorsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketCorsCommand(input);
+    const command = new DeleteBucketCorsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketEncryption'*/
-export const nativeS3DeleteBucketEncryption = (input: DeleteBucketEncryptionCommandInput): Promise<DeleteBucketEncryptionCommandOutput> => {
+export const nativeS3DeleteBucketEncryption = (input: SdkIntegrationTask<DeleteBucketEncryptionCommandInput>): Promise<DeleteBucketEncryptionCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketEncryptionCommand(input);
+    const command = new DeleteBucketEncryptionCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketIntelligentTieringConfiguration'*/
-export const nativeS3DeleteBucketIntelligentTieringConfiguration = (input: DeleteBucketIntelligentTieringConfigurationCommandInput): Promise<DeleteBucketIntelligentTieringConfigurationCommandOutput> => {
+export const nativeS3DeleteBucketIntelligentTieringConfiguration = (input: SdkIntegrationTask<DeleteBucketIntelligentTieringConfigurationCommandInput>): Promise<DeleteBucketIntelligentTieringConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketIntelligentTieringConfigurationCommand(input);
+    const command = new DeleteBucketIntelligentTieringConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketInventoryConfiguration'*/
-export const nativeS3DeleteBucketInventoryConfiguration = (input: DeleteBucketInventoryConfigurationCommandInput): Promise<DeleteBucketInventoryConfigurationCommandOutput> => {
+export const nativeS3DeleteBucketInventoryConfiguration = (input: SdkIntegrationTask<DeleteBucketInventoryConfigurationCommandInput>): Promise<DeleteBucketInventoryConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketInventoryConfigurationCommand(input);
+    const command = new DeleteBucketInventoryConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketLifecycle'*/
-export const nativeS3DeleteBucketLifecycle = (input: DeleteBucketLifecycleCommandInput): Promise<DeleteBucketLifecycleCommandOutput> => {
+export const nativeS3DeleteBucketLifecycle = (input: SdkIntegrationTask<DeleteBucketLifecycleCommandInput>): Promise<DeleteBucketLifecycleCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketLifecycleCommand(input);
+    const command = new DeleteBucketLifecycleCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketMetricsConfiguration'*/
-export const nativeS3DeleteBucketMetricsConfiguration = (input: DeleteBucketMetricsConfigurationCommandInput): Promise<DeleteBucketMetricsConfigurationCommandOutput> => {
+export const nativeS3DeleteBucketMetricsConfiguration = (input: SdkIntegrationTask<DeleteBucketMetricsConfigurationCommandInput>): Promise<DeleteBucketMetricsConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketMetricsConfigurationCommand(input);
+    const command = new DeleteBucketMetricsConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketOwnershipControls'*/
-export const nativeS3DeleteBucketOwnershipControls = (input: DeleteBucketOwnershipControlsCommandInput): Promise<DeleteBucketOwnershipControlsCommandOutput> => {
+export const nativeS3DeleteBucketOwnershipControls = (input: SdkIntegrationTask<DeleteBucketOwnershipControlsCommandInput>): Promise<DeleteBucketOwnershipControlsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketOwnershipControlsCommand(input);
+    const command = new DeleteBucketOwnershipControlsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketPolicy'*/
-export const nativeS3DeleteBucketPolicy = (input: DeleteBucketPolicyCommandInput): Promise<DeleteBucketPolicyCommandOutput> => {
+export const nativeS3DeleteBucketPolicy = (input: SdkIntegrationTask<DeleteBucketPolicyCommandInput>): Promise<DeleteBucketPolicyCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketPolicyCommand(input);
+    const command = new DeleteBucketPolicyCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketReplication'*/
-export const nativeS3DeleteBucketReplication = (input: DeleteBucketReplicationCommandInput): Promise<DeleteBucketReplicationCommandOutput> => {
+export const nativeS3DeleteBucketReplication = (input: SdkIntegrationTask<DeleteBucketReplicationCommandInput>): Promise<DeleteBucketReplicationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketReplicationCommand(input);
+    const command = new DeleteBucketReplicationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketTagging'*/
-export const nativeS3DeleteBucketTagging = (input: DeleteBucketTaggingCommandInput): Promise<DeleteBucketTaggingCommandOutput> => {
+export const nativeS3DeleteBucketTagging = (input: SdkIntegrationTask<DeleteBucketTaggingCommandInput>): Promise<DeleteBucketTaggingCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketTaggingCommand(input);
+    const command = new DeleteBucketTaggingCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteBucketWebsite'*/
-export const nativeS3DeleteBucketWebsite = (input: DeleteBucketWebsiteCommandInput): Promise<DeleteBucketWebsiteCommandOutput> => {
+export const nativeS3DeleteBucketWebsite = (input: SdkIntegrationTask<DeleteBucketWebsiteCommandInput>): Promise<DeleteBucketWebsiteCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteBucketWebsiteCommand(input);
+    const command = new DeleteBucketWebsiteCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteObject'*/
-export const nativeS3DeleteObject = (input: DeleteObjectCommandInput): Promise<DeleteObjectCommandOutput> => {
+export const nativeS3DeleteObject = (input: SdkIntegrationTask<DeleteObjectCommandInput>): Promise<DeleteObjectCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteObjectCommand(input);
+    const command = new DeleteObjectCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteObjectTagging'*/
-export const nativeS3DeleteObjectTagging = (input: DeleteObjectTaggingCommandInput): Promise<DeleteObjectTaggingCommandOutput> => {
+export const nativeS3DeleteObjectTagging = (input: SdkIntegrationTask<DeleteObjectTaggingCommandInput>): Promise<DeleteObjectTaggingCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteObjectTaggingCommand(input);
+    const command = new DeleteObjectTaggingCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deleteObjects'*/
-export const nativeS3DeleteObjects = (input: DeleteObjectsCommandInput): Promise<DeleteObjectsCommandOutput> => {
+export const nativeS3DeleteObjects = (input: SdkIntegrationTask<DeleteObjectsCommandInput>): Promise<DeleteObjectsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeleteObjectsCommand(input);
+    const command = new DeleteObjectsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:deletePublicAccessBlock'*/
-export const nativeS3DeletePublicAccessBlock = (input: DeletePublicAccessBlockCommandInput): Promise<DeletePublicAccessBlockCommandOutput> => {
+export const nativeS3DeletePublicAccessBlock = (input: SdkIntegrationTask<DeletePublicAccessBlockCommandInput>): Promise<DeletePublicAccessBlockCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new DeletePublicAccessBlockCommand(input);
+    const command = new DeletePublicAccessBlockCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketAccelerateConfiguration'*/
-export const nativeS3GetBucketAccelerateConfiguration = (input: GetBucketAccelerateConfigurationCommandInput): Promise<GetBucketAccelerateConfigurationCommandOutput> => {
+export const nativeS3GetBucketAccelerateConfiguration = (input: SdkIntegrationTask<GetBucketAccelerateConfigurationCommandInput>): Promise<GetBucketAccelerateConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketAccelerateConfigurationCommand(input);
+    const command = new GetBucketAccelerateConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketAcl'*/
-export const nativeS3GetBucketAcl = (input: GetBucketAclCommandInput): Promise<GetBucketAclCommandOutput> => {
+export const nativeS3GetBucketAcl = (input: SdkIntegrationTask<GetBucketAclCommandInput>): Promise<GetBucketAclCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketAclCommand(input);
+    const command = new GetBucketAclCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketAnalyticsConfiguration'*/
-export const nativeS3GetBucketAnalyticsConfiguration = (input: GetBucketAnalyticsConfigurationCommandInput): Promise<GetBucketAnalyticsConfigurationCommandOutput> => {
+export const nativeS3GetBucketAnalyticsConfiguration = (input: SdkIntegrationTask<GetBucketAnalyticsConfigurationCommandInput>): Promise<GetBucketAnalyticsConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketAnalyticsConfigurationCommand(input);
+    const command = new GetBucketAnalyticsConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketCors'*/
-export const nativeS3GetBucketCors = (input: GetBucketCorsCommandInput): Promise<GetBucketCorsCommandOutput> => {
+export const nativeS3GetBucketCors = (input: SdkIntegrationTask<GetBucketCorsCommandInput>): Promise<GetBucketCorsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketCorsCommand(input);
+    const command = new GetBucketCorsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketEncryption'*/
-export const nativeS3GetBucketEncryption = (input: GetBucketEncryptionCommandInput): Promise<GetBucketEncryptionCommandOutput> => {
+export const nativeS3GetBucketEncryption = (input: SdkIntegrationTask<GetBucketEncryptionCommandInput>): Promise<GetBucketEncryptionCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketEncryptionCommand(input);
+    const command = new GetBucketEncryptionCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketIntelligentTieringConfiguration'*/
-export const nativeS3GetBucketIntelligentTieringConfiguration = (input: GetBucketIntelligentTieringConfigurationCommandInput): Promise<GetBucketIntelligentTieringConfigurationCommandOutput> => {
+export const nativeS3GetBucketIntelligentTieringConfiguration = (input: SdkIntegrationTask<GetBucketIntelligentTieringConfigurationCommandInput>): Promise<GetBucketIntelligentTieringConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketIntelligentTieringConfigurationCommand(input);
+    const command = new GetBucketIntelligentTieringConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketInventoryConfiguration'*/
-export const nativeS3GetBucketInventoryConfiguration = (input: GetBucketInventoryConfigurationCommandInput): Promise<GetBucketInventoryConfigurationCommandOutput> => {
+export const nativeS3GetBucketInventoryConfiguration = (input: SdkIntegrationTask<GetBucketInventoryConfigurationCommandInput>): Promise<GetBucketInventoryConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketInventoryConfigurationCommand(input);
+    const command = new GetBucketInventoryConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketLifecycleConfiguration'*/
-export const nativeS3GetBucketLifecycleConfiguration = (input: GetBucketLifecycleConfigurationCommandInput): Promise<GetBucketLifecycleConfigurationCommandOutput> => {
+export const nativeS3GetBucketLifecycleConfiguration = (input: SdkIntegrationTask<GetBucketLifecycleConfigurationCommandInput>): Promise<GetBucketLifecycleConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketLifecycleConfigurationCommand(input);
+    const command = new GetBucketLifecycleConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketLocation'*/
-export const nativeS3GetBucketLocation = (input: GetBucketLocationCommandInput): Promise<GetBucketLocationCommandOutput> => {
+export const nativeS3GetBucketLocation = (input: SdkIntegrationTask<GetBucketLocationCommandInput>): Promise<GetBucketLocationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketLocationCommand(input);
+    const command = new GetBucketLocationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketLogging'*/
-export const nativeS3GetBucketLogging = (input: GetBucketLoggingCommandInput): Promise<GetBucketLoggingCommandOutput> => {
+export const nativeS3GetBucketLogging = (input: SdkIntegrationTask<GetBucketLoggingCommandInput>): Promise<GetBucketLoggingCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketLoggingCommand(input);
+    const command = new GetBucketLoggingCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketMetricsConfiguration'*/
-export const nativeS3GetBucketMetricsConfiguration = (input: GetBucketMetricsConfigurationCommandInput): Promise<GetBucketMetricsConfigurationCommandOutput> => {
+export const nativeS3GetBucketMetricsConfiguration = (input: SdkIntegrationTask<GetBucketMetricsConfigurationCommandInput>): Promise<GetBucketMetricsConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketMetricsConfigurationCommand(input);
+    const command = new GetBucketMetricsConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketNotificationConfiguration'*/
-export const nativeS3GetBucketNotificationConfiguration = (input: GetBucketNotificationConfigurationCommandInput): Promise<GetBucketNotificationConfigurationCommandOutput> => {
+export const nativeS3GetBucketNotificationConfiguration = (input: SdkIntegrationTask<GetBucketNotificationConfigurationCommandInput>): Promise<GetBucketNotificationConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketNotificationConfigurationCommand(input);
+    const command = new GetBucketNotificationConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketOwnershipControls'*/
-export const nativeS3GetBucketOwnershipControls = (input: GetBucketOwnershipControlsCommandInput): Promise<GetBucketOwnershipControlsCommandOutput> => {
+export const nativeS3GetBucketOwnershipControls = (input: SdkIntegrationTask<GetBucketOwnershipControlsCommandInput>): Promise<GetBucketOwnershipControlsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketOwnershipControlsCommand(input);
+    const command = new GetBucketOwnershipControlsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketPolicy'*/
-export const nativeS3GetBucketPolicy = (input: GetBucketPolicyCommandInput): Promise<GetBucketPolicyCommandOutput> => {
+export const nativeS3GetBucketPolicy = (input: SdkIntegrationTask<GetBucketPolicyCommandInput>): Promise<GetBucketPolicyCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketPolicyCommand(input);
+    const command = new GetBucketPolicyCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketPolicyStatus'*/
-export const nativeS3GetBucketPolicyStatus = (input: GetBucketPolicyStatusCommandInput): Promise<GetBucketPolicyStatusCommandOutput> => {
+export const nativeS3GetBucketPolicyStatus = (input: SdkIntegrationTask<GetBucketPolicyStatusCommandInput>): Promise<GetBucketPolicyStatusCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketPolicyStatusCommand(input);
+    const command = new GetBucketPolicyStatusCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketReplication'*/
-export const nativeS3GetBucketReplication = (input: GetBucketReplicationCommandInput): Promise<GetBucketReplicationCommandOutput> => {
+export const nativeS3GetBucketReplication = (input: SdkIntegrationTask<GetBucketReplicationCommandInput>): Promise<GetBucketReplicationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketReplicationCommand(input);
+    const command = new GetBucketReplicationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketRequestPayment'*/
-export const nativeS3GetBucketRequestPayment = (input: GetBucketRequestPaymentCommandInput): Promise<GetBucketRequestPaymentCommandOutput> => {
+export const nativeS3GetBucketRequestPayment = (input: SdkIntegrationTask<GetBucketRequestPaymentCommandInput>): Promise<GetBucketRequestPaymentCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketRequestPaymentCommand(input);
+    const command = new GetBucketRequestPaymentCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketTagging'*/
-export const nativeS3GetBucketTagging = (input: GetBucketTaggingCommandInput): Promise<GetBucketTaggingCommandOutput> => {
+export const nativeS3GetBucketTagging = (input: SdkIntegrationTask<GetBucketTaggingCommandInput>): Promise<GetBucketTaggingCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketTaggingCommand(input);
+    const command = new GetBucketTaggingCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketVersioning'*/
-export const nativeS3GetBucketVersioning = (input: GetBucketVersioningCommandInput): Promise<GetBucketVersioningCommandOutput> => {
+export const nativeS3GetBucketVersioning = (input: SdkIntegrationTask<GetBucketVersioningCommandInput>): Promise<GetBucketVersioningCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketVersioningCommand(input);
+    const command = new GetBucketVersioningCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getBucketWebsite'*/
-export const nativeS3GetBucketWebsite = (input: GetBucketWebsiteCommandInput): Promise<GetBucketWebsiteCommandOutput> => {
+export const nativeS3GetBucketWebsite = (input: SdkIntegrationTask<GetBucketWebsiteCommandInput>): Promise<GetBucketWebsiteCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetBucketWebsiteCommand(input);
+    const command = new GetBucketWebsiteCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getObject'*/
-export const nativeS3GetObject = (input: GetObjectCommandInput): Promise<GetObjectCommandOutput> => {
+export const nativeS3GetObject = (input: SdkIntegrationTask<GetObjectCommandInput>): Promise<GetObjectCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetObjectCommand(input);
+    const command = new GetObjectCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getObjectAcl'*/
-export const nativeS3GetObjectAcl = (input: GetObjectAclCommandInput): Promise<GetObjectAclCommandOutput> => {
+export const nativeS3GetObjectAcl = (input: SdkIntegrationTask<GetObjectAclCommandInput>): Promise<GetObjectAclCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetObjectAclCommand(input);
+    const command = new GetObjectAclCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getObjectLegalHold'*/
-export const nativeS3GetObjectLegalHold = (input: GetObjectLegalHoldCommandInput): Promise<GetObjectLegalHoldCommandOutput> => {
+export const nativeS3GetObjectLegalHold = (input: SdkIntegrationTask<GetObjectLegalHoldCommandInput>): Promise<GetObjectLegalHoldCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetObjectLegalHoldCommand(input);
+    const command = new GetObjectLegalHoldCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getObjectLockConfiguration'*/
-export const nativeS3GetObjectLockConfiguration = (input: GetObjectLockConfigurationCommandInput): Promise<GetObjectLockConfigurationCommandOutput> => {
+export const nativeS3GetObjectLockConfiguration = (input: SdkIntegrationTask<GetObjectLockConfigurationCommandInput>): Promise<GetObjectLockConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetObjectLockConfigurationCommand(input);
+    const command = new GetObjectLockConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getObjectRetention'*/
-export const nativeS3GetObjectRetention = (input: GetObjectRetentionCommandInput): Promise<GetObjectRetentionCommandOutput> => {
+export const nativeS3GetObjectRetention = (input: SdkIntegrationTask<GetObjectRetentionCommandInput>): Promise<GetObjectRetentionCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetObjectRetentionCommand(input);
+    const command = new GetObjectRetentionCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getObjectTagging'*/
-export const nativeS3GetObjectTagging = (input: GetObjectTaggingCommandInput): Promise<GetObjectTaggingCommandOutput> => {
+export const nativeS3GetObjectTagging = (input: SdkIntegrationTask<GetObjectTaggingCommandInput>): Promise<GetObjectTaggingCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetObjectTaggingCommand(input);
+    const command = new GetObjectTaggingCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getObjectTorrent'*/
-export const nativeS3GetObjectTorrent = (input: GetObjectTorrentCommandInput): Promise<GetObjectTorrentCommandOutput> => {
+export const nativeS3GetObjectTorrent = (input: SdkIntegrationTask<GetObjectTorrentCommandInput>): Promise<GetObjectTorrentCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetObjectTorrentCommand(input);
+    const command = new GetObjectTorrentCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:getPublicAccessBlock'*/
-export const nativeS3GetPublicAccessBlock = (input: GetPublicAccessBlockCommandInput): Promise<GetPublicAccessBlockCommandOutput> => {
+export const nativeS3GetPublicAccessBlock = (input: SdkIntegrationTask<GetPublicAccessBlockCommandInput>): Promise<GetPublicAccessBlockCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new GetPublicAccessBlockCommand(input);
+    const command = new GetPublicAccessBlockCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:headBucket'*/
-export const nativeS3HeadBucket = (input: HeadBucketCommandInput): Promise<HeadBucketCommandOutput> => {
+export const nativeS3HeadBucket = (input: SdkIntegrationTask<HeadBucketCommandInput>): Promise<HeadBucketCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new HeadBucketCommand(input);
+    const command = new HeadBucketCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:headObject'*/
-export const nativeS3HeadObject = (input: HeadObjectCommandInput): Promise<HeadObjectCommandOutput> => {
+export const nativeS3HeadObject = (input: SdkIntegrationTask<HeadObjectCommandInput>): Promise<HeadObjectCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new HeadObjectCommand(input);
+    const command = new HeadObjectCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listBucketAnalyticsConfigurations'*/
-export const nativeS3ListBucketAnalyticsConfigurations = (input: ListBucketAnalyticsConfigurationsCommandInput): Promise<ListBucketAnalyticsConfigurationsCommandOutput> => {
+export const nativeS3ListBucketAnalyticsConfigurations = (input: SdkIntegrationTask<ListBucketAnalyticsConfigurationsCommandInput>): Promise<ListBucketAnalyticsConfigurationsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListBucketAnalyticsConfigurationsCommand(input);
+    const command = new ListBucketAnalyticsConfigurationsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listBucketIntelligentTieringConfigurations'*/
-export const nativeS3ListBucketIntelligentTieringConfigurations = (input: ListBucketIntelligentTieringConfigurationsCommandInput): Promise<ListBucketIntelligentTieringConfigurationsCommandOutput> => {
+export const nativeS3ListBucketIntelligentTieringConfigurations = (input: SdkIntegrationTask<ListBucketIntelligentTieringConfigurationsCommandInput>): Promise<ListBucketIntelligentTieringConfigurationsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListBucketIntelligentTieringConfigurationsCommand(input);
+    const command = new ListBucketIntelligentTieringConfigurationsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listBucketInventoryConfigurations'*/
-export const nativeS3ListBucketInventoryConfigurations = (input: ListBucketInventoryConfigurationsCommandInput): Promise<ListBucketInventoryConfigurationsCommandOutput> => {
+export const nativeS3ListBucketInventoryConfigurations = (input: SdkIntegrationTask<ListBucketInventoryConfigurationsCommandInput>): Promise<ListBucketInventoryConfigurationsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListBucketInventoryConfigurationsCommand(input);
+    const command = new ListBucketInventoryConfigurationsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listBucketMetricsConfigurations'*/
-export const nativeS3ListBucketMetricsConfigurations = (input: ListBucketMetricsConfigurationsCommandInput): Promise<ListBucketMetricsConfigurationsCommandOutput> => {
+export const nativeS3ListBucketMetricsConfigurations = (input: SdkIntegrationTask<ListBucketMetricsConfigurationsCommandInput>): Promise<ListBucketMetricsConfigurationsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListBucketMetricsConfigurationsCommand(input);
+    const command = new ListBucketMetricsConfigurationsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listBuckets'*/
-export const nativeS3ListBuckets = (input: ListBucketsCommandInput): Promise<ListBucketsCommandOutput> => {
+export const nativeS3ListBuckets = (input: SdkIntegrationTask<ListBucketsCommandInput>): Promise<ListBucketsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListBucketsCommand(input);
+    const command = new ListBucketsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listMultipartUploads'*/
-export const nativeS3ListMultipartUploads = (input: ListMultipartUploadsCommandInput): Promise<ListMultipartUploadsCommandOutput> => {
+export const nativeS3ListMultipartUploads = (input: SdkIntegrationTask<ListMultipartUploadsCommandInput>): Promise<ListMultipartUploadsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListMultipartUploadsCommand(input);
+    const command = new ListMultipartUploadsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listObjectVersions'*/
-export const nativeS3ListObjectVersions = (input: ListObjectVersionsCommandInput): Promise<ListObjectVersionsCommandOutput> => {
+export const nativeS3ListObjectVersions = (input: SdkIntegrationTask<ListObjectVersionsCommandInput>): Promise<ListObjectVersionsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListObjectVersionsCommand(input);
+    const command = new ListObjectVersionsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listObjects'*/
-export const nativeS3ListObjects = (input: ListObjectsCommandInput): Promise<ListObjectsCommandOutput> => {
+export const nativeS3ListObjects = (input: SdkIntegrationTask<ListObjectsCommandInput>): Promise<ListObjectsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListObjectsCommand(input);
+    const command = new ListObjectsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listObjectsV2'*/
-export const nativeS3ListObjectsV2 = (input: ListObjectsV2CommandInput): Promise<ListObjectsV2CommandOutput> => {
+export const nativeS3ListObjectsV2 = (input: SdkIntegrationTask<ListObjectsV2CommandInput>): Promise<ListObjectsV2CommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListObjectsV2Command(input);
+    const command = new ListObjectsV2Command(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:listParts'*/
-export const nativeS3ListParts = (input: ListPartsCommandInput): Promise<ListPartsCommandOutput> => {
+export const nativeS3ListParts = (input: SdkIntegrationTask<ListPartsCommandInput>): Promise<ListPartsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new ListPartsCommand(input);
+    const command = new ListPartsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketAccelerateConfiguration'*/
-export const nativeS3PutBucketAccelerateConfiguration = (input: PutBucketAccelerateConfigurationCommandInput): Promise<PutBucketAccelerateConfigurationCommandOutput> => {
+export const nativeS3PutBucketAccelerateConfiguration = (input: SdkIntegrationTask<PutBucketAccelerateConfigurationCommandInput>): Promise<PutBucketAccelerateConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketAccelerateConfigurationCommand(input);
+    const command = new PutBucketAccelerateConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketAcl'*/
-export const nativeS3PutBucketAcl = (input: PutBucketAclCommandInput): Promise<PutBucketAclCommandOutput> => {
+export const nativeS3PutBucketAcl = (input: SdkIntegrationTask<PutBucketAclCommandInput>): Promise<PutBucketAclCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketAclCommand(input);
+    const command = new PutBucketAclCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketAnalyticsConfiguration'*/
-export const nativeS3PutBucketAnalyticsConfiguration = (input: PutBucketAnalyticsConfigurationCommandInput): Promise<PutBucketAnalyticsConfigurationCommandOutput> => {
+export const nativeS3PutBucketAnalyticsConfiguration = (input: SdkIntegrationTask<PutBucketAnalyticsConfigurationCommandInput>): Promise<PutBucketAnalyticsConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketAnalyticsConfigurationCommand(input);
+    const command = new PutBucketAnalyticsConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketCors'*/
-export const nativeS3PutBucketCors = (input: PutBucketCorsCommandInput): Promise<PutBucketCorsCommandOutput> => {
+export const nativeS3PutBucketCors = (input: SdkIntegrationTask<PutBucketCorsCommandInput>): Promise<PutBucketCorsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketCorsCommand(input);
+    const command = new PutBucketCorsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketEncryption'*/
-export const nativeS3PutBucketEncryption = (input: PutBucketEncryptionCommandInput): Promise<PutBucketEncryptionCommandOutput> => {
+export const nativeS3PutBucketEncryption = (input: SdkIntegrationTask<PutBucketEncryptionCommandInput>): Promise<PutBucketEncryptionCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketEncryptionCommand(input);
+    const command = new PutBucketEncryptionCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketIntelligentTieringConfiguration'*/
-export const nativeS3PutBucketIntelligentTieringConfiguration = (input: PutBucketIntelligentTieringConfigurationCommandInput): Promise<PutBucketIntelligentTieringConfigurationCommandOutput> => {
+export const nativeS3PutBucketIntelligentTieringConfiguration = (input: SdkIntegrationTask<PutBucketIntelligentTieringConfigurationCommandInput>): Promise<PutBucketIntelligentTieringConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketIntelligentTieringConfigurationCommand(input);
+    const command = new PutBucketIntelligentTieringConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketInventoryConfiguration'*/
-export const nativeS3PutBucketInventoryConfiguration = (input: PutBucketInventoryConfigurationCommandInput): Promise<PutBucketInventoryConfigurationCommandOutput> => {
+export const nativeS3PutBucketInventoryConfiguration = (input: SdkIntegrationTask<PutBucketInventoryConfigurationCommandInput>): Promise<PutBucketInventoryConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketInventoryConfigurationCommand(input);
+    const command = new PutBucketInventoryConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketLifecycleConfiguration'*/
-export const nativeS3PutBucketLifecycleConfiguration = (input: PutBucketLifecycleConfigurationCommandInput): Promise<PutBucketLifecycleConfigurationCommandOutput> => {
+export const nativeS3PutBucketLifecycleConfiguration = (input: SdkIntegrationTask<PutBucketLifecycleConfigurationCommandInput>): Promise<PutBucketLifecycleConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketLifecycleConfigurationCommand(input);
+    const command = new PutBucketLifecycleConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketLogging'*/
-export const nativeS3PutBucketLogging = (input: PutBucketLoggingCommandInput): Promise<PutBucketLoggingCommandOutput> => {
+export const nativeS3PutBucketLogging = (input: SdkIntegrationTask<PutBucketLoggingCommandInput>): Promise<PutBucketLoggingCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketLoggingCommand(input);
+    const command = new PutBucketLoggingCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketMetricsConfiguration'*/
-export const nativeS3PutBucketMetricsConfiguration = (input: PutBucketMetricsConfigurationCommandInput): Promise<PutBucketMetricsConfigurationCommandOutput> => {
+export const nativeS3PutBucketMetricsConfiguration = (input: SdkIntegrationTask<PutBucketMetricsConfigurationCommandInput>): Promise<PutBucketMetricsConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketMetricsConfigurationCommand(input);
+    const command = new PutBucketMetricsConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketNotificationConfiguration'*/
-export const nativeS3PutBucketNotificationConfiguration = (input: PutBucketNotificationConfigurationCommandInput): Promise<PutBucketNotificationConfigurationCommandOutput> => {
+export const nativeS3PutBucketNotificationConfiguration = (input: SdkIntegrationTask<PutBucketNotificationConfigurationCommandInput>): Promise<PutBucketNotificationConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketNotificationConfigurationCommand(input);
+    const command = new PutBucketNotificationConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketOwnershipControls'*/
-export const nativeS3PutBucketOwnershipControls = (input: PutBucketOwnershipControlsCommandInput): Promise<PutBucketOwnershipControlsCommandOutput> => {
+export const nativeS3PutBucketOwnershipControls = (input: SdkIntegrationTask<PutBucketOwnershipControlsCommandInput>): Promise<PutBucketOwnershipControlsCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketOwnershipControlsCommand(input);
+    const command = new PutBucketOwnershipControlsCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketPolicy'*/
-export const nativeS3PutBucketPolicy = (input: PutBucketPolicyCommandInput): Promise<PutBucketPolicyCommandOutput> => {
+export const nativeS3PutBucketPolicy = (input: SdkIntegrationTask<PutBucketPolicyCommandInput>): Promise<PutBucketPolicyCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketPolicyCommand(input);
+    const command = new PutBucketPolicyCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketReplication'*/
-export const nativeS3PutBucketReplication = (input: PutBucketReplicationCommandInput): Promise<PutBucketReplicationCommandOutput> => {
+export const nativeS3PutBucketReplication = (input: SdkIntegrationTask<PutBucketReplicationCommandInput>): Promise<PutBucketReplicationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketReplicationCommand(input);
+    const command = new PutBucketReplicationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketRequestPayment'*/
-export const nativeS3PutBucketRequestPayment = (input: PutBucketRequestPaymentCommandInput): Promise<PutBucketRequestPaymentCommandOutput> => {
+export const nativeS3PutBucketRequestPayment = (input: SdkIntegrationTask<PutBucketRequestPaymentCommandInput>): Promise<PutBucketRequestPaymentCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketRequestPaymentCommand(input);
+    const command = new PutBucketRequestPaymentCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketTagging'*/
-export const nativeS3PutBucketTagging = (input: PutBucketTaggingCommandInput): Promise<PutBucketTaggingCommandOutput> => {
+export const nativeS3PutBucketTagging = (input: SdkIntegrationTask<PutBucketTaggingCommandInput>): Promise<PutBucketTaggingCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketTaggingCommand(input);
+    const command = new PutBucketTaggingCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketVersioning'*/
-export const nativeS3PutBucketVersioning = (input: PutBucketVersioningCommandInput): Promise<PutBucketVersioningCommandOutput> => {
+export const nativeS3PutBucketVersioning = (input: SdkIntegrationTask<PutBucketVersioningCommandInput>): Promise<PutBucketVersioningCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketVersioningCommand(input);
+    const command = new PutBucketVersioningCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putBucketWebsite'*/
-export const nativeS3PutBucketWebsite = (input: PutBucketWebsiteCommandInput): Promise<PutBucketWebsiteCommandOutput> => {
+export const nativeS3PutBucketWebsite = (input: SdkIntegrationTask<PutBucketWebsiteCommandInput>): Promise<PutBucketWebsiteCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutBucketWebsiteCommand(input);
+    const command = new PutBucketWebsiteCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putObject'*/
-export const nativeS3PutObject = (input: PutObjectCommandInput): Promise<PutObjectCommandOutput> => {
+export const nativeS3PutObject = (input: SdkIntegrationTask<PutObjectCommandInput>): Promise<PutObjectCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutObjectCommand(input);
+    const command = new PutObjectCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putObjectAcl'*/
-export const nativeS3PutObjectAcl = (input: PutObjectAclCommandInput): Promise<PutObjectAclCommandOutput> => {
+export const nativeS3PutObjectAcl = (input: SdkIntegrationTask<PutObjectAclCommandInput>): Promise<PutObjectAclCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutObjectAclCommand(input);
+    const command = new PutObjectAclCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putObjectLegalHold'*/
-export const nativeS3PutObjectLegalHold = (input: PutObjectLegalHoldCommandInput): Promise<PutObjectLegalHoldCommandOutput> => {
+export const nativeS3PutObjectLegalHold = (input: SdkIntegrationTask<PutObjectLegalHoldCommandInput>): Promise<PutObjectLegalHoldCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutObjectLegalHoldCommand(input);
+    const command = new PutObjectLegalHoldCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putObjectLockConfiguration'*/
-export const nativeS3PutObjectLockConfiguration = (input: PutObjectLockConfigurationCommandInput): Promise<PutObjectLockConfigurationCommandOutput> => {
+export const nativeS3PutObjectLockConfiguration = (input: SdkIntegrationTask<PutObjectLockConfigurationCommandInput>): Promise<PutObjectLockConfigurationCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutObjectLockConfigurationCommand(input);
+    const command = new PutObjectLockConfigurationCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putObjectRetention'*/
-export const nativeS3PutObjectRetention = (input: PutObjectRetentionCommandInput): Promise<PutObjectRetentionCommandOutput> => {
+export const nativeS3PutObjectRetention = (input: SdkIntegrationTask<PutObjectRetentionCommandInput>): Promise<PutObjectRetentionCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutObjectRetentionCommand(input);
+    const command = new PutObjectRetentionCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putObjectTagging'*/
-export const nativeS3PutObjectTagging = (input: PutObjectTaggingCommandInput): Promise<PutObjectTaggingCommandOutput> => {
+export const nativeS3PutObjectTagging = (input: SdkIntegrationTask<PutObjectTaggingCommandInput>): Promise<PutObjectTaggingCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutObjectTaggingCommand(input);
+    const command = new PutObjectTaggingCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:putPublicAccessBlock'*/
-export const nativeS3PutPublicAccessBlock = (input: PutPublicAccessBlockCommandInput): Promise<PutPublicAccessBlockCommandOutput> => {
+export const nativeS3PutPublicAccessBlock = (input: SdkIntegrationTask<PutPublicAccessBlockCommandInput>): Promise<PutPublicAccessBlockCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new PutPublicAccessBlockCommand(input);
+    const command = new PutPublicAccessBlockCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:restoreObject'*/
-export const nativeS3RestoreObject = (input: RestoreObjectCommandInput): Promise<RestoreObjectCommandOutput> => {
+export const nativeS3RestoreObject = (input: SdkIntegrationTask<RestoreObjectCommandInput>): Promise<RestoreObjectCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new RestoreObjectCommand(input);
+    const command = new RestoreObjectCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:uploadPart'*/
-export const nativeS3UploadPart = (input: UploadPartCommandInput): Promise<UploadPartCommandOutput> => {
+export const nativeS3UploadPart = (input: SdkIntegrationTask<UploadPartCommandInput>): Promise<UploadPartCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new UploadPartCommand(input);
+    const command = new UploadPartCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:uploadPartCopy'*/
-export const nativeS3UploadPartCopy = (input: UploadPartCopyCommandInput): Promise<UploadPartCopyCommandOutput> => {
+export const nativeS3UploadPartCopy = (input: SdkIntegrationTask<UploadPartCopyCommandInput>): Promise<UploadPartCopyCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new UploadPartCopyCommand(input);
+    const command = new UploadPartCopyCommand(input.parameters);
     return s3.send(command);
 };
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:s3:writeGetObjectResponse'*/
-export const nativeS3WriteGetObjectResponse = (input: WriteGetObjectResponseCommandInput): Promise<WriteGetObjectResponseCommandOutput> => {
+export const nativeS3WriteGetObjectResponse = (input: SdkIntegrationTask<WriteGetObjectResponseCommandInput>): Promise<WriteGetObjectResponseCommandOutput> => {
     const s3 = new S3Client({});
-    const command = new WriteGetObjectResponseCommand(input);
+    const command = new WriteGetObjectResponseCommand(input.parameters);
     return s3.send(command);
 };
 

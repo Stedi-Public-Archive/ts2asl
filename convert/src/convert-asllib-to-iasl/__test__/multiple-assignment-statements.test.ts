@@ -32,6 +32,7 @@ describe("when converting pass statements to iasl", () => {
               "identifier": "aaaa",
               "type": "string",
             },
+            "stateName": "3: Assign aaaa",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -50,6 +51,7 @@ describe("when converting pass statements to iasl", () => {
               "identifier": "aaaa",
               "type": "unknown",
             },
+            "stateName": "5: Assign aaaa",
           },
         ],
       }
@@ -100,6 +102,7 @@ describe("when converting pass statements to iasl", () => {
               "identifier": "aaaa",
               "type": "object",
             },
+            "stateName": "3: Assign aaaa",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -148,6 +151,7 @@ describe("when converting pass statements to iasl", () => {
               "identifier": "aaaa",
               "type": "unknown",
             },
+            "stateName": "4: Assign aaaa",
           },
         ],
       }
@@ -183,6 +187,7 @@ const aaaa = asl.pass({ parameters: arg }); `;
               "identifier": "aaaa",
               "type": "unknown",
             },
+            "stateName": "3: Assign aaaa",
           },
         ],
       }

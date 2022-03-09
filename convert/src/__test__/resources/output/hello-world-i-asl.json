@@ -5,7 +5,7 @@
   },
   "statements": [
     {
-      "stateName": "If (typeof input.name !== ...",
+      "stateName": "4: If (typeof input.name !== ...",
       "condition": {
         "operator": "not",
         "rhs": {
@@ -40,6 +40,7 @@
               "type": "string",
               "_syntaxKind": "literal"
             },
+            "stateName": "5: Assign input.name",
             "_syntaxKind": "variable-assignment"
           }
         ],
@@ -55,11 +56,12 @@
         "type": "numeric"
       },
       "expression": {
-        "stateName": "random()",
+        "stateName": "8: random()",
         "resource": "typescript:random",
         "source": "random()",
         "_syntaxKind": "asl-task-state"
       },
+      "stateName": "7: Assign rnd",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -89,7 +91,8 @@
         },
         "_syntaxKind": "literal-object"
       },
-      "_syntaxKind": "return"
+      "_syntaxKind": "return",
+      "stateName": "8: Return { greeting: as ..."
     }
   ],
   "_syntaxKind": "statemachine"

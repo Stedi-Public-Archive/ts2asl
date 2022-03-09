@@ -6,7 +6,7 @@ describe("when converting typescript invoke to iasl", () => {
     import * as asl from 'asl-lib';
   
     asl.typescriptInvoke({
-      target: SayHello,
+      resource: SayHello,
       parameters: () => arg.xxx,
       comment: "SayHello(arg.xxx)"
   });`;
@@ -26,6 +26,7 @@ describe("when converting typescript invoke to iasl", () => {
             },
             "resource": "typescript:SayHello",
             "source": "SayHello(arg.xxx)",
+            "stateName": "Typescript Invoke SayHello",
           },
         ],
       }

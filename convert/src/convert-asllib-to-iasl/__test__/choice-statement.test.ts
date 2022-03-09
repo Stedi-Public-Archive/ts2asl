@@ -58,6 +58,7 @@ describe("when converting choice statement to iasl", () => {
               "statements": Array [
                 Object {
                   "_syntaxKind": "return",
+                  "stateName": "8: Return undefined",
                 },
               ],
             },

@@ -21,27 +21,19 @@ describe("when transpiling simple statements", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
+          "2: Assign result": Object {
             "Comment": "source: result = 0",
-            "Next": "While",
+            "Next": "3: While (result === 0)",
             "Result": 0,
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize": Object {
-            "Next": "Assign Result",
-            "Parameters": Object {
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "While": Object {
+          "3: While (result === 0)": Object {
             "Branches": Array [
               Object {
                 "StartAt": "_WhileCondition",
                 "States": Object {
-                  "Assign Result_1": Object {
+                  "6: isDone()": Object {
                     "Catch": undefined,
                     "Comment": "source: isDone()",
                     "HeartbeatSeconds": undefined,
@@ -54,7 +46,7 @@ describe("when transpiling simple statements", () => {
                   },
                   "Wait": Object {
                     "Comment": undefined,
-                    "Next": "Assign Result_1",
+                    "Next": "6: isDone()",
                     "Seconds": 2,
                     "Type": "Wait",
                   },
@@ -83,6 +75,14 @@ describe("when transpiling simple statements", () => {
               },
             },
             "Type": "Parallel",
+          },
+          "Initialize": Object {
+            "Next": "2: Assign result",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
           },
         },
       }

@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "If (typeof input.delayInS ..."
+      "Next": "4: If (typeof input.delayInS ..."
     },
-    "If (typeof input.delayInS ...": {
+    "4: If (typeof input.delayInS ...": {
       "Type": "Choice",
       "Choices": [
         {
@@ -25,19 +25,19 @@
               }
             ]
           },
-          "Next": "Assign DelayInSeconds"
+          "Next": "6: Assign input.delayInSeconds"
         }
       ],
       "Comment": "source: if (typeof input.delayInSeconds !== \"number\")  ...",
-      "Default": "If (input.delayInSeconds  ..."
+      "Default": "8: If (input.delayInSeconds ..."
     },
-    "Assign DelayInSeconds": {
+    "6: Assign input.delayInSeconds": {
       "Type": "Pass",
       "ResultPath": "$.vars.delayInSeconds",
       "Result": 5,
-      "Next": "If (input.delayInSeconds  ..."
+      "Next": "8: If (input.delayInSeconds ..."
     },
-    "If (input.delayInSeconds  ...": {
+    "8: If (input.delayInSeconds ...": {
       "Type": "Choice",
       "Choices": [
         {
@@ -51,13 +51,13 @@
               "NumericLessThan": 1
             }
           ],
-          "Next": "Throw ValidationError"
+          "Next": "10: Throw ValidationError"
         }
       ],
       "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
       "Default": "Wait"
     },
-    "Throw ValidationError": {
+    "10: Throw ValidationError": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",

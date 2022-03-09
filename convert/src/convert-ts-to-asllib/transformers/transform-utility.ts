@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import { createName } from '../../create-name';
 
 import factory = ts.factory;
 
@@ -157,26 +158,8 @@ export class TransformUtil {
     );
   }
 
-  static createName(format: string, ...nodes: ts.Node[]) {
-    let texts: string[] = [];
-    for (const node of nodes) {
-      try {
-        if ((node as any).original) {
-          const text = (node as any).original.getText();
-          texts.push(text);
-        } else {
-          const text = node.getText();
-          texts.push(text);
-        }
-      } catch {
-        const text = "???";
-        texts.push(text);
-      }
-    }
-    let name = sprintf(format, texts);
-    if (name.length > 29) {
-      name = name.substring(0, 25) + " ...";
-    }
+  static createNamePropertyAssignment(mainNode: ts.Node, format: string, ...nodes: ts.Node[]) {
+    const name = createName(mainNode, format, ...nodes);
     return factory.createPropertyAssignment(
       factory.createIdentifier("name"),
       factory.createStringLiteral(name)
@@ -197,15 +180,4 @@ export class TransformUtil {
       )]
     );
   }
-}
-
-
-function sprintf(fmt: string, args: string[]) {
-  var i = 0;
-  return fmt.replace(/%((%)|s|d)/g, (m: string) => {
-    let val: string = "";
-    val = args[i];
-    i++;
-    return val;
-  });
 }

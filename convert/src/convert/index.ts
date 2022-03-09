@@ -19,7 +19,7 @@ export class Converter {
   }
 
   convert(includeDiagnostics: boolean = false): Converted {
-    const declarations = listFunctionDeclarations(this.sourceFile);
+    const declarations = listFunctionDeclarations(this.sourceFile, this.typeChecker);
 
     const lambdas: ConvertedLambda[] = [];
     const stateMachines: ConvertedStateMachine[] = [];
