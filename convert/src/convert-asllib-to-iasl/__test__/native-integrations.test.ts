@@ -19,42 +19,37 @@ describe("when converting native integration statements to iasl", () => {
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
-              "_syntaxKind": "asl-task-state",
-              "parameters": Object {
+              "Key": Object {
                 "_syntaxKind": "literal-object",
                 "properties": Object {
-                  "Key": Object {
+                  "pk": Object {
                     "_syntaxKind": "literal-object",
                     "properties": Object {
-                      "pk": Object {
-                        "_syntaxKind": "literal-object",
-                        "properties": Object {
-                          "S": Object {
-                            "_syntaxKind": "literal",
-                            "type": "string",
-                            "value": "something",
-                          },
-                        },
-                      },
-                      "sk": Object {
-                        "_syntaxKind": "literal-object",
-                        "properties": Object {
-                          "S": Object {
-                            "_syntaxKind": "literal",
-                            "type": "string",
-                            "value": "something",
-                          },
-                        },
+                      "S": Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "something",
                       },
                     },
                   },
-                  "TableName": Object {
-                    "_syntaxKind": "literal",
-                    "type": "string",
-                    "value": "mytable",
+                  "sk": Object {
+                    "_syntaxKind": "literal-object",
+                    "properties": Object {
+                      "S": Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "something",
+                      },
+                    },
                   },
                 },
               },
+              "TableName": Object {
+                "_syntaxKind": "literal",
+                "type": "string",
+                "value": "mytable",
+              },
+              "_syntaxKind": "asl-task-state",
               "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
               "source": undefined,
               "stateName": "GetItem",

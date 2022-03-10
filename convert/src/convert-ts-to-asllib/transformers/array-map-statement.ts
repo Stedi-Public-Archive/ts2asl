@@ -10,6 +10,8 @@ export const arrayMapTransformer = <T extends ts.Node>(context: ts.Transformatio
 
     if (ts.isCallExpression(node)) {
       if (ts.isPropertyAccessExpression(node.expression) && node.expression.name.text === "map") {
+        if (node.expression.expression.getText() === "asl") return node;
+
         if (node.arguments.length !== 1) throw new ParserError("<array>.map expression must have 1 argument", node);
         const arg = node.arguments[0];
         if (!ts.isArrowFunction(arg)) throw new ParserError("<array>.map expression must have arrow function as argument", node);

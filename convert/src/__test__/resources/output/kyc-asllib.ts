@@ -15,46 +15,52 @@ export const main = asl.deploy.asStateMachine(async () =>{
         ]
     });
     asl.nativeEventBridgePutEvents({
-        Entries: [
-            {
-                Detail: asl.states.jsonToString(result),
-                DetailType: "Identity check completed",
-                EventBusName: "eventbusname",
-                Source: "com.aws.kyc"
-            }
-        ]
+        parameters: {
+            Entries: [
+                {
+                    Detail: asl.states.jsonToString(result),
+                    DetailType: "Identity check completed",
+                    EventBusName: "eventbusname",
+                    Source: "com.aws.kyc"
+                }
+            ]
+        }
     });
     const checksPassed = asl.pass({
-        name: "24: Assign checksPassed",
+        name: "26: Assign checksPassed",
         parameters: () => true,
         comment: "checksPassed = true"
     });
     asl.typescriptIf({
-        name: "24: If (checksPassed)",
+        name: "26: If (checksPassed)",
         condition: () => checksPassed,
         then: async () => {
             //no-op update risk profile
             asl.nativeEventBridgePutEvents({
-                Entries: [
-                    {
-                        Detail: asl.states.jsonToString(result),
-                        DetailType: "AccountApproved",
-                        EventBusName: "eventbusname",
-                        Source: "com.aws.kyc"
-                    }
-                ]
+                parameters: {
+                    Entries: [
+                        {
+                            Detail: asl.states.jsonToString(result),
+                            DetailType: "AccountApproved",
+                            EventBusName: "eventbusname",
+                            Source: "com.aws.kyc"
+                        }
+                    ]
+                }
             });
         },
         else: async () => {
             asl.nativeEventBridgePutEvents({
-                Entries: [
-                    {
-                        Detail: asl.states.jsonToString(result),
-                        DetailType: "AccountDeclined",
-                        EventBusName: "eventbusname",
-                        Source: "com.aws.kyc"
-                    }
-                ]
+                parameters: {
+                    Entries: [
+                        {
+                            Detail: asl.states.jsonToString(result),
+                            DetailType: "AccountDeclined",
+                            EventBusName: "eventbusname",
+                            Source: "com.aws.kyc"
+                        }
+                    ]
+                }
             });
         }
     })

@@ -9,7 +9,16 @@
   },
   "statements": [
     {
-      "stateName": "6: If (typeof input.numberOf ...",
+      "parameters": {
+        "value": "sdfsd",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "source": "console.log(\"sdfsd\")",
+      "_syntaxKind": "asl-pass-state"
+    },
+    {
+      "stateName": "7: If (typeof input.numberOf ...",
       "condition": {
         "operator": "not",
         "rhs": {

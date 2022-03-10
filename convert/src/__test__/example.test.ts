@@ -35,7 +35,7 @@ describe("when converting example", () => {
               name: \\"16: Do While (lastEvaluatedKey)\\",
               condition: () => lastEvaluatedKey,
               block: async () => {
-                  let scan = asl.nativeDynamoDBScan({ TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
+                  let scan = asl.nativeDynamoDBScan({ parameters: { TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey } });
                   asl.map({
                       name: \\"18: For item Of scan.Items\\",
                       items: () => scan.Items,
@@ -52,32 +52,36 @@ describe("when converting example", () => {
                                           || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                       then: async () => {
                                           asl.nativeEventBridgePutEvents({
-                                              Entries: [
-                                                  {
-                                                      Detail: asl.states.jsonToString({
-                                                          account_id: item.pk,
-                                                          threshold: threshold
-                                                      }),
-                                                      DetailType: \\"xxx.detail.type\\",
-                                                      EventBusName: \\"default\\",
-                                                      Source: \\"zzz.my.source\\"
-                                                  }
-                                              ]
+                                              parameters: {
+                                                  Entries: [
+                                                      {
+                                                          Detail: asl.states.jsonToString({
+                                                              account_id: item.pk,
+                                                              threshold: threshold
+                                                          }),
+                                                          DetailType: \\"xxx.detail.type\\",
+                                                          EventBusName: \\"default\\",
+                                                          Source: \\"zzz.my.source\\"
+                                                      }
+                                                  ]
+                                              }
                                           });
                                           asl.nativeDynamoDBUpdateItem({
-                                              TableName: \\"MyStorage\\",
-                                              Key: {
-                                                  pk: item.pk,
-                                                  sk: item.sk
-                                              },
-                                              ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
-                                              UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
-                                              ExpressionAttributeValues: {
-                                                  \\":newLastSentOnValue\\": {
-                                                      N: item.total.N
+                                              parameters: {
+                                                  TableName: \\"MyStorage\\",
+                                                  Key: {
+                                                      pk: item.pk,
+                                                      sk: item.sk
                                                   },
-                                                  \\":newLastBeginDateValue\\": {
-                                                      S: item.beginDate.S
+                                                  ConditionExpression: \\"lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue\\",
+                                                  UpdateExpression: \\"SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue\\",
+                                                  ExpressionAttributeValues: {
+                                                      \\":newLastSentOnValue\\": {
+                                                          N: item.total.N
+                                                      },
+                                                      \\":newLastBeginDateValue\\": {
+                                                          S: item.beginDate.S
+                                                      }
                                                   }
                                               }
                                           });
@@ -620,7 +624,7 @@ describe("when converting example", () => {
                     "identifier": "lastEvaluatedKey",
                     "type": "unknown",
                   },
-                  "stateName": "60: Assign lastEvaluatedKey",
+                  "stateName": "65: Assign lastEvaluatedKey",
                 },
               ],
             },
@@ -818,7 +822,7 @@ describe("when converting example", () => {
                       },
                     },
                     "MaxConcurrency": undefined,
-                    "Next": "60: Assign lastEvaluatedKey",
+                    "Next": "65: Assign lastEvaluatedKey",
                     "Parameters": Object {
                       "vars": Object {
                         "item.$": "$$.Map.Item.Value",
@@ -828,7 +832,7 @@ describe("when converting example", () => {
                     "ResultPath": "$.lastResult",
                     "Type": "Map",
                   },
-                  "60: Assign lastEvaluatedKey": Object {
+                  "65: Assign lastEvaluatedKey": Object {
                     "Comment": undefined,
                     "InputPath": "$.vars.scan.LastEvaluatedKey",
                     "Next": "_WhileCondition",

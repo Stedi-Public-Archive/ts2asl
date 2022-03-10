@@ -215,9 +215,9 @@
                   "thresholds.$": "$.vars.thresholds"
                 }
               },
-              "Next": "60: Assign lastEvaluatedKey"
+              "Next": "65: Assign lastEvaluatedKey"
             },
-            "60: Assign lastEvaluatedKey": {
+            "65: Assign lastEvaluatedKey": {
               "Type": "Pass",
               "ResultPath": "$.vars.lastEvaluatedKey",
               "InputPath": "$.vars.scan.LastEvaluatedKey",

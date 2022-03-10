@@ -58,6 +58,8 @@
       "expression": {
         "stateName": "8: random()",
         "resource": "typescript:random",
+        "retry": [],
+        "catch": [],
         "source": "random()",
         "_syntaxKind": "asl-task-state"
       },

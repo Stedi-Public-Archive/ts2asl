@@ -24,7 +24,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
         name: "16: Do While (lastEvaluatedKey)",
         condition: () => lastEvaluatedKey,
         block: async () => {
-            let scan = asl.nativeDynamoDBScan({ TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
+            let scan = asl.nativeDynamoDBScan({ parameters: { TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey } });
             asl.map({
                 name: "18: For item Of scan.Items",
                 items: () => scan.Items,
@@ -41,32 +41,36 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                                     || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                 then: async () => {
                                     asl.nativeEventBridgePutEvents({
-                                        Entries: [
-                                            {
-                                                Detail: asl.states.jsonToString({
-                                                    account_id: item.pk,
-                                                    threshold: threshold
-                                                }),
-                                                DetailType: "xxx.detail.type",
-                                                EventBusName: "default",
-                                                Source: "zzz.my.source"
-                                            }
-                                        ]
+                                        parameters: {
+                                            Entries: [
+                                                {
+                                                    Detail: asl.states.jsonToString({
+                                                        account_id: item.pk,
+                                                        threshold: threshold
+                                                    }),
+                                                    DetailType: "xxx.detail.type",
+                                                    EventBusName: "default",
+                                                    Source: "zzz.my.source"
+                                                }
+                                            ]
+                                        }
                                     });
                                     asl.nativeDynamoDBUpdateItem({
-                                        TableName: "MyStorage",
-                                        Key: {
-                                            pk: item.pk,
-                                            sk: item.sk
-                                        },
-                                        ConditionExpression: "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
-                                        UpdateExpression: "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
-                                        ExpressionAttributeValues: {
-                                            ":newLastSentOnValue": {
-                                                N: item.total.N
+                                        parameters: {
+                                            TableName: "MyStorage",
+                                            Key: {
+                                                pk: item.pk,
+                                                sk: item.sk
                                             },
-                                            ":newLastBeginDateValue": {
-                                                S: item.beginDate.S
+                                            ConditionExpression: "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+                                            UpdateExpression: "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                                            ExpressionAttributeValues: {
+                                                ":newLastSentOnValue": {
+                                                    N: item.total.N
+                                                },
+                                                ":newLastBeginDateValue": {
+                                                    S: item.beginDate.S
+                                                }
                                             }
                                         }
                                     });

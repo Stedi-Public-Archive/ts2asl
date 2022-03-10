@@ -17,6 +17,8 @@
             "8: performIdentifyCheck()": {
               "Type": "Task",
               "Resource": "typescript:performIdentifyCheck",
+              "Catch": [],
+              "Retry": [],
               "Comment": "source: performIdentifyCheck()",
               "End": true
             }
@@ -54,16 +56,16 @@
           }
         ]
       },
-      "Next": "22: Assign checksPassed"
+      "Next": "24: Assign checksPassed"
     },
-    "22: Assign checksPassed": {
+    "24: Assign checksPassed": {
       "Type": "Pass",
       "ResultPath": "$.vars.checksPassed",
       "Result": true,
       "Comment": "source: checksPassed = true",
-      "Next": "24: If (checksPassed)"
+      "Next": "26: If (checksPassed)"
     },
-    "24: If (checksPassed)": {
+    "26: If (checksPassed)": {
       "Type": "Choice",
       "Choices": [
         {

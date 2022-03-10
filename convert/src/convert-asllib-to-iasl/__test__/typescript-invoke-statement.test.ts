@@ -19,12 +19,14 @@ describe("when converting typescript invoke to iasl", () => {
         "statements": Array [
           Object {
             "_syntaxKind": "asl-task-state",
+            "catch": Array [],
             "parameters": Object {
               "_syntaxKind": "identifier",
               "identifier": "arg.xxx",
               "type": "unknown",
             },
             "resource": "typescript:SayHello",
+            "retry": Array [],
             "source": "SayHello(arg.xxx)",
             "stateName": "Typescript Invoke SayHello",
           },

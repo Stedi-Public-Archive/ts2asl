@@ -1,0 +1,82 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "22: replayPrefixer(input)",
+        "resource": "typescript:replayPrefixer",
+        "retry": [],
+        "catch": [],
+        "parameters": {
+          "identifier": "input",
+          "_syntaxKind": "identifier",
+          "type": "object"
+        },
+        "source": "replayPrefixer(input)",
+        "_syntaxKind": "asl-task-state"
+      },
+      "stateName": "21: Assign result",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "items": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "catch": [],
+      "retry": [],
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "prefix",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "StartExecution",
+            "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
+            "parameters": {
+              "properties": {
+                "Input": {
+                  "arguments": [
+                    {
+                      "value": "{}",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    },
+                    {
+                      "identifier": "prefix",
+                      "_syntaxKind": "identifier",
+                      "type": "string"
+                    }
+                  ],
+                  "function": "asl.states.format",
+                  "_syntaxKind": "asl-intrinsic-function"
+                },
+                "StateMachineArn": {
+                  "value": "arn:something.something",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "_syntaxKind": "asl-task-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "maxConcurrency": 5,
+      "_syntaxKind": "asl-map-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

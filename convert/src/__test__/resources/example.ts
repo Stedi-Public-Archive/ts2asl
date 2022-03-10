@@ -14,7 +14,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
   ];
   let lastEvaluatedKey: any | undefined = undefined; //$.variables.lastEvaluatedKey
   do {
-    let scan = await asl.nativeDynamoDBScan({ TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey });
+    let scan = await asl.nativeDynamoDBScan({ parameters: { TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey } });
 
     for (const item of ((scan.Items || []) as unknown as Item[])) {//$.variables.item, $.enclosed.lastEvaluatedKey
       for (const threshold of thresholds) { //$.variables.threshold, $.enclosed.item, .lastEvaluatedKey
@@ -25,35 +25,40 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
           || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))) {
 
           await asl.nativeEventBridgePutEvents({
-            Entries: [
-              {
-                Detail: asl.states.jsonToString({
-                  account_id: item.pk,
-                  threshold: threshold
-                }),
-                DetailType: "xxx.detail.type",
-                EventBusName: "default",
-                Source: "zzz.my.source"
-              }
-            ]
-          });
-          await asl.nativeDynamoDBUpdateItem({
-            TableName: "MyStorage",
-            Key: {
-              pk: item.pk,
-              sk: item.sk
-            },
-            ConditionExpression: "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
-            UpdateExpression: "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
-            ExpressionAttributeValues: {
-              ":newLastSentOnValue": {
-                N: item.total.N as any
-              },
-              ":newLastBeginDateValue": {
-                S: item.beginDate.S
-              }
+            parameters: {
+              Entries: [
+                {
+                  Detail: asl.states.jsonToString({
+                    account_id: item.pk,
+                    threshold: threshold
+                  }),
+                  DetailType: "xxx.detail.type",
+                  EventBusName: "default",
+                  Source: "zzz.my.source"
+                }
+              ]
             }
           });
+          await asl.nativeDynamoDBUpdateItem({
+            parameters: {
+              TableName: "MyStorage",
+              Key: {
+                pk: item.pk,
+                sk: item.sk
+              },
+              ConditionExpression: "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+              UpdateExpression: "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+              ExpressionAttributeValues: {
+                ":newLastSentOnValue": {
+                  N: item.total.N as any
+                },
+                ":newLastBeginDateValue": {
+                  S: item.beginDate.S
+                }
+              }
+            }
+          }
+          );
         }
       }
     }

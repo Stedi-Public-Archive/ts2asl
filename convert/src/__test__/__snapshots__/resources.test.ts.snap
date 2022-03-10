@@ -1,596 +1,134 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`when converting test-resources 1`] = `
-"import { CreateAccountCommand, CreateAccountStatus, DescribeCreateAccountStatusCommand, DescribeOrganizationCommand, DescribeOrganizationResponse, ListOrganizationalUnitsForParentCommand, ListRootsCommand, MoveAccountCommand, OrganizationsClient, PolicyInUseException } from \\"@aws-sdk/client-organizations\\";
-import * as asl from \\"@ts2asl/asl-lib\\"
-import { StateMachineContext } from \\"@ts2asl/asl-lib\\";
+"import * as asl from \\"@ts2asl/asl-lib\\";
+import { handler as ReplayPrefixerHandler } from \\"../../functions/replay/prefixer\\";
 
-export const main = asl.deploy.asStateMachine(async (input: Input, context?: StateMachineContext<Input>) =>{
-    asl.typescriptIf({
-        name: \\"6: If (typeof input.numberOf ...\\",
-        condition: () => typeof input.numberOfNewAccount !== \\"number\\",
-        then: async () => {
-            input.numberOfNewAccount = 20;
-        },
-        comment: \\"if (typeof input.numberOfNewAccount !== \\\\\\"number\\\\\\") {\\\\n    input.numberOfNewAccount = 20;\\\\n  }\\"
-    })
-    asl.typescriptIf({
-        name: \\"10: If (typeof input.emailAcc ...\\",
-        condition: () => typeof input.emailAccountPrefix !== \\"string\\",
-        then: async () => {
-            input.emailAccountPrefix = \\"aws+stedi-customer-account\\";
-        },
-        comment: \\"if (typeof input.emailAccountPrefix !== \\\\\\"string\\\\\\") {\\\\n    input.emailAccountPrefix = \\\\\\"aws+stedi-customer-account\\\\\\";\\\\n  }\\"
-    })
-    asl.typescriptIf({
-        name: \\"14: If (typeof input.organiza ...\\",
-        condition: () => typeof input.organizationalUnitName !== \\"string\\",
-        then: async () => {
-            input.organizationalUnitName = \\"customer-accounts\\";
-        },
-        comment: \\"if (typeof input.organizationalUnitName !== \\\\\\"string\\\\\\") {\\\\n    input.organizationalUnitName = \\\\\\"customer-accounts\\\\\\";\\\\n  }\\"
-    })
-    const customerOUIds = asl.typescriptInvoke({
-        name: \\"20: retrieveAccountCreationId ...\\",
-        resource: retrieveAccountCreationIds,
-        parameters: () => ({ organizationalUnitName: input.organizationalUnitName }),
-        comment: \\"retrieveAccountCreationIds({ organizationalUnitName: input.organizationalUnitName })\\"
+const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => { return [\\"\\"] });
+
+//option 1: native typescript
+// export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) => {
+//   const result = await replayPrefixer(input);
+//   for (const prefix of result) {
+//     await asl.nativeSfnStartExecution({
+//       parameters: {
+//         input: asl.states.format(\\"{}\\", prefix),
+//         stateMachineArn: asl.deploy.getParameter(\\"stateMachineArn\\"),
+//       },
+//     });
+//   }
+// });
+
+//option 2: asl lib typescript
+export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) =>{
+    const result = asl.typescriptInvoke({
+        name: \\"22: replayPrefixer(input)\\",
+        resource: replayPrefixer,
+        parameters: () => input,
+        comment: \\"replayPrefixer(input)\\"
     });
-    const newAccounts = asl.typescriptInvoke({
-        name: \\"22: createListOfAccountsToBeC ...\\",
-        resource: createListOfAccountsToBeCreated,
-        parameters: () => ({ prefix: input.emailAccountPrefix, currentNumberOfAccounts: customerOUIds.currentNumberOfAccounts, numberOfAccounts: input.numberOfNewAccount }),
-        comment: \\"createListOfAccountsToBeCreated({ prefix: input.emailAccountPrefix, currentNumberOfAccounts: customerOUIds.currentNumberOfAccounts, numberOfAccounts: input.numberOfNewAccount })\\"
-    });
-    const accounts = asl.map({
-        name: \\"23: For x Of newAccounts.map\\",
-        items: () => newAccounts,
-        iterator: x => {
-            const accountCreationResult = asl.nativeOrganizationsCreateAccount({ parameters: { Email: x.rootEmail, AccountName: x.name } });
-            const createdAccount = asl.pass({
-                name: \\"25: Assign createdAccount\\",
-                parameters: () => accountCreationResult.CreateAccountStatus,
-                comment: \\"createdAccount = accountCreationResult.CreateAccountStatus\\"
+    asl.map({
+        maxConcurrency: 5,
+        items: result,
+        iterator: (prefix) => {
+            asl.nativeSfnStartExecution({
+                parameters: {
+                    input: asl.states.format(\\"{}\\", prefix),
+                    stateMachineArn: asl.deploy.getParameter(\\"stateMachineArn\\"),
+                },
             });
-            asl.typescriptIf({
-                name: \\"25: If (!createdAccount)\\",
-                condition: () => !createdAccount,
-                then: async () => { asl.fail({
-                    name: \\"26: Throw UnexpectedError\\",
-                    error: \\"UnexpectedError\\",
-                    comment: \\"throw new UnexpectedError();\\"
-                }) },
-                comment: \\"if (!createdAccount) throw new UnexpectedError();\\"
-            })
-            const result = asl.typescriptInvoke({
-                retry: [{
-                        errorFilter: [\\"RetryError\\"],
-                        backoffRate: 1.5,
-                        intervalSeconds: 2,
-                        maxAttempts: 50
-                    }],
-                resource: checkAccountCreationDone,
-                parameters: createdAccount,
-            });
-            asl.typescriptInvoke({
-                name: \\"38: moveAccount({ sourceParen ...\\",
-                resource: moveAccount,
-                parameters: () => ({ sourceParentId: customerOUIds.rootId, destinationParentId: customerOUIds.customerAccountsOU, accountId: result.AccountId })
-            });
-            return result;
-        }
+        },
     });
-    return {
-        accountIds: accounts
-    };
 });
 
-const moveAccount = asl.deploy.asLambda(async (input: { sourceParentId: string, destinationParentId: string, accountId: string }) => {
-  const { sourceParentId, destinationParentId, accountId } = input;
-  const client = new OrganizationsClient({ region: \\"us-east-1\\" });
-
-  const command = new MoveAccountCommand({
-    SourceParentId: sourceParentId,
-    DestinationParentId: destinationParentId,
-    AccountId: accountId,
-  });
-
-  return client.send(command);
-});
-
-const retrieveAccountCreationIds = asl.deploy.asLambda(async (input: { organizationalUnitName: string }) => {
-  const client = new OrganizationsClient({ region: \\"us-east-1\\" });
-  const { organizationalUnitName } = input;
-
-  const root = await client.send(new ListRootsCommand({}));
-  if (!root.Roots) throw new UnexpectedError();
-  if (root.Roots.length < 1) throw new UnexpectedError();
-
-  const rootId = root.Roots[0].Id;
-  if (!rootId) throw new UnexpectedError();
-
-  const rootLevelOUs = await client.send(new ListOrganizationalUnitsForParentCommand({ ParentId: rootId }));
-  const ou = (rootLevelOUs.OrganizationalUnits || []).find(x => x.Name === organizationalUnitName);
-  if (!ou?.Id) throw new UnexpectedError();
-
-  return {
-    rootId,
-    customerAccountsOU: ou.Id,
-    currentNumberOfAccounts: 5
-  } as CustomerOrganizationalUnitIds;
-});
-
-const checkAccountCreationDone = asl.deploy.asLambda(async (input: CreateAccountStatus | undefined) => {
-  const client = new OrganizationsClient({ region: \\"us-east-1\\" });
-
-  const command = new DescribeCreateAccountStatusCommand({
-    CreateAccountRequestId: input!.Id
-  });
-
-  let accountStatus = await client.send(command);
-
-  if (accountStatus.CreateAccountStatus?.State === \\"IN_PROGRESS\\") {
-    throw new RetryError();
-  }
-  if (accountStatus.CreateAccountStatus?.State === \\"FAILED\\") {
-    throw new FailedError();
-  }
-  return accountStatus.CreateAccountStatus!;
-});
-
-const createAccount = asl.deploy.asLambda(async (input: NewAccountInput) => {
-  const client = new OrganizationsClient({ region: \\"us-east-1\\" });
-
-  const command = new CreateAccountCommand({
-    Email: input.rootEmail,
-    AccountName: input.name,
-  });
-
-  let accountStatus = await client.send(command);
-
-  return accountStatus.CreateAccountStatus!;
-});
-
-const createListOfAccountsToBeCreated = asl.deploy.asLambda((input: { prefix: string, currentNumberOfAccounts: number, numberOfAccounts: number }): NewAccountInput[] => {
-  let { prefix, currentNumberOfAccounts } = input;
-  const results: NewAccountInput[] = [];
-  for (let i = 0; i < input.numberOfAccounts; i++) {
-    results.push({
-      rootEmail: \`\${prefix}-\${currentNumberOfAccounts + i}@stedi.com\`,
-      name: \`account \${currentNumberOfAccounts + i}\`,
-    });
-  }
-  return results;
-});
-
-interface NewAccountInput {
-  rootEmail: string;
-  name: string;
+interface StateMachineInput {
+  startDate: string;
+  endDate?: string;
 }
-
-
-interface Input {
-  numberOfNewAccount?: number;
-  emailAccountPrefix?: string;
-  organizationalUnitName?: string;
-}
-
-interface Output {
-  accountIds: CreateAccountStatus[]
-}
-
-interface CustomerOrganizationalUnitIds {
-  rootId: string;
-  customerAccountsOU: string;
-  currentNumberOfAccounts: number;
-}
-
-class UnexpectedError extends Error {
-  public readonly name = \\"UnexpectedError\\";
-}
-
-class FailedError extends Error {
-  public readonly name = \\"FailedError\\";
-}
-
-class RetryError extends Error {
-  public readonly name = \\"RetryError\\";
-}"
+"
 `;
 
 exports[`when converting test-resources 2`] = `
 Object {
   "_syntaxKind": "statemachine",
-  "contextArgumentName": Object {
-    "_syntaxKind": "identifier",
-    "identifier": "context",
-  },
+  "contextArgumentName": undefined,
   "inputArgumentName": Object {
     "_syntaxKind": "identifier",
     "identifier": "input",
   },
   "statements": Array [
     Object {
-      "_syntaxKind": "if",
-      "condition": Object {
-        "_syntaxKind": "binary-expression",
-        "operator": "not",
-        "rhs": Object {
-          "_syntaxKind": "binary-expression",
-          "lhs": Object {
-            "_syntaxKind": "type-of-expression",
-            "operand": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.numberOfNewAccount",
-              "type": "numeric",
-            },
-          },
-          "operator": "eq",
-          "rhs": Object {
-            "_syntaxKind": "literal",
-            "type": "string",
-            "value": "number",
-          },
-        },
-      },
-      "source": "if (typeof input.numberOfNewAccount !== \\"number\\") {
-    input.numberOfNewAccount = 20;
-  }",
-      "stateName": "6: If (typeof input.numberOf ...",
-      "then": Object {
-        "_syntaxKind": "function",
-        "statements": Array [
-          Object {
-            "_syntaxKind": "variable-assignment",
-            "expression": Object {
-              "_syntaxKind": "literal",
-              "type": "numeric",
-              "value": 20,
-            },
-            "name": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.numberOfNewAccount",
-              "type": "numeric",
-            },
-            "stateName": "8: Assign input.numberOfNewA ...",
-          },
-        ],
-      },
-    },
-    Object {
-      "_syntaxKind": "if",
-      "condition": Object {
-        "_syntaxKind": "binary-expression",
-        "operator": "not",
-        "rhs": Object {
-          "_syntaxKind": "binary-expression",
-          "lhs": Object {
-            "_syntaxKind": "type-of-expression",
-            "operand": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.emailAccountPrefix",
-              "type": "string",
-            },
-          },
-          "operator": "eq",
-          "rhs": Object {
-            "_syntaxKind": "literal",
-            "type": "string",
-            "value": "string",
-          },
-        },
-      },
-      "source": "if (typeof input.emailAccountPrefix !== \\"string\\") {
-    input.emailAccountPrefix = \\"aws+stedi-customer-account\\";
-  }",
-      "stateName": "10: If (typeof input.emailAcc ...",
-      "then": Object {
-        "_syntaxKind": "function",
-        "statements": Array [
-          Object {
-            "_syntaxKind": "variable-assignment",
-            "expression": Object {
-              "_syntaxKind": "literal",
-              "type": "string",
-              "value": "aws+stedi-customer-account",
-            },
-            "name": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.emailAccountPrefix",
-              "type": "string",
-            },
-            "stateName": "12: Assign input.emailAccount ...",
-          },
-        ],
-      },
-    },
-    Object {
-      "_syntaxKind": "if",
-      "condition": Object {
-        "_syntaxKind": "binary-expression",
-        "operator": "not",
-        "rhs": Object {
-          "_syntaxKind": "binary-expression",
-          "lhs": Object {
-            "_syntaxKind": "type-of-expression",
-            "operand": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.organizationalUnitName",
-              "type": "string",
-            },
-          },
-          "operator": "eq",
-          "rhs": Object {
-            "_syntaxKind": "literal",
-            "type": "string",
-            "value": "string",
-          },
-        },
-      },
-      "source": "if (typeof input.organizationalUnitName !== \\"string\\") {
-    input.organizationalUnitName = \\"customer-accounts\\";
-  }",
-      "stateName": "14: If (typeof input.organiza ...",
-      "then": Object {
-        "_syntaxKind": "function",
-        "statements": Array [
-          Object {
-            "_syntaxKind": "variable-assignment",
-            "expression": Object {
-              "_syntaxKind": "literal",
-              "type": "string",
-              "value": "customer-accounts",
-            },
-            "name": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.organizationalUnitName",
-              "type": "string",
-            },
-            "stateName": "16: Assign input.organization ...",
-          },
-        ],
-      },
-    },
-    Object {
       "_syntaxKind": "variable-assignment",
       "expression": Object {
         "_syntaxKind": "asl-task-state",
-        "parameters": Object {
-          "_syntaxKind": "literal-object",
-          "properties": Object {
-            "organizationalUnitName": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.organizationalUnitName",
-              "type": "string",
-            },
-          },
-        },
-        "resource": "typescript:retrieveAccountCreationIds",
-        "source": "retrieveAccountCreationIds({ organizationalUnitName: input.organizationalUnitName })",
-        "stateName": "20: retrieveAccountCreationId ...",
-      },
-      "name": Object {
-        "_syntaxKind": "identifier",
-        "identifier": "customerOUIds",
-        "type": "object",
-      },
-      "stateName": "18: Assign customerOUIds",
-    },
-    Object {
-      "_syntaxKind": "variable-assignment",
-      "expression": Object {
-        "_syntaxKind": "asl-task-state",
-        "parameters": Object {
-          "_syntaxKind": "literal-object",
-          "properties": Object {
-            "currentNumberOfAccounts": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "customerOUIds.currentNumberOfAccounts",
-              "type": "numeric",
-            },
-            "numberOfAccounts": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.numberOfNewAccount",
-              "type": "numeric",
-            },
-            "prefix": Object {
-              "_syntaxKind": "identifier",
-              "identifier": "input.emailAccountPrefix",
-              "type": "string",
-            },
-          },
-        },
-        "resource": "typescript:createListOfAccountsToBeCreated",
-        "source": "createListOfAccountsToBeCreated({ prefix: input.emailAccountPrefix, currentNumberOfAccounts: customerOUIds.currentNumberOfAccounts, numberOfAccounts: input.numberOfNewAccount })",
-        "stateName": "22: createListOfAccountsToBeC ...",
-      },
-      "name": Object {
-        "_syntaxKind": "identifier",
-        "identifier": "newAccounts",
-        "type": "object",
-      },
-      "stateName": "20: Assign newAccounts",
-    },
-    Object {
-      "_syntaxKind": "variable-assignment",
-      "expression": Object {
-        "_syntaxKind": "asl-map-state",
         "catch": Array [],
-        "items": Object {
+        "parameters": Object {
           "_syntaxKind": "identifier",
-          "identifier": "newAccounts",
+          "identifier": "input",
           "type": "object",
         },
-        "iterator": Object {
-          "_syntaxKind": "function",
-          "inputArgumentName": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "x",
-          },
-          "statements": Array [
-            Object {
-              "_syntaxKind": "variable-assignment",
-              "expression": Object {
-                "_syntaxKind": "asl-task-state",
-                "parameters": Object {
-                  "_syntaxKind": "literal-object",
-                  "properties": Object {
-                    "parameters": Object {
-                      "_syntaxKind": "literal-object",
-                      "properties": Object {
-                        "AccountName": Object {
-                          "_syntaxKind": "identifier",
-                          "identifier": "x.name",
-                          "type": "string",
-                        },
-                        "Email": Object {
-                          "_syntaxKind": "identifier",
-                          "identifier": "x.rootEmail",
-                          "type": "string",
-                        },
-                      },
-                    },
-                  },
-                },
-                "resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
-                "source": undefined,
-                "stateName": "CreateAccount",
-              },
-              "name": Object {
-                "_syntaxKind": "identifier",
-                "identifier": "accountCreationResult",
-                "type": "object",
-              },
-              "stateName": "23: Assign accountCreationResult",
-            },
-            Object {
-              "_syntaxKind": "variable-assignment",
-              "expression": Object {
-                "_syntaxKind": "asl-pass-state",
-                "parameters": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "accountCreationResult.CreateAccountStatus",
-                  "type": "object",
-                },
-                "source": "createdAccount = accountCreationResult.CreateAccountStatus",
-                "stateName": "25: Assign createdAccount",
-              },
-              "name": Object {
-                "_syntaxKind": "identifier",
-                "identifier": "createdAccount",
-                "type": "object",
-              },
-              "stateName": "24: Assign createdAccount",
-            },
-            Object {
-              "_syntaxKind": "if",
-              "condition": Object {
-                "_syntaxKind": "binary-expression",
-                "operator": "not",
-                "rhs": Object {
-                  "_syntaxKind": "binary-expression",
-                  "operator": "is-present",
-                  "rhs": Object {
-                    "_syntaxKind": "identifier",
-                    "identifier": "createdAccount",
-                    "type": "object",
-                  },
-                },
-              },
-              "source": "if (!createdAccount) throw new UnexpectedError();",
-              "stateName": "25: If (!createdAccount)",
-              "then": Object {
-                "_syntaxKind": "function",
-                "statements": Array [
-                  Object {
-                    "_syntaxKind": "asl-fail-state",
-                    "error": "UnexpectedError",
-                    "source": "throw new UnexpectedError();",
-                    "stateName": "26: Throw UnexpectedError",
-                  },
-                ],
-              },
-            },
-            Object {
-              "_syntaxKind": "variable-assignment",
-              "expression": Object {
-                "_syntaxKind": "asl-task-state",
-                "parameters": Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "createdAccount",
-                  "type": "object",
-                },
-                "resource": "typescript:checkAccountCreationDone",
-                "source": undefined,
-                "stateName": "Typescript Invoke checkAccountCreationDone",
-              },
-              "name": Object {
-                "_syntaxKind": "identifier",
-                "identifier": "result",
-                "type": "object",
-              },
-              "stateName": "26: Assign result",
-            },
-            Object {
-              "_syntaxKind": "asl-task-state",
-              "parameters": Object {
-                "_syntaxKind": "literal-object",
-                "properties": Object {
-                  "accountId": Object {
-                    "_syntaxKind": "identifier",
-                    "identifier": "result.AccountId",
-                    "type": "string",
-                  },
-                  "destinationParentId": Object {
-                    "_syntaxKind": "identifier",
-                    "identifier": "customerOUIds.customerAccountsOU",
-                    "type": "string",
-                  },
-                  "sourceParentId": Object {
-                    "_syntaxKind": "identifier",
-                    "identifier": "customerOUIds.rootId",
-                    "type": "string",
-                  },
-                },
-              },
-              "resource": "typescript:moveAccount",
-              "stateName": "38: moveAccount({ sourceParen ...",
-            },
-            Object {
-              "_syntaxKind": "return",
-              "expression": Object {
-                "_syntaxKind": "identifier",
-                "identifier": "result",
-                "type": "object",
-              },
-              "stateName": "38: Return result",
-            },
-          ],
-        },
+        "resource": "typescript:replayPrefixer",
         "retry": Array [],
-        "source": undefined,
-        "stateName": "23: For x Of newAccounts.map",
+        "source": "replayPrefixer(input)",
+        "stateName": "22: replayPrefixer(input)",
       },
       "name": Object {
         "_syntaxKind": "identifier",
-        "identifier": "accounts",
+        "identifier": "result",
         "type": "object",
       },
-      "stateName": "22: Assign accounts",
+      "stateName": "21: Assign result",
     },
     Object {
-      "_syntaxKind": "return",
-      "expression": Object {
-        "_syntaxKind": "literal-object",
-        "properties": Object {
-          "accountIds": Object {
-            "_syntaxKind": "identifier",
-            "identifier": "accounts",
-            "type": "object",
-          },
-        },
+      "_syntaxKind": "asl-map-state",
+      "catch": Array [],
+      "items": Object {
+        "_syntaxKind": "identifier",
+        "identifier": "result",
+        "type": "object",
       },
-      "stateName": "40: Return { accountIds: ...",
+      "iterator": Object {
+        "_syntaxKind": "function",
+        "inputArgumentName": Object {
+          "_syntaxKind": "identifier",
+          "identifier": "prefix",
+        },
+        "statements": Array [
+          Object {
+            "_syntaxKind": "asl-task-state",
+            "parameters": Object {
+              "_syntaxKind": "literal-object",
+              "properties": Object {
+                "input": Object {
+                  "_syntaxKind": "asl-intrinsic-function",
+                  "arguments": Array [
+                    Object {
+                      "_syntaxKind": "literal",
+                      "type": "string",
+                      "value": "{}",
+                    },
+                    Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "prefix",
+                      "type": "string",
+                    },
+                  ],
+                  "function": "asl.states.format",
+                },
+                "stateMachineArn": Object {
+                  "_syntaxKind": "literal",
+                  "type": "string",
+                  "value": "arn:something.something",
+                },
+              },
+            },
+            "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
+            "stateName": "StartExecution",
+          },
+        ],
+      },
+      "maxConcurrency": 5,
+      "retry": Array [],
     },
   ],
 }
@@ -600,230 +138,57 @@ exports[`when converting test-resources 3`] = `
 Object {
   "StartAt": "Initialize",
   "States": Object {
-    "10: If (typeof input.emailAcc ...": Object {
-      "Choices": Array [
-        Object {
-          "Next": "12: Assign input.emailAccount ...",
-          "Not": Object {
-            "And": Array [
-              Object {
-                "IsPresent": true,
-                "Variable": "$.vars.emailAccountPrefix",
-              },
-              Object {
-                "IsString": true,
-                "Variable": "$.vars.emailAccountPrefix",
-              },
-            ],
-          },
-        },
-      ],
-      "Comment": "source: if (typeof input.emailAccountPrefix !== \\"strin ...",
-      "Default": "14: If (typeof input.organiza ...",
-      "Type": "Choice",
-    },
-    "12: Assign input.emailAccount ...": Object {
-      "Comment": undefined,
-      "Next": "14: If (typeof input.organiza ...",
-      "Result": "aws+stedi-customer-account",
-      "ResultPath": "$.vars.emailAccountPrefix",
-      "Type": "Pass",
-    },
-    "14: If (typeof input.organiza ...": Object {
-      "Choices": Array [
-        Object {
-          "Next": "16: Assign input.organization ...",
-          "Not": Object {
-            "And": Array [
-              Object {
-                "IsPresent": true,
-                "Variable": "$.vars.organizationalUnitName",
-              },
-              Object {
-                "IsString": true,
-                "Variable": "$.vars.organizationalUnitName",
-              },
-            ],
-          },
-        },
-      ],
-      "Comment": "source: if (typeof input.organizationalUnitName !== \\"s ...",
-      "Default": "20: retrieveAccountCreationId ...",
-      "Type": "Choice",
-    },
-    "16: Assign input.organization ...": Object {
-      "Comment": undefined,
-      "Next": "20: retrieveAccountCreationId ...",
-      "Result": "customer-accounts",
-      "ResultPath": "$.vars.organizationalUnitName",
-      "Type": "Pass",
-    },
-    "20: retrieveAccountCreationId ...": Object {
-      "Catch": undefined,
-      "Comment": "source: retrieveAccountCreationIds({ organizationalUni ...",
+    "22: replayPrefixer(input)": Object {
+      "Catch": Array [],
+      "Comment": "source: replayPrefixer(input)",
       "HeartbeatSeconds": undefined,
-      "Next": "22: createListOfAccountsToBeC ...",
-      "Parameters": Object {
-        "organizationalUnitName.$": "$.vars.organizationalUnitName",
-      },
-      "Resource": "typescript:retrieveAccountCreationIds",
-      "ResultPath": "$.vars.customerOUIds",
-      "Retry": undefined,
+      "InputPath": "$.vars",
+      "Next": "Map",
+      "Resource": "typescript:replayPrefixer",
+      "ResultPath": "$.vars.result",
+      "Retry": Array [],
       "TimeoutSeconds": undefined,
       "Type": "Task",
-    },
-    "22: Assign accounts": Object {
-      "Comment": undefined,
-      "ItemsPath": "$.vars.newAccounts",
-      "Iterator": Object {
-        "StartAt": "CreateAccount",
-        "States": Object {
-          "24: Assign createdAccount": Object {
-            "Comment": "source: createdAccount = accountCreationResult.CreateA ...",
-            "InputPath": "$.vars.accountCreationResult.CreateAccountStatus",
-            "Next": "25: If (!createdAccount)",
-            "ResultPath": "$.vars.createdAccount",
-            "Type": "Pass",
-          },
-          "25: If (!createdAccount)": Object {
-            "Choices": Array [
-              Object {
-                "IsPresent": false,
-                "Next": "26: Throw UnexpectedError",
-                "Variable": "$.vars.createdAccount",
-              },
-            ],
-            "Comment": "source: if (!createdAccount) throw new UnexpectedError();",
-            "Default": "Typescript Invoke checkAccountCreationDone",
-            "Type": "Choice",
-          },
-          "26: Throw UnexpectedError": Object {
-            "Cause": undefined,
-            "Comment": "source: throw new UnexpectedError();",
-            "Error": "UnexpectedError",
-            "Type": "Fail",
-          },
-          "38: moveAccount({ sourceParen ...": Object {
-            "Catch": undefined,
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "Pass",
-            "Parameters": Object {
-              "accountId.$": "$.vars.result.AccountId",
-              "destinationParentId.$": "$.vars.customerOUIds.customerAccountsOU",
-              "sourceParentId.$": "$.vars.customerOUIds.rootId",
-            },
-            "Resource": "typescript:moveAccount",
-            "Retry": undefined,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          "CreateAccount": Object {
-            "Catch": undefined,
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "24: Assign createdAccount",
-            "Parameters": Object {
-              "parameters": Object {
-                "AccountName.$": "$.vars.x.name",
-                "Email.$": "$.vars.x.rootEmail",
-              },
-            },
-            "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
-            "ResultPath": "$.vars.accountCreationResult",
-            "Retry": undefined,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          "Pass": Object {
-            "End": true,
-            "InputPath": "$.vars.result",
-            "Type": "Pass",
-          },
-          "Typescript Invoke checkAccountCreationDone": Object {
-            "Catch": undefined,
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "InputPath": "$.vars.createdAccount",
-            "Next": "38: moveAccount({ sourceParen ...",
-            "Resource": "typescript:checkAccountCreationDone",
-            "ResultPath": "$.vars.result",
-            "Retry": undefined,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-        },
-      },
-      "MaxConcurrency": undefined,
-      "Next": "Pass_1",
-      "Parameters": Object {
-        "vars": Object {
-          "customerOUIds.$": "$.vars.customerOUIds",
-          "x.$": "$$.Map.Item.Value",
-        },
-      },
-      "ResultPath": "$.vars.accounts",
-      "Type": "Map",
-    },
-    "22: createListOfAccountsToBeC ...": Object {
-      "Catch": undefined,
-      "Comment": "source: createListOfAccountsToBeCreated({ prefix: inpu ...",
-      "HeartbeatSeconds": undefined,
-      "Next": "22: Assign accounts",
-      "Parameters": Object {
-        "currentNumberOfAccounts.$": "$.vars.customerOUIds.currentNumberOfAccounts",
-        "numberOfAccounts.$": "$.vars.numberOfNewAccount",
-        "prefix.$": "$.vars.emailAccountPrefix",
-      },
-      "Resource": "typescript:createListOfAccountsToBeCreated",
-      "ResultPath": "$.vars.newAccounts",
-      "Retry": undefined,
-      "TimeoutSeconds": undefined,
-      "Type": "Task",
-    },
-    "6: If (typeof input.numberOf ...": Object {
-      "Choices": Array [
-        Object {
-          "Next": "8: Assign input.numberOfNewA ...",
-          "Not": Object {
-            "And": Array [
-              Object {
-                "IsPresent": true,
-                "Variable": "$.vars.numberOfNewAccount",
-              },
-              Object {
-                "IsNumeric": true,
-                "Variable": "$.vars.numberOfNewAccount",
-              },
-            ],
-          },
-        },
-      ],
-      "Comment": "source: if (typeof input.numberOfNewAccount !== \\"numbe ...",
-      "Default": "10: If (typeof input.emailAcc ...",
-      "Type": "Choice",
-    },
-    "8: Assign input.numberOfNewA ...": Object {
-      "Comment": undefined,
-      "Next": "10: If (typeof input.emailAcc ...",
-      "Result": 20,
-      "ResultPath": "$.vars.numberOfNewAccount",
-      "Type": "Pass",
     },
     "Initialize": Object {
-      "Next": "6: If (typeof input.numberOf ...",
+      "Next": "22: replayPrefixer(input)",
       "Parameters": Object {
         "vars.$": "$$.Execution.Input",
       },
       "ResultPath": "$",
       "Type": "Pass",
     },
-    "Pass_1": Object {
+    "Map": Object {
+      "Comment": undefined,
       "End": true,
-      "Parameters": Object {
-        "accountIds.$": "$.vars.accounts",
+      "ItemsPath": "$.vars.result",
+      "Iterator": Object {
+        "StartAt": "StartExecution",
+        "States": Object {
+          "StartExecution": Object {
+            "Catch": undefined,
+            "Comment": undefined,
+            "End": true,
+            "HeartbeatSeconds": undefined,
+            "Parameters": Object {
+              "input.$": "States.Format('{}', $.vars.prefix)",
+              "stateMachineArn": "arn:something.something",
+            },
+            "Resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
+            "Retry": undefined,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+        },
       },
-      "Type": "Pass",
+      "MaxConcurrency": 5,
+      "Parameters": Object {
+        "vars": Object {
+          "prefix.$": "$$.Map.Item.Value",
+        },
+      },
+      "ResultPath": "$.lastResult",
+      "Type": "Map",
     },
   },
 }

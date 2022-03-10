@@ -1,6 +1,7 @@
 
 import * as ts from "typescript";
 import * as iasl from "./ast"
+import * as asl from "@ts2asl/asl-lib"
 import { ParserError } from "../ParserError";
 import { convertToIdentifier } from "./helper";
 import { removeSyntaxTransformer } from "./remove-syntax-transformer";
@@ -152,6 +153,18 @@ export const convertExpression = (expression: ts.Expression | undefined, context
     if (type.startsWith("states.") || type.startsWith("jsonPath")) {
       return convertExpressionToLiteralOrIdentifier(expression, context);
     }
+
+    if (type === "deploy.getParameter") {
+      if (!ts.isStringLiteral(expression.arguments[0])) throw new Error(`first argument to asl.deploy.getParameter must be a literal (not a variable)`);
+      const paramName = expression.arguments[0].text;
+      const val = asl.deploy.getParameter(paramName);
+      return {
+        value: val,
+        type: typeof val,
+        _syntaxKind: iasl.SyntaxKind.Literal
+      } as iasl.LiteralExpression
+    }
+
     let argument = factory.createObjectLiteralExpression([], false);
 
     if (expression.arguments.length !== 0) {
@@ -169,10 +182,23 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         const comment = unpackAsLiteral(convertedArgs, "comment");
         const resource = unpackAsIdentifier(convertedArgs, "resource");
         const parameters = convertedArgs["parameters"];
+        const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
+        const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
 
         return {
           stateName: name ?? "Typescript Invoke " + resource?.identifier,
           resource: "typescript:" + resource?.identifier,
+          retry: retryConfiguration ?? [{
+            errorFilter: [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            intervalSeconds: 2,
+            maxAttempts: 6,
+            backoffRate: 2
+          }],
+          catch: catchConfiguration,
           parameters,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslTaskState
@@ -313,6 +339,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
 
       case "map": {
         const name = unpackAsLiteral(convertedArgs, "name");
+        const maxConcurrency = unpackAsLiteral(convertedArgs, "maxConcurrency");
         const items = unpackAsIdentifier(convertedArgs, "items");
         const iterator = unpackBlock(convertedArgs, "iterator");
         const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
@@ -326,6 +353,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           retry: retryConfiguration,
           iterator,
           source: comment,
+          maxConcurrency,
           _syntaxKind: iasl.SyntaxKind.AslMapState
         } as iasl.MapState;
       };
@@ -375,7 +403,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       let remainder = type.substring(6);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
-      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations"];
+      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations"];
       for (const serviceName of servicesNames) {
         if (remainder.startsWith(serviceName)) {
           resource += serviceName.toLowerCase() + ':';
@@ -388,15 +416,29 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         throw new Error(`unable to find service of native integration ${type} `);
       }
       resource += remainder[0].toLowerCase() + remainder.substring(1);
-      const parameters: iasl.LiteralObjectExpression = { _syntaxKind: iasl.SyntaxKind.LiteralObject, properties: {} };
-      for (const [propName, propVal] of Object.entries(convertedArgs)) {
-        parameters.properties[propName] = propVal;
+
+
+      const caseConvertedArgs = {
+        ...convertedArgs,
+        parameters: {
+          properties: {},
+          _syntaxKind: iasl.SyntaxKind.LiteralObject
+        } as iasl.LiteralObjectExpression
+      }
+
+
+      const parameters = convertedArgs.parameters as iasl.LiteralObjectExpression;
+      if (parameters) {
+        for (const [key, val] of Object.entries(parameters.properties ?? {})) {
+          const keyCaseConverted = key[0].toUpperCase() + key.substring(1);
+          caseConvertedArgs.parameters.properties[keyCaseConverted] = val;
+        }
       }
 
       return {
         stateName: remainder,
         resource,
-        parameters,
+        ...caseConvertedArgs,
         source: undefined,
         _syntaxKind: iasl.SyntaxKind.AslTaskState
       } as iasl.TaskState;

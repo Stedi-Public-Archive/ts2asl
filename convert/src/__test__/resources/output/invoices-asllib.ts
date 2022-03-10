@@ -52,16 +52,18 @@ export const main = asl.deploy.asStateMachine(
                 },
                 else: async () => {
                     const result = asl.nativeAPIGatewayInvoke({
-                        ApiEndpoint: "yyyyyyyy",
-                        Method: "POST",
-                        Path: "/xxxxxxxx",
-                        RequestBody: {
-                            accountName: bill.accountName,
-                            accountId: bill.accountId,
-                            billId: bill.billId,
-                            errors: bill.errors,
-                            stage: bill.stage,
-                        },
+                        parameters: {
+                            ApiEndpoint: "yyyyyyyy",
+                            Method: "POST",
+                            Path: "/xxxxxxxx",
+                            RequestBody: {
+                                accountName: bill.accountName,
+                                accountId: bill.accountId,
+                                billId: bill.billId,
+                                errors: bill.errors,
+                                stage: bill.stage,
+                            },
+                        }
                     });
                     return result;
                 }
@@ -69,15 +71,15 @@ export const main = asl.deploy.asStateMachine(
         }
     });
     const bills = asl.pass({
-        name: "47: Assign bills",
+        name: "49: Assign bills",
         parameters: () => billPromises
     });
     const validBills = asl.jsonPathFilter(bills, (x) => !!x.valid);
     const invoices = asl.map({
-        name: "50: For x Of validBills.map",
+        name: "52: For x Of validBills.map",
         items: () => validBills,
         iterator: x => { asl.typescriptInvoke({
-            name: "50: createInvoice(x)",
+            name: "52: createInvoice(x)",
             resource: createInvoice,
             parameters: () => x,
             comment: "createInvoice(x)"
@@ -85,10 +87,10 @@ export const main = asl.deploy.asStateMachine(
         comment: "validBills.map(async x => createInvoice(x))"
     });
     const validatedInvoices = asl.map({
-        name: "51: For x Of invoices.map",
+        name: "53: For x Of invoices.map",
         items: () => invoices,
         iterator: x => { asl.typescriptInvoke({
-            name: "51: validateInvoice(x)",
+            name: "53: validateInvoice(x)",
             resource: validateInvoice,
             parameters: () => x,
             comment: "validateInvoice(x)"
@@ -97,11 +99,11 @@ export const main = asl.deploy.asStateMachine(
     });
     const invalidInvoices = asl.jsonPathFilter(validatedInvoices, (x) => !x.valid);
     asl.typescriptIf({
-        name: "53: If (invalidInvoices.lengt ...",
+        name: "55: If (invalidInvoices.lengt ...",
         condition: () => asl.jsonPathLength(invalidInvoices) > 0,
         then: async () => {
             asl.typescriptInvoke({
-                name: "55: createGithubIssue({ bills ...",
+                name: "57: createGithubIssue({ bills ...",
                 resource: createGithubIssue,
                 parameters: () => ({ bills: { invalid: invalidInvoices } })
             });
@@ -109,7 +111,7 @@ export const main = asl.deploy.asStateMachine(
     })
     const validInvoices = asl.jsonPathFilter(validatedInvoices, (x) => x.valid === true);
     asl.typescriptIf({
-        name: "58: If (!input.shouldFinalize)",
+        name: "60: If (!input.shouldFinalize)",
         condition: () => !input.shouldFinalize,
         then: async () => {
             return;
@@ -117,15 +119,15 @@ export const main = asl.deploy.asStateMachine(
         comment: "if (!input.shouldFinalize) {\n      return;\n    }"
     })
     asl.map({
-        name: "62: For invoice Of validInvoices",
+        name: "64: For invoice Of validInvoices",
         items: () => validInvoices,
         iterator: invoice => {
             asl.typescriptIf({
-                name: "64: If (invoice.billable)",
+                name: "66: If (invoice.billable)",
                 condition: () => invoice.billable,
                 then: async () => {
                     asl.typescriptInvoke({
-                        name: "66: finallizeInvoice(invoice ...",
+                        name: "68: finallizeInvoice(invoice ...",
                         resource: finallizeInvoice,
                         parameters: () => invoice
                     });

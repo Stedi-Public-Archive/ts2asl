@@ -102,7 +102,7 @@ export declare type TypescriptInvoke<P, R> = {
     comment?: string;
     name?: string;
 } & ({
-    resource: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
+    resource: ((parameters: P) => Promise<R>) | ((parameters: P) => R);
     parameters: P | (() => P);
 } | {
     resource: () => (R | Promise<R>);
@@ -152,7 +152,7 @@ export declare const jsonPathFilter: <T>(items: T[], predicate: (x: T) => boolea
 export declare const jsonPathSlice: <T>(items: T[], start: number, end?: number | undefined, step?: number | undefined) => T[];
 export declare const jsonPathExpression: (items: unknown, expression: string) => unknown;
 export declare namespace states {
-    function format(format: string, ...args: unknown[]): unknown;
+    function format(format: string, ...args: unknown[]): string;
     function stringToJson(arg: string | undefined): unknown;
     function jsonToString(arg: unknown): string;
     function array(...args: unknown[]): unknown[];

@@ -79,6 +79,8 @@
                   "Type": "Task",
                   "Resource": "typescript:doSomething",
                   "InputPath": "$.vars.combined",
+                  "Catch": [],
+                  "Retry": [],
                   "Comment": "source: doSomething(combined)",
                   "End": true
                 }

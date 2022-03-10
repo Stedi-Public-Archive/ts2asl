@@ -41,6 +41,8 @@
       "Type": "Task",
       "ResultPath": "$.vars.rnd",
       "Resource": "typescript:random",
+      "Catch": [],
+      "Retry": [],
       "Comment": "source: random()",
       "Next": "Pass"
     },

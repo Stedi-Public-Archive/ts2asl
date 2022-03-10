@@ -10,39 +10,45 @@ export const main = asl.deploy.asStateMachine(async () => {
   ])
 
   await asl.nativeEventBridgePutEvents({
-    Entries: [
-      {
-        Detail: asl.states.jsonToString(result),
-        DetailType: "Identity check completed",
-        EventBusName: "eventbusname",
-        Source: "com.aws.kyc"
-      }
-    ]
+    parameters: {
+      Entries: [
+        {
+          Detail: asl.states.jsonToString(result),
+          DetailType: "Identity check completed",
+          EventBusName: "eventbusname",
+          Source: "com.aws.kyc"
+        }
+      ]
+    }
   });
 
   const checksPassed = true;
   if (checksPassed) {
     //no-op update risk profile
     await asl.nativeEventBridgePutEvents({
-      Entries: [
-        {
-          Detail: asl.states.jsonToString(result),
-          DetailType: "AccountApproved",
-          EventBusName: "eventbusname",
-          Source: "com.aws.kyc"
-        }
-      ]
+      parameters: {
+        Entries: [
+          {
+            Detail: asl.states.jsonToString(result),
+            DetailType: "AccountApproved",
+            EventBusName: "eventbusname",
+            Source: "com.aws.kyc"
+          }
+        ]
+      }
     });
   } else {
     await asl.nativeEventBridgePutEvents({
-      Entries: [
-        {
-          Detail: asl.states.jsonToString(result),
-          DetailType: "AccountDeclined",
-          EventBusName: "eventbusname",
-          Source: "com.aws.kyc"
-        }
-      ]
+      parameters: {
+        Entries: [
+          {
+            Detail: asl.states.jsonToString(result),
+            DetailType: "AccountDeclined",
+            EventBusName: "eventbusname",
+            Source: "com.aws.kyc"
+          }
+        ]
+      }
     });
   }
 });

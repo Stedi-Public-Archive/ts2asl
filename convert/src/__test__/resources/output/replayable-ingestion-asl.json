@@ -1,0 +1,49 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "22: replayPrefixer(input)"
+    },
+    "22: replayPrefixer(input)": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "typescript:replayPrefixer",
+      "InputPath": "$.vars",
+      "Catch": [],
+      "Retry": [],
+      "Comment": "source: replayPrefixer(input)",
+      "Next": "Map"
+    },
+    "Map": {
+      "Type": "Map",
+      "ResultPath": "$.lastResult",
+      "Iterator": {
+        "StartAt": "StartExecution",
+        "States": {
+          "StartExecution": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
+            "Parameters": {
+              "Input.$": "States.Format('{}', $.vars.prefix)",
+              "StateMachineArn": "arn:something.something"
+            },
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.result",
+      "MaxConcurrency": 5,
+      "Parameters": {
+        "vars": {
+          "prefix.$": "$$.Map.Item.Value"
+        }
+      },
+      "End": true
+    }
+  }
+}

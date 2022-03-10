@@ -8,6 +8,7 @@ export interface TypescriptStateMachineProps {
     sourceFile: string;
     cwd?: string;
     diagnostics?: true;
+    parameters?: Record<string, unknown>;
 }
 export declare class TypescriptStateMachine extends Construct {
     constructor(scope: Construct, id: string, props: TypescriptStateMachineProps);

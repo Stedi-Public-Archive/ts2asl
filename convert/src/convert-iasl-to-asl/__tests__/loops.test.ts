@@ -34,13 +34,13 @@ describe("when transpiling simple statements", () => {
                 "StartAt": "_WhileCondition",
                 "States": Object {
                   "6: isDone()": Object {
-                    "Catch": undefined,
+                    "Catch": Array [],
                     "Comment": "source: isDone()",
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",
                     "Resource": "typescript:isDone",
                     "ResultPath": "$.vars.result",
-                    "Retry": undefined,
+                    "Retry": Array [],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },

@@ -206,6 +206,8 @@
                 {
                   "stateName": "11: doSomething(combined)",
                   "resource": "typescript:doSomething",
+                  "retry": [],
+                  "catch": [],
                   "parameters": {
                     "identifier": "combined",
                     "_syntaxKind": "identifier",

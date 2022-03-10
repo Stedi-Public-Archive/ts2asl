@@ -16,6 +16,7 @@ const supportedServices = [
   { serviceId: "textract", serviceName: "Textract" },
   { serviceId: "apigateway", serviceName: "APIGateway" },
   { serviceId: "organizations", serviceName: "Organizations" },
+  { serviceId: "sfn", serviceName: "Sfn" },
 ]
 
 // interface NativeIntegrationDefinition {
@@ -30,7 +31,7 @@ const supportedServices = [
 const generateServiceAst = (serviceName: string): { importAst: ts.Node[] } => {
   const lowercaseServiceId = serviceName.toLowerCase();
   const moduleName = (lowercaseServiceId === "apigateway") ? "api-gateway" : lowercaseServiceId;
-
+  const clientName = (lowercaseServiceId === "sfn") ? "SFNClient" : `${serviceName}Client`;
   return {
     importAst: [
       factory.createImportDeclaration(
@@ -43,7 +44,7 @@ const generateServiceAst = (serviceName: string): { importAst: ts.Node[] } => {
             factory.createImportSpecifier(
               false,
               undefined,
-              factory.createIdentifier(`${serviceName}Client`)
+              factory.createIdentifier(clientName)
             ),
           ])
         ),
@@ -74,6 +75,7 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
   const lowercaseServiceId = serviceName.toLowerCase();
   const moduleName = (lowercaseServiceId === "apigateway") ? "api-gateway" : lowercaseServiceId;
   const actionNameCamel = actionName[0].toLowerCase() + actionName.substring(1);
+  const clientName = (lowercaseServiceId === "sfn") ? "SFNClient" : `${serviceName}Client`;
 
   const result = {
     importAst: factory.createImportDeclaration(
@@ -147,7 +149,7 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
                         undefined,
                         undefined,
                         factory.createNewExpression(
-                          factory.createIdentifier(`${serviceName}Client`),
+                          factory.createIdentifier(clientName),
                           undefined,
                           [factory.createObjectLiteralExpression(
                             [],

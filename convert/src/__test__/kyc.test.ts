@@ -26,46 +26,52 @@ describe("when converting example", () => {
               ]
           });
           asl.nativeEventBridgePutEvents({
-              Entries: [
-                  {
-                      Detail: asl.states.jsonToString(result),
-                      DetailType: \\"Identity check completed\\",
-                      EventBusName: \\"eventbusname\\",
-                      Source: \\"com.aws.kyc\\"
-                  }
-              ]
+              parameters: {
+                  Entries: [
+                      {
+                          Detail: asl.states.jsonToString(result),
+                          DetailType: \\"Identity check completed\\",
+                          EventBusName: \\"eventbusname\\",
+                          Source: \\"com.aws.kyc\\"
+                      }
+                  ]
+              }
           });
           const checksPassed = asl.pass({
-              name: \\"24: Assign checksPassed\\",
+              name: \\"26: Assign checksPassed\\",
               parameters: () => true,
               comment: \\"checksPassed = true\\"
           });
           asl.typescriptIf({
-              name: \\"24: If (checksPassed)\\",
+              name: \\"26: If (checksPassed)\\",
               condition: () => checksPassed,
               then: async () => {
                   //no-op update risk profile
                   asl.nativeEventBridgePutEvents({
-                      Entries: [
-                          {
-                              Detail: asl.states.jsonToString(result),
-                              DetailType: \\"AccountApproved\\",
-                              EventBusName: \\"eventbusname\\",
-                              Source: \\"com.aws.kyc\\"
-                          }
-                      ]
+                      parameters: {
+                          Entries: [
+                              {
+                                  Detail: asl.states.jsonToString(result),
+                                  DetailType: \\"AccountApproved\\",
+                                  EventBusName: \\"eventbusname\\",
+                                  Source: \\"com.aws.kyc\\"
+                              }
+                          ]
+                      }
                   });
               },
               else: async () => {
                   asl.nativeEventBridgePutEvents({
-                      Entries: [
-                          {
-                              Detail: asl.states.jsonToString(result),
-                              DetailType: \\"AccountDeclined\\",
-                              EventBusName: \\"eventbusname\\",
-                              Source: \\"com.aws.kyc\\"
-                          }
-                      ]
+                      parameters: {
+                          Entries: [
+                              {
+                                  Detail: asl.states.jsonToString(result),
+                                  DetailType: \\"AccountDeclined\\",
+                                  EventBusName: \\"eventbusname\\",
+                                  Source: \\"com.aws.kyc\\"
+                              }
+                          ]
+                      }
                   });
               }
           })
@@ -96,7 +102,9 @@ describe("when converting example", () => {
                   "statements": Array [
                     Object {
                       "_syntaxKind": "asl-task-state",
+                      "catch": Array [],
                       "resource": "typescript:performIdentifyCheck",
+                      "retry": Array [],
                       "source": "performIdentifyCheck()",
                       "stateName": "8: performIdentifyCheck()",
                     },
@@ -190,14 +198,14 @@ describe("when converting example", () => {
                 "value": true,
               },
               "source": "checksPassed = true",
-              "stateName": "24: Assign checksPassed",
+              "stateName": "26: Assign checksPassed",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "checksPassed",
               "type": "unknown",
             },
-            "stateName": "22: Assign checksPassed",
+            "stateName": "24: Assign checksPassed",
           },
           Object {
             "_syntaxKind": "if",
@@ -261,7 +269,7 @@ describe("when converting example", () => {
                 },
               ],
             },
-            "stateName": "24: If (checksPassed)",
+            "stateName": "26: If (checksPassed)",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -323,14 +331,14 @@ describe("when converting example", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "22: Assign checksPassed": Object {
+          "24: Assign checksPassed": Object {
             "Comment": "source: checksPassed = true",
-            "Next": "24: If (checksPassed)",
+            "Next": "26: If (checksPassed)",
             "Result": true,
             "ResultPath": "$.vars.checksPassed",
             "Type": "Pass",
           },
-          "24: If (checksPassed)": Object {
+          "26: If (checksPassed)": Object {
             "Choices": Array [
               Object {
                 "IsPresent": true,
@@ -348,12 +356,12 @@ describe("when converting example", () => {
                 "StartAt": "8: performIdentifyCheck()",
                 "States": Object {
                   "8: performIdentifyCheck()": Object {
-                    "Catch": undefined,
+                    "Catch": Array [],
                     "Comment": "source: performIdentifyCheck()",
                     "End": true,
                     "HeartbeatSeconds": undefined,
                     "Resource": "typescript:performIdentifyCheck",
-                    "Retry": undefined,
+                    "Retry": Array [],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
@@ -391,7 +399,7 @@ describe("when converting example", () => {
             "Catch": undefined,
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "22: Assign checksPassed",
+            "Next": "24: Assign checksPassed",
             "Parameters": Object {
               "Entries": Array [
                 Object {

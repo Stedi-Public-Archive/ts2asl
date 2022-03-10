@@ -5,6 +5,7 @@ import { Converter } from "@ts2asl/convert"
 import { createCompilerHostFromFile } from "@ts2asl/convert"
 import { NodejsFunction, NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
 import { StateMachine, Task, Map, Parallel } from "asl-types";
+import * as asl from "@ts2asl/asl-lib";
 
 export interface TypescriptStateMachineProps {
   defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
@@ -13,6 +14,7 @@ export interface TypescriptStateMachineProps {
   sourceFile: string;
   cwd?: string; // current working directory, used to resolve dependencies and tsconfig.json. default is process.cwd();
   diagnostics?: true; // when true additional diagnostics are printed
+  parameters?: Record<string, unknown>;
 }
 
 export class TypescriptStateMachine extends Construct {
@@ -20,6 +22,10 @@ export class TypescriptStateMachine extends Construct {
 
     //sourceFile, cwd & diagnostics are converted to a definitionString.
     const { sourceFile, cwd, diagnostics } = props;
+
+    for (const [key, val] of Object.entries(props.parameters ?? {})) {
+      asl.deploy.setParameter(key, val);
+    }
 
     const compilerHost = createCompilerHostFromFile(sourceFile, cwd);
     const converter = new Converter(compilerHost);

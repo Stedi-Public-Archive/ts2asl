@@ -9,6 +9,7 @@ export * from "./native-integrations-ses";
 export * from "./native-integrations-sns";
 export * from "./native-integrations-sqs";
 export * from "./native-integrations-ssm";
+export * from "./native-integrations-sfn";
 export * from "./native-integrations-textract";
 export * from "./native-integrations-organizations";
 export * from "./deploy"

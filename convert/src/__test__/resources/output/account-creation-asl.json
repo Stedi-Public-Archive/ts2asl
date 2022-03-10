@@ -7,9 +7,15 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "6: If (typeof input.numberOf ..."
+      "Next": "Pass"
     },
-    "6: If (typeof input.numberOf ...": {
+    "Pass": {
+      "Type": "Pass",
+      "Result": "sdfsd",
+      "Comment": "source: console.log(\"sdfsd\")",
+      "Next": "7: If (typeof input.numberOf ..."
+    },
+    "7: If (typeof input.numberOf ...": {
       "Type": "Choice",
       "Choices": [
         {
@@ -172,9 +178,9 @@
               "destinationParentId.$": "$.vars.customerOUIds.customerAccountsOU",
               "accountId.$": "$.vars.result.AccountId"
             },
-            "Next": "Pass"
+            "Next": "Pass_1"
           },
-          "Pass": {
+          "Pass_1": {
             "End": true,
             "Type": "Pass",
             "InputPath": "$.vars.result"
@@ -188,9 +194,9 @@
           "customerOUIds.$": "$.vars.customerOUIds"
         }
       },
-      "Next": "Pass_1"
+      "Next": "Pass_2"
     },
-    "Pass_1": {
+    "Pass_2": {
       "End": true,
       "Type": "Pass",
       "Parameters": {

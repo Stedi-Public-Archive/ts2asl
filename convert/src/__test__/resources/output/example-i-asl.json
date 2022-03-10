@@ -99,7 +99,6 @@
               "stateName": "Scan",
               "resource": "arn:aws:states:::aws-sdk:dynamodb:scan",
               "parameters": {
-                "_syntaxKind": "literal-object",
                 "properties": {
                   "TableName": {
                     "value": "MyStorage",
@@ -116,7 +115,8 @@
                     "_syntaxKind": "identifier",
                     "type": "unknown"
                   }
-                }
+                },
+                "_syntaxKind": "literal-object"
               },
               "_syntaxKind": "asl-task-state"
             },
@@ -357,7 +357,6 @@
                               "stateName": "PutEvents",
                               "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
                               "parameters": {
-                                "_syntaxKind": "literal-object",
                                 "properties": {
                                   "Entries": {
                                     "elements": [
@@ -405,7 +404,8 @@
                                     ],
                                     "_syntaxKind": "literal-array"
                                   }
-                                }
+                                },
+                                "_syntaxKind": "literal-object"
                               },
                               "_syntaxKind": "asl-task-state"
                             },
@@ -413,7 +413,6 @@
                               "stateName": "UpdateItem",
                               "resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
                               "parameters": {
-                                "_syntaxKind": "literal-object",
                                 "properties": {
                                   "TableName": {
                                     "value": "MyStorage",
@@ -470,7 +469,8 @@
                                     },
                                     "_syntaxKind": "literal-object"
                                   }
-                                }
+                                },
+                                "_syntaxKind": "literal-object"
                               },
                               "_syntaxKind": "asl-task-state"
                             }
@@ -500,7 +500,7 @@
               "type": "object",
               "_syntaxKind": "identifier"
             },
-            "stateName": "60: Assign lastEvaluatedKey",
+            "stateName": "65: Assign lastEvaluatedKey",
             "_syntaxKind": "variable-assignment"
           }
         ],

@@ -402,6 +402,7 @@ describe("when converting closures", () => {
                   },
                 ],
               },
+              "maxConcurrency": undefined,
               "retry": Array [],
               "source": undefined,
               "stateName": "13: For x Of myArray.map",

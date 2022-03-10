@@ -12,7 +12,6 @@ export type While = {
   block: Function;
   name?: string;
 };
-
 export type DoWhile = {
   condition: () => boolean;
   block: Function;
@@ -29,14 +28,12 @@ export declare type CatchConfiguration = Array<{
   errorFilter: string[];
   block: Function;
 }>;
-
 export declare type RetryConfiguration = Array<{
   errorFilter: string[];
   intervalSeconds?: number;
   maxAttempts?: number;
   backoffRate?: number;
 }>
-
 export interface Wait {
   seconds?: number | (() => number);
   timestamp?: string | (() => string);
@@ -60,7 +57,6 @@ export interface Task {
   timeoutSeconds?: number;
   heartbeatSeconds?: number;
 }
-
 export interface SdkIntegrationTask<TInput> {
   name?: string;
   parameters: TInput;
@@ -113,7 +109,7 @@ export type TypescriptInvoke<P, R> = {
   comment?: string;
   name?: string;
 } & ({
-  resource: ((parameters?: P) => Promise<R>) | ((parameters?: P) => R);
+  resource: ((parameters: P) => Promise<R>) | ((parameters: P) => R);
   parameters: P | (() => P);
 } | {
   resource: () => (R | Promise<R>)
@@ -224,7 +220,7 @@ export const jsonPathExpression = (items: unknown, expression: string): unknown 
 }
 
 export namespace states {
-  export function format(format: string, ...args: unknown[]): unknown {
+  export function format(format: string, ...args: unknown[]): string {
     const formatNode = format.replace(/{}/g, '%s')
     return util.format(formatNode, ...args);
   }

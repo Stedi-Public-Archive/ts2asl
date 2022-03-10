@@ -14,6 +14,8 @@
       "ResultPath": "$.vars.billJob",
       "Resource": "typescript:createBillJob",
       "InputPath": "$.vars",
+      "Catch": [],
+      "Retry": [],
       "Comment": "source: createBillJob(input)",
       "Next": "Wait"
     },
@@ -27,6 +29,8 @@
       "ResultPath": "$.vars.jobResult",
       "Resource": "typescript:createNonEmptyBills",
       "InputPath": "$.vars.billJob",
+      "Catch": [],
+      "Retry": [],
       "Comment": "source: createNonEmptyBills(billJob)",
       "Next": "16: Assign billPromises"
     },
@@ -51,6 +55,8 @@
             "ResultPath": "$.vars.approvalResult",
             "Resource": "typescript:approveNonEmptyBill",
             "InputPath": "$.vars.approveNonEmptyBillRequest",
+            "Catch": [],
+            "Retry": [],
             "Comment": "source: approveNonEmptyBill(approveNonEmptyBillRequest)",
             "Next": "20: If (approvalResult.valid)"
           },
@@ -86,30 +92,32 @@
           "jobResult.$": "$.vars.jobResult"
         }
       },
-      "Next": "45: Assign bills"
+      "Next": "47: Assign bills"
     },
-    "45: Assign bills": {
+    "47: Assign bills": {
       "Type": "Pass",
       "ResultPath": "$.vars.bills",
       "InputPath": "$.vars.billPromises",
-      "Next": "47: Assign validBills"
+      "Next": "49: Assign validBills"
     },
-    "47: Assign validBills": {
+    "49: Assign validBills": {
       "Type": "Pass",
       "ResultPath": "$.vars.validBills",
       "InputPath": "$.vars.bills[?(!(@.valid))]",
-      "Next": "48: Assign invoices"
+      "Next": "50: Assign invoices"
     },
-    "48: Assign invoices": {
+    "50: Assign invoices": {
       "Type": "Map",
       "ResultPath": "$.vars.invoices",
       "Iterator": {
-        "StartAt": "50: createInvoice(x)",
+        "StartAt": "52: createInvoice(x)",
         "States": {
-          "50: createInvoice(x)": {
+          "52: createInvoice(x)": {
             "Type": "Task",
             "Resource": "typescript:createInvoice",
             "InputPath": "$.vars.x",
+            "Catch": [],
+            "Retry": [],
             "Comment": "source: createInvoice(x)",
             "End": true
           }
@@ -122,18 +130,20 @@
           "x.$": "$.vars.x"
         }
       },
-      "Next": "50: Assign validatedInvoices"
+      "Next": "52: Assign validatedInvoices"
     },
-    "50: Assign validatedInvoices": {
+    "52: Assign validatedInvoices": {
       "Type": "Map",
       "ResultPath": "$.vars.validatedInvoices",
       "Iterator": {
-        "StartAt": "51: validateInvoice(x)",
+        "StartAt": "53: validateInvoice(x)",
         "States": {
-          "51: validateInvoice(x)": {
+          "53: validateInvoice(x)": {
             "Type": "Task",
             "Resource": "typescript:validateInvoice",
             "InputPath": "$.vars.x",
+            "Catch": [],
+            "Retry": [],
             "Comment": "source: validateInvoice(x)",
             "End": true
           }
@@ -146,26 +156,26 @@
           "x.$": "$.vars.x"
         }
       },
-      "Next": "51: Assign invalidInvoices"
+      "Next": "53: Assign invalidInvoices"
     },
-    "51: Assign invalidInvoices": {
+    "53: Assign invalidInvoices": {
       "Type": "Pass",
       "ResultPath": "$.vars.invalidInvoices",
       "InputPath": "$.vars.validatedInvoices[?(!(@.valid))]",
-      "Next": "53: If (invalidInvoices.lengt ..."
+      "Next": "55: If (invalidInvoices.lengt ..."
     },
-    "53: If (invalidInvoices.lengt ...": {
+    "55: If (invalidInvoices.lengt ...": {
       "Type": "Choice",
       "Choices": [
         {
           "Variable": "$.vars.invalidInvoices.length()",
           "StringGreaterThan": 0,
-          "Next": "55: createGithubIssue({ bills ..."
+          "Next": "57: createGithubIssue({ bills ..."
         }
       ],
-      "Default": "56: Assign validInvoices"
+      "Default": "58: Assign validInvoices"
     },
-    "55: createGithubIssue({ bills ...": {
+    "57: createGithubIssue({ bills ...": {
       "Type": "Task",
       "Resource": "typescript:createGithubIssue",
       "Parameters": {
@@ -173,15 +183,17 @@
           "invalid.$": "$.vars.invalidInvoices"
         }
       },
-      "Next": "56: Assign validInvoices"
+      "Catch": [],
+      "Retry": [],
+      "Next": "58: Assign validInvoices"
     },
-    "56: Assign validInvoices": {
+    "58: Assign validInvoices": {
       "Type": "Pass",
       "ResultPath": "$.vars.validInvoices",
       "InputPath": "$.vars.validatedInvoices[?(@.valid == true)]",
-      "Next": "58: If (!input.shouldFinalize)"
+      "Next": "60: If (!input.shouldFinalize)"
     },
-    "58: If (!input.shouldFinalize)": {
+    "60: If (!input.shouldFinalize)": {
       "Type": "Choice",
       "Choices": [
         {
@@ -191,32 +203,34 @@
         }
       ],
       "Comment": "source: if (!input.shouldFinalize) { return; }",
-      "Default": "62: For invoice Of validInvoices"
+      "Default": "64: For invoice Of validInvoices"
     },
     "Empty": {
       "Type": "Succeed"
     },
-    "62: For invoice Of validInvoices": {
+    "64: For invoice Of validInvoices": {
       "Type": "Map",
       "ResultPath": "$.lastResult",
       "Iterator": {
-        "StartAt": "64: If (invoice.billable)",
+        "StartAt": "66: If (invoice.billable)",
         "States": {
-          "64: If (invoice.billable)": {
+          "66: If (invoice.billable)": {
             "Type": "Choice",
             "Choices": [
               {
                 "Variable": "$.vars.invoice.billable",
                 "IsPresent": true,
-                "Next": "66: finallizeInvoice(invoice ..."
+                "Next": "68: finallizeInvoice(invoice ..."
               }
             ],
-            "Default": "66: finallizeInvoice(invoice ..."
+            "Default": "68: finallizeInvoice(invoice ..."
           },
-          "66: finallizeInvoice(invoice ...": {
+          "68: finallizeInvoice(invoice ...": {
             "Type": "Task",
             "Resource": "typescript:finallizeInvoice",
             "InputPath": "$.vars.invoice",
+            "Catch": [],
+            "Retry": [],
             "End": true
           }
         }

@@ -27,17 +27,19 @@ export const main = asl.deploy.asStateMachine(
           accountType: approvalResult.accountType,
         } as ApproveNonEmptyBillPayload;
       } else {
-        const result = await asl.nativeAPIGatewayInvoke({ //todo: support return asl.task()
-          ApiEndpoint: "yyyyyyyy",
-          Method: "POST",
-          Path: "/xxxxxxxx",
-          RequestBody: {
-            accountName: (bill as any).accountName,
-            accountId: bill.accountId,
-            billId: (bill as any).billId,
-            errors: (bill as any).errors,
-            stage: (bill as any).stage,
-          },
+        const result = await asl.nativeAPIGatewayInvoke({
+          parameters: { //todo: support return asl.task()
+            ApiEndpoint: "yyyyyyyy",
+            Method: "POST",
+            Path: "/xxxxxxxx",
+            RequestBody: {
+              accountName: (bill as any).accountName,
+              accountId: bill.accountId,
+              billId: (bill as any).billId,
+              errors: (bill as any).errors,
+              stage: (bill as any).stage,
+            },
+          }
         });
         return result as ApproveNonEmptyBillPayload;
       }

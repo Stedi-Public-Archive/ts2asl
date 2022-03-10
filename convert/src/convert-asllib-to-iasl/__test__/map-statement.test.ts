@@ -50,6 +50,7 @@ describe("when converting map statement to iasl", () => {
                   },
                 ],
               },
+              "maxConcurrency": undefined,
               "retry": Array [],
               "source": undefined,
               "stateName": undefined,

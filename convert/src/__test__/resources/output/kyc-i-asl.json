@@ -13,6 +13,8 @@
               {
                 "stateName": "8: performIdentifyCheck()",
                 "resource": "typescript:performIdentifyCheck",
+                "retry": [],
+                "catch": [],
                 "source": "performIdentifyCheck()",
                 "_syntaxKind": "asl-task-state"
               }
@@ -50,7 +52,6 @@
       "stateName": "PutEvents",
       "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "parameters": {
-        "_syntaxKind": "literal-object",
         "properties": {
           "Entries": {
             "elements": [
@@ -88,7 +89,8 @@
             ],
             "_syntaxKind": "literal-array"
           }
-        }
+        },
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "asl-task-state"
     },
@@ -99,7 +101,7 @@
         "type": "unknown"
       },
       "expression": {
-        "stateName": "24: Assign checksPassed",
+        "stateName": "26: Assign checksPassed",
         "parameters": {
           "value": true,
           "type": "boolean",
@@ -108,11 +110,11 @@
         "source": "checksPassed = true",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "22: Assign checksPassed",
+      "stateName": "24: Assign checksPassed",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "24: If (checksPassed)",
+      "stateName": "26: If (checksPassed)",
       "condition": {
         "operator": "is-present",
         "rhs": {
@@ -128,7 +130,6 @@
             "stateName": "PutEvents",
             "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
             "parameters": {
-              "_syntaxKind": "literal-object",
               "properties": {
                 "Entries": {
                   "elements": [
@@ -166,7 +167,8 @@
                   ],
                   "_syntaxKind": "literal-array"
                 }
-              }
+              },
+              "_syntaxKind": "literal-object"
             },
             "_syntaxKind": "asl-task-state"
           }
@@ -179,7 +181,6 @@
             "stateName": "PutEvents",
             "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
             "parameters": {
-              "_syntaxKind": "literal-object",
               "properties": {
                 "Entries": {
                   "elements": [
@@ -217,7 +218,8 @@
                   ],
                   "_syntaxKind": "literal-array"
                 }
-              }
+              },
+              "_syntaxKind": "literal-object"
             },
             "_syntaxKind": "asl-task-state"
           }
