@@ -61,15 +61,42 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     node = node.expression;
   }
 
-  if (ts.isReturnStatement(node)) {
-    const identifier = node.expression ? convertExpressionToLiteralOrIdentifier(node.expression, context) : undefined;
-    const expression = identifier == undefined ? convertExpression(node.expression, context) : identifier;
 
-    return {
-      expression,
-      _syntaxKind: "return",
-      stateName: createName(context.converterOptions, node, `Return %s`, node.expression)
-    } as iasl.ReturnStatement;
+  if (ts.isReturnStatement(node)) {
+    if (node.expression && ts.isCallExpression(node.expression)) {
+      const callExpression = convertNodeToIntermediaryAst(node.expression, context);
+      return [
+        {
+          name: {
+            identifier: "_var",
+            compilerGenerated: true,
+            _syntaxKind: iasl.SyntaxKind.Identifier,
+            type: "unknown"
+          },
+          expression: callExpression,
+          _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+        } as iasl.VariableAssignmentStatement,
+        {
+          expression: {
+            identifier: "_var",
+            compilerGenerated: true,
+            _syntaxKind: iasl.SyntaxKind.Identifier,
+            type: "unknown"
+          },
+          _syntaxKind: iasl.SyntaxKind.ReturnStatement,
+        } as iasl.ReturnStatement,
+      ]
+    }
+    else {
+      const identifier = node.expression ? convertExpressionToLiteralOrIdentifier(node.expression, context) : undefined;
+      const expression = identifier == undefined ? convertExpression(node.expression, context) : identifier;
+
+      return {
+        expression,
+        _syntaxKind: "return",
+        stateName: node.expression ? createName(context.converterOptions, node, `Return %s`, node.expression) : createName(context.converterOptions, node, `Return`)
+      } as iasl.ReturnStatement;
+    }
   }
 
   if (ts.isVariableStatement(node)) {
@@ -548,6 +575,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
   else if (ts.isCallExpression(expr)) {
     const expressionType = isAslCallExpression(expr);
     if (expressionType?.startsWith("states.")) {
+
       if (expr.arguments.some(x => ts.isObjectLiteralExpression(x))) {
         throw new ParserError("asl intrinsic function must not take literal objects as arguments (for now), use variables instead", expr);
       }
@@ -560,8 +588,9 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       return {
         arguments: _arguments,
         function: functionName.identifier,
-        _syntaxKind: "asl-intrinsic-function"
+        _syntaxKind: iasl.SyntaxKind.AslIntrinsicFunction
       } as iasl.AslIntrinsicFunction;
+
     } else if (expressionType?.startsWith("jsonPath")) {
       switch (expressionType) {
         case "jsonPathFilter":
@@ -783,6 +812,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
           {
             name: {
               identifier: "_var",
+              compilerGenerated: true,
               _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"
             },
@@ -792,6 +822,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
           {
             expression: {
               identifier: "_var",
+              compilerGenerated: true,
               _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"
             },

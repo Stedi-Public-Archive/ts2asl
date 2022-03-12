@@ -47,6 +47,7 @@
           {
             "name": {
               "identifier": "_var",
+              "compilerGenerated": true,
               "_syntaxKind": "identifier",
               "type": "unknown"
             },
@@ -86,6 +87,7 @@
           {
             "expression": {
               "identifier": "_var",
+              "compilerGenerated": true,
               "_syntaxKind": "identifier",
               "type": "unknown"
             },

@@ -908,7 +908,7 @@ describe("when converting closures", () => {
               "statements": Array [
                 Object {
                   "_syntaxKind": "return",
-                  "stateName": "Return undefined",
+                  "stateName": "Return",
                 },
               ],
             },

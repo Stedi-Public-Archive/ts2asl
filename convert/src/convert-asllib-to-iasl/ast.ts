@@ -228,6 +228,7 @@ export interface Function extends Block, DeclaresScope {
 
 //could be 'name' or 'name.path.parts'
 export interface Identifier {
+  compilerGenerated?: true;
   objectContextExpression?: true;
   identifier: string;
   indexExpression?: Identifier | Expression;

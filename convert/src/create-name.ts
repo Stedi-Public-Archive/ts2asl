@@ -39,10 +39,10 @@ export const createName = (converterOptions: ConverterOptions, mainNode: ts.Node
     try {
       if ((node as any).original) {
         const text = (node as any).original.getText();
-        texts.push(text);
+        texts.push(text === undefined ? "" : text);
       } else {
         const text = node.getText();
-        texts.push(text);
+        texts.push(text === undefined ? "" : text);
       }
     } catch {
       const text = "???";

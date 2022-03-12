@@ -68,6 +68,7 @@ describe("when converting if statement to iasl", () => {
                   },
                   "name": Object {
                     "_syntaxKind": "identifier",
+                    "compilerGenerated": true,
                     "identifier": "_var",
                     "type": "unknown",
                   },
@@ -76,6 +77,7 @@ describe("when converting if statement to iasl", () => {
                   "_syntaxKind": "return",
                   "expression": Object {
                     "_syntaxKind": "identifier",
+                    "compilerGenerated": true,
                     "identifier": "_var",
                     "type": "unknown",
                   },

@@ -637,7 +637,7 @@
         "statements": [
           {
             "_syntaxKind": "return",
-            "stateName": "Return undefined"
+            "stateName": "Return"
           }
         ],
         "_syntaxKind": "function"
