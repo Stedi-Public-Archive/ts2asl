@@ -13,33 +13,33 @@
       "Type": "Pass",
       "InputPath": "States.Format('Starting execution of {} at {} with role of {}', $$.StateMachine.Name, $$.Execution.StartTime, $$.Execution.RoleArn)",
       "Comment": "source: console.log(asl.states.format(\"Starting execut ...",
-      "Next": "6: Assign myArray"
+      "Next": "Assign myArray"
     },
-    "6: Assign myArray": {
+    "Assign myArray": {
       "Type": "Pass",
       "ResultPath": "$.vars.myArray",
       "InputPath": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)",
-      "Next": "8: Assign mySerializedArray"
+      "Next": "Assign mySerializedArray"
     },
-    "8: Assign mySerializedArray": {
+    "Assign mySerializedArray": {
       "Type": "Pass",
       "ResultPath": "$.vars.mySerializedArray",
       "InputPath": "States.JsonToString($.vars.myArray)",
-      "Next": "9: Assign myArray"
+      "Next": "Assign myArray_1"
     },
-    "9: Assign myArray": {
+    "Assign myArray_1": {
       "Type": "Pass",
       "ResultPath": "$.vars.myArray",
       "InputPath": "States.StringToJson($.vars.mySerializedArray)",
-      "Next": "10: Assign pets"
+      "Next": "Assign pets"
     },
-    "10: Assign pets": {
+    "Assign pets": {
       "Type": "Map",
       "ResultPath": "$.vars.pets",
       "Iterator": {
-        "StartAt": "13: If (x === 1 || x === 3 || ...",
+        "StartAt": "If (x === 1 || x === 3 || ...",
         "States": {
-          "13: If (x === 1 || x === 3 || ...": {
+          "If (x === 1 || x === 3 || ...": {
             "Type": "Choice",
             "Choices": [
               {
@@ -89,9 +89,9 @@
           "context.$": "$.vars.context"
         }
       },
-      "Next": "27: Assign bySpecies"
+      "Next": "Assign bySpecies"
     },
-    "27: Assign bySpecies": {
+    "Assign bySpecies": {
       "Type": "Pass",
       "ResultPath": "$.vars.bySpecies",
       "Parameters": {
@@ -104,21 +104,21 @@
           "old.$": "$.vars.pets[?(@.species == 'dog' && @.age >= 5)]"
         }
       },
-      "Next": "39: Assign uniqueAges"
+      "Next": "Assign uniqueAges"
     },
-    "39: Assign uniqueAges": {
+    "Assign uniqueAges": {
       "Type": "Pass",
       "ResultPath": "$.vars.uniqueAges",
       "InputPath": "$.vars.bySpecies..age",
-      "Next": "42: Assign flattenedPets"
+      "Next": "Assign flattenedPets"
     },
-    "42: Assign flattenedPets": {
+    "Assign flattenedPets": {
       "Type": "Pass",
       "ResultPath": "$.vars.flattenedPets",
       "InputPath": "$.vars.bySpecies[*][*][*]",
-      "Next": "43: Assign slicedArr"
+      "Next": "Assign slicedArr"
     },
-    "43: Assign slicedArr": {
+    "Assign slicedArr": {
       "Type": "Pass",
       "ResultPath": "$.vars.slicedArr",
       "InputPath": "$.vars.pets[3:5]",

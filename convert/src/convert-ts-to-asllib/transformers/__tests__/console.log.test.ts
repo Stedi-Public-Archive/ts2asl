@@ -5,7 +5,7 @@ import { consoleLogStatementTransformer } from "../log-statement";
 describe("when converting console log statements", () => {
   it("can convert single string", () => {
     expect(
-      testTransform("console.log('hello')", consoleLogStatementTransformer)
+      testTransform("console.log('hello')", consoleLogStatementTransformer({}))
     ).toMatchInlineSnapshot(`
       "asl.pass({
           parameters: () => 'hello',
@@ -15,7 +15,7 @@ describe("when converting console log statements", () => {
   });
 
   it("can convert single num", () => {
-    expect(testTransform("console.log(23)", consoleLogStatementTransformer))
+    expect(testTransform("console.log(23)", consoleLogStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "asl.pass({
           parameters: () => 23,
@@ -28,7 +28,7 @@ describe("when converting console log statements", () => {
     expect(
       testTransform(
         "console.log({num: 32, str: 'aaa'})",
-        consoleLogStatementTransformer
+        consoleLogStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.pass({
@@ -42,7 +42,7 @@ describe("when converting console log statements", () => {
     expect(
       testTransform(
         'console.log(asl.states.format("Starting execution of {} at {} with role of {}", context.stateMachine.name, context.execution.startTime, context.execution.roleArn))',
-        consoleLogStatementTransformer
+        consoleLogStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.pass({

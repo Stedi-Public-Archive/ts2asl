@@ -3,10 +3,10 @@ import { throwStatementTransformer } from "../throw-statement";
 
 describe("when converting throw statements", () => {
   it("then throw statement will become ASL.Fail", () => {
-    expect(testTransform("throw new Error()", throwStatementTransformer))
+    expect(testTransform("throw new Error()", throwStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "asl.fail({
-          name: \\"2: Throw Error\\",
+          name: \\"Throw Error\\",
           error: \\"Error\\",
           comment: \\"throw new Error()\\"
       })"
@@ -15,10 +15,13 @@ describe("when converting throw statements", () => {
 
   it("then throw statement will become ASL.Fail with argument", () => {
     expect(
-      testTransform("throw new Error('bad luck')", throwStatementTransformer)
+      testTransform(
+        "throw new Error('bad luck')",
+        throwStatementTransformer({})
+      )
     ).toMatchInlineSnapshot(`
       "asl.fail({
-          name: \\"2: Throw Error\\",
+          name: \\"Throw Error\\",
           error: \\"Error\\",
           cause: \\"bad luck\\",
           comment: \\"throw new Error('bad luck')\\"
@@ -28,10 +31,13 @@ describe("when converting throw statements", () => {
 
   it("then throw statement will become ASL.Fail with argument", () => {
     expect(
-      testTransform('throw new Error("bad luck")', throwStatementTransformer)
+      testTransform(
+        'throw new Error("bad luck")',
+        throwStatementTransformer({})
+      )
     ).toMatchInlineSnapshot(`
       "asl.fail({
-          name: \\"2: Throw Error\\",
+          name: \\"Throw Error\\",
           error: \\"Error\\",
           cause: \\"bad luck\\",
           comment: \\"throw new Error(\\\\\\"bad luck\\\\\\")\\"
@@ -43,11 +49,11 @@ describe("when converting throw statements", () => {
     expect(
       testTransform(
         'throw new SpecialError("bad luck")',
-        throwStatementTransformer
+        throwStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.fail({
-          name: \\"2: Throw SpecialError\\",
+          name: \\"Throw SpecialError\\",
           error: \\"SpecialError\\",
           cause: \\"bad luck\\",
           comment: \\"throw new SpecialError(\\\\\\"bad luck\\\\\\")\\"

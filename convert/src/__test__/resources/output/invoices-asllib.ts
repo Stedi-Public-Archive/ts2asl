@@ -10,35 +10,35 @@ const FinallizeInvoiceHandler = (input: HandleInvalidEvent) => { };
 export const main = asl.deploy.asStateMachine(
   async (input: EventInput, _context: asl.StateMachineContext<EventInput>) =>{
     const billJob = asl.typescriptInvoke({
-        name: "13: createBillJob(input)",
+        name: "createBillJob(input)",
         resource: createBillJob,
         parameters: () => input,
         comment: "createBillJob(input)"
     });
     asl.wait({ seconds: 120 });
     let jobResult = asl.typescriptInvoke({
-        name: "16: createNonEmptyBills(billJob)",
+        name: "createNonEmptyBills(billJob)",
         resource: createNonEmptyBills,
         parameters: () => billJob,
         comment: "createNonEmptyBills(billJob)"
     });
     const billPromises = asl.map({
-        name: "18: For bill Of jobResult.bil ...",
+        name: "For bill Of jobResult.bil ...",
         items: () => jobResult.bills,
         iterator: bill => {
             const approveNonEmptyBillRequest = asl.pass({
-                name: "19: Assign approveNonEmptyBil ...",
+                name: "Assign approveNonEmptyBil ...",
                 parameters: () => ({ lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }),
                 comment: "approveNonEmptyBillRequest = { lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }"
             });
             const approvalResult = asl.typescriptInvoke({
-                name: "20: approveNonEmptyBill(appro ...",
+                name: "approveNonEmptyBill(appro ...",
                 resource: approveNonEmptyBill,
                 parameters: () => approveNonEmptyBillRequest,
                 comment: "approveNonEmptyBill(approveNonEmptyBillRequest)"
             });
             asl.typescriptIf({
-                name: "20: If (approvalResult.valid)",
+                name: "If (approvalResult.valid)",
                 condition: () => approvalResult.valid,
                 then: async () => {
                     return {
@@ -71,39 +71,39 @@ export const main = asl.deploy.asStateMachine(
         }
     });
     const bills = asl.pass({
-        name: "49: Assign bills",
+        name: "Assign bills",
         parameters: () => billPromises
     });
     const validBills = asl.jsonPathFilter(bills, (x) => !!x.valid);
     const invoices = asl.map({
-        name: "52: For x Of validBills.map",
+        name: "For x Of validBills.map",
         items: () => validBills,
-        iterator: x => { asl.typescriptInvoke({
-            name: "52: createInvoice(x)",
+        iterator: x => { let _var = asl.typescriptInvoke({
+            name: "createInvoice(x)",
             resource: createInvoice,
             parameters: () => x,
             comment: "createInvoice(x)"
-        }) },
+        }); return _var; },
         comment: "validBills.map(async x => createInvoice(x))"
     });
     const validatedInvoices = asl.map({
-        name: "53: For x Of invoices.map",
+        name: "For x Of invoices.map",
         items: () => invoices,
-        iterator: x => { asl.typescriptInvoke({
-            name: "53: validateInvoice(x)",
+        iterator: x => { let _var = asl.typescriptInvoke({
+            name: "validateInvoice(x)",
             resource: validateInvoice,
             parameters: () => x,
             comment: "validateInvoice(x)"
-        }) },
+        }); return _var; },
         comment: "invoices.map(async x => validateInvoice(x))"
     });
     const invalidInvoices = asl.jsonPathFilter(validatedInvoices, (x) => !x.valid);
     asl.typescriptIf({
-        name: "55: If (invalidInvoices.lengt ...",
+        name: "If (invalidInvoices.lengt ...",
         condition: () => asl.jsonPathLength(invalidInvoices) > 0,
         then: async () => {
             asl.typescriptInvoke({
-                name: "57: createGithubIssue({ bills ...",
+                name: "createGithubIssue({ bills ...",
                 resource: createGithubIssue,
                 parameters: () => ({ bills: { invalid: invalidInvoices } })
             });
@@ -111,7 +111,7 @@ export const main = asl.deploy.asStateMachine(
     })
     const validInvoices = asl.jsonPathFilter(validatedInvoices, (x) => x.valid === true);
     asl.typescriptIf({
-        name: "60: If (!input.shouldFinalize)",
+        name: "If (!input.shouldFinalize)",
         condition: () => !input.shouldFinalize,
         then: async () => {
             return;
@@ -119,15 +119,15 @@ export const main = asl.deploy.asStateMachine(
         comment: "if (!input.shouldFinalize) {\n      return;\n    }"
     })
     asl.map({
-        name: "64: For invoice Of validInvoices",
+        name: "For invoice Of validInvoices",
         items: () => validInvoices,
         iterator: invoice => {
             asl.typescriptIf({
-                name: "66: If (invoice.billable)",
+                name: "If (invoice.billable)",
                 condition: () => invoice.billable,
                 then: async () => {
                     asl.typescriptInvoke({
-                        name: "68: finallizeInvoice(invoice ...",
+                        name: "finallizeInvoice(invoice ...",
                         resource: finallizeInvoice,
                         parameters: () => invoice
                     });

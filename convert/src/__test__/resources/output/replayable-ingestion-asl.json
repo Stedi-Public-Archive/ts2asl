@@ -7,15 +7,25 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "22: replayPrefixer(input)"
+      "Next": "replayPrefixer(input)"
     },
-    "22: replayPrefixer(input)": {
+    "replayPrefixer(input)": {
       "Type": "Task",
       "ResultPath": "$.vars.result",
       "Resource": "typescript:replayPrefixer",
       "InputPath": "$.vars",
-      "Catch": [],
-      "Retry": [],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
       "Comment": "source: replayPrefixer(input)",
       "Next": "Map"
     },
@@ -27,22 +37,23 @@
         "States": {
           "StartExecution": {
             "Type": "Task",
+            "ResultPath": "$.vars._var",
             "Resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
             "Parameters": {
               "Input.$": "States.Format('{}', $.vars.prefix)",
-              "StateMachineArn": "arn:something.something"
+              "StateMachineArn": "unresolved parameter: stateMachineArn"
             },
-            "End": true
+            "Next": "Pass"
+          },
+          "Pass": {
+            "End": true,
+            "Type": "Pass",
+            "InputPath": "$.vars._var"
           }
         }
       },
       "ItemsPath": "$.vars.result",
       "MaxConcurrency": 5,
-      "Parameters": {
-        "vars": {
-          "prefix.$": "$$.Map.Item.Value"
-        }
-      },
       "End": true
     }
   }

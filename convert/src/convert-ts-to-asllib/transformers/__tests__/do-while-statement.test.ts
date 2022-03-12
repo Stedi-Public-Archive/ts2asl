@@ -6,11 +6,11 @@ describe("when converting do-while statements", () => {
     expect(
       testTransform(
         "do{ console.log(); ASL.Wait({Seconds: 2})} while (code === 'continue');",
-        doWhileStatementTransformer
+        doWhileStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptDoWhile({
-          name: \\"2: Do While (code === 'conti ...\\",
+          name: \\"Do While (code === 'conti ...\\",
           condition: () => code === 'continue',
           block: async () => { console.log(); ASL.Wait({ Seconds: 2 }); },
           comment: \\"do{ console.log(); ASL.Wait({Seconds: 2})} while (code === 'continue');\\"

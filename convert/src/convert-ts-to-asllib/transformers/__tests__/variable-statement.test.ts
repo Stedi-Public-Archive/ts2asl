@@ -3,20 +3,21 @@ import { variableStatementTransformer } from "../variable-statement";
 
 describe("when converting variable statements", () => {
   it("then string literal gets converted to Pass state", () => {
-    expect(testTransform("let abc = 'hello';", variableStatementTransformer))
-      .toMatchInlineSnapshot(`
+    expect(
+      testTransform("let abc = 'hello';", variableStatementTransformer({}))
+    ).toMatchInlineSnapshot(`
       "let abc = asl.pass({
-          name: \\"2: Assign abc\\",
+          name: \\"Assign abc\\",
           parameters: () => 'hello',
           comment: \\"abc = 'hello'\\"
       });"
     `);
   });
   it("then numeric literal gets converted to Pass state", () => {
-    expect(testTransform("let abc  = 43;", variableStatementTransformer))
+    expect(testTransform("let abc  = 43;", variableStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "let abc = asl.pass({
-          name: \\"2: Assign abc\\",
+          name: \\"Assign abc\\",
           parameters: () => 43,
           comment: \\"abc  = 43\\"
       });"
@@ -27,11 +28,11 @@ describe("when converting variable statements", () => {
     expect(
       testTransform(
         "let abc = {number: 43; text: 'hello'};",
-        variableStatementTransformer
+        variableStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "let abc = asl.pass({
-          name: \\"2: Assign abc\\",
+          name: \\"Assign abc\\",
           parameters: () => ({ number: 43, text: 'hello' }),
           comment: \\"abc = {number: 43; text: 'hello'}\\"
       });"

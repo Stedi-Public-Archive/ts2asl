@@ -31,9 +31,7 @@ describe("when converting choice statement to iasl", () => {
                   "statements": Array [
                     Object {
                       "_syntaxKind": "asl-task-state",
-                      "catch": Array [],
                       "resource": "urn",
-                      "retry": Array [],
                     },
                   ],
                 },
@@ -42,15 +40,12 @@ describe("when converting choice statement to iasl", () => {
                 ],
               },
             ],
-            "retry": Array [],
             "try": Object {
               "_syntaxKind": "function",
               "statements": Array [
                 Object {
                   "_syntaxKind": "asl-task-state",
-                  "catch": Array [],
                   "resource": "urn",
-                  "retry": Array [],
                 },
               ],
             },

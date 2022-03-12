@@ -11,12 +11,40 @@
           {
             "statements": [
               {
-                "stateName": "8: performIdentifyCheck()",
-                "resource": "typescript:performIdentifyCheck",
-                "retry": [],
-                "catch": [],
-                "source": "performIdentifyCheck()",
-                "_syntaxKind": "asl-task-state"
+                "name": {
+                  "identifier": "_var",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "expression": {
+                  "stateName": "performIdentifyCheck()",
+                  "resource": "typescript:performIdentifyCheck",
+                  "retry": [
+                    {
+                      "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                      "BackoffRate": 2
+                    }
+                  ],
+                  "source": "performIdentifyCheck()",
+                  "_syntaxKind": "asl-task-state"
+                },
+                "stateName": "Assign ???",
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "expression": {
+                  "identifier": "_var",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "_syntaxKind": "return",
+                "stateName": "Return ???"
               }
             ],
             "_syntaxKind": "function"
@@ -41,11 +69,9 @@
             "_syntaxKind": "function"
           }
         ],
-        "catch": [],
-        "retry": [],
         "_syntaxKind": "asl-parallel-state"
       },
-      "stateName": "7: Assign result",
+      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -101,7 +127,7 @@
         "type": "unknown"
       },
       "expression": {
-        "stateName": "26: Assign checksPassed",
+        "stateName": "Assign checksPassed",
         "parameters": {
           "value": true,
           "type": "boolean",
@@ -110,11 +136,11 @@
         "source": "checksPassed = true",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "24: Assign checksPassed",
+      "stateName": "Assign checksPassed",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "26: If (checksPassed)",
+      "stateName": "If (checksPassed)",
       "condition": {
         "operator": "is-present",
         "rhs": {

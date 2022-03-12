@@ -13,7 +13,7 @@ describe("when converting example", () => {
 
       export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
           let thresholds = asl.pass({
-              name: \\"6: Assign thresholds\\",
+              name: \\"Assign thresholds\\",
               parameters: () => [
                   {
                       \\"metric\\": \\"mappings.requests\\",
@@ -27,27 +27,27 @@ describe("when converting example", () => {
               comment: \\"thresholds = [\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 100\\\\n    },\\\\n    {\\\\n      \\\\\\"metric\\\\\\": \\\\\\"mappings.requests\\\\\\",\\\\n      \\\\\\"ceiling\\\\\\": 1000\\\\n    }\\\\n  ]\\"
           });
           let lastEvaluatedKey: any | undefined = asl.pass({
-              name: \\"16: Assign lastEvaluatedKey\\",
+              name: \\"Assign lastEvaluatedKey\\",
               parameters: () => undefined,
               comment: \\"lastEvaluatedKey: any | undefined = undefined\\"
           }); //$.variables.lastEvaluatedKey
           asl.typescriptDoWhile({
-              name: \\"16: Do While (lastEvaluatedKey)\\",
+              name: \\"Do While (lastEvaluatedKey)\\",
               condition: () => lastEvaluatedKey,
               block: async () => {
                   let scan = asl.nativeDynamoDBScan({ parameters: { TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey } });
                   asl.map({
-                      name: \\"18: For item Of scan.Items\\",
+                      name: \\"For item Of scan.Items\\",
                       items: () => scan.Items,
                       iterator: item => {
                           asl.map({
-                              name: \\"20: For threshold Of thresholds\\",
+                              name: \\"For threshold Of thresholds\\",
                               items: () => thresholds,
                               iterator: threshold => {
                                   let numericLastSentOnValue = asl.states.stringToJson(item.lastSentOnValue.N);
                                   let numericTotal = asl.states.stringToJson(item.total.N);
                                   asl.typescriptIf({
-                                      name: \\"23: If ((item.sk.S === thresh ...\\",
+                                      name: \\"If ((item.sk.S === thresh ...\\",
                                       condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
                                           || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                       then: async () => {
@@ -168,14 +168,14 @@ describe("when converting example", () => {
             \\"ceiling\\": 1000
           }
         ]",
-              "stateName": "6: Assign thresholds",
+              "stateName": "Assign thresholds",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "thresholds",
               "type": "object",
             },
-            "stateName": "4: Assign thresholds",
+            "stateName": "Assign thresholds",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -187,14 +187,14 @@ describe("when converting example", () => {
                 "value": null,
               },
               "source": "lastEvaluatedKey: any | undefined = undefined",
-              "stateName": "16: Assign lastEvaluatedKey",
+              "stateName": "Assign lastEvaluatedKey",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "lastEvaluatedKey",
               "type": "unknown",
             },
-            "stateName": "15: Assign lastEvaluatedKey",
+            "stateName": "Assign lastEvaluatedKey",
           },
           Object {
             "_syntaxKind": "do-while",
@@ -207,7 +207,7 @@ describe("when converting example", () => {
                 "type": "unknown",
               },
             },
-            "stateName": "16: Do While (lastEvaluatedKey)",
+            "stateName": "Do While (lastEvaluatedKey)",
             "while": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -244,11 +244,10 @@ describe("when converting example", () => {
                     "identifier": "scan",
                     "type": "object",
                   },
-                  "stateName": "17: Assign scan",
+                  "stateName": "Assign scan",
                 },
                 Object {
                   "_syntaxKind": "asl-map-state",
-                  "catch": Array [],
                   "items": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "scan.Items",
@@ -263,7 +262,6 @@ describe("when converting example", () => {
                     "statements": Array [
                       Object {
                         "_syntaxKind": "asl-map-state",
-                        "catch": Array [],
                         "items": Object {
                           "_syntaxKind": "identifier",
                           "identifier": "thresholds",
@@ -294,7 +292,7 @@ describe("when converting example", () => {
                                 "identifier": "numericLastSentOnValue",
                                 "type": "numeric",
                               },
-                              "stateName": "21: Assign numericLastSentOnValue",
+                              "stateName": "Assign numericLastSentOnValue",
                             },
                             Object {
                               "_syntaxKind": "variable-assignment",
@@ -314,7 +312,7 @@ describe("when converting example", () => {
                                 "identifier": "numericTotal",
                                 "type": "numeric",
                               },
-                              "stateName": "22: Assign numericTotal",
+                              "stateName": "Assign numericTotal",
                             },
                             Object {
                               "_syntaxKind": "if",
@@ -474,7 +472,7 @@ describe("when converting example", () => {
                                   },
                                 },
                               },
-                              "stateName": "23: If ((item.sk.S === thresh ...",
+                              "stateName": "If ((item.sk.S === thresh ...",
                               "then": Object {
                                 "_syntaxKind": "function",
                                 "statements": Array [
@@ -604,13 +602,11 @@ describe("when converting example", () => {
                             },
                           ],
                         },
-                        "retry": Array [],
-                        "stateName": "20: For threshold Of thresholds",
+                        "stateName": "For threshold Of thresholds",
                       },
                     ],
                   },
-                  "retry": Array [],
-                  "stateName": "18: For item Of scan.Items",
+                  "stateName": "For item Of scan.Items",
                 },
                 Object {
                   "_syntaxKind": "variable-assignment",
@@ -624,7 +620,7 @@ describe("when converting example", () => {
                     "identifier": "lastEvaluatedKey",
                     "type": "unknown",
                   },
-                  "stateName": "65: Assign lastEvaluatedKey",
+                  "stateName": "Assign lastEvaluatedKey",
                 },
               ],
             },
@@ -638,46 +634,73 @@ describe("when converting example", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "15: Assign lastEvaluatedKey": Object {
+          "Assign lastEvaluatedKey": Object {
             "Comment": "source: lastEvaluatedKey: any | undefined = undefined",
-            "Next": "16: Do While (lastEvaluatedKey)",
+            "Next": "Do While (lastEvaluatedKey)",
             "Result": null,
             "ResultPath": "$.vars.lastEvaluatedKey",
             "Type": "Pass",
           },
-          "16: Do While (lastEvaluatedKey)": Object {
+          "Assign thresholds": Object {
+            "Comment": "source: thresholds = [ { \\"metric\\": \\"mappings.requests\\" ...",
+            "Next": "Assign lastEvaluatedKey",
+            "Result": Array [
+              Object {
+                "ceiling": 100,
+                "metric": "mappings.requests",
+              },
+              Object {
+                "ceiling": 1000,
+                "metric": "mappings.requests",
+              },
+            ],
+            "ResultPath": "$.vars.thresholds",
+            "Type": "Pass",
+          },
+          "Do While (lastEvaluatedKey)": Object {
             "Branches": Array [
               Object {
                 "StartAt": "Scan",
                 "States": Object {
-                  "18: For item Of scan.Items": Object {
+                  "Assign lastEvaluatedKey_1": Object {
+                    "Comment": undefined,
+                    "InputPath": "$.vars.scan.LastEvaluatedKey",
+                    "Next": "_WhileCondition",
+                    "ResultPath": "$.vars.lastEvaluatedKey",
+                    "Type": "Pass",
+                  },
+                  "For item Of scan.Items": Object {
                     "Comment": undefined,
                     "ItemsPath": "$.vars.scan.Items",
                     "Iterator": Object {
-                      "StartAt": "20: For threshold Of thresholds",
+                      "StartAt": "For threshold Of thresholds",
                       "States": Object {
-                        "20: For threshold Of thresholds": Object {
+                        "For threshold Of thresholds": Object {
                           "Comment": undefined,
                           "End": true,
                           "ItemsPath": "$.vars.thresholds",
                           "Iterator": Object {
-                            "StartAt": "21: Assign numericLastSentOnValue",
+                            "StartAt": "Assign numericLastSentOnValue",
                             "States": Object {
-                              "21: Assign numericLastSentOnValue": Object {
+                              "Assign numericLastSentOnValue": Object {
                                 "Comment": undefined,
                                 "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
-                                "Next": "22: Assign numericTotal",
+                                "Next": "Assign numericTotal",
                                 "ResultPath": "$.vars.numericLastSentOnValue",
                                 "Type": "Pass",
                               },
-                              "22: Assign numericTotal": Object {
+                              "Assign numericTotal": Object {
                                 "Comment": undefined,
                                 "InputPath": "States.StringToJson($.vars.item.total.N)",
-                                "Next": "23: If ((item.sk.S === thresh ...",
+                                "Next": "If ((item.sk.S === thresh ...",
                                 "ResultPath": "$.vars.numericTotal",
                                 "Type": "Pass",
                               },
-                              "23: If ((item.sk.S === thresh ...": Object {
+                              "Empty Default Choice": Object {
+                                "End": true,
+                                "Type": "Pass",
+                              },
+                              "If ((item.sk.S === thresh ...": Object {
                                 "Choices": Array [
                                   Object {
                                     "Next": "PutEvents",
@@ -753,10 +776,6 @@ describe("when converting example", () => {
                                 "Default": "Empty Default Choice",
                                 "Type": "Choice",
                               },
-                              "Empty Default Choice": Object {
-                                "End": true,
-                                "Type": "Pass",
-                              },
                               "PutEvents": Object {
                                 "Catch": undefined,
                                 "Comment": undefined,
@@ -822,7 +841,7 @@ describe("when converting example", () => {
                       },
                     },
                     "MaxConcurrency": undefined,
-                    "Next": "65: Assign lastEvaluatedKey",
+                    "Next": "Assign lastEvaluatedKey_1",
                     "Parameters": Object {
                       "vars": Object {
                         "item.$": "$$.Map.Item.Value",
@@ -832,18 +851,11 @@ describe("when converting example", () => {
                     "ResultPath": "$.lastResult",
                     "Type": "Map",
                   },
-                  "65: Assign lastEvaluatedKey": Object {
-                    "Comment": undefined,
-                    "InputPath": "$.vars.scan.LastEvaluatedKey",
-                    "Next": "_WhileCondition",
-                    "ResultPath": "$.vars.lastEvaluatedKey",
-                    "Type": "Pass",
-                  },
                   "Scan": Object {
                     "Catch": undefined,
                     "Comment": undefined,
                     "HeartbeatSeconds": undefined,
-                    "Next": "18: For item Of scan.Items",
+                    "Next": "For item Of scan.Items",
                     "Parameters": Object {
                       "ExclusiveStartKey.$": "$.vars.lastEvaluatedKey",
                       "Limit": 1,
@@ -882,24 +894,8 @@ describe("when converting example", () => {
             },
             "Type": "Parallel",
           },
-          "4: Assign thresholds": Object {
-            "Comment": "source: thresholds = [ { \\"metric\\": \\"mappings.requests\\" ...",
-            "Next": "15: Assign lastEvaluatedKey",
-            "Result": Array [
-              Object {
-                "ceiling": 100,
-                "metric": "mappings.requests",
-              },
-              Object {
-                "ceiling": 1000,
-                "metric": "mappings.requests",
-              },
-            ],
-            "ResultPath": "$.vars.thresholds",
-            "Type": "Pass",
-          },
           "Initialize": Object {
-            "Next": "4: Assign thresholds",
+            "Next": "Assign thresholds",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

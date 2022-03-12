@@ -1,19 +1,20 @@
 
 import * as ts from "typescript";
 import * as iasl from "./ast"
-import * as asl from "@ts2asl/asl-lib"
 import { ParserError } from "../ParserError";
 import { convertToIdentifier } from "./helper";
 import { removeSyntaxTransformer } from "./remove-syntax-transformer";
 import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-utility";
 import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
+import { ConverterOptions } from "../convert";
 const factory = ts.factory;
 
 export interface ConverterContext {
   inputArgumentName?: string;
   contextArgumentName?: string;
   typeChecker: ts.TypeChecker;
+  converterOptions: ConverterOptions;
 }
 
 export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.SourceFile, context: ConverterContext): iasl.StateMachine => {
@@ -67,7 +68,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     return {
       expression,
       _syntaxKind: "return",
-      stateName: createName(node, `Return %s`, node.expression)
+      stateName: createName(context.converterOptions, node, `Return %s`, node.expression)
     } as iasl.ReturnStatement;
   }
 
@@ -85,7 +86,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     return {
       name: identifier,
       expression: expression,
-      stateName: createName(node, `Assign %s`, decl.name),
+      stateName: createName(context.converterOptions, node, `Assign %s`, decl.name),
       _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
     } as iasl.VariableAssignmentStatement
   }
@@ -102,7 +103,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     return {
       name: identifier,
       expression: expression,
-      stateName: createName(node, `Assign %s`, node.left),
+      stateName: createName(context.converterOptions, node, `Assign %s`, node.left),
       _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
     } as iasl.VariableAssignmentStatement
   }
@@ -113,7 +114,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
 
   if (ts.isReturnStatement(node)) {
     return {
-      stateName: createName(node, "Return %s", node.expression!),
+      stateName: createName(context.converterOptions, node, "Return %s", node.expression!),
       expression: convertExpression(node.expression, context),
       _syntaxKind: iasl.SyntaxKind.ReturnStatement
     } as iasl.ReturnStatement
@@ -121,7 +122,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
 
   if (ts.isBreakStatement(node)) {
     return {
-      stateName: createName(node, "Break"),
+      stateName: createName(context.converterOptions, node, "Break"),
       _syntaxKind: iasl.SyntaxKind.AslSucceedState
     } as iasl.SucceedState
   }
@@ -157,7 +158,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
     if (type === "deploy.getParameter") {
       if (!ts.isStringLiteral(expression.arguments[0])) throw new Error(`first argument to asl.deploy.getParameter must be a literal (not a variable)`);
       const paramName = expression.arguments[0].text;
-      const val = asl.deploy.getParameter(paramName);
+      const val = context.converterOptions.getParameter ? context.converterOptions.getParameter(paramName) : "unresolved parameter: " + paramName;
       return {
         value: val,
         type: typeof val,
@@ -189,14 +190,14 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           stateName: name ?? "Typescript Invoke " + resource?.identifier,
           resource: "typescript:" + resource?.identifier,
           retry: retryConfiguration ?? [{
-            errorFilter: [
+            ErrorEquals: [
               "Lambda.ServiceException",
               "Lambda.AWSLambdaException",
               "Lambda.SdkClientException"
             ],
-            intervalSeconds: 2,
-            maxAttempts: 6,
-            backoffRate: 2
+            IntervalSeconds: 2,
+            MaxAttempts: 6,
+            BackoffRate: 2
           }],
           catch: catchConfiguration,
           parameters,
@@ -547,6 +548,9 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
   else if (ts.isCallExpression(expr)) {
     const expressionType = isAslCallExpression(expr);
     if (expressionType?.startsWith("states.")) {
+      if (expr.arguments.some(x => ts.isObjectLiteralExpression(x))) {
+        throw new ParserError("asl intrinsic function must not take literal objects as arguments (for now), use variables instead", expr);
+      }
       const _arguments = expr.arguments.map(x => convertExpressionToLiteralOrIdentifier(x, context));
       const functionName = convertToIdentifier(expr.expression, context);
 
@@ -745,9 +749,9 @@ const unpackLiteralValue = (val: iasl.Expression | iasl.Identifier) => {
   return val;
 }
 
-const unpackArray = <TElement>(args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string, unpackElement: (element: iasl.Expression | iasl.Identifier) => TElement): TElement[] => {
+const unpackArray = <TElement>(args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string, unpackElement: (element: iasl.Expression | iasl.Identifier) => TElement): TElement[] | undefined => {
   const propValue = args[propertyName];
-  if (propValue === undefined) return [];
+  if (propValue === undefined) return undefined;
 
   if (!iasl.Check.isLiteralArray(propValue)) {
     throw new Error(`property ${propertyName} must be array`);
@@ -758,11 +762,46 @@ const unpackArray = <TElement>(args: Record<string, iasl.Expression | iasl.Ident
 
 
 const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.Block | undefined => {
-  const propValue = args[propertyName];
+  let propValue = args[propertyName];
   if (propValue === undefined) return undefined;
 
   if (!(iasl.Check.isBlock(propValue) || iasl.Check.isFunction(propValue))) {
-    throw new Error(`property ${propertyName} must be function or block`);
+
+    if (iasl.Check.isAslFailState(propValue) || iasl.Check.isAslSucceedState(propValue)) {
+      return {
+        statements: [
+          {
+            expression: propValue,
+            _syntaxKind: iasl.SyntaxKind.ReturnStatement,
+          } as iasl.ReturnStatement
+        ],
+        _syntaxKind: iasl.SyntaxKind.Block,
+      } as iasl.Block;
+    } else {
+      return {
+        statements: [
+          {
+            name: {
+              identifier: "_var",
+              _syntaxKind: iasl.SyntaxKind.Identifier,
+              type: "unknown"
+            },
+            expression: propValue,
+            _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+          } as iasl.VariableAssignmentStatement,
+          {
+            expression: {
+              identifier: "_var",
+              _syntaxKind: iasl.SyntaxKind.Identifier,
+              type: "unknown"
+            },
+            _syntaxKind: iasl.SyntaxKind.ReturnStatement,
+          } as iasl.ReturnStatement,
+        ],
+        _syntaxKind: iasl.SyntaxKind.Block,
+      } as iasl.Block;
+
+    }
   }
   return propValue as unknown as iasl.Block;
 }

@@ -43,7 +43,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile, typeChecker:
           } else if (kind === "lambda") {
             const arg = AslDeclaration.argument;
             const type = typeChecker.getTypeAtLocation(arg);
-            if (type !== undefined) {
+            if (type !== undefined && (type as unknown as { intrinsicName: string }).intrinsicName !== "error") {
               const signatures = type.getCallSignatures();
               if (signatures.length === 0) throw new Error(`Lambda declaration must be callable`);
               for (const signature of signatures) {

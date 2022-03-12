@@ -1,6 +1,6 @@
 import { convert } from "..";
 import { testConvertToIntermediaryAst } from "../../convert-asllib-to-iasl/__test__/test-convert";
-import { transformers } from "../../convert-ts-to-asllib/transformers";
+import { createTransformers } from "../../convert-ts-to-asllib/transformers";
 import { testTransform } from "../../convert-ts-to-asllib/__tests__/test-transform";
 
 describe("when transpiling function", () => {
@@ -9,7 +9,7 @@ describe("when transpiling function", () => {
       `
     let result = asl.states.stringToJson("0") as number
     `,
-      transformers
+      createTransformers({ lineNumbersInStateNames: true })
     );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl);
@@ -17,7 +17,7 @@ describe("when transpiling function", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "2: Assign result": Object {
+          "Assign result": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "States.StringToJson('0')",
@@ -25,7 +25,7 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "2: Assign result",
+            "Next": "Assign result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -42,7 +42,7 @@ describe("when transpiling function", () => {
       `
     let result = asl.states.stringToJson("s"),
     `,
-      transformers
+      createTransformers({})
     );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl);
@@ -50,7 +50,7 @@ describe("when transpiling function", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "2: Assign result": Object {
+          "Assign result": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "States.StringToJson('s')",
@@ -58,7 +58,7 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "2: Assign result",
+            "Next": "Assign result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -78,7 +78,7 @@ describe("when transpiling function", () => {
       str: "val"
     }),
     `,
-      transformers
+      createTransformers({})
     );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl);
@@ -86,7 +86,7 @@ describe("when transpiling function", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "2: Assign result": Object {
+          "Assign result": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "States.JsonToString({
@@ -97,7 +97,7 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "2: Assign result",
+            "Next": "Assign result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

@@ -1,6 +1,9 @@
 import * as iasl from "../convert-asllib-to-iasl/ast"
-export const createFilterExpression = (argumentName: string, expression: iasl.BinaryExpression): string => {
+export const createFilterExpression = (argumentName: string, expression: iasl.BinaryExpression | iasl.Identifier): string => {
 
+  if (iasl.Check.isIdentifier(expression)) {
+    return convertOperand(argumentName, expression);
+  }
   if (expression.operator === "not") {
     if (iasl.Check.isBinaryExpression(expression.rhs)) {
       const converted = createFilterExpression(argumentName, expression.rhs);

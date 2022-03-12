@@ -7,6 +7,14 @@ import { convert } from "../convert-iasl-to-asl";
 import { convertToIntermediaryAsl } from "../convert-asllib-to-iasl";
 import { ICompilerHost } from "../compiler-host";
 
+
+export interface ConverterOptions {
+  lineNumbersInStateNames?: true;
+  sourceCodeInComments?: true;
+  includeDiagnostics?: true;
+  getParameter?: <T>(paramName: string, defaultValue?: T) => T;
+}
+
 export class Converter {
   sourceFile: ts.SourceFile;
   typeChecker: ts.TypeChecker;
@@ -18,7 +26,7 @@ export class Converter {
     this.program = compilerHost.program;
   }
 
-  convert(includeDiagnostics: boolean = false): Converted {
+  convert(options: ConverterOptions = {}): Converted {
     const declarations = listFunctionDeclarations(this.sourceFile, this.typeChecker);
 
     const lambdas: ConvertedLambda[] = [];
@@ -31,15 +39,15 @@ export class Converter {
         let transpiled: iasl.StateMachine = { _syntaxKind: iasl.SyntaxKind.StateMachine, statements: [] };
         let asl: asl.StateMachine | undefined;
         try {
-          transformed = transformBody(body);
-          transpiled = convertToIntermediaryAsl(transformed, { typeChecker: this.typeChecker, inputArgumentName: decl.inputArgName, contextArgumentName: decl.contextArgName });
+          transformed = transformBody(body, options);
+          transpiled = convertToIntermediaryAsl(transformed, { converterOptions: options, typeChecker: this.typeChecker, inputArgumentName: decl.inputArgName, contextArgumentName: decl.contextArgName });
           asl = convert(transpiled)!;
         } catch (err) {
           // if (!includeDiagnostics)
           throw err;
         }
         const result = { name: decl.name, asl };
-        if (includeDiagnostics) {
+        if (options.includeDiagnostics) {
           const withDiagnostics: Record<string, unknown> = result;
           const transformedBlock = transformed ? ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile) : undefined;
           const transformedCode = this.sourceFile.text.substring(0, blockPosition.start) + transformedBlock + this.sourceFile.text.substring(blockPosition.end);

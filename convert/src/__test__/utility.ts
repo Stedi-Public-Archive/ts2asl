@@ -9,7 +9,7 @@ export const runConvertForTest = (filename: string, stateMachineName: string = "
   );
   const converter = new Converter(host);
   const converted = converter
-    .convert(true)
+    .convert({ includeDiagnostics: true })
     .stateMachines.map(x => x as ConvertedStateMachineWithDiagnostics)
     .find(x => x.name === stateMachineName);
 

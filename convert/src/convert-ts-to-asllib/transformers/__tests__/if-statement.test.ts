@@ -7,14 +7,14 @@ describe("when converting if statements", () => {
     expect(
       testTransform(
         "if (password === 'pwd') throw new Error('wrong password');",
-        [ifStatementTransformer, throwStatementTransformer]
+        [ifStatementTransformer({}), throwStatementTransformer({})]
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (password === 'pwd')\\",
+          name: \\"If (password === 'pwd')\\",
           condition: () => password === 'pwd',
           then: async () => { asl.fail({
-              name: \\"2: Throw Error\\",
+              name: \\"Throw Error\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -28,14 +28,14 @@ describe("when converting if statements", () => {
     expect(
       testTransform(
         "if (password === 'pwd') { throw new Error('wrong password'); }",
-        [ifStatementTransformer, throwStatementTransformer]
+        [ifStatementTransformer({}), throwStatementTransformer({})]
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (password === 'pwd')\\",
+          name: \\"If (password === 'pwd')\\",
           condition: () => password === 'pwd',
           then: async () => { asl.fail({
-              name: \\"2: Throw Error\\",
+              name: \\"Throw Error\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -49,14 +49,14 @@ describe("when converting if statements", () => {
     expect(
       testTransform(
         "if (password !== 'pwd') { throw new Error('wrong password'); }",
-        [ifStatementTransformer, throwStatementTransformer]
+        [ifStatementTransformer({}), throwStatementTransformer({})]
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (password !== 'pwd')\\",
+          name: \\"If (password !== 'pwd')\\",
           condition: () => password !== 'pwd',
           then: async () => { asl.fail({
-              name: \\"2: Throw Error\\",
+              name: \\"Throw Error\\",
               error: \\"Error\\",
               cause: \\"wrong password\\",
               comment: \\"throw new Error('wrong password');\\"
@@ -69,14 +69,14 @@ describe("when converting if statements", () => {
   it("then greater than is supported on numeric ", () => {
     expect(
       testTransform("if (age > 18) console.log();", [
-        ifStatementTransformer,
-        throwStatementTransformer
+        ifStatementTransformer({}),
+        throwStatementTransformer({})
       ])
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (age > 18)\\",
+          name: \\"If (age > 18)\\",
           condition: () => age > 18,
-          then: async () => { console.log(); },
+          then: async () => { let _var = console.log(); return _var; },
           comment: \\"if (age > 18) console.log();\\"
       })"
     `);
@@ -86,13 +86,13 @@ describe("when converting if statements", () => {
     expect(
       testTransform(
         "if (optIn === true) console.log();",
-        ifStatementTransformer
+        ifStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (optIn === true)\\",
+          name: \\"If (optIn === true)\\",
           condition: () => optIn === true,
-          then: async () => { console.log(); },
+          then: async () => { let _var = console.log(); return _var; },
           comment: \\"if (optIn === true) console.log();\\"
       })"
     `);
@@ -101,12 +101,15 @@ describe("when converting if statements", () => {
   //this still assumes string! could be improved by testing against different types
   it("then comparison against identifier becomes path", () => {
     expect(
-      testTransform("if (lhs === rhs) console.log();", ifStatementTransformer)
+      testTransform(
+        "if (lhs === rhs) console.log();",
+        ifStatementTransformer({})
+      )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (lhs === rhs)\\",
+          name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
-          then: async () => { console.log(); },
+          then: async () => { let _var = console.log(); return _var; },
           comment: \\"if (lhs === rhs) console.log();\\"
       })"
     `);
@@ -116,14 +119,14 @@ describe("when converting if statements", () => {
     expect(
       testTransform(
         "if (lhs === rhs) console.log(); else console.log();",
-        ifStatementTransformer
+        ifStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (lhs === rhs)\\",
+          name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
-          then: async () => { console.log(); },
-          else: async () => { console.log(); },
+          then: async () => { let _var = console.log(); return _var; },
+          else: async () => { let _var = console.log(); return _var; },
           comment: \\"if (lhs === rhs) console.log(); else console.log();\\"
       })"
     `);
@@ -133,14 +136,14 @@ describe("when converting if statements", () => {
     expect(
       testTransform(
         "if (lhs === rhs) console.log(); else console.log();",
-        ifStatementTransformer
+        ifStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (lhs === rhs)\\",
+          name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
-          then: async () => { console.log(); },
-          else: async () => { console.log(); },
+          then: async () => { let _var = console.log(); return _var; },
+          else: async () => { let _var = console.log(); return _var; },
           comment: \\"if (lhs === rhs) console.log(); else console.log();\\"
       })"
     `);
@@ -150,19 +153,19 @@ describe("when converting if statements", () => {
     expect(
       testTransform(
         "if (lhs === rhs) console.log(); else if (1 === 2) console.log();",
-        ifStatementTransformer
+        ifStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (lhs === rhs)\\",
+          name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
-          then: async () => { console.log(); },
-          else: async () => { asl.typescriptIf({
-              name: \\"2: If (1 === 2)\\",
+          then: async () => { let _var = console.log(); return _var; },
+          else: async () => { let _var = asl.typescriptIf({
+              name: \\"If (1 === 2)\\",
               condition: () => 1 === 2,
-              then: async () => { console.log(); },
+              then: async () => { let _var = console.log(); return _var; },
               comment: \\"if (1 === 2) console.log();\\"
-          }) }
+          }); return _var; }
       })"
     `);
   });

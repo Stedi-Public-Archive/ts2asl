@@ -6,11 +6,11 @@ describe("when converting try statements", () => {
     expect(
       testTransform(
         "try { console.log('yay!'); } catch { console.log('nay'); }",
-        tryStatementTransformer
+        tryStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptTry({
-          name: \\"2: Try Catch\\",
+          name: \\"Try Catch\\",
           try: async () => { console.log('yay!'); },
           catch: [
               {

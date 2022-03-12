@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 
-export const removeUnnecessaryExpressionsTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const removeUnnecessaryExpressionsTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
@@ -16,6 +17,13 @@ export const removeUnnecessaryExpressionsTransformer = <T extends ts.Node>(conte
       return node.expression;
     }
 
+    if (ts.isNonNullExpression(node)) {
+      return node.expression;
+    }
+
+    if (ts.isVoidExpression(node)) {
+      return node.expression;
+    }
     // x || [] => x
     if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.BarBarToken && (ts.isArrayLiteralExpression(node.right) && node.right.elements.length === 0)) {
       return node.left;

@@ -3,8 +3,9 @@ import { convertToBlock } from './block-utility';
 import factory = ts.factory;
 import { TransformUtil } from './transform-utility';
 import { ensureBooleanExpression } from './node-utility';
+import { ConverterOptions } from '../../convert';
 
-export const whileStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const whileStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
     if (ts.isWhileStatement(node)) {
@@ -12,7 +13,7 @@ export const whileStatementTransformer = <T extends ts.Node>(context: ts.Transfo
       const condition = TransformUtil.createWrappedExpression("condition", ensureBooleanExpression(node.expression));
       const block = TransformUtil.createNamedBlock("block", convertToBlock(node.statement));
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createNamePropertyAssignment(node, "While (%s)", node.expression);
+      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "While (%s)", node.expression);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, condition, block, comment]) {

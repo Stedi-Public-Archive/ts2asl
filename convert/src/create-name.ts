@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import { ConverterOptions } from "./convert";
 
 const evalPreferOriginal = <T>(node: ts.Node, fn: (node: ts.Node) => T): T => {
   const original = (node as any).original;
@@ -18,18 +19,21 @@ const getLineNumber = (node: ts.Node, pos: number): string | undefined => {
   return undefined;
 }
 
-export const createName = (mainNode: ts.Node, format: string, ...nodes: (ts.Node | undefined)[]) => {
+export const createName = (converterOptions: ConverterOptions, mainNode: ts.Node, format: string, ...nodes: (ts.Node | undefined)[]) => {
   let texts: string[] = [];
 
-  const pos: number | undefined = evalPreferOriginal(mainNode, node => node.pos);
   let ln: string | undefined;
+  let pos: number | undefined = undefined;
+  if (converterOptions.lineNumbersInStateNames) {
+    const pos: number | undefined = evalPreferOriginal(mainNode, node => node.pos);
 
-  if (pos >= 0) {
-    ln = evalPreferOriginal(mainNode, node => getLineNumber(node, pos));
+    if (pos >= 0) {
+      ln = evalPreferOriginal(mainNode, node => getLineNumber(node, pos));
+    }
   }
   for (const node of nodes) {
     if (!node) continue;
-    if (ln === undefined && pos >= 0) {
+    if (converterOptions.lineNumbersInStateNames && ln === undefined && pos && pos >= 0) {
       ln = getLineNumber(node, pos);
     }
     try {

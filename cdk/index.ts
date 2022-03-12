@@ -1,7 +1,7 @@
 import { CfnStateMachine, CfnStateMachineProps } from "@aws-cdk/aws-stepfunctions";
 import { Runtime } from "@aws-cdk/aws-lambda";
 import { Construct } from "@aws-cdk/core";
-import { Converter } from "@ts2asl/convert"
+import { Converter, ConverterOptions } from "@ts2asl/convert"
 import { createCompilerHostFromFile } from "@ts2asl/convert"
 import { NodejsFunction, NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
 import { StateMachine, Task, Map, Parallel } from "asl-types";
@@ -12,8 +12,8 @@ export interface TypescriptStateMachineProps {
   defaultFunctionProps: Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
   programName: string;
   sourceFile: string;
+  conversionOptions?: ConverterOptions;
   cwd?: string; // current working directory, used to resolve dependencies and tsconfig.json. default is process.cwd();
-  diagnostics?: true; // when true additional diagnostics are printed
   parameters?: Record<string, unknown>;
 }
 
@@ -21,7 +21,7 @@ export class TypescriptStateMachine extends Construct {
   constructor(scope: Construct, id: string, props: TypescriptStateMachineProps) {
 
     //sourceFile, cwd & diagnostics are converted to a definitionString.
-    const { sourceFile, cwd, diagnostics } = props;
+    const { sourceFile, cwd } = props;
 
     for (const [key, val] of Object.entries(props.parameters ?? {})) {
       asl.deploy.setParameter(key, val);
@@ -29,7 +29,9 @@ export class TypescriptStateMachine extends Construct {
 
     const compilerHost = createCompilerHostFromFile(sourceFile, cwd);
     const converter = new Converter(compilerHost);
-    const converted = converter.convert(diagnostics);
+    const options = props.conversionOptions ?? {};
+    options.getParameter = options.getParameter ?? asl.deploy.getParameter;
+    const converted = converter.convert(options);
 
     super(scope, id)
 

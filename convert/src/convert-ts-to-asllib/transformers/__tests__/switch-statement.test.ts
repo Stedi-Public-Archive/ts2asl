@@ -14,11 +14,11 @@ describe("when converting switch statements", () => {
             console.log("not-red")
             break;
         }`,
-        switchStatementTransformer
+        switchStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.choice({
-          name: \\"2: Switch (color)\\",
+          name: \\"Switch (color)\\",
           choices: [
               {
                   block: async () => {

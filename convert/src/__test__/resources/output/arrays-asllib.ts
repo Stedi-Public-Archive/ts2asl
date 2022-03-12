@@ -11,11 +11,11 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, context: asl.St
     myArray = asl.states.stringToJson(mySerializedArray);
     //Create Pets
     let pets = asl.map({
-        name: "13: For x Of myArray.map",
+        name: "For x Of myArray.map",
         items: () => myArray,
         iterator: x => {
             asl.typescriptIf({
-                name: "13: If (x === 1 || x === 3 || ...",
+                name: "If (x === 1 || x === 3 || ...",
                 condition: () => x === 1 || x === 3 || x === 5 || x === 7 || x == 9,
                 then: async () => {
                     return {
@@ -37,7 +37,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, context: asl.St
     });
     //Create separate list of cats and dogs using JSONPath Expressions
     let bySpecies = asl.pass({
-        name: "30: Assign bySpecies",
+        name: "Assign bySpecies",
         parameters: () => ({
             cats: {
                 young: asl.jsonPathFilter(pets, (x) => x.species === "cat" && x.age < 5),

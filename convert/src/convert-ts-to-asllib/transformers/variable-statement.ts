@@ -1,8 +1,9 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { TransformUtil } from './transform-utility';
 import factory = ts.factory;
 
-export const variableStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const variableStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
     if (ts.isVariableDeclaration(node)) {
@@ -13,7 +14,7 @@ export const variableStatementTransformer = <T extends ts.Node>(context: ts.Tran
 
       const parameters = TransformUtil.createWrappedExpression("parameters", node.initializer);
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createNamePropertyAssignment(node, `Assign %s`, node.name)
+      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, `Assign %s`, node.name)
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, parameters, comment]) {

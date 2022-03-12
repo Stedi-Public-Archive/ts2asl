@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { createName } from '../../create-name';
 
 import factory = ts.factory;
@@ -158,8 +159,8 @@ export class TransformUtil {
     );
   }
 
-  static createNamePropertyAssignment(mainNode: ts.Node, format: string, ...nodes: ts.Node[]) {
-    const name = createName(mainNode, format, ...nodes);
+  static createNamePropertyAssignment(converterOptions: ConverterOptions, mainNode: ts.Node, format: string, ...nodes: ts.Node[]) {
+    const name = createName(converterOptions, mainNode, format, ...nodes);
     return factory.createPropertyAssignment(
       factory.createIdentifier("name"),
       factory.createStringLiteral(name)

@@ -50,6 +50,10 @@ describe("when converting native integration statements to iasl", () => {
                 "value": "mytable",
               },
               "_syntaxKind": "asl-task-state",
+              "parameters": Object {
+                "_syntaxKind": "literal-object",
+                "properties": Object {},
+              },
               "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
               "source": undefined,
               "stateName": "GetItem",
@@ -59,7 +63,7 @@ describe("when converting native integration statements to iasl", () => {
               "identifier": "aaaa",
               "type": "unknown",
             },
-            "stateName": "3: Assign aaaa",
+            "stateName": "Assign aaaa",
           },
         ],
       }

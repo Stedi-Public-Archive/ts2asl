@@ -1,10 +1,11 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { ParserError } from '../../ParserError';
 import { convertToBlock } from './block-utility';
 import { isIdentifier } from './node-utility';
 import { TransformUtil } from './transform-utility';
 
-export const forOfStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const forOfStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
@@ -17,7 +18,7 @@ export const forOfStatementTransformer = <T extends ts.Node>(context: ts.Transfo
       const items = TransformUtil.createWrappedExpression("items", node.expression);
       const iterator = TransformUtil.createFunction("iterator", (decl.name as ts.Identifier).text, convertToBlock(node.statement));
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createNamePropertyAssignment(node, "For %s Of %s", decl.name, node.expression);
+      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "For %s Of %s", decl.name, node.expression);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, items, iterator, comment]) {

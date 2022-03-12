@@ -15,10 +15,20 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "13: createBillJob(input)",
+        "stateName": "createBillJob(input)",
         "resource": "typescript:createBillJob",
-        "retry": [],
-        "catch": [],
+        "retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "IntervalSeconds": 2,
+            "MaxAttempts": 6,
+            "BackoffRate": 2
+          }
+        ],
         "parameters": {
           "identifier": "input",
           "_syntaxKind": "identifier",
@@ -27,7 +37,7 @@
         "source": "createBillJob(input)",
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "12: Assign billJob",
+      "stateName": "Assign billJob",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -45,10 +55,20 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "16: createNonEmptyBills(billJob)",
+        "stateName": "createNonEmptyBills(billJob)",
         "resource": "typescript:createNonEmptyBills",
-        "retry": [],
-        "catch": [],
+        "retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "IntervalSeconds": 2,
+            "MaxAttempts": 6,
+            "BackoffRate": 2
+          }
+        ],
         "parameters": {
           "identifier": "billJob",
           "_syntaxKind": "identifier",
@@ -57,7 +77,7 @@
         "source": "createNonEmptyBills(billJob)",
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "14: Assign jobResult",
+      "stateName": "Assign jobResult",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -67,14 +87,12 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "18: For bill Of jobResult.bil ...",
+        "stateName": "For bill Of jobResult.bil ...",
         "items": {
           "identifier": "jobResult.bills",
           "type": "object",
           "_syntaxKind": "identifier"
         },
-        "catch": [],
-        "retry": [],
         "iterator": {
           "inputArgumentName": {
             "identifier": "bill",
@@ -88,7 +106,7 @@
                 "type": "object"
               },
               "expression": {
-                "stateName": "19: Assign approveNonEmptyBil ...",
+                "stateName": "Assign approveNonEmptyBil ...",
                 "parameters": {
                   "properties": {
                     "lastDateInBillingPeriod": {
@@ -107,7 +125,7 @@
                 "source": "approveNonEmptyBillRequest = { lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }",
                 "_syntaxKind": "asl-pass-state"
               },
-              "stateName": "18: Assign approveNonEmptyBil ...",
+              "stateName": "Assign approveNonEmptyBil ...",
               "_syntaxKind": "variable-assignment"
             },
             {
@@ -117,10 +135,20 @@
                 "type": "object"
               },
               "expression": {
-                "stateName": "20: approveNonEmptyBill(appro ...",
+                "stateName": "approveNonEmptyBill(appro ...",
                 "resource": "typescript:approveNonEmptyBill",
-                "retry": [],
-                "catch": [],
+                "retry": [
+                  {
+                    "ErrorEquals": [
+                      "Lambda.ServiceException",
+                      "Lambda.AWSLambdaException",
+                      "Lambda.SdkClientException"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 6,
+                    "BackoffRate": 2
+                  }
+                ],
                 "parameters": {
                   "identifier": "approveNonEmptyBillRequest",
                   "_syntaxKind": "identifier",
@@ -129,11 +157,11 @@
                 "source": "approveNonEmptyBill(approveNonEmptyBillRequest)",
                 "_syntaxKind": "asl-task-state"
               },
-              "stateName": "19: Assign approvalResult",
+              "stateName": "Assign approvalResult",
               "_syntaxKind": "variable-assignment"
             },
             {
-              "stateName": "20: If (approvalResult.valid)",
+              "stateName": "If (approvalResult.valid)",
               "condition": {
                 "operator": "is-present",
                 "rhs": {
@@ -182,7 +210,7 @@
                       "_syntaxKind": "literal-object"
                     },
                     "_syntaxKind": "return",
-                    "stateName": "21: Return { valid: ..."
+                    "stateName": "Return { valid: ..."
                   }
                 ],
                 "_syntaxKind": "function"
@@ -250,7 +278,7 @@
                       },
                       "_syntaxKind": "asl-task-state"
                     },
-                    "stateName": "30: Assign result",
+                    "stateName": "Assign result",
                     "_syntaxKind": "variable-assignment"
                   },
                   {
@@ -260,7 +288,7 @@
                       "type": "unknown"
                     },
                     "_syntaxKind": "return",
-                    "stateName": "44: Return result"
+                    "stateName": "Return result"
                   }
                 ],
                 "_syntaxKind": "function"
@@ -272,7 +300,7 @@
         },
         "_syntaxKind": "asl-map-state"
       },
-      "stateName": "16: Assign billPromises",
+      "stateName": "Assign billPromises",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -282,7 +310,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "49: Assign bills",
+        "stateName": "Assign bills",
         "parameters": {
           "identifier": "billPromises",
           "_syntaxKind": "identifier",
@@ -290,7 +318,7 @@
         },
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "47: Assign bills",
+      "stateName": "Assign bills",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -324,7 +352,7 @@
           }
         }
       },
-      "stateName": "49: Assign validBills",
+      "stateName": "Assign validBills",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -334,14 +362,12 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "52: For x Of validBills.map",
+        "stateName": "For x Of validBills.map",
         "items": {
           "identifier": "validBills",
           "_syntaxKind": "identifier",
           "type": "object"
         },
-        "catch": [],
-        "retry": [],
         "iterator": {
           "inputArgumentName": {
             "identifier": "x",
@@ -349,17 +375,45 @@
           },
           "statements": [
             {
-              "stateName": "52: createInvoice(x)",
-              "resource": "typescript:createInvoice",
-              "retry": [],
-              "catch": [],
-              "parameters": {
-                "identifier": "x",
+              "name": {
+                "identifier": "_var",
                 "_syntaxKind": "identifier",
-                "type": "object"
+                "type": "unknown"
               },
-              "source": "createInvoice(x)",
-              "_syntaxKind": "asl-task-state"
+              "expression": {
+                "stateName": "createInvoice(x)",
+                "resource": "typescript:createInvoice",
+                "retry": [
+                  {
+                    "ErrorEquals": [
+                      "Lambda.ServiceException",
+                      "Lambda.AWSLambdaException",
+                      "Lambda.SdkClientException"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 6,
+                    "BackoffRate": 2
+                  }
+                ],
+                "parameters": {
+                  "identifier": "x",
+                  "_syntaxKind": "identifier",
+                  "type": "object"
+                },
+                "source": "createInvoice(x)",
+                "_syntaxKind": "asl-task-state"
+              },
+              "stateName": "Assign ???",
+              "_syntaxKind": "variable-assignment"
+            },
+            {
+              "expression": {
+                "identifier": "_var",
+                "_syntaxKind": "identifier",
+                "type": "unknown"
+              },
+              "_syntaxKind": "return",
+              "stateName": "Return ???"
             }
           ],
           "_syntaxKind": "function"
@@ -367,7 +421,7 @@
         "source": "validBills.map(async x => createInvoice(x))",
         "_syntaxKind": "asl-map-state"
       },
-      "stateName": "50: Assign invoices",
+      "stateName": "Assign invoices",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -377,14 +431,12 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "53: For x Of invoices.map",
+        "stateName": "For x Of invoices.map",
         "items": {
           "identifier": "invoices",
           "_syntaxKind": "identifier",
           "type": "object"
         },
-        "catch": [],
-        "retry": [],
         "iterator": {
           "inputArgumentName": {
             "identifier": "x",
@@ -392,17 +444,45 @@
           },
           "statements": [
             {
-              "stateName": "53: validateInvoice(x)",
-              "resource": "typescript:validateInvoice",
-              "retry": [],
-              "catch": [],
-              "parameters": {
-                "identifier": "x",
+              "name": {
+                "identifier": "_var",
                 "_syntaxKind": "identifier",
-                "type": "object"
+                "type": "unknown"
               },
-              "source": "validateInvoice(x)",
-              "_syntaxKind": "asl-task-state"
+              "expression": {
+                "stateName": "validateInvoice(x)",
+                "resource": "typescript:validateInvoice",
+                "retry": [
+                  {
+                    "ErrorEquals": [
+                      "Lambda.ServiceException",
+                      "Lambda.AWSLambdaException",
+                      "Lambda.SdkClientException"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 6,
+                    "BackoffRate": 2
+                  }
+                ],
+                "parameters": {
+                  "identifier": "x",
+                  "_syntaxKind": "identifier",
+                  "type": "object"
+                },
+                "source": "validateInvoice(x)",
+                "_syntaxKind": "asl-task-state"
+              },
+              "stateName": "Assign ???",
+              "_syntaxKind": "variable-assignment"
+            },
+            {
+              "expression": {
+                "identifier": "_var",
+                "_syntaxKind": "identifier",
+                "type": "unknown"
+              },
+              "_syntaxKind": "return",
+              "stateName": "Return ???"
             }
           ],
           "_syntaxKind": "function"
@@ -410,7 +490,7 @@
         "source": "invoices.map(async x => validateInvoice(x))",
         "_syntaxKind": "asl-map-state"
       },
-      "stateName": "52: Assign validatedInvoices",
+      "stateName": "Assign validatedInvoices",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -444,11 +524,11 @@
           }
         }
       },
-      "stateName": "53: Assign invalidInvoices",
+      "stateName": "Assign invalidInvoices",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "55: If (invalidInvoices.lengt ...",
+      "stateName": "If (invalidInvoices.lengt ...",
       "condition": {
         "lhs": {
           "identifier": "invalidInvoices",
@@ -467,10 +547,20 @@
       "then": {
         "statements": [
           {
-            "stateName": "57: createGithubIssue({ bills ...",
+            "stateName": "createGithubIssue({ bills ...",
             "resource": "typescript:createGithubIssue",
-            "retry": [],
-            "catch": [],
+            "retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
             "parameters": {
               "properties": {
                 "bills": {
@@ -525,11 +615,11 @@
           }
         }
       },
-      "stateName": "58: Assign validInvoices",
+      "stateName": "Assign validInvoices",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "60: If (!input.shouldFinalize)",
+      "stateName": "If (!input.shouldFinalize)",
       "condition": {
         "operator": "not",
         "rhs": {
@@ -547,7 +637,7 @@
         "statements": [
           {
             "_syntaxKind": "return",
-            "stateName": "62: Return undefined"
+            "stateName": "Return undefined"
           }
         ],
         "_syntaxKind": "function"
@@ -556,14 +646,12 @@
       "_syntaxKind": "if"
     },
     {
-      "stateName": "64: For invoice Of validInvoices",
+      "stateName": "For invoice Of validInvoices",
       "items": {
         "identifier": "validInvoices",
         "_syntaxKind": "identifier",
         "type": "object"
       },
-      "catch": [],
-      "retry": [],
       "iterator": {
         "inputArgumentName": {
           "identifier": "invoice",
@@ -571,7 +659,7 @@
         },
         "statements": [
           {
-            "stateName": "66: If (invoice.billable)",
+            "stateName": "If (invoice.billable)",
             "condition": {
               "operator": "is-present",
               "rhs": {
@@ -584,10 +672,20 @@
             "then": {
               "statements": [
                 {
-                  "stateName": "68: finallizeInvoice(invoice ...",
+                  "stateName": "finallizeInvoice(invoice ...",
                   "resource": "typescript:finallizeInvoice",
-                  "retry": [],
-                  "catch": [],
+                  "retry": [
+                    {
+                      "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                      "BackoffRate": 2
+                    }
+                  ],
                   "parameters": {
                     "identifier": "invoice",
                     "_syntaxKind": "identifier",
@@ -642,8 +740,6 @@
                     },
                     "_syntaxKind": "literal-object"
                   },
-                  "catch": [],
-                  "retry": [],
                   "_syntaxKind": "asl-task-state"
                 }
               ],

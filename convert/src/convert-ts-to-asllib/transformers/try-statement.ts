@@ -2,8 +2,9 @@ import * as ts from 'typescript';
 import { TransformUtil } from './transform-utility';
 import { ParserError } from '../../ParserError';
 import factory = ts.factory;
+import { ConverterOptions } from '../../convert';
 
-export const tryStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const tryStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
@@ -15,7 +16,7 @@ export const tryStatementTransformer = <T extends ts.Node>(context: ts.Transform
       const finally_ = TransformUtil.createNamedBlock("finally", node.finallyBlock);
       const comment = TransformUtil.createComment(node);
       let nameTemplate = "Try" + (catch_ ? " Catch" : "") + (finally_ ? " Finally" : "");
-      const name = TransformUtil.createNamePropertyAssignment(node, nameTemplate);
+      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, nameTemplate);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, try_, catch_, finally_, comment]) {

@@ -29,15 +29,17 @@ const aws_lambda_nodejs_1 = require("@aws-cdk/aws-lambda-nodejs");
 const asl = __importStar(require("@ts2asl/asl-lib"));
 class TypescriptStateMachine extends core_1.Construct {
     constructor(scope, id, props) {
-        var _a;
+        var _a, _b, _c;
         //sourceFile, cwd & diagnostics are converted to a definitionString.
-        const { sourceFile, cwd, diagnostics } = props;
+        const { sourceFile, cwd } = props;
         for (const [key, val] of Object.entries((_a = props.parameters) !== null && _a !== void 0 ? _a : {})) {
             asl.deploy.setParameter(key, val);
         }
         const compilerHost = (0, convert_2.createCompilerHostFromFile)(sourceFile, cwd);
         const converter = new convert_1.Converter(compilerHost);
-        const converted = converter.convert(diagnostics);
+        const options = (_b = props.conversionOptions) !== null && _b !== void 0 ? _b : {};
+        options.getParameter = (_c = options.getParameter) !== null && _c !== void 0 ? _c : asl.deploy.getParameter;
+        const converted = converter.convert(options);
         super(scope, id);
         const typescriptDict = {};
         for (const lambda of converted.lambdas) {

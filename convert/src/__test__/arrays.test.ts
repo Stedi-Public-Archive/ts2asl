@@ -22,11 +22,11 @@ describe("when converting closures", () => {
           myArray = asl.states.stringToJson(mySerializedArray);
           //Create Pets
           let pets = asl.map({
-              name: \\"13: For x Of myArray.map\\",
+              name: \\"For x Of myArray.map\\",
               items: () => myArray,
               iterator: x => {
                   asl.typescriptIf({
-                      name: \\"13: If (x === 1 || x === 3 || ...\\",
+                      name: \\"If (x === 1 || x === 3 || ...\\",
                       condition: () => x === 1 || x === 3 || x === 5 || x === 7 || x == 9,
                       then: async () => {
                           return {
@@ -48,7 +48,7 @@ describe("when converting closures", () => {
           });
           //Create separate list of cats and dogs using JSONPath Expressions
           let bySpecies = asl.pass({
-              name: \\"30: Assign bySpecies\\",
+              name: \\"Assign bySpecies\\",
               parameters: () => ({
                   cats: {
                       young: asl.jsonPathFilter(pets, (x) => x.species === \\"cat\\" && x.age < 5),
@@ -180,7 +180,7 @@ describe("when converting closures", () => {
               "identifier": "myArray",
               "type": "object",
             },
-            "stateName": "6: Assign myArray",
+            "stateName": "Assign myArray",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -200,7 +200,7 @@ describe("when converting closures", () => {
               "identifier": "mySerializedArray",
               "type": "string",
             },
-            "stateName": "8: Assign mySerializedArray",
+            "stateName": "Assign mySerializedArray",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -220,13 +220,13 @@ describe("when converting closures", () => {
               "identifier": "myArray",
               "type": "object",
             },
-            "stateName": "9: Assign myArray",
+            "stateName": "Assign myArray",
           },
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-map-state",
-              "catch": Array [],
+              "catch": undefined,
               "items": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "myArray",
@@ -352,7 +352,7 @@ describe("when converting closures", () => {
                               },
                             },
                           },
-                          "stateName": "20: Return { age: x, ...",
+                          "stateName": "Return { age: x, ...",
                         },
                       ],
                     },
@@ -369,7 +369,7 @@ describe("when converting closures", () => {
               createdBy: context.state.name,
             }
           }",
-                    "stateName": "13: If (x === 1 || x === 3 || ...",
+                    "stateName": "If (x === 1 || x === 3 || ...",
                     "then": Object {
                       "_syntaxKind": "function",
                       "statements": Array [
@@ -395,7 +395,7 @@ describe("when converting closures", () => {
                               },
                             },
                           },
-                          "stateName": "14: Return { age: x, ...",
+                          "stateName": "Return { age: x, ...",
                         },
                       ],
                     },
@@ -403,16 +403,16 @@ describe("when converting closures", () => {
                 ],
               },
               "maxConcurrency": undefined,
-              "retry": Array [],
+              "retry": undefined,
               "source": undefined,
-              "stateName": "13: For x Of myArray.map",
+              "stateName": "For x Of myArray.map",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "pets",
               "type": "object",
             },
-            "stateName": "10: Assign pets",
+            "stateName": "Assign pets",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -610,14 +610,14 @@ describe("when converting closures", () => {
                 },
               },
               "source": undefined,
-              "stateName": "30: Assign bySpecies",
+              "stateName": "Assign bySpecies",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "bySpecies",
               "type": "object",
             },
-            "stateName": "27: Assign bySpecies",
+            "stateName": "Assign bySpecies",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -632,7 +632,7 @@ describe("when converting closures", () => {
               "identifier": "uniqueAges",
               "type": "unknown",
             },
-            "stateName": "39: Assign uniqueAges",
+            "stateName": "Assign uniqueAges",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -647,7 +647,7 @@ describe("when converting closures", () => {
               "identifier": "flattenedPets",
               "type": "unknown",
             },
-            "stateName": "42: Assign flattenedPets",
+            "stateName": "Assign flattenedPets",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -665,7 +665,7 @@ describe("when converting closures", () => {
               "identifier": "slicedArr",
               "type": "object",
             },
-            "stateName": "43: Assign slicedArr",
+            "stateName": "Assign slicedArr",
           },
           Object {
             "_syntaxKind": "return",
@@ -694,7 +694,7 @@ describe("when converting closures", () => {
                 },
               },
             },
-            "stateName": "44: Return { bySpecies, ...",
+            "stateName": "Return { bySpecies, ...",
           },
         ],
       }
@@ -705,13 +705,57 @@ describe("when converting closures", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "10: Assign pets": Object {
+          "Assign bySpecies": Object {
+            "Comment": undefined,
+            "Next": "Assign uniqueAges",
+            "Parameters": Object {
+              "cats": Object {
+                "old.$": "$.vars.pets[?(@.species == 'cat' && @.age >= 5)]",
+                "young.$": "$.vars.pets[?(@.species == 'cat' && @.age < 5)]",
+              },
+              "dogs": Object {
+                "old.$": "$.vars.pets[?(@.species == 'dog' && @.age >= 5)]",
+                "young.$": "$.vars.pets[?(@.species == 'dog' && @.age < 5)]",
+              },
+            },
+            "ResultPath": "$.vars.bySpecies",
+            "Type": "Pass",
+          },
+          "Assign flattenedPets": Object {
+            "Comment": undefined,
+            "InputPath": "$.vars.bySpecies[*][*][*]",
+            "Next": "Assign slicedArr",
+            "ResultPath": "$.vars.flattenedPets",
+            "Type": "Pass",
+          },
+          "Assign myArray": Object {
+            "Comment": undefined,
+            "InputPath": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)",
+            "Next": "Assign mySerializedArray",
+            "ResultPath": "$.vars.myArray",
+            "Type": "Pass",
+          },
+          "Assign myArray_1": Object {
+            "Comment": undefined,
+            "InputPath": "States.StringToJson($.vars.mySerializedArray)",
+            "Next": "Assign pets",
+            "ResultPath": "$.vars.myArray",
+            "Type": "Pass",
+          },
+          "Assign mySerializedArray": Object {
+            "Comment": undefined,
+            "InputPath": "States.JsonToString($.vars.myArray)",
+            "Next": "Assign myArray_1",
+            "ResultPath": "$.vars.mySerializedArray",
+            "Type": "Pass",
+          },
+          "Assign pets": Object {
             "Comment": undefined,
             "ItemsPath": "$.vars.myArray",
             "Iterator": Object {
-              "StartAt": "13: If (x === 1 || x === 3 || ...",
+              "StartAt": "If (x === 1 || x === 3 || ...",
               "States": Object {
-                "13: If (x === 1 || x === 3 || ...": Object {
+                "If (x === 1 || x === 3 || ...": Object {
                   "Choices": Array [
                     Object {
                       "Next": "Pass_1",
@@ -755,7 +799,7 @@ describe("when converting closures", () => {
               },
             },
             "MaxConcurrency": undefined,
-            "Next": "27: Assign bySpecies",
+            "Next": "Assign bySpecies",
             "Parameters": Object {
               "vars": Object {
                 "context.$": "$.vars.context",
@@ -765,62 +809,18 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.pets",
             "Type": "Map",
           },
-          "27: Assign bySpecies": Object {
-            "Comment": undefined,
-            "Next": "39: Assign uniqueAges",
-            "Parameters": Object {
-              "cats": Object {
-                "old.$": "$.vars.pets[?(@.species == 'cat' && @.age >= 5)]",
-                "young.$": "$.vars.pets[?(@.species == 'cat' && @.age < 5)]",
-              },
-              "dogs": Object {
-                "old.$": "$.vars.pets[?(@.species == 'dog' && @.age >= 5)]",
-                "young.$": "$.vars.pets[?(@.species == 'dog' && @.age < 5)]",
-              },
-            },
-            "ResultPath": "$.vars.bySpecies",
-            "Type": "Pass",
-          },
-          "39: Assign uniqueAges": Object {
-            "Comment": undefined,
-            "InputPath": "$.vars.bySpecies..age",
-            "Next": "42: Assign flattenedPets",
-            "ResultPath": "$.vars.uniqueAges",
-            "Type": "Pass",
-          },
-          "42: Assign flattenedPets": Object {
-            "Comment": undefined,
-            "InputPath": "$.vars.bySpecies[*][*][*]",
-            "Next": "43: Assign slicedArr",
-            "ResultPath": "$.vars.flattenedPets",
-            "Type": "Pass",
-          },
-          "43: Assign slicedArr": Object {
+          "Assign slicedArr": Object {
             "Comment": undefined,
             "InputPath": "$.vars.pets[3:5]",
             "Next": "Pass_3",
             "ResultPath": "$.vars.slicedArr",
             "Type": "Pass",
           },
-          "6: Assign myArray": Object {
+          "Assign uniqueAges": Object {
             "Comment": undefined,
-            "InputPath": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)",
-            "Next": "8: Assign mySerializedArray",
-            "ResultPath": "$.vars.myArray",
-            "Type": "Pass",
-          },
-          "8: Assign mySerializedArray": Object {
-            "Comment": undefined,
-            "InputPath": "States.JsonToString($.vars.myArray)",
-            "Next": "9: Assign myArray",
-            "ResultPath": "$.vars.mySerializedArray",
-            "Type": "Pass",
-          },
-          "9: Assign myArray": Object {
-            "Comment": undefined,
-            "InputPath": "States.StringToJson($.vars.mySerializedArray)",
-            "Next": "10: Assign pets",
-            "ResultPath": "$.vars.myArray",
+            "InputPath": "$.vars.bySpecies..age",
+            "Next": "Assign flattenedPets",
+            "ResultPath": "$.vars.uniqueAges",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -834,7 +834,7 @@ describe("when converting closures", () => {
           "Pass": Object {
             "Comment": "source: console.log(asl.states.format(\\"Starting execut ...",
             "InputPath": "States.Format('Starting execution of {} at {} with role of {}', $$.StateMachine.Name, $$.Execution.StartTime, $$.Execution.RoleArn)",
-            "Next": "6: Assign myArray",
+            "Next": "Assign myArray",
             "Type": "Pass",
           },
           "Pass_3": Object {

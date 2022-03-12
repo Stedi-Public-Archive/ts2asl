@@ -12,7 +12,7 @@ describe("when converting call statements", () => {
       }
     }
     `,
-        removeUnnecessaryExpressionsTransformer
+        removeUnnecessaryExpressionsTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "for (const item of scan.Items) {
@@ -30,7 +30,7 @@ describe("when converting promise.resolve", () => {
         `
     const x = Promise.resolve(y);
     `,
-        removeUnnecessaryExpressionsTransformer
+        removeUnnecessaryExpressionsTransformer({})
       )
     ).toMatchInlineSnapshot(`"const x = y;"`);
   });
@@ -48,7 +48,7 @@ describe("when converting promise.resolve inside promise.all", () => {
         
         
     `,
-        removeUnnecessaryExpressionsTransformer
+        removeUnnecessaryExpressionsTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "const result = Promise.all([

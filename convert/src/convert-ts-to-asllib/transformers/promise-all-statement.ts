@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { ParserError } from '../../ParserError';
 import { convertToBlock } from './block-utility';
 import { TransformUtil } from './transform-utility';
@@ -20,7 +21,7 @@ const validExamples = `valid examples:
     ]);
     `
 
-export const promiseAllStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const promiseAllStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 

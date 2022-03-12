@@ -1,6 +1,7 @@
 import ts from "typescript";
+import { ConverterOptions } from "../convert";
 
-import { transformers } from "./transformers";
+import { createTransformers } from "./transformers";
 
 export const transformCode = (source: string) => {
   const sourceFile: ts.SourceFile = ts.createSourceFile(
@@ -9,10 +10,10 @@ export const transformCode = (source: string) => {
   return transformAst(sourceFile);
 }
 
-export const transformAst = (sourceFile: ts.SourceFile) => {
-  return ts.transform<ts.SourceFile>(sourceFile, transformers).transformed[0];
+export const transformAst = (sourceFile: ts.SourceFile, converterOptions: ConverterOptions = {}) => {
+  return ts.transform<ts.SourceFile>(sourceFile, createTransformers(converterOptions)).transformed[0];
 }
 
-export const transformBody = (body: ts.ConciseBody) => {
-  return ts.transform<ts.ConciseBody>(body, transformers).transformed[0];
+export const transformBody = (body: ts.ConciseBody, converterOptions: ConverterOptions = {}) => {
+  return ts.transform<ts.ConciseBody>(body, createTransformers(converterOptions)).transformed[0];
 }

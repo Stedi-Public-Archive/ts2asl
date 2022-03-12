@@ -357,13 +357,13 @@ export interface AslState extends Expression {
 }
 
 export declare type RetryConfiguration = Array<{
-  errorFilter: string[];
-  intervalSeconds?: number;
-  maxAttempts?: number;
-  backoffRate?: number;
+  ErrorEquals: string[];
+  IntervalSeconds?: number;
+  MaxAttempts?: number;
+  BackoffRate?: number;
 }>
 
-export type CatchConfiguration = Array<{ errorFilter: string[], block: Block }>;
+export type CatchConfiguration = Array<{ ErrorEquals: string[], block: Block }>;
 
 export interface WaitState extends AslState {
   _syntaxKind: SyntaxKind.AslWaitState;

@@ -14,22 +14,25 @@ import { consoleLogStatementTransformer } from "./log-statement";
 import { arrayFilterTransformer } from "./array-filter-statement";
 import { arrayMapTransformer } from "./array-map-statement";
 import { arrayLengthTransformer } from "./array-length-statement";
+import { ConverterOptions } from "../../convert";
 
-export const transformers = [
-  removeUnnecessaryExpressionsTransformer,
-  unsupportedStatementTransformer,
-  ifStatementTransformer,
-  arrayFilterTransformer,
-  arrayMapTransformer,
-  arrayLengthTransformer,
-  switchStatementTransformer,
-  throwStatementTransformer,
-  tryStatementTransformer,
-  variableStatementTransformer,
-  promiseAllStatementTransformer,
-  consoleLogStatementTransformer,
-  callStatementTransformer,
-  whileStatementTransformer,
-  doWhileStatementTransformer,
-  forOfStatementTransformer,
-];
+export const createTransformers = (converterOptions: ConverterOptions = {}) => {
+  return [
+    removeUnnecessaryExpressionsTransformer(converterOptions),
+    unsupportedStatementTransformer(converterOptions),
+    ifStatementTransformer(converterOptions),
+    arrayFilterTransformer(converterOptions),
+    arrayMapTransformer(converterOptions),
+    arrayLengthTransformer(converterOptions),
+    switchStatementTransformer(converterOptions),
+    throwStatementTransformer(converterOptions),
+    tryStatementTransformer(converterOptions),
+    variableStatementTransformer(converterOptions),
+    promiseAllStatementTransformer(converterOptions),
+    consoleLogStatementTransformer(converterOptions),
+    callStatementTransformer(converterOptions),
+    whileStatementTransformer(converterOptions),
+    doWhileStatementTransformer(converterOptions),
+    forOfStatementTransformer(converterOptions),
+  ];
+}

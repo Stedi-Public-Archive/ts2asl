@@ -17,11 +17,11 @@ describe("when converting example", () => {
       export const main = asl.deploy.asStateMachine(async () =>{
           const result = asl.parallel({
               branches: [
-                  () => { asl.typescriptInvoke({
-                      name: \\"8: performIdentifyCheck()\\",
+                  () => { let _var = asl.typescriptInvoke({
+                      name: \\"performIdentifyCheck()\\",
                       resource: performIdentifyCheck,
                       comment: \\"performIdentifyCheck()\\"
-                  }) },
+                  }); return _var; },
                   () => { return { agencyChecked: true }; }
               ]
           });
@@ -38,12 +38,12 @@ describe("when converting example", () => {
               }
           });
           const checksPassed = asl.pass({
-              name: \\"26: Assign checksPassed\\",
+              name: \\"Assign checksPassed\\",
               parameters: () => true,
               comment: \\"checksPassed = true\\"
           });
           asl.typescriptIf({
-              name: \\"26: If (checksPassed)\\",
+              name: \\"If (checksPassed)\\",
               condition: () => checksPassed,
               then: async () => {
                   //no-op update risk profile
@@ -101,12 +101,42 @@ describe("when converting example", () => {
                   "_syntaxKind": "function",
                   "statements": Array [
                     Object {
-                      "_syntaxKind": "asl-task-state",
-                      "catch": Array [],
-                      "resource": "typescript:performIdentifyCheck",
-                      "retry": Array [],
-                      "source": "performIdentifyCheck()",
-                      "stateName": "8: performIdentifyCheck()",
+                      "_syntaxKind": "variable-assignment",
+                      "expression": Object {
+                        "_syntaxKind": "asl-task-state",
+                        "catch": undefined,
+                        "parameters": undefined,
+                        "resource": "typescript:performIdentifyCheck",
+                        "retry": Array [
+                          Object {
+                            "BackoffRate": 2,
+                            "ErrorEquals": Array [
+                              "Lambda.ServiceException",
+                              "Lambda.AWSLambdaException",
+                              "Lambda.SdkClientException",
+                            ],
+                            "IntervalSeconds": 2,
+                            "MaxAttempts": 6,
+                          },
+                        ],
+                        "source": "performIdentifyCheck()",
+                        "stateName": "performIdentifyCheck()",
+                      },
+                      "name": Object {
+                        "_syntaxKind": "identifier",
+                        "identifier": "_var",
+                        "type": "unknown",
+                      },
+                      "stateName": "Assign ???",
+                    },
+                    Object {
+                      "_syntaxKind": "return",
+                      "expression": Object {
+                        "_syntaxKind": "identifier",
+                        "identifier": "_var",
+                        "type": "unknown",
+                      },
+                      "stateName": "Return ???",
                     },
                   ],
                 },
@@ -130,8 +160,8 @@ describe("when converting example", () => {
                   ],
                 },
               ],
-              "catch": Array [],
-              "retry": Array [],
+              "catch": undefined,
+              "retry": undefined,
               "source": undefined,
               "stateName": undefined,
             },
@@ -140,7 +170,7 @@ describe("when converting example", () => {
               "identifier": "result",
               "type": "object",
             },
-            "stateName": "7: Assign result",
+            "stateName": "Assign result",
           },
           Object {
             "_syntaxKind": "asl-task-state",
@@ -198,14 +228,14 @@ describe("when converting example", () => {
                 "value": true,
               },
               "source": "checksPassed = true",
-              "stateName": "26: Assign checksPassed",
+              "stateName": "Assign checksPassed",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "checksPassed",
               "type": "unknown",
             },
-            "stateName": "24: Assign checksPassed",
+            "stateName": "Assign checksPassed",
           },
           Object {
             "_syntaxKind": "if",
@@ -269,7 +299,7 @@ describe("when converting example", () => {
                 },
               ],
             },
-            "stateName": "26: If (checksPassed)",
+            "stateName": "If (checksPassed)",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -331,14 +361,68 @@ describe("when converting example", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "24: Assign checksPassed": Object {
+          "Assign checksPassed": Object {
             "Comment": "source: checksPassed = true",
-            "Next": "26: If (checksPassed)",
+            "Next": "If (checksPassed)",
             "Result": true,
             "ResultPath": "$.vars.checksPassed",
             "Type": "Pass",
           },
-          "26: If (checksPassed)": Object {
+          "Assign result": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "performIdentifyCheck()",
+                "States": Object {
+                  "Pass": Object {
+                    "End": true,
+                    "InputPath": "$.vars._var",
+                    "Type": "Pass",
+                  },
+                  "performIdentifyCheck()": Object {
+                    "Catch": undefined,
+                    "Comment": "source: performIdentifyCheck()",
+                    "HeartbeatSeconds": undefined,
+                    "Next": "Pass",
+                    "Resource": "typescript:performIdentifyCheck",
+                    "ResultPath": "$.vars._var",
+                    "Retry": Array [
+                      Object {
+                        "BackoffRate": 2,
+                        "ErrorEquals": Array [
+                          "Lambda.ServiceException",
+                          "Lambda.AWSLambdaException",
+                          "Lambda.SdkClientException",
+                        ],
+                        "IntervalSeconds": 2,
+                        "MaxAttempts": 6,
+                      },
+                    ],
+                    "TimeoutSeconds": undefined,
+                    "Type": "Task",
+                  },
+                },
+              },
+              Object {
+                "StartAt": "Pass_1",
+                "States": Object {
+                  "Pass_1": Object {
+                    "End": true,
+                    "Result": Object {
+                      "agencyChecked": true,
+                    },
+                    "Type": "Pass",
+                  },
+                },
+              },
+            ],
+            "Catch": undefined,
+            "Comment": undefined,
+            "Next": "PutEvents",
+            "ResultPath": "$.vars.result",
+            "Retry": undefined,
+            "Type": "Parallel",
+          },
+          "If (checksPassed)": Object {
             "Choices": Array [
               Object {
                 "IsPresent": true,
@@ -350,45 +434,8 @@ describe("when converting example", () => {
             "Default": "PutEvents_1",
             "Type": "Choice",
           },
-          "7: Assign result": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "8: performIdentifyCheck()",
-                "States": Object {
-                  "8: performIdentifyCheck()": Object {
-                    "Catch": Array [],
-                    "Comment": "source: performIdentifyCheck()",
-                    "End": true,
-                    "HeartbeatSeconds": undefined,
-                    "Resource": "typescript:performIdentifyCheck",
-                    "Retry": Array [],
-                    "TimeoutSeconds": undefined,
-                    "Type": "Task",
-                  },
-                },
-              },
-              Object {
-                "StartAt": "Pass",
-                "States": Object {
-                  "Pass": Object {
-                    "End": true,
-                    "Result": Object {
-                      "agencyChecked": true,
-                    },
-                    "Type": "Pass",
-                  },
-                },
-              },
-            ],
-            "Catch": Array [],
-            "Comment": undefined,
-            "Next": "PutEvents",
-            "ResultPath": "$.vars.result",
-            "Retry": Array [],
-            "Type": "Parallel",
-          },
           "Initialize": Object {
-            "Next": "7: Assign result",
+            "Next": "Assign result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -399,7 +446,7 @@ describe("when converting example", () => {
             "Catch": undefined,
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "24: Assign checksPassed",
+            "Next": "Assign checksPassed",
             "Parameters": Object {
               "Entries": Array [
                 Object {

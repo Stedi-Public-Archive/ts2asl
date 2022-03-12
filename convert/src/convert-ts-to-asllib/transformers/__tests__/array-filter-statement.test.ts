@@ -6,7 +6,7 @@ describe("when converting array filter statements", () => {
     expect(
       testTransform(
         "const x = items.filter(x=>x.valid === true);",
-        arrayFilterTransformer
+        arrayFilterTransformer({})
       )
     ).toMatchInlineSnapshot(
       `"const x = asl.jsonPathFilter(items, (x) => x.valid === true);"`
@@ -15,7 +15,10 @@ describe("when converting array filter statements", () => {
 
   it("property access expression gets coerced to binary expression", () => {
     expect(
-      testTransform("const x = items.filter(x=>x.valid);", arrayFilterTransformer)
+      testTransform(
+        "const x = items.filter(x=>x.valid);",
+        arrayFilterTransformer({})
+      )
     ).toMatchInlineSnapshot(
       `"const x = asl.jsonPathFilter(items, (x) => x.valid);"`
     );
@@ -23,7 +26,10 @@ describe("when converting array filter statements", () => {
 
   it("unary prefix expression gets coerced to binary expression", () => {
     expect(
-      testTransform("const x = items.filter(x=>!x.valid);", arrayFilterTransformer)
+      testTransform(
+        "const x = items.filter(x=>!x.valid);",
+        arrayFilterTransformer({})
+      )
     ).toMatchInlineSnapshot(
       `"const x = asl.jsonPathFilter(items, (x) => !x.valid);"`
     );
@@ -33,10 +39,21 @@ describe("when converting array filter statements", () => {
     expect(
       testTransform(
         "const x = items.filter(x=>!!x.valid);",
-        arrayFilterTransformer
+        arrayFilterTransformer({})
       )
     ).toMatchInlineSnapshot(
       `"const x = asl.jsonPathFilter(items, (x) => !!x.valid);"`
+    );
+  });
+
+  it("property access expression gets coerced to binary expression", () => {
+    expect(
+      testTransform(
+        "const x = items.filter(x=>x.valid);",
+        arrayFilterTransformer({})
+      )
+    ).toMatchInlineSnapshot(
+      `"const x = asl.jsonPathFilter(items, (x) => x.valid);"`
     );
   });
 });

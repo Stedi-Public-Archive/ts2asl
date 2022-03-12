@@ -15,7 +15,7 @@ describe("when converting variables", () => {
 
       export const main = asl.deploy.asStateMachine(async (input: IInput, context: StateMachineContext<IInput>) =>{
           asl.typescriptIf({
-              name: \\"6: If (typeof input.name !== ...\\",
+              name: \\"If (typeof input.name !== ...\\",
               condition: () => typeof input.name !== \\"string\\",
               then: async () => {
                   input.name = \\"fred\\";
@@ -23,7 +23,7 @@ describe("when converting variables", () => {
               comment: \\"if (typeof input.name !== \\\\\\"string\\\\\\") {\\\\n    input.name = \\\\\\"fred\\\\\\";\\\\n  }\\"
           })
           const x = asl.pass({
-              name: \\"11: Assign x\\",
+              name: \\"Assign x\\",
               parameters: () => ({
                   name: input.name,
                   executionId: context.execution.id
@@ -31,7 +31,7 @@ describe("when converting variables", () => {
               comment: \\"x = {\\\\n    name: input.name,\\\\n    executionId: context.execution.id\\\\n  }\\"
           });
           const y = asl.pass({
-              name: \\"16: Assign y\\",
+              name: \\"Assign y\\",
               parameters: () => ({
                   x,
                   somethingLiteral: [\\"one\\", 2, \\"three\\"],
@@ -92,7 +92,7 @@ describe("when converting variables", () => {
             "source": "if (typeof input.name !== \\"string\\") {
           input.name = \\"fred\\";
         }",
-            "stateName": "6: If (typeof input.name !== ...",
+            "stateName": "If (typeof input.name !== ...",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -108,7 +108,7 @@ describe("when converting variables", () => {
                     "identifier": "input.name",
                     "type": "string",
                   },
-                  "stateName": "7: Assign input.name",
+                  "stateName": "Assign input.name",
                 },
               ],
             },
@@ -136,14 +136,14 @@ describe("when converting variables", () => {
           name: input.name,
           executionId: context.execution.id
         }",
-              "stateName": "11: Assign x",
+              "stateName": "Assign x",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "x",
               "type": "object",
             },
-            "stateName": "9: Assign x",
+            "stateName": "Assign x",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -243,14 +243,14 @@ describe("when converting variables", () => {
                 },
               },
               "source": undefined,
-              "stateName": "16: Assign y",
+              "stateName": "Assign y",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "y",
               "type": "object",
             },
-            "stateName": "14: Assign y",
+            "stateName": "Assign y",
           },
           Object {
             "_syntaxKind": "return",
@@ -259,7 +259,7 @@ describe("when converting variables", () => {
               "identifier": "y",
               "type": "object",
             },
-            "stateName": "23: Return y",
+            "stateName": "Return y",
           },
         ],
       }
@@ -270,7 +270,24 @@ describe("when converting variables", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "14: Assign y": Object {
+          "Assign input.name": Object {
+            "Comment": undefined,
+            "Next": "Assign x",
+            "Result": "fred",
+            "ResultPath": "$.vars.name",
+            "Type": "Pass",
+          },
+          "Assign x": Object {
+            "Comment": "source: x = { name: input.name, executionId: context.e ...",
+            "Next": "Assign y",
+            "Parameters": Object {
+              "executionId.$": "$$.Execution.Id",
+              "name.$": "$.vars.name",
+            },
+            "ResultPath": "$.vars.x",
+            "Type": "Pass",
+          },
+          "Assign y": Object {
             "Comment": undefined,
             "Next": "Pass",
             "Parameters": Object {
@@ -288,10 +305,10 @@ describe("when converting variables", () => {
             "ResultPath": "$.vars.y",
             "Type": "Pass",
           },
-          "6: If (typeof input.name !== ...": Object {
+          "If (typeof input.name !== ...": Object {
             "Choices": Array [
               Object {
-                "Next": "7: Assign input.name",
+                "Next": "Assign input.name",
                 "Not": Object {
                   "And": Array [
                     Object {
@@ -307,28 +324,11 @@ describe("when converting variables", () => {
               },
             ],
             "Comment": "source: if (typeof input.name !== \\"string\\") { input.na ...",
-            "Default": "9: Assign x",
+            "Default": "Assign x",
             "Type": "Choice",
           },
-          "7: Assign input.name": Object {
-            "Comment": undefined,
-            "Next": "9: Assign x",
-            "Result": "fred",
-            "ResultPath": "$.vars.name",
-            "Type": "Pass",
-          },
-          "9: Assign x": Object {
-            "Comment": "source: x = { name: input.name, executionId: context.e ...",
-            "Next": "14: Assign y",
-            "Parameters": Object {
-              "executionId.$": "$$.Execution.Id",
-              "name.$": "$.vars.name",
-            },
-            "ResultPath": "$.vars.x",
-            "Type": "Pass",
-          },
           "Initialize": Object {
-            "Next": "6: If (typeof input.name !== ...",
+            "Next": "If (typeof input.name !== ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

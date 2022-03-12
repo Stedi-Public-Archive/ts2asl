@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "4: Assign thresholds"
+      "Next": "Assign thresholds"
     },
-    "4: Assign thresholds": {
+    "Assign thresholds": {
       "Type": "Pass",
       "ResultPath": "$.vars.thresholds",
       "Result": [
@@ -23,16 +23,16 @@
         }
       ],
       "Comment": "source: thresholds = [ { \"metric\": \"mappings.requests\" ...",
-      "Next": "15: Assign lastEvaluatedKey"
+      "Next": "Assign lastEvaluatedKey"
     },
-    "15: Assign lastEvaluatedKey": {
+    "Assign lastEvaluatedKey": {
       "Type": "Pass",
       "ResultPath": "$.vars.lastEvaluatedKey",
       "Result": null,
       "Comment": "source: lastEvaluatedKey: any | undefined = undefined",
-      "Next": "16: Do While (lastEvaluatedKey)"
+      "Next": "Do While (lastEvaluatedKey)"
     },
-    "16: Do While (lastEvaluatedKey)": {
+    "Do While (lastEvaluatedKey)": {
       "Type": "Parallel",
       "Parameters": {
         "vars": {
@@ -53,33 +53,33 @@
                 "Limit": 1,
                 "ExclusiveStartKey.$": "$.vars.lastEvaluatedKey"
               },
-              "Next": "18: For item Of scan.Items"
+              "Next": "For item Of scan.Items"
             },
-            "18: For item Of scan.Items": {
+            "For item Of scan.Items": {
               "Type": "Map",
               "ResultPath": "$.lastResult",
               "Iterator": {
-                "StartAt": "20: For threshold Of thresholds",
+                "StartAt": "For threshold Of thresholds",
                 "States": {
-                  "20: For threshold Of thresholds": {
+                  "For threshold Of thresholds": {
                     "Type": "Map",
                     "ResultPath": "$.lastResult",
                     "Iterator": {
-                      "StartAt": "21: Assign numericLastSentOnValue",
+                      "StartAt": "Assign numericLastSentOnValue",
                       "States": {
-                        "21: Assign numericLastSentOnValue": {
+                        "Assign numericLastSentOnValue": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericLastSentOnValue",
                           "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
-                          "Next": "22: Assign numericTotal"
+                          "Next": "Assign numericTotal"
                         },
-                        "22: Assign numericTotal": {
+                        "Assign numericTotal": {
                           "Type": "Pass",
                           "ResultPath": "$.vars.numericTotal",
                           "InputPath": "States.StringToJson($.vars.item.total.N)",
-                          "Next": "23: If ((item.sk.S === thresh ..."
+                          "Next": "If ((item.sk.S === thresh ..."
                         },
-                        "23: If ((item.sk.S === thresh ...": {
+                        "If ((item.sk.S === thresh ...": {
                           "Type": "Choice",
                           "Choices": [
                             {
@@ -215,9 +215,9 @@
                   "thresholds.$": "$.vars.thresholds"
                 }
               },
-              "Next": "65: Assign lastEvaluatedKey"
+              "Next": "Assign lastEvaluatedKey_1"
             },
-            "65: Assign lastEvaluatedKey": {
+            "Assign lastEvaluatedKey_1": {
               "Type": "Pass",
               "ResultPath": "$.vars.lastEvaluatedKey",
               "InputPath": "$.vars.scan.LastEvaluatedKey",

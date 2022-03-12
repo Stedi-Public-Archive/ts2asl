@@ -7,11 +7,11 @@ describe("when converting array map statements", () => {
     expect(
       testTransform(
         'const x = items.map(x => return "something";);',
-        arrayMapTransformer
+        arrayMapTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "const x = asl.map({
-          name: \\"2: For x Of items.map\\",
+          name: \\"For x Of items.map\\",
           items: () => items,
           iterator: x => { return \\"something\\"; },
           comment: \\"items.map(x => return \\\\\\"something\\\\\\";)\\"
@@ -23,11 +23,11 @@ describe("when converting array map statements", () => {
     expect(
       testTransform(
         `const x = items.map(x => { console.log(x); return asl.states.format("something {}", x); });`,
-        arrayMapTransformer
+        arrayMapTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "const x = asl.map({
-          name: \\"2: For x Of items.map\\",
+          name: \\"For x Of items.map\\",
           items: () => items,
           iterator: x => { console.log(x); return asl.states.format(\\"something {}\\", x); },
           comment: \\"items.map(x => { console.log(x); return asl.states.format(\\\\\\"something {}\\\\\\", x); })\\"
@@ -38,14 +38,29 @@ describe("when converting array map statements", () => {
     expect(
       testTransform(
         `const x = items.map(x => ({x: x, num: 32}));`,
-        arrayMapTransformer
+        arrayMapTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "const x = asl.map({
-          name: \\"2: For x Of items.map\\",
+          name: \\"For x Of items.map\\",
           items: () => items,
           iterator: x => { return ({ x: x, num: 32 }); },
           comment: \\"items.map(x => ({x: x, num: 32}))\\"
+      });"
+    `);
+  });
+  it("property access expression gets transformed  ", () => {
+    expect(
+      testTransform(
+        `const x = items.map(x => x.attrib);`,
+        arrayMapTransformer({})
+      )
+    ).toMatchInlineSnapshot(`
+      "const x = asl.map({
+          name: \\"For x Of items.map\\",
+          items: () => items,
+          iterator: x => { let _var = x.attrib; return _var; },
+          comment: \\"items.map(x => x.attrib)\\"
       });"
     `);
   });

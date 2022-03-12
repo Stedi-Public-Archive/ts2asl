@@ -13,40 +13,40 @@ describe("when converting closures", () => {
 
       export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
           const numbers = asl.pass({
-              name: \\"5: Assign numbers\\",
+              name: \\"Assign numbers\\",
               parameters: () => [0, 1, 2, 3],
               comment: \\"numbers = [0, 1, 2, 3]\\"
           });
           const letters = asl.pass({
-              name: \\"6: Assign letters\\",
+              name: \\"Assign letters\\",
               parameters: () => [\\"a\\", \\"b\\", \\"c\\", \\"d\\"],
               comment: \\"letters = [\\\\\\"a\\\\\\", \\\\\\"b\\\\\\", \\\\\\"c\\\\\\", \\\\\\"d\\\\\\"]\\"
           });
           const global = asl.pass({
-              name: \\"7: Assign global\\",
+              name: \\"Assign global\\",
               parameters: () => \\"prefix\\",
               comment: \\"global = \\\\\\"prefix\\\\\\"\\"
           });
           const outer = asl.pass({
-              name: \\"8: Assign outer\\",
+              name: \\"Assign outer\\",
               parameters: () => ({ middle: { inner: 3 } }),
               comment: \\"outer = { middle: { inner: 3 } }\\"
           });
           asl.map({
-              name: \\"8: For number Of numbers\\",
+              name: \\"For number Of numbers\\",
               items: () => numbers,
               iterator: number => {
                   asl.map({
-                      name: \\"9: For letter Of letters\\",
+                      name: \\"For letter Of letters\\",
                       items: () => letters,
                       iterator: letter => {
                           const combined = asl.pass({
-                              name: \\"11: Assign combined\\",
+                              name: \\"Assign combined\\",
                               parameters: () => ({ number, letter, global, inner: outer.middle.inner }),
                               comment: \\"combined = { number, letter, global, inner: outer.middle.inner }\\"
                           });
                           asl.typescriptInvoke({
-                              name: \\"11: doSomething(combined)\\",
+                              name: \\"doSomething(combined)\\",
                               resource: doSomething,
                               parameters: () => combined,
                               comment: \\"doSomething(combined)\\"
@@ -105,14 +105,14 @@ describe("when converting closures", () => {
                 ],
               },
               "source": "numbers = [0, 1, 2, 3]",
-              "stateName": "5: Assign numbers",
+              "stateName": "Assign numbers",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "numbers",
               "type": "object",
             },
-            "stateName": "4: Assign numbers",
+            "stateName": "Assign numbers",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -144,14 +144,14 @@ describe("when converting closures", () => {
                 ],
               },
               "source": "letters = [\\"a\\", \\"b\\", \\"c\\", \\"d\\"]",
-              "stateName": "6: Assign letters",
+              "stateName": "Assign letters",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "letters",
               "type": "object",
             },
-            "stateName": "5: Assign letters",
+            "stateName": "Assign letters",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -163,14 +163,14 @@ describe("when converting closures", () => {
                 "value": "prefix",
               },
               "source": "global = \\"prefix\\"",
-              "stateName": "7: Assign global",
+              "stateName": "Assign global",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "global",
               "type": "unknown",
             },
-            "stateName": "6: Assign global",
+            "stateName": "Assign global",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -192,18 +192,17 @@ describe("when converting closures", () => {
                 },
               },
               "source": "outer = { middle: { inner: 3 } }",
-              "stateName": "8: Assign outer",
+              "stateName": "Assign outer",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "outer",
               "type": "object",
             },
-            "stateName": "7: Assign outer",
+            "stateName": "Assign outer",
           },
           Object {
             "_syntaxKind": "asl-map-state",
-            "catch": Array [],
             "items": Object {
               "_syntaxKind": "identifier",
               "identifier": "numbers",
@@ -218,7 +217,6 @@ describe("when converting closures", () => {
               "statements": Array [
                 Object {
                   "_syntaxKind": "asl-map-state",
-                  "catch": Array [],
                   "items": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "letters",
@@ -261,37 +259,45 @@ describe("when converting closures", () => {
                             },
                           },
                           "source": "combined = { number, letter, global, inner: outer.middle.inner }",
-                          "stateName": "11: Assign combined",
+                          "stateName": "Assign combined",
                         },
                         "name": Object {
                           "_syntaxKind": "identifier",
                           "identifier": "combined",
                           "type": "object",
                         },
-                        "stateName": "10: Assign combined",
+                        "stateName": "Assign combined",
                       },
                       Object {
                         "_syntaxKind": "asl-task-state",
-                        "catch": Array [],
                         "parameters": Object {
                           "_syntaxKind": "identifier",
                           "identifier": "combined",
                           "type": "object",
                         },
                         "resource": "typescript:doSomething",
-                        "retry": Array [],
+                        "retry": Array [
+                          Object {
+                            "BackoffRate": 2,
+                            "ErrorEquals": Array [
+                              "Lambda.ServiceException",
+                              "Lambda.AWSLambdaException",
+                              "Lambda.SdkClientException",
+                            ],
+                            "IntervalSeconds": 2,
+                            "MaxAttempts": 6,
+                          },
+                        ],
                         "source": "doSomething(combined)",
-                        "stateName": "11: doSomething(combined)",
+                        "stateName": "doSomething(combined)",
                       },
                     ],
                   },
-                  "retry": Array [],
-                  "stateName": "9: For letter Of letters",
+                  "stateName": "For letter Of letters",
                 },
               ],
             },
-            "retry": Array [],
-            "stateName": "8: For number Of numbers",
+            "stateName": "For number Of numbers",
           },
         ],
       }
@@ -302,21 +308,16 @@ describe("when converting closures", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "4: Assign numbers": Object {
-            "Comment": "source: numbers = [0, 1, 2, 3]",
-            "Next": "5: Assign letters",
-            "Result": Array [
-              0,
-              1,
-              2,
-              3,
-            ],
-            "ResultPath": "$.vars.numbers",
+          "Assign global": Object {
+            "Comment": "source: global = \\"prefix\\"",
+            "Next": "Assign outer",
+            "Result": "prefix",
+            "ResultPath": "$.vars.global",
             "Type": "Pass",
           },
-          "5: Assign letters": Object {
+          "Assign letters": Object {
             "Comment": "source: letters = [\\"a\\", \\"b\\", \\"c\\", \\"d\\"]",
-            "Next": "6: Assign global",
+            "Next": "Assign global",
             "Result": Array [
               "a",
               "b",
@@ -326,16 +327,21 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.letters",
             "Type": "Pass",
           },
-          "6: Assign global": Object {
-            "Comment": "source: global = \\"prefix\\"",
-            "Next": "7: Assign outer",
-            "Result": "prefix",
-            "ResultPath": "$.vars.global",
+          "Assign numbers": Object {
+            "Comment": "source: numbers = [0, 1, 2, 3]",
+            "Next": "Assign letters",
+            "Result": Array [
+              0,
+              1,
+              2,
+              3,
+            ],
+            "ResultPath": "$.vars.numbers",
             "Type": "Pass",
           },
-          "7: Assign outer": Object {
+          "Assign outer": Object {
             "Comment": "source: outer = { middle: { inner: 3 } }",
-            "Next": "8: For number Of numbers",
+            "Next": "For number Of numbers",
             "Result": Object {
               "middle": Object {
                 "inner": 3,
@@ -344,23 +350,23 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.outer",
             "Type": "Pass",
           },
-          "8: For number Of numbers": Object {
+          "For number Of numbers": Object {
             "Comment": undefined,
             "End": true,
             "ItemsPath": "$.vars.numbers",
             "Iterator": Object {
-              "StartAt": "9: For letter Of letters",
+              "StartAt": "For letter Of letters",
               "States": Object {
-                "9: For letter Of letters": Object {
+                "For letter Of letters": Object {
                   "Comment": undefined,
                   "End": true,
                   "ItemsPath": "$.vars.letters",
                   "Iterator": Object {
-                    "StartAt": "10: Assign combined",
+                    "StartAt": "Assign combined",
                     "States": Object {
-                      "10: Assign combined": Object {
+                      "Assign combined": Object {
                         "Comment": "source: combined = { number, letter, global, inner: ou ...",
-                        "Next": "11: doSomething(combined)",
+                        "Next": "doSomething(combined)",
                         "Parameters": Object {
                           "global.$": "$.vars.global",
                           "inner.$": "$.vars.outer.middle.inner",
@@ -370,14 +376,25 @@ describe("when converting closures", () => {
                         "ResultPath": "$.vars.combined",
                         "Type": "Pass",
                       },
-                      "11: doSomething(combined)": Object {
-                        "Catch": Array [],
+                      "doSomething(combined)": Object {
+                        "Catch": undefined,
                         "Comment": "source: doSomething(combined)",
                         "End": true,
                         "HeartbeatSeconds": undefined,
                         "InputPath": "$.vars.combined",
                         "Resource": "typescript:doSomething",
-                        "Retry": Array [],
+                        "Retry": Array [
+                          Object {
+                            "BackoffRate": 2,
+                            "ErrorEquals": Array [
+                              "Lambda.ServiceException",
+                              "Lambda.AWSLambdaException",
+                              "Lambda.SdkClientException",
+                            ],
+                            "IntervalSeconds": 2,
+                            "MaxAttempts": 6,
+                          },
+                        ],
                         "TimeoutSeconds": undefined,
                         "Type": "Task",
                       },
@@ -410,7 +427,7 @@ describe("when converting closures", () => {
             "Type": "Map",
           },
           "Initialize": Object {
-            "Next": "4: Assign numbers",
+            "Next": "Assign numbers",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

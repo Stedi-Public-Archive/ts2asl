@@ -7,27 +7,43 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "7: Assign result"
+      "Next": "Assign result"
     },
-    "7: Assign result": {
+    "Assign result": {
       "Branches": [
         {
-          "StartAt": "8: performIdentifyCheck()",
+          "StartAt": "performIdentifyCheck()",
           "States": {
-            "8: performIdentifyCheck()": {
+            "performIdentifyCheck()": {
               "Type": "Task",
+              "ResultPath": "$.vars._var",
               "Resource": "typescript:performIdentifyCheck",
-              "Catch": [],
-              "Retry": [],
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
               "Comment": "source: performIdentifyCheck()",
-              "End": true
+              "Next": "Pass"
+            },
+            "Pass": {
+              "End": true,
+              "Type": "Pass",
+              "InputPath": "$.vars._var"
             }
           }
         },
         {
-          "StartAt": "Pass",
+          "StartAt": "Pass_1",
           "States": {
-            "Pass": {
+            "Pass_1": {
               "End": true,
               "Type": "Pass",
               "Result": {
@@ -39,8 +55,6 @@
       ],
       "ResultPath": "$.vars.result",
       "Type": "Parallel",
-      "Catch": [],
-      "Retry": [],
       "Next": "PutEvents"
     },
     "PutEvents": {
@@ -56,16 +70,16 @@
           }
         ]
       },
-      "Next": "24: Assign checksPassed"
+      "Next": "Assign checksPassed"
     },
-    "24: Assign checksPassed": {
+    "Assign checksPassed": {
       "Type": "Pass",
       "ResultPath": "$.vars.checksPassed",
       "Result": true,
       "Comment": "source: checksPassed = true",
-      "Next": "26: If (checksPassed)"
+      "Next": "If (checksPassed)"
     },
-    "26: If (checksPassed)": {
+    "If (checksPassed)": {
       "Type": "Choice",
       "Choices": [
         {

@@ -19,14 +19,24 @@ describe("when converting typescript invoke to iasl", () => {
         "statements": Array [
           Object {
             "_syntaxKind": "asl-task-state",
-            "catch": Array [],
             "parameters": Object {
               "_syntaxKind": "identifier",
               "identifier": "arg.xxx",
               "type": "unknown",
             },
             "resource": "typescript:SayHello",
-            "retry": Array [],
+            "retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
             "source": "SayHello(arg.xxx)",
             "stateName": "Typescript Invoke SayHello",
           },

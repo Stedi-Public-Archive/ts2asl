@@ -21,35 +21,35 @@ describe("when converting closures", () => {
       export const main = asl.deploy.asStateMachine(
         async (input: EventInput, _context: asl.StateMachineContext<EventInput>) =>{
           const billJob = asl.typescriptInvoke({
-              name: \\"13: createBillJob(input)\\",
+              name: \\"createBillJob(input)\\",
               resource: createBillJob,
               parameters: () => input,
               comment: \\"createBillJob(input)\\"
           });
           asl.wait({ seconds: 120 });
           let jobResult = asl.typescriptInvoke({
-              name: \\"16: createNonEmptyBills(billJob)\\",
+              name: \\"createNonEmptyBills(billJob)\\",
               resource: createNonEmptyBills,
               parameters: () => billJob,
               comment: \\"createNonEmptyBills(billJob)\\"
           });
           const billPromises = asl.map({
-              name: \\"18: For bill Of jobResult.bil ...\\",
+              name: \\"For bill Of jobResult.bil ...\\",
               items: () => jobResult.bills,
               iterator: bill => {
                   const approveNonEmptyBillRequest = asl.pass({
-                      name: \\"19: Assign approveNonEmptyBil ...\\",
+                      name: \\"Assign approveNonEmptyBil ...\\",
                       parameters: () => ({ lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }),
                       comment: \\"approveNonEmptyBillRequest = { lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }\\"
                   });
                   const approvalResult = asl.typescriptInvoke({
-                      name: \\"20: approveNonEmptyBill(appro ...\\",
+                      name: \\"approveNonEmptyBill(appro ...\\",
                       resource: approveNonEmptyBill,
                       parameters: () => approveNonEmptyBillRequest,
                       comment: \\"approveNonEmptyBill(approveNonEmptyBillRequest)\\"
                   });
                   asl.typescriptIf({
-                      name: \\"20: If (approvalResult.valid)\\",
+                      name: \\"If (approvalResult.valid)\\",
                       condition: () => approvalResult.valid,
                       then: async () => {
                           return {
@@ -82,39 +82,39 @@ describe("when converting closures", () => {
               }
           });
           const bills = asl.pass({
-              name: \\"49: Assign bills\\",
+              name: \\"Assign bills\\",
               parameters: () => billPromises
           });
           const validBills = asl.jsonPathFilter(bills, (x) => !!x.valid);
           const invoices = asl.map({
-              name: \\"52: For x Of validBills.map\\",
+              name: \\"For x Of validBills.map\\",
               items: () => validBills,
-              iterator: x => { asl.typescriptInvoke({
-                  name: \\"52: createInvoice(x)\\",
+              iterator: x => { let _var = asl.typescriptInvoke({
+                  name: \\"createInvoice(x)\\",
                   resource: createInvoice,
                   parameters: () => x,
                   comment: \\"createInvoice(x)\\"
-              }) },
+              }); return _var; },
               comment: \\"validBills.map(async x => createInvoice(x))\\"
           });
           const validatedInvoices = asl.map({
-              name: \\"53: For x Of invoices.map\\",
+              name: \\"For x Of invoices.map\\",
               items: () => invoices,
-              iterator: x => { asl.typescriptInvoke({
-                  name: \\"53: validateInvoice(x)\\",
+              iterator: x => { let _var = asl.typescriptInvoke({
+                  name: \\"validateInvoice(x)\\",
                   resource: validateInvoice,
                   parameters: () => x,
                   comment: \\"validateInvoice(x)\\"
-              }) },
+              }); return _var; },
               comment: \\"invoices.map(async x => validateInvoice(x))\\"
           });
           const invalidInvoices = asl.jsonPathFilter(validatedInvoices, (x) => !x.valid);
           asl.typescriptIf({
-              name: \\"55: If (invalidInvoices.lengt ...\\",
+              name: \\"If (invalidInvoices.lengt ...\\",
               condition: () => asl.jsonPathLength(invalidInvoices) > 0,
               then: async () => {
                   asl.typescriptInvoke({
-                      name: \\"57: createGithubIssue({ bills ...\\",
+                      name: \\"createGithubIssue({ bills ...\\",
                       resource: createGithubIssue,
                       parameters: () => ({ bills: { invalid: invalidInvoices } })
                   });
@@ -122,7 +122,7 @@ describe("when converting closures", () => {
           })
           const validInvoices = asl.jsonPathFilter(validatedInvoices, (x) => x.valid === true);
           asl.typescriptIf({
-              name: \\"60: If (!input.shouldFinalize)\\",
+              name: \\"If (!input.shouldFinalize)\\",
               condition: () => !input.shouldFinalize,
               then: async () => {
                   return;
@@ -130,15 +130,15 @@ describe("when converting closures", () => {
               comment: \\"if (!input.shouldFinalize) {\\\\n      return;\\\\n    }\\"
           })
           asl.map({
-              name: \\"64: For invoice Of validInvoices\\",
+              name: \\"For invoice Of validInvoices\\",
               items: () => validInvoices,
               iterator: invoice => {
                   asl.typescriptIf({
-                      name: \\"66: If (invoice.billable)\\",
+                      name: \\"If (invoice.billable)\\",
                       condition: () => invoice.billable,
                       then: async () => {
                           asl.typescriptInvoke({
-                              name: \\"68: finallizeInvoice(invoice ...\\",
+                              name: \\"finallizeInvoice(invoice ...\\",
                               resource: finallizeInvoice,
                               parameters: () => invoice
                           });
@@ -261,23 +261,34 @@ describe("when converting closures", () => {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-task-state",
-              "catch": Array [],
+              "catch": undefined,
               "parameters": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "input",
                 "type": "object",
               },
               "resource": "typescript:createBillJob",
-              "retry": Array [],
+              "retry": Array [
+                Object {
+                  "BackoffRate": 2,
+                  "ErrorEquals": Array [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException",
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                },
+              ],
               "source": "createBillJob(input)",
-              "stateName": "13: createBillJob(input)",
+              "stateName": "createBillJob(input)",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "billJob",
               "type": "object",
             },
-            "stateName": "12: Assign billJob",
+            "stateName": "Assign billJob",
           },
           Object {
             "_syntaxKind": "asl-wait-state",
@@ -291,29 +302,40 @@ describe("when converting closures", () => {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-task-state",
-              "catch": Array [],
+              "catch": undefined,
               "parameters": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "billJob",
                 "type": "object",
               },
               "resource": "typescript:createNonEmptyBills",
-              "retry": Array [],
+              "retry": Array [
+                Object {
+                  "BackoffRate": 2,
+                  "ErrorEquals": Array [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException",
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                },
+              ],
               "source": "createNonEmptyBills(billJob)",
-              "stateName": "16: createNonEmptyBills(billJob)",
+              "stateName": "createNonEmptyBills(billJob)",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "jobResult",
               "type": "object",
             },
-            "stateName": "14: Assign jobResult",
+            "stateName": "Assign jobResult",
           },
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-map-state",
-              "catch": Array [],
+              "catch": undefined,
               "items": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "jobResult.bills",
@@ -346,36 +368,47 @@ describe("when converting closures", () => {
                         },
                       },
                       "source": "approveNonEmptyBillRequest = { lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }",
-                      "stateName": "19: Assign approveNonEmptyBil ...",
+                      "stateName": "Assign approveNonEmptyBil ...",
                     },
                     "name": Object {
                       "_syntaxKind": "identifier",
                       "identifier": "approveNonEmptyBillRequest",
                       "type": "object",
                     },
-                    "stateName": "18: Assign approveNonEmptyBil ...",
+                    "stateName": "Assign approveNonEmptyBil ...",
                   },
                   Object {
                     "_syntaxKind": "variable-assignment",
                     "expression": Object {
                       "_syntaxKind": "asl-task-state",
-                      "catch": Array [],
+                      "catch": undefined,
                       "parameters": Object {
                         "_syntaxKind": "identifier",
                         "identifier": "approveNonEmptyBillRequest",
                         "type": "object",
                       },
                       "resource": "typescript:approveNonEmptyBill",
-                      "retry": Array [],
+                      "retry": Array [
+                        Object {
+                          "BackoffRate": 2,
+                          "ErrorEquals": Array [
+                            "Lambda.ServiceException",
+                            "Lambda.AWSLambdaException",
+                            "Lambda.SdkClientException",
+                          ],
+                          "IntervalSeconds": 2,
+                          "MaxAttempts": 6,
+                        },
+                      ],
                       "source": "approveNonEmptyBill(approveNonEmptyBillRequest)",
-                      "stateName": "20: approveNonEmptyBill(appro ...",
+                      "stateName": "approveNonEmptyBill(appro ...",
                     },
                     "name": Object {
                       "_syntaxKind": "identifier",
                       "identifier": "approvalResult",
                       "type": "object",
                     },
-                    "stateName": "19: Assign approvalResult",
+                    "stateName": "Assign approvalResult",
                   },
                   Object {
                     "_syntaxKind": "if",
@@ -454,7 +487,7 @@ describe("when converting closures", () => {
                             "identifier": "result",
                             "type": "unknown",
                           },
-                          "stateName": "30: Assign result",
+                          "stateName": "Assign result",
                         },
                         Object {
                           "_syntaxKind": "return",
@@ -463,11 +496,11 @@ describe("when converting closures", () => {
                             "identifier": "result",
                             "type": "unknown",
                           },
-                          "stateName": "44: Return result",
+                          "stateName": "Return result",
                         },
                       ],
                     },
-                    "stateName": "20: If (approvalResult.valid)",
+                    "stateName": "If (approvalResult.valid)",
                     "then": Object {
                       "_syntaxKind": "function",
                       "statements": Array [
@@ -508,7 +541,7 @@ describe("when converting closures", () => {
                               },
                             },
                           },
-                          "stateName": "21: Return { valid: ...",
+                          "stateName": "Return { valid: ...",
                         },
                       ],
                     },
@@ -516,16 +549,16 @@ describe("when converting closures", () => {
                 ],
               },
               "maxConcurrency": undefined,
-              "retry": Array [],
+              "retry": undefined,
               "source": undefined,
-              "stateName": "18: For bill Of jobResult.bil ...",
+              "stateName": "For bill Of jobResult.bil ...",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "billPromises",
               "type": "object",
             },
-            "stateName": "16: Assign billPromises",
+            "stateName": "Assign billPromises",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -537,14 +570,14 @@ describe("when converting closures", () => {
                 "type": "object",
               },
               "source": undefined,
-              "stateName": "49: Assign bills",
+              "stateName": "Assign bills",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "bills",
               "type": "object",
             },
-            "stateName": "47: Assign bills",
+            "stateName": "Assign bills",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -578,13 +611,13 @@ describe("when converting closures", () => {
               "identifier": "validBills",
               "type": "object",
             },
-            "stateName": "49: Assign validBills",
+            "stateName": "Assign validBills",
           },
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-map-state",
-              "catch": Array [],
+              "catch": undefined,
               "items": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "validBills",
@@ -598,37 +631,66 @@ describe("when converting closures", () => {
                 },
                 "statements": Array [
                   Object {
-                    "_syntaxKind": "asl-task-state",
-                    "catch": Array [],
-                    "parameters": Object {
-                      "_syntaxKind": "identifier",
-                      "identifier": "x",
-                      "type": "object",
+                    "_syntaxKind": "variable-assignment",
+                    "expression": Object {
+                      "_syntaxKind": "asl-task-state",
+                      "catch": undefined,
+                      "parameters": Object {
+                        "_syntaxKind": "identifier",
+                        "identifier": "x",
+                        "type": "object",
+                      },
+                      "resource": "typescript:createInvoice",
+                      "retry": Array [
+                        Object {
+                          "BackoffRate": 2,
+                          "ErrorEquals": Array [
+                            "Lambda.ServiceException",
+                            "Lambda.AWSLambdaException",
+                            "Lambda.SdkClientException",
+                          ],
+                          "IntervalSeconds": 2,
+                          "MaxAttempts": 6,
+                        },
+                      ],
+                      "source": "createInvoice(x)",
+                      "stateName": "createInvoice(x)",
                     },
-                    "resource": "typescript:createInvoice",
-                    "retry": Array [],
-                    "source": "createInvoice(x)",
-                    "stateName": "52: createInvoice(x)",
+                    "name": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "_var",
+                      "type": "unknown",
+                    },
+                    "stateName": "Assign ???",
+                  },
+                  Object {
+                    "_syntaxKind": "return",
+                    "expression": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "_var",
+                      "type": "unknown",
+                    },
+                    "stateName": "Return ???",
                   },
                 ],
               },
               "maxConcurrency": undefined,
-              "retry": Array [],
+              "retry": undefined,
               "source": "validBills.map(async x => createInvoice(x))",
-              "stateName": "52: For x Of validBills.map",
+              "stateName": "For x Of validBills.map",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "invoices",
               "type": "object",
             },
-            "stateName": "50: Assign invoices",
+            "stateName": "Assign invoices",
           },
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-map-state",
-              "catch": Array [],
+              "catch": undefined,
               "items": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "invoices",
@@ -642,31 +704,60 @@ describe("when converting closures", () => {
                 },
                 "statements": Array [
                   Object {
-                    "_syntaxKind": "asl-task-state",
-                    "catch": Array [],
-                    "parameters": Object {
-                      "_syntaxKind": "identifier",
-                      "identifier": "x",
-                      "type": "object",
+                    "_syntaxKind": "variable-assignment",
+                    "expression": Object {
+                      "_syntaxKind": "asl-task-state",
+                      "catch": undefined,
+                      "parameters": Object {
+                        "_syntaxKind": "identifier",
+                        "identifier": "x",
+                        "type": "object",
+                      },
+                      "resource": "typescript:validateInvoice",
+                      "retry": Array [
+                        Object {
+                          "BackoffRate": 2,
+                          "ErrorEquals": Array [
+                            "Lambda.ServiceException",
+                            "Lambda.AWSLambdaException",
+                            "Lambda.SdkClientException",
+                          ],
+                          "IntervalSeconds": 2,
+                          "MaxAttempts": 6,
+                        },
+                      ],
+                      "source": "validateInvoice(x)",
+                      "stateName": "validateInvoice(x)",
                     },
-                    "resource": "typescript:validateInvoice",
-                    "retry": Array [],
-                    "source": "validateInvoice(x)",
-                    "stateName": "53: validateInvoice(x)",
+                    "name": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "_var",
+                      "type": "unknown",
+                    },
+                    "stateName": "Assign ???",
+                  },
+                  Object {
+                    "_syntaxKind": "return",
+                    "expression": Object {
+                      "_syntaxKind": "identifier",
+                      "identifier": "_var",
+                      "type": "unknown",
+                    },
+                    "stateName": "Return ???",
                   },
                 ],
               },
               "maxConcurrency": undefined,
-              "retry": Array [],
+              "retry": undefined,
               "source": "invoices.map(async x => validateInvoice(x))",
-              "stateName": "53: For x Of invoices.map",
+              "stateName": "For x Of invoices.map",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "validatedInvoices",
               "type": "object",
             },
-            "stateName": "52: Assign validatedInvoices",
+            "stateName": "Assign validatedInvoices",
           },
           Object {
             "_syntaxKind": "variable-assignment",
@@ -700,7 +791,7 @@ describe("when converting closures", () => {
               "identifier": "invalidInvoices",
               "type": "object",
             },
-            "stateName": "53: Assign invalidInvoices",
+            "stateName": "Assign invalidInvoices",
           },
           Object {
             "_syntaxKind": "if",
@@ -719,13 +810,12 @@ describe("when converting closures", () => {
                 "value": 0,
               },
             },
-            "stateName": "55: If (invalidInvoices.lengt ...",
+            "stateName": "If (invalidInvoices.lengt ...",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
                 Object {
                   "_syntaxKind": "asl-task-state",
-                  "catch": Array [],
                   "parameters": Object {
                     "_syntaxKind": "literal-object",
                     "properties": Object {
@@ -742,8 +832,19 @@ describe("when converting closures", () => {
                     },
                   },
                   "resource": "typescript:createGithubIssue",
-                  "retry": Array [],
-                  "stateName": "57: createGithubIssue({ bills ...",
+                  "retry": Array [
+                    Object {
+                      "BackoffRate": 2,
+                      "ErrorEquals": Array [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                    },
+                  ],
+                  "stateName": "createGithubIssue({ bills ...",
                 },
               ],
             },
@@ -781,7 +882,7 @@ describe("when converting closures", () => {
               "identifier": "validInvoices",
               "type": "object",
             },
-            "stateName": "58: Assign validInvoices",
+            "stateName": "Assign validInvoices",
           },
           Object {
             "_syntaxKind": "if",
@@ -801,20 +902,19 @@ describe("when converting closures", () => {
             "source": "if (!input.shouldFinalize) {
             return;
           }",
-            "stateName": "60: If (!input.shouldFinalize)",
+            "stateName": "If (!input.shouldFinalize)",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
                 Object {
                   "_syntaxKind": "return",
-                  "stateName": "62: Return undefined",
+                  "stateName": "Return undefined",
                 },
               ],
             },
           },
           Object {
             "_syntaxKind": "asl-map-state",
-            "catch": Array [],
             "items": Object {
               "_syntaxKind": "identifier",
               "identifier": "validInvoices",
@@ -843,7 +943,6 @@ describe("when converting closures", () => {
                     "statements": Array [
                       Object {
                         "_syntaxKind": "asl-task-state",
-                        "catch": Array [],
                         "parameters": Object {
                           "_syntaxKind": "literal-object",
                           "properties": Object {
@@ -885,33 +984,41 @@ describe("when converting closures", () => {
                           },
                         },
                         "resource": "arn::states:::sns:publish.waitForTaskToken",
-                        "retry": Array [],
                       },
                     ],
                   },
-                  "stateName": "66: If (invoice.billable)",
+                  "stateName": "If (invoice.billable)",
                   "then": Object {
                     "_syntaxKind": "function",
                     "statements": Array [
                       Object {
                         "_syntaxKind": "asl-task-state",
-                        "catch": Array [],
                         "parameters": Object {
                           "_syntaxKind": "identifier",
                           "identifier": "invoice",
                           "type": "object",
                         },
                         "resource": "typescript:finallizeInvoice",
-                        "retry": Array [],
-                        "stateName": "68: finallizeInvoice(invoice ...",
+                        "retry": Array [
+                          Object {
+                            "BackoffRate": 2,
+                            "ErrorEquals": Array [
+                              "Lambda.ServiceException",
+                              "Lambda.AWSLambdaException",
+                              "Lambda.SdkClientException",
+                            ],
+                            "IntervalSeconds": 2,
+                            "MaxAttempts": 6,
+                          },
+                        ],
+                        "stateName": "finallizeInvoice(invoice ...",
                       },
                     ],
                   },
                 },
               ],
             },
-            "retry": Array [],
-            "stateName": "64: For invoice Of validInvoices",
+            "stateName": "For invoice Of validInvoices",
           },
         ],
       }
@@ -922,27 +1029,15 @@ describe("when converting closures", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "13: createBillJob(input)": Object {
-            "Catch": Array [],
-            "Comment": "source: createBillJob(input)",
-            "HeartbeatSeconds": undefined,
-            "InputPath": "$.vars",
-            "Next": "Wait",
-            "Resource": "typescript:createBillJob",
-            "ResultPath": "$.vars.billJob",
-            "Retry": Array [],
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          "16: Assign billPromises": Object {
+          "Assign billPromises": Object {
             "Comment": undefined,
             "ItemsPath": "$.vars.jobResult.bills",
             "Iterator": Object {
-              "StartAt": "18: Assign approveNonEmptyBil ...",
+              "StartAt": "Assign approveNonEmptyBil ...",
               "States": Object {
-                "18: Assign approveNonEmptyBil ...": Object {
+                "Assign approveNonEmptyBil ...": Object {
                   "Comment": "source: approveNonEmptyBillRequest = { lastDateInBilli ...",
-                  "Next": "20: approveNonEmptyBill(appro ...",
+                  "Next": "approveNonEmptyBill(appro ...",
                   "Parameters": Object {
                     "bill.$": "$.vars.bill",
                     "lastDateInBillingPeriod.$": "$.vars.jobResult.lastDateInBillingPeriod",
@@ -950,7 +1045,7 @@ describe("when converting closures", () => {
                   "ResultPath": "$.vars.approveNonEmptyBillRequest",
                   "Type": "Pass",
                 },
-                "20: If (approvalResult.valid)": Object {
+                "If (approvalResult.valid)": Object {
                   "Choices": Array [
                     Object {
                       "IsPresent": true,
@@ -961,18 +1056,6 @@ describe("when converting closures", () => {
                   "Comment": undefined,
                   "Default": "Pass",
                   "Type": "Choice",
-                },
-                "20: approveNonEmptyBill(appro ...": Object {
-                  "Catch": Array [],
-                  "Comment": "source: approveNonEmptyBill(approveNonEmptyBillRequest)",
-                  "HeartbeatSeconds": undefined,
-                  "InputPath": "$.vars.approveNonEmptyBillRequest",
-                  "Next": "20: If (approvalResult.valid)",
-                  "Resource": "typescript:approveNonEmptyBill",
-                  "ResultPath": "$.vars.approvalResult",
-                  "Retry": Array [],
-                  "TimeoutSeconds": undefined,
-                  "Type": "Task",
                 },
                 "Pass": Object {
                   "End": true,
@@ -986,10 +1069,33 @@ describe("when converting closures", () => {
                   },
                   "Type": "Pass",
                 },
+                "approveNonEmptyBill(appro ...": Object {
+                  "Catch": undefined,
+                  "Comment": "source: approveNonEmptyBill(approveNonEmptyBillRequest)",
+                  "HeartbeatSeconds": undefined,
+                  "InputPath": "$.vars.approveNonEmptyBillRequest",
+                  "Next": "If (approvalResult.valid)",
+                  "Resource": "typescript:approveNonEmptyBill",
+                  "ResultPath": "$.vars.approvalResult",
+                  "Retry": Array [
+                    Object {
+                      "BackoffRate": 2,
+                      "ErrorEquals": Array [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                    },
+                  ],
+                  "TimeoutSeconds": undefined,
+                  "Type": "Task",
+                },
               },
             },
             "MaxConcurrency": undefined,
-            "Next": "47: Assign bills",
+            "Next": "Assign bills",
             "Parameters": Object {
               "vars": Object {
                 "bill.$": "$$.Map.Item.Value",
@@ -999,53 +1105,58 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.billPromises",
             "Type": "Map",
           },
-          "16: createNonEmptyBills(billJob)": Object {
-            "Catch": Array [],
-            "Comment": "source: createNonEmptyBills(billJob)",
-            "HeartbeatSeconds": undefined,
-            "InputPath": "$.vars.billJob",
-            "Next": "16: Assign billPromises",
-            "Resource": "typescript:createNonEmptyBills",
-            "ResultPath": "$.vars.jobResult",
-            "Retry": Array [],
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          "47: Assign bills": Object {
+          "Assign bills": Object {
             "Comment": undefined,
             "InputPath": "$.vars.billPromises",
-            "Next": "49: Assign validBills",
+            "Next": "Assign validBills",
             "ResultPath": "$.vars.bills",
             "Type": "Pass",
           },
-          "49: Assign validBills": Object {
+          "Assign invalidInvoices": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.bills[?(!(@.valid))]",
-            "Next": "50: Assign invoices",
-            "ResultPath": "$.vars.validBills",
+            "InputPath": "$.vars.validatedInvoices[?(!(@.valid))]",
+            "Next": "If (invalidInvoices.lengt ...",
+            "ResultPath": "$.vars.invalidInvoices",
             "Type": "Pass",
           },
-          "50: Assign invoices": Object {
+          "Assign invoices": Object {
             "Comment": "source: validBills.map(async x => createInvoice(x))",
             "ItemsPath": "$.vars.validBills",
             "Iterator": Object {
-              "StartAt": "52: createInvoice(x)",
+              "StartAt": "createInvoice(x)",
               "States": Object {
-                "52: createInvoice(x)": Object {
-                  "Catch": Array [],
-                  "Comment": "source: createInvoice(x)",
+                "Pass_2": Object {
                   "End": true,
+                  "InputPath": "$.vars._var",
+                  "Type": "Pass",
+                },
+                "createInvoice(x)": Object {
+                  "Catch": undefined,
+                  "Comment": "source: createInvoice(x)",
                   "HeartbeatSeconds": undefined,
                   "InputPath": "$.vars.x",
+                  "Next": "Pass_2",
                   "Resource": "typescript:createInvoice",
-                  "Retry": Array [],
+                  "ResultPath": "$.vars._var",
+                  "Retry": Array [
+                    Object {
+                      "BackoffRate": 2,
+                      "ErrorEquals": Array [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                    },
+                  ],
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
                 },
               },
             },
             "MaxConcurrency": undefined,
-            "Next": "52: Assign validatedInvoices",
+            "Next": "Assign validatedInvoices",
             "Parameters": Object {
               "vars": Object {
                 "x.$": "$.vars.x",
@@ -1054,27 +1165,58 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.invoices",
             "Type": "Map",
           },
-          "52: Assign validatedInvoices": Object {
+          "Assign validBills": Object {
+            "Comment": undefined,
+            "InputPath": "$.vars.bills[?(!(@.valid))]",
+            "Next": "Assign invoices",
+            "ResultPath": "$.vars.validBills",
+            "Type": "Pass",
+          },
+          "Assign validInvoices": Object {
+            "Comment": undefined,
+            "InputPath": "$.vars.validatedInvoices[?(@.valid == true)]",
+            "Next": "If (!input.shouldFinalize)",
+            "ResultPath": "$.vars.validInvoices",
+            "Type": "Pass",
+          },
+          "Assign validatedInvoices": Object {
             "Comment": "source: invoices.map(async x => validateInvoice(x))",
             "ItemsPath": "$.vars.invoices",
             "Iterator": Object {
-              "StartAt": "53: validateInvoice(x)",
+              "StartAt": "validateInvoice(x)",
               "States": Object {
-                "53: validateInvoice(x)": Object {
-                  "Catch": Array [],
-                  "Comment": "source: validateInvoice(x)",
+                "Pass_3": Object {
                   "End": true,
+                  "InputPath": "$.vars._var",
+                  "Type": "Pass",
+                },
+                "validateInvoice(x)": Object {
+                  "Catch": undefined,
+                  "Comment": "source: validateInvoice(x)",
                   "HeartbeatSeconds": undefined,
                   "InputPath": "$.vars.x",
+                  "Next": "Pass_3",
                   "Resource": "typescript:validateInvoice",
-                  "Retry": Array [],
+                  "ResultPath": "$.vars._var",
+                  "Retry": Array [
+                    Object {
+                      "BackoffRate": 2,
+                      "ErrorEquals": Array [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                    },
+                  ],
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
                 },
               },
             },
             "MaxConcurrency": undefined,
-            "Next": "53: Assign invalidInvoices",
+            "Next": "Assign invalidInvoices",
             "Parameters": Object {
               "vars": Object {
                 "x.$": "$.vars.x",
@@ -1083,86 +1225,47 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.validatedInvoices",
             "Type": "Map",
           },
-          "53: Assign invalidInvoices": Object {
-            "Comment": undefined,
-            "InputPath": "$.vars.validatedInvoices[?(!(@.valid))]",
-            "Next": "55: If (invalidInvoices.lengt ...",
-            "ResultPath": "$.vars.invalidInvoices",
-            "Type": "Pass",
+          "Empty": Object {
+            "Type": "Succeed",
           },
-          "55: If (invalidInvoices.lengt ...": Object {
-            "Choices": Array [
-              Object {
-                "Next": "57: createGithubIssue({ bills ...",
-                "StringGreaterThan": 0,
-                "Variable": "$.vars.invalidInvoices.length()",
-              },
-            ],
-            "Comment": undefined,
-            "Default": "58: Assign validInvoices",
-            "Type": "Choice",
-          },
-          "57: createGithubIssue({ bills ...": Object {
-            "Catch": Array [],
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "58: Assign validInvoices",
-            "Parameters": Object {
-              "bills": Object {
-                "invalid.$": "$.vars.invalidInvoices",
-              },
-            },
-            "Resource": "typescript:createGithubIssue",
-            "Retry": Array [],
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          "58: Assign validInvoices": Object {
-            "Comment": undefined,
-            "InputPath": "$.vars.validatedInvoices[?(@.valid == true)]",
-            "Next": "60: If (!input.shouldFinalize)",
-            "ResultPath": "$.vars.validInvoices",
-            "Type": "Pass",
-          },
-          "60: If (!input.shouldFinalize)": Object {
-            "Choices": Array [
-              Object {
-                "IsPresent": false,
-                "Next": "Empty",
-                "Variable": "$.vars.shouldFinalize",
-              },
-            ],
-            "Comment": "source: if (!input.shouldFinalize) { return; }",
-            "Default": "64: For invoice Of validInvoices",
-            "Type": "Choice",
-          },
-          "64: For invoice Of validInvoices": Object {
+          "For invoice Of validInvoices": Object {
             "Comment": undefined,
             "End": true,
             "ItemsPath": "$.vars.validInvoices",
             "Iterator": Object {
-              "StartAt": "66: If (invoice.billable)",
+              "StartAt": "If (invoice.billable)",
               "States": Object {
-                "66: If (invoice.billable)": Object {
+                "If (invoice.billable)": Object {
                   "Choices": Array [
                     Object {
                       "IsPresent": true,
-                      "Next": "68: finallizeInvoice(invoice ...",
+                      "Next": "finallizeInvoice(invoice ...",
                       "Variable": "$.vars.invoice.billable",
                     },
                   ],
                   "Comment": undefined,
-                  "Default": "68: finallizeInvoice(invoice ...",
+                  "Default": "finallizeInvoice(invoice ...",
                   "Type": "Choice",
                 },
-                "68: finallizeInvoice(invoice ...": Object {
-                  "Catch": Array [],
+                "finallizeInvoice(invoice ...": Object {
+                  "Catch": undefined,
                   "Comment": undefined,
                   "End": true,
                   "HeartbeatSeconds": undefined,
                   "InputPath": "$.vars.invoice",
                   "Resource": "typescript:finallizeInvoice",
-                  "Retry": Array [],
+                  "Retry": Array [
+                    Object {
+                      "BackoffRate": 2,
+                      "ErrorEquals": Array [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                    },
+                  ],
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
                 },
@@ -1177,11 +1280,32 @@ describe("when converting closures", () => {
             "ResultPath": "$.lastResult",
             "Type": "Map",
           },
-          "Empty": Object {
-            "Type": "Succeed",
+          "If (!input.shouldFinalize)": Object {
+            "Choices": Array [
+              Object {
+                "IsPresent": false,
+                "Next": "Empty",
+                "Variable": "$.vars.shouldFinalize",
+              },
+            ],
+            "Comment": "source: if (!input.shouldFinalize) { return; }",
+            "Default": "For invoice Of validInvoices",
+            "Type": "Choice",
+          },
+          "If (invalidInvoices.lengt ...": Object {
+            "Choices": Array [
+              Object {
+                "Next": "createGithubIssue({ bills ...",
+                "StringGreaterThan": 0,
+                "Variable": "$.vars.invalidInvoices.length()",
+              },
+            ],
+            "Comment": undefined,
+            "Default": "Assign validInvoices",
+            "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "13: createBillJob(input)",
+            "Next": "createBillJob(input)",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -1190,9 +1314,81 @@ describe("when converting closures", () => {
           },
           "Wait": Object {
             "Comment": undefined,
-            "Next": "16: createNonEmptyBills(billJob)",
+            "Next": "createNonEmptyBills(billJob)",
             "Seconds": 120,
             "Type": "Wait",
+          },
+          "createBillJob(input)": Object {
+            "Catch": undefined,
+            "Comment": "source: createBillJob(input)",
+            "HeartbeatSeconds": undefined,
+            "InputPath": "$.vars",
+            "Next": "Wait",
+            "Resource": "typescript:createBillJob",
+            "ResultPath": "$.vars.billJob",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+          "createGithubIssue({ bills ...": Object {
+            "Catch": undefined,
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "Assign validInvoices",
+            "Parameters": Object {
+              "bills": Object {
+                "invalid.$": "$.vars.invalidInvoices",
+              },
+            },
+            "Resource": "typescript:createGithubIssue",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+          "createNonEmptyBills(billJob)": Object {
+            "Catch": undefined,
+            "Comment": "source: createNonEmptyBills(billJob)",
+            "HeartbeatSeconds": undefined,
+            "InputPath": "$.vars.billJob",
+            "Next": "Assign billPromises",
+            "Resource": "typescript:createNonEmptyBills",
+            "ResultPath": "$.vars.jobResult",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
         },
       }

@@ -7,40 +7,60 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "13: createBillJob(input)"
+      "Next": "createBillJob(input)"
     },
-    "13: createBillJob(input)": {
+    "createBillJob(input)": {
       "Type": "Task",
       "ResultPath": "$.vars.billJob",
       "Resource": "typescript:createBillJob",
       "InputPath": "$.vars",
-      "Catch": [],
-      "Retry": [],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
       "Comment": "source: createBillJob(input)",
       "Next": "Wait"
     },
     "Wait": {
       "Type": "Wait",
       "Seconds": 120,
-      "Next": "16: createNonEmptyBills(billJob)"
+      "Next": "createNonEmptyBills(billJob)"
     },
-    "16: createNonEmptyBills(billJob)": {
+    "createNonEmptyBills(billJob)": {
       "Type": "Task",
       "ResultPath": "$.vars.jobResult",
       "Resource": "typescript:createNonEmptyBills",
       "InputPath": "$.vars.billJob",
-      "Catch": [],
-      "Retry": [],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
       "Comment": "source: createNonEmptyBills(billJob)",
-      "Next": "16: Assign billPromises"
+      "Next": "Assign billPromises"
     },
-    "16: Assign billPromises": {
+    "Assign billPromises": {
       "Type": "Map",
       "ResultPath": "$.vars.billPromises",
       "Iterator": {
-        "StartAt": "18: Assign approveNonEmptyBil ...",
+        "StartAt": "Assign approveNonEmptyBil ...",
         "States": {
-          "18: Assign approveNonEmptyBil ...": {
+          "Assign approveNonEmptyBil ...": {
             "Type": "Pass",
             "ResultPath": "$.vars.approveNonEmptyBillRequest",
             "Parameters": {
@@ -48,19 +68,29 @@
               "bill.$": "$.vars.bill"
             },
             "Comment": "source: approveNonEmptyBillRequest = { lastDateInBilli ...",
-            "Next": "20: approveNonEmptyBill(appro ..."
+            "Next": "approveNonEmptyBill(appro ..."
           },
-          "20: approveNonEmptyBill(appro ...": {
+          "approveNonEmptyBill(appro ...": {
             "Type": "Task",
             "ResultPath": "$.vars.approvalResult",
             "Resource": "typescript:approveNonEmptyBill",
             "InputPath": "$.vars.approveNonEmptyBillRequest",
-            "Catch": [],
-            "Retry": [],
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
             "Comment": "source: approveNonEmptyBill(approveNonEmptyBillRequest)",
-            "Next": "20: If (approvalResult.valid)"
+            "Next": "If (approvalResult.valid)"
           },
-          "20: If (approvalResult.valid)": {
+          "If (approvalResult.valid)": {
             "Type": "Choice",
             "Choices": [
               {
@@ -92,34 +122,50 @@
           "jobResult.$": "$.vars.jobResult"
         }
       },
-      "Next": "47: Assign bills"
+      "Next": "Assign bills"
     },
-    "47: Assign bills": {
+    "Assign bills": {
       "Type": "Pass",
       "ResultPath": "$.vars.bills",
       "InputPath": "$.vars.billPromises",
-      "Next": "49: Assign validBills"
+      "Next": "Assign validBills"
     },
-    "49: Assign validBills": {
+    "Assign validBills": {
       "Type": "Pass",
       "ResultPath": "$.vars.validBills",
       "InputPath": "$.vars.bills[?(!(@.valid))]",
-      "Next": "50: Assign invoices"
+      "Next": "Assign invoices"
     },
-    "50: Assign invoices": {
+    "Assign invoices": {
       "Type": "Map",
       "ResultPath": "$.vars.invoices",
       "Iterator": {
-        "StartAt": "52: createInvoice(x)",
+        "StartAt": "createInvoice(x)",
         "States": {
-          "52: createInvoice(x)": {
+          "createInvoice(x)": {
             "Type": "Task",
+            "ResultPath": "$.vars._var",
             "Resource": "typescript:createInvoice",
             "InputPath": "$.vars.x",
-            "Catch": [],
-            "Retry": [],
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
             "Comment": "source: createInvoice(x)",
-            "End": true
+            "Next": "Pass_2"
+          },
+          "Pass_2": {
+            "End": true,
+            "Type": "Pass",
+            "InputPath": "$.vars._var"
           }
         }
       },
@@ -130,22 +176,38 @@
           "x.$": "$.vars.x"
         }
       },
-      "Next": "52: Assign validatedInvoices"
+      "Next": "Assign validatedInvoices"
     },
-    "52: Assign validatedInvoices": {
+    "Assign validatedInvoices": {
       "Type": "Map",
       "ResultPath": "$.vars.validatedInvoices",
       "Iterator": {
-        "StartAt": "53: validateInvoice(x)",
+        "StartAt": "validateInvoice(x)",
         "States": {
-          "53: validateInvoice(x)": {
+          "validateInvoice(x)": {
             "Type": "Task",
+            "ResultPath": "$.vars._var",
             "Resource": "typescript:validateInvoice",
             "InputPath": "$.vars.x",
-            "Catch": [],
-            "Retry": [],
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
             "Comment": "source: validateInvoice(x)",
-            "End": true
+            "Next": "Pass_3"
+          },
+          "Pass_3": {
+            "End": true,
+            "Type": "Pass",
+            "InputPath": "$.vars._var"
           }
         }
       },
@@ -156,26 +218,26 @@
           "x.$": "$.vars.x"
         }
       },
-      "Next": "53: Assign invalidInvoices"
+      "Next": "Assign invalidInvoices"
     },
-    "53: Assign invalidInvoices": {
+    "Assign invalidInvoices": {
       "Type": "Pass",
       "ResultPath": "$.vars.invalidInvoices",
       "InputPath": "$.vars.validatedInvoices[?(!(@.valid))]",
-      "Next": "55: If (invalidInvoices.lengt ..."
+      "Next": "If (invalidInvoices.lengt ..."
     },
-    "55: If (invalidInvoices.lengt ...": {
+    "If (invalidInvoices.lengt ...": {
       "Type": "Choice",
       "Choices": [
         {
           "Variable": "$.vars.invalidInvoices.length()",
           "StringGreaterThan": 0,
-          "Next": "57: createGithubIssue({ bills ..."
+          "Next": "createGithubIssue({ bills ..."
         }
       ],
-      "Default": "58: Assign validInvoices"
+      "Default": "Assign validInvoices"
     },
-    "57: createGithubIssue({ bills ...": {
+    "createGithubIssue({ bills ...": {
       "Type": "Task",
       "Resource": "typescript:createGithubIssue",
       "Parameters": {
@@ -183,17 +245,27 @@
           "invalid.$": "$.vars.invalidInvoices"
         }
       },
-      "Catch": [],
-      "Retry": [],
-      "Next": "58: Assign validInvoices"
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Assign validInvoices"
     },
-    "58: Assign validInvoices": {
+    "Assign validInvoices": {
       "Type": "Pass",
       "ResultPath": "$.vars.validInvoices",
       "InputPath": "$.vars.validatedInvoices[?(@.valid == true)]",
-      "Next": "60: If (!input.shouldFinalize)"
+      "Next": "If (!input.shouldFinalize)"
     },
-    "60: If (!input.shouldFinalize)": {
+    "If (!input.shouldFinalize)": {
       "Type": "Choice",
       "Choices": [
         {
@@ -203,34 +275,44 @@
         }
       ],
       "Comment": "source: if (!input.shouldFinalize) { return; }",
-      "Default": "64: For invoice Of validInvoices"
+      "Default": "For invoice Of validInvoices"
     },
     "Empty": {
       "Type": "Succeed"
     },
-    "64: For invoice Of validInvoices": {
+    "For invoice Of validInvoices": {
       "Type": "Map",
       "ResultPath": "$.lastResult",
       "Iterator": {
-        "StartAt": "66: If (invoice.billable)",
+        "StartAt": "If (invoice.billable)",
         "States": {
-          "66: If (invoice.billable)": {
+          "If (invoice.billable)": {
             "Type": "Choice",
             "Choices": [
               {
                 "Variable": "$.vars.invoice.billable",
                 "IsPresent": true,
-                "Next": "68: finallizeInvoice(invoice ..."
+                "Next": "finallizeInvoice(invoice ..."
               }
             ],
-            "Default": "68: finallizeInvoice(invoice ..."
+            "Default": "finallizeInvoice(invoice ..."
           },
-          "68: finallizeInvoice(invoice ...": {
+          "finallizeInvoice(invoice ...": {
             "Type": "Task",
             "Resource": "typescript:finallizeInvoice",
             "InputPath": "$.vars.invoice",
-            "Catch": [],
-            "Retry": [],
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
             "End": true
           }
         }

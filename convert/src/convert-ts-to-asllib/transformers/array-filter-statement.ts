@@ -1,9 +1,10 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { ParserError } from '../../ParserError';
 import { ensureBooleanExpression } from './node-utility';
 const factory = ts.factory;
 
-export const arrayFilterTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const arrayFilterTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 

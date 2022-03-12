@@ -1,8 +1,9 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { TransformUtil } from './transform-utility';
 import factory = ts.factory;
 
-export const switchStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const switchStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function removeBreakStatements(node: ts.Node): ts.Node | undefined {
     if (ts.isBreakStatement(node)) {
       return undefined;
@@ -33,7 +34,7 @@ export const switchStatementTransformer = <T extends ts.Node>(context: ts.Transf
       })
       const choices = TransformUtil.createArrayOfObjects("choices", choices_)
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createNamePropertyAssignment(node, "Switch (%s)", node.expression);
+      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "Switch (%s)", node.expression);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, choices, default_, comment]) {

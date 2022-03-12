@@ -1,7 +1,8 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 const factory = ts.factory;
 
-export const arrayLengthTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const arrayLengthTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 

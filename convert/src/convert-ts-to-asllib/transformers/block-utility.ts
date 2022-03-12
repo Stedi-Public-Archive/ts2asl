@@ -14,5 +14,27 @@ export const convertToBlock = (node: ts.Node): ts.Block => {
   if (ts.isParenthesizedExpression(context) && (ts.isLiteralExpression(context.expression) || ts.isObjectLiteralExpression(context.expression) || ts.isArrayLiteralExpression(context.expression))) return factory.createBlock([factory.createReturnStatement(context)]);
   if (ts.isBlock(context)) return context;
 
-  return factory.createBlock([context as ts.Statement])
+
+  if (ts.isExpressionStatement(context)) {
+    context = context.expression;
+  }
+
+  if (ts.isThrowStatement(context)) {
+    return factory.createBlock([context]);
+  }
+
+  return factory.createBlock([factory.createVariableStatement(
+    undefined,
+    factory.createVariableDeclarationList(
+      [factory.createVariableDeclaration(
+        factory.createIdentifier("_var"),
+        undefined,
+        undefined,
+        context as ts.Expression
+      )],
+      ts.NodeFlags.Let
+    )
+  ),
+  factory.createReturnStatement(factory.createIdentifier("_var"))
+  ])
 };

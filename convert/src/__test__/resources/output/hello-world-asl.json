@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "4: If (typeof input.name !== ..."
+      "Next": "If (typeof input.name !== ..."
     },
-    "4: If (typeof input.name !== ...": {
+    "If (typeof input.name !== ...": {
       "Type": "Choice",
       "Choices": [
         {
@@ -25,24 +25,34 @@
               }
             ]
           },
-          "Next": "5: Assign input.name"
+          "Next": "Assign input.name"
         }
       ],
       "Comment": "source: if (typeof input.name !== \"string\") { input.na ...",
-      "Default": "8: random()"
+      "Default": "random()"
     },
-    "5: Assign input.name": {
+    "Assign input.name": {
       "Type": "Pass",
       "ResultPath": "$.vars.name",
       "Result": "World",
-      "Next": "8: random()"
+      "Next": "random()"
     },
-    "8: random()": {
+    "random()": {
       "Type": "Task",
       "ResultPath": "$.vars.rnd",
       "Resource": "typescript:random",
-      "Catch": [],
-      "Retry": [],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
       "Comment": "source: random()",
       "Next": "Pass"
     },

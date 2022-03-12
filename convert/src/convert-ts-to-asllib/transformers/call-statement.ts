@@ -1,9 +1,10 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { ParserError } from '../../ParserError';
 import { isAslCallExpression, isLiteralOrIdentifier } from './node-utility';
 import { TransformUtil } from './transform-utility';
 
-export const callStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const callStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
@@ -23,7 +24,7 @@ export const callStatementTransformer = <T extends ts.Node>(context: ts.Transfor
       const resource = TransformUtil.createIdentifier("resource", node.expression);
       const parameters = TransformUtil.createWrappedExpression("parameters", node.arguments.length === 1 ? node.arguments[0] : undefined);
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createNamePropertyAssignment(node, "%s", node);
+      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "%s", node);
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, resource, parameters, comment]) {

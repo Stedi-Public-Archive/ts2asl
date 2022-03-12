@@ -6,11 +6,11 @@ interface Result {
 export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
     let result: Result = asl.task({ resource: "check-password", parameters: {} });
     asl.typescriptWhile({
-        name: "8: While (true)",
+        name: "While (true)",
         condition: () => true,
         block: async () => {
             asl.typescriptIf({
-                name: "9: If (result.Authorized)",
+                name: "If (result.Authorized)",
                 condition: () => result.Authorized,
                 then: async () => {
                     break;

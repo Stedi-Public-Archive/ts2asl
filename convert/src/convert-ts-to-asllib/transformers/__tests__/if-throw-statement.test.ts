@@ -6,15 +6,15 @@ describe("when converting if with throw statements", () => {
   it("then both get converted", () => {
     expect(
       testTransform("if (optIn === false) throw new NotOptedInError('oops');", [
-        ifStatementTransformer,
-        throwStatementTransformer
+        ifStatementTransformer({}),
+        throwStatementTransformer({})
       ])
     ).toMatchInlineSnapshot(`
       "asl.typescriptIf({
-          name: \\"2: If (optIn === false)\\",
+          name: \\"If (optIn === false)\\",
           condition: () => optIn === false,
           then: async () => { asl.fail({
-              name: \\"2: Throw NotOptedInError\\",
+              name: \\"Throw NotOptedInError\\",
               error: \\"NotOptedInError\\",
               cause: \\"oops\\",
               comment: \\"throw new NotOptedInError('oops');\\"

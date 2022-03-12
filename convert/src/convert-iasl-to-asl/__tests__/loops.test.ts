@@ -1,6 +1,6 @@
 import { convert } from "..";
 import { testConvertToIntermediaryAst } from "../../convert-asllib-to-iasl/__test__/test-convert";
-import { transformers } from "../../convert-ts-to-asllib/transformers";
+import { createTransformers } from "../../convert-ts-to-asllib/transformers";
 import { testTransform } from "../../convert-ts-to-asllib/__tests__/test-transform";
 
 describe("when transpiling simple statements", () => {
@@ -13,7 +13,7 @@ describe("when transpiling simple statements", () => {
       result = isDone();
     }
     `,
-      transformers
+      createTransformers({ lineNumbersInStateNames: true })
     );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl);
@@ -21,26 +21,30 @@ describe("when transpiling simple statements", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "2: Assign result": Object {
-            "Comment": "source: result = 0",
-            "Next": "3: While (result === 0)",
-            "Result": 0,
-            "ResultPath": "$.vars.result",
-            "Type": "Pass",
-          },
           "3: While (result === 0)": Object {
             "Branches": Array [
               Object {
                 "StartAt": "_WhileCondition",
                 "States": Object {
                   "6: isDone()": Object {
-                    "Catch": Array [],
+                    "Catch": undefined,
                     "Comment": "source: isDone()",
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",
                     "Resource": "typescript:isDone",
                     "ResultPath": "$.vars.result",
-                    "Retry": Array [],
+                    "Retry": Array [
+                      Object {
+                        "BackoffRate": 2,
+                        "ErrorEquals": Array [
+                          "Lambda.ServiceException",
+                          "Lambda.AWSLambdaException",
+                          "Lambda.SdkClientException",
+                        ],
+                        "IntervalSeconds": 2,
+                        "MaxAttempts": 6,
+                      },
+                    ],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
@@ -76,8 +80,15 @@ describe("when transpiling simple statements", () => {
             },
             "Type": "Parallel",
           },
+          "Assign result": Object {
+            "Comment": "source: result = 0",
+            "Next": "3: While (result === 0)",
+            "Result": 0,
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
           "Initialize": Object {
-            "Next": "2: Assign result",
+            "Next": "Assign result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

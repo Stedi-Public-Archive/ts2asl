@@ -1,5 +1,4 @@
-import { transformCode } from "../../convert-ts-to-asllib";
-import { transformers } from "../../convert-ts-to-asllib/transformers";
+import { createTransformers } from "../../convert-ts-to-asllib/transformers";
 import { testTransform } from "../../convert-ts-to-asllib/__tests__/test-transform";
 import { testConvertToIntermediaryAst } from "./test-convert";
 
@@ -16,13 +15,21 @@ describe("when converting choice statement to iasl", () => {
       }
     }
     `;
-    const transformed = testTransform(code, transformers);
-    const result = testConvertToIntermediaryAst(transformed);
+    const transformed = testTransform(
+      code,
+      createTransformers({ lineNumbersInStateNames: true })
+    );
+    const result = testConvertToIntermediaryAst(transformed, "input", {
+      lineNumbersInStateNames: true
+    });
     expect(result).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
         "contextArgumentName": undefined,
-        "inputArgumentName": undefined,
+        "inputArgumentName": Object {
+          "_syntaxKind": "identifier",
+          "identifier": "input",
+        },
         "statements": Array [
           Object {
             "_syntaxKind": "variable-assignment",

@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "4: Assign numbers"
+      "Next": "Assign numbers"
     },
-    "4: Assign numbers": {
+    "Assign numbers": {
       "Type": "Pass",
       "ResultPath": "$.vars.numbers",
       "Result": [
@@ -19,9 +19,9 @@
         3
       ],
       "Comment": "source: numbers = [0, 1, 2, 3]",
-      "Next": "5: Assign letters"
+      "Next": "Assign letters"
     },
-    "5: Assign letters": {
+    "Assign letters": {
       "Type": "Pass",
       "ResultPath": "$.vars.letters",
       "Result": [
@@ -31,16 +31,16 @@
         "d"
       ],
       "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
-      "Next": "6: Assign global"
+      "Next": "Assign global"
     },
-    "6: Assign global": {
+    "Assign global": {
       "Type": "Pass",
       "ResultPath": "$.vars.global",
       "Result": "prefix",
       "Comment": "source: global = \"prefix\"",
-      "Next": "7: Assign outer"
+      "Next": "Assign outer"
     },
-    "7: Assign outer": {
+    "Assign outer": {
       "Type": "Pass",
       "ResultPath": "$.vars.outer",
       "Result": {
@@ -49,21 +49,21 @@
         }
       },
       "Comment": "source: outer = { middle: { inner: 3 } }",
-      "Next": "8: For number Of numbers"
+      "Next": "For number Of numbers"
     },
-    "8: For number Of numbers": {
+    "For number Of numbers": {
       "Type": "Map",
       "ResultPath": "$.lastResult",
       "Iterator": {
-        "StartAt": "9: For letter Of letters",
+        "StartAt": "For letter Of letters",
         "States": {
-          "9: For letter Of letters": {
+          "For letter Of letters": {
             "Type": "Map",
             "ResultPath": "$.lastResult",
             "Iterator": {
-              "StartAt": "10: Assign combined",
+              "StartAt": "Assign combined",
               "States": {
-                "10: Assign combined": {
+                "Assign combined": {
                   "Type": "Pass",
                   "ResultPath": "$.vars.combined",
                   "Parameters": {
@@ -73,14 +73,24 @@
                     "inner.$": "$.vars.outer.middle.inner"
                   },
                   "Comment": "source: combined = { number, letter, global, inner: ou ...",
-                  "Next": "11: doSomething(combined)"
+                  "Next": "doSomething(combined)"
                 },
-                "11: doSomething(combined)": {
+                "doSomething(combined)": {
                   "Type": "Task",
                   "Resource": "typescript:doSomething",
                   "InputPath": "$.vars.combined",
-                  "Catch": [],
-                  "Retry": [],
+                  "Retry": [
+                    {
+                      "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                      "BackoffRate": 2
+                    }
+                  ],
                   "Comment": "source: doSomething(combined)",
                   "End": true
                 }

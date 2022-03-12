@@ -22,7 +22,7 @@ describe("when converting map statement to iasl", () => {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-map-state",
-              "catch": Array [],
+              "catch": undefined,
               "items": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "here",
@@ -46,12 +46,12 @@ describe("when converting map statement to iasl", () => {
                 "statements": Array [
                   Object {
                     "_syntaxKind": "return",
-                    "stateName": "7: Return undefined",
+                    "stateName": "Return undefined",
                   },
                 ],
               },
               "maxConcurrency": undefined,
-              "retry": Array [],
+              "retry": undefined,
               "source": undefined,
               "stateName": undefined,
             },
@@ -60,7 +60,7 @@ describe("when converting map statement to iasl", () => {
               "identifier": "aaaa",
               "type": "unknown",
             },
-            "stateName": "3: Assign aaaa",
+            "stateName": "Assign aaaa",
           },
         ],
       }

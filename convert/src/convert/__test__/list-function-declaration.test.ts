@@ -7,7 +7,7 @@ describe.skip("when converting ts source file", () => {
   const convert = (source: string) => {
     const host = createCompilerHostFromSource(source);
     const converter = new Converter(host);
-    return converter.convert(false);
+    return converter.convert({});
   };
 
   it("wont throw if lambda decl has 0 arguments", () => {

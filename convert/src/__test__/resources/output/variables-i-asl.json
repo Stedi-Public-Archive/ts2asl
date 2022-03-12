@@ -9,7 +9,7 @@
   },
   "statements": [
     {
-      "stateName": "6: If (typeof input.name !== ...",
+      "stateName": "If (typeof input.name !== ...",
       "condition": {
         "operator": "not",
         "rhs": {
@@ -44,7 +44,7 @@
               "type": "string",
               "_syntaxKind": "literal"
             },
-            "stateName": "7: Assign input.name",
+            "stateName": "Assign input.name",
             "_syntaxKind": "variable-assignment"
           }
         ],
@@ -60,7 +60,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "11: Assign x",
+        "stateName": "Assign x",
         "parameters": {
           "properties": {
             "name": {
@@ -79,7 +79,7 @@
         "source": "x = {\n    name: input.name,\n    executionId: context.execution.id\n  }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "9: Assign x",
+      "stateName": "Assign x",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -89,7 +89,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "16: Assign y",
+        "stateName": "Assign y",
         "parameters": {
           "properties": {
             "x": {
@@ -185,7 +185,7 @@
         },
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "14: Assign y",
+      "stateName": "Assign y",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -195,7 +195,7 @@
         "type": "object"
       },
       "_syntaxKind": "return",
-      "stateName": "23: Return y"
+      "stateName": "Return y"
     }
   ],
   "_syntaxKind": "statemachine"

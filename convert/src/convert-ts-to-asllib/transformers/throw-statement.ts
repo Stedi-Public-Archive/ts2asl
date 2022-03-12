@@ -1,10 +1,11 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { ParserError } from '../../ParserError';
 import { TransformUtil } from './transform-utility';
 import factory = ts.factory;
 
 
-export const throwStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const throwStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
@@ -25,7 +26,7 @@ export const throwStatementTransformer = <T extends ts.Node>(context: ts.Transfo
         cause = TransformUtil.createLiteral("cause", causeLiteral.text);
       }
 
-      const name = TransformUtil.createNamePropertyAssignment(node, `Throw ${errorName}`);
+      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, `Throw ${errorName}`);
       for (const assignment of [name, error, cause, comment]) {
         if (assignment) {
           assignments.push(assignment);

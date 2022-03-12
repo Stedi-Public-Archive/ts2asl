@@ -15,7 +15,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "6: Assign thresholds",
+        "stateName": "Assign thresholds",
         "parameters": {
           "elements": [
             {
@@ -54,7 +54,7 @@
         "source": "thresholds = [\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 100\n    },\n    {\n      \"metric\": \"mappings.requests\",\n      \"ceiling\": 1000\n    }\n  ]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "4: Assign thresholds",
+      "stateName": "Assign thresholds",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -64,7 +64,7 @@
         "type": "unknown"
       },
       "expression": {
-        "stateName": "16: Assign lastEvaluatedKey",
+        "stateName": "Assign lastEvaluatedKey",
         "parameters": {
           "value": null,
           "type": "null",
@@ -73,11 +73,11 @@
         "source": "lastEvaluatedKey: any | undefined = undefined",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "15: Assign lastEvaluatedKey",
+      "stateName": "Assign lastEvaluatedKey",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "16: Do While (lastEvaluatedKey)",
+      "stateName": "Do While (lastEvaluatedKey)",
       "condition": {
         "operator": "is-present",
         "rhs": {
@@ -120,18 +120,16 @@
               },
               "_syntaxKind": "asl-task-state"
             },
-            "stateName": "17: Assign scan",
+            "stateName": "Assign scan",
             "_syntaxKind": "variable-assignment"
           },
           {
-            "stateName": "18: For item Of scan.Items",
+            "stateName": "For item Of scan.Items",
             "items": {
               "identifier": "scan.Items",
               "type": "object",
               "_syntaxKind": "identifier"
             },
-            "catch": [],
-            "retry": [],
             "iterator": {
               "inputArgumentName": {
                 "identifier": "item",
@@ -139,14 +137,12 @@
               },
               "statements": [
                 {
-                  "stateName": "20: For threshold Of thresholds",
+                  "stateName": "For threshold Of thresholds",
                   "items": {
                     "identifier": "thresholds",
                     "_syntaxKind": "identifier",
                     "type": "object"
                   },
-                  "catch": [],
-                  "retry": [],
                   "iterator": {
                     "inputArgumentName": {
                       "identifier": "threshold",
@@ -170,7 +166,7 @@
                           "function": "asl.states.stringToJson",
                           "_syntaxKind": "asl-intrinsic-function"
                         },
-                        "stateName": "21: Assign numericLastSentOnValue",
+                        "stateName": "Assign numericLastSentOnValue",
                         "_syntaxKind": "variable-assignment"
                       },
                       {
@@ -190,11 +186,11 @@
                           "function": "asl.states.stringToJson",
                           "_syntaxKind": "asl-intrinsic-function"
                         },
-                        "stateName": "22: Assign numericTotal",
+                        "stateName": "Assign numericTotal",
                         "_syntaxKind": "variable-assignment"
                       },
                       {
-                        "stateName": "23: If ((item.sk.S === thresh ...",
+                        "stateName": "If ((item.sk.S === thresh ...",
                         "condition": {
                           "lhs": {
                             "lhs": {
@@ -500,7 +496,7 @@
               "type": "object",
               "_syntaxKind": "identifier"
             },
-            "stateName": "65: Assign lastEvaluatedKey",
+            "stateName": "Assign lastEvaluatedKey",
             "_syntaxKind": "variable-assignment"
           }
         ],

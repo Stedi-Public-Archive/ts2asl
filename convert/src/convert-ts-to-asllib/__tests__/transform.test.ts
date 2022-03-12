@@ -1,5 +1,5 @@
 import { testTransform } from "./test-transform";
-import { transformers } from "../transformers";
+import { createTransformers } from "../transformers";
 
 describe("when converting source files", () => {
   it("then can convert nested structures", () => {
@@ -17,7 +17,10 @@ describe("when converting source files", () => {
     }
   }
       `;
-    const output = testTransform(code, transformers);
+    const output = testTransform(
+      code,
+      createTransformers({ lineNumbersInStateNames: true })
+    );
 
     expect(output).toMatchInlineSnapshot(`
       "let completedActions: string[] = asl.pass({
@@ -83,11 +86,11 @@ describe("when converting source files", () => {
             page = await ASL.Task({ Resource: "arn:aws:states:::apigateway:invoke" });
         }
             `;
-    const output = testTransform(code, transformers);
+    const output = testTransform(code, createTransformers({}));
     expect(output).toMatchInlineSnapshot(`
       "let page = ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
       asl.typescriptWhile({
-          name: \\"3: While (page.nextPageToken)\\",
+          name: \\"While (page.nextPageToken)\\",
           condition: () => page.nextPageToken,
           block: async () => {
               ASL.Wait({ Seconds: 2 });

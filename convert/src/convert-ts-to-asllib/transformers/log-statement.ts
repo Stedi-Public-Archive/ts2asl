@@ -1,8 +1,9 @@
 import * as ts from 'typescript';
+import { ConverterOptions } from '../../convert';
 import { TransformUtil } from './transform-utility';
 import factory = ts.factory;
 
-export const consoleLogStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const consoleLogStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
     if (ts.isCallExpression(node) && ts.isPropertyAccessExpression(node.expression) && node.expression.name.text === "log") {

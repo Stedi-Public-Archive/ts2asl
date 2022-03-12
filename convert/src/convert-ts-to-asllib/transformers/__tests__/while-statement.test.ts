@@ -7,11 +7,11 @@ describe("when converting while statements", () => {
     expect(
       testTransform(
         "while(code === 'continue') { console.log(); ASL.Wait({Seconds: 2})}",
-        whileStatementTransformer
+        whileStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "asl.typescriptWhile({
-          name: \\"2: While (code === 'continue')\\",
+          name: \\"While (code === 'continue')\\",
           condition: () => code === 'continue',
           block: async () => { console.log(); ASL.Wait({ Seconds: 2 }); },
           comment: \\"while(code === 'continue') { console.log(); ASL.Wait({Seconds: 2})}\\"

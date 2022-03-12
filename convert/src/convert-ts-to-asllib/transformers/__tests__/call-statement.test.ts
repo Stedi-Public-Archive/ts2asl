@@ -3,10 +3,10 @@ import { callStatementTransformer } from "../call-statement";
 
 describe("when converting call statements", () => {
   it("statement becomes invoke", () => {
-    expect(testTransform("SayHello(arg);", callStatementTransformer))
+    expect(testTransform("SayHello(arg);", callStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "asl.typescriptInvoke({
-          name: \\"2: SayHello(arg)\\",
+          name: \\"SayHello(arg)\\",
           resource: SayHello,
           parameters: () => arg,
           comment: \\"SayHello(arg)\\"
@@ -14,10 +14,10 @@ describe("when converting call statements", () => {
     `);
   });
   it("statement becomes invoke on property access expression", () => {
-    expect(testTransform("SayHello(arg.xxx);", callStatementTransformer))
+    expect(testTransform("SayHello(arg.xxx);", callStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "asl.typescriptInvoke({
-          name: \\"2: SayHello(arg.xxx)\\",
+          name: \\"SayHello(arg.xxx)\\",
           resource: SayHello,
           parameters: () => arg.xxx,
           comment: \\"SayHello(arg.xxx)\\"
@@ -25,10 +25,10 @@ describe("when converting call statements", () => {
     `);
   });
   it("statement becomes invoke on literal", () => {
-    expect(testTransform("SayHello(43);", callStatementTransformer))
+    expect(testTransform("SayHello(43);", callStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "asl.typescriptInvoke({
-          name: \\"2: SayHello(43)\\",
+          name: \\"SayHello(43)\\",
           resource: SayHello,
           parameters: () => 43,
           comment: \\"SayHello(43)\\"
@@ -36,10 +36,11 @@ describe("when converting call statements", () => {
     `);
   });
   it("statement becomes invoke on literal object expression", () => {
-    expect(testTransform("SayHello({ number: 43 });", callStatementTransformer))
-      .toMatchInlineSnapshot(`
+    expect(
+      testTransform("SayHello({ number: 43 });", callStatementTransformer({}))
+    ).toMatchInlineSnapshot(`
       "asl.typescriptInvoke({
-          name: \\"2: SayHello({ number: 43 })\\",
+          name: \\"SayHello({ number: 43 })\\",
           resource: SayHello,
           parameters: () => ({ number: 43 }),
           comment: \\"SayHello({ number: 43 })\\"
@@ -47,10 +48,10 @@ describe("when converting call statements", () => {
     `);
   });
   it("statement becomes invoke on bool literal", () => {
-    expect(testTransform("SayHello(true);", callStatementTransformer))
+    expect(testTransform("SayHello(true);", callStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "asl.typescriptInvoke({
-          name: \\"2: SayHello(true)\\",
+          name: \\"SayHello(true)\\",
           resource: SayHello,
           parameters: () => true,
           comment: \\"SayHello(true)\\"
@@ -58,20 +59,20 @@ describe("when converting call statements", () => {
     `);
   });
   it("call statement without args is supported", () => {
-    expect(testTransform("SayHello();", callStatementTransformer))
+    expect(testTransform("SayHello();", callStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "asl.typescriptInvoke({
-          name: \\"2: SayHello()\\",
+          name: \\"SayHello()\\",
           resource: SayHello,
           comment: \\"SayHello()\\"
       });"
     `);
   });
   it("call statement with await is supported", () => {
-    expect(testTransform("await SayHello();", callStatementTransformer))
+    expect(testTransform("await SayHello();", callStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "await asl.typescriptInvoke({
-          name: \\"2: SayHello()\\",
+          name: \\"SayHello()\\",
           resource: SayHello,
           comment: \\"SayHello()\\"
       });"
@@ -79,10 +80,10 @@ describe("when converting call statements", () => {
   });
   it("call statement inside variable assignment is supported", () => {
     expect(
-      testTransform("const z = await SayHello();", callStatementTransformer)
+      testTransform("const z = await SayHello();", callStatementTransformer({}))
     ).toMatchInlineSnapshot(`
       "const z = await asl.typescriptInvoke({
-          name: \\"2: SayHello()\\",
+          name: \\"SayHello()\\",
           resource: SayHello,
           comment: \\"SayHello()\\"
       });"
@@ -90,7 +91,7 @@ describe("when converting call statements", () => {
   });
   it("call statement to ASL is untouched", () => {
     expect(
-      testTransform("ASL.Parallel();", callStatementTransformer)
+      testTransform("ASL.Parallel();", callStatementTransformer({}))
     ).toMatchInlineSnapshot(`"ASL.Parallel();"`);
   });
 });

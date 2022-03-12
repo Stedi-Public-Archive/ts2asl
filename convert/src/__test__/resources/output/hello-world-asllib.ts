@@ -2,7 +2,7 @@ import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
     asl.typescriptIf({
-        name: "4: If (typeof input.name !== ...",
+        name: "If (typeof input.name !== ...",
         condition: () => typeof input.name !== "string",
         then: async () => {
             input.name = "World";
@@ -10,7 +10,7 @@ export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
         comment: "if (typeof input.name !== \"string\") {\n    input.name = \"World\";\n  }"
     })
     const rnd = asl.typescriptInvoke({
-        name: "8: random()",
+        name: "random()",
         resource: random,
         comment: "random()"
     });

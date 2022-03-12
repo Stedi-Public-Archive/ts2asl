@@ -13,7 +13,7 @@ describe("when converting example", () => {
 
       export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
           asl.typescriptIf({
-              name: \\"4: If (typeof input.name !== ...\\",
+              name: \\"If (typeof input.name !== ...\\",
               condition: () => typeof input.name !== \\"string\\",
               then: async () => {
                   input.name = \\"World\\";
@@ -21,7 +21,7 @@ describe("when converting example", () => {
               comment: \\"if (typeof input.name !== \\\\\\"string\\\\\\") {\\\\n    input.name = \\\\\\"World\\\\\\";\\\\n  }\\"
           })
           const rnd = asl.typescriptInvoke({
-              name: \\"8: random()\\",
+              name: \\"random()\\",
               resource: random,
               comment: \\"random()\\"
           });
@@ -79,7 +79,7 @@ describe("when converting example", () => {
             "source": "if (typeof input.name !== \\"string\\") {
           input.name = \\"World\\";
         }",
-            "stateName": "4: If (typeof input.name !== ...",
+            "stateName": "If (typeof input.name !== ...",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -95,7 +95,7 @@ describe("when converting example", () => {
                     "identifier": "input.name",
                     "type": "string",
                   },
-                  "stateName": "5: Assign input.name",
+                  "stateName": "Assign input.name",
                 },
               ],
             },
@@ -104,19 +104,30 @@ describe("when converting example", () => {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
               "_syntaxKind": "asl-task-state",
-              "catch": Array [],
+              "catch": undefined,
               "parameters": undefined,
               "resource": "typescript:random",
-              "retry": Array [],
+              "retry": Array [
+                Object {
+                  "BackoffRate": 2,
+                  "ErrorEquals": Array [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException",
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                },
+              ],
               "source": "random()",
-              "stateName": "8: random()",
+              "stateName": "random()",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "rnd",
               "type": "numeric",
             },
-            "stateName": "7: Assign rnd",
+            "stateName": "Assign rnd",
           },
           Object {
             "_syntaxKind": "return",
@@ -146,7 +157,7 @@ describe("when converting example", () => {
                 },
               },
             },
-            "stateName": "8: Return { greeting: as ...",
+            "stateName": "Return { greeting: as ...",
           },
         ],
       }
@@ -157,10 +168,17 @@ describe("when converting example", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "4: If (typeof input.name !== ...": Object {
+          "Assign input.name": Object {
+            "Comment": undefined,
+            "Next": "random()",
+            "Result": "World",
+            "ResultPath": "$.vars.name",
+            "Type": "Pass",
+          },
+          "If (typeof input.name !== ...": Object {
             "Choices": Array [
               Object {
-                "Next": "5: Assign input.name",
+                "Next": "Assign input.name",
                 "Not": Object {
                   "And": Array [
                     Object {
@@ -176,29 +194,11 @@ describe("when converting example", () => {
               },
             ],
             "Comment": "source: if (typeof input.name !== \\"string\\") { input.na ...",
-            "Default": "8: random()",
+            "Default": "random()",
             "Type": "Choice",
           },
-          "5: Assign input.name": Object {
-            "Comment": undefined,
-            "Next": "8: random()",
-            "Result": "World",
-            "ResultPath": "$.vars.name",
-            "Type": "Pass",
-          },
-          "8: random()": Object {
-            "Catch": Array [],
-            "Comment": "source: random()",
-            "HeartbeatSeconds": undefined,
-            "Next": "Pass",
-            "Resource": "typescript:random",
-            "ResultPath": "$.vars.rnd",
-            "Retry": Array [],
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
           "Initialize": Object {
-            "Next": "4: If (typeof input.name !== ...",
+            "Next": "If (typeof input.name !== ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -212,6 +212,28 @@ describe("when converting example", () => {
               "luckyNumber.$": "$.vars.rnd",
             },
             "Type": "Pass",
+          },
+          "random()": Object {
+            "Catch": undefined,
+            "Comment": "source: random()",
+            "HeartbeatSeconds": undefined,
+            "Next": "Pass",
+            "Resource": "typescript:random",
+            "ResultPath": "$.vars.rnd",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
         },
       }

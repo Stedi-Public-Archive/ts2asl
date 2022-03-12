@@ -10,13 +10,13 @@ describe("when converting Promise.all statement", () => {
             turnLeft(),
             turnRight()
           ]);`,
-        promiseAllStatementTransformer
+        promiseAllStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "await asl.parallel({
           branches: [
-              () => { turnLeft() },
-              () => { turnRight() }
+              () => { let _var = turnLeft(); return _var; },
+              () => { let _var = turnRight(); return _var; }
           ],
           comment: \\"Promise.all(\\\\n          [\\\\n            turnLeft(),\\\\n            turnRight()\\\\n          ])\\"
       });"
@@ -31,7 +31,7 @@ describe("when converting Promise.all statement", () => {
               { val: "xyz"},
               { val: "xxx"}
             ]);`,
-        promiseAllStatementTransformer
+        promiseAllStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
       "await asl.parallel({

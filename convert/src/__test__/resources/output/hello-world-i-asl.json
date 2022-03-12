@@ -5,7 +5,7 @@
   },
   "statements": [
     {
-      "stateName": "4: If (typeof input.name !== ...",
+      "stateName": "If (typeof input.name !== ...",
       "condition": {
         "operator": "not",
         "rhs": {
@@ -40,7 +40,7 @@
               "type": "string",
               "_syntaxKind": "literal"
             },
-            "stateName": "5: Assign input.name",
+            "stateName": "Assign input.name",
             "_syntaxKind": "variable-assignment"
           }
         ],
@@ -56,14 +56,24 @@
         "type": "numeric"
       },
       "expression": {
-        "stateName": "8: random()",
+        "stateName": "random()",
         "resource": "typescript:random",
-        "retry": [],
-        "catch": [],
+        "retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "IntervalSeconds": 2,
+            "MaxAttempts": 6,
+            "BackoffRate": 2
+          }
+        ],
         "source": "random()",
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "7: Assign rnd",
+      "stateName": "Assign rnd",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -94,7 +104,7 @@
         "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "return",
-      "stateName": "8: Return { greeting: as ..."
+      "stateName": "Return { greeting: as ..."
     }
   ],
   "_syntaxKind": "statemachine"

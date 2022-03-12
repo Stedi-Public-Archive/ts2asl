@@ -14,11 +14,9 @@
       "ResultPath": "$.vars.result",
       "Resource": "check-password",
       "Parameters": {},
-      "Catch": [],
-      "Retry": [],
-      "Next": "8: While (true)"
+      "Next": "While (true)"
     },
-    "8: While (true)": {
+    "While (true)": {
       "Type": "Parallel",
       "Parameters": {
         "vars": {
@@ -35,24 +33,24 @@
                 {
                   "Variable": "$",
                   "IsNull": false,
-                  "Next": "9: If (result.Authorized)"
+                  "Next": "If (result.Authorized)"
                 }
               ],
               "Default": "_WhileExit"
             },
-            "9: If (result.Authorized)": {
+            "If (result.Authorized)": {
               "Type": "Choice",
               "Choices": [
                 {
                   "Variable": "$.vars.result.Authorized",
                   "IsPresent": true,
-                  "Next": "10: Break"
+                  "Next": "Break"
                 }
               ],
               "Comment": "source: if (result.Authorized) { break; }",
               "Default": "Wait"
             },
-            "10: Break": {
+            "Break": {
               "Type": "Succeed"
             },
             "Wait": {
@@ -65,8 +63,6 @@
               "ResultPath": "$.vars.result",
               "Resource": "check-password",
               "Parameters": {},
-              "Catch": [],
-              "Retry": [],
               "Next": "_WhileExit"
             },
             "_WhileExit": {
