@@ -51,14 +51,19 @@ describe("when converting example", () => {
                                       condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
                                           || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                       then: async () => {
+                                          const detail = asl.pass({
+                                              name: \\"Assign detail\\",
+                                              parameters: () => ({
+                                                  account_id: item.pk,
+                                                  threshold: threshold
+                                              }),
+                                              comment: \\"detail = {\\\\n            account_id: item.pk,\\\\n            threshold: threshold\\\\n          }\\"
+                                          });
                                           asl.nativeEventBridgePutEvents({
                                               parameters: {
                                                   Entries: [
                                                       {
-                                                          Detail: asl.states.jsonToString({
-                                                              account_id: item.pk,
-                                                              threshold: threshold
-                                                          }),
+                                                          Detail: asl.states.jsonToString(detail),
                                                           DetailType: \\"xxx.detail.type\\",
                                                           EventBusName: \\"default\\",
                                                           Source: \\"zzz.my.source\\"
@@ -477,6 +482,38 @@ describe("when converting example", () => {
                                 "_syntaxKind": "function",
                                 "statements": Array [
                                   Object {
+                                    "_syntaxKind": "variable-assignment",
+                                    "expression": Object {
+                                      "_syntaxKind": "asl-pass-state",
+                                      "parameters": Object {
+                                        "_syntaxKind": "literal-object",
+                                        "properties": Object {
+                                          "account_id": Object {
+                                            "_syntaxKind": "identifier",
+                                            "identifier": "item.pk",
+                                            "type": "object",
+                                          },
+                                          "threshold": Object {
+                                            "_syntaxKind": "identifier",
+                                            "identifier": "threshold",
+                                            "type": "object",
+                                          },
+                                        },
+                                      },
+                                      "source": "detail = {
+                  account_id: item.pk,
+                  threshold: threshold
+                }",
+                                      "stateName": "Assign detail",
+                                    },
+                                    "name": Object {
+                                      "_syntaxKind": "identifier",
+                                      "identifier": "detail",
+                                      "type": "object",
+                                    },
+                                    "stateName": "Assign detail",
+                                  },
+                                  Object {
                                     "_syntaxKind": "asl-task-state",
                                     "parameters": Object {
                                       "_syntaxKind": "literal-object",
@@ -491,19 +528,9 @@ describe("when converting example", () => {
                                                   "_syntaxKind": "asl-intrinsic-function",
                                                   "arguments": Array [
                                                     Object {
-                                                      "_syntaxKind": "literal-object",
-                                                      "properties": Object {
-                                                        "account_id": Object {
-                                                          "_syntaxKind": "identifier",
-                                                          "identifier": "item.pk",
-                                                          "type": "object",
-                                                        },
-                                                        "threshold": Object {
-                                                          "_syntaxKind": "identifier",
-                                                          "identifier": "threshold",
-                                                          "type": "object",
-                                                        },
-                                                      },
+                                                      "_syntaxKind": "identifier",
+                                                      "identifier": "detail",
+                                                      "type": "object",
                                                     },
                                                   ],
                                                   "function": "asl.states.jsonToString",
@@ -682,6 +709,16 @@ describe("when converting example", () => {
                           "Iterator": Object {
                             "StartAt": "Assign numericLastSentOnValue",
                             "States": Object {
+                              "Assign detail": Object {
+                                "Comment": "source: detail = { account_id: item.pk, threshold: thr ...",
+                                "Next": "PutEvents",
+                                "Parameters": Object {
+                                  "account_id.$": "$.vars.item.pk",
+                                  "threshold.$": "$.vars.threshold",
+                                },
+                                "ResultPath": "$.vars.detail",
+                                "Type": "Pass",
+                              },
                               "Assign numericLastSentOnValue": Object {
                                 "Comment": undefined,
                                 "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
@@ -703,7 +740,7 @@ describe("when converting example", () => {
                               "If ((item.sk.S === thresh ...": Object {
                                 "Choices": Array [
                                   Object {
-                                    "Next": "PutEvents",
+                                    "Next": "Assign detail",
                                     "Or": Array [
                                       Object {
                                         "And": Array [
@@ -784,10 +821,7 @@ describe("when converting example", () => {
                                 "Parameters": Object {
                                   "Entries": Array [
                                     Object {
-                                      "Detail.$": "States.JsonToString({
-        \\"account_id.$\\": \\"$.vars.item.pk\\",
-        \\"threshold.$\\": \\"$.vars.threshold\\"
-      })",
+                                      "Detail.$": "States.JsonToString($.vars.detail)",
                                       "DetailType": "xxx.detail.type",
                                       "EventBusName": "default",
                                       "Source": "zzz.my.source",

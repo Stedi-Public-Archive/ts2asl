@@ -24,21 +24,9 @@ describe("when converting typescript invoke to iasl", () => {
               "identifier": "arg.xxx",
               "type": "unknown",
             },
-            "resource": "typescript:SayHello",
-            "retry": Array [
-              Object {
-                "BackoffRate": 2,
-                "ErrorEquals": Array [
-                  "Lambda.ServiceException",
-                  "Lambda.AWSLambdaException",
-                  "Lambda.SdkClientException",
-                ],
-                "IntervalSeconds": 2,
-                "MaxAttempts": 6,
-              },
-            ],
+            "resource": "lambda:SayHello",
             "source": "SayHello(arg.xxx)",
-            "stateName": "Typescript Invoke SayHello",
+            "stateName": "Invoke SayHello",
           },
         ],
       }

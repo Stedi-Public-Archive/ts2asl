@@ -106,7 +106,7 @@ describe("when converting example", () => {
                         "_syntaxKind": "asl-task-state",
                         "catch": undefined,
                         "parameters": undefined,
-                        "resource": "typescript:performIdentifyCheck",
+                        "resource": "lambda:performIdentifyCheck",
                         "retry": Array [
                           Object {
                             "BackoffRate": 2,
@@ -383,7 +383,7 @@ describe("when converting example", () => {
                     "Comment": "source: performIdentifyCheck()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass",
-                    "Resource": "typescript:performIdentifyCheck",
+                    "Resource": "lambda:performIdentifyCheck",
                     "ResultPath": "$.vars._var",
                     "Retry": Array [
                       Object {

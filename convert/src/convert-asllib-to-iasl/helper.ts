@@ -1,5 +1,6 @@
 import * as ts from "typescript"
 import { ConverterContext, convertExpressionToLiteralOrIdentifier } from ".";
+import { aslStyleCallExpression } from "../convert/list-function-declarations";
 import * as iasl from "./ast"
 
 export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, context: ConverterContext): iasl.Identifier | undefined => {
@@ -7,7 +8,8 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
   if (ts.isIdentifier(expression)) {
 
     const type = typeChecker.getTypeAtLocation(expression);
-    const iaslType = convertType(type);
+    const symbol = typeChecker.getSymbolAtLocation(expression);
+    const iaslType = convertType(type, symbol);
     return { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, type: iaslType } as iasl.Identifier;
   }
 
@@ -53,8 +55,22 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
 }
 
 
-function convertType(type: ts.Type): iasl.Type {
+function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
+
   if (hasFlag(type, ts.TypeFlags.Object)) {
+    const callSignatures = type.getCallSignatures();
+    if (callSignatures.length > 0) {
+      if (symbol?.valueDeclaration && ts.isVariableDeclaration(symbol.valueDeclaration) && symbol.valueDeclaration.initializer) {
+        const result = aslStyleCallExpression(symbol.valueDeclaration.initializer)
+        if (result?.operation === "asLambda") {
+          return "callable-lambda";
+        }
+        if (result?.operation === "asStateMachine") {
+          return "callable-statemachine";
+        }
+      }
+      return "callable";
+    }
     return "object"
   }
 

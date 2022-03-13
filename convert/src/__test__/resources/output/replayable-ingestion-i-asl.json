@@ -12,7 +12,7 @@
       },
       "expression": {
         "stateName": "replayPrefixer(input)",
-        "resource": "typescript:replayPrefixer",
+        "resource": "lambda:replayPrefixer",
         "retry": [
           {
             "ErrorEquals": [
@@ -46,52 +46,62 @@
         "statements": [
           {
             "name": {
-              "identifier": "_var",
+              "identifier": "_input",
               "compilerGenerated": true,
               "_syntaxKind": "identifier",
               "type": "unknown"
             },
             "expression": {
-              "stateName": "StartExecution",
-              "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
-              "parameters": {
-                "properties": {
-                  "Input": {
-                    "arguments": [
-                      {
-                        "value": "{}",
-                        "type": "string",
-                        "_syntaxKind": "literal"
-                      },
-                      {
-                        "identifier": "prefix",
-                        "_syntaxKind": "identifier",
-                        "type": "string"
-                      }
-                    ],
-                    "function": "asl.states.format",
-                    "_syntaxKind": "asl-intrinsic-function"
-                  },
-                  "StateMachineArn": {
-                    "value": "unresolved parameter: stateMachineArn",
-                    "type": "string",
-                    "_syntaxKind": "literal"
-                  }
-                },
-                "_syntaxKind": "literal-object"
+              "properties": {
+                "prefix": {
+                  "identifier": "prefix",
+                  "_syntaxKind": "identifier",
+                  "type": "string"
+                }
               },
-              "_syntaxKind": "asl-task-state"
+              "_syntaxKind": "literal-object"
             },
             "_syntaxKind": "variable-assignment"
           },
           {
-            "expression": {
-              "identifier": "_var",
-              "compilerGenerated": true,
-              "_syntaxKind": "identifier",
-              "type": "unknown"
+            "stateName": "replayWorker({ prefix })",
+            "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
+            "retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
+            "parameters": {
+              "properties": {
+                "Input": {
+                  "arguments": [
+                    {
+                      "identifier": "_input",
+                      "compilerGenerated": true,
+                      "_syntaxKind": "identifier",
+                      "type": "unknown"
+                    }
+                  ],
+                  "function": "asl.states.jsonToString",
+                  "_syntaxKind": "asl-intrinsic-function"
+                },
+                "StateMachineArn": {
+                  "value": "statemachine:replayWorker",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
             },
-            "_syntaxKind": "return"
+            "source": "replayWorker({ prefix })",
+            "_syntaxKind": "asl-task-state"
           }
         ],
         "_syntaxKind": "block"

@@ -106,7 +106,7 @@ describe("when converting example", () => {
               "_syntaxKind": "asl-task-state",
               "catch": undefined,
               "parameters": undefined,
-              "resource": "typescript:random",
+              "resource": "lambda:random",
               "retry": Array [
                 Object {
                   "BackoffRate": 2,
@@ -218,7 +218,7 @@ describe("when converting example", () => {
             "Comment": "source: random()",
             "HeartbeatSeconds": undefined,
             "Next": "Pass",
-            "Resource": "typescript:random",
+            "Resource": "lambda:random",
             "ResultPath": "$.vars.rnd",
             "Retry": Array [
               Object {

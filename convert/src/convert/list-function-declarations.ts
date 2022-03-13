@@ -72,7 +72,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile, typeChecker:
 }
 
 export const aslDeclStyleCallExpression = (source: ts.SourceFile, expression: ts.Node) => {
-  const aslCallExpression = aslStyleCallExpression(source, expression);
+  const aslCallExpression = aslStyleCallExpression(expression);
   const operations = ["asLambda", "asStateMachine"];
   if (aslCallExpression && operations.includes(aslCallExpression.operation)) {
 
@@ -86,12 +86,12 @@ export const aslDeclStyleCallExpression = (source: ts.SourceFile, expression: ts
 }
 
 
-export const aslStyleCallExpression = (source: ts.SourceFile, expression: ts.Node) => {
-  if (ts.isAwaitExpression(expression)) return aslStyleCallExpression(source, expression.expression);
+export const aslStyleCallExpression = (expression: ts.Node): { operation: string, arguments: ts.NodeArray<ts.Node> } | undefined => {
+  if (ts.isAwaitExpression(expression)) return aslStyleCallExpression(expression.expression);
   if (ts.isCallExpression(expression) && ts.isPropertyAccessExpression(expression.expression) && ts.isPropertyAccessExpression(expression.expression.expression)) {
-    if ("asl" === expression.expression.expression.expression.getText(source).toLowerCase()) {
+    if ("asl" === expression.expression.expression.expression.getText().toLowerCase()) {
       return {
-        operation: expression.expression.name.getText(source),
+        operation: expression.expression.name.getText(),
         arguments: expression.arguments
       }
     }

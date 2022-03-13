@@ -149,10 +149,20 @@
                                   ]
                                 }
                               ],
-                              "Next": "PutEvents"
+                              "Next": "Assign detail"
                             }
                           ],
                           "Default": "Empty Default Choice"
+                        },
+                        "Assign detail": {
+                          "Type": "Pass",
+                          "ResultPath": "$.vars.detail",
+                          "Parameters": {
+                            "account_id.$": "$.vars.item.pk",
+                            "threshold.$": "$.vars.threshold"
+                          },
+                          "Comment": "source: detail = { account_id: item.pk, threshold: thr ...",
+                          "Next": "PutEvents"
                         },
                         "PutEvents": {
                           "Type": "Task",
@@ -160,7 +170,7 @@
                           "Parameters": {
                             "Entries": [
                               {
-                                "Detail.$": "States.JsonToString({\n  \"account_id.$\": \"$.vars.item.pk\",\n  \"threshold.$\": \"$.vars.threshold\"\n})",
+                                "Detail.$": "States.JsonToString($.vars.detail)",
                                 "DetailType": "xxx.detail.type",
                                 "EventBusName": "default",
                                 "Source": "zzz.my.source"

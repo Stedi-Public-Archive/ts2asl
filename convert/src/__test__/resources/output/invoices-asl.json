@@ -12,7 +12,7 @@
     "createBillJob(input)": {
       "Type": "Task",
       "ResultPath": "$.vars.billJob",
-      "Resource": "typescript:createBillJob",
+      "Resource": "lambda:createBillJob",
       "InputPath": "$.vars",
       "Retry": [
         {
@@ -37,7 +37,7 @@
     "createNonEmptyBills(billJob)": {
       "Type": "Task",
       "ResultPath": "$.vars.jobResult",
-      "Resource": "typescript:createNonEmptyBills",
+      "Resource": "lambda:createNonEmptyBills",
       "InputPath": "$.vars.billJob",
       "Retry": [
         {
@@ -73,7 +73,7 @@
           "approveNonEmptyBill(appro ...": {
             "Type": "Task",
             "ResultPath": "$.vars.approvalResult",
-            "Resource": "typescript:approveNonEmptyBill",
+            "Resource": "lambda:approveNonEmptyBill",
             "InputPath": "$.vars.approveNonEmptyBillRequest",
             "Retry": [
               {
@@ -145,7 +145,7 @@
           "createInvoice(x)": {
             "Type": "Task",
             "ResultPath": "$.vars._var",
-            "Resource": "typescript:createInvoice",
+            "Resource": "lambda:createInvoice",
             "InputPath": "$.vars.x",
             "Retry": [
               {
@@ -187,7 +187,7 @@
           "validateInvoice(x)": {
             "Type": "Task",
             "ResultPath": "$.vars._var",
-            "Resource": "typescript:validateInvoice",
+            "Resource": "lambda:validateInvoice",
             "InputPath": "$.vars.x",
             "Retry": [
               {
@@ -239,7 +239,7 @@
     },
     "createGithubIssue({ bills ...": {
       "Type": "Task",
-      "Resource": "typescript:createGithubIssue",
+      "Resource": "lambda:createGithubIssue",
       "Parameters": {
         "bills": {
           "invalid.$": "$.vars.invalidInvoices"
@@ -299,7 +299,7 @@
           },
           "finallizeInvoice(invoice ...": {
             "Type": "Task",
-            "Resource": "typescript:finallizeInvoice",
+            "Resource": "lambda:finallizeInvoice",
             "InputPath": "$.vars.invoice",
             "Retry": [
               {

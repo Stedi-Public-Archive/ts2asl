@@ -83,19 +83,8 @@ describe("when returning", () => {
               "_syntaxKind": "asl-task-state",
               "catch": undefined,
               "parameters": undefined,
-              "resource": "typescript:doSomething",
-              "retry": Array [
-                Object {
-                  "BackoffRate": 2,
-                  "ErrorEquals": Array [
-                    "Lambda.ServiceException",
-                    "Lambda.AWSLambdaException",
-                    "Lambda.SdkClientException",
-                  ],
-                  "IntervalSeconds": 2,
-                  "MaxAttempts": 6,
-                },
-              ],
+              "resource": "lambda:doSomething",
+              "retry": undefined,
               "source": "doSomething()",
               "stateName": "3: doSomething()",
             },

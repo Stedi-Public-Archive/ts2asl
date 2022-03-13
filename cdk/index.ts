@@ -9,7 +9,9 @@ import * as asl from "@ts2asl/asl-lib";
 
 export interface TypescriptStateMachineProps {
   defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
-  defaultFunctionProps: Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
+  stepFunctionProps?: Record<string, Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">>;
+  defaultFunctionProps?: Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
+  functionProps?: Record<string, Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">>;
   programName: string;
   sourceFile: string;
   conversionOptions?: ConverterOptions;
@@ -35,50 +37,67 @@ export class TypescriptStateMachine extends Construct {
 
     super(scope, id)
 
-    const typescriptDict: Record<string, string> = {};
+    const arnDict: Record<string, string> = {};
 
     for (const lambda of converted.lambdas) {
       const entry = sourceFile;
       const handler = lambda.name;
+      const fnProps = props.functionProps?.[lambda.name] ?? {};
       const fn = new NodejsFunction(scope, lambda.name, {
         ...props.defaultFunctionProps,
+        ...fnProps,
         functionName: `${props.programName}_${lambda.name}`,
         entry,
         handler,
         runtime: Runtime.NODEJS_14_X
       });
-      typescriptDict["typescript:" + lambda.name] = fn.functionArn;
+      arnDict["lambda:" + lambda.name] = fn.functionArn;
     }
 
+    const stateMachines: CfnStateMachine[] = [];
+
     for (const step of converted.stateMachines) {
-
-      const replaced = replaceFunctionArns(step.asl!, typescriptDict);
-
-      new CfnStateMachine(scope, `${id}_${step.name}`, {
+      const sfnProps = props.stepFunctionProps?.[step.name] ?? {};
+      const sm = new CfnStateMachine(scope, `${id}_${step.name}`, {
         ...props.defaultStepFunctionProps,
-        definitionString: JSON.stringify(replaced, null, 2),
+        ...sfnProps,
+        definition: step.asl!,
         stateMachineName: `${props.programName}_${step.name}`
-      })
+      });
+      arnDict["statemachine:" + step.name] = sm.attrArn;
+      stateMachines.push(sm);
+    }
+
+    for (const sm of stateMachines) {
+      const replaced = replaceArns(sm.definition as StateMachine, arnDict);
+      sm.definitionString = JSON.stringify(replaced, null, 2);
+      delete sm.definition;
     }
   }
 }
 
 
-const replaceFunctionArns = (statemachine: StateMachine, typescriptDict: Record<string, string>) => {
+const replaceArns = (statemachine: StateMachine, arnDict: Record<string, string>) => {
   for (const state of Object.values(statemachine.States)) {
 
     if (state.Type === "Map") {
-      replaceFunctionArns((state as Map).Iterator, typescriptDict);
+      replaceArns((state as Map).Iterator, arnDict);
     }
     if (state.Type === "Parallel") {
       for (const branch of (state as Parallel).Branches) {
-        replaceFunctionArns(branch, typescriptDict);
+        replaceArns(branch, arnDict);
       }
     }
     if (state.Type === "Task") {
       const task = state as Task;
-      if (typescriptDict[task.Resource as string]) {
-        task.Resource = typescriptDict[task.Resource as string];
+      if (arnDict[task.Resource as string]) {
+        task.Resource = arnDict[task.Resource as string];
+      } else if (task.Resource === "arn:aws:states:::aws-sdk:sfn:startExecution") {
+        if (task.Parameters && task.Parameters.StateMachineArn) {
+          if (arnDict[task.Parameters.StateMachineArn as string]) {
+            task.Parameters.StateMachineArn = arnDict[task.Parameters.StateMachineArn as string];
+          }
+        }
       }
     }
   }

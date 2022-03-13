@@ -68,7 +68,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
       return [
         {
           name: {
-            identifier: "_var",
+            identifier: "return_var",
             compilerGenerated: true,
             _syntaxKind: iasl.SyntaxKind.Identifier,
             type: "unknown"
@@ -78,7 +78,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
         } as iasl.VariableAssignmentStatement,
         {
           expression: {
-            identifier: "_var",
+            identifier: "return_var",
             compilerGenerated: true,
             _syntaxKind: iasl.SyntaxKind.Identifier,
             type: "unknown"
@@ -204,6 +204,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
     };
 
     const convertedArgs = convertObjectLiteralExpression(argument, context);
+
     switch (type) {
       case "typescriptInvoke": {
         const name = unpackAsLiteral(convertedArgs, "name");
@@ -213,24 +214,75 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
         const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
 
-        return {
-          stateName: name ?? "Typescript Invoke " + resource?.identifier,
-          resource: "typescript:" + resource?.identifier,
-          retry: retryConfiguration ?? [{
-            ErrorEquals: [
-              "Lambda.ServiceException",
-              "Lambda.AWSLambdaException",
-              "Lambda.SdkClientException"
-            ],
-            IntervalSeconds: 2,
-            MaxAttempts: 6,
-            BackoffRate: 2
-          }],
-          catch: catchConfiguration,
-          parameters,
-          source: comment,
-          _syntaxKind: iasl.SyntaxKind.AslTaskState
-        } as iasl.TaskState;
+        let invokeType: "lambda" | "statemachine" = "lambda";
+        switch (resource?.type) {
+          case "callable-lambda":
+            break;
+          case "callable-statemachine":
+            invokeType = "statemachine";
+            break;
+          default:
+            if (!context.converterOptions.skipCheckCallables) {
+
+              throw new Error("unsure how to typescriptInvoke a " + resource?.type);
+            }
+            break;
+        }
+
+        if (invokeType === "lambda") {
+          return {
+            stateName: name ?? "Invoke " + resource?.identifier,
+            resource: "lambda:" + resource?.identifier,
+            retry: retryConfiguration ?? context.converterOptions.defaultRetry,
+            catch: catchConfiguration,
+            parameters,
+            source: comment,
+            _syntaxKind: iasl.SyntaxKind.AslTaskState
+          } as iasl.TaskState;
+        } else {
+          return [
+            {
+              name: {
+                identifier: "sfn_input",
+                compilerGenerated: true,
+                _syntaxKind: iasl.SyntaxKind.Identifier,
+                type: "unknown"
+              },
+              expression: parameters,
+              _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+            } as iasl.VariableAssignmentStatement,
+            {
+              stateName: name ?? "Invoke " + resource?.identifier,
+              resource: "arn:aws:states:::aws-sdk:sfn:startExecution",
+              retry: retryConfiguration ?? context.converterOptions.defaultRetry,
+              catch: catchConfiguration,
+              parameters: {
+                properties: {
+                  Input: {
+                    arguments: [
+                      {
+                        identifier: "sfn_input",
+                        compilerGenerated: true,
+                        _syntaxKind: iasl.SyntaxKind.Identifier,
+                        type: "unknown"
+                      },
+                    ],
+                    function: "asl.states.jsonToString",
+                    _syntaxKind: iasl.SyntaxKind.AslIntrinsicFunction
+                  },
+                  StateMachineArn: {
+                    value: "statemachine:" + resource?.identifier,
+                    type: "string",
+                    _syntaxKind: iasl.SyntaxKind.Literal,
+                  }
+                },
+                _syntaxKind: iasl.SyntaxKind.LiteralObject
+              } as iasl.LiteralObjectExpression,
+              source: comment,
+              _syntaxKind: iasl.SyntaxKind.AslTaskState
+            } as iasl.TaskState,
+          ];
+        }
       };
 
       case "typescriptTry": {
@@ -713,7 +765,10 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
   const converted = convertExpression(expr, context)
   if (converted) {
     if (Array.isArray(converted)) {
-      throw new Error("not sure what to do here");
+      return {
+        statements: converted,
+        _syntaxKind: iasl.SyntaxKind.Block,
+      } as iasl.Block;
     }
     return converted;
   }
@@ -811,7 +866,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
         statements: [
           {
             name: {
-              identifier: "_var",
+              identifier: "return_var",
               compilerGenerated: true,
               _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"
@@ -821,7 +876,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
           } as iasl.VariableAssignmentStatement,
           {
             expression: {
-              identifier: "_var",
+              identifier: "return_var",
               compilerGenerated: true,
               _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"

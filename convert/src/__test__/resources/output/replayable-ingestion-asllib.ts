@@ -1,5 +1,4 @@
 import * as asl from "@ts2asl/asl-lib";
-import { handler as ReplayPrefixerHandler } from "../../functions/replay/prefixer";
 
 const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => { return [""] });
 
@@ -27,12 +26,12 @@ export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) =
     asl.map({
         maxConcurrency: 5,
         items: result,
-        iterator: (prefix) => asl.nativeSfnStartExecution({
-            parameters: {
-                input: asl.states.format("{}", prefix),
-                stateMachineArn: asl.deploy.getParameter("stateMachineArn"),
-            },
-        }),
+        iterator: (prefix) => asl.typescriptInvoke({
+            name: "replayWorker({ prefix })",
+            resource: replayWorker,
+            parameters: () => ({ prefix }),
+            comment: "replayWorker({ prefix })"
+        })
     });
 });
 

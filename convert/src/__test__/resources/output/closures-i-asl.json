@@ -201,7 +201,7 @@
                 },
                 {
                   "stateName": "doSomething(combined)",
-                  "resource": "typescript:doSomething",
+                  "resource": "lambda:doSomething",
                   "retry": [
                     {
                       "ErrorEquals": [

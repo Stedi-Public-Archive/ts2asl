@@ -17,7 +17,7 @@
             "performIdentifyCheck()": {
               "Type": "Task",
               "ResultPath": "$.vars._var",
-              "Resource": "typescript:performIdentifyCheck",
+              "Resource": "lambda:performIdentifyCheck",
               "Retry": [
                 {
                   "ErrorEquals": [

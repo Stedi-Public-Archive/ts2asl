@@ -267,7 +267,7 @@ describe("when converting closures", () => {
                 "identifier": "input",
                 "type": "object",
               },
-              "resource": "typescript:createBillJob",
+              "resource": "lambda:createBillJob",
               "retry": Array [
                 Object {
                   "BackoffRate": 2,
@@ -308,7 +308,7 @@ describe("when converting closures", () => {
                 "identifier": "billJob",
                 "type": "object",
               },
-              "resource": "typescript:createNonEmptyBills",
+              "resource": "lambda:createNonEmptyBills",
               "retry": Array [
                 Object {
                   "BackoffRate": 2,
@@ -387,7 +387,7 @@ describe("when converting closures", () => {
                         "identifier": "approveNonEmptyBillRequest",
                         "type": "object",
                       },
-                      "resource": "typescript:approveNonEmptyBill",
+                      "resource": "lambda:approveNonEmptyBill",
                       "retry": Array [
                         Object {
                           "BackoffRate": 2,
@@ -640,7 +640,7 @@ describe("when converting closures", () => {
                         "identifier": "x",
                         "type": "object",
                       },
-                      "resource": "typescript:createInvoice",
+                      "resource": "lambda:createInvoice",
                       "retry": Array [
                         Object {
                           "BackoffRate": 2,
@@ -713,7 +713,7 @@ describe("when converting closures", () => {
                         "identifier": "x",
                         "type": "object",
                       },
-                      "resource": "typescript:validateInvoice",
+                      "resource": "lambda:validateInvoice",
                       "retry": Array [
                         Object {
                           "BackoffRate": 2,
@@ -831,7 +831,7 @@ describe("when converting closures", () => {
                       },
                     },
                   },
-                  "resource": "typescript:createGithubIssue",
+                  "resource": "lambda:createGithubIssue",
                   "retry": Array [
                     Object {
                       "BackoffRate": 2,
@@ -998,7 +998,7 @@ describe("when converting closures", () => {
                           "identifier": "invoice",
                           "type": "object",
                         },
-                        "resource": "typescript:finallizeInvoice",
+                        "resource": "lambda:finallizeInvoice",
                         "retry": Array [
                           Object {
                             "BackoffRate": 2,
@@ -1075,7 +1075,7 @@ describe("when converting closures", () => {
                   "HeartbeatSeconds": undefined,
                   "InputPath": "$.vars.approveNonEmptyBillRequest",
                   "Next": "If (approvalResult.valid)",
-                  "Resource": "typescript:approveNonEmptyBill",
+                  "Resource": "lambda:approveNonEmptyBill",
                   "ResultPath": "$.vars.approvalResult",
                   "Retry": Array [
                     Object {
@@ -1136,7 +1136,7 @@ describe("when converting closures", () => {
                   "HeartbeatSeconds": undefined,
                   "InputPath": "$.vars.x",
                   "Next": "Pass_2",
-                  "Resource": "typescript:createInvoice",
+                  "Resource": "lambda:createInvoice",
                   "ResultPath": "$.vars._var",
                   "Retry": Array [
                     Object {
@@ -1196,7 +1196,7 @@ describe("when converting closures", () => {
                   "HeartbeatSeconds": undefined,
                   "InputPath": "$.vars.x",
                   "Next": "Pass_3",
-                  "Resource": "typescript:validateInvoice",
+                  "Resource": "lambda:validateInvoice",
                   "ResultPath": "$.vars._var",
                   "Retry": Array [
                     Object {
@@ -1253,7 +1253,7 @@ describe("when converting closures", () => {
                   "End": true,
                   "HeartbeatSeconds": undefined,
                   "InputPath": "$.vars.invoice",
-                  "Resource": "typescript:finallizeInvoice",
+                  "Resource": "lambda:finallizeInvoice",
                   "Retry": Array [
                     Object {
                       "BackoffRate": 2,
@@ -1324,7 +1324,7 @@ describe("when converting closures", () => {
             "HeartbeatSeconds": undefined,
             "InputPath": "$.vars",
             "Next": "Wait",
-            "Resource": "typescript:createBillJob",
+            "Resource": "lambda:createBillJob",
             "ResultPath": "$.vars.billJob",
             "Retry": Array [
               Object {
@@ -1351,7 +1351,7 @@ describe("when converting closures", () => {
                 "invalid.$": "$.vars.invalidInvoices",
               },
             },
-            "Resource": "typescript:createGithubIssue",
+            "Resource": "lambda:createGithubIssue",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -1373,7 +1373,7 @@ describe("when converting closures", () => {
             "HeartbeatSeconds": undefined,
             "InputPath": "$.vars.billJob",
             "Next": "Assign billPromises",
-            "Resource": "typescript:createNonEmptyBills",
+            "Resource": "lambda:createNonEmptyBills",
             "ResultPath": "$.vars.jobResult",
             "Retry": Array [
               Object {

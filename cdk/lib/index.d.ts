@@ -4,7 +4,9 @@ import { ConverterOptions } from "@ts2asl/convert";
 import { NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
 export interface TypescriptStateMachineProps {
     defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
-    defaultFunctionProps: Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
+    stepFunctionProps?: Record<string, Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">>;
+    defaultFunctionProps?: Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
+    functionProps?: Record<string, Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">>;
     programName: string;
     sourceFile: string;
     conversionOptions?: ConverterOptions;

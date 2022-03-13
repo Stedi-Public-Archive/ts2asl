@@ -40,14 +40,19 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                                 condition: () => (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && threshold.ceiling > numericLastSentOnValue && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S))
                                     || (item.sk.S === threshold.metric && threshold.ceiling <= numericTotal && (!item.lastBeginDateValue.S || item.beginDate.S === item.lastBeginDateValue.S)),
                                 then: async () => {
+                                    const detail = asl.pass({
+                                        name: "Assign detail",
+                                        parameters: () => ({
+                                            account_id: item.pk,
+                                            threshold: threshold
+                                        }),
+                                        comment: "detail = {\n            account_id: item.pk,\n            threshold: threshold\n          }"
+                                    });
                                     asl.nativeEventBridgePutEvents({
                                         parameters: {
                                             Entries: [
                                                 {
-                                                    Detail: asl.states.jsonToString({
-                                                        account_id: item.pk,
-                                                        threshold: threshold
-                                                    }),
+                                                    Detail: asl.states.jsonToString(detail),
                                                     DetailType: "xxx.detail.type",
                                                     EventBusName: "default",
                                                     Source: "zzz.my.source"

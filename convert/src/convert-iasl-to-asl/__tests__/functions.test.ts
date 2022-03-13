@@ -73,10 +73,11 @@ describe("when transpiling function", () => {
   it("then function is passed object literal", () => {
     const transformed = testTransform(
       `
-    let result = asl.states.jsonToString({
-      num: 12,
-      str: "val"
-    }),
+      const tmp = {
+        num: 12,
+        str: "val"
+      };
+    let result = asl.states.jsonToString(tmp),
     `,
       createTransformers({})
     );
@@ -89,15 +90,22 @@ describe("when transpiling function", () => {
           "Assign result": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "States.JsonToString({
-        \\"num\\": 12,
-        \\"str\\": \\"val\\"
-      })",
+            "InputPath": "States.JsonToString($.vars.tmp)",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize": Object {
+          "Assign tmp": Object {
+            "Comment": "source: tmp = { num: 12, str: \\"val\\" }",
             "Next": "Assign result",
+            "Result": Object {
+              "num": 12,
+              "str": "val",
+            },
+            "ResultPath": "$.vars.tmp",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign tmp",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

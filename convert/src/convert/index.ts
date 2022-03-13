@@ -12,8 +12,16 @@ export interface ConverterOptions {
   lineNumbersInStateNames?: true;
   sourceCodeInComments?: true;
   includeDiagnostics?: true;
+  skipCheckCallables?: true;
+  defaultRetry?: [{
+    ErrorEquals: string[],
+    IntervalSeconds: number,
+    MaxAttempts: number,
+    BackoffRate: number
+  }],
   getParameter?: <T>(paramName: string, defaultValue?: T) => T;
 }
+
 
 export class Converter {
   sourceFile: ts.SourceFile;
@@ -26,9 +34,22 @@ export class Converter {
     this.program = compilerHost.program;
   }
 
+
   convert(options: ConverterOptions = {}): Converted {
     const declarations = listFunctionDeclarations(this.sourceFile, this.typeChecker);
-
+    const optionsWithDefaults = options;
+    if (optionsWithDefaults.defaultRetry === undefined) {
+      optionsWithDefaults.defaultRetry = [{
+        ErrorEquals: [
+          "Lambda.ServiceException",
+          "Lambda.AWSLambdaException",
+          "Lambda.SdkClientException"
+        ],
+        IntervalSeconds: 2,
+        MaxAttempts: 6,
+        BackoffRate: 2
+      }];
+    }
     const lambdas: ConvertedLambda[] = [];
     const stateMachines: ConvertedStateMachine[] = [];
     for (const decl of declarations) {
@@ -39,15 +60,15 @@ export class Converter {
         let transpiled: iasl.StateMachine = { _syntaxKind: iasl.SyntaxKind.StateMachine, statements: [] };
         let asl: asl.StateMachine | undefined;
         try {
-          transformed = transformBody(body, options);
-          transpiled = convertToIntermediaryAsl(transformed, { converterOptions: options, typeChecker: this.typeChecker, inputArgumentName: decl.inputArgName, contextArgumentName: decl.contextArgName });
+          transformed = transformBody(body, optionsWithDefaults);
+          transpiled = convertToIntermediaryAsl(transformed, { converterOptions: optionsWithDefaults, typeChecker: this.typeChecker, inputArgumentName: decl.inputArgName, contextArgumentName: decl.contextArgName });
           asl = convert(transpiled)!;
         } catch (err) {
           // if (!includeDiagnostics)
           throw err;
         }
         const result = { name: decl.name, asl };
-        if (options.includeDiagnostics) {
+        if (optionsWithDefaults.includeDiagnostics) {
           const withDiagnostics: Record<string, unknown> = result;
           const transformedBlock = transformed ? ts.createPrinter().printNode(ts.EmitHint.Unspecified, transformed, this.sourceFile) : undefined;
           const transformedCode = this.sourceFile.text.substring(0, blockPosition.start) + transformedBlock + this.sourceFile.text.substring(blockPosition.end);

@@ -31,20 +31,9 @@ describe("when transpiling simple statements", () => {
                     "Comment": "source: isDone()",
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",
-                    "Resource": "typescript:isDone",
+                    "Resource": "lambda:isDone",
                     "ResultPath": "$.vars.result",
-                    "Retry": Array [
-                      Object {
-                        "BackoffRate": 2,
-                        "ErrorEquals": Array [
-                          "Lambda.ServiceException",
-                          "Lambda.AWSLambdaException",
-                          "Lambda.SdkClientException",
-                        ],
-                        "IntervalSeconds": 2,
-                        "MaxAttempts": 6,
-                      },
-                    ],
+                    "Retry": undefined,
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },

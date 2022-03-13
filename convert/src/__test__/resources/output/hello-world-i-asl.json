@@ -57,7 +57,7 @@
       },
       "expression": {
         "stateName": "random()",
-        "resource": "typescript:random",
+        "resource": "lambda:random",
         "retry": [
           {
             "ErrorEquals": [

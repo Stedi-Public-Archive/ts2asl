@@ -280,7 +280,7 @@ export interface LiteralExpression extends Expression {
   type: Type;
 }
 
-export type Type = "string" | "boolean" | "numeric" | "timestamp" | "object" | "array" | "unknown" | "null";
+export type Type = "callable-lambda" | "callable-statemachine" | "callable" | "string" | "boolean" | "numeric" | "timestamp" | "object" | "array" | "unknown" | "null";
 
 export interface AslIntrinsicFunction extends Expression {
   _syntaxKind: SyntaxKind.AslIntrinsicFunction;

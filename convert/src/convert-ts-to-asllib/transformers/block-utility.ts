@@ -27,7 +27,7 @@ export const convertToBlock = (node: ts.Node): ts.Block => {
     undefined,
     factory.createVariableDeclarationList(
       [factory.createVariableDeclaration(
-        factory.createIdentifier("_var"),
+        factory.createIdentifier("return_var"),
         undefined,
         undefined,
         context as ts.Expression
@@ -35,6 +35,6 @@ export const convertToBlock = (node: ts.Node): ts.Block => {
       ts.NodeFlags.Let
     )
   ),
-  factory.createReturnStatement(factory.createIdentifier("_var"))
+  factory.createReturnStatement(factory.createIdentifier("return_var"))
   ])
 };

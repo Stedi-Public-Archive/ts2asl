@@ -12,7 +12,7 @@
     "replayPrefixer(input)": {
       "Type": "Task",
       "ResultPath": "$.vars.result",
-      "Resource": "typescript:replayPrefixer",
+      "Resource": "lambda:replayPrefixer",
       "InputPath": "$.vars",
       "Retry": [
         {
@@ -33,22 +33,37 @@
       "Type": "Map",
       "ResultPath": "$.lastResult",
       "Iterator": {
-        "StartAt": "StartExecution",
+        "StartAt": "Assign _input",
         "States": {
-          "StartExecution": {
+          "Assign _input": {
+            "Type": "Pass",
+            "ResultPath": "$.vars._input",
+            "Parameters": {
+              "prefix.$": "$.vars.prefix"
+            },
+            "Next": "replayWorker({ prefix })"
+          },
+          "replayWorker({ prefix })": {
             "Type": "Task",
-            "ResultPath": "$.vars._var",
             "Resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
             "Parameters": {
-              "Input.$": "States.Format('{}', $.vars.prefix)",
-              "StateMachineArn": "unresolved parameter: stateMachineArn"
+              "Input.$": "States.JsonToString($.vars._input)",
+              "StateMachineArn": "statemachine:replayWorker"
             },
-            "Next": "Pass"
-          },
-          "Pass": {
-            "End": true,
-            "Type": "Pass",
-            "InputPath": "$.vars._var"
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
+            "Comment": "source: replayWorker({ prefix })",
+            "End": true
           }
         }
       },

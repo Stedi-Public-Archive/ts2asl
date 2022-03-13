@@ -275,7 +275,7 @@ describe("when converting closures", () => {
                           "identifier": "combined",
                           "type": "object",
                         },
-                        "resource": "typescript:doSomething",
+                        "resource": "lambda:doSomething",
                         "retry": Array [
                           Object {
                             "BackoffRate": 2,
@@ -382,7 +382,7 @@ describe("when converting closures", () => {
                         "End": true,
                         "HeartbeatSeconds": undefined,
                         "InputPath": "$.vars.combined",
-                        "Resource": "typescript:doSomething",
+                        "Resource": "lambda:doSomething",
                         "Retry": Array [
                           Object {
                             "BackoffRate": 2,

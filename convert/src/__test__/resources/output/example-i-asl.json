@@ -350,6 +350,35 @@
                         "then": {
                           "statements": [
                             {
+                              "name": {
+                                "identifier": "detail",
+                                "_syntaxKind": "identifier",
+                                "type": "object"
+                              },
+                              "expression": {
+                                "stateName": "Assign detail",
+                                "parameters": {
+                                  "properties": {
+                                    "account_id": {
+                                      "identifier": "item.pk",
+                                      "type": "object",
+                                      "_syntaxKind": "identifier"
+                                    },
+                                    "threshold": {
+                                      "identifier": "threshold",
+                                      "_syntaxKind": "identifier",
+                                      "type": "object"
+                                    }
+                                  },
+                                  "_syntaxKind": "literal-object"
+                                },
+                                "source": "detail = {\n            account_id: item.pk,\n            threshold: threshold\n          }",
+                                "_syntaxKind": "asl-pass-state"
+                              },
+                              "stateName": "Assign detail",
+                              "_syntaxKind": "variable-assignment"
+                            },
+                            {
                               "stateName": "PutEvents",
                               "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
                               "parameters": {
@@ -361,19 +390,9 @@
                                           "Detail": {
                                             "arguments": [
                                               {
-                                                "properties": {
-                                                  "account_id": {
-                                                    "identifier": "item.pk",
-                                                    "type": "object",
-                                                    "_syntaxKind": "identifier"
-                                                  },
-                                                  "threshold": {
-                                                    "identifier": "threshold",
-                                                    "_syntaxKind": "identifier",
-                                                    "type": "object"
-                                                  }
-                                                },
-                                                "_syntaxKind": "literal-object"
+                                                "identifier": "detail",
+                                                "_syntaxKind": "identifier",
+                                                "type": "object"
                                               }
                                             ],
                                             "function": "asl.states.jsonToString",

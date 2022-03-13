@@ -18,7 +18,7 @@
                 },
                 "expression": {
                   "stateName": "performIdentifyCheck()",
-                  "resource": "typescript:performIdentifyCheck",
+                  "resource": "lambda:performIdentifyCheck",
                   "retry": [
                     {
                       "ErrorEquals": [
