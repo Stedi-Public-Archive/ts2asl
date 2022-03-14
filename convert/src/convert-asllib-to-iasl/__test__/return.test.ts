@@ -91,7 +91,7 @@ describe("when returning", () => {
             "name": Object {
               "_syntaxKind": "identifier",
               "compilerGenerated": true,
-              "identifier": "_var",
+              "identifier": "return_var",
               "type": "unknown",
             },
           },
@@ -100,7 +100,7 @@ describe("when returning", () => {
             "expression": Object {
               "_syntaxKind": "identifier",
               "compilerGenerated": true,
-              "identifier": "_var",
+              "identifier": "return_var",
               "type": "unknown",
             },
           },

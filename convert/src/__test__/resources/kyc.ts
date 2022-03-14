@@ -55,6 +55,6 @@ export const main = asl.deploy.asStateMachine(async () => {
 
 
 
-const performIdentifyCheck = asl.deploy.asLambda(async () => {
+export const performIdentifyCheck = asl.deploy.asLambda(async () => {
   return { identityChecked: true, customerName: "name", customerAddress: "address" };
 })

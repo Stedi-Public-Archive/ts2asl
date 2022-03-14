@@ -409,7 +409,7 @@ describe("when converting closures", () => {
                       "outer.$": "$.vars.outer",
                     },
                   },
-                  "ResultPath": "$.lastResult",
+                  "ResultPath": "$.tmp.lastResult",
                   "Type": "Map",
                 },
               },
@@ -423,7 +423,7 @@ describe("when converting closures", () => {
                 "outer.$": "$.vars.outer",
               },
             },
-            "ResultPath": "$.lastResult",
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Map",
           },
           "Initialize": Object {

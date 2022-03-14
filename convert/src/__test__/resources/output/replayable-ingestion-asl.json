@@ -31,15 +31,16 @@
     },
     "Map": {
       "Type": "Map",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Iterator": {
-        "StartAt": "Assign _input",
+        "StartAt": "Assign Sfn_input",
         "States": {
-          "Assign _input": {
+          "Assign Sfn_input": {
             "Type": "Pass",
-            "ResultPath": "$.vars._input",
+            "ResultPath": "$.tmp.sfn_input",
             "Parameters": {
-              "prefix.$": "$.vars.prefix"
+              "prefix.$": "$.vars.prefix",
+              "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID.$": "$$.Execution.Id"
             },
             "Next": "replayWorker({ prefix })"
           },
@@ -47,7 +48,7 @@
             "Type": "Task",
             "Resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
             "Parameters": {
-              "Input.$": "States.JsonToString($.vars._input)",
+              "Input.$": "States.JsonToString($.tmp.sfn_input)",
               "StateMachineArn": "statemachine:replayWorker"
             },
             "Retry": [

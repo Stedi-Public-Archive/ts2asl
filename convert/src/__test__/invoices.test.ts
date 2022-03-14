@@ -89,23 +89,23 @@ describe("when converting closures", () => {
           const invoices = asl.map({
               name: \\"For x Of validBills.map\\",
               items: () => validBills,
-              iterator: x => { let _var = asl.typescriptInvoke({
+              iterator: x => { let return_var = asl.typescriptInvoke({
                   name: \\"createInvoice(x)\\",
                   resource: createInvoice,
                   parameters: () => x,
                   comment: \\"createInvoice(x)\\"
-              }); return _var; },
+              }); return return_var; },
               comment: \\"validBills.map(async x => createInvoice(x))\\"
           });
           const validatedInvoices = asl.map({
               name: \\"For x Of invoices.map\\",
               items: () => invoices,
-              iterator: x => { let _var = asl.typescriptInvoke({
+              iterator: x => { let return_var = asl.typescriptInvoke({
                   name: \\"validateInvoice(x)\\",
                   resource: validateInvoice,
                   parameters: () => x,
                   comment: \\"validateInvoice(x)\\"
-              }); return _var; },
+              }); return return_var; },
               comment: \\"invoices.map(async x => validateInvoice(x))\\"
           });
           const invalidInvoices = asl.jsonPathFilter(validatedInvoices, (x) => !x.valid);
@@ -164,13 +164,13 @@ describe("when converting closures", () => {
       },
       );
 
-      const createInvoice = asl.deploy.asLambda(CreateInvoiceHandler);
-      const validateInvoice = asl.deploy.asLambda(ValidateInvoiceHandler);
-      const createGithubIssue = asl.deploy.asLambda(CreateGithubIssueHandler);
-      const approveNonEmptyBill = asl.deploy.asLambda(ApproveNonEmptyBillHandler);
-      const createNonEmptyBills = asl.deploy.asLambda(createNonEmptyBillsHandler);
-      const createBillJob = asl.deploy.asLambda(createBillJobHandler);
-      const finallizeInvoice = asl.deploy.asLambda(FinallizeInvoiceHandler);
+      export const createInvoice = asl.deploy.asLambda(CreateInvoiceHandler);
+      export const validateInvoice = asl.deploy.asLambda(ValidateInvoiceHandler);
+      export const createGithubIssue = asl.deploy.asLambda(CreateGithubIssueHandler);
+      export const approveNonEmptyBill = asl.deploy.asLambda(ApproveNonEmptyBillHandler);
+      export const createNonEmptyBills = asl.deploy.asLambda(createNonEmptyBillsHandler);
+      export const createBillJob = asl.deploy.asLambda(createBillJobHandler);
+      export const finallizeInvoice = asl.deploy.asLambda(FinallizeInvoiceHandler);
 
       interface EventInput {
         lastDateInBillingPeriod?: string;
@@ -658,7 +658,7 @@ describe("when converting closures", () => {
                     },
                     "name": Object {
                       "_syntaxKind": "identifier",
-                      "identifier": "_var",
+                      "identifier": "return_var",
                       "type": "unknown",
                     },
                     "stateName": "Assign ???",
@@ -667,7 +667,7 @@ describe("when converting closures", () => {
                     "_syntaxKind": "return",
                     "expression": Object {
                       "_syntaxKind": "identifier",
-                      "identifier": "_var",
+                      "identifier": "return_var",
                       "type": "unknown",
                     },
                     "stateName": "Return ???",
@@ -731,7 +731,7 @@ describe("when converting closures", () => {
                     },
                     "name": Object {
                       "_syntaxKind": "identifier",
-                      "identifier": "_var",
+                      "identifier": "return_var",
                       "type": "unknown",
                     },
                     "stateName": "Assign ???",
@@ -740,7 +740,7 @@ describe("when converting closures", () => {
                     "_syntaxKind": "return",
                     "expression": Object {
                       "_syntaxKind": "identifier",
-                      "identifier": "_var",
+                      "identifier": "return_var",
                       "type": "unknown",
                     },
                     "stateName": "Return ???",
@@ -1127,7 +1127,7 @@ describe("when converting closures", () => {
               "States": Object {
                 "Pass_2": Object {
                   "End": true,
-                  "InputPath": "$.vars._var",
+                  "InputPath": "$.vars.return_var",
                   "Type": "Pass",
                 },
                 "createInvoice(x)": Object {
@@ -1137,7 +1137,7 @@ describe("when converting closures", () => {
                   "InputPath": "$.vars.x",
                   "Next": "Pass_2",
                   "Resource": "lambda:createInvoice",
-                  "ResultPath": "$.vars._var",
+                  "ResultPath": "$.vars.return_var",
                   "Retry": Array [
                     Object {
                       "BackoffRate": 2,
@@ -1187,7 +1187,7 @@ describe("when converting closures", () => {
               "States": Object {
                 "Pass_3": Object {
                   "End": true,
-                  "InputPath": "$.vars._var",
+                  "InputPath": "$.vars.return_var",
                   "Type": "Pass",
                 },
                 "validateInvoice(x)": Object {
@@ -1197,7 +1197,7 @@ describe("when converting closures", () => {
                   "InputPath": "$.vars.x",
                   "Next": "Pass_3",
                   "Resource": "lambda:validateInvoice",
-                  "ResultPath": "$.vars._var",
+                  "ResultPath": "$.vars.return_var",
                   "Retry": Array [
                     Object {
                       "BackoffRate": 2,
@@ -1277,7 +1277,7 @@ describe("when converting closures", () => {
                 "invoice.$": "$$.Map.Item.Value",
               },
             },
-            "ResultPath": "$.lastResult",
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Map",
           },
           "If (!input.shouldFinalize)": Object {

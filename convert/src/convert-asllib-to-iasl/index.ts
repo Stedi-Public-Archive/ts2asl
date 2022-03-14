@@ -240,6 +240,13 @@ export const convertExpression = (expression: ts.Expression | undefined, context
             _syntaxKind: iasl.SyntaxKind.AslTaskState
           } as iasl.TaskState;
         } else {
+          if (iasl.Check.isLiteralObject(parameters)) {
+            parameters.properties["AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID"] = {
+              identifier: "$$.Execution.Id",
+              _syntaxKind: iasl.SyntaxKind.Identifier,
+              type: "unknown"
+            };
+          }
           return [
             {
               name: {
@@ -609,7 +616,8 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       type: "null",
       _syntaxKind: iasl.SyntaxKind.Literal,
     } as iasl.LiteralExpression;
-  } else if (ts.isArrowFunction(original) && ts.isBlock(expr)) {
+  } else if (ts.isArrowFunction(original) && (ts.isBlock(expr))) {
+    let block: ts.Node = expr;
     let argName: undefined | string = undefined;
     if (original.parameters.length >= 1) {
       const identifier = (original.parameters[0].name) as ts.Identifier;
@@ -618,7 +626,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
         throw new Error("Iterator block must not have more than 1 parameter");
       }
     }
-    const fn = convertToIntermediaryAsl(expr, { ...context, inputArgumentName: argName });
+    const fn = convertToIntermediaryAsl(block as ts.Block, { ...context, inputArgumentName: argName });
     delete fn.contextArgumentName;
     if (!fn.inputArgumentName) delete fn.inputArgumentName;
     (fn as iasl.Function)._syntaxKind = iasl.SyntaxKind.Function;

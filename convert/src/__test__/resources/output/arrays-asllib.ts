@@ -1,7 +1,7 @@
 
 import * as asl from "@ts2asl/asl-lib"
 
-export const main = asl.deploy.asStateMachine(async (_input: {}, context: asl.StateMachineContext<{}>) => {
+export const main = asl.deploy.asStateMachine(async (_input: {}, context: asl.StateMachineContext<{}>) =>{
     asl.pass({
         parameters: () => asl.states.format("Starting execution of {} at {} with role of {}", context.stateMachine.name, context.execution.startTime, context.execution.roleArn),
         comment: "console.log(asl.states.format(\"Starting execution of {} at {} with role of {}\", context.stateMachine.name, context.execution.startTime, context.execution.roleArn))"
@@ -49,7 +49,6 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, context: asl.St
             }
         })
     });
-    const result = asl.jsonPathExpression(array, item => item.attr)
     //Add array of unique ages using JSONPath Expression
     let uniqueAges = asl.jsonPathExpression(bySpecies, "..age");
     let flattenedPets = asl.jsonPathExpression(bySpecies, "[*][*][*]");

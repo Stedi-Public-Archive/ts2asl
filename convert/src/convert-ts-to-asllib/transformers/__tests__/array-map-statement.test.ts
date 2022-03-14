@@ -59,7 +59,7 @@ describe("when converting array map statements", () => {
       "const x = asl.map({
           name: \\"For x Of items.map\\",
           items: () => items,
-          iterator: x => { let _var = x.attrib; return _var; },
+          iterator: x => { let return_var = x.attrib; return return_var; },
           comment: \\"items.map(x => x.attrib)\\"
       });"
     `);

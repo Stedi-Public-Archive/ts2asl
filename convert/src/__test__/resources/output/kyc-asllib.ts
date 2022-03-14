@@ -6,11 +6,11 @@ import * as asl from "@ts2asl/asl-lib"
 export const main = asl.deploy.asStateMachine(async () =>{
     const result = asl.parallel({
         branches: [
-            () => { let _var = asl.typescriptInvoke({
+            () => { let return_var = asl.typescriptInvoke({
                 name: "performIdentifyCheck()",
                 resource: performIdentifyCheck,
                 comment: "performIdentifyCheck()"
-            }); return _var; },
+            }); return return_var; },
             () => { return { agencyChecked: true }; }
         ]
     });
@@ -68,6 +68,6 @@ export const main = asl.deploy.asStateMachine(async () =>{
 
 
 
-const performIdentifyCheck = asl.deploy.asLambda(async () => {
+export const performIdentifyCheck = asl.deploy.asLambda(async () => {
   return { identityChecked: true, customerName: "name", customerAddress: "address" };
 })

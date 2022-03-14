@@ -53,13 +53,13 @@
     },
     "For number Of numbers": {
       "Type": "Map",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Iterator": {
         "StartAt": "For letter Of letters",
         "States": {
           "For letter Of letters": {
             "Type": "Map",
-            "ResultPath": "$.lastResult",
+            "ResultPath": "$.tmp.lastResult",
             "Iterator": {
               "StartAt": "Assign combined",
               "States": {

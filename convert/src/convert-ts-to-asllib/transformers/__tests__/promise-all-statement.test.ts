@@ -15,8 +15,8 @@ describe("when converting Promise.all statement", () => {
     ).toMatchInlineSnapshot(`
       "await asl.parallel({
           branches: [
-              () => { let _var = turnLeft(); return _var; },
-              () => { let _var = turnRight(); return _var; }
+              () => { let return_var = turnLeft(); return return_var; },
+              () => { let return_var = turnRight(); return return_var; }
           ],
           comment: \\"Promise.all(\\\\n          [\\\\n            turnLeft(),\\\\n            turnRight()\\\\n          ])\\"
       });"

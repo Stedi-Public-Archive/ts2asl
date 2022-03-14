@@ -1,6 +1,6 @@
 import * as asl from "@ts2asl/asl-lib";
 
-const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => { return [""] });
+export const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => { return [""] });
 
 //option 1: native typescript
 // export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) => {

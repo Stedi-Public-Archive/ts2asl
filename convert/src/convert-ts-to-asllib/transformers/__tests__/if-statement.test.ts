@@ -76,7 +76,7 @@ describe("when converting if statements", () => {
       "asl.typescriptIf({
           name: \\"If (age > 18)\\",
           condition: () => age > 18,
-          then: async () => { let _var = console.log(); return _var; },
+          then: async () => { let return_var = console.log(); return return_var; },
           comment: \\"if (age > 18) console.log();\\"
       })"
     `);
@@ -92,7 +92,7 @@ describe("when converting if statements", () => {
       "asl.typescriptIf({
           name: \\"If (optIn === true)\\",
           condition: () => optIn === true,
-          then: async () => { let _var = console.log(); return _var; },
+          then: async () => { let return_var = console.log(); return return_var; },
           comment: \\"if (optIn === true) console.log();\\"
       })"
     `);
@@ -109,7 +109,7 @@ describe("when converting if statements", () => {
       "asl.typescriptIf({
           name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
-          then: async () => { let _var = console.log(); return _var; },
+          then: async () => { let return_var = console.log(); return return_var; },
           comment: \\"if (lhs === rhs) console.log();\\"
       })"
     `);
@@ -125,8 +125,8 @@ describe("when converting if statements", () => {
       "asl.typescriptIf({
           name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
-          then: async () => { let _var = console.log(); return _var; },
-          else: async () => { let _var = console.log(); return _var; },
+          then: async () => { let return_var = console.log(); return return_var; },
+          else: async () => { let return_var = console.log(); return return_var; },
           comment: \\"if (lhs === rhs) console.log(); else console.log();\\"
       })"
     `);
@@ -142,8 +142,8 @@ describe("when converting if statements", () => {
       "asl.typescriptIf({
           name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
-          then: async () => { let _var = console.log(); return _var; },
-          else: async () => { let _var = console.log(); return _var; },
+          then: async () => { let return_var = console.log(); return return_var; },
+          else: async () => { let return_var = console.log(); return return_var; },
           comment: \\"if (lhs === rhs) console.log(); else console.log();\\"
       })"
     `);
@@ -159,13 +159,13 @@ describe("when converting if statements", () => {
       "asl.typescriptIf({
           name: \\"If (lhs === rhs)\\",
           condition: () => lhs === rhs,
-          then: async () => { let _var = console.log(); return _var; },
-          else: async () => { let _var = asl.typescriptIf({
+          then: async () => { let return_var = console.log(); return return_var; },
+          else: async () => { let return_var = asl.typescriptIf({
               name: \\"If (1 === 2)\\",
               condition: () => 1 === 2,
-              then: async () => { let _var = console.log(); return _var; },
+              then: async () => { let return_var = console.log(); return return_var; },
               comment: \\"if (1 === 2) console.log();\\"
-          }); return _var; }
+          }); return return_var; }
       })"
     `);
   });

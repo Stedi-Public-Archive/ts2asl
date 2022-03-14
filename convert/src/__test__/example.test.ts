@@ -869,7 +869,7 @@ describe("when converting example", () => {
                               "threshold.$": "$$.Map.Item.Value",
                             },
                           },
-                          "ResultPath": "$.lastResult",
+                          "ResultPath": "$.tmp.lastResult",
                           "Type": "Map",
                         },
                       },
@@ -882,7 +882,7 @@ describe("when converting example", () => {
                         "thresholds.$": "$.vars.thresholds",
                       },
                     },
-                    "ResultPath": "$.lastResult",
+                    "ResultPath": "$.tmp.lastResult",
                     "Type": "Map",
                   },
                   "Scan": Object {

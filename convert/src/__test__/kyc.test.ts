@@ -17,11 +17,11 @@ describe("when converting example", () => {
       export const main = asl.deploy.asStateMachine(async () =>{
           const result = asl.parallel({
               branches: [
-                  () => { let _var = asl.typescriptInvoke({
+                  () => { let return_var = asl.typescriptInvoke({
                       name: \\"performIdentifyCheck()\\",
                       resource: performIdentifyCheck,
                       comment: \\"performIdentifyCheck()\\"
-                  }); return _var; },
+                  }); return return_var; },
                   () => { return { agencyChecked: true }; }
               ]
           });
@@ -79,7 +79,7 @@ describe("when converting example", () => {
 
 
 
-      const performIdentifyCheck = asl.deploy.asLambda(async () => {
+      export const performIdentifyCheck = asl.deploy.asLambda(async () => {
         return { identityChecked: true, customerName: \\"name\\", customerAddress: \\"address\\" };
       })
       "
@@ -124,7 +124,7 @@ describe("when converting example", () => {
                       },
                       "name": Object {
                         "_syntaxKind": "identifier",
-                        "identifier": "_var",
+                        "identifier": "return_var",
                         "type": "unknown",
                       },
                       "stateName": "Assign ???",
@@ -133,7 +133,7 @@ describe("when converting example", () => {
                       "_syntaxKind": "return",
                       "expression": Object {
                         "_syntaxKind": "identifier",
-                        "identifier": "_var",
+                        "identifier": "return_var",
                         "type": "unknown",
                       },
                       "stateName": "Return ???",
@@ -375,7 +375,7 @@ describe("when converting example", () => {
                 "States": Object {
                   "Pass": Object {
                     "End": true,
-                    "InputPath": "$.vars._var",
+                    "InputPath": "$.vars.return_var",
                     "Type": "Pass",
                   },
                   "performIdentifyCheck()": Object {
@@ -384,7 +384,7 @@ describe("when converting example", () => {
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass",
                     "Resource": "lambda:performIdentifyCheck",
-                    "ResultPath": "$.vars._var",
+                    "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,

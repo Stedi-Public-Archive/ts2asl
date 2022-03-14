@@ -57,13 +57,13 @@
             },
             "For item Of scan.Items": {
               "Type": "Map",
-              "ResultPath": "$.lastResult",
+              "ResultPath": "$.tmp.lastResult",
               "Iterator": {
                 "StartAt": "For threshold Of thresholds",
                 "States": {
                   "For threshold Of thresholds": {
                     "Type": "Map",
-                    "ResultPath": "$.lastResult",
+                    "ResultPath": "$.tmp.lastResult",
                     "Iterator": {
                       "StartAt": "Assign numericLastSentOnValue",
                       "States": {

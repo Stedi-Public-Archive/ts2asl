@@ -3,7 +3,7 @@
 exports[`when converting test-resources 1`] = `
 "import * as asl from \\"@ts2asl/asl-lib\\";
 
-const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => { return [\\"\\"] });
+export const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => { return [\\"\\"] });
 
 //option 1: native typescript
 // export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) => {
@@ -147,6 +147,11 @@ Object {
             "expression": Object {
               "_syntaxKind": "literal-object",
               "properties": Object {
+                "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID": Object {
+                  "_syntaxKind": "identifier",
+                  "identifier": "$$.Execution.Id",
+                  "type": "unknown",
+                },
                 "prefix": Object {
                   "_syntaxKind": "identifier",
                   "identifier": "prefix",
@@ -157,7 +162,7 @@ Object {
             "name": Object {
               "_syntaxKind": "identifier",
               "compilerGenerated": true,
-              "identifier": "_input",
+              "identifier": "sfn_input",
               "type": "unknown",
             },
           },
@@ -173,7 +178,7 @@ Object {
                     Object {
                       "_syntaxKind": "identifier",
                       "compilerGenerated": true,
-                      "identifier": "_input",
+                      "identifier": "sfn_input",
                       "type": "unknown",
                     },
                   ],
@@ -227,15 +232,16 @@ Object {
       "End": true,
       "ItemsPath": "$.vars.result",
       "Iterator": Object {
-        "StartAt": "Assign _input",
+        "StartAt": "Assign Sfn_input",
         "States": Object {
-          "Assign _input": Object {
+          "Assign Sfn_input": Object {
             "Comment": undefined,
             "Next": "replayWorker({ prefix })",
             "Parameters": Object {
+              "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID.$": "$$.Execution.Id",
               "prefix.$": "$.vars.prefix",
             },
-            "ResultPath": "$.vars._input",
+            "ResultPath": "$.tmp.sfn_input",
             "Type": "Pass",
           },
           "replayWorker({ prefix })": Object {
@@ -244,7 +250,7 @@ Object {
             "End": true,
             "HeartbeatSeconds": undefined,
             "Parameters": Object {
-              "Input.$": "States.JsonToString($.vars._input)",
+              "Input.$": "States.JsonToString($.tmp.sfn_input)",
               "StateMachineArn": "statemachine:replayWorker",
             },
             "Resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
@@ -266,7 +272,7 @@ Object {
         },
       },
       "MaxConcurrency": 5,
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Type": "Map",
     },
     "replayPrefixer(input)": Object {

@@ -376,7 +376,7 @@
           "statements": [
             {
               "name": {
-                "identifier": "_var",
+                "identifier": "return_var",
                 "_syntaxKind": "identifier",
                 "type": "unknown"
               },
@@ -408,7 +408,7 @@
             },
             {
               "expression": {
-                "identifier": "_var",
+                "identifier": "return_var",
                 "_syntaxKind": "identifier",
                 "type": "unknown"
               },
@@ -445,7 +445,7 @@
           "statements": [
             {
               "name": {
-                "identifier": "_var",
+                "identifier": "return_var",
                 "_syntaxKind": "identifier",
                 "type": "unknown"
               },
@@ -477,7 +477,7 @@
             },
             {
               "expression": {
-                "identifier": "_var",
+                "identifier": "return_var",
                 "_syntaxKind": "identifier",
                 "type": "unknown"
               },

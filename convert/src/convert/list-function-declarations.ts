@@ -56,6 +56,10 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile, typeChecker:
               const parameters = signatures.filter(x => x.getParameters().length > 1);
               if (parameters.length > 0) throw new Error(`Lambda declaration must be callable with 0 or 1 argument`);
             }
+            if (!f.modifiers || !f.modifiers.find(x => x.kind === 93)) {
+              throw new Error(`Lambda declaration must be exported`);
+            }
+
           }
           result.push({
             name,

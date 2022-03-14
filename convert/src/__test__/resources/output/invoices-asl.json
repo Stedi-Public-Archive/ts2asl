@@ -144,7 +144,7 @@
         "States": {
           "createInvoice(x)": {
             "Type": "Task",
-            "ResultPath": "$.vars._var",
+            "ResultPath": "$.vars.return_var",
             "Resource": "lambda:createInvoice",
             "InputPath": "$.vars.x",
             "Retry": [
@@ -165,7 +165,7 @@
           "Pass_2": {
             "End": true,
             "Type": "Pass",
-            "InputPath": "$.vars._var"
+            "InputPath": "$.vars.return_var"
           }
         }
       },
@@ -186,7 +186,7 @@
         "States": {
           "validateInvoice(x)": {
             "Type": "Task",
-            "ResultPath": "$.vars._var",
+            "ResultPath": "$.vars.return_var",
             "Resource": "lambda:validateInvoice",
             "InputPath": "$.vars.x",
             "Retry": [
@@ -207,7 +207,7 @@
           "Pass_3": {
             "End": true,
             "Type": "Pass",
-            "InputPath": "$.vars._var"
+            "InputPath": "$.vars.return_var"
           }
         }
       },
@@ -282,7 +282,7 @@
     },
     "For invoice Of validInvoices": {
       "Type": "Map",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Iterator": {
         "StartAt": "If (invoice.billable)",
         "States": {

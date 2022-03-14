@@ -16,7 +16,7 @@
           "States": {
             "performIdentifyCheck()": {
               "Type": "Task",
-              "ResultPath": "$.vars._var",
+              "ResultPath": "$.vars.return_var",
               "Resource": "lambda:performIdentifyCheck",
               "Retry": [
                 {
@@ -36,7 +36,7 @@
             "Pass": {
               "End": true,
               "Type": "Pass",
-              "InputPath": "$.vars._var"
+              "InputPath": "$.vars.return_var"
             }
           }
         },

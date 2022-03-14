@@ -78,23 +78,23 @@ export const main = asl.deploy.asStateMachine(
     const invoices = asl.map({
         name: "For x Of validBills.map",
         items: () => validBills,
-        iterator: x => { let _var = asl.typescriptInvoke({
+        iterator: x => { let return_var = asl.typescriptInvoke({
             name: "createInvoice(x)",
             resource: createInvoice,
             parameters: () => x,
             comment: "createInvoice(x)"
-        }); return _var; },
+        }); return return_var; },
         comment: "validBills.map(async x => createInvoice(x))"
     });
     const validatedInvoices = asl.map({
         name: "For x Of invoices.map",
         items: () => invoices,
-        iterator: x => { let _var = asl.typescriptInvoke({
+        iterator: x => { let return_var = asl.typescriptInvoke({
             name: "validateInvoice(x)",
             resource: validateInvoice,
             parameters: () => x,
             comment: "validateInvoice(x)"
-        }); return _var; },
+        }); return return_var; },
         comment: "invoices.map(async x => validateInvoice(x))"
     });
     const invalidInvoices = asl.jsonPathFilter(validatedInvoices, (x) => !x.valid);
@@ -153,13 +153,13 @@ export const main = asl.deploy.asStateMachine(
 },
 );
 
-const createInvoice = asl.deploy.asLambda(CreateInvoiceHandler);
-const validateInvoice = asl.deploy.asLambda(ValidateInvoiceHandler);
-const createGithubIssue = asl.deploy.asLambda(CreateGithubIssueHandler);
-const approveNonEmptyBill = asl.deploy.asLambda(ApproveNonEmptyBillHandler);
-const createNonEmptyBills = asl.deploy.asLambda(createNonEmptyBillsHandler);
-const createBillJob = asl.deploy.asLambda(createBillJobHandler);
-const finallizeInvoice = asl.deploy.asLambda(FinallizeInvoiceHandler);
+export const createInvoice = asl.deploy.asLambda(CreateInvoiceHandler);
+export const validateInvoice = asl.deploy.asLambda(ValidateInvoiceHandler);
+export const createGithubIssue = asl.deploy.asLambda(CreateGithubIssueHandler);
+export const approveNonEmptyBill = asl.deploy.asLambda(ApproveNonEmptyBillHandler);
+export const createNonEmptyBills = asl.deploy.asLambda(createNonEmptyBillsHandler);
+export const createBillJob = asl.deploy.asLambda(createBillJobHandler);
+export const finallizeInvoice = asl.deploy.asLambda(FinallizeInvoiceHandler);
 
 interface EventInput {
   lastDateInBillingPeriod?: string;

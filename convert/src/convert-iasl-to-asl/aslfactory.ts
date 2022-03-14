@@ -19,7 +19,7 @@ export class AslFactory {
       }
     } else {
       if (iasl.Check.isAslMapState(expression)) {
-        properties["ResultPath"] = "$.lastResult"
+        properties["ResultPath"] = "$.tmp.lastResult"
       }
     }
 
@@ -318,7 +318,11 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string
       if (expr.objectContextExpression) {
         return "$$." + expr.identifier + trailing;
       }
-      return "$.vars." + expr.identifier + trailing;
+      if (!expr.compilerGenerated) {
+        return "$.vars." + expr.identifier + trailing;
+      } else {
+        return "$.tmp." + expr.identifier + trailing;
+      }
     }
     return lhs + "." + expr.identifier + trailing;
 

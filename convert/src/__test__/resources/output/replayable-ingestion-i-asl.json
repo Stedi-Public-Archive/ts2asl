@@ -46,7 +46,7 @@
         "statements": [
           {
             "name": {
-              "identifier": "_input",
+              "identifier": "sfn_input",
               "compilerGenerated": true,
               "_syntaxKind": "identifier",
               "type": "unknown"
@@ -57,6 +57,11 @@
                   "identifier": "prefix",
                   "_syntaxKind": "identifier",
                   "type": "string"
+                },
+                "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID": {
+                  "identifier": "$$.Execution.Id",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
                 }
               },
               "_syntaxKind": "literal-object"
@@ -83,7 +88,7 @@
                 "Input": {
                   "arguments": [
                     {
-                      "identifier": "_input",
+                      "identifier": "sfn_input",
                       "compilerGenerated": true,
                       "_syntaxKind": "identifier",
                       "type": "unknown"

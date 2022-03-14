@@ -85,13 +85,13 @@ export const main = asl.deploy.asStateMachine(
   },
 );
 
-const createInvoice = asl.deploy.asLambda(CreateInvoiceHandler);
-const validateInvoice = asl.deploy.asLambda(ValidateInvoiceHandler);
-const createGithubIssue = asl.deploy.asLambda(CreateGithubIssueHandler);
-const approveNonEmptyBill = asl.deploy.asLambda(ApproveNonEmptyBillHandler);
-const createNonEmptyBills = asl.deploy.asLambda(createNonEmptyBillsHandler);
-const createBillJob = asl.deploy.asLambda(createBillJobHandler);
-const finallizeInvoice = asl.deploy.asLambda(FinallizeInvoiceHandler);
+export const createInvoice = asl.deploy.asLambda(CreateInvoiceHandler);
+export const validateInvoice = asl.deploy.asLambda(ValidateInvoiceHandler);
+export const createGithubIssue = asl.deploy.asLambda(CreateGithubIssueHandler);
+export const approveNonEmptyBill = asl.deploy.asLambda(ApproveNonEmptyBillHandler);
+export const createNonEmptyBills = asl.deploy.asLambda(createNonEmptyBillsHandler);
+export const createBillJob = asl.deploy.asLambda(createBillJobHandler);
+export const finallizeInvoice = asl.deploy.asLambda(FinallizeInvoiceHandler);
 
 interface EventInput {
   lastDateInBillingPeriod?: string;
