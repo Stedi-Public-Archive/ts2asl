@@ -1,0 +1,91 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign enclosedVar1"
+    },
+    "Assign enclosedVar1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.enclosedVar1",
+      "Result": {
+        "something": "here"
+      },
+      "Comment": "source: enclosedVar1 = { something: \"here\" }",
+      "Next": "Assign enclosedVar2"
+    },
+    "Assign enclosedVar2": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.enclosedVar2",
+      "Result": {
+        "something": "there"
+      },
+      "Comment": "source: enclosedVar2 = { something: \"there\" }",
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Branches": [
+        {
+          "StartAt": "worker(enclosedVar1)",
+          "States": {
+            "worker(enclosedVar1)": {
+              "Type": "Task",
+              "Resource": "lambda:worker",
+              "InputPath": "$.vars.enclosedVar1",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "Comment": "source: worker(enclosedVar1)",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "worker(enclosedVar2)",
+          "States": {
+            "worker(enclosedVar2)": {
+              "Type": "Task",
+              "Resource": "lambda:worker",
+              "InputPath": "$.vars.enclosedVar2",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "Comment": "source: worker(enclosedVar2)",
+              "End": true
+            }
+          }
+        }
+      ],
+      "Type": "Parallel",
+      "Parameters": {
+        "vars": {
+          "enclosedVar1.$": "$.vars.enclosedVar1",
+          "enclosedVar2.$": "$.vars.enclosedVar2"
+        }
+      },
+      "End": true
+    }
+  }
+}

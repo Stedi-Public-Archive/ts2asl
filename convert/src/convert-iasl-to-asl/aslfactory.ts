@@ -151,10 +151,7 @@ export class AslFactory {
       } as asl.Wait, expression.stateName);
     } else if (iasl.Check.isAslParallelState(expression)) {
       const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext()));
-
-      if (expression.branches.find(x => scopes[x.scope ?? ""]?.enclosed?.length)) {
-        throw new Error("do something");
-      }
+      const _scopes = expression.branches.filter(x => x.scope).map(x => scopes[x.scope!])
 
       context.appendNextState({
         Branches: branches,
@@ -163,6 +160,7 @@ export class AslFactory {
         Catch: expression.catch,
         Retry: expression.retry,
         Comment: expression.source,
+        ...createParameters(_scopes, { mapInputArgument: undefined }),
       } as asl.Parallel, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
       const scope = scopes[expression.iterator.scope ?? ""];
