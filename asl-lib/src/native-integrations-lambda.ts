@@ -59,6 +59,13 @@ import { UpdateFunctionConfigurationCommandInput, UpdateFunctionConfigurationCom
 import { UpdateFunctionEventInvokeConfigCommandInput, UpdateFunctionEventInvokeConfigCommandOutput, UpdateFunctionEventInvokeConfigCommand } from "@aws-sdk/client-lambda";
 
 
+declare module "@aws-sdk/client-lambda" {
+  interface InvokeCommandInput {
+      Payload: {};
+  }
+}
+
+
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:lambda:addLayerVersionPermission'*/
 export const nativeLambdaAddLayerVersionPermission = (input: SdkIntegrationTask<AddLayerVersionPermissionCommandInput>): Promise<AddLayerVersionPermissionCommandOutput> => {
     const lambda = new LambdaClient({});

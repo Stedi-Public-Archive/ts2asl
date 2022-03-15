@@ -3,11 +3,19 @@ import * as ts from "typescript";
 import factory = ts.factory;
 import { writeFileSync } from "fs";
 
+
+const lambdaTypeOverloads = `declare module "@aws-sdk/client-lambda" {
+  interface InvokeCommandInput {
+      Payload: {};
+  }
+}
+`
+
 const supportedServices = [
   { serviceId: "dynamodb", serviceName: "DynamoDB" },
   { serviceId: "ecs", serviceName: "ECS" },
   { serviceId: "eventbridge", serviceName: "EventBridge" },
-  { serviceId: "lambda", serviceName: "Lambda" },
+  { serviceId: "lambda", serviceName: "Lambda", overloads: lambdaTypeOverloads },
   { serviceId: "s3", serviceName: "S3" },
   { serviceId: "ses", serviceName: "SES" },
   { serviceId: "sqs", serviceName: "SQS" },
@@ -237,6 +245,11 @@ for (const service of nativeIntegrations.services) {
   }
 
   contents += "\n\n";
+
+  if (serviceConfig.overloads) {
+    contents += serviceConfig.overloads;
+    contents += "\n\n";
+  }
   for (const functionNode of functionNodes) {
     contents = contents + printer.printNode(ts.EmitHint.Unspecified, functionNode, sourceFile) + "\n\n";
   }
