@@ -9,14 +9,14 @@ const FinallizeInvoiceHandler = (input: HandleInvalidEvent) => { };
 
 export const main = asl.deploy.asStateMachine(
   async (input: EventInput, _context: asl.StateMachineContext<EventInput>) =>{
-    const billJob = asl.typescriptInvoke({
+    const billJob = await asl.typescriptInvoke({
         name: "createBillJob(input)",
         resource: createBillJob,
         parameters: () => input,
         comment: "createBillJob(input)"
     });
-    asl.wait({ seconds: 120 });
-    let jobResult = asl.typescriptInvoke({
+    await asl.wait({ seconds: 120 });
+    let jobResult = await asl.typescriptInvoke({
         name: "createNonEmptyBills(billJob)",
         resource: createNonEmptyBills,
         parameters: () => billJob,
@@ -31,7 +31,7 @@ export const main = asl.deploy.asStateMachine(
                 parameters: () => ({ lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }),
                 comment: "approveNonEmptyBillRequest = { lastDateInBillingPeriod: jobResult.lastDateInBillingPeriod, bill }"
             });
-            const approvalResult = asl.typescriptInvoke({
+            const approvalResult = await asl.typescriptInvoke({
                 name: "approveNonEmptyBill(appro ...",
                 resource: approveNonEmptyBill,
                 parameters: () => approveNonEmptyBillRequest,
@@ -51,7 +51,7 @@ export const main = asl.deploy.asStateMachine(
                     };
                 },
                 else: async () => {
-                    const result = asl.nativeAPIGatewayInvoke({
+                    const result = await asl.nativeAPIGatewayInvoke({
                         parameters: {
                             ApiEndpoint: "yyyyyyyy",
                             Method: "POST",
@@ -72,10 +72,10 @@ export const main = asl.deploy.asStateMachine(
     });
     const bills = asl.pass({
         name: "Assign bills",
-        parameters: () => billPromises
+        parameters: () => await billPromises
     });
     const validBills = asl.jsonPathFilter(bills, (x) => !!x.valid);
-    const invoices = asl.map({
+    const invoices = await asl.map({
         name: "For x Of validBills.map",
         items: () => validBills,
         iterator: x => { let return_var = asl.typescriptInvoke({
@@ -86,7 +86,7 @@ export const main = asl.deploy.asStateMachine(
         }); return return_var; },
         comment: "validBills.map(async x => createInvoice(x))"
     });
-    const validatedInvoices = asl.map({
+    const validatedInvoices = await asl.map({
         name: "For x Of invoices.map",
         items: () => invoices,
         iterator: x => { let return_var = asl.typescriptInvoke({
@@ -102,7 +102,7 @@ export const main = asl.deploy.asStateMachine(
         name: "If (invalidInvoices.lengt ...",
         condition: () => asl.jsonPathLength(invalidInvoices) > 0,
         then: async () => {
-            asl.typescriptInvoke({
+            await asl.typescriptInvoke({
                 name: "createGithubIssue({ bills ...",
                 resource: createGithubIssue,
                 parameters: () => ({ bills: { invalid: invalidInvoices } })
@@ -126,14 +126,14 @@ export const main = asl.deploy.asStateMachine(
                 name: "If (invoice.billable)",
                 condition: () => invoice.billable,
                 then: async () => {
-                    asl.typescriptInvoke({
+                    await asl.typescriptInvoke({
                         name: "finallizeInvoice(invoice ...",
                         resource: finallizeInvoice,
                         parameters: () => invoice
                     });
                 },
                 else: async () => {
-                    asl.task({
+                    await asl.task({
                         resource: "arn::states:::sns:publish.waitForTaskToken",
                         parameters: {
                             TopicArn: "BillingManualApproval16216020",

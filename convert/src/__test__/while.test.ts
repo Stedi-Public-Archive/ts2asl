@@ -15,7 +15,7 @@ describe("when converting example", () => {
       }
 
       export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
-          let result: Result = asl.task({ resource: \\"check-password\\", parameters: {} });
+          let result: Result = await asl.task({ resource: \\"check-password\\", parameters: {} });
           asl.typescriptWhile({
               name: \\"While (true)\\",
               condition: () => true,
@@ -28,8 +28,8 @@ describe("when converting example", () => {
                       },
                       comment: \\"if (result.Authorized) {\\\\n      break;\\\\n    }\\"
                   })
-                  asl.wait({ seconds: 1 });
-                  result = asl.task({ resource: \\"check-password\\", parameters: {} });
+                  await asl.wait({ seconds: 1 });
+                  result = await asl.task({ resource: \\"check-password\\", parameters: {} });
               }
           })
       });

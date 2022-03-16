@@ -20,13 +20,13 @@ export const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => 
 
 //option 2: asl lib typescript
 export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) =>{
-    const result = asl.typescriptInvoke({
+    const result = await asl.typescriptInvoke({
         name: \\"replayPrefixer(input)\\",
         resource: replayPrefixer,
         parameters: () => input,
         comment: \\"replayPrefixer(input)\\"
     });
-    asl.map({
+    await asl.map({
         maxConcurrency: 5,
         items: result,
         iterator: (prefix) => asl.typescriptInvoke({

@@ -24,10 +24,10 @@ describe("when converting parallel", () => {
               parameters: () => ({ something: \\"there\\" }),
               comment: \\"enclosedVar2 = { something: \\\\\\"there\\\\\\" }\\"
           });
-          asl.parallel({
+          await asl.parallel({
               branches: [
                   () => {
-                      asl.typescriptInvoke({
+                      await asl.typescriptInvoke({
                           name: \\"worker(enclosedVar1)\\",
                           resource: worker,
                           parameters: () => enclosedVar1,
@@ -35,14 +35,15 @@ describe("when converting parallel", () => {
                       });
                   },
                   () => {
-                      asl.typescriptInvoke({
+                      await asl.typescriptInvoke({
                           name: \\"worker(enclosedVar2)\\",
                           resource: worker,
                           parameters: () => enclosedVar2,
                           comment: \\"worker(enclosedVar2)\\"
                       });
                   }
-              ]
+              ],
+              comment: \\"Promise.all([\\\\n    async () => {\\\\n      await worker(enclosedVar1);\\\\n    },\\\\n    async () => {\\\\n      await worker(enclosedVar2);\\\\n    },\\\\n  ])\\"
           });
       });"
     `);
@@ -165,6 +166,14 @@ describe("when converting parallel", () => {
                 ],
               },
             ],
+            "source": "Promise.all([
+          async () => {
+            await worker(enclosedVar1);
+          },
+          async () => {
+            await worker(enclosedVar2);
+          },
+        ])",
           },
         ],
       }
@@ -259,7 +268,7 @@ describe("when converting parallel", () => {
               },
             ],
             "Catch": undefined,
-            "Comment": undefined,
+            "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
             "End": true,
             "Parameters": Object {
               "vars": Object {

@@ -79,6 +79,7 @@
         }
       ],
       "Type": "Parallel",
+      "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
       "Parameters": {
         "vars": {
           "enclosedVar1.$": "$.vars.enclosedVar1",

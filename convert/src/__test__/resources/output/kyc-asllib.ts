@@ -4,7 +4,7 @@ import * as asl from "@ts2asl/asl-lib"
 
 
 export const main = asl.deploy.asStateMachine(async () =>{
-    const result = asl.parallel({
+    const result = await asl.parallel({
         branches: [
             () => { let return_var = asl.typescriptInvoke({
                 name: "performIdentifyCheck()",
@@ -14,7 +14,7 @@ export const main = asl.deploy.asStateMachine(async () =>{
             () => { return { agencyChecked: true }; }
         ]
     });
-    asl.nativeEventBridgePutEvents({
+    await asl.nativeEventBridgePutEvents({
         parameters: {
             Entries: [
                 {
@@ -36,7 +36,7 @@ export const main = asl.deploy.asStateMachine(async () =>{
         condition: () => checksPassed,
         then: async () => {
             //no-op update risk profile
-            asl.nativeEventBridgePutEvents({
+            await asl.nativeEventBridgePutEvents({
                 parameters: {
                     Entries: [
                         {
@@ -50,7 +50,7 @@ export const main = asl.deploy.asStateMachine(async () =>{
             });
         },
         else: async () => {
-            asl.nativeEventBridgePutEvents({
+            await asl.nativeEventBridgePutEvents({
                 parameters: {
                     Entries: [
                         {
@@ -62,7 +62,8 @@ export const main = asl.deploy.asStateMachine(async () =>{
                     ]
                 }
             });
-        }
+        },
+        comment: "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      parameters: {\n        Entries: [\n          {\n            Detail: asl.states.jsonToString(result),\n            DetailType: \"AccountApproved\",\n            EventBusName: \"eventbusname\",\n            Source: \"com.aws.kyc\"\n          }\n        ]\n      }\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      parameters: {\n        Entries: [\n          {\n            Detail: asl.states.jsonToString(result),\n            DetailType: \"AccountDeclined\",\n            EventBusName: \"eventbusname\",\n            Source: \"com.aws.kyc\"\n          }\n        ]\n      }\n    });\n  }"
     })
 });
 

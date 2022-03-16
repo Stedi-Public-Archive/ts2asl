@@ -33,7 +33,7 @@ describe("when converting source files", () => {
           parameters: () => ({ targetState: desiredStateTemplate, completedActions }),
           comment: \\"getActionsArgs = { targetState: desiredStateTemplate, completedActions }\\"
       });
-      let remainingActions = asl.typescriptInvoke({
+      let remainingActions = await asl.typescriptInvoke({
           name: \\"5: getNextActions(getNextAct ...\\",
           resource: getNextActions,
           parameters: () => getNextActionsArg,
@@ -43,7 +43,7 @@ describe("when converting source files", () => {
           name: \\"While (remainingActions.l ...\\",
           condition: () => asl.jsonPathLength(remainingActions) !== 0,
           block: async () => {
-              const results = asl.typescriptInvoke({
+              const results = await asl.typescriptInvoke({
                   name: \\"7: performAction(getActionsArgs)\\",
                   resource: performAction,
                   parameters: () => getActionsArgs,
@@ -66,13 +66,14 @@ describe("when converting source files", () => {
                   name: \\"10: If (results[0].status !== ...\\",
                   condition: () => results[0].status !== \\"failed\\",
                   then: async () => {
-                      remainingActions = asl.typescriptInvoke({
+                      remainingActions = await asl.typescriptInvoke({
                           name: \\"12: getNextActions(getActions ...\\",
                           resource: getNextActions,
                           parameters: () => getActionsArgs,
                           comment: \\"getNextActions(getActionsArgs)\\"
                       });
-                  }
+                  },
+                  comment: \\"if (results[0].status !== \\\\\\"failed\\\\\\") {\\\\n      remainingActions = await getNextActions(getActionsArgs);\\\\n    }\\"
               })
           }
       })"
@@ -88,14 +89,15 @@ describe("when converting source files", () => {
             `;
     const output = testTransform(code, createTransformers({}));
     expect(output).toMatchInlineSnapshot(`
-      "let page = ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
+      "let page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
       asl.typescriptWhile({
           name: \\"While (page.nextPageToken)\\",
           condition: () => page.nextPageToken,
           block: async () => {
-              ASL.Wait({ Seconds: 2 });
-              page = ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
-          }
+              await ASL.Wait({ Seconds: 2 });
+              page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
+          },
+          comment: \\"while (page.nextPageToken) {\\\\n            await ASL.Wait({ Seconds: 2 });\\\\n            page = await ASL.Task({ Resource: \\\\\\"arn:aws:states:::apigateway:invoke\\\\\\" });\\\\n        }\\"
       })"
     `);
   });

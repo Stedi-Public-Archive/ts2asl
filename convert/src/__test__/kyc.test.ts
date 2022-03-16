@@ -15,7 +15,7 @@ describe("when converting example", () => {
 
 
       export const main = asl.deploy.asStateMachine(async () =>{
-          const result = asl.parallel({
+          const result = await asl.parallel({
               branches: [
                   () => { let return_var = asl.typescriptInvoke({
                       name: \\"performIdentifyCheck()\\",
@@ -25,7 +25,7 @@ describe("when converting example", () => {
                   () => { return { agencyChecked: true }; }
               ]
           });
-          asl.nativeEventBridgePutEvents({
+          await asl.nativeEventBridgePutEvents({
               parameters: {
                   Entries: [
                       {
@@ -47,7 +47,7 @@ describe("when converting example", () => {
               condition: () => checksPassed,
               then: async () => {
                   //no-op update risk profile
-                  asl.nativeEventBridgePutEvents({
+                  await asl.nativeEventBridgePutEvents({
                       parameters: {
                           Entries: [
                               {
@@ -61,7 +61,7 @@ describe("when converting example", () => {
                   });
               },
               else: async () => {
-                  asl.nativeEventBridgePutEvents({
+                  await asl.nativeEventBridgePutEvents({
                       parameters: {
                           Entries: [
                               {
@@ -73,7 +73,8 @@ describe("when converting example", () => {
                           ]
                       }
                   });
-              }
+              },
+              comment: \\"if (checksPassed) {\\\\n    //no-op update risk profile\\\\n    await asl.nativeEventBridgePutEvents({\\\\n      parameters: {\\\\n        Entries: [\\\\n          {\\\\n            Detail: asl.states.jsonToString(result),\\\\n            DetailType: \\\\\\"AccountApproved\\\\\\",\\\\n            EventBusName: \\\\\\"eventbusname\\\\\\",\\\\n            Source: \\\\\\"com.aws.kyc\\\\\\"\\\\n          }\\\\n        ]\\\\n      }\\\\n    });\\\\n  } else {\\\\n    await asl.nativeEventBridgePutEvents({\\\\n      parameters: {\\\\n        Entries: [\\\\n          {\\\\n            Detail: asl.states.jsonToString(result),\\\\n            DetailType: \\\\\\"AccountDeclined\\\\\\",\\\\n            EventBusName: \\\\\\"eventbusname\\\\\\",\\\\n            Source: \\\\\\"com.aws.kyc\\\\\\"\\\\n          }\\\\n        ]\\\\n      }\\\\n    });\\\\n  }\\"
           })
       });
 
@@ -299,6 +300,34 @@ describe("when converting example", () => {
                 },
               ],
             },
+            "source": "if (checksPassed) {
+          //no-op update risk profile
+          await asl.nativeEventBridgePutEvents({
+            parameters: {
+              Entries: [
+                {
+                  Detail: asl.states.jsonToString(result),
+                  DetailType: \\"AccountApproved\\",
+                  EventBusName: \\"eventbusname\\",
+                  Source: \\"com.aws.kyc\\"
+                }
+              ]
+            }
+          });
+        } else {
+          await asl.nativeEventBridgePutEvents({
+            parameters: {
+              Entries: [
+                {
+                  Detail: asl.states.jsonToString(result),
+                  DetailType: \\"AccountDeclined\\",
+                  EventBusName: \\"eventbusname\\",
+                  Source: \\"com.aws.kyc\\"
+                }
+              ]
+            }
+          });
+        }",
             "stateName": "If (checksPassed)",
             "then": Object {
               "_syntaxKind": "function",
@@ -430,7 +459,7 @@ describe("when converting example", () => {
                 "Variable": "$.vars.checksPassed",
               },
             ],
-            "Comment": undefined,
+            "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
             "Default": "PutEvents_1",
             "Type": "Choice",
           },

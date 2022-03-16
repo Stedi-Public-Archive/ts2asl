@@ -13,10 +13,10 @@ export const main = asl.deploy.asStateMachine(async (input: {}) =>{
         parameters: () => ({ something: "there" }),
         comment: "enclosedVar2 = { something: \"there\" }"
     });
-    asl.parallel({
+    await asl.parallel({
         branches: [
             () => {
-                asl.typescriptInvoke({
+                await asl.typescriptInvoke({
                     name: "worker(enclosedVar1)",
                     resource: worker,
                     parameters: () => enclosedVar1,
@@ -24,13 +24,14 @@ export const main = asl.deploy.asStateMachine(async (input: {}) =>{
                 });
             },
             () => {
-                asl.typescriptInvoke({
+                await asl.typescriptInvoke({
                     name: "worker(enclosedVar2)",
                     resource: worker,
                     parameters: () => enclosedVar2,
                     comment: "worker(enclosedVar2)"
                 });
             }
-        ]
+        ],
+        comment: "Promise.all([\n    async () => {\n      await worker(enclosedVar1);\n    },\n    async () => {\n      await worker(enclosedVar2);\n    },\n  ])"
     });
 });

@@ -22,7 +22,7 @@ export const main = asl.deploy.asStateMachine(async (input: Input) =>{
         },
         comment: "if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {\n    throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")\n  }"
     })
-    asl.wait({ seconds: input.delayInSeconds });
+    await asl.wait({ seconds: input.delayInSeconds });
 });
 
 interface Input {

@@ -111,6 +111,7 @@
           "_syntaxKind": "function"
         }
       ],
+      "source": "Promise.all([\n    async () => {\n      await worker(enclosedVar1);\n    },\n    async () => {\n      await worker(enclosedVar2);\n    },\n  ])",
       "_syntaxKind": "asl-parallel-state"
     }
   ],

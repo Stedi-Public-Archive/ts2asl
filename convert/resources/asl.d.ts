@@ -87,8 +87,7 @@ export interface Succeed {
     name?: string;
 }
 export interface Parallel<T> {
-    items?: T[] | undefined | (() => T[]);
-    branches: ((item: T) => void | {})[];
+    branches: (() => void | {})[];
     catch?: CatchConfiguration;
     retry?: RetryConfiguration;
     comment?: string;

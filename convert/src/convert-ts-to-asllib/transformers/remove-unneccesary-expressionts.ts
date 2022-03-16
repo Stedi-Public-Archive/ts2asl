@@ -9,10 +9,6 @@ export const removeUnnecessaryExpressionsTransformer = (converterOptions: Conver
       return node.expression;
     }
 
-    if (ts.isAwaitExpression(node)) {
-      return node.expression;
-    }
-
     if (ts.isAsExpression(node)) {
       return node.expression;
     }

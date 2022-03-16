@@ -24,7 +24,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
         name: "Do While (lastEvaluatedKey)",
         condition: () => lastEvaluatedKey,
         block: async () => {
-            let scan = asl.nativeDynamoDBScan({ parameters: { TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey } });
+            let scan = await asl.nativeDynamoDBScan({ parameters: { TableName: "MyStorage", Limit: 1, ExclusiveStartKey: lastEvaluatedKey } });
             asl.map({
                 name: "For item Of scan.Items",
                 items: () => scan.Items,
@@ -48,7 +48,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                                         }),
                                         comment: "detail = {\n            account_id: item.pk,\n            threshold: threshold\n          }"
                                     });
-                                    asl.nativeEventBridgePutEvents({
+                                    await asl.nativeEventBridgePutEvents({
                                         parameters: {
                                             Entries: [
                                                 {
@@ -60,7 +60,7 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                                             ]
                                         }
                                     });
-                                    asl.nativeDynamoDBUpdateItem({
+                                    await asl.nativeDynamoDBUpdateItem({
                                         parameters: {
                                             TableName: "MyStorage",
                                             Key: {

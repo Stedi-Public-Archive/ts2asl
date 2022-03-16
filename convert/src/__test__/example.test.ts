@@ -35,7 +35,7 @@ describe("when converting example", () => {
               name: \\"Do While (lastEvaluatedKey)\\",
               condition: () => lastEvaluatedKey,
               block: async () => {
-                  let scan = asl.nativeDynamoDBScan({ parameters: { TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey } });
+                  let scan = await asl.nativeDynamoDBScan({ parameters: { TableName: \\"MyStorage\\", Limit: 1, ExclusiveStartKey: lastEvaluatedKey } });
                   asl.map({
                       name: \\"For item Of scan.Items\\",
                       items: () => scan.Items,
@@ -59,7 +59,7 @@ describe("when converting example", () => {
                                               }),
                                               comment: \\"detail = {\\\\n            account_id: item.pk,\\\\n            threshold: threshold\\\\n          }\\"
                                           });
-                                          asl.nativeEventBridgePutEvents({
+                                          await asl.nativeEventBridgePutEvents({
                                               parameters: {
                                                   Entries: [
                                                       {
@@ -71,7 +71,7 @@ describe("when converting example", () => {
                                                   ]
                                               }
                                           });
-                                          asl.nativeDynamoDBUpdateItem({
+                                          await asl.nativeDynamoDBUpdateItem({
                                               parameters: {
                                                   TableName: \\"MyStorage\\",
                                                   Key: {

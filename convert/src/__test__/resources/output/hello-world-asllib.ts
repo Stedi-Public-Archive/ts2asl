@@ -9,7 +9,7 @@ export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
         },
         comment: "if (typeof input.name !== \"string\") {\n    input.name = \"World\";\n  }"
     })
-    const rnd = asl.typescriptInvoke({
+    const rnd = await asl.typescriptInvoke({
         name: "random()",
         resource: random,
         comment: "random()"

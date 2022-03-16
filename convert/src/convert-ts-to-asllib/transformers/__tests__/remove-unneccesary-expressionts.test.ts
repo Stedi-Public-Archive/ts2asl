@@ -51,7 +51,7 @@ describe("when converting promise.resolve inside promise.all", () => {
         removeUnnecessaryExpressionsTransformer({})
       )
     ).toMatchInlineSnapshot(`
-      "const result = Promise.all([
+      "const result = await Promise.all([
           { identityChecked: true, customerName: \\"name\\", customerAddress: \\"address\\" },
           { agencyChecked: true },
       ]);"
