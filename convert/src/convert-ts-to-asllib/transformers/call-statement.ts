@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import { ConverterOptions } from '../../convert';
 import { ParserError } from '../../ParserError';
-import { isAslCallExpression, isLiteralOrIdentifier } from './node-utility';
+import { isAslCallExpression, isLiteralOrIdentifier, isMathExpression } from './node-utility';
 import { TransformUtil } from './transform-utility';
 
 export const callStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
@@ -10,7 +10,7 @@ export const callStatementTransformer = (converterOptions: ConverterOptions) => 
 
     if (ts.isCallExpression(node)) {
 
-      if (isAslCallExpression(node)) return node;
+      if (isAslCallExpression(node) || isMathExpression(node)) return node;
 
       if (1 < node.arguments.length) throw new ParserError(`call expression must have 0 or 1 arguments`, node);
       if (!ts.isIdentifier(node.expression)) {

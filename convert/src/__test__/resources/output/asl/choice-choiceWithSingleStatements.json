@@ -1,0 +1,54 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign val"
+    },
+    "Assign val": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val",
+      "Result": "",
+      "Comment": "source: val = \"\"",
+      "Next": "Choice"
+    },
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.val",
+          "IsPresent": false,
+          "Next": "Pass"
+        },
+        {
+          "Variable": "$.vars.val",
+          "IsPresent": false,
+          "Next": "Pass_1"
+        }
+      ],
+      "Default": "Pass_2"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Result": "!! val",
+      "Comment": "source: console.log(\"!! val\")",
+      "End": true
+    },
+    "Pass_1": {
+      "Type": "Pass",
+      "Result": "val",
+      "Comment": "source: console.log(\"val\")",
+      "End": true
+    },
+    "Pass_2": {
+      "Type": "Pass",
+      "Result": "this will not likely happen",
+      "Comment": "source: source: console.log(\"this will not likely happen\")",
+      "End": true
+    }
+  }
+}

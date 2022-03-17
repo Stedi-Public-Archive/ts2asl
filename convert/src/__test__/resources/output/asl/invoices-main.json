@@ -1,0 +1,384 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "createBillJob(input)"
+    },
+    "createBillJob(input)": {
+      "Type": "Task",
+      "ResultPath": "$.vars.billJob",
+      "Resource": "lambda:createBillJob",
+      "InputPath": "$.vars",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Comment": "source: createBillJob(input)",
+      "Next": "Wait"
+    },
+    "Wait": {
+      "Type": "Wait",
+      "Seconds": 120,
+      "Next": "createNonEmptyBills(billJob)"
+    },
+    "createNonEmptyBills(billJob)": {
+      "Type": "Task",
+      "ResultPath": "$.vars.jobResult",
+      "Resource": "lambda:createNonEmptyBills",
+      "InputPath": "$.vars.billJob",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Comment": "source: createNonEmptyBills(billJob)",
+      "Next": "Assign billPromises"
+    },
+    "Assign billPromises": {
+      "Type": "Map",
+      "ResultPath": "$.vars.billPromises",
+      "Iterator": {
+        "StartAt": "Assign approveNonEmptyBil ...",
+        "States": {
+          "Assign approveNonEmptyBil ...": {
+            "Type": "Pass",
+            "ResultPath": "$.vars.approveNonEmptyBillRequest",
+            "Parameters": {
+              "lastDateInBillingPeriod.$": "$.vars.jobResult.lastDateInBillingPeriod",
+              "bill.$": "$.vars.bill"
+            },
+            "Comment": "source: approveNonEmptyBillRequest = { lastDateInBilli ...",
+            "Next": "approveNonEmptyBill(appro ..."
+          },
+          "approveNonEmptyBill(appro ...": {
+            "Type": "Task",
+            "ResultPath": "$.vars.approvalResult",
+            "Resource": "lambda:approveNonEmptyBill",
+            "InputPath": "$.vars.approveNonEmptyBillRequest",
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
+            "Comment": "source: approveNonEmptyBill(approveNonEmptyBillRequest)",
+            "Next": "If (approvalResult.valid)"
+          },
+          "If (approvalResult.valid)": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.vars.approvalResult.valid",
+                "IsPresent": true,
+                "Next": "Pass"
+              }
+            ],
+            "Default": "Else"
+          },
+          "Pass": {
+            "Type": "Pass",
+            "Parameters": {
+              "valid.$": "$.vars.approvalResult.valid",
+              "billable.$": "$.vars.approvalResult.billable",
+              "billId.$": "$.vars.approvalResult.billId",
+              "accountId.$": "$.vars.approvalResult.accountId",
+              "accountCode.$": "$.vars.approvalResult.accountCode",
+              "accountType.$": "$.vars.approvalResult.accountType"
+            },
+            "End": true
+          },
+          "Else": {
+            "Type": "Parallel",
+            "Parameters": {
+              "vars": {
+                "bill.$": "$.vars.bill"
+              }
+            },
+            "Branches": [
+              {
+                "StartAt": "Invoke",
+                "States": {
+                  "Invoke": {
+                    "Type": "Task",
+                    "ResultPath": "$.vars.result",
+                    "Resource": "arn:aws:states:::aws-sdk:apigateway:invoke",
+                    "Parameters": {
+                      "ApiEndpoint": "yyyyyyyy",
+                      "Method": "POST",
+                      "Path": "/xxxxxxxx",
+                      "RequestBody": {
+                        "accountName.$": "$.vars.bill.accountName",
+                        "accountId.$": "$.vars.bill.accountId",
+                        "billId.$": "$.vars.bill.billId",
+                        "errors.$": "$.vars.bill.errors",
+                        "stage.$": "$.vars.bill.stage"
+                      }
+                    },
+                    "Next": "Pass_1"
+                  },
+                  "Pass_1": {
+                    "End": true,
+                    "Type": "Pass",
+                    "InputPath": "$.vars.result"
+                  }
+                }
+              }
+            ],
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.jobResult.bills",
+      "Parameters": {
+        "vars": {
+          "jobResult.$": "$.vars.jobResult",
+          "bill.$": "$$.Map.Item.Value"
+        }
+      },
+      "Next": "Assign bills"
+    },
+    "Assign bills": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.bills",
+      "InputPath": "$.vars.billPromises",
+      "Next": "Assign validBills"
+    },
+    "Assign validBills": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.validBills",
+      "InputPath": "$.vars.bills[?(!(@.valid))]",
+      "Next": "Assign invoices"
+    },
+    "Assign invoices": {
+      "Type": "Map",
+      "ResultPath": "$.vars.invoices",
+      "Iterator": {
+        "StartAt": "createInvoice(x)",
+        "States": {
+          "createInvoice(x)": {
+            "Type": "Task",
+            "ResultPath": "$.vars.return_var",
+            "Resource": "lambda:createInvoice",
+            "InputPath": "$.vars.x",
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
+            "Comment": "source: createInvoice(x)",
+            "Next": "Pass_2"
+          },
+          "Pass_2": {
+            "End": true,
+            "Type": "Pass",
+            "InputPath": "$.vars.return_var"
+          }
+        }
+      },
+      "ItemsPath": "$.vars.validBills",
+      "Comment": "source: validBills.map(async x => createInvoice(x))",
+      "Parameters": {
+        "vars": {
+          "x.$": "$$.Map.Item.Value"
+        }
+      },
+      "Next": "Assign validatedInvoices"
+    },
+    "Assign validatedInvoices": {
+      "Type": "Map",
+      "ResultPath": "$.vars.validatedInvoices",
+      "Iterator": {
+        "StartAt": "validateInvoice(x)",
+        "States": {
+          "validateInvoice(x)": {
+            "Type": "Task",
+            "ResultPath": "$.vars.return_var",
+            "Resource": "lambda:validateInvoice",
+            "InputPath": "$.vars.x",
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
+            "Comment": "source: validateInvoice(x)",
+            "Next": "Pass_3"
+          },
+          "Pass_3": {
+            "End": true,
+            "Type": "Pass",
+            "InputPath": "$.vars.return_var"
+          }
+        }
+      },
+      "ItemsPath": "$.vars.invoices",
+      "Comment": "source: invoices.map(async x => validateInvoice(x))",
+      "Parameters": {
+        "vars": {
+          "x.$": "$$.Map.Item.Value"
+        }
+      },
+      "Next": "Assign invalidInvoices"
+    },
+    "Assign invalidInvoices": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.invalidInvoices",
+      "InputPath": "$.vars.validatedInvoices[?(!(@.valid))]",
+      "Next": "If (invalidInvoices.lengt ..."
+    },
+    "If (invalidInvoices.lengt ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.invalidInvoices.length()",
+          "StringGreaterThan": 0,
+          "Next": "createGithubIssue({ bills ..."
+        }
+      ],
+      "Default": "Assign validInvoices"
+    },
+    "createGithubIssue({ bills ...": {
+      "Type": "Task",
+      "Resource": "lambda:createGithubIssue",
+      "Parameters": {
+        "bills": {
+          "invalid.$": "$.vars.invalidInvoices"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Assign validInvoices"
+    },
+    "Assign validInvoices": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.validInvoices",
+      "InputPath": "$.vars.validatedInvoices[?(@.valid == true)]",
+      "Next": "If (!input.shouldFinalize)"
+    },
+    "If (!input.shouldFinalize)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.shouldFinalize",
+          "IsPresent": false,
+          "Next": "Empty"
+        }
+      ],
+      "Comment": "source: if (!input.shouldFinalize) { return; }",
+      "Default": "For invoice Of validInvoices"
+    },
+    "Empty": {
+      "Type": "Succeed",
+      "Next": "For invoice Of validInvoices"
+    },
+    "For invoice Of validInvoices": {
+      "Type": "Map",
+      "ResultPath": "$.tmp.lastResult",
+      "Iterator": {
+        "StartAt": "If (invoice.billable)",
+        "States": {
+          "If (invoice.billable)": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.vars.invoice.billable",
+                "IsPresent": true,
+                "Next": "finallizeInvoice(invoice ..."
+              }
+            ],
+            "Default": "Task"
+          },
+          "finallizeInvoice(invoice ...": {
+            "Type": "Task",
+            "Resource": "lambda:finallizeInvoice",
+            "InputPath": "$.vars.invoice",
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
+            "End": true
+          },
+          "Task": {
+            "Type": "Task",
+            "Resource": "arn::states:::sns:publish.waitForTaskToken",
+            "Parameters": {
+              "TopicArn": "BillingManualApproval16216020",
+              "Message": {
+                "TaskToken": "$$.Task.Token",
+                "billId.$": "$.vars.invoice.billId",
+                "invoiceId.$": "$.vars.invoice.invoiceId",
+                "stage": "olaf"
+              },
+              "Subject": "olaf - Billing Approval"
+            },
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.validInvoices",
+      "Parameters": {
+        "vars": {
+          "invoice.$": "$$.Map.Item.Value"
+        }
+      },
+      "End": true
+    }
+  }
+}

@@ -104,8 +104,6 @@ export class ConversionContext {
     }
 
     this.root.names.push(nameSuggestion + postFix);
-
-
     return nameSuggestion + postFix;
   }
 

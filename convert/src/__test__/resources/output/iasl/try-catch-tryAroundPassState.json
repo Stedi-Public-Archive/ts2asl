@@ -1,0 +1,45 @@
+{
+  "statements": [
+    {
+      "stateName": "Try Catch",
+      "try": {
+        "statements": [
+          {
+            "parameters": {
+              "value": "this cannot fail",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "source": "console.log(\"this cannot fail\")",
+            "_syntaxKind": "asl-pass-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "catch": [
+        {
+          "errorFilter": [
+            "States.All"
+          ],
+          "block": {
+            "statements": [
+              {
+                "parameters": {
+                  "value": "this never happens",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "source": "console.log(\"this never happens\")",
+                "_syntaxKind": "asl-pass-state"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "source": "try {\n    console.log(\"this cannot fail\");\n  } catch {\n    console.log(\"this never happens\");\n  }",
+      "_syntaxKind": "try"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

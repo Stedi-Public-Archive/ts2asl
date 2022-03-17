@@ -1,0 +1,128 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "val",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign val",
+        "parameters": {
+          "value": "",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "val = \"\"",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign val",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "choices": [
+        {
+          "condition": {
+            "operator": "not",
+            "rhs": {
+              "operator": "is-present",
+              "rhs": {
+                "identifier": "val",
+                "_syntaxKind": "identifier",
+                "type": "string"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "block": {
+            "statements": [
+              {
+                "parameters": {
+                  "value": "val is not an empty string",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "source": "console.log(\"val is not an empty string\")",
+                "_syntaxKind": "asl-pass-state"
+              },
+              {
+                "parameters": {
+                  "value": "val us also not false or 0",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "source": "console.log(\"val us also not false or 0\")",
+                "_syntaxKind": "asl-pass-state"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        },
+        {
+          "condition": {
+            "operator": "not",
+            "rhs": {
+              "operator": "is-present",
+              "rhs": {
+                "identifier": "val",
+                "_syntaxKind": "identifier",
+                "type": "string"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "block": {
+            "statements": [
+              {
+                "parameters": {
+                  "value": "val is empty string",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "source": "console.log(\"val is empty string\")",
+                "_syntaxKind": "asl-pass-state"
+              },
+              {
+                "parameters": {
+                  "value": "or false or 0",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "source": "console.log(\"or false or 0\")",
+                "_syntaxKind": "asl-pass-state"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "default": {
+        "statements": [
+          {
+            "parameters": {
+              "value": "this will not likely happen",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "source": "console.log(\"this will not likely happen\")",
+            "_syntaxKind": "asl-pass-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "asl-choice-state"
+    },
+    {
+      "parameters": {
+        "value": "after choice",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "source": "console.log(\"after choice\")",
+      "_syntaxKind": "asl-pass-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

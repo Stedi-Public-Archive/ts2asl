@@ -1,0 +1,54 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "variable",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign variable",
+        "parameters": {
+          "value": "some var",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "variable = \"some var\"",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign variable",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "parameters": {
+        "properties": {
+          "b": {
+            "arguments": [
+              {
+                "value": "hello {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "elements": [
+                  {
+                    "identifier": "variable",
+                    "_syntaxKind": "identifier",
+                    "type": "string"
+                  }
+                ],
+                "_syntaxKind": "literal-array"
+              }
+            ],
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "source": "console.log({\n    b: `hello ${variable}`,\n  })",
+      "_syntaxKind": "asl-pass-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

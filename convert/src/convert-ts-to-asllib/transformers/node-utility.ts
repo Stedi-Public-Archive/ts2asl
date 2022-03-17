@@ -32,6 +32,20 @@ export const isAslCallExpression = (node: ts.CallExpression) => {
   }
   return undefined;
 }
+export const isMathExpression = (node: ts.CallExpression) => {
+  let parts: string[] = [];
+  let context = node.expression;
+
+  while (ts.isPropertyAccessExpression(context)) {
+    parts.push(context.name.text);
+    context = context.expression;
+  }
+  if (ts.isIdentifier(context) && context.text === "Math") {
+    return parts.reverse().join(".");
+  }
+  return undefined;
+}
+
 
 export const ensureBooleanExpression = (node: ts.Expression) => {
   return node;

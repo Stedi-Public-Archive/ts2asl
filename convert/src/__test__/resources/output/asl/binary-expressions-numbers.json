@@ -1,0 +1,25 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Pass"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Result": {
+        "a": 20,
+        "b": 20,
+        "c": 20,
+        "d": 20,
+        "e": 40
+      },
+      "Comment": "source: console.log({ a: 10 + 10, b: 30 - 10, c: 10 *  ...",
+      "End": true
+    }
+  }
+}

@@ -24,6 +24,10 @@ export const removeUnnecessaryExpressionsTransformer = (converterOptions: Conver
     if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.BarBarToken && (ts.isArrayLiteralExpression(node.right) && node.right.elements.length === 0)) {
       return node.left;
     }
+    // ("hello") => "hello"
+    if (ts.isParenthesizedExpression(node) && ts.isLiteralExpression(node.expression)) {
+      return node.expression;
+    }
 
     // ((x)) => (x)
     if (ts.isParenthesizedExpression(node) && ts.isParenthesizedExpression(node.expression)) {

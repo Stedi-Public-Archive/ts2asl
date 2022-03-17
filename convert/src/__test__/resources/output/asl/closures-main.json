@@ -1,0 +1,124 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign numbers"
+    },
+    "Assign numbers": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.numbers",
+      "Result": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "Comment": "source: numbers = [0, 1, 2, 3]",
+      "Next": "Assign letters"
+    },
+    "Assign letters": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.letters",
+      "Result": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
+      "Next": "Assign global"
+    },
+    "Assign global": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.global",
+      "Result": "prefix",
+      "Comment": "source: global = \"prefix\"",
+      "Next": "Assign outer"
+    },
+    "Assign outer": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.outer",
+      "Result": {
+        "middle": {
+          "inner": 3
+        }
+      },
+      "Comment": "source: outer = { middle: { inner: 3 } }",
+      "Next": "For number Of numbers"
+    },
+    "For number Of numbers": {
+      "Type": "Map",
+      "ResultPath": "$.tmp.lastResult",
+      "Iterator": {
+        "StartAt": "For letter Of letters",
+        "States": {
+          "For letter Of letters": {
+            "Type": "Map",
+            "ResultPath": "$.tmp.lastResult",
+            "Iterator": {
+              "StartAt": "Assign combined",
+              "States": {
+                "Assign combined": {
+                  "Type": "Pass",
+                  "ResultPath": "$.vars.combined",
+                  "Parameters": {
+                    "number.$": "$.vars.number",
+                    "letter.$": "$.vars.letter",
+                    "global.$": "$.vars.global",
+                    "inner.$": "$.vars.outer.middle.inner"
+                  },
+                  "Comment": "source: combined = { number, letter, global, inner: ou ...",
+                  "Next": "doSomething(combined)"
+                },
+                "doSomething(combined)": {
+                  "Type": "Task",
+                  "Resource": "lambda:doSomething",
+                  "InputPath": "$.vars.combined",
+                  "Retry": [
+                    {
+                      "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                      "BackoffRate": 2
+                    }
+                  ],
+                  "Comment": "source: doSomething(combined)",
+                  "End": true
+                }
+              }
+            },
+            "ItemsPath": "$.vars.letters",
+            "Parameters": {
+              "vars": {
+                "number.$": "$.vars.number",
+                "letter.$": "$$.Map.Item.Value",
+                "global.$": "$.vars.global",
+                "outer.$": "$.vars.outer"
+              }
+            },
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.numbers",
+      "Parameters": {
+        "vars": {
+          "number.$": "$$.Map.Item.Value",
+          "global.$": "$.vars.global",
+          "outer.$": "$.vars.outer",
+          "letters.$": "$.vars.letters"
+        }
+      },
+      "End": true
+    }
+  }
+}

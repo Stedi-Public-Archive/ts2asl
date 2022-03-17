@@ -14,8 +14,8 @@ test("when converting test-resources", () => {
     if (file !== "replayable-ingestion.ts") return;
 
     const converted = runConvertForTest(file.substring(0, file.length - 3));
-    expect((converted as any).transformedCode).toMatchSnapshot();
-    expect((converted as any).iasl).toMatchSnapshot();
-    expect(converted.asl).toMatchSnapshot();
+    expect((converted as any).main.transformedCode).toMatchSnapshot();
+    expect((converted as any).main.iasl).toMatchSnapshot();
+    expect(converted.main.asl).toMatchSnapshot();
   });
 });

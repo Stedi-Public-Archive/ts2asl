@@ -6,7 +6,7 @@ describe("when converting choice statement to iasl", () => {
     import * as asl from 'asl-lib';
     asl.choice({ 
         choices: [
-          { when: a !== "hello", then: () => { ASL.fail({ error: "MyError", cause:"bad luck"}); } }
+          { condition: a !== "hello", block: () => { ASL.fail({ error: "MyError", cause:"bad luck"}); } }
         ],
         default: () => {
           return;
@@ -23,7 +23,7 @@ describe("when converting choice statement to iasl", () => {
             "_syntaxKind": "asl-choice-state",
             "choices": Array [
               Object {
-                "then": Object {
+                "block": Object {
                   "_syntaxKind": "function",
                   "statements": Array [
                     Object {
@@ -33,7 +33,7 @@ describe("when converting choice statement to iasl", () => {
                     },
                   ],
                 },
-                "when": Object {
+                "condition": Object {
                   "_syntaxKind": "binary-expression",
                   "operator": "not",
                   "rhs": Object {

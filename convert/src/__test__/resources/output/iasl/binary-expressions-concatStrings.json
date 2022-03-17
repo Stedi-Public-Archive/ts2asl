@@ -1,0 +1,34 @@
+{
+  "statements": [
+    {
+      "parameters": {
+        "properties": {
+          "a": {
+            "value": "hello world ",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "b": {
+            "value": "abc",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "c": {
+            "value": "abc",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "d": {
+            "value": "n=42;",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "source": "console.log({\n    a: \"hello\" + \" world \",\n    b: \"a\" + \"b\" + \"c\",\n    c: `a${\"b\"}c`,\n    d: `n=${42};`\n  })",
+      "_syntaxKind": "asl-pass-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

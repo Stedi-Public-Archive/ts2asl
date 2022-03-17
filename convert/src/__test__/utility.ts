@@ -2,30 +2,35 @@ import { writeFileSync } from "fs";
 import { createCompilerHostFromFile } from "../compiler-host/node";
 import { ConvertedStateMachine, ConvertedStateMachineWithDiagnostics, Converter } from "../convert";
 
-export const runConvertForTest = (filename: string, stateMachineName: string = "main"): ConvertedStateMachine => {
+export const runConvertForTest = (filename: string, stateMachineName: string = "main"): Record<string, ConvertedStateMachineWithDiagnostics> => {
 
   const host = createCompilerHostFromFile(
     `src/__test__/resources/${filename}.ts`
   );
   const converter = new Converter(host);
   const converted = converter
-    .convert({ includeDiagnostics: true })
-    .stateMachines.map(x => x as ConvertedStateMachineWithDiagnostics)
-    .find(x => x.name === stateMachineName);
+    .convert({ includeDiagnostics: true, getParameter: x => x as any })
+    .stateMachines.map(x => x as ConvertedStateMachineWithDiagnostics);
 
-  if (!converted) throw Error("did not find state machine called " + stateMachineName);
+  for (const stateMachine of converted) {
+    writeFileSync(
+      `src/__test__/resources/output/ts-lib/${filename}-${stateMachine.name}.ts`,
+      stateMachine.transformedCode ?? ""
+    );
+    writeFileSync(
+      `src/__test__/resources/output/iasl/${filename}-${stateMachine.name}.json`,
+      JSON.stringify(stateMachine.iasl, function (this: any, key: string, val: any) { return key === "parentScope" ? undefined : val }, 2) ?? ""
+    );
+    writeFileSync(
+      `src/__test__/resources/output/asl/${filename}-${stateMachine.name}.json`,
+      JSON.stringify(stateMachine.asl, null, 2) ?? ""
+    );
+  }
 
-  writeFileSync(
-    `src/__test__/resources/output/${filename}-asllib.ts`,
-    converted.transformedCode ?? ""
-  );
-  writeFileSync(
-    `src/__test__/resources/output/${filename}-i-asl.json`,
-    JSON.stringify(converted.iasl, function (this: any, key: string, val: any) { return key === "parentScope" ? undefined : val }, 2) ?? ""
-  );
-  writeFileSync(
-    `src/__test__/resources/output/${filename}-asl.json`,
-    JSON.stringify(converted.asl, null, 2) ?? ""
-  );
-  return converted;
+  let result: Record<string, ConvertedStateMachineWithDiagnostics> = {};
+  for (const c of converted) {
+    result[c.name] = c;
+  }
+
+  return result;
 }

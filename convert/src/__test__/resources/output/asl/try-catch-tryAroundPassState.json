@@ -1,0 +1,19 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Pass"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Result": "this cannot fail",
+      "Comment": "source: source: console.log(\"this cannot fail\")",
+      "End": true
+    }
+  }
+}

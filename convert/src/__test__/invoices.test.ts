@@ -8,7 +8,7 @@ describe("when converting closures", () => {
   });
 
   it("then can be converted to asllib", async () => {
-    expect(converted.transformedCode).toMatchInlineSnapshot(`
+    expect(converted.main.transformedCode).toMatchInlineSnapshot(`
       "import * as asl from \\"@ts2asl/asl-lib\\";
       const createBillJobHandler = (input: EventInput) => { return {} as unknown as BillJobPayload };
       const createNonEmptyBillsHandler = (input: BillJobPayload) => { return {} as unknown as NonEmptyBillsPayload };
@@ -245,7 +245,7 @@ describe("when converting closures", () => {
     `);
   });
   it("then can be converted to iasl", async () => {
-    expect(converted.iasl).toMatchInlineSnapshot(`
+    expect(converted.main.iasl).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
         "contextArgumentName": Object {
@@ -1025,7 +1025,7 @@ describe("when converting closures", () => {
     `);
   });
   it("then can be converted to asl", async () => {
-    expect(converted.asl).toMatchInlineSnapshot(`
+    expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
@@ -1045,6 +1045,50 @@ describe("when converting closures", () => {
                   "ResultPath": "$.vars.approveNonEmptyBillRequest",
                   "Type": "Pass",
                 },
+                "Else": Object {
+                  "Branches": Array [
+                    Object {
+                      "StartAt": "Invoke",
+                      "States": Object {
+                        "Invoke": Object {
+                          "Catch": undefined,
+                          "Comment": undefined,
+                          "HeartbeatSeconds": undefined,
+                          "Next": "Pass_1",
+                          "Parameters": Object {
+                            "ApiEndpoint": "yyyyyyyy",
+                            "Method": "POST",
+                            "Path": "/xxxxxxxx",
+                            "RequestBody": Object {
+                              "accountId.$": "$.vars.bill.accountId",
+                              "accountName.$": "$.vars.bill.accountName",
+                              "billId.$": "$.vars.bill.billId",
+                              "errors.$": "$.vars.bill.errors",
+                              "stage.$": "$.vars.bill.stage",
+                            },
+                          },
+                          "Resource": "arn:aws:states:::aws-sdk:apigateway:invoke",
+                          "ResultPath": "$.vars.result",
+                          "Retry": undefined,
+                          "TimeoutSeconds": undefined,
+                          "Type": "Task",
+                        },
+                        "Pass_1": Object {
+                          "End": true,
+                          "InputPath": "$.vars.result",
+                          "Type": "Pass",
+                        },
+                      },
+                    },
+                  ],
+                  "End": true,
+                  "Parameters": Object {
+                    "vars": Object {
+                      "bill.$": "$.vars.bill",
+                    },
+                  },
+                  "Type": "Parallel",
+                },
                 "If (approvalResult.valid)": Object {
                   "Choices": Array [
                     Object {
@@ -1054,7 +1098,7 @@ describe("when converting closures", () => {
                     },
                   ],
                   "Comment": undefined,
-                  "Default": "Pass",
+                  "Default": "Else",
                   "Type": "Choice",
                 },
                 "Pass": Object {
@@ -1159,7 +1203,7 @@ describe("when converting closures", () => {
             "Next": "Assign validatedInvoices",
             "Parameters": Object {
               "vars": Object {
-                "x.$": "$.vars.x",
+                "x.$": "$$.Map.Item.Value",
               },
             },
             "ResultPath": "$.vars.invoices",
@@ -1219,13 +1263,14 @@ describe("when converting closures", () => {
             "Next": "Assign invalidInvoices",
             "Parameters": Object {
               "vars": Object {
-                "x.$": "$.vars.x",
+                "x.$": "$$.Map.Item.Value",
               },
             },
             "ResultPath": "$.vars.validatedInvoices",
             "Type": "Map",
           },
           "Empty": Object {
+            "Next": "For invoice Of validInvoices",
             "Type": "Succeed",
           },
           "For invoice Of validInvoices": Object {
@@ -1244,8 +1289,28 @@ describe("when converting closures", () => {
                     },
                   ],
                   "Comment": undefined,
-                  "Default": "finallizeInvoice(invoice ...",
+                  "Default": "Task",
                   "Type": "Choice",
+                },
+                "Task": Object {
+                  "Catch": undefined,
+                  "Comment": undefined,
+                  "End": true,
+                  "HeartbeatSeconds": undefined,
+                  "Parameters": Object {
+                    "Message": Object {
+                      "TaskToken": "$$.Task.Token",
+                      "billId.$": "$.vars.invoice.billId",
+                      "invoiceId.$": "$.vars.invoice.invoiceId",
+                      "stage": "olaf",
+                    },
+                    "Subject": "olaf - Billing Approval",
+                    "TopicArn": "BillingManualApproval16216020",
+                  },
+                  "Resource": "arn::states:::sns:publish.waitForTaskToken",
+                  "Retry": undefined,
+                  "TimeoutSeconds": undefined,
+                  "Type": "Task",
                 },
                 "finallizeInvoice(invoice ...": Object {
                   "Catch": undefined,

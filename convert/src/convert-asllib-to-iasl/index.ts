@@ -224,7 +224,6 @@ export const convertExpression = (expression: ts.Expression | undefined, context
             break;
           default:
             if (!context.converterOptions.skipCheckCallables) {
-
               throw new Error("unsure how to typescriptInvoke a " + resource?.type);
             }
             break;
@@ -412,7 +411,15 @@ export const convertExpression = (expression: ts.Expression | undefined, context
 
       case "choice": {
         const name = unpackAsLiteral(convertedArgs, "name");
-        const choices = unpackArray(convertedArgs, "choices", element => unpackLiteralValue(element));
+        const choices = unpackArray(convertedArgs, "choices",
+          (element) => {
+            const x = element as iasl.LiteralObjectExpression;
+            return {
+              condition: unpackAsBinaryExpression(x.properties, "condition"),
+              block: unpackBlock(x.properties, "block")
+            };
+          }
+        );
         const _default = unpackBlock(convertedArgs, "default");
         const comment = unpackAsLiteral(convertedArgs, "comment");
 

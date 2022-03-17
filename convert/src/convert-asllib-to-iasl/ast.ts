@@ -134,16 +134,22 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
     if (node.lhs) visitNodes(node.lhs, scope, visitor)
     visitNodes(node.rhs, scope, visitor)
   } else if (Check.isBlock(node)) {
+    const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "block-" + (scopeCounter += 1) } as Scope;
+    scope.childScopes.push(childScope);
     for (const child of node.statements) {
       visitNodes(child, scope, visitor)
     }
+    node.scope = childScope.id;
   } else if (Check.isFunction(node)) {
     if (node.inputArgumentName) visitNodes(node.inputArgumentName, scope, visitor)
+    const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "function-" + (scopeCounter += 1) } as Scope;
+    scope.childScopes.push(childScope);
     for (const child of node.statements) {
-      visitNodes(child, scope, visitor)
+      visitNodes(child, childScope, visitor)
     }
+    node.scope = childScope.id;
   } else if (Check.isStateMachine(node)) {
-    const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "state-machine" + (scopeCounter += 1) } as Scope;
+    const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "state-machine-" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
     for (const child of node.statements) {
       visitNodes(child, childScope, visitor)
@@ -151,22 +157,16 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
     node.scope = childScope.id;
   } else if (Check.isAslChoiceState(node)) {
     for (const choice of (node.choices || [])) {
-      visitNodes(choice.when, scope, visitor)
-      visitNodes(choice.then, scope, visitor);
+      visitNodes(choice.condition, scope, visitor)
+      visitNodes(choice.block, scope, visitor);
     }
     if (node.default) visitNodes(node.default, scope, visitor);
   } else if (Check.isAslMapState(node)) {
     visitNodes(node.items, scope, visitor);
-    const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "asl-map-state" + (scopeCounter += 1) } as Scope;
-    scope.childScopes.push(childScope);
-    visitNodes(node.iterator, childScope, visitor);
-    node.iterator.scope = childScope.id;
+    visitNodes(node.iterator, scope, visitor);
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
-      const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "asl-parallel-branch" + (scopeCounter += 1) } as Scope;
-      scope.childScopes.push(childScope);
-      visitNodes(child, childScope, visitor)
-      child.scope = childScope.id;
+      visitNodes(child, scope, visitor)
     }
   } else if (Check.isIfExpression(node)) {
     visitNodes(node.condition, scope, visitor);
@@ -181,10 +181,7 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
     }
   } else if (Check.isDoWhileStatement(node)) {
     visitNodes(node.condition, scope, visitor);
-    const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "ts-do-while" + (scopeCounter += 1) } as Scope;
-    scope.childScopes.push(childScope);
-    visitNodes(node.while, childScope, visitor)
-    node.while.scope = childScope.id;
+    visitNodes(node.while, scope, visitor)
   } else if (Check.isTryExpression(node)) {
     visitNodes(node.try, scope, visitor);
     for (const child of (node.catch || [])) {
@@ -193,10 +190,7 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
     if (node.finally) visitNodes(node.finally, scope, visitor);
   } else if (Check.isWhileStatement(node)) {
     visitNodes(node.condition, scope, visitor);
-    const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "ts-while" + (scopeCounter += 1) } as Scope;
-    scope.childScopes.push(childScope);
-    visitNodes(node.while, childScope, visitor);
-    node.while.scope = childScope.id;
+    visitNodes(node.while, scope, visitor);
   } else if (Check.isAslPassState(node)) {
     visitNodes(node.parameters, scope, visitor)
   } else if (Check.isLiteralObject(node)) {
@@ -221,7 +215,7 @@ export interface StateMachine extends Function {
   contextArgumentName?: Identifier;
   _syntaxKind: SyntaxKind.StateMachine;
 }
-export interface Function extends Block, DeclaresScope {
+export interface Function extends Block {
   inputArgumentName?: Identifier;
   _syntaxKind: SyntaxKind.Function | SyntaxKind.StateMachine;
 }
@@ -326,14 +320,14 @@ export interface CaseStatement extends Expression {
 
 export interface DoWhileStatement extends Expression {
   _syntaxKind: SyntaxKind.DoWhileStatement;
-  while: Block & DeclaresScope;
+  while: Block;
   condition: BinaryExpression;
 }
 
 export interface WhileStatement extends Expression {
   _syntaxKind: SyntaxKind.WhileStatement;
   condition: BinaryExpression;
-  while: Block & DeclaresScope;
+  while: Block;
 }
 
 export interface VariableAssignmentStatement extends Expression {
@@ -347,7 +341,7 @@ export interface ReturnStatement extends Expression {
   expression: Expression;
 }
 
-export interface Block extends Expression {
+export interface Block extends Expression, DeclaresScope {
   _syntaxKind: SyntaxKind.Block | SyntaxKind.Function | SyntaxKind.StateMachine;
   statements: Expression[]
 }
@@ -374,7 +368,7 @@ export interface WaitState extends AslState {
 
 export interface ParallelState extends AslState {
   _syntaxKind: SyntaxKind.AslParallelState
-  branches: (Function & DeclaresScope)[];
+  branches: (Function)[];
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
 }
@@ -400,13 +394,13 @@ export interface TaskState extends AslState {
 
 export interface ChoiceState extends AslState {
   _syntaxKind: SyntaxKind.AslChoiceState
-  choices?: Array<{ when: BinaryExpression, then: Block }>;
+  choices?: Array<{ condition: BinaryExpression, block: Block }>;
   default?: Block;
 }
 
 export interface MapState extends AslState {
   _syntaxKind: SyntaxKind.AslMapState;
-  iterator: Function & DeclaresScope;
+  iterator: Function;
   items: Identifier;
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;

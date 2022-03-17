@@ -1,0 +1,78 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Task"
+    },
+    "Task": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "check-password",
+      "Parameters": {},
+      "Next": "While (true)"
+    },
+    "While (true)": {
+      "Type": "Parallel",
+      "Parameters": {
+        "vars": {
+          "result.$": "$.vars.result"
+        }
+      },
+      "Branches": [
+        {
+          "StartAt": "_WhileCondition",
+          "States": {
+            "_WhileCondition": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$",
+                  "IsNull": false,
+                  "Next": "If (result.Authorized)"
+                }
+              ],
+              "Default": "_WhileExit"
+            },
+            "If (result.Authorized)": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$.vars.result.Authorized",
+                  "IsPresent": true,
+                  "Next": "Break"
+                }
+              ],
+              "Comment": "source: if (result.Authorized) { break; }",
+              "Default": "Wait"
+            },
+            "Break": {
+              "Type": "Succeed",
+              "Next": "Wait"
+            },
+            "Wait": {
+              "Type": "Wait",
+              "Seconds": 1,
+              "Next": "Task_1"
+            },
+            "Task_1": {
+              "Type": "Task",
+              "ResultPath": "$.vars.result",
+              "Resource": "check-password",
+              "Parameters": {},
+              "Next": "_WhileExit"
+            },
+            "_WhileExit": {
+              "Type": "Succeed"
+            }
+          }
+        }
+      ],
+      "End": true
+    }
+  }
+}

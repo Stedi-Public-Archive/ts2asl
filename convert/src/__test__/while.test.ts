@@ -8,7 +8,7 @@ describe("when converting example", () => {
   });
 
   it("then can be converted to asllib", async () => {
-    expect(converted.transformedCode).toMatchInlineSnapshot(`
+    expect(converted.main.transformedCode).toMatchInlineSnapshot(`
       "import * as asl from \\"@ts2asl/asl-lib\\"
       interface Result {
         Authorized: boolean;
@@ -37,7 +37,7 @@ describe("when converting example", () => {
     `);
   });
   it("then can be converted to iasl", async () => {
-    expect(converted.iasl).toMatchInlineSnapshot(`
+    expect(converted.main.iasl).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
         "contextArgumentName": Object {
@@ -147,7 +147,7 @@ describe("when converting example", () => {
     `);
   });
   it("then can be converted to asl", async () => {
-    expect(converted.asl).toMatchInlineSnapshot(`
+    expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
@@ -178,6 +178,7 @@ describe("when converting example", () => {
                 "States": Object {
                   "Break": Object {
                     "Comment": undefined,
+                    "Next": "Wait",
                     "Type": "Succeed",
                   },
                   "If (result.Authorized)": Object {

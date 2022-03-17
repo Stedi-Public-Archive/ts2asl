@@ -8,7 +8,7 @@ describe("when converting example", () => {
   });
 
   it("then can be converted to asllib", async () => {
-    expect(converted.transformedCode).toMatchInlineSnapshot(`
+    expect(converted.main.transformedCode).toMatchInlineSnapshot(`
       "import * as asl from \\"@ts2asl/asl-lib\\"
 
       export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
@@ -112,7 +112,7 @@ describe("when converting example", () => {
     `);
   });
   it("then can be converted to iasl", async () => {
-    expect(converted.iasl).toMatchInlineSnapshot(`
+    expect(converted.main.iasl).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
         "contextArgumentName": Object {
@@ -657,7 +657,7 @@ describe("when converting example", () => {
     `);
   });
   it("then can be converted to asl", async () => {
-    expect(converted.asl).toMatchInlineSnapshot(`
+    expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
@@ -709,16 +709,6 @@ describe("when converting example", () => {
                           "Iterator": Object {
                             "StartAt": "Assign numericLastSentOnValue",
                             "States": Object {
-                              "Assign detail": Object {
-                                "Comment": "source: detail = { account_id: item.pk, threshold: thr ...",
-                                "Next": "PutEvents",
-                                "Parameters": Object {
-                                  "account_id.$": "$.vars.item.pk",
-                                  "threshold.$": "$.vars.threshold",
-                                },
-                                "ResultPath": "$.vars.detail",
-                                "Type": "Pass",
-                              },
                               "Assign numericLastSentOnValue": Object {
                                 "Comment": undefined,
                                 "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
@@ -740,7 +730,7 @@ describe("when converting example", () => {
                               "If ((item.sk.S === thresh ...": Object {
                                 "Choices": Array [
                                   Object {
-                                    "Next": "Assign detail",
+                                    "Next": "Then",
                                     "Or": Array [
                                       Object {
                                         "And": Array [
@@ -813,52 +803,79 @@ describe("when converting example", () => {
                                 "Default": "Empty Default Choice",
                                 "Type": "Choice",
                               },
-                              "PutEvents": Object {
-                                "Catch": undefined,
-                                "Comment": undefined,
-                                "HeartbeatSeconds": undefined,
-                                "Next": "UpdateItem",
-                                "Parameters": Object {
-                                  "Entries": Array [
-                                    Object {
-                                      "Detail.$": "States.JsonToString($.vars.detail)",
-                                      "DetailType": "xxx.detail.type",
-                                      "EventBusName": "default",
-                                      "Source": "zzz.my.source",
+                              "Then": Object {
+                                "Branches": Array [
+                                  Object {
+                                    "StartAt": "Assign detail",
+                                    "States": Object {
+                                      "Assign detail": Object {
+                                        "Comment": "source: detail = { account_id: item.pk, threshold: thr ...",
+                                        "Next": "PutEvents",
+                                        "Parameters": Object {
+                                          "account_id.$": "$.vars.item.pk",
+                                          "threshold.$": "$.vars.threshold",
+                                        },
+                                        "ResultPath": "$.vars.detail",
+                                        "Type": "Pass",
+                                      },
+                                      "PutEvents": Object {
+                                        "Catch": undefined,
+                                        "Comment": undefined,
+                                        "HeartbeatSeconds": undefined,
+                                        "Next": "UpdateItem",
+                                        "Parameters": Object {
+                                          "Entries": Array [
+                                            Object {
+                                              "Detail.$": "States.JsonToString($.vars.detail)",
+                                              "DetailType": "xxx.detail.type",
+                                              "EventBusName": "default",
+                                              "Source": "zzz.my.source",
+                                            },
+                                          ],
+                                        },
+                                        "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+                                        "Retry": undefined,
+                                        "TimeoutSeconds": undefined,
+                                        "Type": "Task",
+                                      },
+                                      "UpdateItem": Object {
+                                        "Catch": undefined,
+                                        "Comment": undefined,
+                                        "End": true,
+                                        "HeartbeatSeconds": undefined,
+                                        "Parameters": Object {
+                                          "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
+                                          "ExpressionAttributeValues": Object {
+                                            ":newLastBeginDateValue": Object {
+                                              "S.$": "$.vars.item.beginDate.S",
+                                            },
+                                            ":newLastSentOnValue": Object {
+                                              "N.$": "$.vars.item.total.N",
+                                            },
+                                          },
+                                          "Key": Object {
+                                            "pk.$": "$.vars.item.pk",
+                                            "sk.$": "$.vars.item.sk",
+                                          },
+                                          "TableName": "MyStorage",
+                                          "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
+                                        },
+                                        "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
+                                        "Retry": undefined,
+                                        "TimeoutSeconds": undefined,
+                                        "Type": "Task",
+                                      },
                                     },
-                                  ],
-                                },
-                                "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-                                "Retry": undefined,
-                                "TimeoutSeconds": undefined,
-                                "Type": "Task",
-                              },
-                              "UpdateItem": Object {
-                                "Catch": undefined,
-                                "Comment": undefined,
+                                  },
+                                ],
                                 "End": true,
-                                "HeartbeatSeconds": undefined,
                                 "Parameters": Object {
-                                  "ConditionExpression": "lastSentOnValue < :newLastSentOnValue OR lastBeginDateValue <> :newLastBeginDateValue",
-                                  "ExpressionAttributeValues": Object {
-                                    ":newLastBeginDateValue": Object {
-                                      "S.$": "$.vars.item.beginDate.S",
-                                    },
-                                    ":newLastSentOnValue": Object {
-                                      "N.$": "$.vars.item.total.N",
-                                    },
+                                  "vars": Object {
+                                    "item.$": "$.vars.item",
+                                    "threshold.$": "$.vars.threshold",
                                   },
-                                  "Key": Object {
-                                    "pk.$": "$.vars.item.pk",
-                                    "sk.$": "$.vars.item.sk",
-                                  },
-                                  "TableName": "MyStorage",
-                                  "UpdateExpression": "SET lastSentOnValue = :newLastSentOnValue, lastBeginDateValue = :newLastBeginDateValue",
                                 },
-                                "Resource": "arn:aws:states:::aws-sdk:dynamodb:updateItem",
-                                "Retry": undefined,
-                                "TimeoutSeconds": undefined,
-                                "Type": "Task",
+                                "Type": "Parallel",
                               },
                             },
                           },

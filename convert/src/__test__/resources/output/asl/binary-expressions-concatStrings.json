@@ -1,0 +1,24 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Pass"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Result": {
+        "a": "hello world ",
+        "b": "abc",
+        "c": "abc",
+        "d": "n=42;"
+      },
+      "Comment": "source: console.log({ a: \"hello\" + \" world \", b: \"a\" + ...",
+      "End": true
+    }
+  }
+}

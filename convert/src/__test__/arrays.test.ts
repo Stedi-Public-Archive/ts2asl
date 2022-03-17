@@ -8,15 +8,11 @@ describe("when converting closures", () => {
   });
 
   it("then can be converted to asllib", async () => {
-    expect(converted.transformedCode).toMatchInlineSnapshot(`
+    expect(converted.main.transformedCode).toMatchInlineSnapshot(`
       "
       import * as asl from \\"@ts2asl/asl-lib\\"
 
       export const main = asl.deploy.asStateMachine(async (_input: {}, context: asl.StateMachineContext<{}>) =>{
-          asl.pass({
-              parameters: () => asl.states.format(\\"Starting execution of {} at {} with role of {}\\", context.stateMachine.name, context.execution.startTime, context.execution.roleArn),
-              comment: \\"console.log(asl.states.format(\\\\\\"Starting execution of {} at {} with role of {}\\\\\\", context.stateMachine.name, context.execution.startTime, context.execution.roleArn))\\"
-          });
           let myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
           let mySerializedArray = asl.states.jsonToString(myArray);
           myArray = asl.states.stringToJson(mySerializedArray);
@@ -75,7 +71,7 @@ describe("when converting closures", () => {
     `);
   });
   it("then can be converted to iasl", async () => {
-    expect(converted.iasl).toMatchInlineSnapshot(`
+    expect(converted.main.iasl).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
         "contextArgumentName": Object {
@@ -87,36 +83,6 @@ describe("when converting closures", () => {
           "identifier": "_input",
         },
         "statements": Array [
-          Object {
-            "_syntaxKind": "asl-pass-state",
-            "parameters": Object {
-              "_syntaxKind": "asl-intrinsic-function",
-              "arguments": Array [
-                Object {
-                  "_syntaxKind": "literal",
-                  "type": "string",
-                  "value": "Starting execution of {} at {} with role of {}",
-                },
-                Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "context.stateMachine.name",
-                  "type": "string",
-                },
-                Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "context.execution.startTime",
-                  "type": "string",
-                },
-                Object {
-                  "_syntaxKind": "identifier",
-                  "identifier": "context.execution.roleArn",
-                  "type": "string",
-                },
-              ],
-              "function": "asl.states.format",
-            },
-            "source": "console.log(asl.states.format(\\"Starting execution of {} at {} with role of {}\\", context.stateMachine.name, context.execution.startTime, context.execution.roleArn))",
-          },
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
@@ -701,7 +667,7 @@ describe("when converting closures", () => {
     `);
   });
   it("then can be converted to asl", async () => {
-    expect(converted.asl).toMatchInlineSnapshot(`
+    expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
@@ -758,7 +724,7 @@ describe("when converting closures", () => {
                 "If (x === 1 || x === 3 || ...": Object {
                   "Choices": Array [
                     Object {
-                      "Next": "Pass_1",
+                      "Next": "Pass",
                       "Or": Array [
                         Object {
                           "NumericEquals": 1,
@@ -787,12 +753,21 @@ describe("when converting closures", () => {
                   "Default": "Pass_1",
                   "Type": "Choice",
                 },
-                "Pass_1": Object {
+                "Pass": Object {
                   "End": true,
                   "Parameters": Object {
                     "age.$": "$.vars.x",
                     "createdBy.$": "$$.State.Name",
                     "species": "dog",
+                  },
+                  "Type": "Pass",
+                },
+                "Pass_1": Object {
+                  "End": true,
+                  "Parameters": Object {
+                    "age.$": "$.vars.x",
+                    "createdBy.$": "$$.State.Name",
+                    "species": "cat",
                   },
                   "Type": "Pass",
                 },
@@ -802,8 +777,7 @@ describe("when converting closures", () => {
             "Next": "Assign bySpecies",
             "Parameters": Object {
               "vars": Object {
-                "context.$": "$.vars.context",
-                "x.$": "$.vars.x",
+                "x.$": "$$.Map.Item.Value",
               },
             },
             "ResultPath": "$.vars.pets",
@@ -812,7 +786,7 @@ describe("when converting closures", () => {
           "Assign slicedArr": Object {
             "Comment": undefined,
             "InputPath": "$.vars.pets[3:5]",
-            "Next": "Pass_3",
+            "Next": "Pass_2",
             "ResultPath": "$.vars.slicedArr",
             "Type": "Pass",
           },
@@ -824,20 +798,14 @@ describe("when converting closures", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "Pass",
+            "Next": "Assign myArray",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
-            "Comment": "source: console.log(asl.states.format(\\"Starting execut ...",
-            "InputPath": "States.Format('Starting execution of {} at {} with role of {}', $$.StateMachine.Name, $$.Execution.StartTime, $$.Execution.RoleArn)",
-            "Next": "Assign myArray",
-            "Type": "Pass",
-          },
-          "Pass_3": Object {
+          "Pass_2": Object {
             "End": true,
             "Parameters": Object {
               "bySpecies.$": "$.vars.bySpecies",

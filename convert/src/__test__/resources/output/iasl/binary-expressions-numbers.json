@@ -1,0 +1,39 @@
+{
+  "statements": [
+    {
+      "parameters": {
+        "properties": {
+          "a": {
+            "value": 20,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "b": {
+            "value": 20,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "c": {
+            "value": 20,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "d": {
+            "value": 20,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "e": {
+            "value": 40,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "source": "console.log({\n    a: 10 + 10,\n    b: 30 - 10,\n    c: 10 * 2,\n    d: 40 / 2,\n    e: 2 * (4 + 4 * 4),\n  })",
+      "_syntaxKind": "asl-pass-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

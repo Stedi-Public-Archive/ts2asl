@@ -1,0 +1,23 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Pass"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Result": {
+        "a": "bucketName",
+        "b": "s3:::arn:bucketName",
+        "c": "value -> bucketName <- value"
+      },
+      "Comment": "source: console.log({ a: asl.deploy.getParameter(\"buck ...",
+      "End": true
+    }
+  }
+}

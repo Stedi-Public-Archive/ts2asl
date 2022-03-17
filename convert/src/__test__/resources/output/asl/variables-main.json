@@ -1,0 +1,74 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "If (typeof input.name !== ..."
+    },
+    "If (typeof input.name !== ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "And": [
+              {
+                "Variable": "$.vars.name",
+                "IsPresent": true
+              },
+              {
+                "Variable": "$.vars.name",
+                "IsString": true
+              }
+            ]
+          },
+          "Next": "Assign input.name"
+        }
+      ],
+      "Comment": "source: if (typeof input.name !== \"string\") { input.na ...",
+      "Default": "Assign x"
+    },
+    "Assign input.name": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.name",
+      "Result": "fred",
+      "Next": "Assign x"
+    },
+    "Assign x": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.x",
+      "Parameters": {
+        "name.$": "$.vars.name",
+        "executionId.$": "$$.Execution.Id"
+      },
+      "Comment": "source: x = { name: input.name, executionId: context.e ...",
+      "Next": "Assign y"
+    },
+    "Assign y": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.y",
+      "Parameters": {
+        "x.$": "$.vars.x",
+        "somethingLiteral": [
+          "one",
+          2,
+          "three"
+        ],
+        "startTime.$": "$$.Execution.StartTime",
+        "func.$": "States.JsonToString($.vars.x)",
+        "fmt.$": "States.Format('hello {}', $.vars.x)",
+        "number.$": "States.StringToJson('123')",
+        "arr.$": "States.Array(1, 2, 3, 4, 5, 6)"
+      },
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.y"
+    }
+  }
+}

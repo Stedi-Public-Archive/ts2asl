@@ -1,0 +1,28 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign variable"
+    },
+    "Assign variable": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.variable",
+      "Result": "some var",
+      "Comment": "source: variable = \"some var\"",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Parameters": {
+        "b.$": "States.Format('hello {}', [\n  null\n])"
+      },
+      "Comment": "source: console.log({ b: `hello ${variable}`, })",
+      "End": true
+    }
+  }
+}

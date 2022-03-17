@@ -8,7 +8,7 @@ describe("when converting variables", () => {
   });
 
   it("then can be converted to asllib", async () => {
-    expect(converted.transformedCode).toMatchInlineSnapshot(`
+    expect(converted.main.transformedCode).toMatchInlineSnapshot(`
       "
       import * as asl from \\"@ts2asl/asl-lib\\"
       import { StateMachineContext } from \\"@ts2asl/asl-lib\\";
@@ -37,6 +37,7 @@ describe("when converting variables", () => {
                   somethingLiteral: [\\"one\\", 2, \\"three\\"],
                   startTime: context.execution.startTime,
                   func: asl.states.jsonToString(x),
+                  fmt: asl.states.format(\\"hello {}\\", x),
                   number: asl.states.stringToJson(\\"123\\"),
                   arr: asl.states.array(1, 2, 3, 4, 5, 6),
               })
@@ -54,7 +55,7 @@ describe("when converting variables", () => {
     `);
   });
   it("then can be converted to iasl", async () => {
-    expect(converted.iasl).toMatchInlineSnapshot(`
+    expect(converted.main.iasl).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
         "contextArgumentName": Object {
@@ -188,6 +189,22 @@ describe("when converting variables", () => {
                     ],
                     "function": "asl.states.array",
                   },
+                  "fmt": Object {
+                    "_syntaxKind": "asl-intrinsic-function",
+                    "arguments": Array [
+                      Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "hello {}",
+                      },
+                      Object {
+                        "_syntaxKind": "identifier",
+                        "identifier": "x",
+                        "type": "object",
+                      },
+                    ],
+                    "function": "asl.states.format",
+                  },
                   "func": Object {
                     "_syntaxKind": "asl-intrinsic-function",
                     "arguments": Array [
@@ -266,7 +283,7 @@ describe("when converting variables", () => {
     `);
   });
   it("then can be converted to asl", async () => {
-    expect(converted.asl).toMatchInlineSnapshot(`
+    expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
@@ -292,6 +309,7 @@ describe("when converting variables", () => {
             "Next": "Pass",
             "Parameters": Object {
               "arr.$": "States.Array(1, 2, 3, 4, 5, 6)",
+              "fmt.$": "States.Format('hello {}', $.vars.x)",
               "func.$": "States.JsonToString($.vars.x)",
               "number.$": "States.StringToJson('123')",
               "somethingLiteral": Array [

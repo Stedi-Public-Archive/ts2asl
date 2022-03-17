@@ -1,0 +1,29 @@
+{
+  "statements": [
+    {
+      "parameters": {
+        "properties": {
+          "a": {
+            "value": "bucketName",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "b": {
+            "value": "s3:::arn:bucketName",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "c": {
+            "value": "value -> bucketName <- value",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "source": "console.log({\n    a: asl.deploy.getParameter(\"bucketName\"),\n    b: \"s3:::arn:\" + asl.deploy.getParameter(\"bucketName\"),\n    c: `value -> ${asl.deploy.getParameter(\"bucketName\")} <- value`,\n  })",
+      "_syntaxKind": "asl-pass-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

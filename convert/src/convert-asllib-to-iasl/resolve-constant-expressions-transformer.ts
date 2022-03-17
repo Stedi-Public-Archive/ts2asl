@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+const factory = ts.factory;
 import { ConverterOptions } from '../convert';
 import { isAslCallExpression } from '../convert-ts-to-asllib/transformers/node-utility';
 
@@ -6,7 +7,10 @@ export const resolveExpressionsTransformer = (converterOptions: ConverterOptions
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
-    if (ts.isBinaryExpression(node) && ts.isLiteralExpression(node.left) && ts.isLiteralExpression(node.right)) {
+    if (ts.isBinaryExpression(node) &&
+      (ts.isLiteralExpression(node.left) || (ts.isParenthesizedExpression(node.left) && ts.isLiteralExpression(node.left.expression))) &&
+      (ts.isLiteralExpression(node.right) || (ts.isParenthesizedExpression(node.right) && ts.isLiteralExpression(node.right.expression)))) {
+
       const left = literalExpressionToValue(node.left);
       const right = literalExpressionToValue(node.right);
       switch (node.operatorToken.kind) {
@@ -27,10 +31,12 @@ export const resolveExpressionsTransformer = (converterOptions: ConverterOptions
     if (ts.isTemplateExpression(node)) {
       let result = node.head.text;
       let allLiterals = true;
+      let args = [] as ts.Expression[];
       for (const span of node.templateSpans) {
         if (!ts.isLiteralExpression(span.expression)) {
           allLiterals = false;
-          break;
+          result = result + "{}";
+          args.push(span.expression);
         } else {
           result = result + span.expression.text;
         }
@@ -38,6 +44,25 @@ export const resolveExpressionsTransformer = (converterOptions: ConverterOptions
       }
       if (allLiterals) {
         return valueToLiteralExpression(result);
+      } else {
+
+        return factory.createCallExpression(
+          factory.createPropertyAccessExpression(
+            factory.createPropertyAccessExpression(
+              factory.createIdentifier("asl"),
+              factory.createIdentifier("states")
+            ),
+            factory.createIdentifier("format")
+          ),
+          undefined,
+          [
+            factory.createStringLiteral(result),
+            factory.createArrayLiteralExpression(
+              args,
+              false
+            )
+          ]
+        );
       }
     }
     if (ts.isCallExpression(node)) {
@@ -66,7 +91,10 @@ const valueToLiteralExpression = (value: number | string): ts.LiteralExpression 
   throw new Error("unable to convert value to literal expression");
 }
 
-const literalExpressionToValue = (expression: ts.LiteralExpression): number => {
+const literalExpressionToValue = (expression: ts.LiteralExpression | ts.ParenthesizedExpression): number => {
+  if (ts.isParenthesizedExpression(expression)) {
+    return literalExpressionToValue(expression.expression as ts.LiteralExpression);
+  }
   if (expression.kind === ts.SyntaxKind.StringLiteral) {
     return expression.text as any;
   }

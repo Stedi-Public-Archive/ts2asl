@@ -1,0 +1,114 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign before_nested"
+    },
+    "Assign before_nested": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.before_nested",
+      "Result": true,
+      "Comment": "source: before_nested = true",
+      "Next": "If (true)"
+    },
+    "If (true)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsNull": false,
+          "Next": "Then_1"
+        }
+      ],
+      "Default": "Assign outer_else"
+    },
+    "Then_1": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Assign outer_1",
+          "States": {
+            "Assign outer_1": {
+              "Type": "Pass",
+              "ResultPath": "$.vars.outer_1",
+              "Result": true,
+              "Comment": "source: outer_1 = true",
+              "Next": "Assign outer_2"
+            },
+            "Assign outer_2": {
+              "Type": "Pass",
+              "ResultPath": "$.vars.outer_2",
+              "Result": true,
+              "Comment": "source: outer_2 = true",
+              "Next": "If (true)_1"
+            },
+            "If (true)_1": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$",
+                  "IsNull": false,
+                  "Next": "Then"
+                }
+              ],
+              "Comment": "source: if (true) { let inner_1 = true; let inner_2 =  ...",
+              "Default": "Assign inner_else"
+            },
+            "Then": {
+              "Type": "Parallel",
+              "Branches": [
+                {
+                  "StartAt": "Assign inner_1",
+                  "States": {
+                    "Assign inner_1": {
+                      "Type": "Pass",
+                      "ResultPath": "$.vars.inner_1",
+                      "Result": true,
+                      "Comment": "source: inner_1 = true",
+                      "Next": "Assign inner_2"
+                    },
+                    "Assign inner_2": {
+                      "Type": "Pass",
+                      "ResultPath": "$.vars.inner_2",
+                      "Result": true,
+                      "Comment": "source: inner_2 = true",
+                      "End": true
+                    }
+                  }
+                }
+              ],
+              "End": true
+            },
+            "Assign inner_else": {
+              "Type": "Pass",
+              "ResultPath": "$.vars.inner_else",
+              "Result": true,
+              "Comment": "source: source: inner_else = true",
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "Assign after_all"
+    },
+    "Assign outer_else": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.outer_else",
+      "Result": true,
+      "Comment": "source: source: outer_else = true",
+      "Next": "Assign after_all"
+    },
+    "Assign after_all": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.after_all",
+      "Result": true,
+      "Comment": "source: after_all = true",
+      "End": true
+    }
+  }
+}

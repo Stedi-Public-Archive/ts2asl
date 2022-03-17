@@ -8,7 +8,7 @@ describe("when converting example", () => {
   });
 
   it("then can be converted to asllib", async () => {
-    expect(converted.transformedCode).toMatchInlineSnapshot(`
+    expect(converted.main.transformedCode).toMatchInlineSnapshot(`
       "// https://asl.stedi.com/?share=eJyNVNtuGzcQ_ZlF0YKIYK6v0VNWsnyJbUWxbDdOIQPU7sgitCIVkitF6BTIP_Spv5cv6ZCrta52CwPe0cyZw7kcsqnHY1AOE3al9Iw96sKwZmGdHoNhv149Nn9jE6NTsJalWllpnWV6wARTxbhPELLTCi4zYpJuztIhpCPL3FA4yoYUMqCMDFJppVbMaSYmxDr1XgWzJYNQGbNOGMcoGZhW7_pamEyq56qKGnZ9PHHY9Ie8nOndDuym924-AewII_IccmzDd4eXa1VSV-NJDg4yvAVb5K4LOaROG6w4AiNktQijP_Z6tQ03imdQ6RqI92prTqzaa4sxVDSrvhdAkmXG97iBWbixYYSioqsmFaWGiYlF_BX3g8hlRsMpI79Ufvbzx9_VDDY3WKOZUWY5kcWnI9wQo63-WyrDJLTLLKSFCZPNQfha4Y3IelUz6YZkOZKHyEs4ocsxrhTqRVH29yyksiSTvFLkiOSr2AQ0bbNGda6v4NWld4o-UQwZTAnAZkNQGzJmQ2FZH8i_TLoTduSnQpeFOhFG1cXM1m1QYL1eD1y2PilcK1hBgGPKNJbG5YykFZ6CEzL3m16YQamvlhmIGoUNcon-bNIv0vSq9y_sluVQUo3KqY3mKT6AkYM5M9KO_AUayByobmfm2DJGm9a3QuR2cXVqyfU1XiqqciryLtBtz0hyIh3pweCWAHgjvifOwXhCHe0iboo8LXK_Ur-mSlM_f_xjSxwtqQ_-Kks11fkUMjKYpIv5TCsXqZPToLyoVj4fXoHUebJ4KbTxD0guFfw_V6kVelxEmuqCdmvgWwHWvxta0pjKj78dRoo-ld_QmsSpFjO5nwRxrjXYXmFbnJLR9gbCX5KdwV0s_8W8eBqz3c51va4_nuuNLoX7NmO3SFOgFzrb3cL2ga-e85Kzk-iMRL48Lvx84hjT38r_p6doL1j7eIDRIUZHeIwn-B4TjBrYxFNs4Rme4wVe9vAjfohivPLIa6S8GzzCNn7Cdxw7-Blvyej1ekiYrsfcecz9KuahwhDqdx_9QtFH_IqciuAY8ZhO4PvID5AfIj9Cfoz8BPl75InPIbOBvOlBp_iBt3rIzzCm6DnGCfILjBsexi89N_-4ejS_8tnXFLwJwTYF-SfkHU_22Ye5r82DutTC0hV7151nvUf-QJ9QOP8SyCn0SK6v3hXvvdVMzLebiePtZpqhmdPQTMvD4v1AfvAm-eEO8qNt8rNAfh7ILwJ57DceH_c83Fsn5P0XRI01NA
 
       import * as asl from \\"@ts2asl/asl-lib\\"
@@ -87,7 +87,7 @@ describe("when converting example", () => {
     `);
   });
   it("then can be converted to iasl", async () => {
-    expect(converted.iasl).toMatchInlineSnapshot(`
+    expect(converted.main.iasl).toMatchInlineSnapshot(`
       Object {
         "_syntaxKind": "statemachine",
         "contextArgumentName": undefined,
@@ -386,7 +386,7 @@ describe("when converting example", () => {
     `);
   });
   it("then can be converted to asl", async () => {
-    expect(converted.asl).toMatchInlineSnapshot(`
+    expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
@@ -460,7 +460,7 @@ describe("when converting example", () => {
               },
             ],
             "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
-            "Default": "PutEvents_1",
+            "Default": "PutEvents_2",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -501,6 +501,26 @@ describe("when converting example", () => {
                 Object {
                   "Detail.$": "States.JsonToString($.vars.result)",
                   "DetailType": "AccountApproved",
+                  "EventBusName": "eventbusname",
+                  "Source": "com.aws.kyc",
+                },
+              ],
+            },
+            "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+            "Retry": undefined,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+          "PutEvents_2": Object {
+            "Catch": undefined,
+            "Comment": undefined,
+            "End": true,
+            "HeartbeatSeconds": undefined,
+            "Parameters": Object {
+              "Entries": Array [
+                Object {
+                  "Detail.$": "States.JsonToString($.vars.result)",
+                  "DetailType": "AccountDeclined",
                   "EventBusName": "eventbusname",
                   "Source": "com.aws.kyc",
                 },
