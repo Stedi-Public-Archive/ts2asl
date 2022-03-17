@@ -246,7 +246,7 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
   } else if (iasl.Check.isLiteralArray(expr)) {
     const convertedElements = expr.elements.map(x => convertExpressionToAsl(x));
     return {
-      value: convertedElements.map(x => x.value),
+      value: convertedElements,
       type: "array",
       valueContainsReplacements: convertedElements.findIndex(x => x.path || x.valueContainsReplacements === true) !== -1
     }
@@ -254,15 +254,18 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
     let args: string[] = [];
     for (const arg of expr.arguments) {
       const convertedArg = convertExpressionToAsl(arg);
-      if (convertedArg.path) {
-        args.push(convertedArg.path);
-      } else if (typeof convertedArg.value === "string") {
-        if (convertedArg.value.includes("'")) throw new Error("todo implement escaping of string literals passed to intrinsic function args")
-        args.push(`'${convertedArg.value}'`);
-      } else if (typeof convertedArg.value === "object") {
-        args.push(`${JSON.stringify(convertedArg.value, null, 2)}`);
-      } else {
-        args.push(`${convertedArg.value}`);
+      const convertedArgAsArray = convertedArg.type === "array" ? convertedArg.value as [] : [convertedArg]
+      for (const argFromArray of convertedArgAsArray) {
+        if (argFromArray.path) {
+          args.push(argFromArray.path);
+        } else if (typeof argFromArray.value === "string") {
+          if (argFromArray.value.includes("'")) throw new Error("todo implement escaping of string literals passed to intrinsic function args")
+          args.push(`'${argFromArray.value}'`);
+        } else if (typeof argFromArray.value === "object") {
+          args.push(`${JSON.stringify(argFromArray.value, null, 2)}`);
+        } else {
+          args.push(`${argFromArray.value}`);
+        }
       }
     }
     let intrinsicFunctionName = expr.function;
