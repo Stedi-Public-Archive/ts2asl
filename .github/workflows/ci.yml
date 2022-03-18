@@ -19,9 +19,11 @@ jobs:
           node-version: 12
       - name: Install Dependencies with NPM
         id: installation
+        working-directory: convert
         run: |
-          npm run bootstrap
+          npm ci
       - name: Run Tests
         id: testing
+        working-directory: convert
         run: |
           npm run test

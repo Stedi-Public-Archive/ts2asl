@@ -31,9 +31,7 @@ describe("when converting string-templates", () => {
             "Comment": "source: console.log({ b: \`hello \${variable}\`, })",
             "End": true,
             "Parameters": Object {
-              "b.$": "States.Format('hello {}', [
-        null
-      ])",
+              "b.$": "States.Format('hello {}', $.vars.variable)",
             },
             "Type": "Pass",
           },

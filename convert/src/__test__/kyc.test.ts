@@ -479,10 +479,14 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "Detail.$": "States.JsonToString($.vars.result)",
-                  "DetailType": "Identity check completed",
-                  "EventBusName": "eventbusname",
-                  "Source": "com.aws.kyc",
+                  "type": "object",
+                  "value": Object {
+                    "Detail.$": "States.JsonToString($.vars.result)",
+                    "DetailType": "Identity check completed",
+                    "EventBusName": "eventbusname",
+                    "Source": "com.aws.kyc",
+                  },
+                  "valueContainsReplacements": true,
                 },
               ],
             },
@@ -499,10 +503,14 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "Detail.$": "States.JsonToString($.vars.result)",
-                  "DetailType": "AccountApproved",
-                  "EventBusName": "eventbusname",
-                  "Source": "com.aws.kyc",
+                  "type": "object",
+                  "value": Object {
+                    "Detail.$": "States.JsonToString($.vars.result)",
+                    "DetailType": "AccountApproved",
+                    "EventBusName": "eventbusname",
+                    "Source": "com.aws.kyc",
+                  },
+                  "valueContainsReplacements": true,
                 },
               ],
             },
@@ -519,10 +527,14 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "Detail.$": "States.JsonToString($.vars.result)",
-                  "DetailType": "AccountDeclined",
-                  "EventBusName": "eventbusname",
-                  "Source": "com.aws.kyc",
+                  "type": "object",
+                  "value": Object {
+                    "Detail.$": "States.JsonToString($.vars.result)",
+                    "DetailType": "AccountDeclined",
+                    "EventBusName": "eventbusname",
+                    "Source": "com.aws.kyc",
+                  },
+                  "valueContainsReplacements": true,
                 },
               ],
             },

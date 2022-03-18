@@ -3,7 +3,6 @@ import * as asl from "@ts2asl/asl-lib"
 import { StateMachineContext } from "@ts2asl/asl-lib";
 
 export const main = asl.deploy.asStateMachine(async (input: Input, context?: StateMachineContext<Input>) => {
-  console.log("sdfsd")
   if (typeof input.numberOfNewAccount !== "number") {
     input.numberOfNewAccount = 20;
   }

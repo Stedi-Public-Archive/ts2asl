@@ -673,12 +673,20 @@ describe("when converting example", () => {
             "Next": "Assign lastEvaluatedKey",
             "Result": Array [
               Object {
-                "ceiling": 100,
-                "metric": "mappings.requests",
+                "type": "object",
+                "value": Object {
+                  "ceiling": 100,
+                  "metric": "mappings.requests",
+                },
+                "valueContainsReplacements": false,
               },
               Object {
-                "ceiling": 1000,
-                "metric": "mappings.requests",
+                "type": "object",
+                "value": Object {
+                  "ceiling": 1000,
+                  "metric": "mappings.requests",
+                },
+                "valueContainsReplacements": false,
               },
             ],
             "ResultPath": "$.vars.thresholds",
@@ -826,10 +834,14 @@ describe("when converting example", () => {
                                         "Parameters": Object {
                                           "Entries": Array [
                                             Object {
-                                              "Detail.$": "States.JsonToString($.vars.detail)",
-                                              "DetailType": "xxx.detail.type",
-                                              "EventBusName": "default",
-                                              "Source": "zzz.my.source",
+                                              "type": "object",
+                                              "value": Object {
+                                                "Detail.$": "States.JsonToString($.vars.detail)",
+                                                "DetailType": "xxx.detail.type",
+                                                "EventBusName": "default",
+                                                "Source": "zzz.my.source",
+                                              },
+                                              "valueContainsReplacements": true,
                                             },
                                           ],
                                         },

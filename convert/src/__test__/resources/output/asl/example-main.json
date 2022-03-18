@@ -14,12 +14,20 @@
       "ResultPath": "$.vars.thresholds",
       "Result": [
         {
-          "metric": "mappings.requests",
-          "ceiling": 100
+          "value": {
+            "metric": "mappings.requests",
+            "ceiling": 100
+          },
+          "type": "object",
+          "valueContainsReplacements": false
         },
         {
-          "metric": "mappings.requests",
-          "ceiling": 1000
+          "value": {
+            "metric": "mappings.requests",
+            "ceiling": 1000
+          },
+          "type": "object",
+          "valueContainsReplacements": false
         }
       ],
       "Comment": "source: thresholds = [ { \"metric\": \"mappings.requests\" ...",
@@ -182,10 +190,14 @@
                                   "Parameters": {
                                     "Entries": [
                                       {
-                                        "Detail.$": "States.JsonToString($.vars.detail)",
-                                        "DetailType": "xxx.detail.type",
-                                        "EventBusName": "default",
-                                        "Source": "zzz.my.source"
+                                        "value": {
+                                          "Detail.$": "States.JsonToString($.vars.detail)",
+                                          "DetailType": "xxx.detail.type",
+                                          "EventBusName": "default",
+                                          "Source": "zzz.my.source"
+                                        },
+                                        "type": "object",
+                                        "valueContainsReplacements": true
                                       }
                                     ]
                                   },
