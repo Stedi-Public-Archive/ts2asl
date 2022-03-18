@@ -1,0 +1,50 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "lambda()"
+    },
+    "lambda()": {
+      "Type": "Task",
+      "Resource": "lambda:lambda",
+      "Catch": [
+        {
+          "Next": "Pass",
+          "ErrorEquals": [
+            "States.All"
+          ]
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Comment": "source: source: lambda()",
+      "Next": "Pass_1"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Result": "failed",
+      "Comment": "source: console.log(\"failed\")",
+      "Next": "Pass_1"
+    },
+    "Pass_1": {
+      "Type": "Pass",
+      "Result": "finally",
+      "End": true
+    }
+  }
+}

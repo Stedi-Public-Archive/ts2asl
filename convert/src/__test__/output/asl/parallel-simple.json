@@ -1,0 +1,89 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign Return_var"
+    },
+    "Assign Return_var": {
+      "Branches": [
+        {
+          "StartAt": "worker()",
+          "States": {
+            "worker()": {
+              "Type": "Task",
+              "ResultPath": "$.vars.return_var",
+              "Resource": "lambda:worker",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "Comment": "source: worker()",
+              "Next": "Pass"
+            },
+            "Pass": {
+              "End": true,
+              "Type": "Pass",
+              "InputPath": "$.vars.return_var"
+            }
+          }
+        },
+        {
+          "StartAt": "worker()_1",
+          "States": {
+            "worker()_1": {
+              "Type": "Task",
+              "ResultPath": "$.vars.return_var",
+              "Resource": "lambda:worker",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "Comment": "source: worker()",
+              "Next": "Pass_1"
+            },
+            "Pass_1": {
+              "End": true,
+              "Type": "Pass",
+              "InputPath": "$.vars.return_var"
+            }
+          }
+        }
+      ],
+      "ResultPath": "$.tmp.return_var",
+      "Type": "Parallel",
+      "Comment": "source: Promise.all([worker(), worker()])",
+      "Parameters": {
+        "vars": {
+          "return_var.$": "$.vars.return_var"
+        }
+      },
+      "Next": "Pass_2"
+    },
+    "Pass_2": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.tmp.return_var"
+    }
+  }
+}

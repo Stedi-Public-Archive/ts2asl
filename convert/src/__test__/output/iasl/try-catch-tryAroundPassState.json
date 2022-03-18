@@ -1,0 +1,45 @@
+{
+  "statements": [
+    {
+      "stateName": "Try Catch",
+      "try": {
+        "statements": [
+          {
+            "expression": {
+              "value": "this cannot fail",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return",
+            "stateName": "Return \"this cannot fail\""
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "catch": [
+        {
+          "errorFilter": [
+            "States.All"
+          ],
+          "block": {
+            "statements": [
+              {
+                "expression": {
+                  "value": "this never happens",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "_syntaxKind": "return",
+                "stateName": "Return \"this never happens\""
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "source": "try {\n    return \"this cannot fail\";\n  } catch {\n    return \"this never happens\";\n  }",
+      "_syntaxKind": "try"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

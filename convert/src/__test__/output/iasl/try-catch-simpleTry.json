@@ -1,0 +1,72 @@
+{
+  "statements": [
+    {
+      "stateName": "Try Catch",
+      "try": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "return_var",
+              "compilerGenerated": true,
+              "_syntaxKind": "identifier",
+              "type": "unknown"
+            },
+            "expression": {
+              "stateName": "lambda()",
+              "resource": "lambda:lambda",
+              "retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "source": "lambda()",
+              "_syntaxKind": "asl-task-state"
+            },
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "expression": {
+              "identifier": "return_var",
+              "compilerGenerated": true,
+              "_syntaxKind": "identifier",
+              "type": "unknown"
+            },
+            "_syntaxKind": "return"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "catch": [
+        {
+          "errorFilter": [
+            "States.All"
+          ],
+          "block": {
+            "statements": [
+              {
+                "expression": {
+                  "value": "it failed",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "_syntaxKind": "return",
+                "stateName": "Return \"it failed\""
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "source": "try {\n    return lambda();\n  } catch {\n    return \"it failed\";\n  }",
+      "_syntaxKind": "try"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

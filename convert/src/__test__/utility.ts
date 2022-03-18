@@ -14,15 +14,15 @@ export const runConvertForTest = (filename: string, stateMachineName: string = "
 
   for (const stateMachine of converted) {
     writeFileSync(
-      `src/__test__/resources/output/ts-lib/${filename}-${stateMachine.name}.ts`,
+      `src/__test__/output/ts-lib/${filename}-${stateMachine.name}.ts`,
       stateMachine.transformedCode ?? ""
     );
     writeFileSync(
-      `src/__test__/resources/output/iasl/${filename}-${stateMachine.name}.json`,
+      `src/__test__/output/iasl/${filename}-${stateMachine.name}.json`,
       JSON.stringify(stateMachine.iasl, function (this: any, key: string, val: any) { return key === "parentScope" ? undefined : val }, 2) ?? ""
     );
     writeFileSync(
-      `src/__test__/resources/output/asl/${filename}-${stateMachine.name}.json`,
+      `src/__test__/output/asl/${filename}-${stateMachine.name}.json`,
       JSON.stringify(stateMachine.asl, null, 2) ?? ""
     );
   }

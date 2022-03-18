@@ -1,0 +1,128 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "enclosedVar",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign enclosedVar",
+        "parameters": {
+          "value": "before",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "enclosedVar = \"before\"",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign enclosedVar",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (true)",
+      "condition": {
+        "type": "boolean",
+        "value": true,
+        "_syntaxKind": "literal"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "enclosedVar",
+              "_syntaxKind": "identifier",
+              "type": "string"
+            },
+            "expression": {
+              "value": "outer if",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign enclosedVar",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "stateName": "If (true)",
+            "condition": {
+              "type": "boolean",
+              "value": true,
+              "_syntaxKind": "literal"
+            },
+            "then": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "enclosedVar",
+                    "_syntaxKind": "identifier",
+                    "type": "string"
+                  },
+                  "expression": {
+                    "value": "inner if",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "stateName": "Assign enclosedVar",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "else": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "enclosedVar",
+                    "_syntaxKind": "identifier",
+                    "type": "string"
+                  },
+                  "expression": {
+                    "value": "else if",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "stateName": "Assign enclosedVar",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (true) {\n      enclosedVar = \"inner if\";\n    } else {\n      enclosedVar = \"else if\";\n    }",
+            "_syntaxKind": "if"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "else": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "enclosedVar",
+              "_syntaxKind": "identifier",
+              "type": "string"
+            },
+            "expression": {
+              "value": "outer else if",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign enclosedVar",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "if"
+    },
+    {
+      "expression": {
+        "identifier": "enclosedVar",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return enclosedVar"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

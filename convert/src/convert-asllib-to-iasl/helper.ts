@@ -43,7 +43,7 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
     const iaslType = convertType(type);
     return { identifier: `${pathAsString}.${expression.name.text}`, type: iaslType, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier;
   } else if (ts.isElementAccessExpression(expression)) {
-    const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, context);
+    const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, {}, context);
     return {
       identifier: pathAsString,
       indexExpression: convertedIndexExpression,

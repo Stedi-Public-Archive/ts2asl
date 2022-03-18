@@ -1,0 +1,249 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "myArray",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign myArray",
+        "parameters": {
+          "elements": [
+            {
+              "value": 1,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 2,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 3,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 4,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 5,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 6,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 7,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 8,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 9,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 10,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign myArray",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "return_var",
+        "compilerGenerated": true,
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "expression": {
+        "stateName": "For x Of myArray.map",
+        "items": {
+          "identifier": "myArray",
+          "_syntaxKind": "identifier",
+          "type": "object"
+        },
+        "iterator": {
+          "inputArgumentName": {
+            "identifier": "x",
+            "_syntaxKind": "identifier"
+          },
+          "statements": [
+            {
+              "stateName": "If (x === 1 || x === 3 || ...",
+              "condition": {
+                "lhs": {
+                  "lhs": {
+                    "lhs": {
+                      "lhs": {
+                        "lhs": {
+                          "identifier": "x",
+                          "_syntaxKind": "identifier",
+                          "type": "numeric"
+                        },
+                        "operator": "eq",
+                        "rhs": {
+                          "value": 1,
+                          "type": "numeric",
+                          "_syntaxKind": "literal"
+                        },
+                        "_syntaxKind": "binary-expression"
+                      },
+                      "operator": "or",
+                      "rhs": {
+                        "lhs": {
+                          "identifier": "x",
+                          "_syntaxKind": "identifier",
+                          "type": "numeric"
+                        },
+                        "operator": "eq",
+                        "rhs": {
+                          "value": 3,
+                          "type": "numeric",
+                          "_syntaxKind": "literal"
+                        },
+                        "_syntaxKind": "binary-expression"
+                      },
+                      "_syntaxKind": "binary-expression"
+                    },
+                    "operator": "or",
+                    "rhs": {
+                      "lhs": {
+                        "identifier": "x",
+                        "_syntaxKind": "identifier",
+                        "type": "numeric"
+                      },
+                      "operator": "eq",
+                      "rhs": {
+                        "value": 5,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "_syntaxKind": "binary-expression"
+                    },
+                    "_syntaxKind": "binary-expression"
+                  },
+                  "operator": "or",
+                  "rhs": {
+                    "lhs": {
+                      "identifier": "x",
+                      "_syntaxKind": "identifier",
+                      "type": "numeric"
+                    },
+                    "operator": "eq",
+                    "rhs": {
+                      "value": 7,
+                      "type": "numeric",
+                      "_syntaxKind": "literal"
+                    },
+                    "_syntaxKind": "binary-expression"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "operator": "or",
+                "rhs": {
+                  "lhs": {
+                    "identifier": "x",
+                    "_syntaxKind": "identifier",
+                    "type": "numeric"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": 9,
+                    "type": "numeric",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "_syntaxKind": "binary-expression"
+              },
+              "then": {
+                "statements": [
+                  {
+                    "expression": {
+                      "properties": {
+                        "age": {
+                          "identifier": "x",
+                          "_syntaxKind": "identifier",
+                          "type": "unknown"
+                        },
+                        "species": {
+                          "value": "dog",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    },
+                    "_syntaxKind": "return",
+                    "stateName": "Return { age: x, ..."
+                  }
+                ],
+                "_syntaxKind": "function"
+              },
+              "else": {
+                "statements": [
+                  {
+                    "expression": {
+                      "properties": {
+                        "age": {
+                          "identifier": "x",
+                          "_syntaxKind": "identifier",
+                          "type": "numeric"
+                        },
+                        "species": {
+                          "value": "cat",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    },
+                    "_syntaxKind": "return",
+                    "stateName": "Return { age: x, ..."
+                  }
+                ],
+                "_syntaxKind": "function"
+              },
+              "source": "if (x === 1 || x === 3 || x === 5 || x === 7 || x == 9) {\n      return {\n        age: x,\n        species: \"dog\",\n      }\n    } else {\n      return {\n        age: x,\n        species: \"cat\",\n      }\n    }",
+              "_syntaxKind": "if"
+            }
+          ],
+          "_syntaxKind": "function"
+        },
+        "_syntaxKind": "asl-map-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "return_var",
+        "compilerGenerated": true,
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

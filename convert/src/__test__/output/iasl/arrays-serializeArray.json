@@ -1,0 +1,119 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "myArray",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "arguments": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 4,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 5,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 6,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 7,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 8,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 9,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 10,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "function": "asl.states.array",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "stateName": "Assign myArray",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "mySerializedArray",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "arguments": [
+          {
+            "identifier": "myArray",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          }
+        ],
+        "function": "asl.states.jsonToString",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "stateName": "Assign mySerializedArray",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "myArray",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "arguments": [
+          {
+            "identifier": "mySerializedArray",
+            "_syntaxKind": "identifier",
+            "type": "string"
+          }
+        ],
+        "function": "asl.states.stringToJson",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "stateName": "Assign myArray",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "myArray",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return myArray"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

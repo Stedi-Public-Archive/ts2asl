@@ -115,9 +115,8 @@ export type TypescriptInvoke<P, R> = {
 })
 
 export interface Choice {
-  // input?: unknown | (() => unknown) | (<U>(objectContext: StateMachineContext<U>) => unknown);
   choices: Array<{ condition: () => boolean; block: Function }>;
-  default?: boolean | (() => boolean);
+  default?: Function;
   comment?: string;
   name?: string;
 }

@@ -1,0 +1,49 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "variable",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign variable",
+        "parameters": {
+          "value": "some var",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "variable = \"some var\"",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign variable",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "properties": {
+          "b": {
+            "arguments": [
+              {
+                "value": "hello {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "variable",
+                "_syntaxKind": "identifier",
+                "type": "string"
+              }
+            ],
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return { b: `hello ${ ..."
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

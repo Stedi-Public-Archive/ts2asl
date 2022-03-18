@@ -1,0 +1,61 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "lambda()",
+          "States": {
+            "lambda()": {
+              "Type": "Task",
+              "ResultPath": "$.vars.withinTry",
+              "Resource": "lambda:lambda",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "Comment": "source: lambda()",
+              "Next": "Pass"
+            },
+            "Pass": {
+              "End": true,
+              "Type": "Pass",
+              "InputPath": "$.vars.withinTry"
+            }
+          }
+        }
+      ],
+      "Catch": [
+        {
+          "Next": "Pass_1",
+          "ErrorEquals": [
+            "States.All"
+          ]
+        }
+      ],
+      "End": true
+    },
+    "Pass_1": {
+      "Type": "Pass",
+      "Result": "it failed",
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign myArray"
+    },
+    "Assign myArray": {
+      "Type": "Pass",
+      "ResultPath": "$.lastResult",
+      "Parameters": {
+        "value.$": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign myArray_1"
+    },
+    "Assign myArray_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.myArray",
+      "InputPath": "$.lastResult.value",
+      "Next": "Assign mySerializedArray"
+    },
+    "Assign mySerializedArray": {
+      "Type": "Pass",
+      "ResultPath": "$.lastResult",
+      "Parameters": {
+        "value.$": "States.JsonToString($.vars.myArray)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign mySerializedArray_1"
+    },
+    "Assign mySerializedArray_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.mySerializedArray",
+      "InputPath": "$.lastResult.value",
+      "Next": "Assign myArray_2"
+    },
+    "Assign myArray_2": {
+      "Type": "Pass",
+      "ResultPath": "$.lastResult",
+      "Parameters": {
+        "value.$": "States.StringToJson($.vars.mySerializedArray)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign myArray_3"
+    },
+    "Assign myArray_3": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.myArray",
+      "InputPath": "$.lastResult.value",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.myArray"
+    }
+  }
+}

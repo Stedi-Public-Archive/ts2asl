@@ -1,0 +1,68 @@
+{
+  "statements": [
+    {
+      "stateName": "Try Catch Finally",
+      "try": {
+        "statements": [
+          {
+            "stateName": "lambda()",
+            "resource": "lambda:lambda",
+            "retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+              }
+            ],
+            "source": "lambda()",
+            "_syntaxKind": "asl-task-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "finally": {
+        "statements": [
+          {
+            "expression": {
+              "value": "finally",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return",
+            "stateName": "Return \"finally\""
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "catch": [
+        {
+          "errorFilter": [
+            "States.All"
+          ],
+          "block": {
+            "statements": [
+              {
+                "parameters": {
+                  "value": "failed",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "source": "console.log(\"failed\")",
+                "_syntaxKind": "asl-pass-state"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "source": "try {\n    lambda();\n  } catch {\n    console.log(\"failed\")\n  } finally {\n    return \"finally\";\n  }",
+      "_syntaxKind": "try"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

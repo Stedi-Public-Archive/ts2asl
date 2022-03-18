@@ -9,7 +9,6 @@ import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
 import { resolveExpressionsTransformer } from "./resolve-constant-expressions-transformer";
-import { TransformUtil } from "../convert-ts-to-asllib/transformers/transform-utility";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -90,7 +89,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
       ]
     }
     else {
-      const identifier = node.expression ? convertExpressionToLiteralOrIdentifier(node.expression, context) : undefined;
+      const identifier = node.expression ? convertExpressionToLiteralOrIdentifier(node.expression, {}, context) : undefined;
       const expression = identifier == undefined ? convertExpression(node.expression, context) : identifier;
 
       return {
@@ -110,7 +109,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     if (!identifier) throw new ParserError("unable to convert declaration name to identifier string", node);
 
     let expression = convertExpression(decl.initializer, context);
-    if (expression === undefined) expression = convertExpressionToLiteralOrIdentifier(decl.initializer, context);
+    if (expression === undefined) expression = convertExpressionToLiteralOrIdentifier(decl.initializer, {}, context);
     if (!expression) throw new ParserError("unable to convert declaration initializer to expression", node);
     return {
       name: identifier,
@@ -126,7 +125,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
 
 
     let expression = convertExpression(node.right, context);
-    if (expression === undefined) expression = convertExpressionToLiteralOrIdentifier(node.right, context);
+    if (expression === undefined) expression = convertExpressionToLiteralOrIdentifier(node.right, {}, context);
     if (!expression) throw new ParserError("unable to convert rhs of assignment to expression", node);
 
     return {
@@ -181,7 +180,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
     if (!type) throw new Error("Call expression expected to be on asl module");
 
     if (type.startsWith("states.") || type.startsWith("jsonPath")) {
-      return convertExpressionToLiteralOrIdentifier(expression, context);
+      return convertExpressionToLiteralOrIdentifier(expression, {}, context);
     }
 
     // if (type === "deploy.getParameter") {
@@ -558,14 +557,14 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression,
     }
     if (!propertyName) throw new ParserError("unable to extract property name for property assignment", expr);
 
-    const initializer = convertExpressionToLiteralOrIdentifier(property.initializer, context);
+    const initializer = convertExpressionToLiteralOrIdentifier(property.initializer, { block: ["block", "default"].includes(propertyName) }, context);
     if (initializer === undefined) continue;
     result[propertyName] = initializer
   }
   return result
 }
 
-export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, context: ConverterContext): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.TypeOfExpression | iasl.BinaryExpression | iasl.Expression | undefined => {
+export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, hints: { block?: boolean }, context: ConverterContext): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.TypeOfExpression | iasl.BinaryExpression | iasl.Expression | undefined => {
   if (original === undefined) {
     return undefined;
   }
@@ -604,7 +603,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     } as iasl.LiteralObjectExpression;
   } else if (ts.isArrayLiteralExpression(expr)) {
     return {
-      elements: expr.elements.map(x => convertExpressionToLiteralOrIdentifier(x, context)),
+      elements: expr.elements.map(x => convertExpressionToLiteralOrIdentifier(x, {}, context)),
       _syntaxKind: iasl.SyntaxKind.LiteralArray,
     } as iasl.LiteralArrayExpression;
   } else if (expr.kind === ts.SyntaxKind.TrueKeyword) {
@@ -625,8 +624,11 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       type: "null",
       _syntaxKind: iasl.SyntaxKind.Literal,
     } as iasl.LiteralExpression;
-  } else if (ts.isArrowFunction(original) && (ts.isBlock(expr))) {
+  } else if (ts.isArrowFunction(original) && (hints.block || ts.isBlock(expr))) {
     let block: ts.Node = expr;
+    if (!ts.isBlock(expr)) {
+      block = factory.createBlock([expr as unknown as ts.Statement]);
+    }
     let argName: undefined | string = undefined;
     if (original.parameters.length >= 1) {
       const identifier = (original.parameters[0].name) as ts.Identifier;
@@ -648,7 +650,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       if (expr.arguments.some(x => ts.isObjectLiteralExpression(x))) {
         throw new ParserError("asl intrinsic function must not take literal objects as arguments (for now), use variables instead", expr);
       }
-      const _arguments = expr.arguments.map(x => convertExpressionToLiteralOrIdentifier(x, context));
+      const _arguments = expr.arguments.map(x => convertExpressionToLiteralOrIdentifier(x, {}, context));
       const functionName = convertToIdentifier(expr.expression, context);
 
       if (!(functionName?.identifier) || functionName.indexExpression || functionName.lhs) {
@@ -676,7 +678,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
               ...lhs,
               filterExpression: {
                 argument: convertToIdentifier(expression.parameters[0].name, context),
-                expression: convertExpressionToLiteralOrIdentifier(expression, context)
+                expression: convertExpressionToLiteralOrIdentifier(expression, {}, context)
               }
             } as iasl.Identifier;
           }
@@ -741,16 +743,16 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     }
   } else if (ts.isTypeOfExpression(expr)) {
     let expression = {
-      operand: convertExpressionToLiteralOrIdentifier(expr.expression, context),
+      operand: convertExpressionToLiteralOrIdentifier(expr.expression, {}, context),
       _syntaxKind: iasl.SyntaxKind.TypeOfExpression
     } as iasl.TypeOfExpression;
     return expression;
   } else if (ts.isBinaryExpression(expr)) {
     const convertedOperator = convertBinaryOperatorToken(expr.operatorToken)
     let expression = {
-      lhs: convertExpressionToLiteralOrIdentifier(expr.left, context),
+      lhs: convertExpressionToLiteralOrIdentifier(expr.left, {}, context),
       operator: convertedOperator.op,
-      rhs: convertExpressionToLiteralOrIdentifier(expr.right, context),
+      rhs: convertExpressionToLiteralOrIdentifier(expr.right, {}, context),
       _syntaxKind: iasl.SyntaxKind.BinaryExpression
     } as iasl.BinaryExpression;
     if (convertedOperator.not) {
@@ -764,13 +766,13 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
   } else if (ts.isPrefixUnaryExpression(expr)) {
     if (expr.operator === ts.SyntaxKind.ExclamationToken) {
       if (ts.isPrefixUnaryExpression(expr.operand) && expr.operand.operator === ts.SyntaxKind.ExclamationToken) {
-        return convertExpressionToLiteralOrIdentifier(expr.operand, context);
+        return convertExpressionToLiteralOrIdentifier(expr.operand, {}, context);
       }
       return {
         operator: "not",
         rhs: {
           operator: "is-present",
-          rhs: convertExpressionToLiteralOrIdentifier(expr.operand, context),
+          rhs: convertExpressionToLiteralOrIdentifier(expr.operand, {}, context),
           _syntaxKind: iasl.SyntaxKind.BinaryExpression
         } as iasl.BinaryExpression,
         _syntaxKind: iasl.SyntaxKind.BinaryExpression

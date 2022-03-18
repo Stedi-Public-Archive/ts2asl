@@ -1,0 +1,115 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "return_var",
+        "compilerGenerated": true,
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "expression": {
+        "branches": [
+          {
+            "statements": [
+              {
+                "name": {
+                  "identifier": "return_var",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "expression": {
+                  "stateName": "worker()",
+                  "resource": "lambda:worker",
+                  "retry": [
+                    {
+                      "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                      "BackoffRate": 2
+                    }
+                  ],
+                  "source": "worker()",
+                  "_syntaxKind": "asl-task-state"
+                },
+                "stateName": "Assign ???",
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "expression": {
+                  "identifier": "return_var",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "_syntaxKind": "return",
+                "stateName": "Return ???"
+              }
+            ],
+            "_syntaxKind": "function"
+          },
+          {
+            "statements": [
+              {
+                "name": {
+                  "identifier": "return_var",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "expression": {
+                  "stateName": "worker()",
+                  "resource": "lambda:worker",
+                  "retry": [
+                    {
+                      "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                      "BackoffRate": 2
+                    }
+                  ],
+                  "source": "worker()",
+                  "_syntaxKind": "asl-task-state"
+                },
+                "stateName": "Assign ???",
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "expression": {
+                  "identifier": "return_var",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "_syntaxKind": "return",
+                "stateName": "Return ???"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        ],
+        "source": "Promise.all([worker(), worker()])",
+        "_syntaxKind": "asl-parallel-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "return_var",
+        "compilerGenerated": true,
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

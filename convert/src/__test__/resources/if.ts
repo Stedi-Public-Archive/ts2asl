@@ -2,41 +2,47 @@
 import * as asl from "@ts2asl/asl-lib";
 
 export const justIf = asl.deploy.asStateMachine(async () => {
-  let before = true;
+  let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
+  val.a = "before";
   if (true) {
-    let true_1 = true;
-    let true_2 = true;
+    val.b = "true_1";
+    val.c = "true_2";
   }
-  let after = true;
+  val.d = "after";
+  return val;
 });
 
 export const ifElse = asl.deploy.asStateMachine(async () => {
-  let before = true;
+  let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
+  val.a = "before";
   if (true) {
-    let true_1 = true;
-    let true_2 = true;
+    val.b = "true_1";
+    val.c = "true_2";
   } else {
-    let false_1 = true;
-    let false_2 = true;
+    val.b = "false_1";
+    val.c = "false_2";
   }
-  let after = true;
+  val.d = "after";
+  return val;
 });
 
 export const nestedIfs = asl.deploy.asStateMachine(async () => {
-  let before_nested = true;
+  let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
+  val.a = "before";
   if (true) {
-    let outer_1 = true;
-    let outer_2 = true;
+    val.b = "outer_1";
+    val.c = "outer_2";
     if (true) {
-      let inner_1 = true;
-      let inner_2 = true;
+      val.d = "inner_1";
+      val.e = "inner_2";
     } else {
-      let inner_else = true;
+      val.e = "inner_else_2";
     }
   } else {
-    let outer_else = true;
+    val.f = "outer_else_2";
   }
-  let after_all = true;
+  val.g = "after";
+  return val;
 });
 
 export const enclosedVars = asl.deploy.asStateMachine(async () => {
@@ -51,7 +57,7 @@ export const enclosedVars = asl.deploy.asStateMachine(async () => {
   } else {
     enclosedVar = "outer else if";
   }
-  enclosedVar = "after if";
+  return enclosedVar;
 });
 
 

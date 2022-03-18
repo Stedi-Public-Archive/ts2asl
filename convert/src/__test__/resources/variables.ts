@@ -6,12 +6,10 @@ export const main = asl.deploy.asStateMachine(async (input: IInput, context: Sta
   if (typeof input.name !== "string") {
     input.name = "fred";
   }
-
   const x = {
     name: input.name,
     executionId: context.execution.id
   }
-
   const y = {
     x,
     somethingLiteral: ["one", 2, "three"],
@@ -21,7 +19,6 @@ export const main = asl.deploy.asStateMachine(async (input: IInput, context: Sta
     number: asl.states.stringToJson("123") as number,
     arr: asl.states.array(1, 2, 3, 4, 5, 6),
   }
-
   return y;
 });
 

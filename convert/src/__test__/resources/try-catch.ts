@@ -1,35 +1,35 @@
 
 import * as asl from "@ts2asl/asl-lib"
 
-export const lambda = asl.deploy.asLambda(() => { return [""] });
+export const lambda = asl.deploy.asLambda(() => { return ["succeeded"] });
 
 export const simpleTry = asl.deploy.asStateMachine(async () => {
   try {
-    const withoutTryCatch = lambda();
+    return lambda();
   } catch {
-    console.log("it failed")
+    return "it failed";
   }
 });
 export const simpleMultipleStatements = asl.deploy.asStateMachine(async () => {
   try {
-    const withoutTryCatch = lambda();
-    console.log("it succeeded");
+    const withinTry = lambda();
+    return withinTry;
   } catch {
-    console.log("it failed");
+    return "it failed";
   }
 });
 export const tryAroundPassState = asl.deploy.asStateMachine(async () => {
   try {
-    console.log("this cannot fail");
+    return "this cannot fail";
   } catch {
-    console.log("this never happens");
+    return "this never happens";
   }
 });
 export const tryFinally = asl.deploy.asStateMachine(async () => {
   try {
     lambda();
   } finally {
-    console.log("finally")
+    return "finally";
   }
 });
 export const tryCatchFinally = asl.deploy.asStateMachine(async () => {
@@ -38,7 +38,7 @@ export const tryCatchFinally = asl.deploy.asStateMachine(async () => {
   } catch {
     console.log("failed")
   } finally {
-    console.log("finally")
+    return "finally";
   }
 });
 

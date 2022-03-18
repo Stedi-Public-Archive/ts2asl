@@ -1,0 +1,78 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "If (typeof input.delayInS ..."
+    },
+    "If (typeof input.delayInS ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "And": [
+              {
+                "Variable": "$.vars.delayInSeconds",
+                "IsPresent": true
+              },
+              {
+                "Variable": "$.vars.delayInSeconds",
+                "IsNumeric": true
+              }
+            ]
+          },
+          "Next": "Assign input.delayInSeconds"
+        }
+      ],
+      "Comment": "source: if (typeof input.delayInSeconds !== \"number\")  ...",
+      "Default": "If (input.delayInSeconds ..."
+    },
+    "Assign input.delayInSeconds": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.delayInSeconds",
+      "Result": 5,
+      "Next": "If (input.delayInSeconds ..."
+    },
+    "If (input.delayInSeconds ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            {
+              "Variable": "$.vars.delayInSeconds",
+              "NumericGreaterThan": 10
+            },
+            {
+              "Variable": "$.vars.delayInSeconds",
+              "NumericLessThan": 1
+            }
+          ],
+          "Next": "Throw ValidationError"
+        }
+      ],
+      "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
+      "Default": "Wait"
+    },
+    "Throw ValidationError": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
+      "Comment": "source: throw new ValidationError(\"delay in seconds mu ...",
+      "Next": "Wait"
+    },
+    "Wait": {
+      "Type": "Wait",
+      "SecondsPath": "$.vars.delayInSeconds",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.delayInSeconds"
+    }
+  }
+}

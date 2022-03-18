@@ -1,7 +1,6 @@
 import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async (input: Input) => {
-
   if (typeof input.delayInSeconds !== "number") {
     input.delayInSeconds = 5;
   }
@@ -11,6 +10,7 @@ export const main = asl.deploy.asStateMachine(async (input: Input) => {
   }
 
   await asl.wait({ seconds: input.delayInSeconds });
+  return input.delayInSeconds;
 });
 
 interface Input {

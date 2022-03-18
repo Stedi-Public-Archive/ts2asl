@@ -1,0 +1,100 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign myArray"
+    },
+    "Assign myArray": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.myArray",
+      "Result": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "Comment": "source: myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+      "Next": "Assign Return_var"
+    },
+    "Assign Return_var": {
+      "Type": "Map",
+      "ResultPath": "$.tmp.return_var",
+      "Iterator": {
+        "StartAt": "If (x === 1 || x === 3 || ...",
+        "States": {
+          "If (x === 1 || x === 3 || ...": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Or": [
+                  {
+                    "Variable": "$.vars.x",
+                    "NumericEquals": 1
+                  },
+                  {
+                    "Variable": "$.vars.x",
+                    "NumericEquals": 3
+                  },
+                  {
+                    "Variable": "$.vars.x",
+                    "NumericEquals": 5
+                  },
+                  {
+                    "Variable": "$.vars.x",
+                    "NumericEquals": 7
+                  },
+                  {
+                    "Variable": "$.vars.x",
+                    "NumericEquals": 9
+                  }
+                ],
+                "Next": "Pass"
+              }
+            ],
+            "Comment": "source: if (x === 1 || x === 3 || x === 5 || x === 7 | ...",
+            "Default": "Pass_1"
+          },
+          "Pass": {
+            "Type": "Pass",
+            "Parameters": {
+              "age.$": "$.vars.x",
+              "species": "dog"
+            },
+            "End": true
+          },
+          "Pass_1": {
+            "Type": "Pass",
+            "Parameters": {
+              "age.$": "$.vars.x",
+              "species": "cat"
+            },
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.myArray",
+      "Parameters": {
+        "vars": {
+          "x.$": "$$.Map.Item.Value"
+        }
+      },
+      "Next": "Pass_2"
+    },
+    "Pass_2": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.tmp.return_var"
+    }
+  }
+}

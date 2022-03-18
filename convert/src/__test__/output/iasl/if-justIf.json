@@ -1,0 +1,139 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "val",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign val",
+        "parameters": {
+          "properties": {
+            "a": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "b": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "c": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "d": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "e": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "f": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "g": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign val",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "val.a",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "value": "before",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "stateName": "Assign val.a",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (true)",
+      "condition": {
+        "type": "boolean",
+        "value": true,
+        "_syntaxKind": "literal"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "val.b",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "true_1",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign val.b",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "name": {
+              "identifier": "val.c",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "true_2",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign val.c",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (true) {\n    val.b = \"true_1\";\n    val.c = \"true_2\";\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "name": {
+        "identifier": "val.d",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "value": "after",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "stateName": "Assign val.d",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "val",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return val"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

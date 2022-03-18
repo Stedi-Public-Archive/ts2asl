@@ -1,0 +1,136 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign val"
+    },
+    "Assign val": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val",
+      "Result": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": "",
+        "e": "",
+        "f": "",
+        "g": ""
+      },
+      "Comment": "source: val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f:  ...",
+      "Next": "Assign val.a"
+    },
+    "Assign val.a": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.a",
+      "Result": "before",
+      "Next": "If (true)"
+    },
+    "If (true)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsNull": false,
+          "Next": "Then_1"
+        }
+      ],
+      "Default": "Assign val.f"
+    },
+    "Then_1": {
+      "Type": "Parallel",
+      "Parameters": {
+        "vars": {
+          "val.$": "$.vars.val"
+        }
+      },
+      "Branches": [
+        {
+          "StartAt": "Assign val.b",
+          "States": {
+            "Assign val.b": {
+              "Type": "Pass",
+              "ResultPath": "$.vars.val.b",
+              "Result": "outer_1",
+              "Next": "Assign val.c"
+            },
+            "Assign val.c": {
+              "Type": "Pass",
+              "ResultPath": "$.vars.val.c",
+              "Result": "outer_2",
+              "Next": "If (true)_1"
+            },
+            "If (true)_1": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$",
+                  "IsNull": false,
+                  "Next": "Then"
+                }
+              ],
+              "Comment": "source: if (true) { val.d = \"inner_1\"; val.e = \"inner_ ...",
+              "Default": "Assign val.e_1"
+            },
+            "Then": {
+              "Type": "Parallel",
+              "Parameters": {
+                "vars": {
+                  "val.$": "$.vars.val"
+                }
+              },
+              "Branches": [
+                {
+                  "StartAt": "Assign val.d",
+                  "States": {
+                    "Assign val.d": {
+                      "Type": "Pass",
+                      "ResultPath": "$.vars.val.d",
+                      "Result": "inner_1",
+                      "Next": "Assign val.e"
+                    },
+                    "Assign val.e": {
+                      "Type": "Pass",
+                      "ResultPath": "$.vars.val.e",
+                      "Result": "inner_2",
+                      "End": true
+                    }
+                  }
+                }
+              ],
+              "End": true
+            },
+            "Assign val.e_1": {
+              "Type": "Pass",
+              "ResultPath": "$.vars.val.e",
+              "Result": "inner_else_2",
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "Assign val.g"
+    },
+    "Assign val.f": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.f",
+      "Result": "outer_else_2",
+      "Next": "Assign val.g"
+    },
+    "Assign val.g": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.g",
+      "Result": "after",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.val"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "statements": [
+    {
+      "stateName": "Try Catch",
+      "try": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "withinTry",
+              "_syntaxKind": "identifier",
+              "type": "object"
+            },
+            "expression": {
+              "stateName": "lambda()",
+              "resource": "lambda:lambda",
+              "retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "source": "lambda()",
+              "_syntaxKind": "asl-task-state"
+            },
+            "stateName": "Assign withinTry",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "expression": {
+              "identifier": "withinTry",
+              "_syntaxKind": "identifier",
+              "type": "object"
+            },
+            "_syntaxKind": "return",
+            "stateName": "Return withinTry"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "catch": [
+        {
+          "errorFilter": [
+            "States.All"
+          ],
+          "block": {
+            "statements": [
+              {
+                "expression": {
+                  "value": "it failed",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "_syntaxKind": "return",
+                "stateName": "Return \"it failed\""
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "source": "try {\n    const withinTry = lambda();\n    return withinTry;\n  } catch {\n    return \"it failed\";\n  }",
+      "_syntaxKind": "try"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

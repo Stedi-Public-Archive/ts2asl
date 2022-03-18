@@ -1,0 +1,220 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "val",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign val",
+        "parameters": {
+          "properties": {
+            "a": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "b": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "c": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "d": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "e": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "f": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "g": {
+              "value": "",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign val",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "val.a",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "value": "before choice",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "stateName": "Assign val.a",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "choices": [
+        {
+          "condition": {
+            "operator": "not",
+            "rhs": {
+              "operator": "is-present",
+              "rhs": {
+                "identifier": "input.condition",
+                "type": "unknown",
+                "_syntaxKind": "identifier"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "block": {
+            "statements": [
+              {
+                "name": {
+                  "identifier": "val.b",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                },
+                "expression": {
+                  "value": "val is not an empty string",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "stateName": "Assign val.b",
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "name": {
+                  "identifier": "val.c",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                },
+                "expression": {
+                  "value": "val is also not false or 0",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "stateName": "Assign val.c",
+                "_syntaxKind": "variable-assignment"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        },
+        {
+          "condition": {
+            "operator": "not",
+            "rhs": {
+              "operator": "is-present",
+              "rhs": {
+                "identifier": "input.condition",
+                "type": "unknown",
+                "_syntaxKind": "identifier"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "block": {
+            "statements": [
+              {
+                "name": {
+                  "identifier": "val.d",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                },
+                "expression": {
+                  "value": "val is empty string",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "stateName": "Assign val.d",
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "name": {
+                  "identifier": "val.e",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                },
+                "expression": {
+                  "value": "or false or 0",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "stateName": "Assign val.e",
+                "_syntaxKind": "variable-assignment"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "default": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "val.f",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "this should not happen",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign val.f",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "asl-choice-state"
+    },
+    {
+      "name": {
+        "identifier": "val.g",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "value": "after choice",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "stateName": "Assign val.g",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "val",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return val"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

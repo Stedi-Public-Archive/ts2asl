@@ -1,0 +1,67 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign val"
+    },
+    "Assign val": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val",
+      "Result": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": "",
+        "e": "",
+        "f": "",
+        "g": ""
+      },
+      "Comment": "source: val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f:  ...",
+      "Next": "Choice"
+    },
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.condition",
+          "IsPresent": false,
+          "Next": "Assign val.a"
+        },
+        {
+          "Variable": "$.vars.condition",
+          "IsPresent": false,
+          "Next": "Assign val.b"
+        }
+      ],
+      "Default": "Assign val.c"
+    },
+    "Assign val.a": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.a",
+      "Result": "val is truthy",
+      "Next": "Pass"
+    },
+    "Assign val.b": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.b",
+      "Result": "val is falsy",
+      "Next": "Pass"
+    },
+    "Assign val.c": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.c",
+      "Result": "val is not truthy and not falsy",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.val"
+    }
+  }
+}
