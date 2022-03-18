@@ -1,0 +1,47 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "buckets",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "ListBuckets",
+        "resource": "arn:aws:states:::aws-sdk:s3:listBuckets",
+        "parameters": {
+          "properties": {},
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "asl-task-state"
+      },
+      "stateName": "Assign buckets",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "count",
+        "_syntaxKind": "identifier",
+        "type": "numeric"
+      },
+      "expression": {
+        "identifier": "buckets.Buckets",
+        "type": "object",
+        "_syntaxKind": "identifier",
+        "jsonPathExpression": ".length()"
+      },
+      "stateName": "Assign count",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "count",
+        "_syntaxKind": "identifier",
+        "type": "numeric"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return count"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

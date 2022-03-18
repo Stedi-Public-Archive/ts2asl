@@ -1,4 +1,3 @@
-import { listFunctionDeclarations } from "../list-function-declarations";
 import { Converter } from "..";
 import { createCompilerHostFromSource } from "../..";
 
@@ -12,59 +11,59 @@ describe.skip("when converting ts source file", () => {
 
   it("wont throw if lambda decl has 0 arguments", () => {
     const source = `
-    const xxx = asl.deploy.asLambda(() => {}));
+    export const xxx = asl.deploy.asLambda(() => {}));
     `
     convert(source);
   })
   it("wont throw if lambda decl has 1 object", () => {
     const source = `
-    const xxx = asl.deploy.asLambda((input: {prop: string}) => {}));
+    export const xxx = asl.deploy.asLambda((input: {prop: string}) => {}));
     `
     convert(source);
   })
   it("wont throw if lambda decl has 1 unknown", () => {
     const source = `
-    const xxx = asl.deploy.asLambda((input: unknown) => {}));
+    export const xxx = asl.deploy.asLambda((input: unknown) => {}));
     `
     convert(source);
   })
 
   it("wont throw if lambda decl has 1 any", () => {
     const source = `
-    const xxx = asl.deploy.asLambda((input: any) => {}));
+    export const xxx = asl.deploy.asLambda((input: any) => {}));
     `
     convert(source);
   })
 
   it("wont throw if lambda decl has 1 error", () => {
     const source = `
-    const xxx = asl.deploy.asLambda((input: xxxxxx) => {}));
+    export const xxx = asl.deploy.asLambda((input: xxxxxx) => {}));
     `
     convert(source);
   })
 
   it("will throw if lambda decl has 1 primitive argument", () => {
     const source = `
-    const xxx = asl.deploy.asLambda((input: string) => {}));
+    export const xxx = asl.deploy.asLambda((input: string) => {}));
     `
     expect(() => convert(source)).toThrowError();
   })
   it("will throw if lambda decl has 1 array argument", () => {
     const source = `
-    const xxx = asl.deploy.asLambda((input: Array<{}>}) => {}));
+    export const xxx = asl.deploy.asLambda((input: Array<{}>}) => {}));
     `
     expect(() => convert(source)).toThrowError();
 
   })
   it("will throw if lambda decl has 1 function argument", () => {
     const source = `
-    const xxx = asl.deploy.asLambda((input: ()=> string)}) => {}));
+    export const xxx = asl.deploy.asLambda((input: ()=> string)}) => {}));
     `
     expect(() => convert(source)).toThrowError();
   })
   it("will throw if lambda decl has 2 arguments", () => {
     const source = `
-    const xxx = asl.deploy.asLambda((input: any, input2: any) => {}));
+    export const xxx = asl.deploy.asLambda((input: any, input2: any) => {}));
     `
     expect(() => convert(source)).toThrowError();
 

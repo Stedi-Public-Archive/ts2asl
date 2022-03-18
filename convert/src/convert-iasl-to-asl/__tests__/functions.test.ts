@@ -18,9 +18,18 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign result_1",
+            "Parameters": Object {
+              "value.$": "States.StringToJson('0')",
+            },
+            "ResultPath": "$.lastResult",
+            "Type": "Pass",
+          },
+          "Assign result_1": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "States.StringToJson('0')",
+            "InputPath": "$.lastResult.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -51,9 +60,18 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign result_1",
+            "Parameters": Object {
+              "value.$": "States.StringToJson('s')",
+            },
+            "ResultPath": "$.lastResult",
+            "Type": "Pass",
+          },
+          "Assign result_1": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "States.StringToJson('s')",
+            "InputPath": "$.lastResult.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -88,9 +106,18 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign result_1",
+            "Parameters": Object {
+              "value.$": "States.JsonToString($.vars.tmp)",
+            },
+            "ResultPath": "$.lastResult",
+            "Type": "Pass",
+          },
+          "Assign result_1": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "States.JsonToString($.vars.tmp)",
+            "InputPath": "$.lastResult.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },

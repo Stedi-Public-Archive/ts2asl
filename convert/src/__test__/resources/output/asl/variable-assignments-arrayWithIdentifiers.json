@@ -1,0 +1,65 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.str",
+      "Result": "string",
+      "Comment": "source: str = \"string\"",
+      "Next": "Assign num"
+    },
+    "Assign num": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.num",
+      "Result": 42,
+      "Comment": "source: num = 42",
+      "Next": "Assign bool"
+    },
+    "Assign bool": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.bool",
+      "Result": true,
+      "Comment": "source: bool = true || false",
+      "Next": "Assign object"
+    },
+    "Assign object": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.object",
+      "Parameters": {
+        "str.$": "$.vars.str",
+        "num.$": "$.vars.num",
+        "bool.$": "$.vars.bool"
+      },
+      "Comment": "source: object = { str, num, bool }",
+      "Next": "Assign array"
+    },
+    "Assign array": {
+      "Type": "Pass",
+      "ResultPath": "$.lastResult",
+      "Parameters": {
+        "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign array_1"
+    },
+    "Assign array_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.array",
+      "InputPath": "$.lastResult.value",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.array"
+    }
+  }
+}

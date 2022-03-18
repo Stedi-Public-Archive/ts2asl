@@ -313,21 +313,9 @@ describe("when converting variables", () => {
               "func.$": "States.JsonToString($.vars.x)",
               "number.$": "States.StringToJson('123')",
               "somethingLiteral": Array [
-                Object {
-                  "type": "string",
-                  "value": "one",
-                  "valueContainsReplacements": false,
-                },
-                Object {
-                  "type": "numeric",
-                  "value": 2,
-                  "valueContainsReplacements": false,
-                },
-                Object {
-                  "type": "string",
-                  "value": "three",
-                  "valueContainsReplacements": false,
-                },
+                "one",
+                2,
+                "three",
               ],
               "startTime.$": "$$.Execution.StartTime",
               "x.$": "$.vars.x",
@@ -366,6 +354,7 @@ describe("when converting variables", () => {
             "Type": "Pass",
           },
           "Pass": Object {
+            "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.y",
             "Type": "Pass",

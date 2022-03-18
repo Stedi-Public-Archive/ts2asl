@@ -13,26 +13,10 @@
       "Type": "Pass",
       "ResultPath": "$.vars.numbers",
       "Result": [
-        {
-          "value": 0,
-          "type": "numeric",
-          "valueContainsReplacements": false
-        },
-        {
-          "value": 1,
-          "type": "numeric",
-          "valueContainsReplacements": false
-        },
-        {
-          "value": 2,
-          "type": "numeric",
-          "valueContainsReplacements": false
-        },
-        {
-          "value": 3,
-          "type": "numeric",
-          "valueContainsReplacements": false
-        }
+        0,
+        1,
+        2,
+        3
       ],
       "Comment": "source: numbers = [0, 1, 2, 3]",
       "Next": "Assign letters"
@@ -41,26 +25,10 @@
       "Type": "Pass",
       "ResultPath": "$.vars.letters",
       "Result": [
-        {
-          "value": "a",
-          "type": "string",
-          "valueContainsReplacements": false
-        },
-        {
-          "value": "b",
-          "type": "string",
-          "valueContainsReplacements": false
-        },
-        {
-          "value": "c",
-          "type": "string",
-          "valueContainsReplacements": false
-        },
-        {
-          "value": "d",
-          "type": "string",
-          "valueContainsReplacements": false
-        }
+        "a",
+        "b",
+        "c",
+        "d"
       ],
       "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
       "Next": "Assign global"

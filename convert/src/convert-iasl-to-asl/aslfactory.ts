@@ -26,13 +26,30 @@ export class AslFactory {
 
     if (iasl.Check.isAslPassState(expression)) {
       const parameters = convertExpressionToAsl(expression.parameters);
-      context.appendNextState({
-        Type: "Pass",
-        ...properties,
-        ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
-        Comment: expression.source,
-      } as asl.Pass, nameSuggestion);
 
+      if (parameters.path && parameters.path.startsWith("States")) {
+        context.appendNextState({
+          Type: "Pass",
+          ResultPath: "$.lastResult",
+          Parameters: {
+            "value.$": parameters.path
+          },
+          Comment: "result of an expression cannot be placed in InputPath, therefore copying it around a little",
+        } as asl.Pass, nameSuggestion);
+        context.appendNextState({
+          Type: "Pass",
+          ...properties,
+          InputPath: "$.lastResult.value",
+          Comment: expression.source,
+        } as asl.Pass, nameSuggestion);
+      } else {
+        context.appendNextState({
+          Type: "Pass",
+          ...properties,
+          ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
+          Comment: expression.source,
+        } as asl.Pass, nameSuggestion);
+      }
     } else if (iasl.Check.isAslTaskState(expression)) {
       const parameters = expression.parameters ? convertExpressionToAsl(expression.parameters) : undefined;
 
@@ -200,6 +217,7 @@ export class AslFactory {
         context.appendNextState({
           End: true,
           Type: "Pass",
+          Comment: expression.source,
           ...properties,
           ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
         });
@@ -245,8 +263,11 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
     }
   } else if (iasl.Check.isLiteralArray(expr)) {
     const convertedElements = expr.elements.map(x => convertExpressionToAsl(x));
+    if (convertedElements.some(x => x.path)) {
+      throw new Error("initializing an array with an identifier as one of the elements is not supported yet");
+    }
     return {
-      value: convertedElements,
+      value: convertedElements.map(x => x.value),
       type: "array",
       valueContainsReplacements: convertedElements.findIndex(x => x.path || x.valueContainsReplacements === true) !== -1
     }

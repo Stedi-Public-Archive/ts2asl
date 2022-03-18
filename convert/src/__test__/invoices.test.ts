@@ -1074,6 +1074,7 @@ describe("when converting closures", () => {
                           "Type": "Task",
                         },
                         "Pass_1": Object {
+                          "Comment": undefined,
                           "End": true,
                           "InputPath": "$.vars.result",
                           "Type": "Pass",
@@ -1102,6 +1103,7 @@ describe("when converting closures", () => {
                   "Type": "Choice",
                 },
                 "Pass": Object {
+                  "Comment": undefined,
                   "End": true,
                   "Parameters": Object {
                     "accountCode.$": "$.vars.approvalResult.accountCode",
@@ -1170,6 +1172,7 @@ describe("when converting closures", () => {
               "StartAt": "createInvoice(x)",
               "States": Object {
                 "Pass_2": Object {
+                  "Comment": undefined,
                   "End": true,
                   "InputPath": "$.vars.return_var",
                   "Type": "Pass",
@@ -1230,6 +1233,7 @@ describe("when converting closures", () => {
               "StartAt": "validateInvoice(x)",
               "States": Object {
                 "Pass_3": Object {
+                  "Comment": undefined,
                   "End": true,
                   "InputPath": "$.vars.return_var",
                   "Type": "Pass",

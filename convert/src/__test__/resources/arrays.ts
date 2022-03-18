@@ -2,7 +2,6 @@
 import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async (_input: {}, context: asl.StateMachineContext<{}>) => {
-
   let myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) as number[];
   let mySerializedArray = asl.states.jsonToString(myArray);
   myArray = asl.states.stringToJson(mySerializedArray) as number[];

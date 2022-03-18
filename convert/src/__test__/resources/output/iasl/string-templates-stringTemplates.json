@@ -30,14 +30,9 @@
                 "_syntaxKind": "literal"
               },
               {
-                "elements": [
-                  {
-                    "identifier": "variable",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
-                  }
-                ],
-                "_syntaxKind": "literal-array"
+                "identifier": "variable",
+                "_syntaxKind": "identifier",
+                "type": "string"
               }
             ],
             "function": "asl.states.format",

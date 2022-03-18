@@ -1,0 +1,98 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.str",
+      "Result": "string",
+      "Comment": "source: str = \"string\"",
+      "Next": "Assign num"
+    },
+    "Assign num": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.num",
+      "Result": 42,
+      "Comment": "source: num = 42",
+      "Next": "Assign bool"
+    },
+    "Assign bool": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.bool",
+      "Result": true,
+      "Comment": "source: bool = true || false",
+      "Next": "Assign object"
+    },
+    "Assign object": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.object",
+      "Parameters": {
+        "str.$": "$.vars.str",
+        "num.$": "$.vars.num",
+        "bool.$": "$.vars.bool"
+      },
+      "Comment": "source: object = { str, num, bool }",
+      "Next": "Assign object2"
+    },
+    "Assign object2": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.object2",
+      "Parameters": {
+        "str": "string",
+        "num": 33,
+        "inner.$": "$.vars.object"
+      },
+      "Comment": "source: object2 = { str: \"string\", num: 33, inner: obj ...",
+      "Next": "Assign arrayOfNumbers"
+    },
+    "Assign arrayOfNumbers": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arrayOfNumbers",
+      "Result": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "Comment": "source: arrayOfNumbers = [1, 2, 3, 4, 5]",
+      "Next": "Assign arrayOfObjects"
+    },
+    "Assign arrayOfObjects": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arrayOfObjects",
+      "Result": [
+        {
+          "left": 1,
+          "right": 2
+        },
+        {
+          "left": 3,
+          "right": 4
+        },
+        {
+          "left": 5,
+          "right": 6
+        }
+      ],
+      "Comment": "source: arrayOfObjects = [{ left: 1, right: 2 }, { lef ...",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "Parameters": {
+        "arrayOfNumbers.$": "$.vars.arrayOfNumbers",
+        "arrayOfObjects.$": "$.vars.arrayOfObjects",
+        "object2.$": "$.vars.object2"
+      }
+    }
+  }
+}

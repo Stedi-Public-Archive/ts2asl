@@ -7,12 +7,14 @@ export const resolveExpressionsTransformer = (converterOptions: ConverterOptions
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
-    if (ts.isBinaryExpression(node) &&
-      (ts.isLiteralExpression(node.left) || (ts.isParenthesizedExpression(node.left) && ts.isLiteralExpression(node.left.expression))) &&
-      (ts.isLiteralExpression(node.right) || (ts.isParenthesizedExpression(node.right) && ts.isLiteralExpression(node.right.expression)))) {
+    if (ts.isBinaryExpression(node)) {
+      const left = literalExpressionToValue(node.left) as number;
+      const right = literalExpressionToValue(node.right) as number;
 
-      const left = literalExpressionToValue(node.left);
-      const right = literalExpressionToValue(node.right);
+      if (left === undefined && right === undefined) {
+        return node;
+      }
+
       switch (node.operatorToken.kind) {
         case ts.SyntaxKind.PlusToken: {
           return valueToLiteralExpression(left + right);
@@ -25,6 +27,12 @@ export const resolveExpressionsTransformer = (converterOptions: ConverterOptions
         }
         case ts.SyntaxKind.SlashToken: {
           return valueToLiteralExpression(left / right);
+        }
+        case ts.SyntaxKind.BarBarToken: {
+          return valueToLiteralExpression(left || right);
+        }
+        case ts.SyntaxKind.AmpersandAmpersandToken: {
+          return valueToLiteralExpression(left && right);
         }
       }
     }
@@ -45,7 +53,6 @@ export const resolveExpressionsTransformer = (converterOptions: ConverterOptions
       if (allLiterals) {
         return valueToLiteralExpression(result);
       } else {
-
         return factory.createCallExpression(
           factory.createPropertyAccessExpression(
             factory.createPropertyAccessExpression(
@@ -57,10 +64,7 @@ export const resolveExpressionsTransformer = (converterOptions: ConverterOptions
           undefined,
           [
             factory.createStringLiteral(result),
-            factory.createArrayLiteralExpression(
-              args,
-              false
-            )
+            ...args,
           ]
         );
       }
@@ -81,8 +85,10 @@ export const resolveExpressionsTransformer = (converterOptions: ConverterOptions
   return ts.visitNode(rootNode, visit);
 };
 
-const valueToLiteralExpression = (value: number | string): ts.LiteralExpression => {
+const valueToLiteralExpression = (value: number | string): ts.LiteralExpression | ts.TrueLiteral | ts.FalseLiteral => {
   switch (typeof value) {
+    case "boolean":
+      return value ? ts.factory.createTrue() : ts.factory.createFalse();
     case "string":
       return ts.factory.createStringLiteral(value);
     case "number":
@@ -91,17 +97,30 @@ const valueToLiteralExpression = (value: number | string): ts.LiteralExpression 
   throw new Error("unable to convert value to literal expression");
 }
 
-const literalExpressionToValue = (expression: ts.LiteralExpression | ts.ParenthesizedExpression): number => {
+
+const literalExpressionToValue = (expression: ts.Expression): number | string | boolean | null | undefined => {
   if (ts.isParenthesizedExpression(expression)) {
     return literalExpressionToValue(expression.expression as ts.LiteralExpression);
   }
-  if (expression.kind === ts.SyntaxKind.StringLiteral) {
-    return expression.text as any;
+  if (ts.isLiteralExpression(expression)) {
+    if (expression.kind === ts.SyntaxKind.StringLiteral) {
+      return expression.text;
+    }
+
+    if (expression.kind === ts.SyntaxKind.NumericLiteral) {
+      return Number(expression.text);
+    }
+  }
+  if (expression.kind === ts.SyntaxKind.TrueKeyword) {
+    return true;
+  }
+  if (expression.kind === ts.SyntaxKind.NullKeyword) {
+    return null;
   }
 
-  if (expression.kind === ts.SyntaxKind.NumericLiteral) {
-    return Number(expression.text);
+  if (expression.kind === ts.SyntaxKind.FalseKeyword) {
+    return false;
   }
 
-  throw new Error("literal expression kind unknown");
+  return undefined;
 }

@@ -53,21 +53,9 @@
       "Parameters": {
         "x.$": "$.vars.x",
         "somethingLiteral": [
-          {
-            "value": "one",
-            "type": "string",
-            "valueContainsReplacements": false
-          },
-          {
-            "value": 2,
-            "type": "numeric",
-            "valueContainsReplacements": false
-          },
-          {
-            "value": "three",
-            "type": "string",
-            "valueContainsReplacements": false
-          }
+          "one",
+          2,
+          "three"
         ],
         "startTime.$": "$$.Execution.StartTime",
         "func.$": "States.JsonToString($.vars.x)",

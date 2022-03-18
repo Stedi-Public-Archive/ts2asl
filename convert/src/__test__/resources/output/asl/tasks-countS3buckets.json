@@ -1,0 +1,31 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "ListBuckets"
+    },
+    "ListBuckets": {
+      "Type": "Task",
+      "ResultPath": "$.vars.buckets",
+      "Resource": "arn:aws:states:::aws-sdk:s3:listBuckets",
+      "Parameters": {},
+      "Next": "Assign count"
+    },
+    "Assign count": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.count",
+      "InputPath": "$.vars.buckets.Buckets.length()",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.count"
+    }
+  }
+}

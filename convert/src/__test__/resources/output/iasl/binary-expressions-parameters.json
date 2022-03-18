@@ -1,7 +1,7 @@
 {
   "statements": [
     {
-      "parameters": {
+      "expression": {
         "properties": {
           "a": {
             "value": "bucketName",
@@ -21,8 +21,8 @@
         },
         "_syntaxKind": "literal-object"
       },
-      "source": "console.log({\n    a: asl.deploy.getParameter(\"bucketName\"),\n    b: \"s3:::arn:\" + asl.deploy.getParameter(\"bucketName\"),\n    c: `value -> ${asl.deploy.getParameter(\"bucketName\")} <- value`,\n  })",
-      "_syntaxKind": "asl-pass-state"
+      "_syntaxKind": "return",
+      "stateName": "Return { a: asl.deplo ..."
     }
   ],
   "_syntaxKind": "statemachine"

@@ -673,20 +673,12 @@ describe("when converting example", () => {
             "Next": "Assign lastEvaluatedKey",
             "Result": Array [
               Object {
-                "type": "object",
-                "value": Object {
-                  "ceiling": 100,
-                  "metric": "mappings.requests",
-                },
-                "valueContainsReplacements": false,
+                "ceiling": 100,
+                "metric": "mappings.requests",
               },
               Object {
-                "type": "object",
-                "value": Object {
-                  "ceiling": 1000,
-                  "metric": "mappings.requests",
-                },
-                "valueContainsReplacements": false,
+                "ceiling": 1000,
+                "metric": "mappings.requests",
               },
             ],
             "ResultPath": "$.vars.thresholds",
@@ -718,15 +710,33 @@ describe("when converting example", () => {
                             "StartAt": "Assign numericLastSentOnValue",
                             "States": Object {
                               "Assign numericLastSentOnValue": Object {
+                                "Comment": "source: result of an expression cannot be placed in In ...",
+                                "Next": "Assign numericLastSentOnValue_1",
+                                "Parameters": Object {
+                                  "value.$": "States.StringToJson($.vars.item.lastSentOnValue.N)",
+                                },
+                                "ResultPath": "$.lastResult",
+                                "Type": "Pass",
+                              },
+                              "Assign numericLastSentOnValue_1": Object {
                                 "Comment": undefined,
-                                "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
+                                "InputPath": "$.lastResult.value",
                                 "Next": "Assign numericTotal",
                                 "ResultPath": "$.vars.numericLastSentOnValue",
                                 "Type": "Pass",
                               },
                               "Assign numericTotal": Object {
+                                "Comment": "source: result of an expression cannot be placed in In ...",
+                                "Next": "Assign numericTotal_1",
+                                "Parameters": Object {
+                                  "value.$": "States.StringToJson($.vars.item.total.N)",
+                                },
+                                "ResultPath": "$.lastResult",
+                                "Type": "Pass",
+                              },
+                              "Assign numericTotal_1": Object {
                                 "Comment": undefined,
-                                "InputPath": "States.StringToJson($.vars.item.total.N)",
+                                "InputPath": "$.lastResult.value",
                                 "Next": "If ((item.sk.S === thresh ...",
                                 "ResultPath": "$.vars.numericTotal",
                                 "Type": "Pass",
@@ -834,14 +844,10 @@ describe("when converting example", () => {
                                         "Parameters": Object {
                                           "Entries": Array [
                                             Object {
-                                              "type": "object",
-                                              "value": Object {
-                                                "Detail.$": "States.JsonToString($.vars.detail)",
-                                                "DetailType": "xxx.detail.type",
-                                                "EventBusName": "default",
-                                                "Source": "zzz.my.source",
-                                              },
-                                              "valueContainsReplacements": true,
+                                              "Detail.$": "States.JsonToString($.vars.detail)",
+                                              "DetailType": "xxx.detail.type",
+                                              "EventBusName": "default",
+                                              "Source": "zzz.my.source",
                                             },
                                           ],
                                         },

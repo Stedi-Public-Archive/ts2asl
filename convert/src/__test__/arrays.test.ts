@@ -695,23 +695,50 @@ describe("when converting closures", () => {
             "Type": "Pass",
           },
           "Assign myArray": Object {
-            "Comment": undefined,
-            "InputPath": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)",
-            "Next": "Assign mySerializedArray",
-            "ResultPath": "$.vars.myArray",
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign myArray_1",
+            "Parameters": Object {
+              "value.$": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)",
+            },
+            "ResultPath": "$.lastResult",
             "Type": "Pass",
           },
           "Assign myArray_1": Object {
             "Comment": undefined,
-            "InputPath": "States.StringToJson($.vars.mySerializedArray)",
+            "InputPath": "$.lastResult.value",
+            "Next": "Assign mySerializedArray",
+            "ResultPath": "$.vars.myArray",
+            "Type": "Pass",
+          },
+          "Assign myArray_2": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign myArray_3",
+            "Parameters": Object {
+              "value.$": "States.StringToJson($.vars.mySerializedArray)",
+            },
+            "ResultPath": "$.lastResult",
+            "Type": "Pass",
+          },
+          "Assign myArray_3": Object {
+            "Comment": undefined,
+            "InputPath": "$.lastResult.value",
             "Next": "Assign pets",
             "ResultPath": "$.vars.myArray",
             "Type": "Pass",
           },
           "Assign mySerializedArray": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign mySerializedArray_1",
+            "Parameters": Object {
+              "value.$": "States.JsonToString($.vars.myArray)",
+            },
+            "ResultPath": "$.lastResult",
+            "Type": "Pass",
+          },
+          "Assign mySerializedArray_1": Object {
             "Comment": undefined,
-            "InputPath": "States.JsonToString($.vars.myArray)",
-            "Next": "Assign myArray_1",
+            "InputPath": "$.lastResult.value",
+            "Next": "Assign myArray_2",
             "ResultPath": "$.vars.mySerializedArray",
             "Type": "Pass",
           },
@@ -754,6 +781,7 @@ describe("when converting closures", () => {
                   "Type": "Choice",
                 },
                 "Pass": Object {
+                  "Comment": undefined,
                   "End": true,
                   "Parameters": Object {
                     "age.$": "$.vars.x",
@@ -763,6 +791,7 @@ describe("when converting closures", () => {
                   "Type": "Pass",
                 },
                 "Pass_1": Object {
+                  "Comment": undefined,
                   "End": true,
                   "Parameters": Object {
                     "age.$": "$.vars.x",
@@ -806,6 +835,7 @@ describe("when converting closures", () => {
             "Type": "Pass",
           },
           "Pass_2": Object {
+            "Comment": undefined,
             "End": true,
             "Parameters": Object {
               "bySpecies.$": "$.vars.bySpecies",

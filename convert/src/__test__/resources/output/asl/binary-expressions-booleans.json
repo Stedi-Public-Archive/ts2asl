@@ -13,11 +13,12 @@
       "End": true,
       "Type": "Pass",
       "Result": {
-        "a": 20,
-        "b": 20,
-        "c": 20,
-        "d": 20,
-        "e": 40
+        "a": true,
+        "b": false,
+        "c": true,
+        "d": false,
+        "e": false,
+        "f": true
       }
     }
   }

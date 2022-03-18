@@ -21,7 +21,7 @@ describe("when converting binary-expressions", () => {
             "Type": "Pass",
           },
           "Pass": Object {
-            "Comment": "source: console.log({ a: \\"hello\\" + \\" world \\", b: \\"a\\" + ...",
+            "Comment": undefined,
             "End": true,
             "Result": Object {
               "a": "hello world ",
@@ -36,6 +36,36 @@ describe("when converting binary-expressions", () => {
     `);
   });
 
+  it("then can convert booleans", async () => {
+    expect(converted.booleans.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Initialize": Object {
+            "Next": "Pass",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Pass": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": Object {
+              "a": true,
+              "b": false,
+              "c": true,
+              "d": false,
+              "e": false,
+              "f": true,
+            },
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
   it("then can convert numbers", async () => {
     expect(converted.numbers.asl).toMatchInlineSnapshot(`
       Object {
@@ -50,7 +80,7 @@ describe("when converting binary-expressions", () => {
             "Type": "Pass",
           },
           "Pass": Object {
-            "Comment": "source: console.log({ a: 10 + 10, b: 30 - 10, c: 10 *  ...",
+            "Comment": undefined,
             "End": true,
             "Result": Object {
               "a": 20,
@@ -79,7 +109,7 @@ describe("when converting binary-expressions", () => {
             "Type": "Pass",
           },
           "Pass": Object {
-            "Comment": "source: console.log({ a: asl.deploy.getParameter(\\"buck ...",
+            "Comment": undefined,
             "End": true,
             "Result": Object {
               "a": "bucketName",

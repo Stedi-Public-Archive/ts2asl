@@ -4,35 +4,40 @@
       "expression": {
         "properties": {
           "a": {
-            "value": 20,
-            "type": "numeric",
+            "value": true,
+            "type": "boolean",
             "_syntaxKind": "literal"
           },
           "b": {
-            "value": 20,
-            "type": "numeric",
+            "value": false,
+            "type": "boolean",
             "_syntaxKind": "literal"
           },
           "c": {
-            "value": 20,
-            "type": "numeric",
+            "value": true,
+            "type": "boolean",
             "_syntaxKind": "literal"
           },
           "d": {
-            "value": 20,
-            "type": "numeric",
+            "value": false,
+            "type": "boolean",
             "_syntaxKind": "literal"
           },
           "e": {
-            "value": 40,
-            "type": "numeric",
+            "value": false,
+            "type": "boolean",
+            "_syntaxKind": "literal"
+          },
+          "f": {
+            "value": true,
+            "type": "boolean",
             "_syntaxKind": "literal"
           }
         },
         "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "return",
-      "stateName": "Return { a: 10 + 10, ..."
+      "stateName": "Return { a: true, ..."
     }
   ],
   "_syntaxKind": "statemachine"

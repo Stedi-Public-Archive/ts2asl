@@ -1,0 +1,78 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "ResultPath": "$.lastResult",
+      "Parameters": {
+        "value.$": "States.Format('hello {}', 'world')"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign str_1"
+    },
+    "Assign str_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.str",
+      "InputPath": "$.lastResult.value",
+      "Next": "Assign num"
+    },
+    "Assign num": {
+      "Type": "Pass",
+      "ResultPath": "$.lastResult",
+      "Parameters": {
+        "value.$": "States.Format('answer is {}', 42)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign num_1"
+    },
+    "Assign num_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.num",
+      "InputPath": "$.lastResult.value",
+      "Next": "Assign combined"
+    },
+    "Assign combined": {
+      "Type": "Pass",
+      "ResultPath": "$.lastResult",
+      "Parameters": {
+        "value.$": "States.Format('1: {}\n 2: {}', $.vars.str, $.vars.num)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign combined_1"
+    },
+    "Assign combined_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.combined",
+      "InputPath": "$.lastResult.value",
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "ResultPath": "$.lastResult",
+      "Parameters": {
+        "value.$": "States.Array($.vars.str, $.vars.num, $.vars.combined)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign arr_1"
+    },
+    "Assign arr_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arr",
+      "InputPath": "$.lastResult.value",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.arr"
+    }
+  }
+}

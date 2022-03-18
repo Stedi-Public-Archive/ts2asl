@@ -1,7 +1,7 @@
 {
   "statements": [
     {
-      "parameters": {
+      "expression": {
         "properties": {
           "a": {
             "value": "hello world ",
@@ -26,8 +26,8 @@
         },
         "_syntaxKind": "literal-object"
       },
-      "source": "console.log({\n    a: \"hello\" + \" world \",\n    b: \"a\" + \"b\" + \"c\",\n    c: `a${\"b\"}c`,\n    d: `n=${42};`\n  })",
-      "_syntaxKind": "asl-pass-state"
+      "_syntaxKind": "return",
+      "stateName": "Return { a: \"hello\" + ..."
     }
   ],
   "_syntaxKind": "statemachine"

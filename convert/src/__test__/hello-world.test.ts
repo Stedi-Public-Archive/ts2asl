@@ -206,6 +206,7 @@ describe("when converting example", () => {
             "Type": "Pass",
           },
           "Pass": Object {
+            "Comment": undefined,
             "End": true,
             "Parameters": Object {
               "greeting.$": "States.Format('Hello {}', $.vars.name)",

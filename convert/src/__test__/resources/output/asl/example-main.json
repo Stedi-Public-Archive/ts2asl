@@ -14,20 +14,12 @@
       "ResultPath": "$.vars.thresholds",
       "Result": [
         {
-          "value": {
-            "metric": "mappings.requests",
-            "ceiling": 100
-          },
-          "type": "object",
-          "valueContainsReplacements": false
+          "metric": "mappings.requests",
+          "ceiling": 100
         },
         {
-          "value": {
-            "metric": "mappings.requests",
-            "ceiling": 1000
-          },
-          "type": "object",
-          "valueContainsReplacements": false
+          "metric": "mappings.requests",
+          "ceiling": 1000
         }
       ],
       "Comment": "source: thresholds = [ { \"metric\": \"mappings.requests\" ...",
@@ -77,14 +69,32 @@
                       "States": {
                         "Assign numericLastSentOnValue": {
                           "Type": "Pass",
+                          "ResultPath": "$.lastResult",
+                          "Parameters": {
+                            "value.$": "States.StringToJson($.vars.item.lastSentOnValue.N)"
+                          },
+                          "Comment": "source: result of an expression cannot be placed in In ...",
+                          "Next": "Assign numericLastSentOnValue_1"
+                        },
+                        "Assign numericLastSentOnValue_1": {
+                          "Type": "Pass",
                           "ResultPath": "$.vars.numericLastSentOnValue",
-                          "InputPath": "States.StringToJson($.vars.item.lastSentOnValue.N)",
+                          "InputPath": "$.lastResult.value",
                           "Next": "Assign numericTotal"
                         },
                         "Assign numericTotal": {
                           "Type": "Pass",
+                          "ResultPath": "$.lastResult",
+                          "Parameters": {
+                            "value.$": "States.StringToJson($.vars.item.total.N)"
+                          },
+                          "Comment": "source: result of an expression cannot be placed in In ...",
+                          "Next": "Assign numericTotal_1"
+                        },
+                        "Assign numericTotal_1": {
+                          "Type": "Pass",
                           "ResultPath": "$.vars.numericTotal",
-                          "InputPath": "States.StringToJson($.vars.item.total.N)",
+                          "InputPath": "$.lastResult.value",
                           "Next": "If ((item.sk.S === thresh ..."
                         },
                         "If ((item.sk.S === thresh ...": {
@@ -190,14 +200,10 @@
                                   "Parameters": {
                                     "Entries": [
                                       {
-                                        "value": {
-                                          "Detail.$": "States.JsonToString($.vars.detail)",
-                                          "DetailType": "xxx.detail.type",
-                                          "EventBusName": "default",
-                                          "Source": "zzz.my.source"
-                                        },
-                                        "type": "object",
-                                        "valueContainsReplacements": true
+                                        "Detail.$": "States.JsonToString($.vars.detail)",
+                                        "DetailType": "xxx.detail.type",
+                                        "EventBusName": "default",
+                                        "Source": "zzz.my.source"
                                       }
                                     ]
                                   },

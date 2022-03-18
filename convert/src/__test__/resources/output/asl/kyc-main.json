@@ -63,14 +63,10 @@
       "Parameters": {
         "Entries": [
           {
-            "value": {
-              "Detail.$": "States.JsonToString($.vars.result)",
-              "DetailType": "Identity check completed",
-              "EventBusName": "eventbusname",
-              "Source": "com.aws.kyc"
-            },
-            "type": "object",
-            "valueContainsReplacements": true
+            "Detail.$": "States.JsonToString($.vars.result)",
+            "DetailType": "Identity check completed",
+            "EventBusName": "eventbusname",
+            "Source": "com.aws.kyc"
           }
         ]
       },
@@ -101,14 +97,10 @@
       "Parameters": {
         "Entries": [
           {
-            "value": {
-              "Detail.$": "States.JsonToString($.vars.result)",
-              "DetailType": "AccountApproved",
-              "EventBusName": "eventbusname",
-              "Source": "com.aws.kyc"
-            },
-            "type": "object",
-            "valueContainsReplacements": true
+            "Detail.$": "States.JsonToString($.vars.result)",
+            "DetailType": "AccountApproved",
+            "EventBusName": "eventbusname",
+            "Source": "com.aws.kyc"
           }
         ]
       },
@@ -120,14 +112,10 @@
       "Parameters": {
         "Entries": [
           {
-            "value": {
-              "Detail.$": "States.JsonToString($.vars.result)",
-              "DetailType": "AccountDeclined",
-              "EventBusName": "eventbusname",
-              "Source": "com.aws.kyc"
-            },
-            "type": "object",
-            "valueContainsReplacements": true
+            "Detail.$": "States.JsonToString($.vars.result)",
+            "DetailType": "AccountDeclined",
+            "EventBusName": "eventbusname",
+            "Source": "com.aws.kyc"
           }
         ]
       },

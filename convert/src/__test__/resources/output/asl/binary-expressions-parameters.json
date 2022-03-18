@@ -10,14 +10,13 @@
       "Next": "Pass"
     },
     "Pass": {
+      "End": true,
       "Type": "Pass",
       "Result": {
         "a": "bucketName",
         "b": "s3:::arn:bucketName",
         "c": "value -> bucketName <- value"
-      },
-      "Comment": "source: console.log({ a: asl.deploy.getParameter(\"buck ...",
-      "End": true
+      }
     }
   }
 }

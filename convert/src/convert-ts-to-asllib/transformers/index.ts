@@ -15,6 +15,7 @@ import { arrayFilterTransformer } from "./array-filter-statement";
 import { arrayMapTransformer } from "./array-map-statement";
 import { arrayLengthTransformer } from "./array-length-statement";
 import { ConverterOptions } from "../../convert";
+import { resolveExpressionsTransformer } from "./array-initializer";
 
 export const createTransformers = (converterOptions: ConverterOptions = {}) => {
   return [
@@ -27,6 +28,7 @@ export const createTransformers = (converterOptions: ConverterOptions = {}) => {
     switchStatementTransformer(converterOptions),
     throwStatementTransformer(converterOptions),
     tryStatementTransformer(converterOptions),
+    resolveExpressionsTransformer(converterOptions),
     variableStatementTransformer(converterOptions),
     promiseAllStatementTransformer(converterOptions),
     consoleLogStatementTransformer(converterOptions),
@@ -34,5 +36,6 @@ export const createTransformers = (converterOptions: ConverterOptions = {}) => {
     whileStatementTransformer(converterOptions),
     doWhileStatementTransformer(converterOptions),
     forOfStatementTransformer(converterOptions),
+
   ];
 }

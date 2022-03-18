@@ -18,7 +18,6 @@ export const arrayMapTransformer = (converterOptions: ConverterOptions) => <T ex
         if (!ts.isArrowFunction(arg)) throw new ParserError("<array>.map expression must have arrow function as argument", node);
         if (arg.parameters.length !== 1) throw new ParserError("<array>.map argument must be arrow function with 1 parameter", node);
 
-
         const items = TransformUtil.createWrappedExpression("items", node.expression.expression);
         const iterator = TransformUtil.createFunction("iterator", (arg.parameters[0].name as ts.Identifier).text, convertToBlock(arg.body));
         const comment = TransformUtil.createComment(node);

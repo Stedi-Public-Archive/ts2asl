@@ -9,6 +9,7 @@ import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
 import { resolveExpressionsTransformer } from "./resolve-constant-expressions-transformer";
+import { TransformUtil } from "../convert-ts-to-asllib/transformers/transform-utility";
 const factory = ts.factory;
 
 export interface ConverterContext {

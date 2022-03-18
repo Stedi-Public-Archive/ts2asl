@@ -59,8 +59,8 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile, typeChecker:
             if (!f.modifiers || !f.modifiers.find(x => x.kind === 93)) {
               throw new Error(`Lambda declaration must be exported`);
             }
-
           }
+
           result.push({
             name,
             body,

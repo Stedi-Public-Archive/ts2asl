@@ -319,26 +319,10 @@ describe("when converting closures", () => {
             "Comment": "source: letters = [\\"a\\", \\"b\\", \\"c\\", \\"d\\"]",
             "Next": "Assign global",
             "Result": Array [
-              Object {
-                "type": "string",
-                "value": "a",
-                "valueContainsReplacements": false,
-              },
-              Object {
-                "type": "string",
-                "value": "b",
-                "valueContainsReplacements": false,
-              },
-              Object {
-                "type": "string",
-                "value": "c",
-                "valueContainsReplacements": false,
-              },
-              Object {
-                "type": "string",
-                "value": "d",
-                "valueContainsReplacements": false,
-              },
+              "a",
+              "b",
+              "c",
+              "d",
             ],
             "ResultPath": "$.vars.letters",
             "Type": "Pass",
@@ -347,26 +331,10 @@ describe("when converting closures", () => {
             "Comment": "source: numbers = [0, 1, 2, 3]",
             "Next": "Assign letters",
             "Result": Array [
-              Object {
-                "type": "numeric",
-                "value": 0,
-                "valueContainsReplacements": false,
-              },
-              Object {
-                "type": "numeric",
-                "value": 1,
-                "valueContainsReplacements": false,
-              },
-              Object {
-                "type": "numeric",
-                "value": 2,
-                "valueContainsReplacements": false,
-              },
-              Object {
-                "type": "numeric",
-                "value": 3,
-                "valueContainsReplacements": false,
-              },
+              0,
+              1,
+              2,
+              3,
             ],
             "ResultPath": "$.vars.numbers",
             "Type": "Pass",

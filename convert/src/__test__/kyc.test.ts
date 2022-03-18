@@ -403,6 +403,7 @@ describe("when converting example", () => {
                 "StartAt": "performIdentifyCheck()",
                 "States": Object {
                   "Pass": Object {
+                    "Comment": undefined,
                     "End": true,
                     "InputPath": "$.vars.return_var",
                     "Type": "Pass",
@@ -435,6 +436,7 @@ describe("when converting example", () => {
                 "StartAt": "Pass_1",
                 "States": Object {
                   "Pass_1": Object {
+                    "Comment": undefined,
                     "End": true,
                     "Result": Object {
                       "agencyChecked": true,
@@ -479,14 +481,10 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "type": "object",
-                  "value": Object {
-                    "Detail.$": "States.JsonToString($.vars.result)",
-                    "DetailType": "Identity check completed",
-                    "EventBusName": "eventbusname",
-                    "Source": "com.aws.kyc",
-                  },
-                  "valueContainsReplacements": true,
+                  "Detail.$": "States.JsonToString($.vars.result)",
+                  "DetailType": "Identity check completed",
+                  "EventBusName": "eventbusname",
+                  "Source": "com.aws.kyc",
                 },
               ],
             },
@@ -503,14 +501,10 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "type": "object",
-                  "value": Object {
-                    "Detail.$": "States.JsonToString($.vars.result)",
-                    "DetailType": "AccountApproved",
-                    "EventBusName": "eventbusname",
-                    "Source": "com.aws.kyc",
-                  },
-                  "valueContainsReplacements": true,
+                  "Detail.$": "States.JsonToString($.vars.result)",
+                  "DetailType": "AccountApproved",
+                  "EventBusName": "eventbusname",
+                  "Source": "com.aws.kyc",
                 },
               ],
             },
@@ -527,14 +521,10 @@ describe("when converting example", () => {
             "Parameters": Object {
               "Entries": Array [
                 Object {
-                  "type": "object",
-                  "value": Object {
-                    "Detail.$": "States.JsonToString($.vars.result)",
-                    "DetailType": "AccountDeclined",
-                    "EventBusName": "eventbusname",
-                    "Source": "com.aws.kyc",
-                  },
-                  "valueContainsReplacements": true,
+                  "Detail.$": "States.JsonToString($.vars.result)",
+                  "DetailType": "AccountDeclined",
+                  "EventBusName": "eventbusname",
+                  "Source": "com.aws.kyc",
                 },
               ],
             },

@@ -10,15 +10,14 @@
       "Next": "Pass"
     },
     "Pass": {
+      "End": true,
       "Type": "Pass",
       "Result": {
         "a": "hello world ",
         "b": "abc",
         "c": "abc",
         "d": "n=42;"
-      },
-      "Comment": "source: console.log({ a: \"hello\" + \" world \", b: \"a\" + ...",
-      "End": true
+      }
     }
   }
 }

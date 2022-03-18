@@ -19,23 +19,23 @@ export const numbers = asl.deploy.asStateMachine(async () => {
   };
 });
 
-export const booleans = asl.deploy.asStateMachine(async () => {
-  return {
-    a: true,
-    b: false,
-    c: true || false,
-    d: true && false,
-    e: true && (false || false),
-    f: ((true && false) || false) || true,
-  };
+export const booleans = asl.deploy.asStateMachine(async () =>{
+    return {
+        a: true,
+        b: false,
+        c: true || false,
+        d: true && false,
+        e: true && (false || false),
+        f: ((true && false) || false) || true,
+    };
 });
 
-export const parameters = asl.deploy.asStateMachine(async () =>{
-    return {
-        a: asl.deploy.getParameter("bucketName"),
-        b: "s3:::arn:" + asl.deploy.getParameter("bucketName"),
-        c: `value -> ${asl.deploy.getParameter("bucketName")} <- value`,
-    };
+export const parameters = asl.deploy.asStateMachine(async () => {
+  return {
+    a: asl.deploy.getParameter("bucketName"),
+    b: "s3:::arn:" + asl.deploy.getParameter("bucketName"),
+    c: `value -> ${asl.deploy.getParameter("bucketName")} <- value`,
+  };
 });
 
 // not supported yet
