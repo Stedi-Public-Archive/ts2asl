@@ -1,0 +1,47 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign source"
+    },
+    "Assign source": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.source",
+      "Result": [
+        {
+          "obj": {
+            "num": 23,
+            "str": "str"
+          }
+        }
+      ],
+      "Comment": "source: source = [{ obj: { num: 23, str: \"str\" } }]",
+      "Next": "Assign num"
+    },
+    "Assign num": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.num",
+      "InputPath": "$.vars.source..obj.num",
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.str",
+      "InputPath": "$.vars.source..obj.str",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "Parameters": {
+        "num.$": "$.vars.num",
+        "str.$": "$.vars.str"
+      }
+    }
+  }
+}

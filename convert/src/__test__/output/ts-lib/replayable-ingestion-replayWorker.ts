@@ -34,15 +34,7 @@ interface StateMachineInput {
 export const replayWorker = asl.deploy.asStateMachine(async (input: ReplayWorkerInput) =>{
     const objects = await asl.nativeS3ListObjectsV2({ parameters: { Prefix: input.prefix, Bucket: "preprod-metrics-bucket-us-east-1" } });
     const itemsWithKeys = asl.jsonPathFilter(objects.Contents, (item) => item.Key);
-    const keys = asl.map({
-        name: "For x Of itemsWithKeys.map",
-        items: () => itemsWithKeys,
-        iterator: x => { let return_var = asl.pass({
-            name: "Assign ???",
-            parameters: () => x.Key
-        }); return return_var; },
-        comment: "itemsWithKeys.map(x => x.Key)"
-    });
+    const keys = asl.jsonPathMap(itemsWithKeys, "Key");
     await asl.map({
         items: keys,
         maxConcurrency: 5,

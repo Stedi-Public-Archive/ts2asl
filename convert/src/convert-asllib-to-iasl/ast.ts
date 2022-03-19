@@ -231,6 +231,7 @@ export interface Identifier {
     argument: Identifier,
     expression: BinaryExpression
   },
+  mapExpression?: string;
   jsonPathExpression?: string;
   lhs?: Identifier;
   type: Type;

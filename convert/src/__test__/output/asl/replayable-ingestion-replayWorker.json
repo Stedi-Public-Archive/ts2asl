@@ -26,31 +26,9 @@
       "Next": "Assign keys"
     },
     "Assign keys": {
-      "Type": "Map",
+      "Type": "Pass",
       "ResultPath": "$.vars.keys",
-      "Iterator": {
-        "StartAt": "Assign ???",
-        "States": {
-          "Assign ???": {
-            "Type": "Pass",
-            "ResultPath": "$.vars.return_var",
-            "InputPath": "$.vars.x.Key",
-            "Next": "Pass"
-          },
-          "Pass": {
-            "End": true,
-            "Type": "Pass",
-            "InputPath": "$.vars.return_var"
-          }
-        }
-      },
-      "ItemsPath": "$.vars.itemsWithKeys",
-      "Comment": "source: itemsWithKeys.map(x => x.Key)",
-      "Parameters": {
-        "vars": {
-          "x.$": "$$.Map.Item.Value"
-        }
-      },
+      "InputPath": "$.vars.itemsWithKeys..Key",
       "Next": "Map"
     },
     "Map": {

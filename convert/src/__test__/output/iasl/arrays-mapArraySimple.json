@@ -1,0 +1,193 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "mappedArray",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign mappedArray",
+        "parameters": {
+          "elements": [
+            {
+              "properties": {
+                "age": {
+                  "value": 1,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "species": {
+                  "value": "dog",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            {
+              "properties": {
+                "age": {
+                  "value": 2,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "species": {
+                  "value": "cat",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            {
+              "properties": {
+                "age": {
+                  "value": 3,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "species": {
+                  "value": "dog",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            {
+              "properties": {
+                "age": {
+                  "value": 4,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "species": {
+                  "value": "cat",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            {
+              "properties": {
+                "age": {
+                  "value": 11,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "species": {
+                  "value": "dog",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            {
+              "properties": {
+                "age": {
+                  "value": 12,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "species": {
+                  "value": "car",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            {
+              "properties": {
+                "age": {
+                  "value": 13,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "species": {
+                  "value": "dog",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            {
+              "properties": {
+                "age": {
+                  "value": 14,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                },
+                "species": {
+                  "value": "cat",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "mappedArray = [{ age: 1, species: \"dog\" }, { age: 2, species: \"cat\" }, { age: 3, species: \"dog\" }, { age: 4, species: \"cat\" }, { age: 11, species: \"dog\" }, { age: 12, species: \"car\" }, { age: 13, species: \"dog\" }, { age: 14, species: \"cat\" }]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign mappedArray",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "ages",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "identifier": "mappedArray",
+        "_syntaxKind": "identifier",
+        "type": "object",
+        "mapExpression": "age"
+      },
+      "stateName": "Assign ages",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "species",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "identifier": "mappedArray",
+        "_syntaxKind": "identifier",
+        "type": "object",
+        "mapExpression": "species"
+      },
+      "stateName": "Assign species",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "properties": {
+          "ages": {
+            "identifier": "ages",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "species": {
+            "identifier": "species",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return { ages, specie ..."
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

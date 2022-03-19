@@ -3,6 +3,24 @@ import { arrayFilterTransformer } from "../array-filter-statement";
 import { arrayMapTransformer } from "../array-map-statement";
 
 describe("when converting array map statements", () => {
+  it("simple prop expression becomes jsonPath map expression", () => {
+    expect(
+      testTransform(
+        "const x = items.map(x => x.prop);",
+        arrayMapTransformer({})
+      )
+    ).toMatchInlineSnapshot(`"const x = asl.jsonPathMap(items, \\"prop\\");"`);
+  });
+  it("simple prop chain becomes jsonPath map expression", () => {
+    expect(
+      testTransform(
+        "const x = items.map(x => x.prop.a.b.c);",
+        arrayMapTransformer({})
+      )
+    ).toMatchInlineSnapshot(
+      `"const x = asl.jsonPathMap(items, \\"prop.a.b.c\\");"`
+    );
+  });
   it("simple return gets transformed", () => {
     expect(
       testTransform(
@@ -55,13 +73,8 @@ describe("when converting array map statements", () => {
         `const x = items.map(x => x.attrib);`,
         arrayMapTransformer({})
       )
-    ).toMatchInlineSnapshot(`
-      "const x = asl.map({
-          name: \\"For x Of items.map\\",
-          items: () => items,
-          iterator: x => { let return_var = x.attrib; return return_var; },
-          comment: \\"items.map(x => x.attrib)\\"
-      });"
-    `);
+    ).toMatchInlineSnapshot(
+      `"const x = asl.jsonPathMap(items, \\"attrib\\");"`
+    );
   });
 });

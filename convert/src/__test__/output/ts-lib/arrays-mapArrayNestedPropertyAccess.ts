@@ -1,11 +1,11 @@
 
 import * as asl from "@ts2asl/asl-lib"
 
-export const serializeArray = asl.deploy.asStateMachine(async () =>{
-    let myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-    let mySerializedArray = asl.states.jsonToString(myArray);
-    myArray = asl.states.stringToJson(mySerializedArray);
-    return myArray;
+export const serializeArray = asl.deploy.asStateMachine(async () => {
+  let myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) as number[];
+  let mySerializedArray = asl.states.jsonToString(myArray);
+  myArray = asl.states.stringToJson(mySerializedArray) as number[];
+  return myArray;
 });
 
 export const mapArray = asl.deploy.asStateMachine(async () => {
@@ -35,13 +35,17 @@ export const mapArraySimple = asl.deploy.asStateMachine(async () => {
   }
 });
 
-export const mapArrayNestedPropertyAccess = asl.deploy.asStateMachine(async () => {
-  const source = [{ obj: { num: 23, str: "str" } }]
-  const num = source.map(x => x.obj.num);
-  const str = source.map(x => x.obj.str);
-  return {
-    num, str
-  }
+export const mapArrayNestedPropertyAccess = asl.deploy.asStateMachine(async () =>{
+    const source = asl.pass({
+        name: "Assign source",
+        parameters: () => [{ obj: { num: 23, str: "str" } }],
+        comment: "source = [{ obj: { num: 23, str: \"str\" } }]"
+    });
+    const num = asl.jsonPathMap(source, "obj.num");
+    const str = asl.jsonPathMap(source, "obj.str");
+    return {
+        num, str
+    };
 });
 export const filterArray = asl.deploy.asStateMachine(async () => {
   const mappedArray = [{ age: 1, species: "dog" }, { age: 2, species: "cat" }, { age: 3, species: "dog" }, { age: 4, species: "cat" }, { age: 11, species: "dog" }, { age: 12, species: "car" }, { age: 13, species: "dog" }, { age: 14, species: "cat" }]

@@ -66,50 +66,10 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "For x Of itemsWithKeys.map",
-        "items": {
-          "identifier": "itemsWithKeys",
-          "_syntaxKind": "identifier",
-          "type": "object"
-        },
-        "iterator": {
-          "inputArgumentName": {
-            "identifier": "x",
-            "_syntaxKind": "identifier"
-          },
-          "statements": [
-            {
-              "name": {
-                "identifier": "return_var",
-                "_syntaxKind": "identifier",
-                "type": "unknown"
-              },
-              "expression": {
-                "stateName": "Assign ???",
-                "parameters": {
-                  "identifier": "x.Key",
-                  "type": "string",
-                  "_syntaxKind": "identifier"
-                },
-                "_syntaxKind": "asl-pass-state"
-              },
-              "stateName": "Assign ???",
-              "_syntaxKind": "variable-assignment"
-            },
-            {
-              "expression": {
-                "identifier": "return_var",
-                "_syntaxKind": "identifier",
-                "type": "unknown"
-              },
-              "_syntaxKind": "return",
-              "stateName": "Return ???"
-            }
-          ],
-          "_syntaxKind": "function"
-        },
-        "source": "itemsWithKeys.map(x => x.Key)",
-        "_syntaxKind": "asl-map-state"
+        "identifier": "itemsWithKeys",
+        "_syntaxKind": "identifier",
+        "type": "object",
+        "mapExpression": "Key"
       },
       "stateName": "Assign keys",
       "_syntaxKind": "variable-assignment"

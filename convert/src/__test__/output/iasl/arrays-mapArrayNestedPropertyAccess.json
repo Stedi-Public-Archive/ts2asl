@@ -1,0 +1,93 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "source",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign source",
+        "parameters": {
+          "elements": [
+            {
+              "properties": {
+                "obj": {
+                  "properties": {
+                    "num": {
+                      "value": 23,
+                      "type": "numeric",
+                      "_syntaxKind": "literal"
+                    },
+                    "str": {
+                      "value": "str",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    }
+                  },
+                  "_syntaxKind": "literal-object"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "source = [{ obj: { num: 23, str: \"str\" } }]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign source",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "num",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "identifier": "source",
+        "_syntaxKind": "identifier",
+        "type": "object",
+        "mapExpression": "obj.num"
+      },
+      "stateName": "Assign num",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "str",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "identifier": "source",
+        "_syntaxKind": "identifier",
+        "type": "object",
+        "mapExpression": "obj.str"
+      },
+      "stateName": "Assign str",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "properties": {
+          "num": {
+            "identifier": "num",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "str": {
+            "identifier": "str",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return { num, str }"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

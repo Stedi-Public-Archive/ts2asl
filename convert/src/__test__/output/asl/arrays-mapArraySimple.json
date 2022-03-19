@@ -1,0 +1,73 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign mappedArray"
+    },
+    "Assign mappedArray": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.mappedArray",
+      "Result": [
+        {
+          "age": 1,
+          "species": "dog"
+        },
+        {
+          "age": 2,
+          "species": "cat"
+        },
+        {
+          "age": 3,
+          "species": "dog"
+        },
+        {
+          "age": 4,
+          "species": "cat"
+        },
+        {
+          "age": 11,
+          "species": "dog"
+        },
+        {
+          "age": 12,
+          "species": "car"
+        },
+        {
+          "age": 13,
+          "species": "dog"
+        },
+        {
+          "age": 14,
+          "species": "cat"
+        }
+      ],
+      "Comment": "source: mappedArray = [{ age: 1, species: \"dog\" }, { a ...",
+      "Next": "Assign ages"
+    },
+    "Assign ages": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.ages",
+      "InputPath": "$.vars.mappedArray..age",
+      "Next": "Assign species"
+    },
+    "Assign species": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.species",
+      "InputPath": "$.vars.mappedArray..species",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "Parameters": {
+        "ages.$": "$.vars.ages",
+        "species.$": "$.vars.species"
+      }
+    }
+  }
+}
