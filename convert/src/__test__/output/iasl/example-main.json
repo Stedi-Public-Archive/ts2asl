@@ -79,7 +79,7 @@
     {
       "stateName": "Do While (lastEvaluatedKey)",
       "condition": {
-        "operator": "is-present",
+        "operator": "is-truthy",
         "rhs": {
           "identifier": "lastEvaluatedKey",
           "_syntaxKind": "identifier",
@@ -248,7 +248,7 @@
                               "lhs": {
                                 "operator": "not",
                                 "rhs": {
-                                  "operator": "is-present",
+                                  "operator": "is-truthy",
                                   "rhs": {
                                     "identifier": "item.lastBeginDateValue.S",
                                     "type": "string",
@@ -316,7 +316,7 @@
                               "lhs": {
                                 "operator": "not",
                                 "rhs": {
-                                  "operator": "is-present",
+                                  "operator": "is-truthy",
                                   "rhs": {
                                     "identifier": "item.lastBeginDateValue.S",
                                     "type": "string",

@@ -75,9 +75,39 @@ describe("when converting kyc", () => {
           "If (checksPassed)": Object {
             "Choices": Array [
               Object {
-                "IsPresent": true,
                 "Next": "PutEvents_1",
-                "Variable": "$.vars.checksPassed",
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.checksPassed",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.checksPassed",
+                    },
+                    Object {
+                      "BooleanEquals": false,
+                      "Variable": "$.vars.checksPassed",
+                    },
+                    Object {
+                      "StringEquals": "",
+                      "Variable": "$.vars.checksPassed",
+                    },
+                    Object {
+                      "StringEquals": "false",
+                      "Variable": "$.vars.checksPassed",
+                    },
+                    Object {
+                      "StringEquals": "0",
+                      "Variable": "$.vars.checksPassed",
+                    },
+                    Object {
+                      "NumericEquals": 0,
+                      "Variable": "$.vars.checksPassed",
+                    },
+                  ],
+                },
               },
             ],
             "Comment": "source: if (checksPassed) { //no-op update risk profil ...",

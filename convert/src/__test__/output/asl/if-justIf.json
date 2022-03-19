@@ -68,6 +68,7 @@
           }
         }
       ],
+      "ResultPath": "$.lastResult",
       "Next": "Assign val.d"
     },
     "Assign val.d": {

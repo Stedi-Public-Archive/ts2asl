@@ -64,7 +64,7 @@
           "condition": {
             "operator": "not",
             "rhs": {
-              "operator": "is-present",
+              "operator": "is-truthy",
               "rhs": {
                 "identifier": "input.condition",
                 "type": "unknown",
@@ -98,7 +98,7 @@
           "condition": {
             "operator": "not",
             "rhs": {
-              "operator": "is-present",
+              "operator": "is-truthy",
               "rhs": {
                 "identifier": "input.condition",
                 "type": "unknown",

@@ -17,7 +17,7 @@ export const createFilterExpression = (argumentName: string, expression: iasl.Bi
     }
   }
 
-  if (expression.operator === "is-present") {
+  if (expression.operator === "is-truthy") {
     if (expression.lhs) throw new Error("binary expression with 'is-present' operand should not have lhs");
     if (!iasl.Check.isIdentifier(expression.rhs)) throw new Error("binary expression with 'is-present' rhs must be identifier");
     const jsonPathIdentifier = checkLocalVariable(argumentName, expression.rhs);

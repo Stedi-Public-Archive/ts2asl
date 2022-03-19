@@ -42,9 +42,39 @@ describe("when converting while", () => {
                   "If (result.Authorized)": Object {
                     "Choices": Array [
                       Object {
-                        "IsPresent": true,
                         "Next": "Break",
-                        "Variable": "$.vars.result.Authorized",
+                        "Not": Object {
+                          "Or": Array [
+                            Object {
+                              "IsPresent": false,
+                              "Variable": "$.vars.result.Authorized",
+                            },
+                            Object {
+                              "IsNull": true,
+                              "Variable": "$.vars.result.Authorized",
+                            },
+                            Object {
+                              "BooleanEquals": false,
+                              "Variable": "$.vars.result.Authorized",
+                            },
+                            Object {
+                              "StringEquals": "",
+                              "Variable": "$.vars.result.Authorized",
+                            },
+                            Object {
+                              "StringEquals": "false",
+                              "Variable": "$.vars.result.Authorized",
+                            },
+                            Object {
+                              "StringEquals": "0",
+                              "Variable": "$.vars.result.Authorized",
+                            },
+                            Object {
+                              "NumericEquals": 0,
+                              "Variable": "$.vars.result.Authorized",
+                            },
+                          ],
+                        },
                       },
                     ],
                     "Comment": "source: if (result.Authorized) { break; }",

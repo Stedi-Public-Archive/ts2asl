@@ -71,6 +71,7 @@
           }
         }
       ],
+      "ResultPath": "$.lastResult",
       "Next": "Pass"
     },
     "Assign enclosedVar_4": {

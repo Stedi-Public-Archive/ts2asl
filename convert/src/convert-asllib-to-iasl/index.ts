@@ -204,10 +204,10 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       argument = expression.arguments[0];
     };
 
-    const convertedArgs = convertObjectLiteralExpression(argument, context);
 
     switch (type) {
       case "typescriptInvoke": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const comment = unpackAsLiteral(convertedArgs, "comment");
         const resource = unpackAsIdentifier(convertedArgs, "resource");
@@ -293,6 +293,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "typescriptTry": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const try_ = unpackBlock(convertedArgs, "try");
         const finally_ = unpackBlock(convertedArgs, "finally");
@@ -312,6 +313,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "typescriptWhile": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const while_ = unpackBlock(convertedArgs, "block");
@@ -326,6 +328,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       }
 
       case "typescriptDoWhile": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const while_ = unpackBlock(convertedArgs, "block");
@@ -340,6 +343,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       }
 
       case "typescriptIf": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const then = unpackBlock(convertedArgs, "then");
@@ -356,6 +360,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "task": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const parameters = convertedArgs["parameters"];
         const resource = unpackAsLiteral(convertedArgs, "resource");
@@ -379,6 +384,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "wait": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const seconds = convertedArgs["seconds"];
         const timestamp = convertedArgs["timestamp"];
@@ -393,6 +399,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "parallel": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const branches = unpackArray(convertedArgs, "branches", element => unpackLiteralValue(element));
         const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
@@ -410,6 +417,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "choice": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const choices = unpackArray(convertedArgs, "choices",
           (element) => {
@@ -433,6 +441,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "map": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const maxConcurrency = unpackAsLiteral(convertedArgs, "maxConcurrency");
         const items = unpackAsIdentifier(convertedArgs, "items");
@@ -454,6 +463,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "pass": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const parameters = convertedArgs["parameters"];
         const comment = unpackAsLiteral(convertedArgs, "comment");
@@ -467,6 +477,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "succeed": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const comment = unpackAsLiteral(convertedArgs, "comment");
 
@@ -478,6 +489,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       };
 
       case "fail": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
         const cause = unpackAsLiteral(convertedArgs, "cause");
         const error = unpackAsLiteral(convertedArgs, "error");
@@ -495,6 +507,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
     }
 
     if (type.startsWith("native")) {
+      const convertedArgs = convertObjectLiteralExpression(argument, context);
       let remainder = type.substring(6);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
@@ -771,7 +784,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       return {
         operator: "not",
         rhs: {
-          operator: "is-present",
+          operator: "is-truthy",
           rhs: convertExpressionToLiteralOrIdentifier(expr.operand, {}, context),
           _syntaxKind: iasl.SyntaxKind.BinaryExpression
         } as iasl.BinaryExpression,
@@ -815,7 +828,7 @@ const unpackAsBinaryExpression = (args: Record<string, iasl.Expression | iasl.Id
 
   if (iasl.Check.isIdentifier(propValue)) {
     return {
-      operator: "is-present",
+      operator: "is-truthy",
       rhs: propValue,
       _syntaxKind: iasl.SyntaxKind.BinaryExpression,
     } as iasl.BinaryExpression;

@@ -127,6 +127,30 @@ describe("when converting example", () => {
                                                 "Variable": "$.vars.item.lastBeginDateValue.S",
                                               },
                                               Object {
+                                                "IsNull": true,
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "BooleanEquals": false,
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "StringEquals": "",
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "StringEquals": "false",
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "StringEquals": "0",
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "NumericEquals": 0,
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
                                                 "StringEqualsPath": "$.vars.item.lastBeginDateValue.S",
                                                 "Variable": "$.vars.item.beginDate.S",
                                               },
@@ -152,6 +176,30 @@ describe("when converting example", () => {
                                             "Or": Array [
                                               Object {
                                                 "IsPresent": false,
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "IsNull": true,
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "BooleanEquals": false,
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "StringEquals": "",
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "StringEquals": "false",
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "StringEquals": "0",
+                                                "Variable": "$.vars.item.lastBeginDateValue.S",
+                                              },
+                                              Object {
+                                                "NumericEquals": 0,
                                                 "Variable": "$.vars.item.lastBeginDateValue.S",
                                               },
                                               Object {
@@ -241,6 +289,7 @@ describe("when converting example", () => {
                                     "threshold.$": "$.vars.threshold",
                                   },
                                 },
+                                "ResultPath": "$.lastResult",
                                 "Type": "Parallel",
                               },
                             },
@@ -287,9 +336,39 @@ describe("when converting example", () => {
                   "_WhileCondition": Object {
                     "Choices": Array [
                       Object {
-                        "IsPresent": true,
                         "Next": "Scan",
-                        "Variable": "$.vars.lastEvaluatedKey",
+                        "Not": Object {
+                          "Or": Array [
+                            Object {
+                              "IsPresent": false,
+                              "Variable": "$.vars.lastEvaluatedKey",
+                            },
+                            Object {
+                              "IsNull": true,
+                              "Variable": "$.vars.lastEvaluatedKey",
+                            },
+                            Object {
+                              "BooleanEquals": false,
+                              "Variable": "$.vars.lastEvaluatedKey",
+                            },
+                            Object {
+                              "StringEquals": "",
+                              "Variable": "$.vars.lastEvaluatedKey",
+                            },
+                            Object {
+                              "StringEquals": "false",
+                              "Variable": "$.vars.lastEvaluatedKey",
+                            },
+                            Object {
+                              "StringEquals": "0",
+                              "Variable": "$.vars.lastEvaluatedKey",
+                            },
+                            Object {
+                              "NumericEquals": 0,
+                              "Variable": "$.vars.lastEvaluatedKey",
+                            },
+                          ],
+                        },
                       },
                     ],
                     "Default": "_WhileExit",

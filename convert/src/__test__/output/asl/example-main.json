@@ -131,6 +131,30 @@
                                           "IsPresent": false
                                         },
                                         {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "IsNull": true
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "BooleanEquals": false
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "StringEquals": ""
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "StringEquals": "false"
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "StringEquals": "0"
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "NumericEquals": 0
+                                        },
+                                        {
                                           "Variable": "$.vars.item.beginDate.S",
                                           "StringEqualsPath": "$.vars.item.lastBeginDateValue.S"
                                         }
@@ -157,6 +181,30 @@
                                         {
                                           "Variable": "$.vars.item.lastBeginDateValue.S",
                                           "IsPresent": false
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "IsNull": true
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "BooleanEquals": false
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "StringEquals": ""
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "StringEquals": "false"
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "StringEquals": "0"
+                                        },
+                                        {
+                                          "Variable": "$.vars.item.lastBeginDateValue.S",
+                                          "NumericEquals": 0
                                         },
                                         {
                                           "Variable": "$.vars.item.beginDate.S",
@@ -234,6 +282,7 @@
                               }
                             }
                           ],
+                          "ResultPath": "$.lastResult",
                           "End": true
                         },
                         "Empty Default Choice": {
@@ -272,8 +321,38 @@
               "Type": "Choice",
               "Choices": [
                 {
-                  "Variable": "$.vars.lastEvaluatedKey",
-                  "IsPresent": true,
+                  "Not": {
+                    "Or": [
+                      {
+                        "Variable": "$.vars.lastEvaluatedKey",
+                        "IsPresent": false
+                      },
+                      {
+                        "Variable": "$.vars.lastEvaluatedKey",
+                        "IsNull": true
+                      },
+                      {
+                        "Variable": "$.vars.lastEvaluatedKey",
+                        "BooleanEquals": false
+                      },
+                      {
+                        "Variable": "$.vars.lastEvaluatedKey",
+                        "StringEquals": ""
+                      },
+                      {
+                        "Variable": "$.vars.lastEvaluatedKey",
+                        "StringEquals": "false"
+                      },
+                      {
+                        "Variable": "$.vars.lastEvaluatedKey",
+                        "StringEquals": "0"
+                      },
+                      {
+                        "Variable": "$.vars.lastEvaluatedKey",
+                        "NumericEquals": 0
+                      }
+                    ]
+                  },
                   "Next": "Scan"
                 }
               ],

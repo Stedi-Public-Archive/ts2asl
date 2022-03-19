@@ -83,8 +83,38 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.vars.checksPassed",
-          "IsPresent": true,
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.checksPassed",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.checksPassed",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.vars.checksPassed",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.checksPassed",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.checksPassed",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.checksPassed",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.checksPassed",
+                "NumericEquals": 0
+              }
+            ]
+          },
           "Next": "PutEvents_1"
         }
       ],

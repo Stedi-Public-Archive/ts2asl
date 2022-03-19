@@ -42,6 +42,7 @@
           }
         }
       ],
+      "ResultPath": "$.lastResult",
       "Catch": [
         {
           "Next": "Pass_1",

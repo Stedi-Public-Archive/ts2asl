@@ -68,14 +68,45 @@ describe("when converting invoices", () => {
                       "bill.$": "$.vars.bill",
                     },
                   },
+                  "ResultPath": "$.lastResult",
                   "Type": "Parallel",
                 },
                 "If (approvalResult.valid)": Object {
                   "Choices": Array [
                     Object {
-                      "IsPresent": true,
                       "Next": "Pass",
-                      "Variable": "$.vars.approvalResult.valid",
+                      "Not": Object {
+                        "Or": Array [
+                          Object {
+                            "IsPresent": false,
+                            "Variable": "$.vars.approvalResult.valid",
+                          },
+                          Object {
+                            "IsNull": true,
+                            "Variable": "$.vars.approvalResult.valid",
+                          },
+                          Object {
+                            "BooleanEquals": false,
+                            "Variable": "$.vars.approvalResult.valid",
+                          },
+                          Object {
+                            "StringEquals": "",
+                            "Variable": "$.vars.approvalResult.valid",
+                          },
+                          Object {
+                            "StringEquals": "false",
+                            "Variable": "$.vars.approvalResult.valid",
+                          },
+                          Object {
+                            "StringEquals": "0",
+                            "Variable": "$.vars.approvalResult.valid",
+                          },
+                          Object {
+                            "NumericEquals": 0,
+                            "Variable": "$.vars.approvalResult.valid",
+                          },
+                        ],
+                      },
                     },
                   ],
                   "Comment": undefined,
@@ -267,9 +298,39 @@ describe("when converting invoices", () => {
                 "If (invoice.billable)": Object {
                   "Choices": Array [
                     Object {
-                      "IsPresent": true,
                       "Next": "finallizeInvoice(invoice ...",
-                      "Variable": "$.vars.invoice.billable",
+                      "Not": Object {
+                        "Or": Array [
+                          Object {
+                            "IsPresent": false,
+                            "Variable": "$.vars.invoice.billable",
+                          },
+                          Object {
+                            "IsNull": true,
+                            "Variable": "$.vars.invoice.billable",
+                          },
+                          Object {
+                            "BooleanEquals": false,
+                            "Variable": "$.vars.invoice.billable",
+                          },
+                          Object {
+                            "StringEquals": "",
+                            "Variable": "$.vars.invoice.billable",
+                          },
+                          Object {
+                            "StringEquals": "false",
+                            "Variable": "$.vars.invoice.billable",
+                          },
+                          Object {
+                            "StringEquals": "0",
+                            "Variable": "$.vars.invoice.billable",
+                          },
+                          Object {
+                            "NumericEquals": 0,
+                            "Variable": "$.vars.invoice.billable",
+                          },
+                        ],
+                      },
                     },
                   ],
                   "Comment": undefined,
@@ -332,9 +393,37 @@ describe("when converting invoices", () => {
           "If (!input.shouldFinalize)": Object {
             "Choices": Array [
               Object {
-                "IsPresent": false,
                 "Next": "Empty",
-                "Variable": "$.vars.shouldFinalize",
+                "Or": Array [
+                  Object {
+                    "IsPresent": false,
+                    "Variable": "$.vars.shouldFinalize",
+                  },
+                  Object {
+                    "IsNull": true,
+                    "Variable": "$.vars.shouldFinalize",
+                  },
+                  Object {
+                    "BooleanEquals": false,
+                    "Variable": "$.vars.shouldFinalize",
+                  },
+                  Object {
+                    "StringEquals": "",
+                    "Variable": "$.vars.shouldFinalize",
+                  },
+                  Object {
+                    "StringEquals": "false",
+                    "Variable": "$.vars.shouldFinalize",
+                  },
+                  Object {
+                    "StringEquals": "0",
+                    "Variable": "$.vars.shouldFinalize",
+                  },
+                  Object {
+                    "NumericEquals": 0,
+                    "Variable": "$.vars.shouldFinalize",
+                  },
+                ],
               },
             ],
             "Comment": "source: if (!input.shouldFinalize) { return; }",

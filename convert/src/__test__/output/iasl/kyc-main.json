@@ -142,7 +142,7 @@
     {
       "stateName": "If (checksPassed)",
       "condition": {
-        "operator": "is-present",
+        "operator": "is-truthy",
         "rhs": {
           "identifier": "checksPassed",
           "_syntaxKind": "identifier",

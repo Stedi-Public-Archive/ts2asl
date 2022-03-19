@@ -102,6 +102,7 @@
                   }
                 }
               ],
+              "ResultPath": "$.lastResult",
               "End": true
             },
             "Assign val.e_1": {
@@ -113,6 +114,7 @@
           }
         }
       ],
+      "ResultPath": "$.lastResult",
       "Next": "Assign val.g"
     },
     "Assign val.f": {

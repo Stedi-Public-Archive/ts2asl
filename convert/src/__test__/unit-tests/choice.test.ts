@@ -48,14 +48,72 @@ describe("when converting choice", () => {
           "Choice": Object {
             "Choices": Array [
               Object {
-                "IsPresent": false,
                 "Next": "Then",
-                "Variable": "$.vars.condition",
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "BooleanEquals": false,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "false",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "0",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "NumericEquals": 0,
+                      "Variable": "$.vars.condition",
+                    },
+                  ],
+                },
               },
               Object {
-                "IsPresent": false,
                 "Next": "Then_1",
-                "Variable": "$.vars.condition",
+                "Or": Array [
+                  Object {
+                    "IsPresent": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "IsNull": true,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "BooleanEquals": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "false",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "0",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "NumericEquals": 0,
+                    "Variable": "$.vars.condition",
+                  },
+                ],
               },
             ],
             "Comment": undefined,
@@ -104,6 +162,7 @@ describe("when converting choice", () => {
                 "val.$": "$.vars.val",
               },
             },
+            "ResultPath": "$.lastResult",
             "Type": "Parallel",
           },
           "Then_1": Object {
@@ -134,6 +193,7 @@ describe("when converting choice", () => {
                 "val.$": "$.vars.val",
               },
             },
+            "ResultPath": "$.lastResult",
             "Type": "Parallel",
           },
         },
@@ -184,14 +244,70 @@ describe("when converting choice", () => {
           "Choice": Object {
             "Choices": Array [
               Object {
-                "IsPresent": false,
                 "Next": "Assign val.a",
-                "Variable": "$.vars.condition",
+                "Or": Array [
+                  Object {
+                    "IsPresent": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "IsNull": true,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "BooleanEquals": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "false",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "0",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "NumericEquals": 0,
+                    "Variable": "$.vars.condition",
+                  },
+                ],
               },
               Object {
-                "IsPresent": false,
                 "Next": "Assign val.b",
-                "Variable": "$.vars.condition",
+                "Or": Array [
+                  Object {
+                    "IsPresent": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "IsNull": true,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "BooleanEquals": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "false",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "0",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "NumericEquals": 0,
+                    "Variable": "$.vars.condition",
+                  },
+                ],
               },
             ],
             "Comment": undefined,
@@ -260,14 +376,70 @@ describe("when converting choice", () => {
           "Choice": Object {
             "Choices": Array [
               Object {
-                "IsPresent": false,
                 "Next": "Assign val.a",
-                "Variable": "$.vars.condition",
+                "Or": Array [
+                  Object {
+                    "IsPresent": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "IsNull": true,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "BooleanEquals": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "false",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "0",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "NumericEquals": 0,
+                    "Variable": "$.vars.condition",
+                  },
+                ],
               },
               Object {
-                "IsPresent": false,
                 "Next": "Assign val.b",
-                "Variable": "$.vars.condition",
+                "Or": Array [
+                  Object {
+                    "IsPresent": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "IsNull": true,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "BooleanEquals": false,
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "false",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "StringEquals": "0",
+                    "Variable": "$.vars.condition",
+                  },
+                  Object {
+                    "NumericEquals": 0,
+                    "Variable": "$.vars.condition",
+                  },
+                ],
               },
             ],
             "Comment": undefined,

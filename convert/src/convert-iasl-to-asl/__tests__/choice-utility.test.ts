@@ -26,11 +26,11 @@ describe("when transpiling simple statements", () => {
     `);
   });
 
-  it("then not is-present is optimized to is-preset: false", () => {
+  it("then not is-truthy is optimized to is-preset: false", () => {
     const binaryExpression = {
       operator: "not",
       rhs: {
-        operator: "is-present",
+        operator: "is-truthy",
         rhs: {
           identifier: "something",
           type: "numeric",
@@ -44,8 +44,36 @@ describe("when transpiling simple statements", () => {
     const result = createChoiceOperator(binaryExpression);
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "IsPresent": false,
-        "Variable": "$.vars.something",
+        "Or": Array [
+          Object {
+            "IsPresent": false,
+            "Variable": "$.vars.something",
+          },
+          Object {
+            "IsNull": true,
+            "Variable": "$.vars.something",
+          },
+          Object {
+            "BooleanEquals": false,
+            "Variable": "$.vars.something",
+          },
+          Object {
+            "StringEquals": "",
+            "Variable": "$.vars.something",
+          },
+          Object {
+            "StringEquals": "false",
+            "Variable": "$.vars.something",
+          },
+          Object {
+            "StringEquals": "0",
+            "Variable": "$.vars.something",
+          },
+          Object {
+            "NumericEquals": 0,
+            "Variable": "$.vars.something",
+          },
+        ],
       }
     `);
   });
@@ -146,7 +174,7 @@ describe("when transpiling complex statements", () => {
           lhs: {
             operator: "not",
             rhs: {
-              operator: "is-present",
+              operator: "is-truthy",
               rhs: {
                 identifier: "item.lastBeginDateValue.S",
                 _syntaxKind: "identifier"
@@ -207,7 +235,7 @@ describe("when transpiling complex statements", () => {
           lhs: {
             operator: "not",
             rhs: {
-              operator: "is-present",
+              operator: "is-truthy",
               rhs: {
                 identifier: "item.lastBeginDateValue.S",
                 _syntaxKind: "identifier"
@@ -269,6 +297,30 @@ describe("when transpiling complex statements", () => {
                     "Variable": "$.vars.item.lastBeginDateValue.S",
                   },
                   Object {
+                    "IsNull": true,
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "BooleanEquals": false,
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "StringEquals": "",
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "StringEquals": "false",
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "StringEquals": "0",
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "NumericEquals": 0,
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
                     "StringEqualsPath": "$.vars.item.lastBeginDateValue.S",
                     "Variable": "$.vars.item.beginDate.S",
                   },
@@ -294,6 +346,30 @@ describe("when transpiling complex statements", () => {
                 "Or": Array [
                   Object {
                     "IsPresent": false,
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "IsNull": true,
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "BooleanEquals": false,
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "StringEquals": "",
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "StringEquals": "false",
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "StringEquals": "0",
+                    "Variable": "$.vars.item.lastBeginDateValue.S",
+                  },
+                  Object {
+                    "NumericEquals": 0,
                     "Variable": "$.vars.item.lastBeginDateValue.S",
                   },
                   Object {

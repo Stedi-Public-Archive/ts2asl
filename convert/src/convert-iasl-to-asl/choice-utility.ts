@@ -18,28 +18,60 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
     }
   }
 
-  if (expression.operator === "is-present") {
-    if (expression.lhs) throw new Error("binary expression with 'is-present' operand should not have lhs");
-    if (!iasl.Check.isIdentifier(expression.rhs)) throw new Error("binary expression with 'is-present' rhs must be identifier");
+  if (expression.operator === "is-truthy") {
+    if (expression.lhs) throw new Error("binary expression with 'is-truthy' operand should not have lhs");
+    if (!iasl.Check.isIdentifier(expression.rhs)) throw new Error("binary expression with 'is-truthy' rhs must be identifier");
     const expr = convertExpressionToAsl(expression.rhs);
     return {
-      Variable: expr.path,
-      IsPresent: true //todo: consider this https://stackoverflow.com/questions/63039270/aws-step-function-check-for-null
-    }
+      Not: {
+        Or: [
+          {
+            Variable: expr.path,
+            IsPresent: false
+          },
+          {
+            Variable: expr.path,
+            IsNull: true
+          },
+          {
+            Variable: expr.path,
+            BooleanEquals: false
+          },
+          {
+            Variable: expr.path,
+            StringEquals: ""
+          },
+          {
+            Variable: expr.path,
+            StringEquals: "false"
+          },
+          {
+            Variable: expr.path,
+            StringEquals: "0"
+          },
+          {
+            Variable: expr.path,
+            NumericEquals: 0
+          }
+        ]
+      }
+    };
   }
 
   if (expression.operator === "not") {
     if (iasl.Check.isBinaryExpression(expression.rhs)) { //not(isPresent(xxx)) => {IsPresent: false, Variable: xxxx}
       const notExpression = createChoiceOperator(expression.rhs)
-      if (notExpression.IsPresent === true) {
-        return { ...notExpression, IsPresent: false };
-      } else if (notExpression.IsNumeric === true) {
+      if (notExpression.IsNumeric === true) {
         return { ...notExpression, IsNumeric: false };
       } else if (notExpression.IsBoolean === true) {
         return { ...notExpression, IsBoolean: false };
       }
+      const operator = createChoiceOperator(expression.rhs);
+      if (operator.Not) {
+        return operator.Not;
+      }
       return {
-        Not: createChoiceOperator(expression.rhs)
+        Not: operator
       }
     } else {
       return {
@@ -192,8 +224,8 @@ const reverseBinaryExpression = (expression: iasl.BinaryExpression): iasl.Binary
   switch (expression.operator) {
     case "matches":
     case "not":
-    case "is-present":
-      throw new Error("binary expression 'matches' cannot be revered.");
+    case "is-truthy":
+      throw new Error(`binary expression ${expression.operator} cannot be revered.`);
     case "eq":
     case "and":
     case "or":

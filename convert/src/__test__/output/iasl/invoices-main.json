@@ -163,7 +163,7 @@
             {
               "stateName": "If (approvalResult.valid)",
               "condition": {
-                "operator": "is-present",
+                "operator": "is-truthy",
                 "rhs": {
                   "identifier": "approvalResult.valid",
                   "type": "boolean",
@@ -340,7 +340,7 @@
           "expression": {
             "operator": "not",
             "rhs": {
-              "operator": "is-present",
+              "operator": "is-truthy",
               "rhs": {
                 "identifier": "x.valid",
                 "type": "boolean",
@@ -512,7 +512,7 @@
           "expression": {
             "operator": "not",
             "rhs": {
-              "operator": "is-present",
+              "operator": "is-truthy",
               "rhs": {
                 "identifier": "x.valid",
                 "type": "boolean",
@@ -623,7 +623,7 @@
       "condition": {
         "operator": "not",
         "rhs": {
-          "operator": "is-present",
+          "operator": "is-truthy",
           "rhs": {
             "identifier": "input.shouldFinalize",
             "type": "boolean",
@@ -661,7 +661,7 @@
           {
             "stateName": "If (invoice.billable)",
             "condition": {
-              "operator": "is-present",
+              "operator": "is-truthy",
               "rhs": {
                 "identifier": "invoice.billable",
                 "type": "boolean",

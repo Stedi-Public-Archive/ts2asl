@@ -34,13 +34,71 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.vars.condition",
-          "IsPresent": false,
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.condition",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.condition",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.vars.condition",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.condition",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.condition",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.condition",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.condition",
+                "NumericEquals": 0
+              }
+            ]
+          },
           "Next": "Then"
         },
         {
-          "Variable": "$.vars.condition",
-          "IsPresent": false,
+          "Or": [
+            {
+              "Variable": "$.vars.condition",
+              "IsPresent": false
+            },
+            {
+              "Variable": "$.vars.condition",
+              "IsNull": true
+            },
+            {
+              "Variable": "$.vars.condition",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": ""
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": "false"
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": "0"
+            },
+            {
+              "Variable": "$.vars.condition",
+              "NumericEquals": 0
+            }
+          ],
           "Next": "Then_1"
         }
       ],
@@ -72,6 +130,7 @@
           }
         }
       ],
+      "ResultPath": "$.lastResult",
       "Next": "Assign val.g"
     },
     "Then_1": {
@@ -100,6 +159,7 @@
           }
         }
       ],
+      "ResultPath": "$.lastResult",
       "Next": "Assign val.g"
     },
     "Assign val.f": {

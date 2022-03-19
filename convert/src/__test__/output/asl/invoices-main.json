@@ -94,8 +94,38 @@
             "Type": "Choice",
             "Choices": [
               {
-                "Variable": "$.vars.approvalResult.valid",
-                "IsPresent": true,
+                "Not": {
+                  "Or": [
+                    {
+                      "Variable": "$.vars.approvalResult.valid",
+                      "IsPresent": false
+                    },
+                    {
+                      "Variable": "$.vars.approvalResult.valid",
+                      "IsNull": true
+                    },
+                    {
+                      "Variable": "$.vars.approvalResult.valid",
+                      "BooleanEquals": false
+                    },
+                    {
+                      "Variable": "$.vars.approvalResult.valid",
+                      "StringEquals": ""
+                    },
+                    {
+                      "Variable": "$.vars.approvalResult.valid",
+                      "StringEquals": "false"
+                    },
+                    {
+                      "Variable": "$.vars.approvalResult.valid",
+                      "StringEquals": "0"
+                    },
+                    {
+                      "Variable": "$.vars.approvalResult.valid",
+                      "NumericEquals": 0
+                    }
+                  ]
+                },
                 "Next": "Pass"
               }
             ],
@@ -150,6 +180,7 @@
                 }
               }
             ],
+            "ResultPath": "$.lastResult",
             "End": true
           }
         }
@@ -308,8 +339,36 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.vars.shouldFinalize",
-          "IsPresent": false,
+          "Or": [
+            {
+              "Variable": "$.vars.shouldFinalize",
+              "IsPresent": false
+            },
+            {
+              "Variable": "$.vars.shouldFinalize",
+              "IsNull": true
+            },
+            {
+              "Variable": "$.vars.shouldFinalize",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.vars.shouldFinalize",
+              "StringEquals": ""
+            },
+            {
+              "Variable": "$.vars.shouldFinalize",
+              "StringEquals": "false"
+            },
+            {
+              "Variable": "$.vars.shouldFinalize",
+              "StringEquals": "0"
+            },
+            {
+              "Variable": "$.vars.shouldFinalize",
+              "NumericEquals": 0
+            }
+          ],
           "Next": "Empty"
         }
       ],
@@ -330,8 +389,38 @@
             "Type": "Choice",
             "Choices": [
               {
-                "Variable": "$.vars.invoice.billable",
-                "IsPresent": true,
+                "Not": {
+                  "Or": [
+                    {
+                      "Variable": "$.vars.invoice.billable",
+                      "IsPresent": false
+                    },
+                    {
+                      "Variable": "$.vars.invoice.billable",
+                      "IsNull": true
+                    },
+                    {
+                      "Variable": "$.vars.invoice.billable",
+                      "BooleanEquals": false
+                    },
+                    {
+                      "Variable": "$.vars.invoice.billable",
+                      "StringEquals": ""
+                    },
+                    {
+                      "Variable": "$.vars.invoice.billable",
+                      "StringEquals": "false"
+                    },
+                    {
+                      "Variable": "$.vars.invoice.billable",
+                      "StringEquals": "0"
+                    },
+                    {
+                      "Variable": "$.vars.invoice.billable",
+                      "NumericEquals": 0
+                    }
+                  ]
+                },
                 "Next": "finallizeInvoice(invoice ..."
               }
             ],

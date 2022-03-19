@@ -76,15 +76,11 @@
       "choices": [
         {
           "condition": {
-            "operator": "not",
+            "operator": "is-truthy",
             "rhs": {
-              "operator": "is-present",
-              "rhs": {
-                "identifier": "input.condition",
-                "type": "unknown",
-                "_syntaxKind": "identifier"
-              },
-              "_syntaxKind": "binary-expression"
+              "identifier": "input.condition",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
             },
             "_syntaxKind": "binary-expression"
           },
@@ -126,7 +122,7 @@
           "condition": {
             "operator": "not",
             "rhs": {
-              "operator": "is-present",
+              "operator": "is-truthy",
               "rhs": {
                 "identifier": "input.condition",
                 "type": "unknown",

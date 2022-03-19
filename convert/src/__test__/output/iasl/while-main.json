@@ -37,7 +37,7 @@
           {
             "stateName": "If (result.Authorized)",
             "condition": {
-              "operator": "is-present",
+              "operator": "is-truthy",
               "rhs": {
                 "identifier": "result.Authorized",
                 "type": "boolean",

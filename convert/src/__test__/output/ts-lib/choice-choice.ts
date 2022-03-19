@@ -11,7 +11,7 @@ export const choice = asl.deploy.asStateMachine(async (input: { condition: any }
     asl.choice({
         choices: [
             {
-                condition: () => !!input.condition,
+                condition: () => input.condition,
                 block: () => {
                     val.b = "val is not an empty string";
                     val.c = "val is also not false or 0";

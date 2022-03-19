@@ -28,13 +28,69 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.vars.condition",
-          "IsPresent": false,
+          "Or": [
+            {
+              "Variable": "$.vars.condition",
+              "IsPresent": false
+            },
+            {
+              "Variable": "$.vars.condition",
+              "IsNull": true
+            },
+            {
+              "Variable": "$.vars.condition",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": ""
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": "false"
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": "0"
+            },
+            {
+              "Variable": "$.vars.condition",
+              "NumericEquals": 0
+            }
+          ],
           "Next": "Assign val.a"
         },
         {
-          "Variable": "$.vars.condition",
-          "IsPresent": false,
+          "Or": [
+            {
+              "Variable": "$.vars.condition",
+              "IsPresent": false
+            },
+            {
+              "Variable": "$.vars.condition",
+              "IsNull": true
+            },
+            {
+              "Variable": "$.vars.condition",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": ""
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": "false"
+            },
+            {
+              "Variable": "$.vars.condition",
+              "StringEquals": "0"
+            },
+            {
+              "Variable": "$.vars.condition",
+              "NumericEquals": 0
+            }
+          ],
           "Next": "Assign val.b"
         }
       ],

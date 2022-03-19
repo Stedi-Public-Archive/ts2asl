@@ -256,7 +256,7 @@ export interface Scope {
   parentScope: Scope | undefined;
 }
 
-export type BinaryOperator = "and" | "or" | "not" | "is-present" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
+export type BinaryOperator = "and" | "or" | "not" | "is-truthy" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
 
 
 export interface BinaryExpression extends Expression {

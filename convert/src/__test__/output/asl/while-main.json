@@ -42,8 +42,38 @@
               "Type": "Choice",
               "Choices": [
                 {
-                  "Variable": "$.vars.result.Authorized",
-                  "IsPresent": true,
+                  "Not": {
+                    "Or": [
+                      {
+                        "Variable": "$.vars.result.Authorized",
+                        "IsPresent": false
+                      },
+                      {
+                        "Variable": "$.vars.result.Authorized",
+                        "IsNull": true
+                      },
+                      {
+                        "Variable": "$.vars.result.Authorized",
+                        "BooleanEquals": false
+                      },
+                      {
+                        "Variable": "$.vars.result.Authorized",
+                        "StringEquals": ""
+                      },
+                      {
+                        "Variable": "$.vars.result.Authorized",
+                        "StringEquals": "false"
+                      },
+                      {
+                        "Variable": "$.vars.result.Authorized",
+                        "StringEquals": "0"
+                      },
+                      {
+                        "Variable": "$.vars.result.Authorized",
+                        "NumericEquals": 0
+                      }
+                    ]
+                  },
                   "Next": "Break"
                 }
               ],
