@@ -105,35 +105,11 @@ describe("when converting replayable-ingestion", () => {
             "Type": "Pass",
           },
           "Assign keys": Object {
-            "Comment": "source: itemsWithKeys.map(x => x.Key)",
-            "ItemsPath": "$.vars.itemsWithKeys",
-            "Iterator": Object {
-              "StartAt": "Assign ???",
-              "States": Object {
-                "Assign ???": Object {
-                  "Comment": undefined,
-                  "InputPath": "$.vars.x.Key",
-                  "Next": "Pass",
-                  "ResultPath": "$.vars.return_var",
-                  "Type": "Pass",
-                },
-                "Pass": Object {
-                  "Comment": undefined,
-                  "End": true,
-                  "InputPath": "$.vars.return_var",
-                  "Type": "Pass",
-                },
-              },
-            },
-            "MaxConcurrency": undefined,
+            "Comment": undefined,
+            "InputPath": "$.vars.itemsWithKeys..Key",
             "Next": "Map",
-            "Parameters": Object {
-              "vars": Object {
-                "x.$": "$$.Map.Item.Value",
-              },
-            },
             "ResultPath": "$.vars.keys",
-            "Type": "Map",
+            "Type": "Pass",
           },
           "Initialize": Object {
             "Next": "ListObjectsV2",
