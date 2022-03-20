@@ -63,12 +63,12 @@ describe("when converting invoices", () => {
                     },
                   ],
                   "End": true,
+                  "OutputPath": "$[0]",
                   "Parameters": Object {
                     "vars": Object {
                       "bill.$": "$.vars.bill",
                     },
                   },
-                  "ResultPath": "$.lastResult",
                   "Type": "Parallel",
                 },
                 "If (approvalResult.valid)": Object {

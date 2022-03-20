@@ -87,12 +87,12 @@ describe("when converting if", () => {
               },
             ],
             "Next": "Assign val.d",
+            "OutputPath": "$[0]",
             "Parameters": Object {
               "vars": Object {
                 "val.$": "$.vars.val",
               },
             },
-            "ResultPath": "$.lastResult",
             "Type": "Parallel",
           },
         },
@@ -156,12 +156,12 @@ describe("when converting if", () => {
               },
             ],
             "Next": "Assign val.d",
+            "OutputPath": "$[0]",
             "Parameters": Object {
               "vars": Object {
                 "val.$": "$.vars.val",
               },
             },
-            "ResultPath": "$.lastResult",
             "Type": "Parallel",
           },
           "If (true)": Object {
@@ -213,12 +213,12 @@ describe("when converting if", () => {
               },
             ],
             "Next": "Assign val.d",
+            "OutputPath": "$[0]",
             "Parameters": Object {
               "vars": Object {
                 "val.$": "$.vars.val",
               },
             },
-            "ResultPath": "$.lastResult",
             "Type": "Parallel",
           },
         },
@@ -353,24 +353,24 @@ describe("when converting if", () => {
                       },
                     ],
                     "End": true,
+                    "OutputPath": "$[0]",
                     "Parameters": Object {
                       "vars": Object {
                         "val.$": "$.vars.val",
                       },
                     },
-                    "ResultPath": "$.lastResult",
                     "Type": "Parallel",
                   },
                 },
               },
             ],
             "Next": "Assign val.g",
+            "OutputPath": "$[0]",
             "Parameters": Object {
               "vars": Object {
                 "val.$": "$.vars.val",
               },
             },
-            "ResultPath": "$.lastResult",
             "Type": "Parallel",
           },
         },
@@ -464,12 +464,12 @@ describe("when converting if", () => {
               },
             ],
             "Next": "Pass",
+            "OutputPath": "$[0]",
             "Parameters": Object {
               "vars": Object {
                 "enclosedVar.$": "$.vars.enclosedVar",
               },
             },
-            "ResultPath": "$.lastResult",
             "Type": "Parallel",
           },
         },

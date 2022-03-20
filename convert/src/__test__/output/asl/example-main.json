@@ -228,6 +228,7 @@
                               "threshold.$": "$.vars.threshold"
                             }
                           },
+                          "OutputPath": "$[0]",
                           "Branches": [
                             {
                               "StartAt": "Assign detail",
@@ -282,7 +283,6 @@
                               }
                             }
                           ],
-                          "ResultPath": "$.lastResult",
                           "End": true
                         },
                         "Empty Default Choice": {

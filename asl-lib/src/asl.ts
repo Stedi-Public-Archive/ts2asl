@@ -167,7 +167,13 @@ export const typescriptWhile = async (args: While) => {
 }
 
 export const typescriptIf = async (args: If) => {
-  return {} as AslState;
+  if ((typeof args.condition === "function" && args.condition()) || args.condition) {
+    args.then();
+  } else {
+    if (args.else) {
+      args.else();
+    }
+  }
 }
 
 export const task = async <TResult>(args: Task): Promise<TResult> => {
@@ -183,7 +189,13 @@ export const parallel = async <Item>(args: Parallel<Item>) => {
 }
 
 export const choice = async (args: Choice) => {
-  return {} as AslState;
+  for (const choice of args.choices) {
+    if (choice.condition()) {
+      choice.block();
+      return;
+    }
+  }
+  if (args.default) args.default();
 }
 
 export const map = async <Input, Output>(args: Map<Input, Output>) => {

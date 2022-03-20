@@ -11,6 +11,7 @@
     },
     "Parallel": {
       "Type": "Parallel",
+      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "lambda()",
@@ -42,7 +43,6 @@
           }
         }
       ],
-      "ResultPath": "$.lastResult",
       "Catch": [
         {
           "Next": "Pass_1",

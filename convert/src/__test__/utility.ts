@@ -36,6 +36,7 @@ export const runConvertForTest = (filename: string): Record<string, ConvertedSta
 }
 
 export const convertDeployExecute = async (filename: string, name: string, input: {} = {}): Promise<unknown> => {
+  asl.clientConfig.region = "us-east-1";
   const host = createCompilerHostFromFile(
     `src/__test__/resources/${filename}.ts`
   );

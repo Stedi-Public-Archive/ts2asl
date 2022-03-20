@@ -24,8 +24,8 @@ export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, contex
     state: {
       Type: "Parallel",
       ...createParameters(scopes, [block]),
+      OutputPath: "$[0]",
       Branches: [stateMachine],
-      ResultPath: "$.lastResult"
     } as asl.Parallel
   }
 }

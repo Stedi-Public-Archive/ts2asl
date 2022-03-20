@@ -150,6 +150,7 @@
                 "bill.$": "$.vars.bill"
               }
             },
+            "OutputPath": "$[0]",
             "Branches": [
               {
                 "StartAt": "Invoke",
@@ -180,7 +181,6 @@
                 }
               }
             ],
-            "ResultPath": "$.lastResult",
             "End": true
           }
         }

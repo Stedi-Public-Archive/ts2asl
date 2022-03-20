@@ -69,6 +69,23 @@ const generateServiceAst = (serviceName: string): { importAst: ts.Node[] } => {
             factory.createImportSpecifier(
               false,
               undefined,
+              factory.createIdentifier("clientConfig")
+            ),
+          ])
+        ),
+        factory.createStringLiteral("."),
+        undefined
+      ),
+      factory.createImportDeclaration(
+        undefined,
+        undefined,
+        factory.createImportClause(
+          false,
+          undefined,
+          factory.createNamedImports([
+            factory.createImportSpecifier(
+              false,
+              undefined,
               factory.createIdentifier(`SdkIntegrationTask`)
             ),
           ])
@@ -159,10 +176,7 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
                         factory.createNewExpression(
                           factory.createIdentifier(clientName),
                           undefined,
-                          [factory.createObjectLiteralExpression(
-                            [],
-                            false
-                          )]
+                          [factory.createIdentifier("clientConfig")]
                         )
                       )],
                       ts.NodeFlags.Const

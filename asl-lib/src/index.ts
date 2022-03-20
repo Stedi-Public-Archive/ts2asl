@@ -1,4 +1,5 @@
-
+import { S3ClientConfig } from "@aws-sdk/client-s3";
+export type ClientConfig = S3ClientConfig;
 export * from "./asl";
 export * from "./native-integrations-ecs";
 export * from "./native-integrations-dynamodb";
@@ -18,3 +19,6 @@ export * from "./deploy"
 export const nativeAPIGatewayInvoke = (input: unknown): Promise<unknown> => {
   return Promise.resolve({});
 };
+
+
+export const clientConfig = {} as ClientConfig;

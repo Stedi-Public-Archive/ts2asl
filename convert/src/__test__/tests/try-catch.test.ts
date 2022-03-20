@@ -62,7 +62,7 @@ describe("when converting try-catch", () => {
               },
             ],
             "End": true,
-            "ResultPath": "$.lastResult",
+            "OutputPath": "$[0]",
             "Type": "Parallel",
           },
           "Pass_1": Object {
@@ -133,7 +133,7 @@ describe("when converting try-catch", () => {
               },
             ],
             "End": true,
-            "ResultPath": "$.lastResult",
+            "OutputPath": "$[0]",
             "Type": "Parallel",
           },
           "Pass_1": Object {

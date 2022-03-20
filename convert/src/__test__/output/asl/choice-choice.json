@@ -111,6 +111,7 @@
           "val.$": "$.vars.val"
         }
       },
+      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "Assign val.b",
@@ -130,7 +131,6 @@
           }
         }
       ],
-      "ResultPath": "$.lastResult",
       "Next": "Assign val.g"
     },
     "Then_1": {
@@ -140,6 +140,7 @@
           "val.$": "$.vars.val"
         }
       },
+      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "Assign val.d",
@@ -159,7 +160,6 @@
           }
         }
       ],
-      "ResultPath": "$.lastResult",
       "Next": "Assign val.g"
     },
     "Assign val.f": {

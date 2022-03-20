@@ -49,6 +49,7 @@
           "val.$": "$.vars.val"
         }
       },
+      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "Assign val.b",
@@ -68,7 +69,6 @@
           }
         }
       ],
-      "ResultPath": "$.lastResult",
       "Next": "Assign val.d"
     },
     "Assign val.d": {

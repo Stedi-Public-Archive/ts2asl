@@ -283,13 +283,13 @@ describe("when converting example", () => {
                                   },
                                 ],
                                 "End": true,
+                                "OutputPath": "$[0]",
                                 "Parameters": Object {
                                   "vars": Object {
                                     "item.$": "$.vars.item",
                                     "threshold.$": "$.vars.threshold",
                                   },
                                 },
-                                "ResultPath": "$.lastResult",
                                 "Type": "Parallel",
                               },
                             },
