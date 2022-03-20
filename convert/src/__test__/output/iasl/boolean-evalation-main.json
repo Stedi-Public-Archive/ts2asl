@@ -1,0 +1,285 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "data",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign data",
+        "parameters": {
+          "properties": {
+            "num": {
+              "value": 42,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            "text": {
+              "value": "text",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "undefined": {
+              "value": null,
+              "type": "null",
+              "_syntaxKind": "literal"
+            },
+            "null": {
+              "value": null,
+              "type": "null",
+              "_syntaxKind": "literal"
+            },
+            "timestamp": {
+              "value": "2016-03-14T01:59:00Z",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "data = {\n    num: 42,\n    text: \"text\",\n    undefined: undefined,\n    null: null,\n    timestamp: \"2016-03-14T01:59:00Z\"\n  }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign data",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (typeof data.num !== \" ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "data.num",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "number",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Throw ValidationError",
+            "cause": "num expected to be number",
+            "error": "ValidationError",
+            "source": "throw new ValidationError(\"num expected to be number\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof data.num !== \"number\") {\n    throw new ValidationError(\"num expected to be number\");\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "If (data.num !== 42)",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "identifier": "data.num",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": 42,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Throw ValidationError",
+            "cause": "num expected to be 42",
+            "error": "ValidationError",
+            "source": "throw new ValidationError(\"num expected to be 42\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (data.num !== 42) {\n    throw new ValidationError(\"num expected to be 42\");\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "If (typeof data.text !== ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "data.text",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "string",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Throw ValidationError",
+            "cause": "text expected to be string",
+            "error": "ValidationError",
+            "source": "throw new ValidationError(\"text expected to be string\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof data.text !== \"string\") {\n    throw new ValidationError(\"text expected to be string\");\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "If (data.text !== \"text\")",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "identifier": "data.text",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "text",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Throw ValidationError",
+            "cause": "text expected to be 'text'",
+            "error": "ValidationError",
+            "source": "throw new ValidationError(\"text expected to be 'text'\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (data.text !== \"text\") {\n    throw new ValidationError(\"text expected to be 'text'\");\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "If (data.undefined)",
+      "condition": {
+        "operator": "is-truthy",
+        "rhs": {
+          "identifier": "data.undefined",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Throw ValidationError",
+            "cause": "undefined expected to be non-truthy'",
+            "error": "ValidationError",
+            "source": "throw new ValidationError(\"undefined expected to be non-truthy'\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (data.undefined) {\n    throw new ValidationError(\"undefined expected to be non-truthy'\");\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "If (data.null)",
+      "condition": {
+        "operator": "is-truthy",
+        "rhs": {
+          "identifier": "data.null",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Throw ValidationError",
+            "cause": "null expected to be non-truthy'",
+            "error": "ValidationError",
+            "source": "throw new ValidationError(\"null expected to be non-truthy'\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (data.null) {\n    throw new ValidationError(\"null expected to be non-truthy'\");\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "If (typeof data.timestamp ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "data.timestamp",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "string",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Throw ValidationError",
+            "cause": "timestamp expected to be string'",
+            "error": "ValidationError",
+            "source": "throw new ValidationError(\"timestamp expected to be string'\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof data.timestamp !== \"string\") {\n    throw new ValidationError(\"timestamp expected to be string'\");\n  }",
+      "_syntaxKind": "if"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

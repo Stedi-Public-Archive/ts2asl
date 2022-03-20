@@ -340,7 +340,7 @@
           "expression": {
             "operator": "not",
             "rhs": {
-              "operator": "is-truthy",
+              "operator": "not",
               "rhs": {
                 "identifier": "x.valid",
                 "type": "boolean",
@@ -512,13 +512,9 @@
           "expression": {
             "operator": "not",
             "rhs": {
-              "operator": "is-truthy",
-              "rhs": {
-                "identifier": "x.valid",
-                "type": "boolean",
-                "_syntaxKind": "identifier"
-              },
-              "_syntaxKind": "binary-expression"
+              "identifier": "x.valid",
+              "type": "boolean",
+              "_syntaxKind": "identifier"
             },
             "_syntaxKind": "binary-expression"
           }
@@ -623,13 +619,9 @@
       "condition": {
         "operator": "not",
         "rhs": {
-          "operator": "is-truthy",
-          "rhs": {
-            "identifier": "input.shouldFinalize",
-            "type": "boolean",
-            "_syntaxKind": "identifier"
-          },
-          "_syntaxKind": "binary-expression"
+          "identifier": "input.shouldFinalize",
+          "type": "boolean",
+          "_syntaxKind": "identifier"
         },
         "_syntaxKind": "binary-expression"
       },

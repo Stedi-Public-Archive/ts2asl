@@ -81,8 +81,7 @@
               "Default": "Wait"
             },
             "Break": {
-              "Type": "Succeed",
-              "Next": "Wait"
+              "Type": "Succeed"
             },
             "Wait": {
               "Type": "Wait",

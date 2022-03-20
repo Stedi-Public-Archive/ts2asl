@@ -120,6 +120,10 @@ export class ConversionContext {
     }
     return name;
   }
+  appendTails(state: (asl.State | asl.State[])) {
+    const states = Array.isArray(state) ? state : [state]
+    this.trailingStates.push(...states.filter(x => isNonTerminalState(x)));
+  }
   appendNextState(state: asl.State, nameSuggestion?: string) {
     const name = this.createName(nameSuggestion ?? state.Type);
     if (state.Comment) {
@@ -141,8 +145,7 @@ export class ConversionContext {
         trailingState.Next = name;
       }
     }
-
-    this.trailingStates = isNonTerminalState(state) ? [state] : []
+    this.trailingStates = [state].filter(x => isNonTerminalState(x));
     return name;
   }
 

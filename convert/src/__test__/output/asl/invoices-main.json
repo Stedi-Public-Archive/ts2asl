@@ -203,7 +203,7 @@
     "Assign validBills": {
       "Type": "Pass",
       "ResultPath": "$.vars.validBills",
-      "InputPath": "$.vars.bills[?(!(@.valid))]",
+      "InputPath": "$.vars.bills[?(!(!@.valid))]",
       "Next": "Assign invoices"
     },
     "Assign invoices": {
@@ -293,7 +293,7 @@
     "Assign invalidInvoices": {
       "Type": "Pass",
       "ResultPath": "$.vars.invalidInvoices",
-      "InputPath": "$.vars.validatedInvoices[?(!(@.valid))]",
+      "InputPath": "$.vars.validatedInvoices[?(!@.valid)]",
       "Next": "If (invalidInvoices.lengt ..."
     },
     "If (invalidInvoices.lengt ...": {
@@ -376,8 +376,7 @@
       "Default": "For invoice Of validInvoices"
     },
     "Empty": {
-      "Type": "Succeed",
-      "Next": "For invoice Of validInvoices"
+      "Type": "Succeed"
     },
     "For invoice Of validInvoices": {
       "Type": "Map",

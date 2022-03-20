@@ -36,7 +36,6 @@ describe("when converting while", () => {
                 "States": Object {
                   "Break": Object {
                     "Comment": undefined,
-                    "Next": "Wait",
                     "Type": "Succeed",
                   },
                   "If (result.Authorized)": Object {

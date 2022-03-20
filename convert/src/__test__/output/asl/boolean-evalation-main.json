@@ -1,0 +1,250 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign data"
+    },
+    "Assign data": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.data",
+      "Result": {
+        "num": 42,
+        "text": "text",
+        "undefined": null,
+        "null": null,
+        "timestamp": "2016-03-14T01:59:00Z"
+      },
+      "Comment": "source: data = { num: 42, text: \"text\", undefined: und ...",
+      "Next": "If (typeof data.num !== \" ..."
+    },
+    "If (typeof data.num !== \" ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "And": [
+              {
+                "Variable": "$.vars.data.num",
+                "IsPresent": true
+              },
+              {
+                "Variable": "$.vars.data.num",
+                "IsNumeric": true
+              }
+            ]
+          },
+          "Next": "Throw ValidationError"
+        }
+      ],
+      "Comment": "source: if (typeof data.num !== \"number\") { throw new  ...",
+      "Default": "If (data.num !== 42)"
+    },
+    "Throw ValidationError": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "num expected to be number",
+      "Comment": "source: throw new ValidationError(\"num expected to be  ..."
+    },
+    "If (data.num !== 42)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.data.num",
+            "NumericEquals": 42
+          },
+          "Next": "Throw ValidationError_1"
+        }
+      ],
+      "Comment": "source: if (data.num !== 42) { throw new ValidationErr ...",
+      "Default": "If (typeof data.text !== ..."
+    },
+    "Throw ValidationError_1": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "num expected to be 42",
+      "Comment": "source: throw new ValidationError(\"num expected to be  ..."
+    },
+    "If (typeof data.text !== ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "And": [
+              {
+                "Variable": "$.vars.data.text",
+                "IsPresent": true
+              },
+              {
+                "Variable": "$.vars.data.text",
+                "IsString": true
+              }
+            ]
+          },
+          "Next": "Throw ValidationError_2"
+        }
+      ],
+      "Comment": "source: if (typeof data.text !== \"string\") { throw new ...",
+      "Default": "If (data.text !== \"text\")"
+    },
+    "Throw ValidationError_2": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "text expected to be string",
+      "Comment": "source: throw new ValidationError(\"text expected to be ..."
+    },
+    "If (data.text !== \"text\")": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.data.text",
+            "StringEquals": "text"
+          },
+          "Next": "Throw ValidationError_3"
+        }
+      ],
+      "Comment": "source: if (data.text !== \"text\") { throw new Validati ...",
+      "Default": "If (data.undefined)"
+    },
+    "Throw ValidationError_3": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "text expected to be 'text'",
+      "Comment": "source: throw new ValidationError(\"text expected to be ..."
+    },
+    "If (data.undefined)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.data.undefined",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.data.undefined",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.vars.data.undefined",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.data.undefined",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.data.undefined",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.data.undefined",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.data.undefined",
+                "NumericEquals": 0
+              }
+            ]
+          },
+          "Next": "Throw ValidationError_4"
+        }
+      ],
+      "Comment": "source: if (data.undefined) { throw new ValidationErro ...",
+      "Default": "If (data.null)"
+    },
+    "Throw ValidationError_4": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "undefined expected to be non-truthy'",
+      "Comment": "source: throw new ValidationError(\"undefined expected  ..."
+    },
+    "If (data.null)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.data.null",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.data.null",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.vars.data.null",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.data.null",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.data.null",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.data.null",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.data.null",
+                "NumericEquals": 0
+              }
+            ]
+          },
+          "Next": "Throw ValidationError_5"
+        }
+      ],
+      "Comment": "source: if (data.null) { throw new ValidationError(\"nu ...",
+      "Default": "If (typeof data.timestamp ..."
+    },
+    "Throw ValidationError_5": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "null expected to be non-truthy'",
+      "Comment": "source: throw new ValidationError(\"null expected to be ..."
+    },
+    "If (typeof data.timestamp ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "And": [
+              {
+                "Variable": "$.vars.data.timestamp",
+                "IsPresent": true
+              },
+              {
+                "Variable": "$.vars.data.timestamp",
+                "IsString": true
+              }
+            ]
+          },
+          "Next": "Throw ValidationError_6"
+        }
+      ],
+      "Comment": "source: if (typeof data.timestamp !== \"string\") { thro ...",
+      "Default": "Empty Default Choice"
+    },
+    "Throw ValidationError_6": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "timestamp expected to be string'",
+      "Comment": "source: throw new ValidationError(\"timestamp expected  ..."
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}

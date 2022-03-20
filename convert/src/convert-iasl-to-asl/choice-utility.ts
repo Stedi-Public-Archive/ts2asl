@@ -2,16 +2,24 @@ import * as iasl from "../convert-asllib-to-iasl/ast"
 import { Operator } from 'asl-types/dist/choice';
 import { convertExpressionToAsl } from "./aslfactory";
 
-export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.LiteralExpression): Operator {
+export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.LiteralExpression | iasl.Identifier): Operator {
+
+  if (iasl.Check.isIdentifier(expression)) {
+    expression = {
+      _syntaxKind: iasl.SyntaxKind.BinaryExpression,
+      operator: "is-truthy",
+      rhs: expression,
+    } as iasl.BinaryExpression;
+  }
 
   if (iasl.Check.isLiteral(expression)) {
     if (expression.value) {
-      return {//always true
+      return { // always true
         Variable: "$",
         IsNull: false
       }
     } else {
-      return {//always false
+      return { // always false
         Variable: "$",
         IsNull: true
       }
@@ -20,52 +28,63 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
 
   if (expression.operator === "is-truthy") {
     if (expression.lhs) throw new Error("binary expression with 'is-truthy' operand should not have lhs");
-    if (!iasl.Check.isIdentifier(expression.rhs)) throw new Error("binary expression with 'is-truthy' rhs must be identifier");
+    if (!iasl.Check.isIdentifier(expression.rhs)) {
+      throw new Error("binary expression with 'is-truthy' rhs must be identifier, found: " + expression.rhs._syntaxKind);
+    }
+
+
     const expr = convertExpressionToAsl(expression.rhs);
+    const notTruthy = {
+      Or: [
+        {
+          Variable: expr.path,
+          IsPresent: false
+        },
+        {
+          Variable: expr.path,
+          IsNull: true
+        },
+        {
+          Variable: expr.path,
+          BooleanEquals: false
+        },
+        {
+          Variable: expr.path,
+          StringEquals: ""
+        },
+        {
+          Variable: expr.path,
+          StringEquals: "false"
+        },
+        {
+          Variable: expr.path,
+          StringEquals: "0"
+        },
+        {
+          Variable: expr.path,
+          NumericEquals: 0
+        }
+      ]
+    };
     return {
-      Not: {
-        Or: [
-          {
-            Variable: expr.path,
-            IsPresent: false
-          },
-          {
-            Variable: expr.path,
-            IsNull: true
-          },
-          {
-            Variable: expr.path,
-            BooleanEquals: false
-          },
-          {
-            Variable: expr.path,
-            StringEquals: ""
-          },
-          {
-            Variable: expr.path,
-            StringEquals: "false"
-          },
-          {
-            Variable: expr.path,
-            StringEquals: "0"
-          },
-          {
-            Variable: expr.path,
-            NumericEquals: 0
-          }
-        ]
-      }
+      Not: notTruthy
     };
   }
 
   if (expression.operator === "not") {
-    if (iasl.Check.isBinaryExpression(expression.rhs)) { //not(isPresent(xxx)) => {IsPresent: false, Variable: xxxx}
+    if (iasl.Check.isIdentifier(expression.rhs)) {
+      const truthy = createChoiceOperator(expression.rhs);
+      if (truthy.Not === undefined) throw new Error("truthy check expected to have Not");
+      return truthy.Not;
+    }
+    if (iasl.Check.isBinaryExpression(expression.rhs)) {
       const notExpression = createChoiceOperator(expression.rhs)
       if (notExpression.IsNumeric === true) {
         return { ...notExpression, IsNumeric: false };
       } else if (notExpression.IsBoolean === true) {
         return { ...notExpression, IsBoolean: false };
       }
+
       const operator = createChoiceOperator(expression.rhs);
       if (operator.Not) {
         return operator.Not;

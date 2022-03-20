@@ -245,36 +245,38 @@ describe("when converting choice", () => {
             "Choices": Array [
               Object {
                 "Next": "Assign val.a",
-                "Or": Array [
-                  Object {
-                    "IsPresent": false,
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "IsNull": true,
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "BooleanEquals": false,
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "StringEquals": "",
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "StringEquals": "false",
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "StringEquals": "0",
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "NumericEquals": 0,
-                    "Variable": "$.vars.condition",
-                  },
-                ],
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "BooleanEquals": false,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "false",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "0",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "NumericEquals": 0,
+                      "Variable": "$.vars.condition",
+                    },
+                  ],
+                },
               },
               Object {
                 "Next": "Assign val.b",
@@ -377,36 +379,38 @@ describe("when converting choice", () => {
             "Choices": Array [
               Object {
                 "Next": "Assign val.a",
-                "Or": Array [
-                  Object {
-                    "IsPresent": false,
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "IsNull": true,
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "BooleanEquals": false,
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "StringEquals": "",
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "StringEquals": "false",
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "StringEquals": "0",
-                    "Variable": "$.vars.condition",
-                  },
-                  Object {
-                    "NumericEquals": 0,
-                    "Variable": "$.vars.condition",
-                  },
-                ],
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "BooleanEquals": false,
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "false",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "StringEquals": "0",
+                      "Variable": "$.vars.condition",
+                    },
+                    Object {
+                      "NumericEquals": 0,
+                      "Variable": "$.vars.condition",
+                    },
+                  ],
+                },
               },
               Object {
                 "Next": "Assign val.b",

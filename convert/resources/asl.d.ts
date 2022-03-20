@@ -111,7 +111,7 @@ export interface Choice {
         condition: () => boolean;
         block: Function;
     }>;
-    default?: boolean | (() => boolean);
+    default?: Function;
     comment?: string;
     name?: string;
 }
@@ -149,6 +149,7 @@ export declare const jsonPathLength: <T>(items: T[]) => number;
 export declare const jsonPathFilter: <T>(items: T[], predicate: (x: T) => boolean) => T[];
 export declare const jsonPathSlice: <T>(items: T[], start: number, end?: number | undefined, step?: number | undefined) => T[];
 export declare const jsonPathExpression: (items: unknown, expression: string) => unknown;
+export declare const jsonPathMap: (items: unknown[], expression: string) => unknown[];
 export declare namespace states {
     function format(format: string, ...args: unknown[]): string;
     function stringToJson(arg: string | undefined): unknown;

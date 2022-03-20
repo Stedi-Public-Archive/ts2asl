@@ -171,7 +171,7 @@ describe("when converting invoices", () => {
           },
           "Assign invalidInvoices": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.validatedInvoices[?(!(@.valid))]",
+            "InputPath": "$.vars.validatedInvoices[?(!@.valid)]",
             "Next": "If (invalidInvoices.lengt ...",
             "ResultPath": "$.vars.invalidInvoices",
             "Type": "Pass",
@@ -225,7 +225,7 @@ describe("when converting invoices", () => {
           },
           "Assign validBills": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.bills[?(!(@.valid))]",
+            "InputPath": "$.vars.bills[?(!(!@.valid))]",
             "Next": "Assign invoices",
             "ResultPath": "$.vars.validBills",
             "Type": "Pass",
@@ -285,7 +285,6 @@ describe("when converting invoices", () => {
             "Type": "Map",
           },
           "Empty": Object {
-            "Next": "For invoice Of validInvoices",
             "Type": "Succeed",
           },
           "For invoice Of validInvoices": Object {

@@ -76,7 +76,6 @@ describe("when converting input-validation", () => {
             "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
             "Comment": "source: throw new ValidationError(\\"delay in seconds mu ...",
             "Error": "ValidationError",
-            "Next": "Wait",
             "Type": "Fail",
           },
           "Wait": Object {

@@ -792,16 +792,9 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     return expression;
   } else if (ts.isPrefixUnaryExpression(expr)) {
     if (expr.operator === ts.SyntaxKind.ExclamationToken) {
-      if (ts.isPrefixUnaryExpression(expr.operand) && expr.operand.operator === ts.SyntaxKind.ExclamationToken) {
-        return convertExpressionToLiteralOrIdentifier(expr.operand, {}, context);
-      }
       return {
         operator: "not",
-        rhs: {
-          operator: "is-truthy",
-          rhs: convertExpressionToLiteralOrIdentifier(expr.operand, {}, context),
-          _syntaxKind: iasl.SyntaxKind.BinaryExpression
-        } as iasl.BinaryExpression,
+        rhs: convertExpressionToLiteralOrIdentifier(expr.operand, {}, context),
         _syntaxKind: iasl.SyntaxKind.BinaryExpression
       } as iasl.BinaryExpression;
     }
@@ -860,7 +853,6 @@ const unpackAsBinaryExpression = (args: Record<string, iasl.Expression | iasl.Id
   return propValue;
 }
 
-
 const unpackLiteralValue = (val: iasl.Expression | iasl.Identifier) => {
   if (iasl.Check.isLiteral(val)) {
     return val.value;
@@ -889,7 +881,6 @@ const unpackArray = <TElement>(args: Record<string, iasl.Expression | iasl.Ident
 
   return propValue.elements.map(x => unpackElement(x));
 }
-
 
 const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.Block | undefined => {
   let propValue = args[propertyName];

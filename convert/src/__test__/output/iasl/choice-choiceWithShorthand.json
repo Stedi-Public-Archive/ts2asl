@@ -64,7 +64,7 @@
           "condition": {
             "operator": "not",
             "rhs": {
-              "operator": "is-truthy",
+              "operator": "not",
               "rhs": {
                 "identifier": "input.condition",
                 "type": "unknown",
@@ -98,13 +98,9 @@
           "condition": {
             "operator": "not",
             "rhs": {
-              "operator": "is-truthy",
-              "rhs": {
-                "identifier": "input.condition",
-                "type": "unknown",
-                "_syntaxKind": "identifier"
-              },
-              "_syntaxKind": "binary-expression"
+              "identifier": "input.condition",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
             },
             "_syntaxKind": "binary-expression"
           },

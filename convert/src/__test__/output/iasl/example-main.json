@@ -248,13 +248,9 @@
                               "lhs": {
                                 "operator": "not",
                                 "rhs": {
-                                  "operator": "is-truthy",
-                                  "rhs": {
-                                    "identifier": "item.lastBeginDateValue.S",
-                                    "type": "string",
-                                    "_syntaxKind": "identifier"
-                                  },
-                                  "_syntaxKind": "binary-expression"
+                                  "identifier": "item.lastBeginDateValue.S",
+                                  "type": "string",
+                                  "_syntaxKind": "identifier"
                                 },
                                 "_syntaxKind": "binary-expression"
                               },
@@ -316,13 +312,9 @@
                               "lhs": {
                                 "operator": "not",
                                 "rhs": {
-                                  "operator": "is-truthy",
-                                  "rhs": {
-                                    "identifier": "item.lastBeginDateValue.S",
-                                    "type": "string",
-                                    "_syntaxKind": "identifier"
-                                  },
-                                  "_syntaxKind": "binary-expression"
+                                  "identifier": "item.lastBeginDateValue.S",
+                                  "type": "string",
+                                  "_syntaxKind": "identifier"
                                 },
                                 "_syntaxKind": "binary-expression"
                               },

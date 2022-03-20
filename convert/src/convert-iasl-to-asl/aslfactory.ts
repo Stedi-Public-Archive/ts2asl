@@ -105,7 +105,7 @@ export class AslFactory {
         context.appendNextState(elseState.state, elseState.stateName ?? "Else")
       }
 
-      context.trailingStates.push(thenState.state);
+      context.appendTails(thenState.state);
     } else if (iasl.Check.isAslChoiceState(expression)) {
       const choiceState = {
         Type: "Choice",

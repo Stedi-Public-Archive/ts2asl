@@ -65,6 +65,84 @@ describe("when transpiling binary expressions", () => {
     `);
   });
 
+  it("then double pipe unary is supported", () => {
+    const transformed = testTransform(
+      `
+      if (!!x) { console.log('debug') }
+    `,
+      [ifStatementTransformer({}), consoleLogStatementTransformer({})]
+    );
+    const iasl = testConvertToIntermediaryAst(transformed);
+    const result = convert(iasl);
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Empty Default Choice": Object {
+            "End": true,
+            "Type": "Pass",
+          },
+          "If (!!x)": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Pass",
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.x",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.x",
+                    },
+                    Object {
+                      "BooleanEquals": false,
+                      "Variable": "$.vars.x",
+                    },
+                    Object {
+                      "StringEquals": "",
+                      "Variable": "$.vars.x",
+                    },
+                    Object {
+                      "StringEquals": "false",
+                      "Variable": "$.vars.x",
+                    },
+                    Object {
+                      "StringEquals": "0",
+                      "Variable": "$.vars.x",
+                    },
+                    Object {
+                      "NumericEquals": 0,
+                      "Variable": "$.vars.x",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": "source: if (!!x) { console.log('debug') }",
+            "Default": "Empty Default Choice",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "If (!!x)",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Pass": Object {
+            "Comment": "source: console.log('debug')",
+            "End": true,
+            "Result": "debug",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
+
   it("then and expressions are grouped", () => {
     const transformed = testTransform(
       `
