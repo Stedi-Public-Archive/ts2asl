@@ -217,6 +217,11 @@ export const jsonPathExpression = (items: unknown, expression: string): unknown 
   return items;
 }
 
+export const jsonPathMap = (items: unknown[], expression: string): unknown[] => {
+  return items;
+}
+
+
 export namespace states {
   export function format(format: string, ...args: unknown[]): string {
     const formatNode = format.replace(/{}/g, '%s')
