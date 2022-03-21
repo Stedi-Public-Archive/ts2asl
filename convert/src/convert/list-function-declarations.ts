@@ -6,6 +6,7 @@ export interface FunctionDeclaration {
   body: ts.ConciseBody | undefined;
   inputArgName: string | undefined;
   contextArgName: string | undefined;
+  parameters: ts.NodeArray<ts.ParameterDeclaration> | undefined;
   kind: "asl" | "lambda";
 }
 
@@ -19,7 +20,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile, typeChecker:
         const name = decl.name.getText(sourceFile);
         if (!decl.initializer) throw new Error(`decl ${name} does not have initializer`);
         const AslDeclaration = aslDeclStyleCallExpression(sourceFile, decl.initializer);
-
+        let parameters: ts.NodeArray<ts.ParameterDeclaration> | undefined;
         if (AslDeclaration) {
           const kind = AslDeclaration.operation === "asLambda" ? "lambda" : "asl";
           let body: ts.ConciseBody | undefined;
@@ -40,6 +41,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile, typeChecker:
               if (!ts.isIdentifier(parameter2.name)) throw new Error(`Parameter name of ASL decl ${name} must be identifier`);
               contextArgName = parameter2.name.text;
             }
+            parameters = arrowFunction.parameters;
           } else if (kind === "lambda") {
             const arg = AslDeclaration.argument;
             const type = typeChecker.getTypeAtLocation(arg);
@@ -62,6 +64,7 @@ export const listFunctionDeclarations = (sourceFile: ts.SourceFile, typeChecker:
           }
 
           result.push({
+            parameters,
             name,
             body,
             inputArgName,

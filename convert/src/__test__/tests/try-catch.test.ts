@@ -10,66 +10,46 @@ describe("when converting try-catch", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Parallel",
+            "Next": "lambda()",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Parallel": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "lambda()",
-                "States": Object {
-                  "Pass": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "InputPath": "$.tmp.return_var",
-                    "Type": "Pass",
-                  },
-                  "lambda()": Object {
-                    "Catch": undefined,
-                    "Comment": "source: lambda()",
-                    "HeartbeatSeconds": undefined,
-                    "Next": "Pass",
-                    "Resource": "lambda:lambda",
-                    "ResultPath": "$.tmp.return_var",
-                    "Retry": Array [
-                      Object {
-                        "BackoffRate": 2,
-                        "ErrorEquals": Array [
-                          "Lambda.ServiceException",
-                          "Lambda.AWSLambdaException",
-                          "Lambda.SdkClientException",
-                        ],
-                        "IntervalSeconds": 2,
-                        "MaxAttempts": 6,
-                      },
-                    ],
-                    "TimeoutSeconds": undefined,
-                    "Type": "Task",
-                  },
-                },
-              },
-            ],
+          "Pass": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "it failed",
+            "Type": "Pass",
+          },
+          "lambda()": Object {
             "Catch": Array [
               Object {
                 "ErrorEquals": Array [
                   "States.All",
                 ],
-                "Next": "Pass_1",
+                "Next": "Pass",
               },
             ],
+            "Comment": "source: source: lambda()",
             "End": true,
-            "OutputPath": "$[0]",
-            "Type": "Parallel",
-          },
-          "Pass_1": Object {
-            "Comment": undefined,
-            "End": true,
-            "Result": "it failed",
-            "Type": "Pass",
+            "HeartbeatSeconds": undefined,
+            "Resource": "lambda:lambda",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
         },
       }

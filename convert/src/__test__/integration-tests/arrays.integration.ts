@@ -1,4 +1,5 @@
 import { convertDeployExecute } from "../utility";
+jest.setTimeout(99999999);
 
 describe("when converting arrays", () => {
     it("will execute serializeArray as if it were node", async () => {

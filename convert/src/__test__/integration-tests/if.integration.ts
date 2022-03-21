@@ -1,4 +1,6 @@
 import { convertDeployExecute } from "../utility";
+jest.setTimeout(99999999);
+
 describe("when converting if", () => {
     it("will execute justIf as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("if", "justIf");

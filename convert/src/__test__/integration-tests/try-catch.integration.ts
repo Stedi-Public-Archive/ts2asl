@@ -1,4 +1,6 @@
 import { convertDeployExecute } from "../utility";
+jest.setTimeout(99999999);
+
 describe("when converting try-catch", () => {
     it("will execute simpleTry as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("try-catch", "simpleTry");

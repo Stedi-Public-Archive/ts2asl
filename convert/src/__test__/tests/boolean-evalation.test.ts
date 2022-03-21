@@ -1,11 +1,12 @@
 import { runConvertForTest } from "../utility";
+
 describe("when converting boolean-evalation", () => {
-  let converted;
-  beforeAll(() => {
-    converted = runConvertForTest("boolean-evalation");
-  });
-  it("then main can be converted to asl", async () => {
-    expect(converted.main.asl).toMatchInlineSnapshot(`
+    let converted;
+    beforeAll(() => {
+        converted = runConvertForTest("boolean-evalation");
+    });
+    it("then main can be converted to asl", async () => {
+        expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
@@ -257,5 +258,5 @@ describe("when converting boolean-evalation", () => {
         },
       }
     `);
-  });
+    });
 });

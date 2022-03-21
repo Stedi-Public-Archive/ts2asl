@@ -25,7 +25,6 @@ export const mapArray = asl.deploy.asStateMachine(async () => {
   });
 });
 
-
 export const mapArraySimple = asl.deploy.asStateMachine(async () => {
   const mappedArray = [{ age: 1, species: "dog" }, { age: 2, species: "cat" }, { age: 3, species: "dog" }, { age: 4, species: "cat" }, { age: 11, species: "dog" }, { age: 12, species: "car" }, { age: 13, species: "dog" }, { age: 14, species: "cat" }]
   const ages = mappedArray.map(x => x.age);

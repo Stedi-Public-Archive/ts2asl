@@ -7,7 +7,7 @@ export const simpleTry = asl.deploy.asStateMachine(async () =>{
     asl.typescriptTry({
         name: "Try Catch",
         try: async () => {
-            return asl.typescriptInvoke({
+            asl.typescriptInvoke({
                 name: "lambda()",
                 resource: lambda,
                 comment: "lambda()"
@@ -23,7 +23,7 @@ export const simpleTry = asl.deploy.asStateMachine(async () =>{
                 }
             }
         ],
-        comment: "try {\n    return lambda();\n  } catch {\n    return \"it failed\";\n  }"
+        comment: "try {\n    lambda();\n  } catch {\n    return \"it failed\";\n  }"
     })
 });
 export const simpleMultipleStatements = asl.deploy.asStateMachine(async () => {

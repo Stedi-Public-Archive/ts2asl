@@ -1,4 +1,6 @@
 import { convertDeployExecute } from "../utility";
+jest.setTimeout(99999999);
+
 describe("when converting variable-assignments", () => {
     it("will execute literals as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("variable-assignments", "literals");

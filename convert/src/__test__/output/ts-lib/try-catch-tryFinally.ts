@@ -5,7 +5,7 @@ export const lambda = asl.deploy.asLambda(() => { return ["succeeded"] });
 
 export const simpleTry = asl.deploy.asStateMachine(async () => {
   try {
-    return lambda();
+    lambda();
   } catch {
     return "it failed";
   }

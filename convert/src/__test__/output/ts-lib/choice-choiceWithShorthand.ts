@@ -1,7 +1,7 @@
 
 import * as asl from "@ts2asl/asl-lib";
 
-export const choice = asl.deploy.asStateMachine(async (input: { condition: any }) => {
+export const choice = asl.deploy.asStateMachine(async (input: { condition?: any } = {}) => {
   let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
   val.a = "before choice";
 
@@ -29,7 +29,7 @@ export const choice = asl.deploy.asStateMachine(async (input: { condition: any }
   return val;
 });
 
-export const choiceWithSingleStatements = asl.deploy.asStateMachine(async (input: { condition: any }) => {
+export const choiceWithSingleStatements = asl.deploy.asStateMachine(async (input: { condition?: any } = {}) => {
   let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
   asl.choice({
     choices: [
@@ -52,7 +52,7 @@ export const choiceWithSingleStatements = asl.deploy.asStateMachine(async (input
   return val;
 });
 
-export const choiceWithShorthand = asl.deploy.asStateMachine(async (input: { condition: any }) =>{
+export const choiceWithShorthand = asl.deploy.asStateMachine(async (input: { condition?: any } = {}) =>{
     let val = asl.pass({
         name: "Assign val",
         parameters: () => ({ a: "", b: "", c: "", d: "", e: "", f: "", g: "" }),

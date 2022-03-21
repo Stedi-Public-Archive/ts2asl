@@ -25,7 +25,6 @@ export const mapArray = asl.deploy.asStateMachine(async () => {
   });
 });
 
-
 export const mapArraySimple = asl.deploy.asStateMachine(async () =>{
     const mappedArray = asl.pass({
         name: "Assign mappedArray",
