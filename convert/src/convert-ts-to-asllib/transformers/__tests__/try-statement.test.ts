@@ -14,7 +14,7 @@ describe("when converting try statements", () => {
           try: async () => { console.log('yay!'); },
           catch: [
               {
-                  errorFilter: [
+                  errorEquals: [
                       \\"States.All\\"
                   ],
                   block: () => { console.log('nay'); }

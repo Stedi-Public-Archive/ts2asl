@@ -13,6 +13,7 @@ export * from "./native-integrations-ssm";
 export * from "./native-integrations-sfn";
 export * from "./native-integrations-textract";
 export * from "./native-integrations-organizations";
+export * from "./native-integrations-codebuild";
 export * from "./deploy"
 
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:invoke'*/

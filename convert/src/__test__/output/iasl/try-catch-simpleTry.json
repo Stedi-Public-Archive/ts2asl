@@ -9,14 +9,14 @@
             "resource": "lambda:lambda",
             "retry": [
               {
-                "ErrorEquals": [
+                "errorEquals": [
                   "Lambda.ServiceException",
                   "Lambda.AWSLambdaException",
                   "Lambda.SdkClientException"
                 ],
-                "IntervalSeconds": 2,
-                "MaxAttempts": 6,
-                "BackoffRate": 2
+                "intervalSeconds": 2,
+                "maxAttempts": 6,
+                "backoffRate": 2
               }
             ],
             "source": "lambda()",
@@ -27,7 +27,7 @@
       },
       "catch": [
         {
-          "errorFilter": [
+          "errorEquals": [
             "States.All"
           ],
           "block": {

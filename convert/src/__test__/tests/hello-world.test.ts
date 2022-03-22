@@ -56,7 +56,6 @@ describe("when converting hello-world", () => {
             "Type": "Pass",
           },
           "random()": Object {
-            "Catch": undefined,
             "Comment": "source: random()",
             "HeartbeatSeconds": undefined,
             "Next": "Pass",

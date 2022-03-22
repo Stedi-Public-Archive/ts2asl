@@ -78,7 +78,6 @@ describe("when converting closures", () => {
                         "Type": "Pass",
                       },
                       "doSomething(combined)": Object {
-                        "Catch": undefined,
                         "Comment": "source: doSomething(combined)",
                         "End": true,
                         "HeartbeatSeconds": undefined,

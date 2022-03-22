@@ -25,6 +25,7 @@ const supportedServices = [
   { serviceId: "apigateway", serviceName: "APIGateway" },
   { serviceId: "organizations", serviceName: "Organizations" },
   { serviceId: "sfn", serviceName: "Sfn" },
+  { serviceId: "codebuild", serviceName: "CodeBuild" },
 ]
 
 // interface NativeIntegrationDefinition {
@@ -239,6 +240,7 @@ for (const service of nativeIntegrations.services) {
   importNodes.push(...serviceAst.importAst);
 
   for (const action of service.actions) {
+    if (action.actionName === "Invoke" && serviceConfig.serviceName === "APIGateway") continue;
     const result = generateFunctionAst(serviceConfig.serviceName, action.actionName);
     functionNodes.push(result.functionAst);
     importNodes.push(result.importAst);

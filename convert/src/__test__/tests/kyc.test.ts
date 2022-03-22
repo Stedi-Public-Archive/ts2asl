@@ -28,7 +28,6 @@ describe("when converting kyc", () => {
                     "Type": "Pass",
                   },
                   "performIdentifyCheck()": Object {
-                    "Catch": undefined,
                     "Comment": "source: performIdentifyCheck()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass",
@@ -123,7 +122,6 @@ describe("when converting kyc", () => {
             "Type": "Pass",
           },
           "PutEvents": Object {
-            "Catch": undefined,
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
             "Next": "Assign checksPassed",
@@ -143,7 +141,6 @@ describe("when converting kyc", () => {
             "Type": "Task",
           },
           "PutEvents_1": Object {
-            "Catch": undefined,
             "Comment": undefined,
             "End": true,
             "HeartbeatSeconds": undefined,
@@ -163,7 +160,6 @@ describe("when converting kyc", () => {
             "Type": "Task",
           },
           "PutEvents_2": Object {
-            "Catch": undefined,
             "Comment": undefined,
             "End": true,
             "HeartbeatSeconds": undefined,

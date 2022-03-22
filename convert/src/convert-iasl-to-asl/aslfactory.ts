@@ -53,17 +53,20 @@ export class AslFactory {
     } else if (iasl.Check.isAslTaskState(expression)) {
       const parameters = expression.parameters ? convertExpressionToAsl(expression.parameters) : undefined;
 
-      context.appendNextState({
+      const task = {
         Type: "Task",
         ...properties,
         Resource: expression.resource,
         ...(parameters && parameters.path !== undefined ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value } : {}),
-        Catch: expression.catch,
         Retry: expression.retry,
         TimeoutSeconds: expression.timeoutSeconds,
         HeartbeatSeconds: expression.heartbeatSeconds,
         Comment: expression.source,
-      } as asl.Task, expression.stateName);
+      } as asl.Task;
+      context.appendNextState(task, expression.stateName);
+      this.appendCatchConfiguration(task, expression.catch, scopes, context);
+      this.appendRetryConfiguration(task, expression.retry);
+
     } else if (iasl.Check.isDoWhileStatement(expression)) {
       const contextForBranch = context.createChildContext();
 
@@ -174,8 +177,7 @@ export class AslFactory {
       } as asl.Wait, expression.stateName);
     } else if (iasl.Check.isAslParallelState(expression)) {
       const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext()));
-
-      context.appendNextState({
+      const parallelState = {
         Branches: branches,
         ...properties,
         Type: "Parallel",
@@ -183,12 +185,15 @@ export class AslFactory {
         Retry: expression.retry,
         Comment: expression.source,
         ...createParameters(scopes, expression.branches),
-      } as asl.Parallel, nameSuggestion);
+      } as asl.Parallel;
+      context.appendNextState(parallelState, nameSuggestion);
+      this.appendCatchConfiguration(parallelState, expression.catch, scopes, context);
+      this.appendRetryConfiguration(parallelState, expression.retry);
     } else if (iasl.Check.isAslMapState(expression)) {
       const iterator = convertBlock(expression.iterator, scopes, context.createChildContext())
       const items = convertExpressionToAsl(expression.items);
 
-      context.appendNextState({
+      const mapState = {
         Type: "Map",
         ...properties,
         Iterator: iterator,
@@ -196,7 +201,11 @@ export class AslFactory {
         MaxConcurrency: expression.maxConcurrency,
         Comment: expression.source,
         ...createParametersForMap(scopes, expression.iterator, expression.iterator.inputArgumentName),
-      } as asl.Map, nameSuggestion);
+      } as asl.Map;
+      context.appendNextState(mapState, nameSuggestion);
+      this.appendCatchConfiguration(mapState, expression.catch, scopes, context);
+      this.appendRetryConfiguration(mapState, expression.retry);
+
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({
         Type: "Fail",
@@ -226,13 +235,7 @@ export class AslFactory {
       const tryState = createSingleOrParallel(expression.try, scopes, context);
       context.appendNextState(tryState.state, tryState.stateName);
       if (["Map", "Parallel", "Task"].includes(tryState.state.Type) && expression.catch?.length) {
-        const catchConfiguration = [] as Array<{ ErrorEquals: string[], Next: string }>;
-        for (const catchClause of expression.catch) {
-          const catchState = createSingleOrParallel(catchClause.block, scopes, context);
-          const name = context.appendAdditionalTail(catchState.state, catchState.stateName);
-          catchConfiguration.push({ Next: name, ErrorEquals: catchClause.errorFilter })
-        }
-        (tryState.state as (asl.Map | asl.Parallel | asl.Task)).Catch = catchConfiguration;
+        this.appendCatchConfiguration(tryState.state as (asl.Map | asl.Parallel | asl.Task), expression.catch, scopes, context);
       }
       if (expression.finally) {
         const finallyState = createSingleOrParallel(expression.finally, scopes, context);
@@ -241,6 +244,29 @@ export class AslFactory {
     } else {
       throw new Error(`syntax type ${expression._syntaxKind} cannot be converted to ASL`);
 
+    }
+  }
+
+  private static appendRetryConfiguration(task: asl.Task | asl.Parallel | asl.Map, retryConfiguration: iasl.RetryConfiguration | undefined) {
+    if (retryConfiguration?.length) {
+      task.Retry = retryConfiguration.map(x => ({
+        ErrorEquals: x.errorEquals,
+        IntervalSeconds: x.intervalSeconds,
+        MaxAttempts: x.maxAttempts,
+        BackoffRate: x.backoffRate,
+      }));
+    }
+  }
+
+  private static appendCatchConfiguration(task: asl.Task | asl.Parallel | asl.Map, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
+    if (catchConfiguration?.length) {
+      const resultingCatchConfiguration = [] as Array<{ ErrorEquals: string[]; Next: string; }>;
+      for (const catchClause of catchConfiguration) {
+        const catchState = createSingleOrParallel(catchClause.block, scopes, context);
+        const name = context.appendAdditionalTail(catchState.state, catchState.stateName);
+        resultingCatchConfiguration.push({ Next: name, ErrorEquals: catchClause.errorEquals });
+      }
+      task.Catch = resultingCatchConfiguration;
     }
   }
 }

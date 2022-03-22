@@ -30,57 +30,42 @@ describe("when converting if statement to iasl", () => {
               "type": "unknown",
             },
             "iterator": Object {
-              "_syntaxKind": "block",
+              "_syntaxKind": "function",
+              "inputArgumentName": Object {
+                "_syntaxKind": "identifier",
+                "identifier": "prefix",
+              },
               "statements": Array [
                 Object {
-                  "_syntaxKind": "variable-assignment",
-                  "expression": Object {
-                    "_syntaxKind": "asl-task-state",
-                    "parameters": Object {
-                      "_syntaxKind": "literal-object",
-                      "properties": Object {
-                        "Input": Object {
-                          "_syntaxKind": "asl-intrinsic-function",
-                          "arguments": Array [
-                            Object {
-                              "_syntaxKind": "literal",
-                              "type": "string",
-                              "value": "{}",
-                            },
-                            Object {
-                              "_syntaxKind": "identifier",
-                              "identifier": "prefix",
-                              "type": "unknown",
-                            },
-                          ],
-                          "function": "asl.states.format",
-                        },
-                        "StateMachineArn": Object {
-                          "_syntaxKind": "literal",
-                          "type": "string",
-                          "value": "arn:something,",
-                        },
+                  "_syntaxKind": "asl-task-state",
+                  "parameters": Object {
+                    "_syntaxKind": "literal-object",
+                    "properties": Object {
+                      "Input": Object {
+                        "_syntaxKind": "asl-intrinsic-function",
+                        "arguments": Array [
+                          Object {
+                            "_syntaxKind": "literal",
+                            "type": "string",
+                            "value": "{}",
+                          },
+                          Object {
+                            "_syntaxKind": "identifier",
+                            "identifier": "prefix",
+                            "type": "unknown",
+                          },
+                        ],
+                        "function": "asl.states.format",
+                      },
+                      "StateMachineArn": Object {
+                        "_syntaxKind": "literal",
+                        "type": "string",
+                        "value": "arn:something,",
                       },
                     },
-                    "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
-                    "source": undefined,
-                    "stateName": "StartExecution",
                   },
-                  "name": Object {
-                    "_syntaxKind": "identifier",
-                    "compilerGenerated": true,
-                    "identifier": "return_var",
-                    "type": "unknown",
-                  },
-                },
-                Object {
-                  "_syntaxKind": "return",
-                  "expression": Object {
-                    "_syntaxKind": "identifier",
-                    "compilerGenerated": true,
-                    "identifier": "return_var",
-                    "type": "unknown",
-                  },
+                  "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
+                  "stateName": "StartExecution",
                 },
               ],
             },

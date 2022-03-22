@@ -20,6 +20,9 @@ export interface TypescriptStateMachineProps {
 }
 
 export class TypescriptStateMachine extends Construct {
+  functions: Record<string, NodejsFunction>;
+  stateMachines: Record<string, CfnStateMachine>;
+
   constructor(scope: Construct, id: string, props: TypescriptStateMachineProps) {
 
     //sourceFile, cwd & diagnostics are converted to a definitionString.
@@ -39,6 +42,7 @@ export class TypescriptStateMachine extends Construct {
 
     const arnDict: Record<string, string> = {};
 
+    this.functions = {};
     for (const lambda of converted.lambdas) {
       const entry = sourceFile;
       const handler = lambda.name;
@@ -52,10 +56,12 @@ export class TypescriptStateMachine extends Construct {
         runtime: Runtime.NODEJS_14_X
       });
       arnDict["lambda:" + lambda.name] = fn.functionArn;
+      this.functions[lambda.name] = fn;
     }
 
     const stateMachines: CfnStateMachine[] = [];
 
+    this.stateMachines = {};
     for (const step of converted.stateMachines) {
       const sfnProps = props.stepFunctionProps?.[step.name] ?? {};
       const sm = new CfnStateMachine(scope, `${id}_${step.name}`, {
@@ -66,6 +72,7 @@ export class TypescriptStateMachine extends Construct {
       });
       arnDict["statemachine:" + step.name] = sm.attrArn;
       stateMachines.push(sm);
+      this.stateMachines[step.name] = sm;
     }
 
     for (const sm of stateMachines) {

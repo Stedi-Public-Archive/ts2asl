@@ -25,11 +25,11 @@ export type If = {
   name?: string;
 };
 export declare type CatchConfiguration = Array<{
-  errorFilter: string[];
+  errorEquals: string[];
   block: Function;
 }>;
 export declare type RetryConfiguration = Array<{
-  errorFilter: string[];
+  errorEquals: string[];
   intervalSeconds?: number;
   maxAttempts?: number;
   backoffRate?: number;

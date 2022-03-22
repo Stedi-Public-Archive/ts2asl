@@ -21,7 +21,6 @@ describe("when converting parallel", () => {
                     "Type": "Pass",
                   },
                   "worker()": Object {
-                    "Catch": undefined,
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass",
@@ -54,7 +53,6 @@ describe("when converting parallel", () => {
                     "Type": "Pass",
                   },
                   "worker()_1": Object {
-                    "Catch": undefined,
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass_1",
@@ -119,7 +117,6 @@ describe("when converting parallel", () => {
                 "StartAt": "worker(enclosedVar1)",
                 "States": Object {
                   "worker(enclosedVar1)": Object {
-                    "Catch": undefined,
                     "Comment": "source: worker(enclosedVar1)",
                     "End": true,
                     "HeartbeatSeconds": undefined,
@@ -146,7 +143,6 @@ describe("when converting parallel", () => {
                 "StartAt": "worker(enclosedVar2)",
                 "States": Object {
                   "worker(enclosedVar2)": Object {
-                    "Catch": undefined,
                     "Comment": "source: worker(enclosedVar2)",
                     "End": true,
                     "HeartbeatSeconds": undefined,

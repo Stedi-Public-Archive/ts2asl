@@ -15,14 +15,14 @@
         "resource": "lambda:replayPrefixer",
         "retry": [
           {
-            "ErrorEquals": [
+            "errorEquals": [
               "Lambda.ServiceException",
               "Lambda.AWSLambdaException",
               "Lambda.SdkClientException"
             ],
-            "IntervalSeconds": 2,
-            "MaxAttempts": 6,
-            "BackoffRate": 2
+            "intervalSeconds": 2,
+            "maxAttempts": 6,
+            "backoffRate": 2
           }
         ],
         "parameters": {
@@ -43,6 +43,10 @@
         "type": "object"
       },
       "iterator": {
+        "inputArgumentName": {
+          "identifier": "prefix",
+          "_syntaxKind": "identifier"
+        },
         "statements": [
           {
             "name": {
@@ -73,14 +77,14 @@
             "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
             "retry": [
               {
-                "ErrorEquals": [
+                "errorEquals": [
                   "Lambda.ServiceException",
                   "Lambda.AWSLambdaException",
                   "Lambda.SdkClientException"
                 ],
-                "IntervalSeconds": 2,
-                "MaxAttempts": 6,
-                "BackoffRate": 2
+                "intervalSeconds": 2,
+                "maxAttempts": 6,
+                "backoffRate": 2
               }
             ],
             "parameters": {
@@ -109,7 +113,7 @@
             "_syntaxKind": "asl-task-state"
           }
         ],
-        "_syntaxKind": "block"
+        "_syntaxKind": "function"
       },
       "maxConcurrency": 5,
       "_syntaxKind": "asl-map-state"

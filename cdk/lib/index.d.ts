@@ -1,7 +1,7 @@
-import { CfnStateMachineProps } from "@aws-cdk/aws-stepfunctions";
+import { CfnStateMachine, CfnStateMachineProps } from "@aws-cdk/aws-stepfunctions";
 import { Construct } from "@aws-cdk/core";
 import { ConverterOptions } from "@ts2asl/convert";
-import { NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
+import { NodejsFunction, NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
 export interface TypescriptStateMachineProps {
     defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
     stepFunctionProps?: Record<string, Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">>;
@@ -14,5 +14,7 @@ export interface TypescriptStateMachineProps {
     parameters?: Record<string, unknown>;
 }
 export declare class TypescriptStateMachine extends Construct {
+    functions: Record<string, NodejsFunction>;
+    stateMachines: Record<string, CfnStateMachine>;
     constructor(scope: Construct, id: string, props: TypescriptStateMachineProps);
 }

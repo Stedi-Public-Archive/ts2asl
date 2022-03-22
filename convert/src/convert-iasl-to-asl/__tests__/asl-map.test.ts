@@ -36,22 +36,14 @@ describe("when transpiling simple statements", () => {
             "Iterator": Object {
               "StartAt": "worker({ prefix })",
               "States": Object {
-                "Pass": Object {
-                  "Comment": undefined,
-                  "End": true,
-                  "InputPath": "$.tmp.return_var",
-                  "Type": "Pass",
-                },
                 "worker({ prefix })": Object {
-                  "Catch": undefined,
                   "Comment": "source: worker({ prefix })",
+                  "End": true,
                   "HeartbeatSeconds": undefined,
-                  "Next": "Pass",
                   "Parameters": Object {
                     "prefix.$": "$.vars.prefix",
                   },
                   "Resource": "lambda:worker",
-                  "ResultPath": "$.tmp.return_var",
                   "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
@@ -59,6 +51,11 @@ describe("when transpiling simple statements", () => {
               },
             },
             "MaxConcurrency": 5,
+            "Parameters": Object {
+              "vars": Object {
+                "prefix.$": "$$.Map.Item.Value",
+              },
+            },
             "ResultPath": "$.tmp.lastResult",
             "Type": "Map",
           },
@@ -99,7 +96,6 @@ describe("when transpiling simple statements", () => {
               "StartAt": "worker({ prefix })",
               "States": Object {
                 "worker({ prefix })": Object {
-                  "Catch": undefined,
                   "Comment": "source: worker({ prefix })",
                   "End": true,
                   "HeartbeatSeconds": undefined,

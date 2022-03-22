@@ -12,14 +12,6 @@
     "lambda()": {
       "Type": "Task",
       "Resource": "lambda:lambda",
-      "Catch": [
-        {
-          "Next": "Pass",
-          "ErrorEquals": [
-            "States.All"
-          ]
-        }
-      ],
       "Retry": [
         {
           "ErrorEquals": [
@@ -33,6 +25,14 @@
         }
       ],
       "Comment": "source: source: lambda()",
+      "Catch": [
+        {
+          "Next": "Pass",
+          "ErrorEquals": [
+            "States.All"
+          ]
+        }
+      ],
       "End": true
     },
     "Pass": {

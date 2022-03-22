@@ -23,7 +23,7 @@ export const simpleMultipleStatements = asl.deploy.asStateMachine(async () =>{
         },
         catch: [
             {
-                errorFilter: [
+                errorEquals: [
                     "States.All"
                 ],
                 block: () => {

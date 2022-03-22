@@ -42,6 +42,7 @@ class TypescriptStateMachine extends core_1.Construct {
         const converted = converter.convert(options);
         super(scope, id);
         const arnDict = {};
+        this.functions = {};
         for (const lambda of converted.lambdas) {
             const entry = sourceFile;
             const handler = lambda.name;
@@ -55,8 +56,10 @@ class TypescriptStateMachine extends core_1.Construct {
                 runtime: aws_lambda_1.Runtime.NODEJS_14_X
             });
             arnDict["lambda:" + lambda.name] = fn.functionArn;
+            this.functions[lambda.name] = fn;
         }
         const stateMachines = [];
+        this.stateMachines = {};
         for (const step of converted.stateMachines) {
             const sfnProps = (_g = (_f = props.stepFunctionProps) === null || _f === void 0 ? void 0 : _f[step.name]) !== null && _g !== void 0 ? _g : {};
             const sm = new aws_stepfunctions_1.CfnStateMachine(scope, `${id}_${step.name}`, {
@@ -67,6 +70,7 @@ class TypescriptStateMachine extends core_1.Construct {
             });
             arnDict["statemachine:" + step.name] = sm.attrArn;
             stateMachines.push(sm);
+            this.stateMachines[step.name] = sm;
         }
         for (const sm of stateMachines) {
             const replaced = replaceArns(sm.definition, arnDict);

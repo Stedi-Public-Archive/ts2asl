@@ -508,10 +508,13 @@ export const convertExpression = (expression: ts.Expression | undefined, context
 
     if (type.startsWith("native")) {
       const convertedArgs = convertObjectLiteralExpression(argument, context);
+      const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
+      const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
+
       let remainder = type.substring(6);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
-      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations"];
+      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations", "CodeBuild"];
       for (const serviceName of servicesNames) {
         if (remainder.startsWith(serviceName)) {
           resource += serviceName.toLowerCase() + ':';
@@ -524,8 +527,6 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         throw new Error(`unable to find service of native integration ${type} `);
       }
       resource += remainder[0].toLowerCase() + remainder.substring(1);
-
-
       const caseConvertedArgs = {
         ...convertedArgs,
         parameters: {
@@ -546,7 +547,9 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       return {
         stateName: remainder,
         resource,
-        ...caseConvertedArgs,
+        parameters: caseConvertedArgs.parameters,
+        catch: catchConfiguration,
+        retry: retryConfiguration,
         source: undefined,
         _syntaxKind: iasl.SyntaxKind.AslTaskState
       } as iasl.TaskState;
@@ -570,7 +573,7 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression,
     }
     if (!propertyName) throw new ParserError("unable to extract property name for property assignment", expr);
 
-    const initializer = convertExpressionToLiteralOrIdentifier(property.initializer, { block: ["block", "default"].includes(propertyName) }, context);
+    const initializer = convertExpressionToLiteralOrIdentifier(property.initializer, { block: ["block", "default", "iterator"].includes(propertyName) }, context);
     if (initializer === undefined) continue;
     result[propertyName] = initializer
   }

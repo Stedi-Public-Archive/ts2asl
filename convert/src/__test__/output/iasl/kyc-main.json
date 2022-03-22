@@ -21,14 +21,14 @@
                   "resource": "lambda:performIdentifyCheck",
                   "retry": [
                     {
-                      "ErrorEquals": [
+                      "errorEquals": [
                         "Lambda.ServiceException",
                         "Lambda.AWSLambdaException",
                         "Lambda.SdkClientException"
                       ],
-                      "IntervalSeconds": 2,
-                      "MaxAttempts": 6,
-                      "BackoffRate": 2
+                      "intervalSeconds": 2,
+                      "maxAttempts": 6,
+                      "backoffRate": 2
                     }
                   ],
                   "source": "performIdentifyCheck()",

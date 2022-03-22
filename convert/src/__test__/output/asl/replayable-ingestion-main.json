@@ -70,6 +70,11 @@
       },
       "ItemsPath": "$.vars.result",
       "MaxConcurrency": 5,
+      "Parameters": {
+        "vars": {
+          "prefix.$": "$$.Map.Item.Value"
+        }
+      },
       "End": true
     }
   }

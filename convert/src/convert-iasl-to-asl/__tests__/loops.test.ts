@@ -27,7 +27,6 @@ describe("when transpiling simple statements", () => {
                 "StartAt": "_WhileCondition",
                 "States": Object {
                   "6: isDone()": Object {
-                    "Catch": undefined,
                     "Comment": "source: isDone()",
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",

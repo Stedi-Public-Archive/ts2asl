@@ -19,42 +19,14 @@ describe("when converting native integration statements to iasl", () => {
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
-              "Key": Object {
-                "_syntaxKind": "literal-object",
-                "properties": Object {
-                  "pk": Object {
-                    "_syntaxKind": "literal-object",
-                    "properties": Object {
-                      "S": Object {
-                        "_syntaxKind": "literal",
-                        "type": "string",
-                        "value": "something",
-                      },
-                    },
-                  },
-                  "sk": Object {
-                    "_syntaxKind": "literal-object",
-                    "properties": Object {
-                      "S": Object {
-                        "_syntaxKind": "literal",
-                        "type": "string",
-                        "value": "something",
-                      },
-                    },
-                  },
-                },
-              },
-              "TableName": Object {
-                "_syntaxKind": "literal",
-                "type": "string",
-                "value": "mytable",
-              },
               "_syntaxKind": "asl-task-state",
+              "catch": undefined,
               "parameters": Object {
                 "_syntaxKind": "literal-object",
                 "properties": Object {},
               },
               "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
+              "retry": undefined,
               "source": undefined,
               "stateName": "GetItem",
             },

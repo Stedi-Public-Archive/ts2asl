@@ -80,7 +80,6 @@ describe("when converting try-catch", () => {
                     "Type": "Pass",
                   },
                   "lambda()": Object {
-                    "Catch": undefined,
                     "Comment": "source: lambda()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass",
@@ -169,7 +168,6 @@ describe("when converting try-catch", () => {
             "Type": "Pass",
           },
           "lambda()": Object {
-            "Catch": undefined,
             "Comment": "source: source: lambda()",
             "HeartbeatSeconds": undefined,
             "Next": "Pass",

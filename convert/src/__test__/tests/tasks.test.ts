@@ -25,7 +25,6 @@ describe("when converting tasks", () => {
             "Type": "Pass",
           },
           "ListBuckets": Object {
-            "Catch": undefined,
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
             "Next": "Assign count",

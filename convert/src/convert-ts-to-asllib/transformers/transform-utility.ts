@@ -121,7 +121,7 @@ export class TransformUtil {
         [factory.createObjectLiteralExpression(
           [
             factory.createPropertyAssignment(
-              factory.createIdentifier("errorFilter"),
+              factory.createIdentifier("errorEquals"),
               factory.createArrayLiteralExpression(
                 [factory.createStringLiteral("States.All")],
                 true

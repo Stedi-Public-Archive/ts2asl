@@ -1,0 +1,67 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign allAccountIds"
+    },
+    "Assign allAccountIds": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.allAccountIds",
+      "Result": [],
+      "Comment": "source: allAccountIds = []",
+      "Next": "Map"
+    },
+    "Map": {
+      "Type": "Map",
+      "ResultPath": "$.tmp.lastResult",
+      "Iterator": {
+        "StartAt": "PutItem",
+        "States": {
+          "PutItem": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+            "Parameters": {
+              "Item": {
+                "pk": {
+                  "S": "assingments"
+                },
+                "sk": {
+                  "S.$": "States.Format('acc#{}', $.vars.accountId)"
+                },
+                "status": {
+                  "S": "available"
+                }
+              },
+              "ConditionExpression": "attribute_not_exists(:sk)",
+              "TableName": "assignmentsTableName"
+            },
+            "Catch": [
+              {
+                "Next": "Empty",
+                "ErrorEquals": [
+                  "DynamoDb.ConditionalCheckFailedException"
+                ]
+              }
+            ],
+            "End": true
+          },
+          "Empty": {
+            "Type": "Succeed"
+          }
+        }
+      },
+      "ItemsPath": "$.vars.allAccountIds",
+      "Parameters": {
+        "vars": {
+          "accountId.$": "$$.Map.Item.Value"
+        }
+      },
+      "End": true
+    }
+  }
+}

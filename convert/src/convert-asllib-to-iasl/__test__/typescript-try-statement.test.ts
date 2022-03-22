@@ -8,7 +8,7 @@ describe("when converting choice statement to iasl", () => {
       try: () => { asl.task({ resource: "urn" }); },
       catch: [
           {
-              errorFilter: [
+            errorEquals: [
                   \\"States.All\\"
               ],
               block: () => { asl.task({ resource: "urn" } }
@@ -35,7 +35,7 @@ describe("when converting choice statement to iasl", () => {
                     },
                   ],
                 },
-                "errorFilter": Array [
+                "errorEquals": Array [
                   "States.All\\"",
                 ],
               },

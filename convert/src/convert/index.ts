@@ -14,10 +14,10 @@ export interface ConverterOptions {
   includeDiagnostics?: true;
   skipCheckCallables?: true;
   defaultRetry?: [{
-    ErrorEquals: string[],
-    IntervalSeconds: number,
-    MaxAttempts: number,
-    BackoffRate: number
+    errorEquals: string[],
+    intervalSeconds: number,
+    maxAttempts: number,
+    backoffRate: number
   }],
   getParameter?: <T>(paramName: string, defaultValue?: T) => T;
 }
@@ -40,14 +40,14 @@ export class Converter {
     const optionsWithDefaults = options;
     if (optionsWithDefaults.defaultRetry === undefined) {
       optionsWithDefaults.defaultRetry = [{
-        ErrorEquals: [
+        errorEquals: [
           "Lambda.ServiceException",
           "Lambda.AWSLambdaException",
           "Lambda.SdkClientException"
         ],
-        IntervalSeconds: 2,
-        MaxAttempts: 6,
-        BackoffRate: 2
+        intervalSeconds: 2,
+        maxAttempts: 6,
+        backoffRate: 2
       }];
     }
     const lambdas: ConvertedLambda[] = [];

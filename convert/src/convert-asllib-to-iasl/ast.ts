@@ -308,7 +308,7 @@ export interface TypeOfExpression extends Expression {
 export interface TryStatement extends Expression {
   _syntaxKind: SyntaxKind.TryStatement;
   try: Block;
-  catch?: { errorFilter: string[], block: Block }[]
+  catch?: CatchConfiguration;
   finally?: Block;
 }
 
@@ -353,13 +353,13 @@ export interface AslState extends Expression {
 }
 
 export declare type RetryConfiguration = Array<{
-  ErrorEquals: string[];
-  IntervalSeconds?: number;
-  MaxAttempts?: number;
-  BackoffRate?: number;
+  errorEquals: string[];
+  intervalSeconds?: number;
+  maxAttempts?: number;
+  backoffRate?: number;
 }>
 
-export type CatchConfiguration = Array<{ ErrorEquals: string[], block: Block }>;
+export type CatchConfiguration = Array<{ errorEquals: string[], block: Block }>;
 
 export interface WaitState extends AslState {
   _syntaxKind: SyntaxKind.AslWaitState;

@@ -35,7 +35,6 @@ describe("when converting replayable-ingestion", () => {
                   "Type": "Pass",
                 },
                 "replayWorker({ prefix })": Object {
-                  "Catch": undefined,
                   "Comment": "source: replayWorker({ prefix })",
                   "End": true,
                   "HeartbeatSeconds": undefined,
@@ -62,11 +61,15 @@ describe("when converting replayable-ingestion", () => {
               },
             },
             "MaxConcurrency": 5,
+            "Parameters": Object {
+              "vars": Object {
+                "prefix.$": "$$.Map.Item.Value",
+              },
+            },
             "ResultPath": "$.tmp.lastResult",
             "Type": "Map",
           },
           "replayPrefixer(input)": Object {
-            "Catch": undefined,
             "Comment": "source: replayPrefixer(input)",
             "HeartbeatSeconds": undefined,
             "InputPath": "$.vars",
@@ -120,7 +123,6 @@ describe("when converting replayable-ingestion", () => {
             "Type": "Pass",
           },
           "ListObjectsV2": Object {
-            "Catch": undefined,
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
             "Next": "Assign itemsWithKeys",
@@ -168,7 +170,6 @@ describe("when converting replayable-ingestion", () => {
                   "Type": "Pass",
                 },
                 "Publish": Object {
-                  "Catch": undefined,
                   "Comment": undefined,
                   "End": true,
                   "HeartbeatSeconds": undefined,

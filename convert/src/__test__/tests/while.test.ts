@@ -18,7 +18,6 @@ describe("when converting while", () => {
             "Type": "Pass",
           },
           "Task": Object {
-            "Catch": undefined,
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
             "Next": "While (true)",
@@ -81,7 +80,6 @@ describe("when converting while", () => {
                     "Type": "Choice",
                   },
                   "Task_1": Object {
-                    "Catch": undefined,
                     "Comment": undefined,
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",

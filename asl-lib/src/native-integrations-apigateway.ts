@@ -122,6 +122,7 @@ import { UpdateUsageCommandInput, UpdateUsageCommandOutput, UpdateUsageCommand }
 import { UpdateUsagePlanCommandInput, UpdateUsagePlanCommandOutput, UpdateUsagePlanCommand } from "@aws-sdk/client-api-gateway";
 import { UpdateVpcLinkCommandInput, UpdateVpcLinkCommandOutput, UpdateVpcLinkCommand } from "@aws-sdk/client-api-gateway";
 
+
 /* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:createApiKey'*/
 export const nativeAPIGatewayCreateApiKey = (input: SdkIntegrationTask<CreateApiKeyCommandInput>): Promise<CreateApiKeyCommandOutput> => {
     const apigateway = new APIGatewayClient(clientConfig);

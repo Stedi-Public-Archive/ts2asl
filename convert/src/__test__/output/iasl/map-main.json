@@ -1,0 +1,117 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "allAccountIds",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign allAccountIds",
+        "parameters": {
+          "elements": [],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "allAccountIds = []",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign allAccountIds",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "items": {
+        "identifier": "allAccountIds",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "accountId",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "PutItem",
+            "resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+            "parameters": {
+              "properties": {
+                "Item": {
+                  "properties": {
+                    "pk": {
+                      "properties": {
+                        "S": {
+                          "value": "assingments",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    },
+                    "sk": {
+                      "properties": {
+                        "S": {
+                          "arguments": [
+                            {
+                              "value": "acc#{}",
+                              "type": "string",
+                              "_syntaxKind": "literal"
+                            },
+                            {
+                              "identifier": "accountId",
+                              "_syntaxKind": "identifier",
+                              "type": "string"
+                            }
+                          ],
+                          "function": "asl.states.format",
+                          "_syntaxKind": "asl-intrinsic-function"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    },
+                    "status": {
+                      "properties": {
+                        "S": {
+                          "value": "available",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    }
+                  },
+                  "_syntaxKind": "literal-object"
+                },
+                "ConditionExpression": {
+                  "value": "attribute_not_exists(:sk)",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "TableName": {
+                  "value": "assignmentsTableName",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "catch": [
+              {
+                "errorEquals": [
+                  "DynamoDb.ConditionalCheckFailedException"
+                ],
+                "block": {
+                  "statements": [],
+                  "_syntaxKind": "function"
+                }
+              }
+            ],
+            "_syntaxKind": "asl-task-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "asl-map-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
