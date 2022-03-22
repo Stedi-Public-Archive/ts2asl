@@ -6,7 +6,7 @@ export const main = asl.deploy.asStateMachine(async (input: IInput) => {
   }
   const rnd = await random();
   return {
-    greeting: asl.states.format("Hello {}", input.name),
+    greeting: `Hello ${input.name}`,
     luckyNumber: rnd
   }
 });

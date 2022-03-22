@@ -1,5 +1,4 @@
 import * as asl from "@ts2asl/asl-lib"
-import { deploy } from "@ts2asl/asl-lib";
 
 export const main = asl.deploy.asStateMachine(async (input: IInput) => {
   if (typeof input.name !== "string") {
@@ -7,7 +6,7 @@ export const main = asl.deploy.asStateMachine(async (input: IInput) => {
   }
   const rnd = await random();
   return {
-    greeting: asl.states.format("Hello {}", input.name),
+    greeting: `Hello ${input.name}`,
     luckyNumber: rnd
   }
 });

@@ -7,18 +7,20 @@ export class CdkExampleStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-
     const executionRole = new iam.Role(this, "executionRole", {
       assumedBy: new iam.ServicePrincipal("states.amazonaws.com")
     })
 
     executionRole.addManagedPolicy(iam.ManagedPolicy.fromManagedPolicyArn(this, "executionRolePolicy", "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"))
 
-    // // example resource
-    new ts2asl.TypescriptStateMachine(this, "cs", {
+    // example resource
+    new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
       programName: "hello-world",
       defaultFunctionProps: {},
-      defaultStepFunctionProps: { roleArn: executionRole.roleArn },
+      defaultStepFunctionProps: {
+        stateMachineType: "EXPRESS",
+        roleArn: executionRole.roleArn
+      },
       sourceFile: "./src/program.ts",
     });
   }
