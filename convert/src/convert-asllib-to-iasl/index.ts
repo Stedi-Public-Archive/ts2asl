@@ -951,7 +951,7 @@ const convertBinaryOperatorToken = (operator: ts.BinaryOperatorToken): { op: ias
       return { op: "eq", not: false };
 
     case ts.SyntaxKind.ExclamationEqualsEqualsToken:
-    case ts.SyntaxKind.ExclamationEqualsEqualsToken:
+    case ts.SyntaxKind.ExclamationEqualsToken:
       return { op: "eq", not: true };
 
     case ts.SyntaxKind.GreaterThanEqualsToken:

@@ -1,14 +1,14 @@
 import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async () =>{
-    const allAccountIds = asl.pass({
-        name: "Assign allAccountIds",
-        parameters: () => [],
-        comment: "allAccountIds = []"
+    const entries = await asl.typescriptInvoke({
+        name: "getEntries()",
+        resource: getEntries,
+        comment: "getEntries()"
     });
     await asl.map({
-        items: allAccountIds,
-        iterator: (accountId: string) => asl.nativeDynamoDBPutItem({
+        items: entries,
+        iterator: (entry: string) => asl.nativeDynamoDBPutItem({
             catch: [
                 {
                     errorEquals: ["DynamoDb.ConditionalCheckFailedException"],
@@ -19,13 +19,17 @@ export const main = asl.deploy.asStateMachine(async () =>{
             ],
             parameters: {
                 Item: {
-                    pk: { S: "assingments" },
-                    sk: { S: `acc#${accountId}` },
+                    pk: { S: "pk" },
+                    sk: { S: `sk#${entry}` },
                     status: { S: "available" },
                 },
                 ConditionExpression: "attribute_not_exists(:sk)",
-                TableName: asl.deploy.getParameter("assignmentsTableName"),
+                TableName: asl.deploy.getParameter("tableName"),
             },
         }),
     });
+});
+
+export const getEntries = asl.deploy.asLambda(async () => {
+  return ["1", "2", "3", "4"]
 });

@@ -1,0 +1,79 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Type": "Parallel",
+      "OutputPath": "$[0]",
+      "Branches": [
+        {
+          "StartAt": "Throw NotImplemented",
+          "States": {
+            "Throw NotImplemented": {
+              "Type": "Fail",
+              "Error": "NotImplemented",
+              "Cause": "not implemented",
+              "Comment": "source: throw new NotImplemented(\"not implemented\")"
+            }
+          }
+        }
+      ],
+      "Catch": [
+        {
+          "Next": "Parallel_1",
+          "ErrorEquals": [
+            "States.All",
+            "NotImplemented"
+          ],
+          "ResultPath": "$.vars.err"
+        }
+      ],
+      "End": true
+    },
+    "Parallel_1": {
+      "Type": "Parallel",
+      "Parameters": {
+        "vars": {
+          "err.$": "$.vars.err"
+        }
+      },
+      "OutputPath": "$[0]",
+      "Branches": [
+        {
+          "StartAt": "If (err.Cause === \"NotImp ...",
+          "States": {
+            "If (err.Cause === \"NotImp ...": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$.vars.err.Cause",
+                  "StringEquals": "NotImplemented",
+                  "Next": "Pass"
+                }
+              ],
+              "Comment": "source: if (err.Cause === \"NotImplemented\") { return \" ...",
+              "Default": "Empty Default Choice"
+            },
+            "Pass": {
+              "Type": "Pass",
+              "Result": "Todo",
+              "End": true
+            },
+            "Empty Default Choice": {
+              "Type": "Pass",
+              "End": true
+            }
+          }
+        }
+      ],
+      "End": true
+    }
+  }
+}

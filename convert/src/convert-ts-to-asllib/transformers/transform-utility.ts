@@ -113,8 +113,40 @@ export class TransformUtil {
     )
   }
 
-  static createCatchAllBlock(block?: ts.Block) {
+  static createCatchAllBlock(tryBlock: ts.Block, block?: ts.Block, argument?: ts.Identifier) {
     if (!block) return undefined;
+
+    const parameterDecls: ts.ParameterDeclaration[] = [];
+    if (argument) {
+      parameterDecls.push(factory.createParameterDeclaration(
+        undefined,
+        undefined,
+        undefined,
+        argument,
+        undefined,
+        undefined,
+        undefined
+      ))
+    }
+
+    const errors: string[] = ["States.All"]
+    const recurse = node => {
+      ts.forEachChild(node, child => {
+        iterator(child);
+        recurse(child);
+      });
+    }
+    const iterator = (node: ts.Node) => {
+      if (ts.isThrowStatement(node)) {
+        if (!ts.isNewExpression(node.expression)) return;
+        if (!ts.isIdentifier(node.expression.expression)) return;
+        const errorType = node.expression.expression.text;
+        errors.push(errorType);
+      }
+    };
+
+    recurse(tryBlock);
+
     return factory.createPropertyAssignment(
       factory.createIdentifier("catch"),
       factory.createArrayLiteralExpression(
@@ -123,7 +155,7 @@ export class TransformUtil {
             factory.createPropertyAssignment(
               factory.createIdentifier("errorEquals"),
               factory.createArrayLiteralExpression(
-                [factory.createStringLiteral("States.All")],
+                errors.map(x => factory.createStringLiteral(x)),
                 true
               )
             ),
@@ -132,7 +164,7 @@ export class TransformUtil {
               factory.createArrowFunction(
                 undefined,
                 undefined,
-                [],
+                parameterDecls,
                 undefined,
                 factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
                 block

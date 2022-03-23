@@ -1,0 +1,54 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "If (typeof input.delayInS ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "input.delayInSeconds",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "number",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "input.delayInSeconds",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": 5,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign input.delayInSeconds",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof input.delayInSeconds != \"number\") {\n    input.delayInSeconds = 5;\n  }",
+      "_syntaxKind": "if"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

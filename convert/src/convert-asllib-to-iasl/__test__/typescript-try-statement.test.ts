@@ -1,7 +1,75 @@
 import { testConvertToIntermediaryAst } from "./test-convert";
 
-describe("when converting choice statement to iasl", () => {
-  it("then native integrations get converted to map states", () => {
+describe("when converting try statement to iasl", () => {
+  it("then catch block with arg gets converted to catch configuration", () => {
+    const code = `
+    import * as asl from 'asl-lib';
+    asl.typescriptTry({
+      try: () => { asl.task({ resource: "urn" }); },
+      catch: [
+          {
+            errorEquals: [
+                  \\"States.All\\"
+              ],
+              block: (arg) => { asl.task({ resource: "urn", parameters: {error: arg.Cause} }); }
+          }
+      ]
+  })`;
+    const result = testConvertToIntermediaryAst(code);
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "_syntaxKind": "statemachine",
+        "contextArgumentName": undefined,
+        "inputArgumentName": undefined,
+        "statements": Array [
+          Object {
+            "_syntaxKind": "try",
+            "catch": Array [
+              Object {
+                "block": Object {
+                  "_syntaxKind": "function",
+                  "inputArgumentName": Object {
+                    "_syntaxKind": "identifier",
+                    "identifier": "arg",
+                  },
+                  "statements": Array [
+                    Object {
+                      "_syntaxKind": "asl-task-state",
+                      "parameters": Object {
+                        "_syntaxKind": "literal-object",
+                        "properties": Object {
+                          "error": Object {
+                            "_syntaxKind": "identifier",
+                            "identifier": "arg.Cause",
+                            "type": "unknown",
+                          },
+                        },
+                      },
+                      "resource": "urn",
+                    },
+                  ],
+                },
+                "errorEquals": Array [
+                  "States.All\\"",
+                ],
+              },
+            ],
+            "try": Object {
+              "_syntaxKind": "function",
+              "statements": Array [
+                Object {
+                  "_syntaxKind": "asl-task-state",
+                  "resource": "urn",
+                },
+              ],
+            },
+          },
+        ],
+      }
+    `);
+  });
+
+  it("then catch block without arg gets converted to catch configuration", () => {
     const code = `
     import * as asl from 'asl-lib';
     asl.typescriptTry({

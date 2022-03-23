@@ -37,6 +37,7 @@
     },
     "Pass": {
       "Type": "Pass",
+      "ResultPath": "$.lastResult",
       "Result": "failed",
       "Comment": "source: console.log(\"failed\")",
       "Next": "Pass_1"

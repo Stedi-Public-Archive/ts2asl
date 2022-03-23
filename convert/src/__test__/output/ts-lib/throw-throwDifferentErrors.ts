@@ -1,14 +1,6 @@
 import * as asl from "@ts2asl/asl-lib"
 
-export const main = asl.deploy.asStateMachine(async (input: Input) =>{
-    asl.typescriptIf({
-        name: "If (typeof input.delayInS ...",
-        condition: () => typeof input.delayInSeconds !== "number",
-        then: async () => {
-            input.delayInSeconds = 5;
-        },
-        comment: "if (typeof input.delayInSeconds !== \"number\") {\n    input.delayInSeconds = 5;\n  }"
-    })
+export const throwDifferentErrors = asl.deploy.asStateMachine(async (input: Input) =>{
     asl.typescriptIf({
         name: "If (input.delayInSeconds ...",
         condition: () => input.delayInSeconds > 10 || input.delayInSeconds < 1,
@@ -22,22 +14,25 @@ export const main = asl.deploy.asStateMachine(async (input: Input) =>{
         },
         comment: "if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {\n    throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")\n  }"
     })
-    await asl.wait({ seconds: input.delayInSeconds });
-    return input.delayInSeconds;
+    asl.fail({
+        name: "Throw NotImplemented",
+        error: "NotImplemented",
+        cause: "not implemented",
+        comment: "throw new NotImplemented(\"not implemented\")"
+    })
 });
 
-export const notEquals = asl.deploy.asStateMachine(async (input: Input) => {
-  if (typeof input.delayInSeconds != "number") {
-    input.delayInSeconds = 5;
+
+class NotImplemented extends Error {
+  constructor(message: string) {
+    super(message);
   }
-});
-
-interface Input {
-  delayInSeconds: number | undefined;
 }
-
 class ValidationError extends Error {
   constructor(message: string) {
     super(message);
   }
+}
+interface Input {
+  delayInSeconds: number | undefined;
 }

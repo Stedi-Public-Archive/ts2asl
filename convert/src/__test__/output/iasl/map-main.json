@@ -2,31 +2,40 @@
   "statements": [
     {
       "name": {
-        "identifier": "allAccountIds",
+        "identifier": "entries",
         "_syntaxKind": "identifier",
         "type": "object"
       },
       "expression": {
-        "stateName": "Assign allAccountIds",
-        "parameters": {
-          "elements": [],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "allAccountIds = []",
-        "_syntaxKind": "asl-pass-state"
+        "stateName": "getEntries()",
+        "resource": "lambda:getEntries",
+        "retry": [
+          {
+            "errorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "intervalSeconds": 2,
+            "maxAttempts": 6,
+            "backoffRate": 2
+          }
+        ],
+        "source": "getEntries()",
+        "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign allAccountIds",
+      "stateName": "Assign entries",
       "_syntaxKind": "variable-assignment"
     },
     {
       "items": {
-        "identifier": "allAccountIds",
+        "identifier": "entries",
         "_syntaxKind": "identifier",
         "type": "object"
       },
       "iterator": {
         "inputArgumentName": {
-          "identifier": "accountId",
+          "identifier": "entry",
           "_syntaxKind": "identifier"
         },
         "statements": [
@@ -40,7 +49,7 @@
                     "pk": {
                       "properties": {
                         "S": {
-                          "value": "assingments",
+                          "value": "pk",
                           "type": "string",
                           "_syntaxKind": "literal"
                         }
@@ -52,12 +61,12 @@
                         "S": {
                           "arguments": [
                             {
-                              "value": "acc#{}",
+                              "value": "sk#{}",
                               "type": "string",
                               "_syntaxKind": "literal"
                             },
                             {
-                              "identifier": "accountId",
+                              "identifier": "entry",
                               "_syntaxKind": "identifier",
                               "type": "string"
                             }
@@ -87,7 +96,7 @@
                   "_syntaxKind": "literal"
                 },
                 "TableName": {
-                  "value": "assignmentsTableName",
+                  "value": "tableName",
                   "type": "string",
                   "_syntaxKind": "literal"
                 }

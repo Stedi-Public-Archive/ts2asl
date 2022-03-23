@@ -6,7 +6,7 @@ import { ConversionContext } from ".";
 import { AslFactory } from "./aslfactory";
 import { createParameters } from "./parameters";
 
-export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, context: ConversionContext): { state: asl.State, stateName?: string } => {
+export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, context: ConversionContext, options: { alwaysWrapFailState?: true } = {}): { state: asl.State, stateName?: string } => {
 
   const stateMachine = convertBlock(block, scopes, context.createChildContext())
   if (!stateMachine) throw new Error("unable to convert block to state machine");
@@ -15,9 +15,11 @@ export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, contex
   if (stateNames.length === 1) {
     const stateName = stateNames[0];
     const state = stateMachine.States[stateName];
-    delete (state as any).End;
-    context.root.names = context.root.names.filter(x => x != stateName);
-    return { state, stateName };
+    if (state.Type !== "Fail" || !options.alwaysWrapFailState) {
+      delete (state as any).End;
+      context.root.names = context.root.names.filter(x => x != stateName);
+      return { state, stateName };
+    }
   }
 
   return {

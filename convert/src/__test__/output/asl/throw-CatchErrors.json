@@ -1,0 +1,93 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Branches": [
+        {
+          "StartAt": "Throw UnexpectedError",
+          "States": {
+            "Throw UnexpectedError": {
+              "Type": "Fail",
+              "Error": "UnexpectedError",
+              "Cause": "bad luck!",
+              "Comment": "source: throw new UnexpectedError(\"bad luck!\")"
+            }
+          }
+        }
+      ],
+      "Type": "Parallel",
+      "Catch": [
+        {
+          "Next": "Parallel_1",
+          "ErrorEquals": [
+            "UnexpectedError"
+          ],
+          "ResultPath": "$.vars.error"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "RetryableError"
+          ],
+          "IntervalSeconds": 3,
+          "MaxAttempts": 2,
+          "BackoffRate": 1.5
+        }
+      ],
+      "End": true
+    },
+    "Parallel_1": {
+      "Type": "Parallel",
+      "OutputPath": "$[0]",
+      "Branches": [
+        {
+          "StartAt": "Pass",
+          "States": {
+            "Pass": {
+              "Type": "Pass",
+              "ResultPath": "$.lastResult",
+              "Parameters": {
+                "value.$": "States.Format('cause {}', $.vars.error.Cause)"
+              },
+              "Comment": "source: result of an expression cannot be placed in In ...",
+              "Next": "Pass_1"
+            },
+            "Pass_1": {
+              "Type": "Pass",
+              "ResultPath": "$.lastResult",
+              "InputPath": "$.lastResult.value",
+              "Comment": "source: console.log(`cause ${error.Cause}`)",
+              "Next": "Pass_2"
+            },
+            "Pass_2": {
+              "Type": "Pass",
+              "ResultPath": "$.lastResult",
+              "Parameters": {
+                "value.$": "States.Format('message {}', $.vars.error.Error)"
+              },
+              "Comment": "source: result of an expression cannot be placed in In ...",
+              "Next": "Pass_3"
+            },
+            "Pass_3": {
+              "Type": "Pass",
+              "ResultPath": "$.lastResult",
+              "InputPath": "$.lastResult.value",
+              "Comment": "source: console.log(`message ${error.Error}`)",
+              "End": true
+            }
+          }
+        }
+      ],
+      "End": true
+    }
+  }
+}

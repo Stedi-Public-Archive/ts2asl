@@ -1,0 +1,32 @@
+{
+  "statements": [
+    {
+      "branches": [
+        {
+          "statements": [
+            {
+              "stateName": "Throw RetryableError",
+              "cause": "retry me",
+              "error": "RetryableError",
+              "source": "throw new RetryableError(\"retry me\")",
+              "_syntaxKind": "asl-fail-state"
+            }
+          ],
+          "_syntaxKind": "function"
+        }
+      ],
+      "retry": [
+        {
+          "errorEquals": [
+            "RetryableError"
+          ],
+          "backoffRate": 1.5,
+          "intervalSeconds": 3,
+          "maxAttempts": 2
+        }
+      ],
+      "_syntaxKind": "asl-parallel-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

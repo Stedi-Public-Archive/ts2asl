@@ -1,0 +1,45 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "If (typeof input.delayInS ..."
+    },
+    "If (typeof input.delayInS ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "And": [
+              {
+                "Variable": "$.vars.delayInSeconds",
+                "IsPresent": true
+              },
+              {
+                "Variable": "$.vars.delayInSeconds",
+                "IsNumeric": true
+              }
+            ]
+          },
+          "Next": "Assign input.delayInSeconds"
+        }
+      ],
+      "Comment": "source: if (typeof input.delayInSeconds != \"number\") { ...",
+      "Default": "Empty Default Choice"
+    },
+    "Assign input.delayInSeconds": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.delayInSeconds",
+      "Result": 5,
+      "End": true
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}

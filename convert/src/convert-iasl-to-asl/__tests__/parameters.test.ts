@@ -1,7 +1,6 @@
 import { convert } from "..";
 import { testConvertToIntermediaryAst } from "../../convert-asllib-to-iasl/__test__/test-convert";
 
-
 describe("when converting input parameter reference to asl", () => {
   it("then input parameter is identifier", () => {
     const code = `
@@ -24,6 +23,7 @@ describe("when converting input parameter reference to asl", () => {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars",
+            "ResultPath": "$.lastResult",
             "Type": "Pass",
           },
         },

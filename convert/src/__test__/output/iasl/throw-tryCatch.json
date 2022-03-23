@@ -1,0 +1,75 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "Try Catch",
+      "try": {
+        "statements": [
+          {
+            "stateName": "Throw NotImplemented",
+            "cause": "not implemented",
+            "error": "NotImplemented",
+            "source": "throw new NotImplemented(\"not implemented\")",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "catch": [
+        {
+          "errorEquals": [
+            "States.All",
+            "NotImplemented"
+          ],
+          "block": {
+            "inputArgumentName": {
+              "identifier": "err",
+              "_syntaxKind": "identifier"
+            },
+            "statements": [
+              {
+                "stateName": "If (err.Cause === \"NotImp ...",
+                "condition": {
+                  "lhs": {
+                    "identifier": "err.Cause",
+                    "type": "unknown",
+                    "_syntaxKind": "identifier"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": "NotImplemented",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "then": {
+                  "statements": [
+                    {
+                      "expression": {
+                        "value": "Todo",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      "_syntaxKind": "return",
+                      "stateName": "Return \"Todo\""
+                    }
+                  ],
+                  "_syntaxKind": "function"
+                },
+                "source": "if (err.Cause === \"NotImplemented\") {\n      return \"Todo\"\n    }",
+                "_syntaxKind": "if"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "_syntaxKind": "try"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

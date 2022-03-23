@@ -1,11 +1,9 @@
-export interface AslResource {
-}
-export interface AslStateMachine extends AslResource {
-}
-export interface AslLambdaFunction extends AslResource {
-}
 export interface AslState {
 }
+declare type StateError = {
+    Cause: string;
+    Error: string;
+};
 export declare type While = {
     condition: () => boolean;
     block: Function;
@@ -25,7 +23,7 @@ export declare type If = {
 };
 export declare type CatchConfiguration = Array<{
     errorEquals: string[];
-    block: Function;
+    block: (error?: StateError) => unknown;
 }>;
 export declare type RetryConfiguration = Array<{
     errorEquals: string[];
@@ -131,6 +129,10 @@ export interface StateMachineContext<TInput> {
         readonly name: string;
         readonly enteredTime: string;
     };
+    readonly task: {
+        readonly name: string;
+        readonly token?: string;
+    };
 }
 export declare const typescriptInvoke: <P, R>(args: TypescriptInvoke<P, R>) => Promise<R>;
 export declare const typescriptTry: (args: Try) => Promise<AslState>;
@@ -156,3 +158,4 @@ export declare namespace states {
     function jsonToString(arg: unknown): string;
     function array(...args: unknown[]): unknown[];
 }
+export {};

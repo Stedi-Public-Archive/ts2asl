@@ -1,0 +1,88 @@
+{
+  "statements": [
+    {
+      "branches": [
+        {
+          "statements": [
+            {
+              "stateName": "Throw UnexpectedError",
+              "cause": "bad luck!",
+              "error": "UnexpectedError",
+              "source": "throw new UnexpectedError(\"bad luck!\")",
+              "_syntaxKind": "asl-fail-state"
+            }
+          ],
+          "_syntaxKind": "function"
+        }
+      ],
+      "catch": [
+        {
+          "errorEquals": [
+            "UnexpectedError"
+          ],
+          "block": {
+            "inputArgumentName": {
+              "identifier": "error",
+              "_syntaxKind": "identifier"
+            },
+            "statements": [
+              {
+                "parameters": {
+                  "arguments": [
+                    {
+                      "value": "cause {}",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    },
+                    {
+                      "identifier": "error.Cause",
+                      "type": "string",
+                      "_syntaxKind": "identifier"
+                    }
+                  ],
+                  "function": "asl.states.format",
+                  "_syntaxKind": "asl-intrinsic-function"
+                },
+                "source": "console.log(`cause ${error.Cause}`)",
+                "_syntaxKind": "asl-pass-state"
+              },
+              {
+                "parameters": {
+                  "arguments": [
+                    {
+                      "value": "message {}",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    },
+                    {
+                      "identifier": "error.Error",
+                      "type": "string",
+                      "_syntaxKind": "identifier"
+                    }
+                  ],
+                  "function": "asl.states.format",
+                  "_syntaxKind": "asl-intrinsic-function"
+                },
+                "source": "console.log(`message ${error.Error}`)",
+                "_syntaxKind": "asl-pass-state"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "retry": [
+        {
+          "errorEquals": [
+            "RetryableError"
+          ],
+          "backoffRate": 1.5,
+          "intervalSeconds": 3,
+          "maxAttempts": 2
+        }
+      ],
+      "_syntaxKind": "asl-parallel-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

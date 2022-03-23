@@ -1,0 +1,45 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "If (input.delayInSeconds ..."
+    },
+    "If (input.delayInSeconds ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            {
+              "Variable": "$.vars.delayInSeconds",
+              "NumericGreaterThan": 10
+            },
+            {
+              "Variable": "$.vars.delayInSeconds",
+              "NumericLessThan": 1
+            }
+          ],
+          "Next": "Throw ValidationError"
+        }
+      ],
+      "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
+      "Default": "Throw NotImplemented"
+    },
+    "Throw ValidationError": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
+      "Comment": "source: throw new ValidationError(\"delay in seconds mu ..."
+    },
+    "Throw NotImplemented": {
+      "Type": "Fail",
+      "Error": "NotImplemented",
+      "Cause": "not implemented",
+      "Comment": "source: throw new NotImplemented(\"not implemented\")"
+    }
+  }
+}

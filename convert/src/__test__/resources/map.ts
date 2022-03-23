@@ -1,10 +1,10 @@
 import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async () => {
-  const allAccountIds = [];
+  const entries = await getEntries();
   await asl.map({
-    items: allAccountIds,
-    iterator: (accountId: string) =>
+    items: entries,
+    iterator: (entry: string) =>
       void asl.nativeDynamoDBPutItem({
         catch: [
           {
@@ -16,13 +16,17 @@ export const main = asl.deploy.asStateMachine(async () => {
         ],
         parameters: {
           Item: {
-            pk: { S: "assingments" },
-            sk: { S: `acc#${accountId}` },
+            pk: { S: "pk" },
+            sk: { S: `sk#${entry}` },
             status: { S: "available" },
           },
           ConditionExpression: "attribute_not_exists(:sk)",
-          TableName: asl.deploy.getParameter("assignmentsTableName"),
+          TableName: asl.deploy.getParameter("tableName"),
         },
       }),
   });
+});
+
+export const getEntries = asl.deploy.asLambda(async () => {
+  return ["1", "2", "3", "4"]
 });

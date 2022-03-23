@@ -2,11 +2,12 @@
 import { internalWaitSeconds } from './asl-internals';
 import util from 'util';
 
-export interface AslResource { }
-export interface AslStateMachine extends AslResource { }
-export interface AslLambdaFunction extends AslResource { }
 export interface AslState { }
 
+type StateError = {
+  Cause: string;
+  Error: string;
+}
 export type While = {
   condition: () => boolean;
   block: Function;
@@ -26,7 +27,7 @@ export type If = {
 };
 export declare type CatchConfiguration = Array<{
   errorEquals: string[];
-  block: Function;
+  block: (error?: StateError) => unknown;
 }>;
 export declare type RetryConfiguration = Array<{
   errorEquals: string[];
@@ -137,6 +138,10 @@ export interface StateMachineContext<TInput> {
   readonly state: {
     readonly name: string;
     readonly enteredTime: string;
+  };
+  readonly task: {
+    readonly name: string;
+    readonly token?: string
   };
 }
 

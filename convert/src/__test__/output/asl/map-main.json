@@ -7,13 +7,25 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign allAccountIds"
+      "Next": "getEntries()"
     },
-    "Assign allAccountIds": {
-      "Type": "Pass",
-      "ResultPath": "$.vars.allAccountIds",
-      "Result": [],
-      "Comment": "source: allAccountIds = []",
+    "getEntries()": {
+      "Type": "Task",
+      "ResultPath": "$.vars.entries",
+      "Resource": "lambda:getEntries",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Comment": "source: getEntries()",
       "Next": "Map"
     },
     "Map": {
@@ -28,17 +40,17 @@
             "Parameters": {
               "Item": {
                 "pk": {
-                  "S": "assingments"
+                  "S": "pk"
                 },
                 "sk": {
-                  "S.$": "States.Format('acc#{}', $.vars.accountId)"
+                  "S.$": "States.Format('sk#{}', $.vars.entry)"
                 },
                 "status": {
                   "S": "available"
                 }
               },
               "ConditionExpression": "attribute_not_exists(:sk)",
-              "TableName": "assignmentsTableName"
+              "TableName": "tableName"
             },
             "Catch": [
               {
@@ -55,10 +67,10 @@
           }
         }
       },
-      "ItemsPath": "$.vars.allAccountIds",
+      "ItemsPath": "$.vars.entries",
       "Parameters": {
         "vars": {
-          "accountId.$": "$$.Map.Item.Value"
+          "entry.$": "$$.Map.Item.Value"
         }
       },
       "End": true

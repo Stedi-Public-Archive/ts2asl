@@ -13,10 +13,15 @@ export const main = asl.deploy.asStateMachine(async (input: Input) => {
   return input.delayInSeconds;
 });
 
-export const notEquals = asl.deploy.asStateMachine(async (input: Input) => {
-  if (typeof input.delayInSeconds != "number") {
-    input.delayInSeconds = 5;
-  }
+export const notEquals = asl.deploy.asStateMachine(async (input: Input) =>{
+    asl.typescriptIf({
+        name: "If (typeof input.delayInS ...",
+        condition: () => typeof input.delayInSeconds != "number",
+        then: async () => {
+            input.delayInSeconds = 5;
+        },
+        comment: "if (typeof input.delayInSeconds != \"number\") {\n    input.delayInSeconds = 5;\n  }"
+    })
 });
 
 interface Input {

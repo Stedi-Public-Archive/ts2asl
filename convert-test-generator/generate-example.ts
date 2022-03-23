@@ -35,7 +35,7 @@ function createExamples(path: string, filename: string, tests: TestCase[]) {
     if (explanation) {
       contents += explanation + "\n";
     } else {
-      console.debug("explanation not found for key" + explanationKey);
+      console.debug("explanation not found for key: " + explanationKey);
     }
     contents += `[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?${base64data})\n\n`;
     contents += "``` typescript\n";

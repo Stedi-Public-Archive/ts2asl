@@ -1,13 +1,13 @@
 {
   "name": "@ts2asl/asl-lib",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "npx jest",
     "prepublishOnly": "npm run build",
-    "build": "npx tsc && cp lib/asl.d.ts ../convert/resources/"
+    "build": "npx tsc && cp lib/asl.d.ts ../convert/resources/ && npx dts-bundle --name @ts2asl/asl-lib --main ./lib/index.d.ts && mv ./lib/@ts2asl/asl-lib.d.ts ../../asl-editor-spike/src/asl-lib.d.ts"
   },
   "files": [
     "lib/**/*"

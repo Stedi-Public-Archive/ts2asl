@@ -359,7 +359,7 @@ export declare type RetryConfiguration = Array<{
   backoffRate?: number;
 }>
 
-export type CatchConfiguration = Array<{ errorEquals: string[], block: Block }>;
+export type CatchConfiguration = Array<{ errorEquals: string[], block: Function }>;
 
 export interface WaitState extends AslState {
   _syntaxKind: SyntaxKind.AslWaitState;

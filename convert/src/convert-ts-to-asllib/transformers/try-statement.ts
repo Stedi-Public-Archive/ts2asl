@@ -9,10 +9,8 @@ export const tryStatementTransformer = (converterOptions: ConverterOptions) => <
     node = ts.visitEachChild(node, visit, context);
 
     if (ts.isTryStatement(node)) {
-      if (node.catchClause && node.catchClause.variableDeclaration) throw new ParserError("variable declaration in catch clause is not supported (yet)", node)
-
       const try_ = TransformUtil.createNamedBlock("try", node.tryBlock);
-      const catch_ = TransformUtil.createCatchAllBlock(node.catchClause?.block);
+      const catch_ = TransformUtil.createCatchAllBlock(node.tryBlock, node.catchClause?.block, node.catchClause?.variableDeclaration?.name as ts.Identifier);
       const finally_ = TransformUtil.createNamedBlock("finally", node.finallyBlock);
       const comment = TransformUtil.createComment(node);
       let nameTemplate = "Try" + (catch_ ? " Catch" : "") + (finally_ ? " Finally" : "");

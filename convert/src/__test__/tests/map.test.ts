@@ -9,15 +9,8 @@ describe("when converting map", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign allAccountIds": Object {
-            "Comment": "source: allAccountIds = []",
-            "Next": "Map",
-            "Result": Array [],
-            "ResultPath": "$.vars.allAccountIds",
-            "Type": "Pass",
-          },
           "Initialize": Object {
-            "Next": "Assign allAccountIds",
+            "Next": "getEntries()",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -27,7 +20,7 @@ describe("when converting map", () => {
           "Map": Object {
             "Comment": undefined,
             "End": true,
-            "ItemsPath": "$.vars.allAccountIds",
+            "ItemsPath": "$.vars.entries",
             "Iterator": Object {
               "StartAt": "PutItem",
               "States": Object {
@@ -50,16 +43,16 @@ describe("when converting map", () => {
                     "ConditionExpression": "attribute_not_exists(:sk)",
                     "Item": Object {
                       "pk": Object {
-                        "S": "assingments",
+                        "S": "pk",
                       },
                       "sk": Object {
-                        "S.$": "States.Format('acc#{}', $.vars.accountId)",
+                        "S.$": "States.Format('sk#{}', $.vars.entry)",
                       },
                       "status": Object {
                         "S": "available",
                       },
                     },
-                    "TableName": "assignmentsTableName",
+                    "TableName": "tableName",
                   },
                   "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
                   "Retry": undefined,
@@ -71,11 +64,32 @@ describe("when converting map", () => {
             "MaxConcurrency": undefined,
             "Parameters": Object {
               "vars": Object {
-                "accountId.$": "$$.Map.Item.Value",
+                "entry.$": "$$.Map.Item.Value",
               },
             },
             "ResultPath": "$.tmp.lastResult",
             "Type": "Map",
+          },
+          "getEntries()": Object {
+            "Comment": "source: getEntries()",
+            "HeartbeatSeconds": undefined,
+            "Next": "Map",
+            "Resource": "lambda:getEntries",
+            "ResultPath": "$.vars.entries",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
         },
       }

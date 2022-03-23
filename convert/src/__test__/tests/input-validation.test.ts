@@ -88,4 +88,54 @@ describe("when converting input-validation", () => {
       }
     `);
   });
+  it("then notEquals can be converted to asl", async () => {
+    expect(converted.notEquals.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign input.delayInSeconds": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": 5,
+            "ResultPath": "$.vars.delayInSeconds",
+            "Type": "Pass",
+          },
+          "Empty Default Choice": Object {
+            "End": true,
+            "Type": "Pass",
+          },
+          "If (typeof input.delayInS ...": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Assign input.delayInSeconds",
+                "Not": Object {
+                  "And": Array [
+                    Object {
+                      "IsPresent": true,
+                      "Variable": "$.vars.delayInSeconds",
+                    },
+                    Object {
+                      "IsNumeric": true,
+                      "Variable": "$.vars.delayInSeconds",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": "source: if (typeof input.delayInSeconds != \\"number\\") { ...",
+            "Default": "Empty Default Choice",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "If (typeof input.delayInS ...",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
 });

@@ -4,7 +4,7 @@
   "description": "",
   "main": "web.js",
   "scripts": {
-    "package": "npx esbuild ./convert/src/convert/web.ts --outdir=convert-webpacked --format=esm --bundle --minify --target=chrome58",
+    "package": "npx esbuild ./convert/src/convert/web.ts --outdir=../asl-editor-spike/lib/ --format=esm --bundle --minify --target=chrome58",
     "bootstrap": "npm ci && npm run bootstrap:asl-lib && npm run bootstrap:convert && npm run bootstrap:deploy && npm run bootstrap:cli",
     "test": "concurrently npm:test:asl-lib npm:test:convert npm:test:deploy npm:test:cli",
     "test:asl-lib": "cd asl-lib && npm run test",

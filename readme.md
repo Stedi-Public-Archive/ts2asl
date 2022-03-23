@@ -51,7 +51,7 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 ## Typescript language support
 The following Typescript langauge features are supported:
 * [variable assingments](./examples/variable-assignments.md)
-* throwing errors
+* [throwing errors](./examples/throw.md)
 * [input validation](./examples/input-validation.md)
 * [enclosed variables](./examples/closures.md)
 * [if statements](./examples/if.md)

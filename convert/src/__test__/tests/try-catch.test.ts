@@ -208,6 +208,7 @@ describe("when converting try-catch", () => {
             "Comment": "source: console.log(\\"failed\\")",
             "Next": "Pass_1",
             "Result": "failed",
+            "ResultPath": "$.lastResult",
             "Type": "Pass",
           },
           "Pass_1": Object {

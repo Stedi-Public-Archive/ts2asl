@@ -38,6 +38,7 @@ export class AslFactory {
         } as asl.Pass, nameSuggestion);
         context.appendNextState({
           Type: "Pass",
+          ResultPath: "$.lastResult",
           ...properties,
           InputPath: "$.lastResult.value",
           Comment: expression.source,
@@ -45,6 +46,7 @@ export class AslFactory {
       } else {
         context.appendNextState({
           Type: "Pass",
+          ResultPath: "$.lastResult",
           ...properties,
           ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
           Comment: expression.source,
@@ -232,7 +234,7 @@ export class AslFactory {
         });
       }
     } else if (iasl.Check.isTryExpression(expression)) {
-      const tryState = createSingleOrParallel(expression.try, scopes, context);
+      const tryState = createSingleOrParallel(expression.try, scopes, context, { alwaysWrapFailState: true });
       context.appendNextState(tryState.state, tryState.stateName);
       if (["Map", "Parallel", "Task"].includes(tryState.state.Type) && expression.catch?.length) {
         this.appendCatchConfiguration(tryState.state as (asl.Map | asl.Parallel | asl.Task), expression.catch, scopes, context);
@@ -264,7 +266,11 @@ export class AslFactory {
       for (const catchClause of catchConfiguration) {
         const catchState = createSingleOrParallel(catchClause.block, scopes, context);
         const name = context.appendAdditionalTail(catchState.state, catchState.stateName);
-        resultingCatchConfiguration.push({ Next: name, ErrorEquals: catchClause.errorEquals });
+        const catchConfiguration = { Next: name, ErrorEquals: catchClause.errorEquals } as { Next: string, ErrorEquals: string[], ResultPath?: string };
+        if (catchClause.block.inputArgumentName) {
+          catchConfiguration.ResultPath = convertIdentifierToPathExpression(catchClause.block.inputArgumentName);
+        }
+        resultingCatchConfiguration.push(catchConfiguration);
       }
       task.Catch = resultingCatchConfiguration;
     }

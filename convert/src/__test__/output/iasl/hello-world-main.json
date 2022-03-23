@@ -104,7 +104,7 @@
         "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "return",
-      "stateName": "Return { greeting: as ..."
+      "stateName": "Return { greeting: `H ..."
     }
   ],
   "_syntaxKind": "statemachine"
