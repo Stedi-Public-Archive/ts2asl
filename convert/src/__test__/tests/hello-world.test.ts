@@ -59,7 +59,7 @@ describe("when converting hello-world", () => {
             "Comment": "source: random()",
             "HeartbeatSeconds": undefined,
             "Next": "Pass",
-            "Resource": "lambda:random",
+            "Resource": "[!lambda[random]arn]",
             "ResultPath": "$.vars.rnd",
             "Retry": Array [
               Object {

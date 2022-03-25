@@ -11,7 +11,7 @@ export interface TypescriptStateMachineProps {
     sourceFile: string;
     conversionOptions?: ConverterOptions;
     cwd?: string;
-    parameters?: Record<string, unknown>;
+    parameters?: Record<string, string>;
 }
 export declare class TypescriptStateMachine extends Construct {
     functions: Record<string, NodejsFunction>;

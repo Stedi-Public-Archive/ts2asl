@@ -43,7 +43,7 @@ describe("when transpiling simple statements", () => {
                   "Parameters": Object {
                     "prefix.$": "$.vars.prefix",
                   },
-                  "Resource": "lambda:worker",
+                  "Resource": "[!lambda[worker]arn]",
                   "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
@@ -102,7 +102,7 @@ describe("when transpiling simple statements", () => {
                   "Parameters": Object {
                     "prefix.$": "$.vars.prefix",
                   },
-                  "Resource": "lambda:worker",
+                  "Resource": "[!lambda[worker]arn]",
                   "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",

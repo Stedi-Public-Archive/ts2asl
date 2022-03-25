@@ -23,10 +23,10 @@ export const booleans = asl.deploy.asStateMachine(async () =>{
     return {
         a: true,
         b: false,
-        c: true || false,
-        d: true && false,
-        e: true && (false || false),
-        f: ((true && false) || false) || true,
+        c: true,
+        d: false,
+        e: false,
+        f: true,
     };
 });
 

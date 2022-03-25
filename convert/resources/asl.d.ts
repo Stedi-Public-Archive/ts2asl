@@ -1,6 +1,6 @@
 export interface AslState {
 }
-declare type StateError = {
+export declare type AslError = {
     Cause: string;
     Error: string;
 };
@@ -23,7 +23,7 @@ export declare type If = {
 };
 export declare type CatchConfiguration = Array<{
     errorEquals: string[];
-    block: (error?: StateError) => unknown;
+    block: (error?: AslError) => unknown;
 }>;
 export declare type RetryConfiguration = Array<{
     errorEquals: string[];
@@ -158,4 +158,3 @@ export declare namespace states {
     function jsonToString(arg: unknown): string;
     function array(...args: unknown[]): unknown[];
 }
-export {};

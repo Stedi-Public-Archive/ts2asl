@@ -31,7 +31,7 @@ describe("when converting kyc", () => {
                     "Comment": "source: performIdentifyCheck()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass",
-                    "Resource": "lambda:performIdentifyCheck",
+                    "Resource": "[!lambda[performIdentifyCheck]arn]",
                     "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {

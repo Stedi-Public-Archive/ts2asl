@@ -35,7 +35,7 @@ describe("when converting try-catch", () => {
             "Comment": "source: source: lambda()",
             "End": true,
             "HeartbeatSeconds": undefined,
-            "Resource": "lambda:lambda",
+            "Resource": "[!lambda[lambda]arn]",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -83,7 +83,7 @@ describe("when converting try-catch", () => {
                     "Comment": "source: lambda()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass",
-                    "Resource": "lambda:lambda",
+                    "Resource": "[!lambda[lambda]arn]",
                     "ResultPath": "$.vars.withinTry",
                     "Retry": Array [
                       Object {
@@ -171,7 +171,7 @@ describe("when converting try-catch", () => {
             "Comment": "source: source: lambda()",
             "HeartbeatSeconds": undefined,
             "Next": "Pass",
-            "Resource": "lambda:lambda",
+            "Resource": "[!lambda[lambda]arn]",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -204,14 +204,14 @@ describe("when converting try-catch", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Log (\\"failed\\")": Object {
             "Comment": "source: console.log(\\"failed\\")",
-            "Next": "Pass_1",
+            "Next": "Pass",
             "Result": "failed",
             "ResultPath": "$.lastResult",
             "Type": "Pass",
           },
-          "Pass_1": Object {
+          "Pass": Object {
             "Comment": undefined,
             "End": true,
             "Result": "finally",
@@ -223,13 +223,13 @@ describe("when converting try-catch", () => {
                 "ErrorEquals": Array [
                   "States.All",
                 ],
-                "Next": "Pass",
+                "Next": "Log (\\"failed\\")",
               },
             ],
             "Comment": "source: source: lambda()",
             "HeartbeatSeconds": undefined,
-            "Next": "Pass_1",
-            "Resource": "lambda:lambda",
+            "Next": "Pass",
+            "Resource": "[!lambda[lambda]arn]",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,

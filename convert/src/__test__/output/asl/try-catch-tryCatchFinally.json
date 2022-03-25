@@ -11,7 +11,7 @@
     },
     "lambda()": {
       "Type": "Task",
-      "Resource": "lambda:lambda",
+      "Resource": "[!lambda[lambda]arn]",
       "Retry": [
         {
           "ErrorEquals": [
@@ -27,22 +27,22 @@
       "Comment": "source: source: lambda()",
       "Catch": [
         {
-          "Next": "Pass",
+          "Next": "Log (\"failed\")",
           "ErrorEquals": [
             "States.All"
           ]
         }
       ],
-      "Next": "Pass_1"
+      "Next": "Pass"
     },
-    "Pass": {
+    "Log (\"failed\")": {
       "Type": "Pass",
       "ResultPath": "$.lastResult",
       "Result": "failed",
       "Comment": "source: console.log(\"failed\")",
-      "Next": "Pass_1"
+      "Next": "Pass"
     },
-    "Pass_1": {
+    "Pass": {
       "Type": "Pass",
       "Result": "finally",
       "End": true

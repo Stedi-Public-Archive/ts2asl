@@ -77,7 +77,7 @@
                 },
                 "doSomething(combined)": {
                   "Type": "Task",
-                  "Resource": "lambda:doSomething",
+                  "Resource": "[!lambda[doSomething]arn]",
                   "InputPath": "$.vars.combined",
                   "Retry": [
                     {

@@ -49,6 +49,7 @@ export const tryCatchFinally = asl.deploy.asStateMachine(async () =>{
                 ],
                 block: () => {
                     asl.pass({
+                        name: "Log (\"failed\")",
                         parameters: () => "failed",
                         comment: "console.log(\"failed\")"
                     });

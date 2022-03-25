@@ -8,6 +8,7 @@ describe("when converting console log statements", () => {
       testTransform("console.log('hello')", consoleLogStatementTransformer({}))
     ).toMatchInlineSnapshot(`
       "asl.pass({
+          name: \\"Log ('hello')\\",
           parameters: () => 'hello',
           comment: \\"console.log('hello')\\"
       });"
@@ -18,6 +19,7 @@ describe("when converting console log statements", () => {
     expect(testTransform("console.log(23)", consoleLogStatementTransformer({})))
       .toMatchInlineSnapshot(`
       "asl.pass({
+          name: \\"Log (23)\\",
           parameters: () => 23,
           comment: \\"console.log(23)\\"
       });"
@@ -32,6 +34,7 @@ describe("when converting console log statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.pass({
+          name: \\"Log ({num: 32, str: 'aaa'})\\",
           parameters: () => ({ num: 32, str: 'aaa' }),
           comment: \\"console.log({num: 32, str: 'aaa'})\\"
       });"
@@ -46,6 +49,7 @@ describe("when converting console log statements", () => {
       )
     ).toMatchInlineSnapshot(`
       "asl.pass({
+          name: \\"Log (asl.states.format(\\\\\\"S ...\\",
           parameters: () => asl.states.format(\\"Starting execution of {} at {} with role of {}\\", context.stateMachine.name, context.execution.startTime, context.execution.roleArn),
           comment: \\"console.log(asl.states.format(\\\\\\"Starting execution of {} at {} with role of {}\\\\\\", context.stateMachine.name, context.execution.startTime, context.execution.roleArn))\\"
       });"

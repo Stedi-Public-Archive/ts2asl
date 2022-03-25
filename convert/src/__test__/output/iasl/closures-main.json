@@ -201,7 +201,7 @@
                 },
                 {
                   "stateName": "doSomething(combined)",
-                  "resource": "lambda:doSomething",
+                  "resource": "[!lambda[doSomething]arn]",
                   "retry": [
                     {
                       "errorEquals": [

@@ -12,7 +12,7 @@
     "getEntries()": {
       "Type": "Task",
       "ResultPath": "$.vars.entries",
-      "Resource": "lambda:getEntries",
+      "Resource": "[!lambda[getEntries]arn]",
       "Retry": [
         {
           "ErrorEquals": [
@@ -50,7 +50,7 @@
                 }
               },
               "ConditionExpression": "attribute_not_exists(:sk)",
-              "TableName": "tableName"
+              "TableName": "[!parameter[tableName]]"
             },
             "Catch": [
               {

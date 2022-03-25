@@ -7,7 +7,7 @@ export const stringTemplates = asl.deploy.asStateMachine(async () =>{
         comment: "variable = \"some var\""
     });
     return {
-        b: `hello ${variable}`,
+        b: asl.states.format("hello {}", variable),
     };
 });
 

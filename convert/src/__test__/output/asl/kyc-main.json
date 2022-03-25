@@ -17,7 +17,7 @@
             "performIdentifyCheck()": {
               "Type": "Task",
               "ResultPath": "$.vars.return_var",
-              "Resource": "lambda:performIdentifyCheck",
+              "Resource": "[!lambda[performIdentifyCheck]arn]",
               "Retry": [
                 {
                   "ErrorEquals": [

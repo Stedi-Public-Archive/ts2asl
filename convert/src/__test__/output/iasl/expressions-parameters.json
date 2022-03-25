@@ -4,17 +4,17 @@
       "expression": {
         "properties": {
           "a": {
-            "value": "bucketName",
+            "value": "[!parameter[bucketName]]",
             "type": "string",
             "_syntaxKind": "literal"
           },
           "b": {
-            "value": "s3:::arn:bucketName",
+            "value": "s3:::arn:undefined",
             "type": "string",
             "_syntaxKind": "literal"
           },
           "c": {
-            "value": "value -> bucketName <- value",
+            "value": "value -> [!parameter[bucketName]] <- value",
             "type": "string",
             "_syntaxKind": "literal"
           }
@@ -22,7 +22,7 @@
         "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "return",
-      "stateName": "Return { a: asl.deplo ..."
+      "stateName": "Return ???"
     }
   ],
   "_syntaxKind": "statemachine"

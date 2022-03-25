@@ -152,35 +152,35 @@ describe("when converting throw", () => {
           "Parallel_1": Object {
             "Branches": Array [
               Object {
-                "StartAt": "Pass",
+                "StartAt": "Log (???)",
                 "States": Object {
-                  "Pass": Object {
+                  "Log (???)": Object {
                     "Comment": "source: result of an expression cannot be placed in In ...",
-                    "Next": "Pass_1",
+                    "Next": "Log (???)_1",
                     "Parameters": Object {
                       "value.$": "States.Format('cause {}', $.vars.error.Cause)",
                     },
                     "ResultPath": "$.lastResult",
                     "Type": "Pass",
                   },
-                  "Pass_1": Object {
-                    "Comment": "source: console.log(\`cause \${error.Cause}\`)",
+                  "Log (???)_1": Object {
+                    "Comment": undefined,
                     "InputPath": "$.lastResult.value",
-                    "Next": "Pass_2",
+                    "Next": "Log (???)_2",
                     "ResultPath": "$.lastResult",
                     "Type": "Pass",
                   },
-                  "Pass_2": Object {
+                  "Log (???)_2": Object {
                     "Comment": "source: result of an expression cannot be placed in In ...",
-                    "Next": "Pass_3",
+                    "Next": "Log (???)_3",
                     "Parameters": Object {
                       "value.$": "States.Format('message {}', $.vars.error.Error)",
                     },
                     "ResultPath": "$.lastResult",
                     "Type": "Pass",
                   },
-                  "Pass_3": Object {
-                    "Comment": "source: console.log(\`message \${error.Error}\`)",
+                  "Log (???)_3": Object {
+                    "Comment": undefined,
                     "End": true,
                     "InputPath": "$.lastResult.value",
                     "ResultPath": "$.lastResult",

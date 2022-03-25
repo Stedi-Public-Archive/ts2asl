@@ -6,7 +6,7 @@
         "statements": [
           {
             "stateName": "lambda()",
-            "resource": "lambda:lambda",
+            "resource": "[!lambda[lambda]arn]",
             "retry": [
               {
                 "errorEquals": [
@@ -47,6 +47,7 @@
           "block": {
             "statements": [
               {
+                "stateName": "Log (\"failed\")",
                 "parameters": {
                   "value": "failed",
                   "type": "string",

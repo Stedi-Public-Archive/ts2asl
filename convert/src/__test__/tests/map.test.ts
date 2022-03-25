@@ -52,7 +52,7 @@ describe("when converting map", () => {
                         "S": "available",
                       },
                     },
-                    "TableName": "tableName",
+                    "TableName": "[!parameter[tableName]]",
                   },
                   "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
                   "Retry": undefined,
@@ -74,7 +74,7 @@ describe("when converting map", () => {
             "Comment": "source: getEntries()",
             "HeartbeatSeconds": undefined,
             "Next": "Map",
-            "Resource": "lambda:getEntries",
+            "Resource": "[!lambda[getEntries]arn]",
             "ResultPath": "$.vars.entries",
             "Retry": Array [
               Object {

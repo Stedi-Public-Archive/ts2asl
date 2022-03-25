@@ -30,7 +30,7 @@ describe("when transpiling simple statements", () => {
                     "Comment": "source: isDone()",
                     "HeartbeatSeconds": undefined,
                     "Next": "_WhileExit",
-                    "Resource": "lambda:isDone",
+                    "Resource": "[!lambda[isDone]arn]",
                     "ResultPath": "$.vars.result",
                     "Retry": undefined,
                     "TimeoutSeconds": undefined,

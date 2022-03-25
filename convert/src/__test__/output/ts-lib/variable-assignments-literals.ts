@@ -14,8 +14,7 @@ export const literals = asl.deploy.asStateMachine(async () =>{
     });
     let bool = asl.pass({
         name: "Assign bool",
-        parameters: () => true || false,
-        comment: "bool = true || false"
+        parameters: () => true
     });
     let object = asl.pass({
         name: "Assign object",

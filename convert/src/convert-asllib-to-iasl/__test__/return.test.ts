@@ -83,7 +83,7 @@ describe("when returning", () => {
               "_syntaxKind": "asl-task-state",
               "catch": undefined,
               "parameters": undefined,
-              "resource": "lambda:doSomething",
+              "resource": "[!lambda[doSomething]arn]",
               "retry": undefined,
               "source": "doSomething()",
               "stateName": "3: doSomething()",

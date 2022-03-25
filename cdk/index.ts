@@ -5,7 +5,6 @@ import { Converter, ConverterOptions } from "@ts2asl/convert"
 import { createCompilerHostFromFile } from "@ts2asl/convert"
 import { NodejsFunction, NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
 import { StateMachine, Task, Map, Parallel } from "asl-types";
-import * as asl from "@ts2asl/asl-lib";
 
 export interface TypescriptStateMachineProps {
   defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
@@ -16,7 +15,7 @@ export interface TypescriptStateMachineProps {
   sourceFile: string;
   conversionOptions?: ConverterOptions;
   cwd?: string; // current working directory, used to resolve dependencies and tsconfig.json. default is process.cwd();
-  parameters?: Record<string, unknown>;
+  parameters?: Record<string, string>;
 }
 
 export class TypescriptStateMachine extends Construct {
@@ -28,61 +27,112 @@ export class TypescriptStateMachine extends Construct {
     //sourceFile, cwd & diagnostics are converted to a definitionString.
     const { sourceFile, cwd } = props;
 
-    for (const [key, val] of Object.entries(props.parameters ?? {})) {
-      asl.deploy.setParameter(key, val);
-    }
-
     const compilerHost = createCompilerHostFromFile(sourceFile, cwd);
     const converter = new Converter(compilerHost);
     const options = props.conversionOptions ?? {};
-    options.getParameter = options.getParameter ?? asl.deploy.getParameter;
     const converted = converter.convert(options);
 
     super(scope, id)
 
     const arnDict: Record<string, string> = {};
-
+    const foundLambdaNames: string[] = [];
     this.functions = {};
     for (const lambda of converted.lambdas) {
+      const logicalId = `${id}${lambda.name.substring(0, 1).toUpperCase()}${lambda.name.substring(1)}`;
       const entry = sourceFile;
       const handler = lambda.name;
       const fnProps = props.functionProps?.[lambda.name] ?? {};
-      const fn = new NodejsFunction(scope, lambda.name, {
+      const fn = new NodejsFunction(scope, logicalId, {
         ...props.defaultFunctionProps,
         ...fnProps,
-        functionName: `${props.programName}_${lambda.name}`,
         entry,
         handler,
         runtime: Runtime.NODEJS_14_X
       });
       arnDict["lambda:" + lambda.name] = fn.functionArn;
       this.functions[lambda.name] = fn;
+      foundLambdaNames.push(lambda.name);
     }
-
+    const expectedLambdaNames = Object.keys(props.functionProps ?? {});
+    const missingLambdas = expectedLambdaNames.filter(name => !foundLambdaNames.includes(name));
+    if (missingLambdas.length) {
+      throw new Error(`CDK Configuration expected to find the following lambdas that weren't part of the source: ${missingLambdas.join(", ")}`);
+    }
     const stateMachines: CfnStateMachine[] = [];
 
     this.stateMachines = {};
+    const foundStateMachineNames: string[] = [];
     for (const step of converted.stateMachines) {
+      const logicalId = `${id}${step.name.substring(0, 1).toUpperCase()}${step.name.substring(1)}`;
       const sfnProps = props.stepFunctionProps?.[step.name] ?? {};
-      const sm = new CfnStateMachine(scope, `${id}_${step.name}`, {
+      const sm = new CfnStateMachine(scope, logicalId, {
         ...props.defaultStepFunctionProps,
         ...sfnProps,
         definition: step.asl!,
-        stateMachineName: `${props.programName}_${step.name}`
       });
       arnDict["statemachine:" + step.name] = sm.attrArn;
       stateMachines.push(sm);
       this.stateMachines[step.name] = sm;
+      foundStateMachineNames.push(step.name);
+    }
+    const expectedStateMachineNames = Object.keys(props.stepFunctionProps ?? {});
+    const missingStateMachines = expectedStateMachineNames.filter(name => !foundStateMachineNames.includes(name));
+    if (missingStateMachines.length) {
+      throw new Error(`CDK Configuration expected to find the following state machines that weren't part of the source: ${missingStateMachines.join(", ")}`);
     }
 
     for (const sm of stateMachines) {
       const replaced = replaceArns(sm.definition as StateMachine, arnDict);
-      sm.definitionString = JSON.stringify(replaced, null, 2);
+      const stringified = JSON.stringify(replaced, null, 2);
+      sm.definitionString = replaceExpressions(stringified, props.parameters ?? {}, this.stateMachines, this.functions);
       delete sm.definition;
     }
   }
 }
 
+const replaceExpressions = (input: string, parameters: Record<string, string>, satemachines: Record<string, CfnStateMachine>, functions: Record<string, NodejsFunction>): string => {
+
+  const replaced1 = input.replace(/\[!(lambda|state-machine)\[(\w*)\](name|arn)\]/g, (val: string, type: string, name: string, attrib: string) => {
+    // const type = groups[0];
+    // const name = groups[1];
+    // const attrib = groups[2];
+    switch (type) {
+      case "lambda":
+        const lambda = functions[name];
+        if (!lambda) throw Error(`cannot replace expression. lambda called '${name}' not found, complete expression ${val}`);
+        switch (attrib) {
+          case "arn":
+            return lambda.functionArn;
+          case "name":
+            return lambda.functionName;
+          default:
+            throw Error(`cannot replace expression. unknown attribute '${attrib}', complete expression ${val}`);
+        }
+      case "state-machine":
+        const statemachine = satemachines[name];
+        if (!statemachine) throw Error(`cannot replace expression. state-machine called '${name}' not found, complete expression ${val}`);
+        switch (attrib) {
+          case "arn":
+            return statemachine.attrArn;
+          case "name":
+            return statemachine.attrName;
+          default:
+            throw Error(`cannot replace expression. unknown attribute '${attrib}', complete expression ${val}`);
+        }
+
+      default:
+        throw Error(`cannot replace expression of type ${type}, complete expression ${val}`);
+    }
+  });
+
+  const replaced2 = replaced1.replace(/\[!parameter\[(\w*)\]]/g, (_val: string, paramName: string) => {
+    if (parameters[paramName] === undefined) {
+      throw new Error(`Unable to resolve parameter ${paramName}`);
+    }
+    return parameters[paramName];
+  });
+  return replaced2;
+}
 
 const replaceArns = (statemachine: StateMachine, arnDict: Record<string, string>) => {
   for (const state of Object.values(statemachine.States)) {

@@ -18,7 +18,7 @@
                 },
                 "expression": {
                   "stateName": "performIdentifyCheck()",
-                  "resource": "lambda:performIdentifyCheck",
+                  "resource": "[!lambda[performIdentifyCheck]arn]",
                   "retry": [
                     {
                       "errorEquals": [

@@ -57,7 +57,7 @@
       },
       "expression": {
         "stateName": "random()",
-        "resource": "lambda:random",
+        "resource": "[!lambda[random]arn]",
         "retry": [
           {
             "errorEquals": [

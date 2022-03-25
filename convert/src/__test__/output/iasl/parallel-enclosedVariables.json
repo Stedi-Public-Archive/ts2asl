@@ -65,7 +65,7 @@
             "statements": [
               {
                 "stateName": "worker(enclosedVar1)",
-                "resource": "lambda:worker",
+                "resource": "[!lambda[worker]arn]",
                 "retry": [
                   {
                     "errorEquals": [
@@ -93,7 +93,7 @@
             "statements": [
               {
                 "stateName": "worker(enclosedVar2)",
-                "resource": "lambda:worker",
+                "resource": "[!lambda[worker]arn]",
                 "retry": [
                   {
                     "errorEquals": [

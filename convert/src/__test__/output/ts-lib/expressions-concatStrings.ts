@@ -2,10 +2,10 @@ import * as asl from "@ts2asl/asl-lib"
 
 export const concatStrings = asl.deploy.asStateMachine(async () =>{
     return {
-        a: "hello" + " world ",
-        b: "a" + "b" + "c",
-        c: `a${"b"}c`,
-        d: `n=${42};`
+        a: "hello world ",
+        b: "abc",
+        c: "abc",
+        d: "n=42;"
     };
 });
 

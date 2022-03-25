@@ -20,11 +20,11 @@ export const main = asl.deploy.asStateMachine(async () =>{
             parameters: {
                 Item: {
                     pk: { S: "pk" },
-                    sk: { S: `sk#${entry}` },
+                    sk: { S: asl.states.format("sk#{}", entry) },
                     status: { S: "available" },
                 },
                 ConditionExpression: "attribute_not_exists(:sk)",
-                TableName: asl.deploy.getParameter("tableName"),
+                TableName: "[!parameter[tableName]]",
             },
         }),
     });

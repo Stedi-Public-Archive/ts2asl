@@ -17,7 +17,7 @@
             "worker()": {
               "Type": "Task",
               "ResultPath": "$.vars.return_var",
-              "Resource": "lambda:worker",
+              "Resource": "[!lambda[worker]arn]",
               "Retry": [
                 {
                   "ErrorEquals": [
@@ -46,7 +46,7 @@
             "worker()_1": {
               "Type": "Task",
               "ResultPath": "$.vars.return_var",
-              "Resource": "lambda:worker",
+              "Resource": "[!lambda[worker]arn]",
               "Retry": [
                 {
                   "ErrorEquals": [

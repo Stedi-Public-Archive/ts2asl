@@ -1,14 +1,24 @@
 export namespace deploy {
   export const asStateMachine = <T>(fn: T): T => { return fn; }
   export const asLambda = <T>(fn: T): T => { return fn; }
-  export const getParameter = <T>(parameterName: string, defaultValue?: T): T => {
-    const val = parameters[parameterName] as T;
-    if (!val && !defaultValue) throw new Error(`deployment parameter with name ${parameterName} not found`);
-    return val;
+  export const getParameter = (parameterName: string): string => {
+    return `[!parameter[${parameterName}]]`;
   }
-  export const setParameter = <T>(parameterName: string, value: T) => {
-    parameters[parameterName] = value;
+  export const getLambdaName = (functionName: string | Function): string => {
+    return `[!lambda[${functionName}]name]`;
   }
+  export const getLambdaArn = (functionName: string | Function): string => {
+    return `[!lambda[${functionName}]arn]`;
+  }
+  export const getStateMachineName = (functionName: string | Function): string => {
+    return `[!state-machine[${functionName}]name]`;
+  }
+  export const getStateMachineArn = (functionName: string | Function): string => {
+    return `[!state-machine[${functionName}]arn]`;
+  }
+  // export const evaluate = <T>(identifier: T): T => {
+  //   return identifier;
+  // }
 }
 
 const parameters: Record<string, unknown> = {};

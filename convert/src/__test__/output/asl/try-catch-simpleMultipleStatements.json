@@ -19,7 +19,7 @@
             "lambda()": {
               "Type": "Task",
               "ResultPath": "$.vars.withinTry",
-              "Resource": "lambda:lambda",
+              "Resource": "[!lambda[lambda]arn]",
               "Retry": [
                 {
                   "ErrorEquals": [

@@ -51,7 +51,6 @@
           "type": "boolean",
           "_syntaxKind": "literal"
         },
-        "source": "bool = true || false",
         "_syntaxKind": "asl-pass-state"
       },
       "stateName": "Assign bool",

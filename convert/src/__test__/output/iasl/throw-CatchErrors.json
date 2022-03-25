@@ -27,6 +27,7 @@
             },
             "statements": [
               {
+                "stateName": "Log (???)",
                 "parameters": {
                   "arguments": [
                     {
@@ -43,10 +44,10 @@
                   "function": "asl.states.format",
                   "_syntaxKind": "asl-intrinsic-function"
                 },
-                "source": "console.log(`cause ${error.Cause}`)",
                 "_syntaxKind": "asl-pass-state"
               },
               {
+                "stateName": "Log (???)",
                 "parameters": {
                   "arguments": [
                     {
@@ -63,7 +64,6 @@
                   "function": "asl.states.format",
                   "_syntaxKind": "asl-intrinsic-function"
                 },
-                "source": "console.log(`message ${error.Error}`)",
                 "_syntaxKind": "asl-pass-state"
               }
             ],

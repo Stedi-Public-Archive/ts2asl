@@ -4,7 +4,7 @@ import util from 'util';
 
 export interface AslState { }
 
-type StateError = {
+export type AslError = {
   Cause: string;
   Error: string;
 }
@@ -27,7 +27,7 @@ export type If = {
 };
 export declare type CatchConfiguration = Array<{
   errorEquals: string[];
-  block: (error?: StateError) => unknown;
+  block: (error?: AslError) => unknown;
 }>;
 export declare type RetryConfiguration = Array<{
   errorEquals: string[];
@@ -121,7 +121,6 @@ export interface Choice {
   comment?: string;
   name?: string;
 }
-
 
 export interface StateMachineContext<TInput> {
   readonly execution: {

@@ -25,7 +25,7 @@ describe("when transpiling binary expressions", () => {
           "If (x == 1 || x === 2 || ...": Object {
             "Choices": Array [
               Object {
-                "Next": "Pass",
+                "Next": "Log ('debug')",
                 "Or": Array [
                   Object {
                     "NumericEquals": 1,
@@ -54,7 +54,7 @@ describe("when transpiling binary expressions", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Log ('debug')": Object {
             "Comment": "source: console.log('debug')",
             "End": true,
             "Result": "debug",
@@ -86,7 +86,7 @@ describe("when transpiling binary expressions", () => {
           "If (!!x)": Object {
             "Choices": Array [
               Object {
-                "Next": "Pass",
+                "Next": "Log ('debug')",
                 "Not": Object {
                   "Or": Array [
                     Object {
@@ -133,7 +133,7 @@ describe("when transpiling binary expressions", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Log ('debug')": Object {
             "Comment": "source: console.log('debug')",
             "End": true,
             "Result": "debug",
@@ -183,7 +183,7 @@ describe("when transpiling binary expressions", () => {
                     "Variable": "$.vars.x",
                   },
                 ],
-                "Next": "Pass",
+                "Next": "Log ('debug')",
               },
             ],
             "Comment": "source: if (x == 1 && x === 2 && x == 3) { console.log ...",
@@ -198,7 +198,7 @@ describe("when transpiling binary expressions", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Log ('debug')": Object {
             "Comment": "source: console.log('debug')",
             "End": true,
             "Result": "debug",

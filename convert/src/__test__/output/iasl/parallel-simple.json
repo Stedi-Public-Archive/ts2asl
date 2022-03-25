@@ -23,7 +23,7 @@
                 },
                 "expression": {
                   "stateName": "worker()",
-                  "resource": "lambda:worker",
+                  "resource": "[!lambda[worker]arn]",
                   "retry": [
                     {
                       "errorEquals": [
@@ -64,7 +64,7 @@
                 },
                 "expression": {
                   "stateName": "worker()",
-                  "resource": "lambda:worker",
+                  "resource": "[!lambda[worker]arn]",
                   "retry": [
                     {
                       "errorEquals": [

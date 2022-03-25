@@ -6,7 +6,7 @@
         "statements": [
           {
             "stateName": "lambda()",
-            "resource": "lambda:lambda",
+            "resource": "[!lambda[lambda]arn]",
             "retry": [
               {
                 "errorEquals": [

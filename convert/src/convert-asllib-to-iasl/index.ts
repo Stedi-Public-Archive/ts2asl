@@ -8,7 +8,6 @@ import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-u
 import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
-import { resolveExpressionsTransformer } from "./resolve-constant-expressions-transformer";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -21,7 +20,7 @@ export interface ConverterContext {
 export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.SourceFile, context: ConverterContext): iasl.StateMachine => {
   const result: iasl.Expression[] = [];
 
-  const transformed = ts.transform<ts.Block | ts.ConciseBody | ts.SourceFile>(body, [removeSyntaxTransformer, ensureNamedPropertiesTransformer, resolveExpressionsTransformer(context.converterOptions)]).transformed[0];
+  const transformed = ts.transform<ts.Block | ts.ConciseBody | ts.SourceFile>(body, [removeSyntaxTransformer, ensureNamedPropertiesTransformer]).transformed[0];
   ts.forEachChild(transformed, toplevel => {
     const converted = convertNodeToIntermediaryAst(toplevel, context);
     if (!converted) return;
@@ -183,17 +182,6 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       return convertExpressionToLiteralOrIdentifier(expression, {}, context);
     }
 
-    // if (type === "deploy.getParameter") {
-    //   if (!ts.isStringLiteral(expression.arguments[0])) throw new Error(`first argument to asl.deploy.getParameter must be a literal (not a variable)`);
-    //   const paramName = expression.arguments[0].text;
-    //   const val = context.converterOptions.getParameter ? context.converterOptions.getParameter(paramName) : "unresolved parameter: " + paramName;
-    //   return {
-    //     value: val,
-    //     type: typeof val,
-    //     _syntaxKind: iasl.SyntaxKind.Literal
-    //   } as iasl.LiteralExpression
-    // }
-
     let argument = factory.createObjectLiteralExpression([], false);
 
     if (expression.arguments.length !== 0) {
@@ -232,7 +220,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         if (invokeType === "lambda") {
           return {
             stateName: name ?? "Invoke " + resource?.identifier,
-            resource: "lambda:" + resource?.identifier,
+            resource: `[!lambda[${resource?.identifier}]arn]`,
             retry: retryConfiguration ?? context.converterOptions.defaultRetry,
             catch: catchConfiguration,
             parameters,
@@ -278,7 +266,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
                     _syntaxKind: iasl.SyntaxKind.AslIntrinsicFunction
                   },
                   StateMachineArn: {
-                    value: "statemachine:" + resource?.identifier,
+                    value: `[!state-machine[${resource?.identifier}]arn]`,
                     type: "string",
                     _syntaxKind: iasl.SyntaxKind.Literal,
                   }

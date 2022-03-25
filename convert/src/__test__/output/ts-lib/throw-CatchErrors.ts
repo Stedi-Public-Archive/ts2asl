@@ -53,12 +53,12 @@ export const CatchErrors = asl.deploy.asStateMachine(async () =>{
                 errorEquals: ["UnexpectedError"],
                 block: (error) => {
                     asl.pass({
-                        parameters: () => `cause ${error.Cause}`,
-                        comment: "console.log(`cause ${error.Cause}`)"
+                        name: "Log (???)",
+                        parameters: () => asl.states.format("cause {}", error.Cause)
                     });
                     asl.pass({
-                        parameters: () => `message ${error.Error}`,
-                        comment: "console.log(`message ${error.Error}`)"
+                        name: "Log (???)",
+                        parameters: () => asl.states.format("message {}", error.Error)
                     });
                 }
             }]

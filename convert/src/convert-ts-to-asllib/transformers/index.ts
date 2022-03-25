@@ -16,11 +16,17 @@ import { arrayMapTransformer } from "./array-map-statement";
 import { arrayLengthTransformer } from "./array-length-statement";
 import { ConverterOptions } from "../../convert";
 import { resolveExpressionsTransformer } from "./array-initializer";
+import { stringTemplateTransformer } from "./string-template";
+import { literalExpressionTransformer } from "./resolve-literal-expressions";
+import { deployTimeStatementTransformer } from "./deploy-time-replacements";
 
 export const createTransformers = (converterOptions: ConverterOptions = {}) => {
   return [
     removeUnnecessaryExpressionsTransformer(converterOptions),
     unsupportedStatementTransformer(converterOptions),
+    literalExpressionTransformer,
+    deployTimeStatementTransformer,
+    stringTemplateTransformer,
     ifStatementTransformer(converterOptions),
     arrayFilterTransformer(converterOptions),
     arrayMapTransformer(converterOptions),

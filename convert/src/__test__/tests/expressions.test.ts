@@ -108,9 +108,9 @@ describe("when converting expressions", () => {
             "Comment": undefined,
             "End": true,
             "Result": Object {
-              "a": "bucketName",
-              "b": "s3:::arn:bucketName",
-              "c": "value -> bucketName <- value",
+              "a": "[!parameter[bucketName]]",
+              "b": "s3:::arn:undefined",
+              "c": "value -> [!parameter[bucketName]] <- value",
             },
             "Type": "Pass",
           },

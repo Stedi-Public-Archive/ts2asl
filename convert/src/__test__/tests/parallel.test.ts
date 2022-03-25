@@ -24,7 +24,7 @@ describe("when converting parallel", () => {
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass",
-                    "Resource": "lambda:worker",
+                    "Resource": "[!lambda[worker]arn]",
                     "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {
@@ -56,7 +56,7 @@ describe("when converting parallel", () => {
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Pass_1",
-                    "Resource": "lambda:worker",
+                    "Resource": "[!lambda[worker]arn]",
                     "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {
@@ -121,7 +121,7 @@ describe("when converting parallel", () => {
                     "End": true,
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar1",
-                    "Resource": "lambda:worker",
+                    "Resource": "[!lambda[worker]arn]",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -147,7 +147,7 @@ describe("when converting parallel", () => {
                     "End": true,
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar2",
-                    "Resource": "lambda:worker",
+                    "Resource": "[!lambda[worker]arn]",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,

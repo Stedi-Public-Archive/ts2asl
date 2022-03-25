@@ -8,7 +8,7 @@
       },
       "expression": {
         "stateName": "getEntries()",
-        "resource": "lambda:getEntries",
+        "resource": "[!lambda[getEntries]arn]",
         "retry": [
           {
             "errorEquals": [
@@ -96,7 +96,7 @@
                   "_syntaxKind": "literal"
                 },
                 "TableName": {
-                  "value": "tableName",
+                  "value": "[!parameter[tableName]]",
                   "type": "string",
                   "_syntaxKind": "literal"
                 }

@@ -15,7 +15,7 @@ export const main = asl.deploy.asStateMachine(async (input: IInput) =>{
         comment: "random()"
     });
     return {
-        greeting: `Hello ${input.name}`,
+        greeting: asl.states.format("Hello {}", input.name),
         luckyNumber: rnd
     };
 });

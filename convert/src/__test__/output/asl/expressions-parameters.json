@@ -13,9 +13,9 @@
       "End": true,
       "Type": "Pass",
       "Result": {
-        "a": "bucketName",
-        "b": "s3:::arn:bucketName",
-        "c": "value -> bucketName <- value"
+        "a": "[!parameter[bucketName]]",
+        "b": "s3:::arn:undefined",
+        "c": "value -> [!parameter[bucketName]] <- value"
       }
     }
   }

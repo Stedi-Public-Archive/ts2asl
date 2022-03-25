@@ -11,7 +11,7 @@
     },
     "lambda()": {
       "Type": "Task",
-      "Resource": "lambda:lambda",
+      "Resource": "[!lambda[lambda]arn]",
       "Retry": [
         {
           "ErrorEquals": [

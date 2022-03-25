@@ -82,7 +82,7 @@ describe("when converting closures", () => {
                         "End": true,
                         "HeartbeatSeconds": undefined,
                         "InputPath": "$.vars.combined",
-                        "Resource": "lambda:doSomething",
+                        "Resource": "[!lambda[doSomething]arn]",
                         "Retry": Array [
                           Object {
                             "BackoffRate": 2,

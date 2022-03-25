@@ -19,6 +19,10 @@ export interface ConverterOptions {
     maxAttempts: number,
     backoffRate: number
   }],
+  getLambdaName?: (functionName: string) => string;
+  getLambdaArn?: (functionName: string) => string;
+  getStateMachineName?: (functionName: string) => string;
+  getStateMachineArn?: (functionName: string) => string;
   getParameter?: <T>(paramName: string, defaultValue?: T) => T;
 }
 
