@@ -50,36 +50,38 @@
       "OutputPath": "$[0]",
       "Branches": [
         {
-          "StartAt": "Log (???)",
+          "StartAt": "Log (`cause ${error.Cause}`)",
           "States": {
-            "Log (???)": {
+            "Log (`cause ${error.Cause}`)": {
               "Type": "Pass",
               "ResultPath": "$.lastResult",
               "Parameters": {
                 "value.$": "States.Format('cause {}', $.vars.error.Cause)"
               },
               "Comment": "source: result of an expression cannot be placed in In ...",
-              "Next": "Log (???)_1"
+              "Next": "Log (`cause ${error.Cause}`)_1"
             },
-            "Log (???)_1": {
+            "Log (`cause ${error.Cause}`)_1": {
               "Type": "Pass",
               "ResultPath": "$.lastResult",
               "InputPath": "$.lastResult.value",
-              "Next": "Log (???)_2"
+              "Comment": "source: console.log(`cause ${error.Cause}`)",
+              "Next": "Log (`message ${error.Err ..."
             },
-            "Log (???)_2": {
+            "Log (`message ${error.Err ...": {
               "Type": "Pass",
               "ResultPath": "$.lastResult",
               "Parameters": {
                 "value.$": "States.Format('message {}', $.vars.error.Error)"
               },
               "Comment": "source: result of an expression cannot be placed in In ...",
-              "Next": "Log (???)_3"
+              "Next": "Log (`message ${error.Err ..._1"
             },
-            "Log (???)_3": {
+            "Log (`message ${error.Err ..._1": {
               "Type": "Pass",
               "ResultPath": "$.lastResult",
               "InputPath": "$.lastResult.value",
+              "Comment": "source: console.log(`message ${error.Error}`)",
               "End": true
             }
           }

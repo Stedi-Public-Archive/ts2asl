@@ -1,0 +1,158 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "condition",
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "expression": {
+        "stateName": "Assign condition",
+        "parameters": {
+          "value": 42,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "source": "condition = 42",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign condition",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "items",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign items",
+        "parameters": {
+          "elements": [
+            {
+              "value": 2,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 42,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 3,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "items = [2, 42, 3]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign items",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "listWithRetunrned",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "For item Of items.map",
+        "items": {
+          "identifier": "items",
+          "_syntaxKind": "identifier",
+          "type": "object"
+        },
+        "iterator": {
+          "inputArgumentName": {
+            "identifier": "item",
+            "_syntaxKind": "identifier"
+          },
+          "statements": [
+            {
+              "stateName": "If (item === condition)",
+              "condition": {
+                "lhs": {
+                  "identifier": "item",
+                  "_syntaxKind": "identifier",
+                  "type": "numeric"
+                },
+                "operator": "eq",
+                "rhs": {
+                  "identifier": "condition",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "_syntaxKind": "binary-expression"
+              },
+              "then": {
+                "statements": [
+                  {
+                    "expression": {
+                      "properties": {
+                        "returned": {
+                          "identifier": "item",
+                          "_syntaxKind": "identifier",
+                          "type": "unknown"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    },
+                    "_syntaxKind": "return",
+                    "stateName": "Return { returned: item }"
+                  }
+                ],
+                "_syntaxKind": "function"
+              },
+              "source": "if (item === condition) {\n      return { returned: item };\n    }",
+              "_syntaxKind": "if"
+            }
+          ],
+          "_syntaxKind": "function"
+        },
+        "_syntaxKind": "asl-map-state"
+      },
+      "stateName": "Assign listWithRetunrned",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "item",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "identifier": "listWithRetunrned",
+        "_syntaxKind": "identifier",
+        "type": "object",
+        "filterExpression": {
+          "argument": {
+            "identifier": "x",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "expression": {
+            "identifier": "x.returned",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          }
+        }
+      },
+      "stateName": "Assign item",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "item",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return item"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

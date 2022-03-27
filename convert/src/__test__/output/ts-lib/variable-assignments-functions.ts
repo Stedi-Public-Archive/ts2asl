@@ -20,6 +20,11 @@ export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
   let array = [str, num, bool, object];
   return array;
 });
+export const arrayIndexer = asl.deploy.asStateMachine(async () => {
+  let arr = [1, 2, 3, 4, 5]
+  let two = arr[1];
+  return two;
+});
 
 export const functions = asl.deploy.asStateMachine(async () =>{
     let str = asl.states.format("hello {}", "world");

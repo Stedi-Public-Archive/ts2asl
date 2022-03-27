@@ -24,9 +24,6 @@ export const createTransformers = (converterOptions: ConverterOptions = {}) => {
   return [
     removeUnnecessaryExpressionsTransformer(converterOptions),
     unsupportedStatementTransformer(converterOptions),
-    literalExpressionTransformer,
-    deployTimeStatementTransformer,
-    stringTemplateTransformer,
     ifStatementTransformer(converterOptions),
     arrayFilterTransformer(converterOptions),
     arrayMapTransformer(converterOptions),
@@ -39,9 +36,11 @@ export const createTransformers = (converterOptions: ConverterOptions = {}) => {
     promiseAllStatementTransformer(converterOptions),
     consoleLogStatementTransformer(converterOptions),
     callStatementTransformer(converterOptions),
+    deployTimeStatementTransformer,
+    literalExpressionTransformer,
+    stringTemplateTransformer,
     whileStatementTransformer(converterOptions),
     doWhileStatementTransformer(converterOptions),
     forOfStatementTransformer(converterOptions),
-
   ];
 }

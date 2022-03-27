@@ -9,7 +9,7 @@
             "_syntaxKind": "literal"
           },
           "b": {
-            "value": "s3:::arn:undefined",
+            "value": "s3:::arn:[!parameter[bucketName]]",
             "type": "string",
             "_syntaxKind": "literal"
           },

@@ -1,0 +1,86 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign arr",
+        "parameters": {
+          "elements": [
+            {
+              "value": 1,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 2,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 3,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 4,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 5,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "arr = [1, 2, 3, 4, 5]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign arr",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "two",
+        "_syntaxKind": "identifier",
+        "type": "numeric"
+      },
+      "expression": {
+        "stateName": "Assign two",
+        "parameters": {
+          "identifier": "arr",
+          "indexExpression": {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "lhs": {
+            "identifier": "arr",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "_syntaxKind": "identifier"
+        },
+        "source": "two = arr[1]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign two",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "two",
+        "_syntaxKind": "identifier",
+        "type": "numeric"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return two"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

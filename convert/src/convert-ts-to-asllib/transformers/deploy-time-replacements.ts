@@ -3,6 +3,7 @@ import * as ts from 'typescript';
 import * as asl from "@ts2asl/asl-lib/lib/deploy";
 import { valueToLiteralExpression } from '../../util';
 import { isAslCallExpression } from './node-utility';
+import { ParserError } from '../../ParserError';
 
 export const deployTimeStatementTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node {
@@ -21,27 +22,25 @@ export const deployTimeStatementTransformer = <T extends ts.Node>(context: ts.Tr
           return valueToLiteralExpression(val as any);
         }
         if (type === "deploy.getLambdaName") {
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error(`first argument to asl.deploy.getLambdaName must be a literal (not a variable)`);
-          const paramName = node.arguments[0].text;
+          const paramName = getFunctionName(node.arguments[0]);
           const val = asl.deploy.getLambdaName(paramName);
 
           return valueToLiteralExpression(val as any);
         }
         if (type === "deploy.getLambdaArn") {
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error(`first argument to asl.deploy.getLambdaArn must be a literal (not a variable)`);
-          const paramName = node.arguments[0].text;
+          const paramName = getFunctionName(node.arguments[0]);
           const val = asl.deploy.getLambdaArn(paramName);
 
           return valueToLiteralExpression(val as any);
         }
         if (type === "deploy.getStateMachineName") {
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error(`first argument to asl.deploy.getStateMachineName must be a literal (not a variable)`);
-          const paramName = node.arguments[0].text;
+          const paramName = getFunctionName(node.arguments[0]);
           const val = asl.deploy.getStateMachineName(paramName);
+
+          return valueToLiteralExpression(val as any);
         }
         if (type === "deploy.getStateMachineArn") {
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error(`first argument to asl.deploy.getStateMachineArn must be a literal (not a variable)`);
-          const paramName = node.arguments[0].text;
+          const paramName = getFunctionName(node.arguments[0]);
           const val = asl.deploy.getStateMachineArn(paramName);
 
           return valueToLiteralExpression(val as any);
@@ -54,3 +53,13 @@ export const deployTimeStatementTransformer = <T extends ts.Node>(context: ts.Tr
   }
   return ts.visitNode(rootNode, visit);
 };
+
+
+const getFunctionName = (node: ts.Node): string => {
+  if (ts.isStringLiteral(node)) {
+    return node.text;
+  } else if (ts.isIdentifier(node)) {
+    return node.text;
+  }
+  throw new ParserError("Unable to infer function name", node);
+}

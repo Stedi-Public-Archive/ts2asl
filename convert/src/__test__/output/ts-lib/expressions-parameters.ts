@@ -33,7 +33,7 @@ export const booleans = asl.deploy.asStateMachine(async () => {
 export const parameters = asl.deploy.asStateMachine(async () =>{
     return {
         a: "[!parameter[bucketName]]",
-        b: "s3:::arn:undefined",
+        b: "s3:::arn:[!parameter[bucketName]]",
         c: "value -> [!parameter[bucketName]] <- value",
     };
 });

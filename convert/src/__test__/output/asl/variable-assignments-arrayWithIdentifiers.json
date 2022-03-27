@@ -27,6 +27,7 @@
       "Type": "Pass",
       "ResultPath": "$.vars.bool",
       "Result": true,
+      "Comment": "source: bool = true || false",
       "Next": "Assign object"
     },
     "Assign object": {

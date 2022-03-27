@@ -1,0 +1,38 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arr",
+      "Result": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "Comment": "source: arr = [1, 2, 3, 4, 5]",
+      "Next": "Assign two"
+    },
+    "Assign two": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.two",
+      "InputPath": "$.vars.arr[1]arr",
+      "Comment": "source: two = arr[1]",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.two"
+    }
+  }
+}

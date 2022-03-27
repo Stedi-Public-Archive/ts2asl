@@ -38,16 +38,33 @@ export const main = asl.deploy.asStateMachine(async () => {
   }
 });
 
-export const numericComparison = asl.deploy.asStateMachine(async () => {
-  const condition = 42;
-  const items = [2, 42, 3];
-  const listWithRetunrned = items.map(item => {
-    if (item === condition) {
-      return { returned: item };
-    }
-  });
-  const item = listWithRetunrned.filter(x => x.returned);
-  return item;
+export const numericComparison = asl.deploy.asStateMachine(async () =>{
+    const condition = asl.pass({
+        name: "Assign condition",
+        parameters: () => 42,
+        comment: "condition = 42"
+    });
+    const items = asl.pass({
+        name: "Assign items",
+        parameters: () => [2, 42, 3],
+        comment: "items = [2, 42, 3]"
+    });
+    const listWithRetunrned = asl.map({
+        name: "For item Of items.map",
+        items: () => items,
+        iterator: item => {
+            asl.typescriptIf({
+                name: "If (item === condition)",
+                condition: () => item === condition,
+                then: async () => {
+                    return { returned: item };
+                },
+                comment: "if (item === condition) {\n      return { returned: item };\n    }"
+            })
+        }
+    });
+    const item = asl.jsonPathFilter(listWithRetunrned, (x) => x.returned);
+    return item;
 });
 
 class ValidationError extends Error {

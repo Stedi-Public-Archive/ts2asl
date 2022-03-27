@@ -43,7 +43,7 @@ describe("when converting variable-assignments", () => {
             "Type": "Pass",
           },
           "Assign bool": Object {
-            "Comment": undefined,
+            "Comment": "source: bool = true || false",
             "Next": "Assign object",
             "Result": true,
             "ResultPath": "$.vars.bool",
@@ -129,7 +129,7 @@ describe("when converting variable-assignments", () => {
             "Type": "Pass",
           },
           "Assign bool": Object {
-            "Comment": undefined,
+            "Comment": "source: bool = true || false",
             "Next": "Assign object",
             "Result": true,
             "ResultPath": "$.vars.bool",

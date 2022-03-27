@@ -1,0 +1,82 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign condition"
+    },
+    "Assign condition": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.condition",
+      "Result": 42,
+      "Comment": "source: condition = 42",
+      "Next": "Assign items"
+    },
+    "Assign items": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.items",
+      "Result": [
+        2,
+        42,
+        3
+      ],
+      "Comment": "source: items = [2, 42, 3]",
+      "Next": "Assign listWithRetunrned"
+    },
+    "Assign listWithRetunrned": {
+      "Type": "Map",
+      "ResultPath": "$.vars.listWithRetunrned",
+      "Iterator": {
+        "StartAt": "If (item === condition)",
+        "States": {
+          "If (item === condition)": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.vars.item",
+                "NumericEqualsPath": "$.vars.condition",
+                "Next": "Pass"
+              }
+            ],
+            "Comment": "source: if (item === condition) { return { returned: i ...",
+            "Default": "Empty Default Choice"
+          },
+          "Pass": {
+            "Type": "Pass",
+            "Parameters": {
+              "returned.$": "$.vars.item"
+            },
+            "End": true
+          },
+          "Empty Default Choice": {
+            "Type": "Pass",
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.items",
+      "Parameters": {
+        "vars": {
+          "item.$": "$$.Map.Item.Value",
+          "condition.$": "$.vars.condition"
+        }
+      },
+      "Next": "Assign item"
+    },
+    "Assign item": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.item",
+      "InputPath": "$.vars.listWithRetunrned[?(@.returned)]",
+      "Next": "Pass_1"
+    },
+    "Pass_1": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.item"
+    }
+  }
+}

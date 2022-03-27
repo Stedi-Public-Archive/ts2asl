@@ -66,7 +66,7 @@ describe("when transpiling binary expressions", () => {
     `);
   });
 
-  it("then double pipe unary is supported", () => {
+  it("then double ! unary is supported", () => {
     const transformed = testTransform(
       `
       if (!!x) { console.log('debug') }

@@ -25,7 +25,8 @@ export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () =>{
     });
     let bool = asl.pass({
         name: "Assign bool",
-        parameters: () => true
+        parameters: () => true,
+        comment: "bool = true || false"
     });
     let object = asl.pass({
         name: "Assign object",
@@ -34,6 +35,11 @@ export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () =>{
     });
     let array = asl.states.array(str, num, bool, object);
     return array;
+});
+export const arrayIndexer = asl.deploy.asStateMachine(async () => {
+  let arr = [1, 2, 3, 4, 5]
+  let two = arr[1];
+  return two;
 });
 
 export const functions = asl.deploy.asStateMachine(async () => {

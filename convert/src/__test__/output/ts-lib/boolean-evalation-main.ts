@@ -105,6 +105,18 @@ export const main = asl.deploy.asStateMachine(async () =>{
     })
 });
 
+export const numericComparison = asl.deploy.asStateMachine(async () => {
+  const condition = 42;
+  const items = [2, 42, 3];
+  const listWithRetunrned = items.map(item => {
+    if (item === condition) {
+      return { returned: item };
+    }
+  });
+  const item = listWithRetunrned.filter(x => x.returned);
+  return item;
+});
+
 class ValidationError extends Error {
   constructor(message: string) {
     super(message);

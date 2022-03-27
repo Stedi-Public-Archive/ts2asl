@@ -152,35 +152,35 @@ describe("when converting throw", () => {
           "Parallel_1": Object {
             "Branches": Array [
               Object {
-                "StartAt": "Log (???)",
+                "StartAt": "Log (\`cause \${error.Cause}\`)",
                 "States": Object {
-                  "Log (???)": Object {
+                  "Log (\`cause \${error.Cause}\`)": Object {
                     "Comment": "source: result of an expression cannot be placed in In ...",
-                    "Next": "Log (???)_1",
+                    "Next": "Log (\`cause \${error.Cause}\`)_1",
                     "Parameters": Object {
                       "value.$": "States.Format('cause {}', $.vars.error.Cause)",
                     },
                     "ResultPath": "$.lastResult",
                     "Type": "Pass",
                   },
-                  "Log (???)_1": Object {
-                    "Comment": undefined,
+                  "Log (\`cause \${error.Cause}\`)_1": Object {
+                    "Comment": "source: console.log(\`cause \${error.Cause}\`)",
                     "InputPath": "$.lastResult.value",
-                    "Next": "Log (???)_2",
+                    "Next": "Log (\`message \${error.Err ...",
                     "ResultPath": "$.lastResult",
                     "Type": "Pass",
                   },
-                  "Log (???)_2": Object {
+                  "Log (\`message \${error.Err ...": Object {
                     "Comment": "source: result of an expression cannot be placed in In ...",
-                    "Next": "Log (???)_3",
+                    "Next": "Log (\`message \${error.Err ..._1",
                     "Parameters": Object {
                       "value.$": "States.Format('message {}', $.vars.error.Error)",
                     },
                     "ResultPath": "$.lastResult",
                     "Type": "Pass",
                   },
-                  "Log (???)_3": Object {
-                    "Comment": undefined,
+                  "Log (\`message \${error.Err ..._1": Object {
+                    "Comment": "source: console.log(\`message \${error.Error}\`)",
                     "End": true,
                     "InputPath": "$.lastResult.value",
                     "ResultPath": "$.lastResult",

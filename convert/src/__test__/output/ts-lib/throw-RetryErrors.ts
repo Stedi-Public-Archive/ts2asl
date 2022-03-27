@@ -59,6 +59,17 @@ export const CatchErrors = asl.deploy.asStateMachine(async () => {
   })
 });
 
+// https://github.com/OlafConijn/ts2asl/issues/31
+// export const rethrowErrors = asl.deploy.asStateMachine(async (input: Input) => {
+//   try {
+//     throw new Error("bad luck");
+//   } catch (err) {
+//     if (err.reason === "bad luck") {
+//       throw err;
+//     }
+//   }
+// });
+
 class UnexpectedError extends Error {
   constructor(message: string) {
     super(message);

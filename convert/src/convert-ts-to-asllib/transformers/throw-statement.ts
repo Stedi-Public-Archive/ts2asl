@@ -9,7 +9,7 @@ export const throwStatementTransformer = (converterOptions: ConverterOptions) =>
   function visit(node: ts.Node): ts.Node {
     node = ts.visitEachChild(node, visit, context);
 
-    if (node && ts.isThrowStatement(node)) {
+    if (ts.isThrowStatement(node)) {
       if (!ts.isNewExpression(node.expression)) throw new ParserError(`throw statement must have new expression`, node);
       if (node.expression.arguments && 2 <= node.expression.arguments.length) throw new ParserError(`error thrown must not have 2 or more arguments`, node);
       if (node.expression.arguments && node.expression.arguments.length === 1 && !ts.isStringLiteral(node.expression.arguments[0])) throw new ParserError(`error thrown must have string literal as argument`, node);

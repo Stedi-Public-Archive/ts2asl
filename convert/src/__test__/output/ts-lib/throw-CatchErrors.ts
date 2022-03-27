@@ -53,17 +53,30 @@ export const CatchErrors = asl.deploy.asStateMachine(async () =>{
                 errorEquals: ["UnexpectedError"],
                 block: (error) => {
                     asl.pass({
-                        name: "Log (???)",
-                        parameters: () => asl.states.format("cause {}", error.Cause)
+                        name: "Log (`cause ${error.Cause}`)",
+                        parameters: () => asl.states.format("cause {}", error.Cause),
+                        comment: "console.log(`cause ${error.Cause}`)"
                     });
                     asl.pass({
-                        name: "Log (???)",
-                        parameters: () => asl.states.format("message {}", error.Error)
+                        name: "Log (`message ${error.Err ...",
+                        parameters: () => asl.states.format("message {}", error.Error),
+                        comment: "console.log(`message ${error.Error}`)"
                     });
                 }
             }]
     });
 });
+
+// https://github.com/OlafConijn/ts2asl/issues/31
+// export const rethrowErrors = asl.deploy.asStateMachine(async (input: Input) => {
+//   try {
+//     throw new Error("bad luck");
+//   } catch (err) {
+//     if (err.reason === "bad luck") {
+//       throw err;
+//     }
+//   }
+// });
 
 class UnexpectedError extends Error {
   constructor(message: string) {
