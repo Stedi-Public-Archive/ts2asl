@@ -46,7 +46,7 @@
       "catch": [
         {
           "errorEquals": [
-            "States.All"
+            "States.ALL"
           ],
           "block": {
             "statements": [

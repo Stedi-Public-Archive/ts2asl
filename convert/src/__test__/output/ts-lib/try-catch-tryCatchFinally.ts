@@ -45,7 +45,7 @@ export const tryCatchFinally = asl.deploy.asStateMachine(async () =>{
         catch: [
             {
                 errorEquals: [
-                    "States.All"
+                    "States.ALL"
                 ],
                 block: () => {
                     asl.pass({

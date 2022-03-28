@@ -30,7 +30,7 @@
         {
           "Next": "Pass",
           "ErrorEquals": [
-            "States.All"
+            "States.ALL"
           ]
         }
       ],

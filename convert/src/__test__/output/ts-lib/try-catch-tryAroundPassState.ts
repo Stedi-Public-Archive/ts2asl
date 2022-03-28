@@ -27,7 +27,7 @@ export const tryAroundPassState = asl.deploy.asStateMachine(async () =>{
         catch: [
             {
                 errorEquals: [
-                    "States.All"
+                    "States.ALL"
                 ],
                 block: () => {
                     return "this never happens";

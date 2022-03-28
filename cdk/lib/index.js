@@ -41,7 +41,7 @@ class TypescriptStateMachine extends core_1.Construct {
         const foundLambdaNames = [];
         this.functions = {};
         for (const lambda of converted.lambdas) {
-            const logicalId = `${props.programName}${lambda.name.substring(0, 1).toUpperCase()}${lambda.name.substring(1)}`;
+            const logicalId = `${id}${lambda.name.substring(0, 1).toUpperCase()}${lambda.name.substring(1)}`;
             const entry = sourceFile;
             const handler = lambda.name;
             const fnProps = (_c = (_b = props.functionProps) === null || _b === void 0 ? void 0 : _b[lambda.name]) !== null && _c !== void 0 ? _c : {};
@@ -50,7 +50,6 @@ class TypescriptStateMachine extends core_1.Construct {
                 ...fnProps,
                 entry,
                 handler,
-                bundling: {},
                 runtime: aws_lambda_1.Runtime.NODEJS_14_X
             });
             arnDict["lambda:" + lambda.name] = fn.functionArn;
@@ -66,7 +65,7 @@ class TypescriptStateMachine extends core_1.Construct {
         this.stateMachines = {};
         const foundStateMachineNames = [];
         for (const step of converted.stateMachines) {
-            const logicalId = `${props.programName}${step.name.substring(0, 1).toUpperCase()}${step.name.substring(1)}`;
+            const logicalId = `${id}${step.name.substring(0, 1).toUpperCase()}${step.name.substring(1)}`;
             const sfnProps = (_f = (_e = props.stepFunctionProps) === null || _e === void 0 ? void 0 : _e[step.name]) !== null && _f !== void 0 ? _f : {};
             const sm = new aws_stepfunctions_1.CfnStateMachine(scope, logicalId, {
                 ...props.defaultStepFunctionProps,

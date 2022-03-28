@@ -21,8 +21,7 @@
       "catch": [
         {
           "errorEquals": [
-            "States.All",
-            "NotImplemented"
+            "States.ALL"
           ],
           "block": {
             "inputArgumentName": {

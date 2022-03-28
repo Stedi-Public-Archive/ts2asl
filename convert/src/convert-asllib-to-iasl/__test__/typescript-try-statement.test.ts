@@ -9,7 +9,7 @@ describe("when converting try statement to iasl", () => {
       catch: [
           {
             errorEquals: [
-                  \\"States.All\\"
+                  \\"States.ALL\\"
               ],
               block: (arg) => { asl.task({ resource: "urn", parameters: {error: arg.Cause} }); }
           }
@@ -50,7 +50,7 @@ describe("when converting try statement to iasl", () => {
                   ],
                 },
                 "errorEquals": Array [
-                  "States.All\\"",
+                  "States.ALL\\"",
                 ],
               },
             ],
@@ -77,7 +77,7 @@ describe("when converting try statement to iasl", () => {
       catch: [
           {
             errorEquals: [
-                  \\"States.All\\"
+                  \\"States.ALL\\"
               ],
               block: () => { asl.task({ resource: "urn" } }
           }
@@ -104,7 +104,7 @@ describe("when converting try statement to iasl", () => {
                   ],
                 },
                 "errorEquals": Array [
-                  "States.All\\"",
+                  "States.ALL\\"",
                 ],
               },
             ],

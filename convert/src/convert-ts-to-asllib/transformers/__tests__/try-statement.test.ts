@@ -15,7 +15,7 @@ describe("when converting try statements", () => {
           catch: [
               {
                   errorEquals: [
-                      \\"States.All\\"
+                      \\"States.ALL\\"
                   ],
                   block: () => { console.log('nay'); }
               }

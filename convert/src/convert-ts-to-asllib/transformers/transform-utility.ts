@@ -129,23 +129,7 @@ export class TransformUtil {
       ))
     }
 
-    const errors: string[] = ["States.All"]
-    const recurse = node => {
-      ts.forEachChild(node, child => {
-        iterator(child);
-        recurse(child);
-      });
-    }
-    const iterator = (node: ts.Node) => {
-      if (ts.isThrowStatement(node)) {
-        if (!ts.isNewExpression(node.expression)) return;
-        if (!ts.isIdentifier(node.expression.expression)) return;
-        const errorType = node.expression.expression.text;
-        errors.push(errorType);
-      }
-    };
-
-    recurse(tryBlock);
+    const errors: string[] = ["States.ALL"]
 
     return factory.createPropertyAssignment(
       factory.createIdentifier("catch"),

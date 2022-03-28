@@ -14,8 +14,7 @@ export const tryCatch = asl.deploy.asStateMachine(async (input: Input) =>{
         catch: [
             {
                 errorEquals: [
-                    "States.All",
-                    "NotImplemented"
+                    "States.ALL"
                 ],
                 block: err => {
                     asl.typescriptIf({

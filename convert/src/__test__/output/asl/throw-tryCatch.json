@@ -33,8 +33,7 @@
         {
           "Next": "Parallel_1",
           "ErrorEquals": [
-            "States.All",
-            "NotImplemented"
+            "States.ALL"
           ],
           "ResultPath": "$.vars.err"
         }

@@ -30,7 +30,7 @@
         {
           "Next": "Log (\"failed\")",
           "ErrorEquals": [
-            "States.All"
+            "States.ALL"
           ]
         }
       ],

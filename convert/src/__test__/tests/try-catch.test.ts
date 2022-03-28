@@ -27,7 +27,7 @@ describe("when converting try-catch", () => {
             "Catch": Array [
               Object {
                 "ErrorEquals": Array [
-                  "States.All",
+                  "States.ALL",
                 ],
                 "Next": "Pass",
               },
@@ -107,7 +107,7 @@ describe("when converting try-catch", () => {
             "Catch": Array [
               Object {
                 "ErrorEquals": Array [
-                  "States.All",
+                  "States.ALL",
                 ],
                 "Next": "Pass_1",
               },
@@ -227,7 +227,7 @@ describe("when converting try-catch", () => {
             "Catch": Array [
               Object {
                 "ErrorEquals": Array [
-                  "States.All",
+                  "States.ALL",
                 ],
                 "Next": "Log (\\"failed\\")",
               },

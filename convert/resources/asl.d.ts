@@ -154,6 +154,8 @@ export declare const jsonPathExpression: (items: unknown, expression: string) =>
 export declare const jsonPathMap: (items: unknown[], expression: string) => unknown[];
 export declare namespace states {
     function format(format: string, ...args: unknown[]): string;
+    function stringToBoolean(arg: string | undefined): unknown;
+    function stringToNumber(arg: string | undefined): number;
     function stringToJson(arg: string | undefined): unknown;
     function jsonToString(arg: unknown): string;
     function array(...args: unknown[]): unknown[];
