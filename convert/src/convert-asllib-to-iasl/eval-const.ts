@@ -20,7 +20,7 @@ export const evalConstTransformer = (typeChecker: ts.TypeChecker) => <T extends 
         if (!symbol) throw new ParserError(`unable to resolve symbol of ${identifier.text}`, node);
         const decls = symbol.getDeclarations();
         if (!decls || decls.length === 0) throw new ParserError(`unable to resolve symbol of ${identifier.text}`, node);
-        const decl = decls.at(0) as ts.Node;
+        const decl = decls.find(x => true) as ts.Node;
         if (!ts.isVariableDeclaration(decl)) throw new ParserError(`unable to resolve symbol of ${identifier.text}`, node);
         if (!decl.initializer) throw new ParserError(`unable to resolve symbol of ${identifier.text}`, node);
         if (decl.initializer) {
