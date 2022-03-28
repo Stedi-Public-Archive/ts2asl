@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TypescriptStateMachine = void 0;
 const aws_stepfunctions_1 = require("@aws-cdk/aws-stepfunctions");
@@ -7,9 +26,10 @@ const core_1 = require("@aws-cdk/core");
 const convert_1 = require("@ts2asl/convert");
 const convert_2 = require("@ts2asl/convert");
 const aws_lambda_nodejs_1 = require("@aws-cdk/aws-lambda-nodejs");
+const fs = __importStar(require("fs"));
 class TypescriptStateMachine extends core_1.Construct {
     constructor(scope, id, props) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         //sourceFile, cwd & diagnostics are converted to a definitionString.
         const { sourceFile, cwd } = props;
         const compilerHost = (0, convert_2.createCompilerHostFromFile)(sourceFile, cwd);
@@ -21,7 +41,7 @@ class TypescriptStateMachine extends core_1.Construct {
         const foundLambdaNames = [];
         this.functions = {};
         for (const lambda of converted.lambdas) {
-            const logicalId = `${id}${lambda.name.substring(0, 1).toUpperCase()}${lambda.name.substring(1)}`;
+            const logicalId = `${props.programName}${lambda.name.substring(0, 1).toUpperCase()}${lambda.name.substring(1)}`;
             const entry = sourceFile;
             const handler = lambda.name;
             const fnProps = (_c = (_b = props.functionProps) === null || _b === void 0 ? void 0 : _b[lambda.name]) !== null && _c !== void 0 ? _c : {};
@@ -30,6 +50,7 @@ class TypescriptStateMachine extends core_1.Construct {
                 ...fnProps,
                 entry,
                 handler,
+                bundling: {},
                 runtime: aws_lambda_1.Runtime.NODEJS_14_X
             });
             arnDict["lambda:" + lambda.name] = fn.functionArn;
@@ -45,13 +66,14 @@ class TypescriptStateMachine extends core_1.Construct {
         this.stateMachines = {};
         const foundStateMachineNames = [];
         for (const step of converted.stateMachines) {
-            const logicalId = `${id}${step.name.substring(0, 1).toUpperCase()}${step.name.substring(1)}`;
+            const logicalId = `${props.programName}${step.name.substring(0, 1).toUpperCase()}${step.name.substring(1)}`;
             const sfnProps = (_f = (_e = props.stepFunctionProps) === null || _e === void 0 ? void 0 : _e[step.name]) !== null && _f !== void 0 ? _f : {};
             const sm = new aws_stepfunctions_1.CfnStateMachine(scope, logicalId, {
                 ...props.defaultStepFunctionProps,
                 ...sfnProps,
                 definition: step.asl,
             });
+            sm.addMetadata("ts2asl:sourceFunctionName", step.name);
             arnDict["statemachine:" + step.name] = sm.attrArn;
             stateMachines.push(sm);
             this.stateMachines[step.name] = sm;
@@ -67,6 +89,11 @@ class TypescriptStateMachine extends core_1.Construct {
             const stringified = JSON.stringify(replaced, null, 2);
             sm.definitionString = replaceExpressions(stringified, (_h = props.parameters) !== null && _h !== void 0 ? _h : {}, this.stateMachines, this.functions);
             delete sm.definition;
+            if ((_j = props.conversionOptions) === null || _j === void 0 ? void 0 : _j.emitStateLanguageFiles) {
+                const fnName = sm.getMetadata("ts2asl:sourceFunctionName");
+                const filename = sourceFile.replace(".ts", "." + fnName + ".json");
+                fs.writeFileSync(filename, sm.definitionString);
+            }
         }
     }
 }

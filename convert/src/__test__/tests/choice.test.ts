@@ -159,10 +159,9 @@ describe("when converting choice", () => {
             "Next": "Assign val.g",
             "OutputPath": "$[0]",
             "Parameters": Object {
-              "vars": Object {
-                "val.$": "$.vars.val",
-              },
+              "vars.$": "$.vars",
             },
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Parallel",
           },
           "Then_1": Object {
@@ -190,10 +189,9 @@ describe("when converting choice", () => {
             "Next": "Assign val.g",
             "OutputPath": "$[0]",
             "Parameters": Object {
-              "vars": Object {
-                "val.$": "$.vars.val",
-              },
+              "vars.$": "$.vars",
             },
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Parallel",
           },
         },

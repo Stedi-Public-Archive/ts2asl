@@ -36,6 +36,7 @@ describe("when converting try-catch", () => {
             "End": true,
             "HeartbeatSeconds": undefined,
             "Resource": "[!lambda[lambda]arn]",
+            "ResultPath": "$.tmp.lastResult",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -113,6 +114,10 @@ describe("when converting try-catch", () => {
             ],
             "End": true,
             "OutputPath": "$[0]",
+            "Parameters": Object {
+              "vars.$": "$.vars",
+            },
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Parallel",
           },
           "Pass_1": Object {
@@ -172,6 +177,7 @@ describe("when converting try-catch", () => {
             "HeartbeatSeconds": undefined,
             "Next": "Pass",
             "Resource": "[!lambda[lambda]arn]",
+            "ResultPath": "$.tmp.lastResult",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -230,6 +236,7 @@ describe("when converting try-catch", () => {
             "HeartbeatSeconds": undefined,
             "Next": "Pass",
             "Resource": "[!lambda[lambda]arn]",
+            "ResultPath": "$.tmp.lastResult",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,

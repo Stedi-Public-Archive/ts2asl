@@ -5,6 +5,7 @@ import { Converter, ConverterOptions } from "@ts2asl/convert"
 import { createCompilerHostFromFile } from "@ts2asl/convert"
 import { NodejsFunction, NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
 import { StateMachine, Task, Map, Parallel } from "asl-types";
+import * as fs from "fs";
 
 export interface TypescriptStateMachineProps {
   defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
@@ -13,7 +14,7 @@ export interface TypescriptStateMachineProps {
   functionProps?: Record<string, Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">>;
   programName: string;
   sourceFile: string;
-  conversionOptions?: ConverterOptions;
+  conversionOptions?: ConverterOptions & { emitStateLanguageFiles?: true };
   cwd?: string; // current working directory, used to resolve dependencies and tsconfig.json. default is process.cwd();
   parameters?: Record<string, string>;
 }
@@ -70,6 +71,7 @@ export class TypescriptStateMachine extends Construct {
         ...sfnProps,
         definition: step.asl!,
       });
+      sm.addMetadata("ts2asl:sourceFunctionName", step.name);
       arnDict["statemachine:" + step.name] = sm.attrArn;
       stateMachines.push(sm);
       this.stateMachines[step.name] = sm;
@@ -86,6 +88,12 @@ export class TypescriptStateMachine extends Construct {
       const stringified = JSON.stringify(replaced, null, 2);
       sm.definitionString = replaceExpressions(stringified, props.parameters ?? {}, this.stateMachines, this.functions);
       delete sm.definition;
+
+      if (props.conversionOptions?.emitStateLanguageFiles) {
+        const fnName = sm.getMetadata("ts2asl:sourceFunctionName");
+        const filename = sourceFile.replace(".ts", "." + fnName + ".json");
+        fs.writeFileSync(filename, sm.definitionString);
+      }
     }
   }
 }

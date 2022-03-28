@@ -31,7 +31,6 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
       }
       expression = contextual;
       break;
-
     } else {
       return undefined;
     }

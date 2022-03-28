@@ -55,6 +55,7 @@ describe("when converting map", () => {
                     "TableName": "[!parameter[tableName]]",
                   },
                   "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+                  "ResultPath": "$.tmp.lastResult",
                   "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",

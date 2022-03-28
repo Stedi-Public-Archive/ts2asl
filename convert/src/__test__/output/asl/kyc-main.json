@@ -59,6 +59,7 @@
     },
     "PutEvents": {
       "Type": "Task",
+      "ResultPath": "$.tmp.lastResult",
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
         "Entries": [
@@ -123,6 +124,7 @@
     },
     "PutEvents_1": {
       "Type": "Task",
+      "ResultPath": "$.tmp.lastResult",
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
         "Entries": [
@@ -138,6 +140,7 @@
     },
     "PutEvents_2": {
       "Type": "Task",
+      "ResultPath": "$.tmp.lastResult",
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
         "Entries": [

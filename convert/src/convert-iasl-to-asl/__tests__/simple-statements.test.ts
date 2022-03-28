@@ -28,14 +28,14 @@ describe("when transpiling simple statements", () => {
       }
     `);
   });
-  it("then multiple assignments can be chained", () => {
+  it.only("then multiple assignments can be chained", () => {
     const iasl = testConvertToIntermediaryAst(
       `
       let literalString = 'hello'; 
       literalNum = 42; 
       variableAssignment = anotherVar; 
       complexVariableAssignment = anotherVar.path[something.pointer].leaf; 
-      literalArrayAccessExpression = anotherVar.path[0].leaf; 
+       literalArrayAccessExpression = anotherVar.path[0].leaf; 
       objectLiteral = { name: 'literal', num: 42}; 
       objectLiteralWithVariableAssignment = { name: 'literal', age: anotherVar}; 
       

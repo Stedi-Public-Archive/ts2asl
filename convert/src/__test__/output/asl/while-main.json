@@ -18,6 +18,7 @@
     },
     "While (true)": {
       "Type": "Parallel",
+      "ResultPath": "$.tmp.lastResult",
       "Parameters": {
         "vars": {
           "result.$": "$.vars.result"

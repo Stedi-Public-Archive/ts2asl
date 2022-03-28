@@ -122,6 +122,7 @@ describe("when converting parallel", () => {
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar1",
                     "Resource": "[!lambda[worker]arn]",
+                    "ResultPath": "$.tmp.lastResult",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -148,6 +149,7 @@ describe("when converting parallel", () => {
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar2",
                     "Resource": "[!lambda[worker]arn]",
+                    "ResultPath": "$.tmp.lastResult",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,

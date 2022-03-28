@@ -10,6 +10,7 @@ export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
     let nameSuggestion: string | undefined = expression.stateName;
     let properties = {};
+    let discardResult = false;
     if (iasl.Check.isVariableAssignment(expression)) {
       properties["ResultPath"] = convertIdentifierToPathExpression(expression.name);
       nameSuggestion = nameSuggestionForAssignment(expression.name, expression.stateName);
@@ -19,9 +20,7 @@ export class AslFactory {
         expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
       }
     } else {
-      if (iasl.Check.isAslMapState(expression)) {
-        properties["ResultPath"] = "$.tmp.lastResult"
-      }
+      discardResult = true;
     }
 
     if (iasl.Check.isAslPassState(expression)) {
@@ -58,6 +57,7 @@ export class AslFactory {
       const task = {
         Type: "Task",
         ...properties,
+        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
         Resource: expression.resource,
         ...(parameters && parameters.path !== undefined ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value } : {}),
         Retry: expression.retry,
@@ -87,6 +87,7 @@ export class AslFactory {
       context.appendNextState({
         Type: "Parallel",
         ...properties,
+        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
         ...createParameters(scopes, [expression.while]),
         Branches: [stateMachine],
         Comment: expression.source,
@@ -162,6 +163,7 @@ export class AslFactory {
       context.appendNextState({
         Type: "Parallel",
         ...properties,
+        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
         ...createParameters(scopes, [expression.while]),
         Branches: [stateMachine],
         Comment: expression.source,
@@ -182,6 +184,7 @@ export class AslFactory {
       const parallelState = {
         Branches: branches,
         ...properties,
+        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
         Type: "Parallel",
         Catch: expression.catch,
         Retry: expression.retry,
@@ -198,6 +201,7 @@ export class AslFactory {
       const mapState = {
         Type: "Map",
         ...properties,
+        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
         Iterator: iterator,
         ItemsPath: items.path,
         MaxConcurrency: expression.maxConcurrency,

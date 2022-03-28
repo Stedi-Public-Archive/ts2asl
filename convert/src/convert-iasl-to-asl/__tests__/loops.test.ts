@@ -66,6 +66,7 @@ describe("when transpiling simple statements", () => {
                 "result.$": "$.vars.result",
               },
             },
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Parallel",
           },
           "Assign result": Object {

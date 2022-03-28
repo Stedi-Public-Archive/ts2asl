@@ -120,6 +120,7 @@ describe("when converting while", () => {
                 "result.$": "$.vars.result",
               },
             },
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Parallel",
           },
         },

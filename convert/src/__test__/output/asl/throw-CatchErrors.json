@@ -23,6 +23,7 @@
           }
         }
       ],
+      "ResultPath": "$.tmp.lastResult",
       "Type": "Parallel",
       "Catch": [
         {
@@ -47,6 +48,10 @@
     },
     "Parallel_1": {
       "Type": "Parallel",
+      "ResultPath": "$.tmp.lastResult",
+      "Parameters": {
+        "vars.$": "$.vars"
+      },
       "OutputPath": "$[0]",
       "Branches": [
         {

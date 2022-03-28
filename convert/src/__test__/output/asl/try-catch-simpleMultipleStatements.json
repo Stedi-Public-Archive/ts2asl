@@ -11,6 +11,10 @@
     },
     "Parallel": {
       "Type": "Parallel",
+      "ResultPath": "$.tmp.lastResult",
+      "Parameters": {
+        "vars.$": "$.vars"
+      },
       "OutputPath": "$[0]",
       "Branches": [
         {

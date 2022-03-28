@@ -36,6 +36,7 @@
         "States": {
           "PutItem": {
             "Type": "Task",
+            "ResultPath": "$.tmp.lastResult",
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
             "Parameters": {
               "Item": {

@@ -43,10 +43,9 @@
     },
     "Then_1": {
       "Type": "Parallel",
+      "ResultPath": "$.tmp.lastResult",
       "Parameters": {
-        "vars": {
-          "val.$": "$.vars.val"
-        }
+        "vars.$": "$.vars"
       },
       "OutputPath": "$[0]",
       "Branches": [
@@ -79,10 +78,9 @@
             },
             "Then": {
               "Type": "Parallel",
+              "ResultPath": "$.tmp.lastResult",
               "Parameters": {
-                "vars": {
-                  "val.$": "$.vars.val"
-                }
+                "vars.$": "$.vars"
               },
               "OutputPath": "$[0]",
               "Branches": [

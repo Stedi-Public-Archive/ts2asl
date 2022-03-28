@@ -19,6 +19,7 @@ import { resolveExpressionsTransformer } from "./array-initializer";
 import { stringTemplateTransformer } from "./string-template";
 import { literalExpressionTransformer } from "./resolve-literal-expressions";
 import { deployTimeStatementTransformer } from "./deploy-time-replacements";
+import { stringConversionTransformer } from "./string-conversion";
 
 export const createTransformers = (converterOptions: ConverterOptions = {}) => {
   return [
@@ -39,6 +40,7 @@ export const createTransformers = (converterOptions: ConverterOptions = {}) => {
     deployTimeStatementTransformer,
     literalExpressionTransformer,
     stringTemplateTransformer,
+    stringConversionTransformer,
     whileStatementTransformer(converterOptions),
     doWhileStatementTransformer(converterOptions),
     forOfStatementTransformer(converterOptions),

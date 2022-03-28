@@ -16,9 +16,9 @@ export namespace deploy {
   export const getStateMachineArn = (functionName: string | Function): string => {
     return `[!state-machine[${functionName}]arn]`;
   }
-  // export const evaluate = <T>(identifier: T): T => {
-  //   return identifier;
-  // }
+  export const evalConst = <T>(identifier: T): T => {
+    return identifier;
+  }
 }
 
 const parameters: Record<string, unknown> = {};

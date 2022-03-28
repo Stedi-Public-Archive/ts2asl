@@ -23,6 +23,7 @@
           }
         }
       ],
+      "ResultPath": "$.tmp.lastResult",
       "Type": "Parallel",
       "Retry": [
         {

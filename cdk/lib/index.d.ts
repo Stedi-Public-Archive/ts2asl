@@ -9,7 +9,9 @@ export interface TypescriptStateMachineProps {
     functionProps?: Record<string, Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">>;
     programName: string;
     sourceFile: string;
-    conversionOptions?: ConverterOptions;
+    conversionOptions?: ConverterOptions & {
+        emitStateLanguageFiles?: true;
+    };
     cwd?: string;
     parameters?: Record<string, string>;
 }

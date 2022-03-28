@@ -77,6 +77,7 @@
                 },
                 "doSomething(combined)": {
                   "Type": "Task",
+                  "ResultPath": "$.tmp.lastResult",
                   "Resource": "[!lambda[doSomething]arn]",
                   "InputPath": "$.vars.combined",
                   "Retry": [

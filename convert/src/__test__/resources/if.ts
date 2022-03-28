@@ -59,6 +59,3 @@ export const enclosedVars = asl.deploy.asStateMachine(async () => {
   }
   return enclosedVar;
 });
-
-
-

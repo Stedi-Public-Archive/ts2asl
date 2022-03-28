@@ -83,6 +83,7 @@ describe("when converting throw", () => {
             "Catch": undefined,
             "Comment": undefined,
             "End": true,
+            "ResultPath": "$.tmp.lastResult",
             "Retry": Array [
               Object {
                 "BackoffRate": 1.5,
@@ -137,6 +138,7 @@ describe("when converting throw", () => {
             ],
             "Comment": undefined,
             "End": true,
+            "ResultPath": "$.tmp.lastResult",
             "Retry": Array [
               Object {
                 "BackoffRate": 1.5,
@@ -191,6 +193,10 @@ describe("when converting throw", () => {
             ],
             "End": true,
             "OutputPath": "$[0]",
+            "Parameters": Object {
+              "vars.$": "$.vars",
+            },
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Parallel",
           },
         },

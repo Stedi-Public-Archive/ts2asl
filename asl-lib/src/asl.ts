@@ -244,6 +244,18 @@ export namespace states {
     return util.format(formatNode, ...args);
   }
 
+  export function stringToBoolean(arg: string | undefined): unknown {
+    if (arg === undefined) throw new Error(`cannot convert undefined to boolean`);
+    if (arg !== "true" && arg !== "false") throw new Error(`cannot convert ${arg} to boolean`);
+    if (arg === "false") return false;
+    return true;
+  }
+
+  export function stringToNumber(arg: string | undefined): number {
+    if (arg === undefined) throw new Error(`cannot convert undefined to number`);
+    return Number(arg);
+  }
+
   export function stringToJson(arg: string | undefined): unknown {
     if (arg === undefined) return undefined;
     return JSON.parse(arg);
