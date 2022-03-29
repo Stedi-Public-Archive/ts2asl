@@ -23,7 +23,7 @@ describe("when converting input parameter reference to asl", () => {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars",
-            "ResultPath": "$.lastResult",
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Pass",
           },
         },

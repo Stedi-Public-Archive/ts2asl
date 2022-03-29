@@ -46,7 +46,7 @@ describe("when converting hello-world", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return { greeting: \`H ...": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {
@@ -58,7 +58,7 @@ describe("when converting hello-world", () => {
           "random()": Object {
             "Comment": "source: random()",
             "HeartbeatSeconds": undefined,
-            "Next": "Pass",
+            "Next": "Return { greeting: \`H ...",
             "Resource": "[!lambda[random]arn]",
             "ResultPath": "$.vars.rnd",
             "Retry": Array [

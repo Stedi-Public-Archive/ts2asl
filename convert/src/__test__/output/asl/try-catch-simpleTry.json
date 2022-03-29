@@ -28,7 +28,7 @@
       "Comment": "source: source: lambda()",
       "Catch": [
         {
-          "Next": "Pass",
+          "Next": "Return \"it failed\"",
           "ErrorEquals": [
             "States.ALL"
           ]
@@ -36,7 +36,7 @@
       ],
       "End": true
     },
-    "Pass": {
+    "Return \"it failed\"": {
       "Type": "Pass",
       "Result": "it failed",
       "End": true

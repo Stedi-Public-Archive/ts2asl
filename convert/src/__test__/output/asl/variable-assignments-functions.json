@@ -7,69 +7,69 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign str"
+      "Next": "Evaluate States.Format('h ..."
     },
-    "Assign str": {
+    "Evaluate States.Format('h ...": {
       "Type": "Pass",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Parameters": {
         "value.$": "States.Format('hello {}', 'world')"
       },
       "Comment": "source: result of an expression cannot be placed in In ...",
-      "Next": "Assign str_1"
+      "Next": "Assign str"
     },
-    "Assign str_1": {
+    "Assign str": {
       "Type": "Pass",
       "ResultPath": "$.vars.str",
-      "InputPath": "$.lastResult.value",
-      "Next": "Assign num"
+      "InputPath": "$.tmp.lastResult.value",
+      "Next": "Evaluate States.Format('a ..."
     },
-    "Assign num": {
+    "Evaluate States.Format('a ...": {
       "Type": "Pass",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Parameters": {
         "value.$": "States.Format('answer is {}', 42)"
       },
       "Comment": "source: result of an expression cannot be placed in In ...",
-      "Next": "Assign num_1"
+      "Next": "Assign num"
     },
-    "Assign num_1": {
+    "Assign num": {
       "Type": "Pass",
       "ResultPath": "$.vars.num",
-      "InputPath": "$.lastResult.value",
-      "Next": "Assign combined"
+      "InputPath": "$.tmp.lastResult.value",
+      "Next": "Evaluate States.Format('1 ..."
     },
-    "Assign combined": {
+    "Evaluate States.Format('1 ...": {
       "Type": "Pass",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Parameters": {
         "value.$": "States.Format('1: {}\n 2: {}', $.vars.str, $.vars.num)"
       },
       "Comment": "source: result of an expression cannot be placed in In ...",
-      "Next": "Assign combined_1"
+      "Next": "Assign combined"
     },
-    "Assign combined_1": {
+    "Assign combined": {
       "Type": "Pass",
       "ResultPath": "$.vars.combined",
-      "InputPath": "$.lastResult.value",
-      "Next": "Assign arr"
+      "InputPath": "$.tmp.lastResult.value",
+      "Next": "Evaluate States.Array($.v ..."
     },
-    "Assign arr": {
+    "Evaluate States.Array($.v ...": {
       "Type": "Pass",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Parameters": {
         "value.$": "States.Array($.vars.str, $.vars.num, $.vars.combined)"
       },
       "Comment": "source: result of an expression cannot be placed in In ...",
-      "Next": "Assign arr_1"
+      "Next": "Assign arr"
     },
-    "Assign arr_1": {
+    "Assign arr": {
       "Type": "Pass",
       "ResultPath": "$.vars.arr",
-      "InputPath": "$.lastResult.value",
-      "Next": "Pass"
+      "InputPath": "$.tmp.lastResult.value",
+      "Next": "Return arr"
     },
-    "Pass": {
+    "Return arr": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.arr"

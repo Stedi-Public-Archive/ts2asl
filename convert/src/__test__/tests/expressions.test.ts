@@ -10,14 +10,14 @@ describe("when converting expressions", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Pass",
+            "Next": "Return",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return": Object {
             "Comment": undefined,
             "End": true,
             "Result": Object {
@@ -38,14 +38,14 @@ describe("when converting expressions", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Pass",
+            "Next": "Return { a: 10 + 10, ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return { a: 10 + 10, ...": Object {
             "Comment": undefined,
             "End": true,
             "Result": Object {
@@ -67,14 +67,14 @@ describe("when converting expressions", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Pass",
+            "Next": "Return { a: true, ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return { a: true, ...": Object {
             "Comment": undefined,
             "End": true,
             "Result": Object {
@@ -97,14 +97,14 @@ describe("when converting expressions", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Pass",
+            "Next": "Return",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return": Object {
             "Comment": undefined,
             "End": true,
             "Result": Object {

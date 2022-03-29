@@ -12,7 +12,7 @@ describe("when converting tasks", () => {
           "Assign count": Object {
             "Comment": undefined,
             "InputPath": "$.vars.buckets.Buckets.length()",
-            "Next": "Pass",
+            "Next": "Return count",
             "ResultPath": "$.vars.count",
             "Type": "Pass",
           },
@@ -35,7 +35,7 @@ describe("when converting tasks", () => {
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
-          "Pass": Object {
+          "Return count": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.count",

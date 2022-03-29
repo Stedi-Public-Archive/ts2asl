@@ -40,9 +40,21 @@ describe("when converting choice", () => {
           },
           "Assign val.g": Object {
             "Comment": undefined,
-            "Next": "Pass",
+            "Next": "Return val",
             "Result": "after choice",
             "ResultPath": "$.vars.val.g",
+            "Type": "Pass",
+          },
+          "Assign vars": Object {
+            "InputPath": "$.vars[0]",
+            "Next": "Assign vars_1",
+            "ResultPath": "$.vars",
+            "Type": "Pass",
+          },
+          "Assign vars_1": Object {
+            "InputPath": "$.vars[0]",
+            "Next": "Assign val.f",
+            "ResultPath": "$.vars",
             "Type": "Pass",
           },
           "Choice": Object {
@@ -117,7 +129,7 @@ describe("when converting choice", () => {
               },
             ],
             "Comment": undefined,
-            "Default": "Assign val.f",
+            "Default": "Assign vars",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -128,7 +140,7 @@ describe("when converting choice", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return val": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.val",
@@ -157,11 +169,10 @@ describe("when converting choice", () => {
               },
             ],
             "Next": "Assign val.g",
-            "OutputPath": "$[0]",
             "Parameters": Object {
               "vars.$": "$.vars",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.vars",
             "Type": "Parallel",
           },
           "Then_1": Object {
@@ -187,11 +198,10 @@ describe("when converting choice", () => {
               },
             ],
             "Next": "Assign val.g",
-            "OutputPath": "$[0]",
             "Parameters": Object {
               "vars.$": "$.vars",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.vars",
             "Type": "Parallel",
           },
         },
@@ -220,21 +230,21 @@ describe("when converting choice", () => {
           },
           "Assign val.a": Object {
             "Comment": undefined,
-            "Next": "Pass",
+            "Next": "Return val",
             "Result": "val is truthy",
             "ResultPath": "$.vars.val.a",
             "Type": "Pass",
           },
           "Assign val.b": Object {
             "Comment": undefined,
-            "Next": "Pass",
+            "Next": "Return val",
             "Result": "val is falsy",
             "ResultPath": "$.vars.val.b",
             "Type": "Pass",
           },
           "Assign val.c": Object {
             "Comment": undefined,
-            "Next": "Pass",
+            "Next": "Return val",
             "Result": "val is not truthy and not falsy",
             "ResultPath": "$.vars.val.c",
             "Type": "Pass",
@@ -322,7 +332,7 @@ describe("when converting choice", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return val": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.val",
@@ -354,21 +364,21 @@ describe("when converting choice", () => {
           },
           "Assign val.a": Object {
             "Comment": undefined,
-            "Next": "Pass",
+            "Next": "Return val",
             "Result": "val is truthy",
             "ResultPath": "$.vars.val.a",
             "Type": "Pass",
           },
           "Assign val.b": Object {
             "Comment": undefined,
-            "Next": "Pass",
+            "Next": "Return val",
             "Result": "val is falsy",
             "ResultPath": "$.vars.val.b",
             "Type": "Pass",
           },
           "Assign val.c": Object {
             "Comment": undefined,
-            "Next": "Pass",
+            "Next": "Return val",
             "Result": "val is not truthy and not falsy",
             "ResultPath": "$.vars.val.c",
             "Type": "Pass",
@@ -456,7 +466,7 @@ describe("when converting choice", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return val": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.val",

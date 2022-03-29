@@ -34,7 +34,7 @@
                   "source": "performIdentifyCheck()",
                   "_syntaxKind": "asl-task-state"
                 },
-                "stateName": "Assign ???",
+                "stateName": "Assign",
                 "_syntaxKind": "variable-assignment"
               },
               {
@@ -44,7 +44,7 @@
                   "type": "unknown"
                 },
                 "_syntaxKind": "return",
-                "stateName": "Return ???"
+                "stateName": "Return"
               }
             ],
             "_syntaxKind": "function"
@@ -252,7 +252,7 @@
         ],
         "_syntaxKind": "function"
       },
-      "source": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.nativeEventBridgePutEvents({\n      parameters: {\n        Entries: [\n          {\n            Detail: asl.states.jsonToString(result),\n            DetailType: \"AccountApproved\",\n            EventBusName: \"eventbusname\",\n            Source: \"com.aws.kyc\"\n          }\n        ]\n      }\n    });\n  } else {\n    await asl.nativeEventBridgePutEvents({\n      parameters: {\n        Entries: [\n          {\n            Detail: asl.states.jsonToString(result),\n            DetailType: \"AccountDeclined\",\n            EventBusName: \"eventbusname\",\n            Source: \"com.aws.kyc\"\n          }\n        ]\n      }\n    });\n  }",
+      "source": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.sdkEventBridgePutEvents({\n      parameters: {\n        Entries: [\n          {\n            Detail: asl.states.jsonToString(result),\n            DetailType: \"AccountApproved\",\n            EventBusName: \"eventbusname\",\n            Source: \"com.aws.kyc\"\n          }\n        ]\n      }\n    });\n  } else {\n    await asl.sdkEventBridgePutEvents({\n      parameters: {\n        Entries: [\n          {\n            Detail: asl.states.jsonToString(result),\n            DetailType: \"AccountDeclined\",\n            EventBusName: \"eventbusname\",\n            Source: \"com.aws.kyc\"\n          }\n        ]\n      }\n    });\n  }",
       "_syntaxKind": "if"
     }
   ],

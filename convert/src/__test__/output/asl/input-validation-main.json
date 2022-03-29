@@ -66,9 +66,9 @@
     "Wait": {
       "Type": "Wait",
       "SecondsPath": "$.vars.delayInSeconds",
-      "Next": "Pass"
+      "Next": "Return input.delayInSeconds"
     },
-    "Pass": {
+    "Return input.delayInSeconds": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.delayInSeconds"

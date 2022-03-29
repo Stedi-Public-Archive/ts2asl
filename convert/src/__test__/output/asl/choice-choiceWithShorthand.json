@@ -102,21 +102,21 @@
       "Type": "Pass",
       "ResultPath": "$.vars.val.a",
       "Result": "val is truthy",
-      "Next": "Pass"
+      "Next": "Return val"
     },
     "Assign val.b": {
       "Type": "Pass",
       "ResultPath": "$.vars.val.b",
       "Result": "val is falsy",
-      "Next": "Pass"
+      "Next": "Return val"
     },
     "Assign val.c": {
       "Type": "Pass",
       "ResultPath": "$.vars.val.c",
       "Result": "val is not truthy and not falsy",
-      "Next": "Pass"
+      "Next": "Return val"
     },
-    "Pass": {
+    "Return val": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.val"

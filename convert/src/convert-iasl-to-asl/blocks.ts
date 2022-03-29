@@ -4,9 +4,10 @@ import * as asl from "asl-types";
 import { Scopes } from "./scopes";
 import { ConversionContext } from ".";
 import { AslFactory } from "./aslfactory";
-import { createParameters } from "./parameters";
 
-export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, context: ConversionContext, options: { alwaysWrapFailState?: true } = {}): { state: asl.State, stateName?: string } => {
+interface BlockResult { state: asl.State, stateName?: string, secondState?: asl.State, secondStateName?: string };
+
+export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, context: ConversionContext, options: { alwaysWrapFailState?: true } = {}): BlockResult => {
 
   const stateMachine = convertBlock(block, scopes, context.createChildContext())
   if (!stateMachine) throw new Error("unable to convert block to state machine");
@@ -22,15 +23,32 @@ export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, contex
     }
   }
 
-  return {
+  const result = {
     state: {
       Type: "Parallel",
-      ResultPath: "$.tmp.lastResult",
+      ResultPath: "$.vars",
+      // OutputPath: "$[0]",
       Parameters: { "vars.$": "$.vars" },
-      OutputPath: "$[0]",
       Branches: [stateMachine],
     } as asl.Parallel
+  } as BlockResult;
+
+  if (Object.values(stateMachine.States).find(x => x.Type === "Pass" && !("ResultPath" in x))) {
+    // return
+    result.secondState = {
+      Type: "Pass",
+      InputPath: "$.vars[0]"
+    };
+    result.secondStateName = "Return";
+  } else {
+    result.secondState = {
+      Type: "Pass",
+      ResultPath: "$.vars",
+      InputPath: "$.vars[0]"
+    };
+    result.secondStateName = "Assign vars";
   }
+  return result
 }
 
 

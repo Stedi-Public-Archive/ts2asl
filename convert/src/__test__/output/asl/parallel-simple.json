@@ -31,9 +31,9 @@
                 }
               ],
               "Comment": "source: worker()",
-              "Next": "Pass"
+              "Next": "Return"
             },
-            "Pass": {
+            "Return": {
               "End": true,
               "Type": "Pass",
               "InputPath": "$.vars.return_var"
@@ -60,9 +60,9 @@
                 }
               ],
               "Comment": "source: worker()",
-              "Next": "Pass_1"
+              "Next": "Return_1"
             },
-            "Pass_1": {
+            "Return_1": {
               "End": true,
               "Type": "Pass",
               "InputPath": "$.vars.return_var"
@@ -78,9 +78,9 @@
           "return_var.$": "$.vars.return_var"
         }
       },
-      "Next": "Pass_2"
+      "Next": "Return result"
     },
-    "Pass_2": {
+    "Return result": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.tmp.return_var"

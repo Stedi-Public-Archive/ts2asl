@@ -1,11 +1,11 @@
 import { testConvertToIntermediaryAst } from "./test-convert";
 
-describe("when converting native integration statements to iasl", () => {
-  it("then native integrations get converted to task states", () => {
+describe("when converting sdk integration statements to iasl", () => {
+  it("then sdk integrations get converted to task states", () => {
     const code = `
     import * as asl from 'asl-lib';
 
-    const aaaa = asl.nativeDynamoDBGetItem({ 
+    const aaaa = asl.sdkDynamoDBGetItem({ 
         TableName: "mytable", 
         Key: { "pk": { S: "something"}, "sk": { S: "something"} } 
     });`;

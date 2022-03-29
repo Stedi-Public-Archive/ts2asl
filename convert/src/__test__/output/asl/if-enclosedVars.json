@@ -29,11 +29,10 @@
     },
     "Then": {
       "Type": "Parallel",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.vars",
       "Parameters": {
         "vars.$": "$.vars"
       },
-      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "Assign enclosedVar_1",
@@ -71,15 +70,21 @@
           }
         }
       ],
-      "Next": "Pass"
+      "Next": "Assign vars"
+    },
+    "Assign vars": {
+      "Type": "Pass",
+      "ResultPath": "$.vars",
+      "InputPath": "$.vars[0]",
+      "Next": "Return enclosedVar"
     },
     "Assign enclosedVar_4": {
       "Type": "Pass",
       "ResultPath": "$.vars.enclosedVar",
       "Result": "outer else if",
-      "Next": "Pass"
+      "Next": "Return enclosedVar"
     },
-    "Pass": {
+    "Return enclosedVar": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.enclosedVar"

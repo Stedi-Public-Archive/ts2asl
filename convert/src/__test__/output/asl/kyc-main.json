@@ -31,9 +31,9 @@
                 }
               ],
               "Comment": "source: performIdentifyCheck()",
-              "Next": "Pass"
+              "Next": "Return"
             },
-            "Pass": {
+            "Return": {
               "End": true,
               "Type": "Pass",
               "InputPath": "$.vars.return_var"
@@ -41,9 +41,9 @@
           }
         },
         {
-          "StartAt": "Pass_1",
+          "StartAt": "Return { agencyChecked: t ...",
           "States": {
-            "Pass_1": {
+            "Return { agencyChecked: t ...": {
               "End": true,
               "Type": "Pass",
               "Result": {

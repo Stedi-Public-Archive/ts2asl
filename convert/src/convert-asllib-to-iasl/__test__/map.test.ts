@@ -1,14 +1,14 @@
 import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting if statement to iasl", () => {
-  it("then native integrations get converted to map states", () => {
+  it("then sdk integrations get converted to map states", () => {
     const code = `
     import * as asl from 'asl-lib';
     asl.map({
       maxConcurrency: 5,
       items: result,
       iterator: (prefix) =>
-          asl.nativeSfnStartExecution({
+          asl.sdkSfnStartExecution({
               parameters: {
                   input: asl.states.format("{}", prefix),
                   stateMachineArn: "arn:something,

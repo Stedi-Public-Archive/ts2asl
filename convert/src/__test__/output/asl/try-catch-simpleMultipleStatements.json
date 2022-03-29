@@ -7,15 +7,19 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
+      "Next": "Return"
+    },
+    "Return": {
+      "Type": "Pass",
+      "InputPath": "$.vars[0]",
       "Next": "Parallel"
     },
     "Parallel": {
       "Type": "Parallel",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.vars",
       "Parameters": {
         "vars.$": "$.vars"
       },
-      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "lambda()",
@@ -37,9 +41,9 @@
                 }
               ],
               "Comment": "source: lambda()",
-              "Next": "Pass"
+              "Next": "Return withinTry"
             },
-            "Pass": {
+            "Return withinTry": {
               "End": true,
               "Type": "Pass",
               "InputPath": "$.vars.withinTry"
@@ -49,7 +53,7 @@
       ],
       "Catch": [
         {
-          "Next": "Pass_1",
+          "Next": "Return \"it failed\"",
           "ErrorEquals": [
             "States.ALL"
           ]
@@ -57,7 +61,7 @@
       ],
       "End": true
     },
-    "Pass_1": {
+    "Return \"it failed\"": {
       "Type": "Pass",
       "Result": "it failed",
       "End": true

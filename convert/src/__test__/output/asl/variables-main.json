@@ -63,9 +63,9 @@
         "number.$": "States.StringToJson('123')",
         "arr.$": "States.Array(1, 2, 3, 4, 5, 6)"
       },
-      "Next": "Pass"
+      "Next": "Return y"
     },
-    "Pass": {
+    "Return y": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.y"

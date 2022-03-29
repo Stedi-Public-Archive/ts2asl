@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/convert",
-  "version": "0.1.22",
+  "version": "0.1.25",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ts2asl/asl-lib": "^0.1.16",
+    "@ts2asl/asl-lib": "^0.1.21",
     "asl-types": "^1.2.1",
     "typescript": "^4.5.5"
   },

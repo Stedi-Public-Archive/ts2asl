@@ -59,9 +59,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.species",
       "InputPath": "$.vars.mappedArray..species",
-      "Next": "Pass"
+      "Next": "Return { ages, specie ..."
     },
-    "Pass": {
+    "Return { ages, specie ...": {
       "End": true,
       "Type": "Pass",
       "Parameters": {

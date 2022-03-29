@@ -34,16 +34,16 @@
           ]
         }
       ],
-      "Next": "Pass"
+      "Next": "Return \"finally\""
     },
     "Log (\"failed\")": {
       "Type": "Pass",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Result": "failed",
       "Comment": "source: console.log(\"failed\")",
-      "Next": "Pass"
+      "Next": "Return \"finally\""
     },
-    "Pass": {
+    "Return \"finally\"": {
       "Type": "Pass",
       "Result": "finally",
       "End": true

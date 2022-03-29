@@ -53,6 +53,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "",
       "name": {
         "identifier": "return_var",
         "compilerGenerated": true,
@@ -130,6 +131,7 @@
         "_syntaxKind": "identifier",
         "type": "unknown"
       },
+      "stateName": "Return result",
       "_syntaxKind": "return"
     }
   ],

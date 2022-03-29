@@ -24,7 +24,7 @@ describe("when converting variable-assignments", () => {
           },
           "Assign arrayOfObjects": Object {
             "Comment": "source: arrayOfObjects = [{ left: 1, right: 2 }, { lef ...",
-            "Next": "Pass",
+            "Next": "Return { arrayOfNumbers, ...",
             "Result": Array [
               Object {
                 "left": 1,
@@ -93,7 +93,7 @@ describe("when converting variable-assignments", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return { arrayOfNumbers, ...": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {
@@ -113,18 +113,9 @@ describe("when converting variable-assignments", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign array": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign array_1",
-            "Parameters": Object {
-              "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)",
-            },
-            "ResultPath": "$.lastResult",
-            "Type": "Pass",
-          },
-          "Assign array_1": Object {
             "Comment": undefined,
-            "InputPath": "$.lastResult.value",
-            "Next": "Pass",
+            "InputPath": "$.tmp.lastResult.value",
+            "Next": "Return array",
             "ResultPath": "$.vars.array",
             "Type": "Pass",
           },
@@ -144,7 +135,7 @@ describe("when converting variable-assignments", () => {
           },
           "Assign object": Object {
             "Comment": "source: object = { str, num, bool }",
-            "Next": "Assign array",
+            "Next": "Evaluate States.Array($.v ...",
             "Parameters": Object {
               "bool.$": "$.vars.bool",
               "num.$": "$.vars.num",
@@ -160,6 +151,15 @@ describe("when converting variable-assignments", () => {
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
+          "Evaluate States.Array($.v ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign array",
+            "Parameters": Object {
+              "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)",
+            },
+            "ResultPath": "$.tmp.lastResult",
+            "Type": "Pass",
+          },
           "Initialize": Object {
             "Next": "Assign str",
             "Parameters": Object {
@@ -168,7 +168,7 @@ describe("when converting variable-assignments", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return array": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.array",
@@ -184,79 +184,79 @@ describe("when converting variable-assignments", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign arr_1",
-            "Parameters": Object {
-              "value.$": "States.Array($.vars.str, $.vars.num, $.vars.combined)",
-            },
-            "ResultPath": "$.lastResult",
-            "Type": "Pass",
-          },
-          "Assign arr_1": Object {
             "Comment": undefined,
-            "InputPath": "$.lastResult.value",
-            "Next": "Pass",
+            "InputPath": "$.tmp.lastResult.value",
+            "Next": "Return arr",
             "ResultPath": "$.vars.arr",
             "Type": "Pass",
           },
           "Assign combined": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign combined_1",
-            "Parameters": Object {
-              "value.$": "States.Format('1: {}
-       2: {}', $.vars.str, $.vars.num)",
-            },
-            "ResultPath": "$.lastResult",
-            "Type": "Pass",
-          },
-          "Assign combined_1": Object {
             "Comment": undefined,
-            "InputPath": "$.lastResult.value",
-            "Next": "Assign arr",
+            "InputPath": "$.tmp.lastResult.value",
+            "Next": "Evaluate States.Array($.v ...",
             "ResultPath": "$.vars.combined",
             "Type": "Pass",
           },
           "Assign num": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign num_1",
-            "Parameters": Object {
-              "value.$": "States.Format('answer is {}', 42)",
-            },
-            "ResultPath": "$.lastResult",
-            "Type": "Pass",
-          },
-          "Assign num_1": Object {
             "Comment": undefined,
-            "InputPath": "$.lastResult.value",
-            "Next": "Assign combined",
+            "InputPath": "$.tmp.lastResult.value",
+            "Next": "Evaluate States.Format('1 ...",
             "ResultPath": "$.vars.num",
             "Type": "Pass",
           },
           "Assign str": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign str_1",
-            "Parameters": Object {
-              "value.$": "States.Format('hello {}', 'world')",
-            },
-            "ResultPath": "$.lastResult",
-            "Type": "Pass",
-          },
-          "Assign str_1": Object {
             "Comment": undefined,
-            "InputPath": "$.lastResult.value",
-            "Next": "Assign num",
+            "InputPath": "$.tmp.lastResult.value",
+            "Next": "Evaluate States.Format('a ...",
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
-          "Initialize": Object {
+          "Evaluate States.Array($.v ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign arr",
+            "Parameters": Object {
+              "value.$": "States.Array($.vars.str, $.vars.num, $.vars.combined)",
+            },
+            "ResultPath": "$.tmp.lastResult",
+            "Type": "Pass",
+          },
+          "Evaluate States.Format('1 ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign combined",
+            "Parameters": Object {
+              "value.$": "States.Format('1: {}
+       2: {}', $.vars.str, $.vars.num)",
+            },
+            "ResultPath": "$.tmp.lastResult",
+            "Type": "Pass",
+          },
+          "Evaluate States.Format('a ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign num",
+            "Parameters": Object {
+              "value.$": "States.Format('answer is {}', 42)",
+            },
+            "ResultPath": "$.tmp.lastResult",
+            "Type": "Pass",
+          },
+          "Evaluate States.Format('h ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign str",
+            "Parameters": Object {
+              "value.$": "States.Format('hello {}', 'world')",
+            },
+            "ResultPath": "$.tmp.lastResult",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Evaluate States.Format('h ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return arr": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.arr",

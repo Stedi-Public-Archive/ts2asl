@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Pass"
+      "Next": "Return { a: 10 + 10, ..."
     },
-    "Pass": {
+    "Return { a: 10 + 10, ...": {
       "End": true,
       "Type": "Pass",
       "Result": {

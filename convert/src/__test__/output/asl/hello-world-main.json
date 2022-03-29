@@ -54,9 +54,9 @@
         }
       ],
       "Comment": "source: random()",
-      "Next": "Pass"
+      "Next": "Return { greeting: `H ..."
     },
-    "Pass": {
+    "Return { greeting: `H ...": {
       "End": true,
       "Type": "Pass",
       "Parameters": {

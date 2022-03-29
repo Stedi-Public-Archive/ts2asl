@@ -45,22 +45,26 @@ export const createName = (converterOptions: ConverterOptions, mainNode: ts.Node
         texts.push(text === undefined ? "" : text);
       }
     } catch {
-      const text = "???";
+      const text = "";
       texts.push(text);
     }
   }
   let name = sprintf(format, texts);
-  if (name.length > 29) {
-    name = name.substring(0, 25) + " ...";
-  }
-  name = name.replace(/\s+/g, " ")
+  name = trimName(name);
   if (ln !== undefined) {
     return ln + name;
   }
 
-  return name;
+  return name.trim();
 }
 
+export function trimName(name: string) {
+  if (name.length > 29) {
+    name = name.substring(0, 25) + " ...";
+  }
+  name = name.replace(/\s+/g, " ")
+  return name;
+}
 
 
 function sprintf(fmt: string, args: string[]) {

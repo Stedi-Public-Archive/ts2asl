@@ -59,13 +59,13 @@
                     "NumericEquals": 9
                   }
                 ],
-                "Next": "Pass"
+                "Next": "Return { age: x, ..."
               }
             ],
             "Comment": "source: if (x === 1 || x === 3 || x === 5 || x === 7 | ...",
-            "Default": "Pass_1"
+            "Default": "Return { age: x, ..._1"
           },
-          "Pass": {
+          "Return { age: x, ...": {
             "Type": "Pass",
             "Parameters": {
               "age.$": "$.vars.x",
@@ -73,7 +73,7 @@
             },
             "End": true
           },
-          "Pass_1": {
+          "Return { age: x, ..._1": {
             "Type": "Pass",
             "Parameters": {
               "age.$": "$.vars.x",
@@ -89,9 +89,9 @@
           "x.$": "$$.Map.Item.Value"
         }
       },
-      "Next": "Pass_2"
+      "Next": "Return result"
     },
-    "Pass_2": {
+    "Return result": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.tmp.return_var"

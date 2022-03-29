@@ -27,7 +27,7 @@
         "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "return",
-      "stateName": "Return ???"
+      "stateName": "Return"
     }
   ],
   "_syntaxKind": "statemachine"

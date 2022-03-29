@@ -48,50 +48,55 @@
     },
     "Parallel_1": {
       "Type": "Parallel",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.vars",
       "Parameters": {
         "vars.$": "$.vars"
       },
-      "OutputPath": "$[0]",
       "Branches": [
         {
-          "StartAt": "Log (`cause ${error.Cause}`)",
+          "StartAt": "Evaluate States.Format('c ...",
           "States": {
-            "Log (`cause ${error.Cause}`)": {
+            "Evaluate States.Format('c ...": {
               "Type": "Pass",
-              "ResultPath": "$.lastResult",
+              "ResultPath": "$.tmp.lastResult",
               "Parameters": {
                 "value.$": "States.Format('cause {}', $.vars.error.Cause)"
               },
               "Comment": "source: result of an expression cannot be placed in In ...",
-              "Next": "Log (`cause ${error.Cause}`)_1"
+              "Next": "Log (`cause ${error.Cause}`)"
             },
-            "Log (`cause ${error.Cause}`)_1": {
+            "Log (`cause ${error.Cause}`)": {
               "Type": "Pass",
-              "ResultPath": "$.lastResult",
-              "InputPath": "$.lastResult.value",
+              "ResultPath": "$.tmp.lastResult",
+              "InputPath": "$.tmp.lastResult.value",
               "Comment": "source: console.log(`cause ${error.Cause}`)",
-              "Next": "Log (`message ${error.Err ..."
+              "Next": "Evaluate States.Format('m ..."
             },
-            "Log (`message ${error.Err ...": {
+            "Evaluate States.Format('m ...": {
               "Type": "Pass",
-              "ResultPath": "$.lastResult",
+              "ResultPath": "$.tmp.lastResult",
               "Parameters": {
                 "value.$": "States.Format('message {}', $.vars.error.Error)"
               },
               "Comment": "source: result of an expression cannot be placed in In ...",
-              "Next": "Log (`message ${error.Err ..._1"
+              "Next": "Log (`message ${error.Err ..."
             },
-            "Log (`message ${error.Err ..._1": {
+            "Log (`message ${error.Err ...": {
               "Type": "Pass",
-              "ResultPath": "$.lastResult",
-              "InputPath": "$.lastResult.value",
+              "ResultPath": "$.tmp.lastResult",
+              "InputPath": "$.tmp.lastResult.value",
               "Comment": "source: console.log(`message ${error.Error}`)",
               "End": true
             }
           }
         }
       ],
+      "Next": "Assign vars"
+    },
+    "Assign vars": {
+      "Type": "Pass",
+      "ResultPath": "$.vars",
+      "InputPath": "$.vars[0]",
       "End": true
     }
   }

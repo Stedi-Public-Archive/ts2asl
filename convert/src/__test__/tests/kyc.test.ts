@@ -21,7 +21,7 @@ describe("when converting kyc", () => {
               Object {
                 "StartAt": "performIdentifyCheck()",
                 "States": Object {
-                  "Pass": Object {
+                  "Return": Object {
                     "Comment": undefined,
                     "End": true,
                     "InputPath": "$.vars.return_var",
@@ -30,7 +30,7 @@ describe("when converting kyc", () => {
                   "performIdentifyCheck()": Object {
                     "Comment": "source: performIdentifyCheck()",
                     "HeartbeatSeconds": undefined,
-                    "Next": "Pass",
+                    "Next": "Return",
                     "Resource": "[!lambda[performIdentifyCheck]arn]",
                     "ResultPath": "$.vars.return_var",
                     "Retry": Array [
@@ -51,9 +51,9 @@ describe("when converting kyc", () => {
                 },
               },
               Object {
-                "StartAt": "Pass_1",
+                "StartAt": "Return { agencyChecked: t ...",
                 "States": Object {
-                  "Pass_1": Object {
+                  "Return { agencyChecked: t ...": Object {
                     "Comment": undefined,
                     "End": true,
                     "Result": Object {

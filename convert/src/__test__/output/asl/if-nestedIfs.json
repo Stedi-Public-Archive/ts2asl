@@ -43,11 +43,10 @@
     },
     "Then_1": {
       "Type": "Parallel",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.vars",
       "Parameters": {
         "vars.$": "$.vars"
       },
-      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "Assign val.b",
@@ -78,11 +77,10 @@
             },
             "Then": {
               "Type": "Parallel",
-              "ResultPath": "$.tmp.lastResult",
+              "ResultPath": "$.vars",
               "Parameters": {
                 "vars.$": "$.vars"
               },
-              "OutputPath": "$[0]",
               "Branches": [
                 {
                   "StartAt": "Assign val.d",
@@ -102,6 +100,12 @@
                   }
                 }
               ],
+              "Next": "Assign vars"
+            },
+            "Assign vars": {
+              "Type": "Pass",
+              "ResultPath": "$.vars",
+              "InputPath": "$.vars[0]",
               "End": true
             },
             "Assign val.e_1": {
@@ -113,6 +117,12 @@
           }
         }
       ],
+      "Next": "Assign vars_1"
+    },
+    "Assign vars_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars",
+      "InputPath": "$.vars[0]",
       "Next": "Assign val.g"
     },
     "Assign val.f": {
@@ -125,9 +135,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.val.g",
       "Result": "after",
-      "Next": "Pass"
+      "Next": "Return val"
     },
-    "Pass": {
+    "Return val": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.val"

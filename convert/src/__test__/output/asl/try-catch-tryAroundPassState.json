@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Pass"
+      "Next": "Return \"this cannot fail\""
     },
-    "Pass": {
+    "Return \"this cannot fail\"": {
       "Type": "Pass",
       "Result": "this cannot fail",
       "End": true

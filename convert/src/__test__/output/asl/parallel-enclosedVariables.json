@@ -89,9 +89,9 @@
           "enclosedVar2.$": "$.vars.enclosedVar2"
         }
       },
-      "Next": "Pass"
+      "Next": "Return result"
     },
-    "Pass": {
+    "Return result": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.tmp.return_var"

@@ -53,13 +53,13 @@ export const convertDeployExecute = async (filename: string, name: string, input
       if (stateMachine.name !== name) continue;
       const aslString = JSON.stringify(stateMachine.asl);
 
-      const response = await asl.nativeSfnCreateStateMachine({ parameters: { name: stateMachineName, type: "EXPRESS", definition: aslString, roleArn: "arn:aws:iam::102625093955:role/ts2asl-test" } })
+      const response = await asl.sdkSfnCreateStateMachine({ parameters: { name: stateMachineName, type: "EXPRESS", definition: aslString, roleArn: "arn:aws:iam::102625093955:role/ts2asl-test" } })
       sfnArn = response.stateMachineArn!;
-      const result = await asl.nativeSfnStartSyncExecution({ parameters: { stateMachineArn: response.stateMachineArn, input: JSON.stringify(input, null, 2) } });
+      const result = await asl.sdkSfnStartSyncExecution({ parameters: { stateMachineArn: response.stateMachineArn, input: JSON.stringify(input, null, 2) } });
       return JSON.parse(result.output as string);
     }
   } finally {
-    if (sfnArn) await asl.nativeSfnDeleteStateMachine({ parameters: { stateMachineArn: sfnArn } });
+    if (sfnArn) await asl.sdkSfnDeleteStateMachine({ parameters: { stateMachineArn: sfnArn } });
   }
 
 };

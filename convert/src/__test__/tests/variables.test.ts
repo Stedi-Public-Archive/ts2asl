@@ -28,7 +28,7 @@ describe("when converting variables", () => {
           },
           "Assign y": Object {
             "Comment": undefined,
-            "Next": "Pass",
+            "Next": "Return y",
             "Parameters": Object {
               "arr.$": "States.Array(1, 2, 3, 4, 5, 6)",
               "fmt.$": "States.Format('hello {}', $.vars.x)",
@@ -75,7 +75,7 @@ describe("when converting variables", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return y": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.y",

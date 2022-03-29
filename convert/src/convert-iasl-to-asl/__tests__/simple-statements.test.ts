@@ -28,7 +28,7 @@ describe("when transpiling simple statements", () => {
       }
     `);
   });
-  it.only("then multiple assignments can be chained", () => {
+  it("then multiple assignments can be chained", () => {
     const iasl = testConvertToIntermediaryAst(
       `
       let literalString = 'hello'; 

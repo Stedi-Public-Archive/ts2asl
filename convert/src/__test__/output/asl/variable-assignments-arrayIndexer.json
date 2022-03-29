@@ -27,9 +27,9 @@
       "ResultPath": "$.vars.two",
       "InputPath": "$.vars.arr[1]arr",
       "Comment": "source: two = arr[1]",
-      "Next": "Pass"
+      "Next": "Return two"
     },
-    "Pass": {
+    "Return two": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.two"

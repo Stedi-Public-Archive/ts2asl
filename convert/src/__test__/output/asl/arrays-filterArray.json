@@ -62,9 +62,9 @@
           "old.$": "$.vars.mappedArray[?(@.species == 'dog' && @.age >= 5)]"
         }
       },
-      "Next": "Pass"
+      "Next": "Return filterArray"
     },
-    "Pass": {
+    "Return filterArray": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.filterArray"

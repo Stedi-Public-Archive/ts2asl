@@ -3,7 +3,7 @@ import { testTransform } from "../../convert-ts-to-asllib/__tests__/test-transfo
 import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting choice statement to iasl", () => {
-  it("then native integrations get converted to map states", () => {
+  it("then sdk integrations get converted to map states", () => {
     const code = `
     import * as asl from "@ts2asl/asl-lib";
     

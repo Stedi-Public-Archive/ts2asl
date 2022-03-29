@@ -8,6 +8,9 @@ export const removeUnnecessaryExpressionsTransformer = (converterOptions: Conver
     if (ts.isParenthesizedExpression(node) && ts.isIdentifier(node.expression)) {
       return node.expression;
     }
+    if (ts.isParenthesizedExpression(node) && ts.isAwaitExpression(node.expression)) {
+      return node.expression;
+    }
 
     if (ts.isAsExpression(node)) {
       return node.expression;

@@ -33,9 +33,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.str",
       "InputPath": "$.vars.source..obj.str",
-      "Next": "Pass"
+      "Next": "Return { num, str }"
     },
-    "Pass": {
+    "Return { num, str }": {
       "End": true,
       "Type": "Pass",
       "Parameters": {

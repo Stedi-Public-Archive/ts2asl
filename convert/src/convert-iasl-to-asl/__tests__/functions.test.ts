@@ -18,23 +18,23 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign result_1",
-            "Parameters": Object {
-              "value.$": "States.StringToJson('0')",
-            },
-            "ResultPath": "$.lastResult",
-            "Type": "Pass",
-          },
-          "Assign result_1": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.lastResult.value",
+            "InputPath": "$.tmp.lastResult.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize": Object {
+          "Evaluate States.StringToJ ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result",
+            "Parameters": Object {
+              "value.$": "States.StringToJson('0')",
+            },
+            "ResultPath": "$.tmp.lastResult",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Evaluate States.StringToJ ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -60,23 +60,23 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign result_1",
-            "Parameters": Object {
-              "value.$": "States.StringToJson('s')",
-            },
-            "ResultPath": "$.lastResult",
-            "Type": "Pass",
-          },
-          "Assign result_1": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.lastResult.value",
+            "InputPath": "$.tmp.lastResult.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Initialize": Object {
+          "Evaluate States.StringToJ ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result",
+            "Parameters": Object {
+              "value.$": "States.StringToJson('s')",
+            },
+            "ResultPath": "$.tmp.lastResult",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Evaluate States.StringToJ ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -106,29 +106,29 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign result_1",
-            "Parameters": Object {
-              "value.$": "States.JsonToString($.vars.tmp)",
-            },
-            "ResultPath": "$.lastResult",
-            "Type": "Pass",
-          },
-          "Assign result_1": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.lastResult.value",
+            "InputPath": "$.tmp.lastResult.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
           "Assign tmp": Object {
             "Comment": "source: tmp = { num: 12, str: \\"val\\" }",
-            "Next": "Assign result",
+            "Next": "Evaluate States.JsonToStr ...",
             "Result": Object {
               "num": 12,
               "str": "val",
             },
             "ResultPath": "$.vars.tmp",
+            "Type": "Pass",
+          },
+          "Evaluate States.JsonToStr ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign result",
+            "Parameters": Object {
+              "value.$": "States.JsonToString($.vars.tmp)",
+            },
+            "ResultPath": "$.tmp.lastResult",
             "Type": "Pass",
           },
           "Initialize": Object {

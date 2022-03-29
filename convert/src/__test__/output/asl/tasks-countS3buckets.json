@@ -20,9 +20,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.count",
       "InputPath": "$.vars.buckets.Buckets.length()",
-      "Next": "Pass"
+      "Next": "Return count"
     },
-    "Pass": {
+    "Return count": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.count"

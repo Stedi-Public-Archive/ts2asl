@@ -5,7 +5,7 @@ export const main = asl.deploy.asStateMachine(async () => {
   await asl.map({
     items: entries,
     iterator: (entry: string) =>
-      void asl.nativeDynamoDBPutItem({
+      void asl.sdkDynamoDBPutItem({
         catch: [
           {
             errorEquals: ["DynamoDb.ConditionalCheckFailedException"],

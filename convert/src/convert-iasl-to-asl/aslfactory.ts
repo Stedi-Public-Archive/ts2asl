@@ -5,6 +5,7 @@ import { createChoiceOperator } from "./choice-utility";
 import { createParameters, createParametersForMap } from "./parameters";
 import { createFilterExpression } from "./jsonpath-filter";
 import { createSingleOrParallel } from "./blocks";
+import { trimName } from "../create-name";
 
 export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
@@ -29,23 +30,23 @@ export class AslFactory {
       if (parameters.path && parameters.path.startsWith("States")) {
         context.appendNextState({
           Type: "Pass",
-          ResultPath: "$.lastResult",
+          ResultPath: "$.tmp.lastResult",
           Parameters: {
             "value.$": parameters.path
           },
           Comment: "result of an expression cannot be placed in InputPath, therefore copying it around a little",
-        } as asl.Pass, nameSuggestion);
+        } as asl.Pass, trimName("Evaluate " + parameters.path));
         context.appendNextState({
           Type: "Pass",
-          ResultPath: "$.lastResult",
+          ResultPath: "$.tmp.lastResult",
           ...properties,
-          InputPath: "$.lastResult.value",
+          InputPath: "$.tmp.lastResult.value",
           Comment: expression.source,
         } as asl.Pass, nameSuggestion);
       } else {
         context.appendNextState({
           Type: "Pass",
-          ResultPath: "$.lastResult",
+          ResultPath: "$.tmp.lastResult",
           ...properties,
           ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
           Comment: expression.source,
@@ -106,12 +107,19 @@ export class AslFactory {
       const thenStateName = context.appendState(thenState.state, thenState.stateName ?? "Then");
       choiceOperator.Next = thenStateName;
 
+      if (thenState.secondState) {
+        thenState.state["Next"] = context.appendState(thenState.secondState, thenState.secondStateName);
+      }
+
       if (expression.else) {
         const elseState = createSingleOrParallel(expression.else, scopes, context);
         context.appendNextState(elseState.state, elseState.stateName ?? "Else")
+        if (elseState.secondState) {
+          context.appendNextState(elseState.secondState, elseState.secondStateName);
+        }
       }
 
-      context.appendTails(thenState.state);
+      context.appendTails(thenState.secondState ?? thenState.state);
     } else if (iasl.Check.isAslChoiceState(expression)) {
       const choiceState = {
         Type: "Choice",
@@ -127,6 +135,10 @@ export class AslFactory {
         const thenState = createSingleOrParallel(choice.block, scopes, context);
         const thenStateName = context.appendState(thenState.state, thenState.stateName ?? "Then");
         choiceOperator.Next = thenStateName;
+        if (thenState.secondState) {
+          context.appendNextState(thenState.secondState, thenState.secondStateName);
+        }
+
         choiceState.Choices.push(choiceOperator);
         trailingStates.push(thenState.state);
       }
@@ -134,6 +146,10 @@ export class AslFactory {
       if (expression.default) {
         const defaultState = createSingleOrParallel(expression.default, scopes, context);
         context.appendNextState(defaultState.state, defaultState.stateName ?? "Default")
+        if (defaultState.secondState) {
+          context.appendNextState(defaultState.secondState, defaultState.secondStateName);
+        }
+
       } else {
         context.appendNextState({ Type: "Pass" } as asl.Pass, "EmptyDefault")
       }
@@ -235,10 +251,13 @@ export class AslFactory {
           Comment: expression.source,
           ...properties,
           ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
-        });
+        }, expression.stateName ?? "Return");
       }
     } else if (iasl.Check.isTryExpression(expression)) {
       const tryState = createSingleOrParallel(expression.try, scopes, context, { alwaysWrapFailState: true });
+      if (tryState.secondState) {
+        context.appendNextState(tryState.secondState, tryState.secondStateName);
+      }
       context.appendNextState(tryState.state, tryState.stateName);
       if (["Map", "Parallel", "Task"].includes(tryState.state.Type) && expression.catch?.length) {
         this.appendCatchConfiguration(tryState.state as (asl.Map | asl.Parallel | asl.Task), expression.catch, scopes, context);
@@ -246,6 +265,9 @@ export class AslFactory {
       if (expression.finally) {
         const finallyState = createSingleOrParallel(expression.finally, scopes, context);
         context.appendNextState(finallyState.state, finallyState.stateName);
+        if (finallyState.secondState) {
+          context.appendNextState(finallyState.secondState, finallyState.secondStateName);
+        }
       }
     } else {
       throw new Error(`syntax type ${expression._syntaxKind} cannot be converted to ASL`);
@@ -269,7 +291,13 @@ export class AslFactory {
       const resultingCatchConfiguration = [] as Array<{ ErrorEquals: string[]; Next: string; }>;
       for (const catchClause of catchConfiguration) {
         const catchState = createSingleOrParallel(catchClause.block, scopes, context);
-        const name = context.appendAdditionalTail(catchState.state, catchState.stateName);
+
+        const name = context.appendState(catchState.state, catchState.stateName);
+        if (catchState.secondState) {
+          catchState.state["Next"] = context.appendState(catchState.secondState, catchState.secondStateName);
+        }
+        context.appendTails(catchState.secondState ?? catchState.state);
+
         const catchConfiguration = { Next: name, ErrorEquals: catchClause.errorEquals } as { Next: string, ErrorEquals: string[], ResultPath?: string };
         if (catchClause.block.inputArgumentName) {
           catchConfiguration.ResultPath = convertIdentifierToPathExpression(catchClause.block.inputArgumentName);

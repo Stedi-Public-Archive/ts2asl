@@ -7,15 +7,20 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
+      "Next": "Assign vars"
+    },
+    "Assign vars": {
+      "Type": "Pass",
+      "ResultPath": "$.vars",
+      "InputPath": "$.vars[0]",
       "Next": "Parallel"
     },
     "Parallel": {
       "Type": "Parallel",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.vars",
       "Parameters": {
         "vars.$": "$.vars"
       },
-      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "Throw NotImplemented",
@@ -42,11 +47,10 @@
     },
     "Parallel_1": {
       "Type": "Parallel",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.vars",
       "Parameters": {
         "vars.$": "$.vars"
       },
-      "OutputPath": "$[0]",
       "Branches": [
         {
           "StartAt": "If (err.Cause === \"NotImp ...",
@@ -57,13 +61,13 @@
                 {
                   "Variable": "$.vars.err.Cause",
                   "StringEquals": "NotImplemented",
-                  "Next": "Pass"
+                  "Next": "Return \"Todo\""
                 }
               ],
               "Comment": "source: if (err.Cause === \"NotImplemented\") { return \" ...",
               "Default": "Empty Default Choice"
             },
-            "Pass": {
+            "Return \"Todo\"": {
               "Type": "Pass",
               "Result": "Todo",
               "End": true
@@ -75,6 +79,11 @@
           }
         }
       ],
+      "Next": "Return"
+    },
+    "Return": {
+      "Type": "Pass",
+      "InputPath": "$.vars[0]",
       "End": true
     }
   }

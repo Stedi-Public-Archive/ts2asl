@@ -9,7 +9,7 @@ export const main = asl.deploy.asStateMachine(async () => {
     Promise.resolve({ agencyChecked: true }),
   ])
 
-  await asl.nativeEventBridgePutEvents({
+  await asl.sdkEventBridgePutEvents({
     parameters: {
       Entries: [
         {
@@ -25,7 +25,7 @@ export const main = asl.deploy.asStateMachine(async () => {
   const checksPassed = true;
   if (checksPassed) {
     //no-op update risk profile
-    await asl.nativeEventBridgePutEvents({
+    await asl.sdkEventBridgePutEvents({
       parameters: {
         Entries: [
           {
@@ -38,7 +38,7 @@ export const main = asl.deploy.asStateMachine(async () => {
       }
     });
   } else {
-    await asl.nativeEventBridgePutEvents({
+    await asl.sdkEventBridgePutEvents({
       parameters: {
         Entries: [
           {

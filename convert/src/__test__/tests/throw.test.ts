@@ -105,6 +105,12 @@ describe("when converting throw", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign vars": Object {
+            "End": true,
+            "InputPath": "$.vars[0]",
+            "ResultPath": "$.vars",
+            "Type": "Pass",
+          },
           "Initialize": Object {
             "Next": "Parallel",
             "Parameters": Object {
@@ -154,49 +160,48 @@ describe("when converting throw", () => {
           "Parallel_1": Object {
             "Branches": Array [
               Object {
-                "StartAt": "Log (\`cause \${error.Cause}\`)",
+                "StartAt": "Evaluate States.Format('c ...",
                 "States": Object {
-                  "Log (\`cause \${error.Cause}\`)": Object {
+                  "Evaluate States.Format('c ...": Object {
                     "Comment": "source: result of an expression cannot be placed in In ...",
-                    "Next": "Log (\`cause \${error.Cause}\`)_1",
+                    "Next": "Log (\`cause \${error.Cause}\`)",
                     "Parameters": Object {
                       "value.$": "States.Format('cause {}', $.vars.error.Cause)",
                     },
-                    "ResultPath": "$.lastResult",
+                    "ResultPath": "$.tmp.lastResult",
                     "Type": "Pass",
                   },
-                  "Log (\`cause \${error.Cause}\`)_1": Object {
-                    "Comment": "source: console.log(\`cause \${error.Cause}\`)",
-                    "InputPath": "$.lastResult.value",
-                    "Next": "Log (\`message \${error.Err ...",
-                    "ResultPath": "$.lastResult",
-                    "Type": "Pass",
-                  },
-                  "Log (\`message \${error.Err ...": Object {
+                  "Evaluate States.Format('m ...": Object {
                     "Comment": "source: result of an expression cannot be placed in In ...",
-                    "Next": "Log (\`message \${error.Err ..._1",
+                    "Next": "Log (\`message \${error.Err ...",
                     "Parameters": Object {
                       "value.$": "States.Format('message {}', $.vars.error.Error)",
                     },
-                    "ResultPath": "$.lastResult",
+                    "ResultPath": "$.tmp.lastResult",
                     "Type": "Pass",
                   },
-                  "Log (\`message \${error.Err ..._1": Object {
+                  "Log (\`cause \${error.Cause}\`)": Object {
+                    "Comment": "source: console.log(\`cause \${error.Cause}\`)",
+                    "InputPath": "$.tmp.lastResult.value",
+                    "Next": "Evaluate States.Format('m ...",
+                    "ResultPath": "$.tmp.lastResult",
+                    "Type": "Pass",
+                  },
+                  "Log (\`message \${error.Err ...": Object {
                     "Comment": "source: console.log(\`message \${error.Error}\`)",
                     "End": true,
-                    "InputPath": "$.lastResult.value",
-                    "ResultPath": "$.lastResult",
+                    "InputPath": "$.tmp.lastResult.value",
+                    "ResultPath": "$.tmp.lastResult",
                     "Type": "Pass",
                   },
                 },
               },
             ],
-            "End": true,
-            "OutputPath": "$[0]",
+            "Next": "Assign vars",
             "Parameters": Object {
               "vars.$": "$.vars",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.vars",
             "Type": "Parallel",
           },
         },

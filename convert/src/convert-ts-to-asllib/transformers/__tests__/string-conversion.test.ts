@@ -6,19 +6,19 @@ import { throwStatementTransformer } from "../throw-statement";
 describe("when converting string to number", () => {
   it("then call gets transformed to stringToJson", () => {
     expect(
-      testTransform("const x = asl.stringToNumber('42');", [
+      testTransform("const x = asl.states.stringToNumber('42');", [
         stringConversionTransformer
       ])
-    ).toMatchInlineSnapshot(`"const x = asl.stringToJson('42');"`);
+    ).toMatchInlineSnapshot(`"const x = asl.states.stringToJson('42');"`);
   });
 });
 
 describe("when converting string to boolean", () => {
   it("then call gets transformed to stringToJson", () => {
     expect(
-      testTransform("const x = asl.stringToBoolean('true');", [
+      testTransform("const x = asl.states.stringToBoolean('true');", [
         stringConversionTransformer
       ])
-    ).toMatchInlineSnapshot(`"const x = asl.stringToJson('true');"`);
+    ).toMatchInlineSnapshot(`"const x = asl.states.stringToJson('true');"`);
   });
 });

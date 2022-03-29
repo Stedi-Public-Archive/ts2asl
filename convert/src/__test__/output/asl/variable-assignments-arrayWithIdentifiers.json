@@ -39,24 +39,24 @@
         "bool.$": "$.vars.bool"
       },
       "Comment": "source: object = { str, num, bool }",
-      "Next": "Assign array"
+      "Next": "Evaluate States.Array($.v ..."
     },
-    "Assign array": {
+    "Evaluate States.Array($.v ...": {
       "Type": "Pass",
-      "ResultPath": "$.lastResult",
+      "ResultPath": "$.tmp.lastResult",
       "Parameters": {
         "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)"
       },
       "Comment": "source: result of an expression cannot be placed in In ...",
-      "Next": "Assign array_1"
+      "Next": "Assign array"
     },
-    "Assign array_1": {
+    "Assign array": {
       "Type": "Pass",
       "ResultPath": "$.vars.array",
-      "InputPath": "$.lastResult.value",
-      "Next": "Pass"
+      "InputPath": "$.tmp.lastResult.value",
+      "Next": "Return array"
     },
-    "Pass": {
+    "Return array": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.array"

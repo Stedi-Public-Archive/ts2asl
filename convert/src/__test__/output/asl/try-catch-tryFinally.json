@@ -26,9 +26,9 @@
         }
       ],
       "Comment": "source: source: lambda()",
-      "Next": "Pass"
+      "Next": "Return \"finally\""
     },
-    "Pass": {
+    "Return \"finally\"": {
       "Type": "Pass",
       "Result": "finally",
       "End": true

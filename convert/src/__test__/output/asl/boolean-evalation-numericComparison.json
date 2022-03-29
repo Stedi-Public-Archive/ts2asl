@@ -39,13 +39,13 @@
               {
                 "Variable": "$.vars.item",
                 "NumericEqualsPath": "$.vars.condition",
-                "Next": "Pass"
+                "Next": "Return { returned: item }"
               }
             ],
             "Comment": "source: if (item === condition) { return { returned: i ...",
             "Default": "Empty Default Choice"
           },
-          "Pass": {
+          "Return { returned: item }": {
             "Type": "Pass",
             "Parameters": {
               "returned.$": "$.vars.item"
@@ -71,9 +71,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.item",
       "InputPath": "$.vars.listWithRetunrned[?(@.returned)]",
-      "Next": "Pass_1"
+      "Next": "Return item"
     },
-    "Pass_1": {
+    "Return item": {
       "End": true,
       "Type": "Pass",
       "InputPath": "$.vars.item"

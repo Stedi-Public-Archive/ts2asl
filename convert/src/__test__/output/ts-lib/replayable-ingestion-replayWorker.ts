@@ -2,11 +2,11 @@ import * as asl from "@ts2asl/asl-lib";
 
 export const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => { return [""] });
 
-//option 1: native typescript
+//option 1: sdk typescript
 // export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) => {
 //   const result = await replayPrefixer(input);
 //   for (const prefix of result) {
-//     await asl.nativeSfnStartExecution({
+//     await asl.sdkSfnStartExecution({
 //       parameters: {
 //         input: asl.states.format("{}", prefix),
 //         stateMachineArn: asl.deploy.getParameter("stateMachineArn"),
@@ -17,22 +17,22 @@ export const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => 
 
 //option 2: asl lib typescript
 export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) => {
-  const result = await replayPrefixer(input);
-  await asl.map({
-    maxConcurrency: 5,
-    items: result,
-    iterator: (prefix) => void replayWorker({ prefix })
-  });
+    const result = await replayPrefixer(input);
+    await asl.map({
+        maxConcurrency: 5,
+        items: result,
+        iterator: (prefix) => void replayWorker({ prefix })
+    });
 });
 
 interface StateMachineInput {
-  startDate: string;
-  endDate?: string;
+    startDate: string;
+    endDate?: string;
 }
 
 
-export const replayWorker = asl.deploy.asStateMachine(async (input: ReplayWorkerInput) =>{
-    const objects = await asl.nativeS3ListObjectsV2({ parameters: { Prefix: input.prefix, Bucket: "preprod-metrics-bucket-us-east-1" } });
+export const replayWorker = asl.deploy.asStateMachine(async (input: ReplayWorkerInput) => {
+    const objects = await asl.sdkS3ListObjectsV2({ parameters: { Prefix: input.prefix, Bucket: "preprod-metrics-bucket-us-east-1" } });
     const itemsWithKeys = asl.jsonPathFilter(objects.Contents, (item) => item.Key);
     const keys = asl.jsonPathMap(itemsWithKeys, "Key");
     await asl.map({
@@ -63,7 +63,7 @@ export const replayWorker = asl.deploy.asStateMachine(async (input: ReplayWorker
                 }),
                 comment: "message = {\n        Records: [\n          {\n            replay: true,\n            eventSource: \"aws:s3\",\n            awsRegion: \"us-east-1\",\n            eventName: \"ObjectCreated:Put\",\n            s3: {\n              s3SchemaVersion: \"1.0\",\n              bucket: {\n                name: \"preprod-metrics-bucket-us-east-1\",\n                arn: \"arn:aws:s3:::preprod-metrics-bucket-us-east-1\"\n              },\n              object: {\n                key: key\n              }\n            }\n          }\n        ]\n      }"
             });
-            asl.nativeSNSPublish({
+            asl.sdkSNSPublish({
                 parameters: {
                     TopicArn: "arn:aws:sns:us-east-1:400780617693:CentralizedMetricsStream-preprod-CentralizedMetricsStreamTopic48052E47-1X7SNV6Y357H6",
                     Subject: "Ingestion Replay S3",
@@ -75,5 +75,5 @@ export const replayWorker = asl.deploy.asStateMachine(async (input: ReplayWorker
 });
 
 interface ReplayWorkerInput {
-  prefix: string;
+    prefix: string;
 }

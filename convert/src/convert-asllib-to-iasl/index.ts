@@ -68,6 +68,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
       const callExpression = convertNodeToIntermediaryAst(node.expression, context);
       return [
         {
+          stateName: createName(context.converterOptions, node.expression, `%s`, node.expression),
           name: {
             identifier: "return_var",
             compilerGenerated: true,
@@ -84,6 +85,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
             _syntaxKind: iasl.SyntaxKind.Identifier,
             type: "unknown"
           },
+          stateName: `Return result`,
           _syntaxKind: iasl.SyntaxKind.ReturnStatement,
         } as iasl.ReturnStatement,
       ]
@@ -495,15 +497,16 @@ export const convertExpression = (expression: ts.Expression | undefined, context
 
     }
 
-    if (type.startsWith("native")) {
+    if (type.startsWith("sdk")) {
       const convertedArgs = convertObjectLiteralExpression(argument, context);
+      const name = unpackAsLiteral(convertedArgs, "name");
       const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
       const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
 
-      let remainder = type.substring(6);
+      let remainder = type.substring(3);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
-      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations", "CodeBuild"];
+      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations", "CodeBuild", "CloudWatch"];
       for (const serviceName of servicesNames) {
         if (remainder.startsWith(serviceName)) {
           resource += serviceName.toLowerCase() + ':';
@@ -513,7 +516,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         }
       }
       if (!foundService) {
-        throw new Error(`unable to find service of native integration ${type} `);
+        throw new Error(`unable to find service of sdk integration ${type} `);
       }
       resource += remainder[0].toLowerCase() + remainder.substring(1);
       const caseConvertedArgs = {
@@ -534,7 +537,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       }
 
       return {
-        stateName: remainder,
+        stateName: name ?? remainder,
         resource,
         parameters: caseConvertedArgs.parameters,
         catch: catchConfiguration,

@@ -83,9 +83,9 @@
         }
       ],
       "Comment": "source: arrayOfObjects = [{ left: 1, right: 2 }, { lef ...",
-      "Next": "Pass"
+      "Next": "Return { arrayOfNumbers, ..."
     },
-    "Pass": {
+    "Return { arrayOfNumbers, ...": {
       "End": true,
       "Type": "Pass",
       "Parameters": {

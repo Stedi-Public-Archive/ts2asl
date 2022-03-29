@@ -14,9 +14,9 @@
       "ResultPath": "$.vars.variable",
       "Result": "some var",
       "Comment": "source: variable = \"some var\"",
-      "Next": "Pass"
+      "Next": "Return { b: `hello ${ ..."
     },
-    "Pass": {
+    "Return { b: `hello ${ ...": {
       "End": true,
       "Type": "Pass",
       "Parameters": {

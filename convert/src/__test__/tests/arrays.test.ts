@@ -59,7 +59,7 @@ describe("when converting arrays", () => {
           "Assign species": Object {
             "Comment": undefined,
             "InputPath": "$.vars.mappedArray..species",
-            "Next": "Pass",
+            "Next": "Return { ages, specie ...",
             "ResultPath": "$.vars.species",
             "Type": "Pass",
           },
@@ -71,7 +71,7 @@ describe("when converting arrays", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return { ages, specie ...": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {

@@ -11,7 +11,7 @@ describe("when converting string-templates", () => {
         "States": Object {
           "Assign variable": Object {
             "Comment": "source: variable = \\"some var\\"",
-            "Next": "Pass",
+            "Next": "Return { b: \`hello \${ ...",
             "Result": "some var",
             "ResultPath": "$.vars.variable",
             "Type": "Pass",
@@ -24,7 +24,7 @@ describe("when converting string-templates", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Pass": Object {
+          "Return { b: \`hello \${ ...": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {

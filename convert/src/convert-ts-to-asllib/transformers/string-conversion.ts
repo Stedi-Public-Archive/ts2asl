@@ -10,11 +10,11 @@ export const stringConversionTransformer = <T extends ts.Node>(context: ts.Trans
     node = ts.visitEachChild(node, visit, context);
     if (ts.isCallExpression(node)) {
       const aslCall = isAslCallExpression(node);
-      if (aslCall === "stringToNumber" || aslCall === "stringToBoolean") {
+      if (aslCall === "states.stringToNumber" || aslCall === "states.stringToBoolean") {
         return factory.createCallExpression(
           factory.createPropertyAccessExpression(
             factory.createIdentifier("asl"),
-            factory.createIdentifier("stringToJson")
+            factory.createIdentifier("states.stringToJson")
           ),
           undefined,
           node.arguments

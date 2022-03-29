@@ -2,11 +2,11 @@ import * as asl from "@ts2asl/asl-lib";
 
 export const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => { return [""] });
 
-//option 1: native typescript
+//option 1: sdk typescript
 // export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) => {
 //   const result = await replayPrefixer(input);
 //   for (const prefix of result) {
-//     await asl.nativeSfnStartExecution({
+//     await asl.sdkSfnStartExecution({
 //       parameters: {
 //         input: asl.states.format("{}", prefix),
 //         stateMachineArn: asl.deploy.getParameter("stateMachineArn"),
@@ -16,23 +16,23 @@ export const replayPrefixer = asl.deploy.asLambda((input: StateMachineInput) => 
 // });
 
 //option 2: asl lib typescript
-export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) =>{
-    const result = await asl.typescriptInvoke({
-        name: "replayPrefixer(input)",
-        resource: replayPrefixer,
-        parameters: () => input,
-        comment: "replayPrefixer(input)"
-    });
-    await asl.map({
-        maxConcurrency: 5,
-        items: result,
-        iterator: (prefix) => asl.typescriptInvoke({
-            name: "replayWorker({ prefix })",
-            resource: replayWorker,
-            parameters: () => ({ prefix }),
-            comment: "replayWorker({ prefix })"
-        })
-    });
+export const main = asl.deploy.asStateMachine(async (input: StateMachineInput) => {
+  const result = await asl.typescriptInvoke({
+    name: "replayPrefixer(input)",
+    resource: replayPrefixer,
+    parameters: () => input,
+    comment: "replayPrefixer(input)"
+  });
+  await asl.map({
+    maxConcurrency: 5,
+    items: result,
+    iterator: (prefix) => asl.typescriptInvoke({
+      name: "replayWorker({ prefix })",
+      resource: replayWorker,
+      parameters: () => ({ prefix }),
+      comment: "replayWorker({ prefix })"
+    })
+  });
 });
 
 interface StateMachineInput {
@@ -42,7 +42,7 @@ interface StateMachineInput {
 
 
 export const replayWorker = asl.deploy.asStateMachine(async (input: ReplayWorkerInput) => {
-  const objects = await asl.nativeS3ListObjectsV2({ parameters: { Prefix: input.prefix, Bucket: "preprod-metrics-bucket-us-east-1" } });
+  const objects = await asl.sdkS3ListObjectsV2({ parameters: { Prefix: input.prefix, Bucket: "preprod-metrics-bucket-us-east-1" } });
   const itemsWithKeys = objects.Contents!.filter((item) => item.Key);
   const keys = itemsWithKeys.map(x => x.Key);
 
@@ -70,7 +70,7 @@ export const replayWorker = asl.deploy.asStateMachine(async (input: ReplayWorker
           }
         ]
       };
-      asl.nativeSNSPublish({
+      asl.sdkSNSPublish({
         parameters: {
           TopicArn: "arn:aws:sns:us-east-1:400780617693:CentralizedMetricsStream-preprod-CentralizedMetricsStreamTopic48052E47-1X7SNV6Y357H6",
           Subject: "Ingestion Replay S3",

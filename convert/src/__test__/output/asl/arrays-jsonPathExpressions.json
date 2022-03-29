@@ -77,9 +77,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.slicedArr",
       "InputPath": "$.vars.filterArray.cats.young[1:1]",
-      "Next": "Pass"
+      "Next": "Return { uniqueAges, ..."
     },
-    "Pass": {
+    "Return { uniqueAges, ...": {
       "End": true,
       "Type": "Pass",
       "Parameters": {

@@ -1,7 +1,7 @@
 import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting while look to iasl", () => {
-  it("then native integrations get converted", () => {
+  it("then sdk integrations get converted", () => {
     const code = `
     asl.typescriptWhile({
       condition: () => code === 'continue',
