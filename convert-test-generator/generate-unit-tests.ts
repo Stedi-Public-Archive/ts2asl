@@ -7,7 +7,7 @@ import { enumTests } from "./enum-tests";
 const fixtures = enumTests();
 for (const fixture of fixtures) {
   const testFilePath = fixture.path + "/../tests/" + fixture.fixtureName + ".test.ts";
-  if (!existsSync(testFilePath)) {
+  if (true || !existsSync(testFilePath)) {
     const tests = fixture.enumTestCases();
     if (tests.length > 0) {
       createUnitTestFile(testFilePath, fixture.fixtureName, tests.map(x => x.testName))

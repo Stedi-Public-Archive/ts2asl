@@ -12,7 +12,7 @@ const explanations: Record<string, string> = {
 const fixtures = enumTests();
 for (const fixture of fixtures) {
   const exampleFilePath = "../examples/" + fixture.fixtureName + ".md";
-  if (!existsSync(exampleFilePath)) {
+  if (true || !existsSync(exampleFilePath)) {
     const tests = fixture.enumTestCases();
     if (tests.length > 0) {
       createExamples(exampleFilePath, fixture.fixtureName, tests)

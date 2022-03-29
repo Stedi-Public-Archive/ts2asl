@@ -44,3 +44,22 @@ export const main = asl.deploy.asStateMachine(async () =>
 ```
 
 
+## numeric comparison
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBjb25kaXRpb24gPSA0MjsKICBjb25zdCBpdGVtcyA9IFsyLCA0MiwgM107CiAgY29uc3QgbGlzdFdpdGhSZXR1bnJuZWQgPSBpdGVtcy5tYXAoaXRlbSA9PiB7CiAgICBpZiAoaXRlbSA9PT0gY29uZGl0aW9uKSB7CiAgICAgIHJldHVybiB7IHJldHVybmVkOiBpdGVtIH07CiAgICB9CiAgfSk7CiAgY29uc3QgaXRlbSA9IGxpc3RXaXRoUmV0dW5ybmVkLmZpbHRlcih4ID0+IHgucmV0dXJuZWQpOwogIHJldHVybiBpdGVtOwp9KTs=)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  const condition = 42;
+  const items = [2, 42, 3];
+  const listWithRetunrned = items.map(item => {
+    if (item === condition) {
+      return { returned: item };
+    }
+  });
+  const item = listWithRetunrned.filter(x => x.returned);
+  return item;
+});
+```
+
+

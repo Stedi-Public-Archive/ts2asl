@@ -8,4 +8,10 @@ describe("when converting input-validation", () => {
         const resultFromNode = await main();
         expect(resultFromSfn).toEqual(resultFromNode);
     });
+    it("will execute notEquals as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("input-validation", "notEquals");
+        const { notEquals } = require("../resources/input-validation");
+        const resultFromNode = await notEquals();
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
 });

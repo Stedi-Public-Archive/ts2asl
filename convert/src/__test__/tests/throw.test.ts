@@ -4,6 +4,101 @@ describe("when converting throw", () => {
   beforeAll(() => {
     converted = runConvertForTest("throw");
   });
+  it("then tryCatch can be converted to asl", async () => {
+    expect(converted.tryCatch.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign vars": Object {
+            "InputPath": "$.vars[0]",
+            "Next": "Parallel",
+            "ResultPath": "$.vars",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign vars",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Parallel": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "Throw NotImplemented",
+                "States": Object {
+                  "Throw NotImplemented": Object {
+                    "Cause": "not implemented",
+                    "Comment": "source: throw new NotImplemented(\\"not implemented\\")",
+                    "Error": "NotImplemented",
+                    "Type": "Fail",
+                  },
+                },
+              },
+            ],
+            "Catch": Array [
+              Object {
+                "ErrorEquals": Array [
+                  "States.ALL",
+                ],
+                "Next": "Parallel_1",
+                "ResultPath": "$.vars.err",
+              },
+            ],
+            "End": true,
+            "Parameters": Object {
+              "vars.$": "$.vars",
+            },
+            "ResultPath": "$.vars",
+            "Type": "Parallel",
+          },
+          "Parallel_1": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "If (err.Cause === \\"NotImp ...",
+                "States": Object {
+                  "Empty Default Choice": Object {
+                    "End": true,
+                    "Type": "Pass",
+                  },
+                  "If (err.Cause === \\"NotImp ...": Object {
+                    "Choices": Array [
+                      Object {
+                        "Next": "Return \\"Todo\\"",
+                        "StringEquals": "NotImplemented",
+                        "Variable": "$.vars.err.Cause",
+                      },
+                    ],
+                    "Comment": "source: if (err.Cause === \\"NotImplemented\\") { return \\" ...",
+                    "Default": "Empty Default Choice",
+                    "Type": "Choice",
+                  },
+                  "Return \\"Todo\\"": Object {
+                    "Comment": undefined,
+                    "End": true,
+                    "Result": "Todo",
+                    "Type": "Pass",
+                  },
+                },
+              },
+            ],
+            "Next": "Return",
+            "Parameters": Object {
+              "vars.$": "$.vars",
+            },
+            "ResultPath": "$.vars",
+            "Type": "Parallel",
+          },
+          "Return": Object {
+            "End": true,
+            "InputPath": "$.vars[0]",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
   it("then throwErrors can be converted to asl", async () => {
     expect(converted.throwErrors.asl).toMatchInlineSnapshot(`
       Object {

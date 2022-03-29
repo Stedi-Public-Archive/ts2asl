@@ -178,6 +178,49 @@ describe("when converting variable-assignments", () => {
       }
     `);
   });
+  it("then arrayIndexer can be converted to asl", async () => {
+    expect(converted.arrayIndexer.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign arr": Object {
+            "Comment": "source: arr = [1, 2, 3, 4, 5]",
+            "Next": "Assign two",
+            "Result": Array [
+              1,
+              2,
+              3,
+              4,
+              5,
+            ],
+            "ResultPath": "$.vars.arr",
+            "Type": "Pass",
+          },
+          "Assign two": Object {
+            "Comment": "source: two = arr[1]",
+            "InputPath": "$.vars.arr[1]arr",
+            "Next": "Return two",
+            "ResultPath": "$.vars.two",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign arr",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return two": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.two",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
   it("then functions can be converted to asl", async () => {
     expect(converted.functions.asl).toMatchInlineSnapshot(`
       Object {

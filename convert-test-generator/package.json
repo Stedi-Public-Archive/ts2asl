@@ -6,7 +6,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "npx jest",
-    "build": "npx tsc"
+    "build": "npx tsc",
+    "regenerate-all" :"ts-node generate-example && ts-node generate-integration-tests && ts-node generate-unit-tests"
   },
   "files": [
     "lib/**/*"

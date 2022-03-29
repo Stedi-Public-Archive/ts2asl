@@ -1,12 +1,11 @@
 import { runConvertForTest } from "../utility";
-
 describe("when converting boolean-evalation", () => {
-    let converted;
-    beforeAll(() => {
-        converted = runConvertForTest("boolean-evalation");
-    });
-    it("then main can be converted to asl", async () => {
-        expect(converted.main.asl).toMatchInlineSnapshot(`
+  let converted;
+  beforeAll(() => {
+    converted = runConvertForTest("boolean-evalation");
+  });
+  it("then main can be converted to asl", async () => {
+    expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
@@ -258,5 +257,96 @@ describe("when converting boolean-evalation", () => {
         },
       }
     `);
-    });
+  });
+  it("then numericComparison can be converted to asl", async () => {
+    expect(converted.numericComparison.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign condition": Object {
+            "Comment": "source: condition = 42",
+            "Next": "Assign items",
+            "Result": 42,
+            "ResultPath": "$.vars.condition",
+            "Type": "Pass",
+          },
+          "Assign item": Object {
+            "Comment": undefined,
+            "InputPath": "$.vars.listWithRetunrned[?(@.returned)]",
+            "Next": "Return item",
+            "ResultPath": "$.vars.item",
+            "Type": "Pass",
+          },
+          "Assign items": Object {
+            "Comment": "source: items = [2, 42, 3]",
+            "Next": "Assign listWithRetunrned",
+            "Result": Array [
+              2,
+              42,
+              3,
+            ],
+            "ResultPath": "$.vars.items",
+            "Type": "Pass",
+          },
+          "Assign listWithRetunrned": Object {
+            "Comment": undefined,
+            "ItemsPath": "$.vars.items",
+            "Iterator": Object {
+              "StartAt": "If (item === condition)",
+              "States": Object {
+                "Empty Default Choice": Object {
+                  "End": true,
+                  "Type": "Pass",
+                },
+                "If (item === condition)": Object {
+                  "Choices": Array [
+                    Object {
+                      "Next": "Return { returned: item }",
+                      "NumericEqualsPath": "$.vars.condition",
+                      "Variable": "$.vars.item",
+                    },
+                  ],
+                  "Comment": "source: if (item === condition) { return { returned: i ...",
+                  "Default": "Empty Default Choice",
+                  "Type": "Choice",
+                },
+                "Return { returned: item }": Object {
+                  "Comment": undefined,
+                  "End": true,
+                  "Parameters": Object {
+                    "returned.$": "$.vars.item",
+                  },
+                  "Type": "Pass",
+                },
+              },
+            },
+            "MaxConcurrency": undefined,
+            "Next": "Assign item",
+            "Parameters": Object {
+              "vars": Object {
+                "condition.$": "$.vars.condition",
+                "item.$": "$$.Map.Item.Value",
+              },
+            },
+            "ResultPath": "$.vars.listWithRetunrned",
+            "Type": "Map",
+          },
+          "Initialize": Object {
+            "Next": "Assign condition",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return item": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.item",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
 });
