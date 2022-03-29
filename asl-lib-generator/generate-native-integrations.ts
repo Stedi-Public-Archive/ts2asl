@@ -1,4 +1,4 @@
-import nativeIntegrations from "./native-integrations.json"
+import sdkIntegrations from "./native-integrations.json"
 import * as ts from "typescript";
 import factory = ts.factory;
 import { writeFileSync } from "fs";
@@ -26,6 +26,7 @@ const supportedServices = [
   { serviceId: "organizations", serviceName: "Organizations" },
   { serviceId: "sfn", serviceName: "Sfn" },
   { serviceId: "codebuild", serviceName: "CodeBuild" },
+  { serviceId: "cloudwatch", serviceName: "CloudWatch" },
 ]
 
 // interface NativeIntegrationDefinition {
@@ -136,7 +137,7 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
         [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
         factory.createVariableDeclarationList(
           [factory.createVariableDeclaration(
-            factory.createIdentifier(`native${serviceName}${actionName}`),
+            factory.createIdentifier(`sdk${serviceName}${actionName}`),
             undefined,
             undefined,
             factory.createArrowFunction(
@@ -225,14 +226,15 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
   return result;
 }
 
-for (const service of nativeIntegrations.services) {
+for (const service of sdkIntegrations.services) {
   const serviceConfig = supportedServices.find(x => x.serviceId === service.serviceId);
   if (!serviceConfig) continue;
+
+  const filename = `asl-lib/src/sdk-integrations-${serviceConfig.serviceId}.ts`
 
   const functionNodes: ts.Statement[] = [];
   const importNodes: ts.Node[] = [];
 
-  const filename = `asl-lib/src/native-integrations-${serviceConfig.serviceId}.ts`
   const sourceFile = ts.createSourceFile(filename, "", ts.ScriptTarget.Latest);
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
@@ -245,15 +247,12 @@ for (const service of nativeIntegrations.services) {
     functionNodes.push(result.functionAst);
     importNodes.push(result.importAst);
   }
-  // const exportNode = factory.createModuleDeclaration(
+  // const namespace = factory.createModuleDeclaration(
   //   undefined,
   //   [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
-  //   factory.createIdentifier("ASL"),
+  //   factory.createIdentifier("sdk"),
   //   factory.createModuleBlock(functionNodes),
-  //   ts.NodeFlags.Namespace
-  //);
-
-
+  //   ts.NodeFlags.Namespace);
 
   let contents = "";
   for (const node of importNodes) {

@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/asl-lib",
-  "version": "0.1.17",
+  "version": "0.1.21",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-api-gateway": "^3.53.0",
+    "@aws-sdk/client-cloudwatch": "^3.58.0",
     "@aws-sdk/client-codebuild": "^3.55.0",
     "@aws-sdk/client-dynamodb": "^3.48.0",
     "@aws-sdk/client-ecs": "^3.48.0",
