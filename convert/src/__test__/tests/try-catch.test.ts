@@ -62,7 +62,7 @@ describe("when converting try-catch", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Return",
+            "Next": "Return From Scope",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -119,15 +119,15 @@ describe("when converting try-catch", () => {
             "ResultPath": "$.vars",
             "Type": "Parallel",
           },
-          "Return": Object {
-            "InputPath": "$.vars[0]",
-            "Next": "Parallel",
-            "Type": "Pass",
-          },
           "Return \\"it failed\\"": Object {
             "Comment": undefined,
             "End": true,
             "Result": "it failed",
+            "Type": "Pass",
+          },
+          "Return From Scope": Object {
+            "InputPath": "$.vars[0]",
+            "Next": "Parallel",
             "Type": "Pass",
           },
         },

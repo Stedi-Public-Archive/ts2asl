@@ -733,7 +733,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
 
         case "jsonPathSlice":
           {
-            if (expr.arguments.length <= 2) throw new Error("asl.jsonPathSlice must have at least 2 arguments");
+            if (expr.arguments.length < 2) throw new Error("asl.jsonPathSlice must have at least 2 arguments");
             if (expr.arguments.length > 4) throw new Error("asl.jsonPathSlice must have at most 4 arguments");
             const lhs = convertToIdentifier(expr.arguments[0], context);
             if (!lhs) throw new Error("asl.jsonPathExpression 1st arg must be identifier");

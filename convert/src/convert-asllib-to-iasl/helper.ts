@@ -53,7 +53,6 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
   return undefined;
 }
 
-
 function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
 
   if (hasFlag(type, ts.TypeFlags.Object)) {

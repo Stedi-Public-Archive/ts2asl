@@ -83,14 +83,14 @@ describe("when converting throw", () => {
                 },
               },
             ],
-            "Next": "Return",
+            "Next": "Return From Scope",
             "Parameters": Object {
               "vars.$": "$.vars",
             },
             "ResultPath": "$.vars",
             "Type": "Parallel",
           },
-          "Return": Object {
+          "Return From Scope": Object {
             "End": true,
             "InputPath": "$.vars[0]",
             "Type": "Pass",

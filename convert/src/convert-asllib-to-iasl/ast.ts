@@ -223,7 +223,7 @@ export interface Function extends Block {
 //could be 'name' or 'name.path.parts'
 export interface Identifier {
   compilerGenerated?: true;
-  objectContextExpression?: true;
+  objectContextExpression?: true; //is this an expression against the statemachine global context?
   identifier: string;
   indexExpression?: Identifier | Expression;
   sliceExpression?: { start: number, end?: number, step?: number };

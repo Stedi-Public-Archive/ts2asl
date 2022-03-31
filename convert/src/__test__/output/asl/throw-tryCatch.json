@@ -79,9 +79,9 @@
           }
         }
       ],
-      "Next": "Return"
+      "Next": "Return From Scope"
     },
-    "Return": {
+    "Return From Scope": {
       "Type": "Pass",
       "InputPath": "$.vars[0]",
       "End": true

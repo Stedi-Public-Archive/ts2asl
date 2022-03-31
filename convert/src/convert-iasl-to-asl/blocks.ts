@@ -39,7 +39,7 @@ export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, contex
       Type: "Pass",
       InputPath: "$.vars[0]"
     };
-    result.secondStateName = "Return";
+    result.secondStateName = "Return From Scope";
   } else {
     result.secondState = {
       Type: "Pass",
