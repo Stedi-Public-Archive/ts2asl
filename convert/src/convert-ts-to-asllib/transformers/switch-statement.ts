@@ -16,10 +16,9 @@ export const switchStatementTransformer = (converterOptions: ConverterOptions) =
 
     if (ts.isSwitchStatement(node)) {
 
-      if (!ts.isIdentifier(node.expression)) throw new Error("switch statement must have identifier as expression");
-
       if (!node.caseBlock || !node.caseBlock.clauses) throw new Error("switch statement must have case clauses");
 
+      const switchExpression = node.expression;
       const defaultCase = node.caseBlock.clauses.find(x => ts.isDefaultClause(x))
       const defaultCaseWithoutBreaks = ts.visitEachChild(defaultCase, removeBreakStatements, context) as ts.DefaultClause;
       const default_ = TransformUtil.createNamedBlock("default", defaultCaseWithoutBreaks ? factory.createBlock(defaultCaseWithoutBreaks.statements, true) : undefined)
@@ -29,7 +28,13 @@ export const switchStatementTransformer = (converterOptions: ConverterOptions) =
       const choices_ = choiceCasesWithoutBreaks.map(x => {
         return [
           TransformUtil.createNamedBlock("block", factory.createBlock(x.statements, true)),
-          TransformUtil.createWrappedExpression("condition", (x as ts.CaseClause).expression)
+          TransformUtil.createWrappedExpression("condition",
+            factory.createBinaryExpression(
+              switchExpression,
+              factory.createToken(ts.SyntaxKind.EqualsEqualsEqualsToken),
+              (x as ts.CaseClause).expression
+            )
+          )
         ]
       })
       const choices = TransformUtil.createArrayOfObjects("choices", choices_)

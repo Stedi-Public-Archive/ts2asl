@@ -1,6 +1,6 @@
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast"
-import { ConversionContext, convertBlock } from ".";
+import { ConversionContext, convertBlock, isNonTerminalState } from ".";
 import { createChoiceOperator } from "./choice-utility";
 import { createParameters, createParametersForMap } from "./parameters";
 import { createFilterExpression } from "./jsonpath-filter";
@@ -154,7 +154,7 @@ export class AslFactory {
         context.appendNextState({ Type: "Pass" } as asl.Pass, "EmptyDefault")
       }
       for (const state of trailingStates) {
-        context.trailingStates.push(state);
+        if (isNonTerminalState(state)) context.trailingStates.push(state);
       }
     } else if (iasl.Check.isWhileStatement(expression)) {
 

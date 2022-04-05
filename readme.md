@@ -58,6 +58,7 @@ The following Typescript langauge features are supported:
 * for ... of statements
 * for ... in statements
 * do while statements
+* [switch statements](./examples/switch.md)
 * [try/catch/finally statements](./examples/try-catch.md)
 * [boolean evaluation logic](./examples/boolean-evalation.md)
 * [promise.all](./examples/parallel.md)

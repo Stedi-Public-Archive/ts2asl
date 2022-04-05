@@ -24,7 +24,7 @@ describe("when converting switch statements", () => {
                   block: async () => {
                       console.log(\\"red\\");
                   },
-                  condition: () => \\"red\\"
+                  condition: () => color === \\"red\\"
               }
           ],
           default: async () => {

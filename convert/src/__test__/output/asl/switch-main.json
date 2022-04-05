@@ -1,0 +1,83 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "CreateAccount"
+    },
+    "CreateAccount": {
+      "Type": "Task",
+      "ResultPath": "$.vars.createAccount",
+      "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
+      "Parameters": {
+        "AccountName": "test",
+        "Email": "something@email.com"
+      },
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Branches": [
+        {
+          "StartAt": "DescribeCreateAccountStatus",
+          "States": {
+            "DescribeCreateAccountStatus": {
+              "Type": "Task",
+              "ResultPath": "$.vars.describeResult",
+              "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
+              "Parameters": {
+                "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id"
+              },
+              "Next": "Switch (describeResult.Cr ..."
+            },
+            "Switch (describeResult.Cr ...": {
+              "Type": "Choice",
+              "Choices": [
+                {
+                  "Variable": "$.vars.describeResult.CreateAccountStatus",
+                  "StringEquals": "SUCCEEDED",
+                  "Next": "Return describeResult"
+                },
+                {
+                  "Variable": "$.vars.describeResult.CreateAccountStatus",
+                  "StringEquals": "IN_PROGRESS",
+                  "Next": "Throw AccountCreationInPr ..."
+                }
+              ],
+              "Comment": "source: switch (describeResult.CreateAccountStatus) {  ...",
+              "Default": "Throw AccountCreationFailed"
+            },
+            "Return describeResult": {
+              "Type": "Pass",
+              "InputPath": "$.vars.describeResult",
+              "End": true
+            },
+            "Throw AccountCreationInPr ...": {
+              "Type": "Fail",
+              "Error": "AccountCreationInProgress",
+              "Cause": "account creation is still in progress",
+              "Comment": "source: throw new AccountCreationInProgress(\"account c ..."
+            },
+            "Throw AccountCreationFailed": {
+              "Type": "Fail",
+              "Error": "AccountCreationFailed",
+              "Cause": "account creation is still in progress",
+              "Comment": "source: source: throw new AccountCreationFailed(\"accou ..."
+            }
+          }
+        }
+      ],
+      "ResultPath": "$.tmp.lastResult",
+      "Type": "Parallel",
+      "Parameters": {
+        "vars": {
+          "createAccount.$": "$.vars.createAccount"
+        }
+      },
+      "End": true
+    }
+  }
+}
