@@ -17,9 +17,9 @@
         "AccountName": "test",
         "Email": "something@email.com"
       },
-      "Next": "Parallel"
+      "Next": "Assign result"
     },
-    "Parallel": {
+    "Assign result": {
       "Branches": [
         {
           "StartAt": "DescribeCreateAccountStatus",
@@ -70,14 +70,36 @@
           }
         }
       ],
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.vars.result",
       "Type": "Parallel",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "AccountCreationInProgress"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 10,
+          "BackoffRate": 1
+        }
+      ],
       "Parameters": {
         "vars": {
           "createAccount.$": "$.vars.createAccount"
         }
       },
-      "End": true
+      "Next": "Log (result)"
+    },
+    "Log (result)": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.lastResult",
+      "InputPath": "$.vars.result",
+      "Comment": "source: console.log(result)",
+      "Next": "Return result"
+    },
+    "Return result": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.result"
     }
   }
 }

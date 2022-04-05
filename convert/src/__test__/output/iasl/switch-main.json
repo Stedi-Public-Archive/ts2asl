@@ -30,115 +30,153 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "branches": [
-        {
-          "statements": [
-            {
-              "name": {
-                "identifier": "describeResult",
-                "_syntaxKind": "identifier",
-                "type": "object"
+      "name": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "branches": [
+          {
+            "statements": [
+              {
+                "name": {
+                  "identifier": "describeResult",
+                  "_syntaxKind": "identifier",
+                  "type": "object"
+                },
+                "expression": {
+                  "stateName": "DescribeCreateAccountStatus",
+                  "resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
+                  "parameters": {
+                    "properties": {
+                      "CreateAccountRequestId": {
+                        "identifier": "createAccount.CreateAccountStatus.Id",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  },
+                  "_syntaxKind": "asl-task-state"
+                },
+                "stateName": "Assign describeResult",
+                "_syntaxKind": "variable-assignment"
               },
-              "expression": {
-                "stateName": "DescribeCreateAccountStatus",
-                "resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
-                "parameters": {
-                  "properties": {
-                    "CreateAccountRequestId": {
-                      "identifier": "createAccount.CreateAccountStatus.Id",
-                      "type": "string",
-                      "_syntaxKind": "identifier"
+              {
+                "stateName": "Switch (describeResult.Cr ...",
+                "choices": [
+                  {
+                    "condition": {
+                      "lhs": {
+                        "identifier": "describeResult.CreateAccountStatus",
+                        "type": "object",
+                        "_syntaxKind": "identifier"
+                      },
+                      "operator": "eq",
+                      "rhs": {
+                        "value": "SUCCEEDED",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      "_syntaxKind": "binary-expression"
+                    },
+                    "block": {
+                      "statements": [
+                        {
+                          "expression": {
+                            "identifier": "describeResult",
+                            "_syntaxKind": "identifier",
+                            "type": "object"
+                          },
+                          "_syntaxKind": "return",
+                          "stateName": "Return describeResult"
+                        }
+                      ],
+                      "_syntaxKind": "function"
                     }
                   },
-                  "_syntaxKind": "literal-object"
-                },
-                "_syntaxKind": "asl-task-state"
-              },
-              "stateName": "Assign describeResult",
-              "_syntaxKind": "variable-assignment"
-            },
-            {
-              "stateName": "Switch (describeResult.Cr ...",
-              "choices": [
-                {
-                  "condition": {
-                    "lhs": {
-                      "identifier": "describeResult.CreateAccountStatus",
-                      "type": "object",
-                      "_syntaxKind": "identifier"
-                    },
-                    "operator": "eq",
-                    "rhs": {
-                      "value": "SUCCEEDED",
-                      "type": "string",
-                      "_syntaxKind": "literal"
-                    },
-                    "_syntaxKind": "binary-expression"
-                  },
-                  "block": {
-                    "statements": [
-                      {
-                        "expression": {
-                          "identifier": "describeResult",
-                          "_syntaxKind": "identifier",
-                          "type": "object"
-                        },
-                        "_syntaxKind": "return",
-                        "stateName": "Return describeResult"
-                      }
-                    ],
-                    "_syntaxKind": "function"
-                  }
-                },
-                {
-                  "condition": {
-                    "lhs": {
-                      "identifier": "describeResult.CreateAccountStatus",
-                      "type": "object",
-                      "_syntaxKind": "identifier"
-                    },
-                    "operator": "eq",
-                    "rhs": {
-                      "value": "IN_PROGRESS",
-                      "type": "string",
-                      "_syntaxKind": "literal"
-                    },
-                    "_syntaxKind": "binary-expression"
-                  },
-                  "block": {
-                    "statements": [
-                      {
-                        "stateName": "Throw AccountCreationInPr ...",
-                        "cause": "account creation is still in progress",
-                        "error": "AccountCreationInProgress",
-                        "source": "throw new AccountCreationInProgress(\"account creation is still in progress\");",
-                        "_syntaxKind": "asl-fail-state"
-                      }
-                    ],
-                    "_syntaxKind": "function"
-                  }
-                }
-              ],
-              "default": {
-                "statements": [
                   {
-                    "stateName": "Throw AccountCreationFailed",
-                    "cause": "account creation is still in progress",
-                    "error": "AccountCreationFailed",
-                    "source": "throw new AccountCreationFailed(\"account creation is still in progress\");",
-                    "_syntaxKind": "asl-fail-state"
+                    "condition": {
+                      "lhs": {
+                        "identifier": "describeResult.CreateAccountStatus",
+                        "type": "object",
+                        "_syntaxKind": "identifier"
+                      },
+                      "operator": "eq",
+                      "rhs": {
+                        "value": "IN_PROGRESS",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      "_syntaxKind": "binary-expression"
+                    },
+                    "block": {
+                      "statements": [
+                        {
+                          "stateName": "Throw AccountCreationInPr ...",
+                          "cause": "account creation is still in progress",
+                          "error": "AccountCreationInProgress",
+                          "source": "throw new AccountCreationInProgress(\"account creation is still in progress\");",
+                          "_syntaxKind": "asl-fail-state"
+                        }
+                      ],
+                      "_syntaxKind": "function"
+                    }
                   }
                 ],
-                "_syntaxKind": "function"
-              },
-              "source": "switch (describeResult.CreateAccountStatus) {\n        case \"SUCCEEDED\": return describeResult;\n        case \"IN_PROGRESS\": throw new AccountCreationInProgress(\"account creation is still in progress\");\n        default: throw new AccountCreationFailed(\"account creation is still in progress\");\n      }",
-              "_syntaxKind": "asl-choice-state"
-            }
-          ],
-          "_syntaxKind": "function"
-        }
-      ],
-      "_syntaxKind": "asl-parallel-state"
+                "default": {
+                  "statements": [
+                    {
+                      "stateName": "Throw AccountCreationFailed",
+                      "cause": "account creation is still in progress",
+                      "error": "AccountCreationFailed",
+                      "source": "throw new AccountCreationFailed(\"account creation is still in progress\");",
+                      "_syntaxKind": "asl-fail-state"
+                    }
+                  ],
+                  "_syntaxKind": "function"
+                },
+                "source": "switch (describeResult.CreateAccountStatus) {\n        case \"SUCCEEDED\": return describeResult;\n        case \"IN_PROGRESS\": throw new AccountCreationInProgress(\"account creation is still in progress\");\n        default: throw new AccountCreationFailed(\"account creation is still in progress\");\n      }",
+                "_syntaxKind": "asl-choice-state"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        ],
+        "retry": [
+          {
+            "errorEquals": [
+              "AccountCreationInProgress"
+            ],
+            "intervalSeconds": 2,
+            "maxAttempts": 10,
+            "backoffRate": 1
+          }
+        ],
+        "_syntaxKind": "asl-parallel-state"
+      },
+      "stateName": "Assign result",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Log (result)",
+      "parameters": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "source": "console.log(result)",
+      "_syntaxKind": "asl-pass-state"
+    },
+    {
+      "expression": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return result"
     }
   ],
   "_syntaxKind": "statemachine"

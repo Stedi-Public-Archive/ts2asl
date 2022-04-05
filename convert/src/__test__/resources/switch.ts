@@ -2,7 +2,7 @@ import * as asl from "@ts2asl/asl-lib"
 
 export const main = asl.deploy.asStateMachine(async () => {
   const createAccount = await asl.sdkOrganizationsCreateAccount({ parameters: { AccountName: "test", Email: "something@email.com" } });
-  asl.parallel({
+  const result = asl.parallel({
     branches: [async () => {
       const describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus.Id } });
       switch (describeResult.CreateAccountStatus) {
@@ -11,7 +11,16 @@ export const main = asl.deploy.asStateMachine(async () => {
         default: throw new AccountCreationFailed("account creation is still in progress");
       }
     }],
+    retry: [{
+      errorEquals: ["AccountCreationInProgress"],
+      intervalSeconds: 2,
+      maxAttempts: 10,
+      backoffRate: 1,
+    }]
   });
+
+  console.log(result);
+  return result;
 });
 
 
