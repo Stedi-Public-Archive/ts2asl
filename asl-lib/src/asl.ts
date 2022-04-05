@@ -188,8 +188,8 @@ export const wait = async (args: Wait) => {
   await internalWaitSeconds(args.seconds as number);
 }
 
-export const parallel = async <Item>(args: Parallel<Item>) => {
-  return {} as AslState;
+export const parallel = async <Item>(args: Parallel<Item>): Promise<unknown[]> => {
+  return await Promise.all(args.branches);
 }
 
 export const choice = async (args: Choice) => {
