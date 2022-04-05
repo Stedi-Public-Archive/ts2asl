@@ -9,29 +9,7 @@ describe("when converting switch", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "CreateAccount": Object {
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "Parallel",
-            "Parameters": Object {
-              "AccountName": "test",
-              "Email": "something@email.com",
-            },
-            "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
-            "ResultPath": "$.vars.createAccount",
-            "Retry": undefined,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          "Initialize": Object {
-            "Next": "CreateAccount",
-            "Parameters": Object {
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Parallel": Object {
+          "Assign result": Object {
             "Branches": Array [
               Object {
                 "StartAt": "DescribeCreateAccountStatus",
@@ -89,15 +67,59 @@ describe("when converting switch", () => {
             ],
             "Catch": undefined,
             "Comment": undefined,
-            "End": true,
+            "Next": "Log (result)",
             "Parameters": Object {
               "vars": Object {
                 "createAccount.$": "$.vars.createAccount",
               },
             },
-            "ResultPath": "$.tmp.lastResult",
-            "Retry": undefined,
+            "ResultPath": "$.vars.result",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 1,
+                "ErrorEquals": Array [
+                  "AccountCreationInProgress",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 10,
+              },
+            ],
             "Type": "Parallel",
+          },
+          "CreateAccount": Object {
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "Assign result",
+            "Parameters": Object {
+              "AccountName": "test",
+              "Email": "something@email.com",
+            },
+            "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
+            "ResultPath": "$.vars.createAccount",
+            "Retry": undefined,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+          "Initialize": Object {
+            "Next": "CreateAccount",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Log (result)": Object {
+            "Comment": "source: console.log(result)",
+            "InputPath": "$.vars.result",
+            "Next": "Return result",
+            "ResultPath": "$.tmp.lastResult",
+            "Type": "Pass",
+          },
+          "Return result": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.result",
+            "Type": "Pass",
           },
         },
       }

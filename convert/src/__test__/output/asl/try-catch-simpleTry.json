@@ -37,9 +37,9 @@
       "End": true
     },
     "Return \"it failed\"": {
+      "End": true,
       "Type": "Pass",
-      "Result": "it failed",
-      "End": true
+      "Result": "it failed"
     }
   }
 }

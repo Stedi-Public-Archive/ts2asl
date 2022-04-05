@@ -181,7 +181,7 @@ export class ConversionContext {
 }
 
 export const isNonTerminalState = (state?: asl.State): state is NonTerminalState => {
-  return (state != undefined && state.Type !== "Succeed" && state.Type !== "Fail");
+  return (state != undefined && state.Type !== "Succeed" && state.Type !== "Fail" && !("End" in state && state.End === true));
 }
 
 export type NonTerminalState = asl.Choice | asl.Map | asl.Parallel | asl.Pass | asl.Task | asl.Wait;

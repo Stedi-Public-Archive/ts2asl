@@ -17,7 +17,9 @@ export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, contex
     const stateName = stateNames[0];
     const state = stateMachine.States[stateName];
     if (state.Type !== "Fail" || !options.alwaysWrapFailState) {
-      delete (state as any).End;
+      if ("ResultPath" in state) {
+        delete (state as any).End;
+      }
       context.root.names = context.root.names.filter(x => x != stateName);
       return { state, stateName };
     }

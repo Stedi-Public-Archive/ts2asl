@@ -29,9 +29,9 @@
       "Next": "Return \"finally\""
     },
     "Return \"finally\"": {
+      "End": true,
       "Type": "Pass",
-      "Result": "finally",
-      "End": true
+      "Result": "finally"
     }
   }
 }

@@ -66,20 +66,20 @@
             "Default": "Return { age: x, ..._1"
           },
           "Return { age: x, ...": {
+            "End": true,
             "Type": "Pass",
             "Parameters": {
               "age.$": "$.vars.x",
               "species": "dog"
-            },
-            "End": true
+            }
           },
           "Return { age: x, ..._1": {
+            "End": true,
             "Type": "Pass",
             "Parameters": {
               "age.$": "$.vars.x",
               "species": "cat"
-            },
-            "End": true
+            }
           }
         }
       },

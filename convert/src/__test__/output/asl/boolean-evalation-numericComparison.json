@@ -46,11 +46,11 @@
             "Default": "Empty Default Choice"
           },
           "Return { returned: item }": {
+            "End": true,
             "Type": "Pass",
             "Parameters": {
               "returned.$": "$.vars.item"
-            },
-            "End": true
+            }
           },
           "Empty Default Choice": {
             "Type": "Pass",

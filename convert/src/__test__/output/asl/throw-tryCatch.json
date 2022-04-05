@@ -68,9 +68,9 @@
               "Default": "Empty Default Choice"
             },
             "Return \"Todo\"": {
+              "End": true,
               "Type": "Pass",
-              "Result": "Todo",
-              "End": true
+              "Result": "Todo"
             },
             "Empty Default Choice": {
               "Type": "Pass",

@@ -51,9 +51,9 @@
               "Default": "Throw AccountCreationFailed"
             },
             "Return describeResult": {
+              "End": true,
               "Type": "Pass",
-              "InputPath": "$.vars.describeResult",
-              "End": true
+              "InputPath": "$.vars.describeResult"
             },
             "Throw AccountCreationInPr ...": {
               "Type": "Fail",
