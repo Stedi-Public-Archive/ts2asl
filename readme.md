@@ -56,7 +56,6 @@ The following Typescript langauge features are supported:
 * [enclosed variables](./examples/closures.md)
 * [if statements](./examples/if.md)
 * for ... of statements
-* for ... in statements
 * do while statements
 * [switch statements](./examples/switch.md)
 * [try/catch/finally statements](./examples/try-catch.md)
