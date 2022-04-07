@@ -53,11 +53,6 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.val.d",
             "Type": "Pass",
           },
-          "Empty Default Choice": Object {
-            "Next": "Assign val.d",
-            "ResultPath": null,
-            "Type": "Pass",
-          },
           "If (true)": Object {
             "Choices": Array [
               Object {
@@ -67,7 +62,7 @@ describe("when converting if", () => {
               },
             ],
             "Comment": "source: if (true) { val.b = \\"true_1\\"; val.c = \\"true_2\\"; }",
-            "Default": "Empty Default Choice",
+            "Default": "Assign val.d",
             "Type": "Choice",
           },
           "Initialize": Object {

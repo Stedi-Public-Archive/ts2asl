@@ -17,16 +17,6 @@ describe("when converting input-validation", () => {
             "ResultPath": "$.vars.delayInSeconds",
             "Type": "Pass",
           },
-          "Empty Default Choice": Object {
-            "Next": "If (input.delayInSeconds ...",
-            "ResultPath": null,
-            "Type": "Pass",
-          },
-          "Empty Default Choice_1": Object {
-            "Next": "Wait",
-            "ResultPath": null,
-            "Type": "Pass",
-          },
           "If (input.delayInSeconds ...": Object {
             "Choices": Array [
               Object {
@@ -44,7 +34,7 @@ describe("when converting input-validation", () => {
               },
             ],
             "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
-            "Default": "Empty Default Choice_1",
+            "Default": "Wait",
             "Type": "Choice",
           },
           "If (typeof input.delayInS ...": Object {
@@ -66,7 +56,7 @@ describe("when converting input-validation", () => {
               },
             ],
             "Comment": "source: if (typeof input.delayInSeconds !== \\"number\\")  ...",
-            "Default": "Empty Default Choice",
+            "Default": "If (input.delayInSeconds ...",
             "Type": "Choice",
           },
           "Initialize": Object {

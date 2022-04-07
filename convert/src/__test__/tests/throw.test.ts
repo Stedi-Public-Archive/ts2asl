@@ -107,11 +107,6 @@ describe("when converting throw", () => {
         "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
-          "Empty Default Choice": Object {
-            "Next": "Throw NotImplemented",
-            "ResultPath": null,
-            "Type": "Pass",
-          },
           "If (input.delayInSeconds ...": Object {
             "Choices": Array [
               Object {
@@ -129,7 +124,7 @@ describe("when converting throw", () => {
               },
             ],
             "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
-            "Default": "Empty Default Choice",
+            "Default": "Throw NotImplemented",
             "Type": "Choice",
           },
           "Initialize": Object {

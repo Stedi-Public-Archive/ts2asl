@@ -16,11 +16,6 @@ describe("when converting while", () => {
             "ResultPath": null,
             "Type": "Pass",
           },
-          "Empty Default Choice": Object {
-            "Next": "Wait",
-            "ResultPath": null,
-            "Type": "Pass",
-          },
           "If (result.Authorized)": Object {
             "Choices": Array [
               Object {
@@ -60,7 +55,7 @@ describe("when converting while", () => {
               },
             ],
             "Comment": "source: if (result.Authorized) { break; }",
-            "Default": "Empty Default Choice",
+            "Default": "Wait",
             "Type": "Choice",
           },
           "Initialize": Object {

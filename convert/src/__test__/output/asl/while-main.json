@@ -67,17 +67,12 @@
         }
       ],
       "Comment": "source: if (result.Authorized) { break; }",
-      "Default": "Empty Default Choice"
+      "Default": "Wait"
     },
     "Break": {
       "ResultPath": null,
       "Type": "Pass",
       "Next": "_WhileExit"
-    },
-    "Empty Default Choice": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "Wait"
     },
     "Wait": {
       "Type": "Wait",

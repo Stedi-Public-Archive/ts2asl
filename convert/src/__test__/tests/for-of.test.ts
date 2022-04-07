@@ -105,11 +105,6 @@ describe("when converting for-of", () => {
             "ResultPath": null,
             "Type": "Pass",
           },
-          "Empty Default Choice": Object {
-            "Next": "Log (item)",
-            "ResultPath": null,
-            "Type": "Pass",
-          },
           "Foreach CheckDone": Object {
             "Choices": Array [
               Object {
@@ -154,7 +149,7 @@ describe("when converting for-of", () => {
               },
             ],
             "Comment": "source: if (item === 1) { break; }",
-            "Default": "Empty Default Choice",
+            "Default": "Log (item)",
             "Type": "Choice",
           },
           "Initialize": Object {

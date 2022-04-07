@@ -29,17 +29,12 @@
         }
       ],
       "Comment": "source: if (typeof input.delayInSeconds !== \"number\")  ...",
-      "Default": "Empty Default Choice"
+      "Default": "If (input.delayInSeconds ..."
     },
     "Assign input.delayInSeconds": {
       "Type": "Pass",
       "ResultPath": "$.vars.delayInSeconds",
       "Result": 5,
-      "Next": "If (input.delayInSeconds ..."
-    },
-    "Empty Default Choice": {
-      "Type": "Pass",
-      "ResultPath": null,
       "Next": "If (input.delayInSeconds ..."
     },
     "If (input.delayInSeconds ...": {
@@ -60,18 +55,13 @@
         }
       ],
       "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
-      "Default": "Empty Default Choice_1"
+      "Default": "Wait"
     },
     "Throw ValidationError": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
       "Comment": "source: throw new ValidationError(\"delay in seconds mu ..."
-    },
-    "Empty Default Choice_1": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "Wait"
     },
     "Wait": {
       "Type": "Wait",

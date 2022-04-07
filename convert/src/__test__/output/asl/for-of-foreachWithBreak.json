@@ -50,17 +50,12 @@
         }
       ],
       "Comment": "source: if (item === 1) { break; }",
-      "Default": "Empty Default Choice"
+      "Default": "Log (item)"
     },
     "Break": {
       "ResultPath": null,
       "Type": "Pass",
       "Next": "Foreach Next"
-    },
-    "Empty Default Choice": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "Log (item)"
     },
     "Log (item)": {
       "Type": "Pass",

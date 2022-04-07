@@ -45,7 +45,6 @@ export class AslWriter {
     return this.choiceDefault = choiceDefault;
   }
   finalizeChoiceState(): StateWithBrand[] {
-
     const breakStates: StateWithBrand[] = [];
     const states: asl.Choice[] = this.trailingStates.filter(x => x.Type === "Choice") as asl.Choice[];
     if (states.length !== 1) throw new Error("Must have exactly 1 choice state as tail");
@@ -95,11 +94,7 @@ export class AslWriter {
       }
       choiceState.Default = result.StartAt;
     } else {
-      const name = this.createName("Empty Default Choice");
-      const state = { Type: "Pass", ResultPath: null };
-      this.states[name] = state;
-      choiceState.Default = name;
-      this.trailingStates.push(state);
+      this.trailingStates.push(choiceState);
     }
     this.choiceDefault = undefined;
     this.choiceOperators = [];
@@ -137,12 +132,10 @@ export class AslWriter {
     this.states[name] = state;
     for (const trailingState of this.trailingStates) {
       if (trailingState.Type === "Choice") {
-        throw new Error("Choice state must be finalized before any trailing states");
-        // const choice = trailingState as asl.Choice;
-        // this.finalizeChoiceState(choice);
-        // if (choice.Default === undefined) {
-        //   choice.Default = name;
-        // }
+        const choice = trailingState as asl.Choice;
+        if (choice.Default === undefined) {
+          choice.Default = name;
+        }
       } else {
         trailingState.Next = name;
       }
@@ -154,7 +147,10 @@ export class AslWriter {
   joinTrailingStates(nextStateName: string) {
     for (const trailingState of this.trailingStates) {
       if (trailingState.Type === "Choice") {
-        throw new Error("Choice state must be finalized before any trailing states");
+        const choice = trailingState as asl.Choice;
+        if (choice.Default === undefined) {
+          choice.Default = nextStateName;
+        }
       } else {
         trailingState.Next = nextStateName;
       }
@@ -172,7 +168,11 @@ export class AslWriter {
     }
     for (const trailingState of this.trailingStates) {
       if (trailingState.Type === "Choice") {
-        throw new Error("Choice state must be finalized before any trailing states");
+        const trailingChoice = trailingState as asl.Choice;
+        const name = this.createName("Empty Default Choice");
+        const state = { Type: "Pass", ResultPath: null, End: true };
+        this.states[name] = state;
+        trailingChoice.Default = name;
       } else {
         if (this.exitScope) {
           trailingState.End = true;

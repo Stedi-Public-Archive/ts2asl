@@ -42,18 +42,13 @@
         }
       ],
       "Comment": "source: if (typeof data.num !== \"number\") { throw new  ...",
-      "Default": "Empty Default Choice"
+      "Default": "If (data.num !== 42)"
     },
     "Throw ValidationError": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "num expected to be number",
       "Comment": "source: throw new ValidationError(\"num expected to be  ..."
-    },
-    "Empty Default Choice": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "If (data.num !== 42)"
     },
     "If (data.num !== 42)": {
       "Type": "Choice",
@@ -67,18 +62,13 @@
         }
       ],
       "Comment": "source: if (data.num !== 42) { throw new ValidationErr ...",
-      "Default": "Empty Default Choice_1"
+      "Default": "If (typeof data.text !== ..."
     },
     "Throw ValidationError_1": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "num expected to be 42",
       "Comment": "source: throw new ValidationError(\"num expected to be  ..."
-    },
-    "Empty Default Choice_1": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "If (typeof data.text !== ..."
     },
     "If (typeof data.text !== ...": {
       "Type": "Choice",
@@ -100,18 +90,13 @@
         }
       ],
       "Comment": "source: if (typeof data.text !== \"string\") { throw new ...",
-      "Default": "Empty Default Choice_2"
+      "Default": "If (data.text !== \"text\")"
     },
     "Throw ValidationError_2": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "text expected to be string",
       "Comment": "source: throw new ValidationError(\"text expected to be ..."
-    },
-    "Empty Default Choice_2": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "If (data.text !== \"text\")"
     },
     "If (data.text !== \"text\")": {
       "Type": "Choice",
@@ -125,18 +110,13 @@
         }
       ],
       "Comment": "source: if (data.text !== \"text\") { throw new Validati ...",
-      "Default": "Empty Default Choice_3"
+      "Default": "If (data.undefined)"
     },
     "Throw ValidationError_3": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "text expected to be 'text'",
       "Comment": "source: throw new ValidationError(\"text expected to be ..."
-    },
-    "Empty Default Choice_3": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "If (data.undefined)"
     },
     "If (data.undefined)": {
       "Type": "Choice",
@@ -178,18 +158,13 @@
         }
       ],
       "Comment": "source: if (data.undefined) { throw new ValidationErro ...",
-      "Default": "Empty Default Choice_4"
+      "Default": "If (data.null)"
     },
     "Throw ValidationError_4": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "undefined expected to be non-truthy'",
       "Comment": "source: throw new ValidationError(\"undefined expected  ..."
-    },
-    "Empty Default Choice_4": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "If (data.null)"
     },
     "If (data.null)": {
       "Type": "Choice",
@@ -231,18 +206,13 @@
         }
       ],
       "Comment": "source: if (data.null) { throw new ValidationError(\"nu ...",
-      "Default": "Empty Default Choice_5"
+      "Default": "If (typeof data.timestamp ..."
     },
     "Throw ValidationError_5": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "null expected to be non-truthy'",
       "Comment": "source: throw new ValidationError(\"null expected to be ..."
-    },
-    "Empty Default Choice_5": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Next": "If (typeof data.timestamp ..."
     },
     "If (typeof data.timestamp ...": {
       "Type": "Choice",
@@ -264,7 +234,7 @@
         }
       ],
       "Comment": "source: if (typeof data.timestamp !== \"string\") { thro ...",
-      "Default": "Empty Default Choice_6"
+      "Default": "Empty Default Choice"
     },
     "Throw ValidationError_6": {
       "Type": "Fail",
@@ -272,7 +242,7 @@
       "Cause": "timestamp expected to be string'",
       "Comment": "source: throw new ValidationError(\"timestamp expected  ..."
     },
-    "Empty Default Choice_6": {
+    "Empty Default Choice": {
       "Type": "Pass",
       "ResultPath": null,
       "End": true

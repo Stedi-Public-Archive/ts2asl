@@ -40,7 +40,7 @@
         }
       ],
       "Comment": "source: if (true) { val.b = \"true_1\"; val.c = \"true_2\"; }",
-      "Default": "Empty Default Choice"
+      "Default": "Assign val.d"
     },
     "Assign val.b": {
       "Type": "Pass",
@@ -52,11 +52,6 @@
       "Type": "Pass",
       "ResultPath": "$.vars.val.c",
       "Result": "true_2",
-      "Next": "Assign val.d"
-    },
-    "Empty Default Choice": {
-      "Type": "Pass",
-      "ResultPath": null,
       "Next": "Assign val.d"
     },
     "Assign val.d": {

@@ -17,11 +17,6 @@ describe("when converting hello-world", () => {
             "ResultPath": "$.vars.name",
             "Type": "Pass",
           },
-          "Empty Default Choice": Object {
-            "Next": "random()",
-            "ResultPath": null,
-            "Type": "Pass",
-          },
           "If (typeof input.name !== ...": Object {
             "Choices": Array [
               Object {
@@ -41,7 +36,7 @@ describe("when converting hello-world", () => {
               },
             ],
             "Comment": "source: if (typeof input.name !== \\"string\\") { input.na ...",
-            "Default": "Empty Default Choice",
+            "Default": "random()",
             "Type": "Choice",
           },
           "Initialize": Object {
