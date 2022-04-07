@@ -7,6 +7,7 @@ describe("when converting variable-assignments", () => {
   it("then literals can be converted to asl", async () => {
     expect(converted.literals.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arrayOfNumbers": Object {
@@ -110,6 +111,7 @@ describe("when converting variable-assignments", () => {
   it("then arrayWithIdentifiers can be converted to asl", async () => {
     expect(converted.arrayWithIdentifiers.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign array": Object {
@@ -181,6 +183,7 @@ describe("when converting variable-assignments", () => {
   it("then arrayIndexer can be converted to asl", async () => {
     expect(converted.arrayIndexer.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -224,6 +227,7 @@ describe("when converting variable-assignments", () => {
   it("then functions can be converted to asl", async () => {
     expect(converted.functions.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {

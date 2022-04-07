@@ -19,6 +19,7 @@ describe("when transpiling simple statements", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -79,6 +80,7 @@ describe("when transpiling simple statements", () => {
     const result = convert(iasl);
     expect(result).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {

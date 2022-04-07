@@ -7,6 +7,7 @@ describe("when converting if", () => {
   it("then justIf can be converted to asl", async () => {
     expect(converted.justIf.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign val": Object {
@@ -90,6 +91,7 @@ describe("when converting if", () => {
   it("then ifElse can be converted to asl", async () => {
     expect(converted.ifElse.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign val": Object {
@@ -182,6 +184,7 @@ describe("when converting if", () => {
   it("then nestedIfs can be converted to asl", async () => {
     expect(converted.nestedIfs.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign val": Object {
@@ -300,6 +303,7 @@ describe("when converting if", () => {
   it("then enclosedVars can be converted to asl", async () => {
     expect(converted.enclosedVars.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign enclosedVar": Object {

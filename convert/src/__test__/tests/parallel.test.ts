@@ -7,6 +7,7 @@ describe("when converting parallel", () => {
   it("then simple can be converted to asl", async () => {
     expect(converted.simple.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign Return_var": Object {
@@ -109,6 +110,7 @@ describe("when converting parallel", () => {
   it("then enclosedVariables can be converted to asl", async () => {
     expect(converted.enclosedVariables.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign Return_var": Object {

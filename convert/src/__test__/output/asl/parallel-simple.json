@@ -85,5 +85,6 @@
       "Type": "Pass",
       "InputPath": "$.tmp.return_var"
     }
-  }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.28."
 }

@@ -7,6 +7,7 @@ describe("when converting arrays", () => {
   it("then serializeArray can be converted to asl", async () => {
     expect(converted.serializeArray.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign myArray": Object {
@@ -78,6 +79,7 @@ describe("when converting arrays", () => {
   it("then mapArray can be converted to asl", async () => {
     expect(converted.mapArray.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign Return_var": Object {
@@ -187,6 +189,7 @@ describe("when converting arrays", () => {
   it("then mapArraySimple can be converted to asl", async () => {
     expect(converted.mapArraySimple.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign ages": Object {
@@ -267,6 +270,7 @@ describe("when converting arrays", () => {
   it("then mapArrayNestedPropertyAccess can be converted to asl", async () => {
     expect(converted.mapArrayNestedPropertyAccess.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign num": Object {
@@ -321,6 +325,7 @@ describe("when converting arrays", () => {
   it("then filterArray can be converted to asl", async () => {
     expect(converted.filterArray.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign filterArray": Object {
@@ -400,6 +405,7 @@ describe("when converting arrays", () => {
   it("then jsonPathExpressions can be converted to asl", async () => {
     expect(converted.jsonPathExpressions.asl).toMatchInlineSnapshot(`
       Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign filterArray": Object {

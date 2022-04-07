@@ -29,7 +29,11 @@ export const convert = (stateMachine: iasl.StateMachine, context: AslWriter = ne
   for (const statement of statements) {
     AslFactory.append(statement, scopes, context);
   }
-  return context.finalize();
+  const result = context.finalize();
+  if (result) {
+    result.Comment = `ASL Generated using ts2asl version ${require("../../package.json").version}.`;
+  }
+  return result;
 }
 
 export const appendBlock = (stateMachine: iasl.Block, scopes: Record<string, iasl.Scope>, context: AslWriter) => {
