@@ -127,7 +127,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "numbers.map => number",
+      "stateName": "For number Of numbers",
       "items": {
         "identifier": "numbers",
         "_syntaxKind": "identifier",
@@ -140,7 +140,7 @@
         },
         "statements": [
           {
-            "stateName": "letters.map => letter",
+            "stateName": "For letter Of letters",
             "items": {
               "identifier": "letters",
               "_syntaxKind": "identifier",
@@ -192,38 +192,24 @@
                   "_syntaxKind": "variable-assignment"
                 },
                 {
-                  "stateName": "doSomething(combined)",
-                  "resource": "[!lambda[doSomething]arn]",
-                  "retry": [
-                    {
-                      "errorEquals": [
-                        "Lambda.ServiceException",
-                        "Lambda.AWSLambdaException",
-                        "Lambda.SdkClientException"
-                      ],
-                      "intervalSeconds": 2,
-                      "maxAttempts": 6,
-                      "backoffRate": 2
-                    }
-                  ],
+                  "stateName": "Log (combined)",
                   "parameters": {
                     "identifier": "combined",
                     "_syntaxKind": "identifier",
                     "type": "object"
                   },
-                  "source": "doSomething(combined)",
-                  "_syntaxKind": "asl-task-state"
+                  "source": "console.log(combined)",
+                  "_syntaxKind": "asl-pass-state"
                 }
               ],
               "_syntaxKind": "function"
             },
-            "source": "letters.map(letter => {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      doSomething(combined);\n    })",
-            "_syntaxKind": "asl-map-state"
+            "_syntaxKind": "for-each"
           }
         ],
         "_syntaxKind": "function"
       },
-      "_syntaxKind": "asl-map-state"
+      "_syntaxKind": "for-each"
     }
   ],
   "_syntaxKind": "statemachine"

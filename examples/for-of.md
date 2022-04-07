@@ -30,3 +30,23 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
 ```
 
 
+## nested foreach
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBudW1iZXJzID0gWzAsIDEsIDIsIDNdOwogIGNvbnN0IGxldHRlcnMgPSBbImEiLCAiYiIsICJjIiwgImQiXTsKICBjb25zdCBnbG9iYWwgPSAicHJlZml4IjsKICBjb25zdCBvdXRlciA9IHsgbWlkZGxlOiB7IGlubmVyOiAzIH0gfQogIGZvciAoY29uc3QgbnVtYmVyIG9mIG51bWJlcnMpIHsKICAgIGZvciAoY29uc3QgbGV0dGVyIG9mIGxldHRlcnMpIHsKICAgICAgY29uc3QgY29tYmluZWQgPSB7IG51bWJlciwgbGV0dGVyLCBnbG9iYWwsIGlubmVyOiBvdXRlci5taWRkbGUuaW5uZXIgfTsKICAgICAgY29uc29sZS5sb2coY29tYmluZWQpOwogICAgfTsKICB9Owp9KTs=)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  const numbers = [0, 1, 2, 3];
+  const letters = ["a", "b", "c", "d"];
+  const global = "prefix";
+  const outer = { middle: { inner: 3 } }
+  for (const number of numbers) {
+    for (const letter of letters) {
+      const combined = { number, letter, global, inner: outer.middle.inner };
+      console.log(combined);
+    };
+  };
+});
+```
+
+

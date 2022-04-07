@@ -9,6 +9,7 @@ import { trimName } from "../create-name";
 import { AslWriter } from "./asl-writer";
 import { createReplacer, replaceIdentifiers } from "./identifiers";
 
+let foreachCounter = 0;
 export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter) {
     let nameSuggestion: string | undefined = expression.stateName;
@@ -195,10 +196,14 @@ export class AslFactory {
       this.appendRetryConfiguration(mapState, expression.retry);
 
     } else if (iasl.Check.isForEachStatement(expression)) {
+
+      const namespace = foreachCounter > 0 ? "foreach_" + (foreachCounter + 1) : "foreach";
+      foreachCounter++;
+
       const items = convertExpressionToAsl(expression.items);
       context.appendNextState({
         Type: "Pass",
-        ResultPath: "$.foreach",
+        ResultPath: `$.${namespace}`,
         Parameters: {
           "items.$": items.path,
           "currentItem.$": `${items.path}[0]`,
@@ -210,10 +215,10 @@ export class AslFactory {
         Choices: [],
       }, "Foreach CheckDone");
 
-      const iteratorWriter = context.appendChoiceOperator({ Variable: "$.foreach.items[0]", IsPresent: true });
+      const iteratorWriter = context.appendChoiceOperator({ Variable: `$.${namespace}.items[0]`, IsPresent: true });
       let iterator = expression.iterator;
       if (expression.iterator.inputArgumentName) {
-        const replacer = createReplacer(expression.iterator.inputArgumentName.identifier, "$.foreach.currentItem");
+        const replacer = createReplacer(expression.iterator.inputArgumentName.identifier, `$.${namespace}.currentItem`);
         iterator = replaceIdentifiers(expression.iterator, [replacer]);
       }
       appendBlock(iterator, scopes, iteratorWriter);
@@ -221,7 +226,7 @@ export class AslFactory {
       const defaultWriter = context.appendChoiceDefault();
       const foreachExitState = {
         Type: "Pass",
-        ResultPath: "$.foreach",
+        ResultPath: `$.${namespace}`,
         Result: {},
       };
       const exitStateName = defaultWriter.appendNextState(foreachExitState, "Foreach Exit");
@@ -233,10 +238,10 @@ export class AslFactory {
       context.trailingStates = context.trailingStates.filter(x => x != foreachExitState);
       context.appendNextState({
         Type: "Pass",
-        ResultPath: "$.foreach",
+        ResultPath: `$.${namespace}`,
         Parameters: {
-          "items.$": "$.foreach.items[1:]",
-          "currentItem.$": "$.foreach.items[1]",
+          "items.$": `$.${namespace}.items[1:]`,
+          "currentItem.$": `$.${namespace}.items[1]`,
         }
       }, "Foreach Next");
 
@@ -244,6 +249,7 @@ export class AslFactory {
       context.appendTails(breakStates);
       context.joinTrailingStates(exitStateName);
       context.trailingStates = [foreachExitState];
+      foreachCounter--;
 
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({

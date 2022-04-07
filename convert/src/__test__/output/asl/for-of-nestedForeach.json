@@ -1,0 +1,145 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign numbers"
+    },
+    "Assign numbers": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.numbers",
+      "Result": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "Comment": "source: numbers = [0, 1, 2, 3]",
+      "Next": "Assign letters"
+    },
+    "Assign letters": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.letters",
+      "Result": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
+      "Next": "Assign global"
+    },
+    "Assign global": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.global",
+      "Result": "prefix",
+      "Comment": "source: global = \"prefix\"",
+      "Next": "Assign outer"
+    },
+    "Assign outer": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.outer",
+      "Result": {
+        "middle": {
+          "inner": 3
+        }
+      },
+      "Comment": "source: outer = { middle: { inner: 3 } }",
+      "Next": "Foreach Initialize"
+    },
+    "Foreach Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.vars.numbers",
+        "currentItem.$": "$.vars.numbers[0]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Foreach CheckDone": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.items[0]",
+          "IsPresent": true,
+          "Next": "Foreach Initialize_1"
+        }
+      ],
+      "Default": "Foreach Exit_1"
+    },
+    "Foreach Initialize_1": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach_2",
+      "Parameters": {
+        "items.$": "$.vars.letters",
+        "currentItem.$": "$.vars.letters[0]"
+      },
+      "Next": "Foreach CheckDone_1"
+    },
+    "Foreach CheckDone_1": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach_2.items[0]",
+          "IsPresent": true,
+          "Next": "Assign combined"
+        }
+      ],
+      "Default": "Foreach Exit"
+    },
+    "Assign combined": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.combined",
+      "Parameters": {
+        "number.$": "$.foreach.currentItem",
+        "letter.$": "$.foreach_2.currentItem",
+        "global.$": "$.vars.global",
+        "inner.$": "$.vars.outer.middle.inner"
+      },
+      "Comment": "source: combined = { number, letter, global, inner: ou ...",
+      "Next": "Log (combined)"
+    },
+    "Log (combined)": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "InputPath": "$.vars.combined",
+      "Comment": "source: console.log(combined)",
+      "Next": "Foreach Next"
+    },
+    "Foreach Exit": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach_2",
+      "Result": {},
+      "Next": "Foreach Next_1"
+    },
+    "Foreach Next": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach_2",
+      "Parameters": {
+        "items.$": "$.foreach_2.items[1:]",
+        "currentItem.$": "$.foreach_2.items[1]"
+      },
+      "Next": "Foreach CheckDone_1"
+    },
+    "Foreach Exit_1": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Result": {},
+      "End": true
+    },
+    "Foreach Next_1": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.foreach.items[1:]",
+        "currentItem.$": "$.foreach.items[1]"
+      },
+      "Next": "Foreach CheckDone"
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}
