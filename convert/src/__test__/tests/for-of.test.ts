@@ -34,7 +34,7 @@ describe("when converting for-of", () => {
           },
           "Foreach Exit": Object {
             "Next": "Log (\\"done\\")",
-            "Result": undefined,
+            "Result": Object {},
             "ResultPath": "$.foreach",
             "Type": "Pass",
           },
@@ -101,7 +101,7 @@ describe("when converting for-of", () => {
           },
           "Break": Object {
             "Comment": undefined,
-            "Next": "Foreach Next",
+            "Next": "Foreach Exit",
             "ResultPath": null,
             "Type": "Pass",
           },
@@ -118,7 +118,7 @@ describe("when converting for-of", () => {
           },
           "Foreach Exit": Object {
             "Next": "Log (\\"done\\")",
-            "Result": undefined,
+            "Result": Object {},
             "ResultPath": "$.foreach",
             "Type": "Pass",
           },

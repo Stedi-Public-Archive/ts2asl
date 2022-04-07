@@ -55,7 +55,7 @@
     "Break": {
       "ResultPath": null,
       "Type": "Pass",
-      "Next": "Foreach Next"
+      "Next": "Foreach Exit"
     },
     "Log (item)": {
       "Type": "Pass",
@@ -67,6 +67,7 @@
     "Foreach Exit": {
       "Type": "Pass",
       "ResultPath": "$.foreach",
+      "Result": {},
       "Next": "Log (\"done\")"
     },
     "Foreach Next": {

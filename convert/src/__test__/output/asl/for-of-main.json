@@ -50,6 +50,7 @@
     "Foreach Exit": {
       "Type": "Pass",
       "ResultPath": "$.foreach",
+      "Result": {},
       "Next": "Log (\"done\")"
     },
     "Foreach Next": {

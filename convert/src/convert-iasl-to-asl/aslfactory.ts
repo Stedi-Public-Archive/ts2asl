@@ -222,17 +222,15 @@ export class AslFactory {
       const foreachExitState = {
         Type: "Pass",
         ResultPath: "$.foreach",
-        Result: undefined,
+        Result: {},
       };
-      defaultWriter.appendNextState(foreachExitState, "Foreach Exit");
+      const exitStateName = defaultWriter.appendNextState(foreachExitState, "Foreach Exit");
 
       const breakStates = context.finalizeChoiceState();
       for (const breakState of breakStates) {
         delete breakState.brand;
       }
-      context.appendTails(breakStates);
       context.trailingStates = context.trailingStates.filter(x => x != foreachExitState);
-
       context.appendNextState({
         Type: "Pass",
         ResultPath: "$.foreach",
@@ -241,7 +239,10 @@ export class AslFactory {
           "currentItem.$": "$.foreach.items[1]",
         }
       }, "Foreach Next");
+
       context.joinTrailingStates(checkDoneName);
+      context.appendTails(breakStates);
+      context.joinTrailingStates(exitStateName);
       context.trailingStates = [foreachExitState];
 
     } else if (iasl.Check.isAslFailState(expression)) {
