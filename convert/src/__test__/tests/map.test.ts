@@ -7,7 +7,7 @@ describe("when converting map", () => {
   it("then main can be converted to asl", async () => {
     expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -56,7 +56,7 @@ describe("when converting map", () => {
                     "TableName": "[!parameter[tableName]]",
                   },
                   "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
-                  "ResultPath": "$.tmp.lastResult",
+                  "ResultPath": null,
                   "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
@@ -69,7 +69,7 @@ describe("when converting map", () => {
                 "entry.$": "$$.Map.Item.Value",
               },
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Map",
           },
           "getEntries()": Object {

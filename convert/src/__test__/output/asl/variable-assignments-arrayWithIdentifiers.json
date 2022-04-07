@@ -43,7 +43,7 @@
     },
     "Evaluate States.Array($.v ...": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.tmp.eval",
       "Parameters": {
         "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)"
       },
@@ -53,7 +53,7 @@
     "Assign array": {
       "Type": "Pass",
       "ResultPath": "$.vars.array",
-      "InputPath": "$.tmp.lastResult.value",
+      "InputPath": "$.tmp.eval.value",
       "Next": "Return array"
     },
     "Return array": {
@@ -62,5 +62,5 @@
       "InputPath": "$.vars.array"
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

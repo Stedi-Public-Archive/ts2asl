@@ -34,7 +34,7 @@
           "States": {
             "worker(enclosedVar1)": {
               "Type": "Task",
-              "ResultPath": "$.tmp.lastResult",
+              "ResultPath": null,
               "Resource": "[!lambda[worker]arn]",
               "InputPath": "$.vars.enclosedVar1",
               "Retry": [
@@ -59,7 +59,7 @@
           "States": {
             "worker(enclosedVar2)": {
               "Type": "Task",
-              "ResultPath": "$.tmp.lastResult",
+              "ResultPath": null,
               "Resource": "[!lambda[worker]arn]",
               "InputPath": "$.vars.enclosedVar2",
               "Retry": [
@@ -97,5 +97,5 @@
       "InputPath": "$.tmp.return_var"
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

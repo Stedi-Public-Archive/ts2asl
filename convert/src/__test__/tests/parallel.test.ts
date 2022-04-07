@@ -7,7 +7,7 @@ describe("when converting parallel", () => {
   it("then simple can be converted to asl", async () => {
     expect(converted.simple.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign Return_var": Object {
@@ -110,7 +110,7 @@ describe("when converting parallel", () => {
   it("then enclosedVariables can be converted to asl", async () => {
     expect(converted.enclosedVariables.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign Return_var": Object {
@@ -124,7 +124,7 @@ describe("when converting parallel", () => {
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar1",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.tmp.lastResult",
+                    "ResultPath": null,
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -151,7 +151,7 @@ describe("when converting parallel", () => {
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar2",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.tmp.lastResult",
+                    "ResultPath": null,
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,

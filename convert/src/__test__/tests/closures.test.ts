@@ -7,7 +7,7 @@ describe("when converting closures", () => {
   it("then main can be converted to asl", async () => {
     expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign global": Object {
@@ -92,7 +92,7 @@ describe("when converting closures", () => {
                         "HeartbeatSeconds": undefined,
                         "InputPath": "$.vars.combined",
                         "Resource": "[!lambda[doSomething]arn]",
-                        "ResultPath": "$.tmp.lastResult",
+                        "ResultPath": null,
                         "Retry": Array [
                           Object {
                             "BackoffRate": 2,
@@ -119,7 +119,7 @@ describe("when converting closures", () => {
                       "outer.$": "$.vars.outer",
                     },
                   },
-                  "ResultPath": "$.tmp.lastResult",
+                  "ResultPath": null,
                   "Type": "Map",
                 },
               },
@@ -133,7 +133,7 @@ describe("when converting closures", () => {
                 "outer.$": "$.vars.outer",
               },
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Map",
           },
         },

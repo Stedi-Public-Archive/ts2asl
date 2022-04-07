@@ -7,26 +7,26 @@ describe("when converting arrays", () => {
   it("then serializeArray can be converted to asl", async () => {
     expect(converted.serializeArray.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign myArray": Object {
             "Comment": undefined,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate States.JsonToStr ...",
             "ResultPath": "$.vars.myArray",
             "Type": "Pass",
           },
           "Assign myArray_1": Object {
             "Comment": undefined,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "Next": "Return myArray",
             "ResultPath": "$.vars.myArray",
             "Type": "Pass",
           },
           "Assign mySerializedArray": Object {
             "Comment": undefined,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate States.StringToJ ...",
             "ResultPath": "$.vars.mySerializedArray",
             "Type": "Pass",
@@ -37,7 +37,7 @@ describe("when converting arrays", () => {
             "Parameters": Object {
               "value.$": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Evaluate States.JsonToStr ...": Object {
@@ -46,7 +46,7 @@ describe("when converting arrays", () => {
             "Parameters": Object {
               "value.$": "States.JsonToString($.vars.myArray)",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Evaluate States.StringToJ ...": Object {
@@ -55,7 +55,7 @@ describe("when converting arrays", () => {
             "Parameters": Object {
               "value.$": "States.StringToJson($.vars.mySerializedArray)",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -79,7 +79,7 @@ describe("when converting arrays", () => {
   it("then mapArray can be converted to asl", async () => {
     expect(converted.mapArray.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign Return_var": Object {
@@ -189,7 +189,7 @@ describe("when converting arrays", () => {
   it("then mapArraySimple can be converted to asl", async () => {
     expect(converted.mapArraySimple.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign ages": Object {
@@ -270,7 +270,7 @@ describe("when converting arrays", () => {
   it("then mapArrayNestedPropertyAccess can be converted to asl", async () => {
     expect(converted.mapArrayNestedPropertyAccess.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign num": Object {
@@ -325,7 +325,7 @@ describe("when converting arrays", () => {
   it("then filterArray can be converted to asl", async () => {
     expect(converted.filterArray.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign filterArray": Object {
@@ -405,7 +405,7 @@ describe("when converting arrays", () => {
   it("then jsonPathExpressions can be converted to asl", async () => {
     expect(converted.jsonPathExpressions.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign filterArray": Object {

@@ -7,7 +7,7 @@ describe("when converting choice", () => {
   it("then choice can be converted to asl", async () => {
     expect(converted.choice.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign val": Object {
@@ -170,7 +170,7 @@ describe("when converting choice", () => {
   it("then choiceWithSingleStatements can be converted to asl", async () => {
     expect(converted.choiceWithSingleStatements.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign val": Object {
@@ -305,7 +305,7 @@ describe("when converting choice", () => {
   it("then choiceWithShorthand can be converted to asl", async () => {
     expect(converted.choiceWithShorthand.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign val": Object {

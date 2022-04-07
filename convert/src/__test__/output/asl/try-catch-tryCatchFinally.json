@@ -11,7 +11,7 @@
     },
     "lambda()": {
       "Type": "Task",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Resource": "[!lambda[lambda]arn]",
       "Retry": [
         {
@@ -38,7 +38,7 @@
     },
     "Log (\"failed\")": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Result": "failed",
       "Comment": "source: console.log(\"failed\")",
       "Next": "Return \"finally\""
@@ -49,5 +49,5 @@
       "Result": "finally"
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

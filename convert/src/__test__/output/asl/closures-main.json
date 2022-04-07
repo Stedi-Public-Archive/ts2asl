@@ -53,13 +53,13 @@
     },
     "numbers.map => number": {
       "Type": "Map",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Iterator": {
         "StartAt": "letters.map => letter",
         "States": {
           "letters.map => letter": {
             "Type": "Map",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Iterator": {
               "StartAt": "Assign combined",
               "States": {
@@ -77,7 +77,7 @@
                 },
                 "doSomething(combined)": {
                   "Type": "Task",
-                  "ResultPath": "$.tmp.lastResult",
+                  "ResultPath": null,
                   "Resource": "[!lambda[doSomething]arn]",
                   "InputPath": "$.vars.combined",
                   "Retry": [
@@ -123,5 +123,5 @@
       "End": true
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

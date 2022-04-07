@@ -32,7 +32,7 @@ export class AslFactory {
       if (parameters.path && parameters.path.startsWith("States")) {
         context.appendNextState({
           Type: "Pass",
-          ResultPath: "$.tmp.lastResult",
+          ResultPath: "$.tmp.eval",
           Parameters: {
             "value.$": parameters.path
           },
@@ -40,15 +40,15 @@ export class AslFactory {
         } as asl.Pass, trimName("Evaluate " + parameters.path));
         context.appendNextState({
           Type: "Pass",
-          ResultPath: "$.tmp.lastResult",
+          ResultPath: (null as any),
           ...properties,
-          InputPath: "$.tmp.lastResult.value",
+          InputPath: "$.tmp.eval.value",
           Comment: expression.source,
         } as asl.Pass, nameSuggestion);
       } else {
         context.appendNextState({
           Type: "Pass",
-          ResultPath: "$.tmp.lastResult",
+          ResultPath: (null as any),
           ...properties,
           ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
           Comment: expression.source,
@@ -60,7 +60,7 @@ export class AslFactory {
       const task = {
         Type: "Task",
         ...properties,
-        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
+        ...(discardResult ? { ResultPath: null } : {}),
         Resource: expression.resource,
         ...(parameters && parameters.path !== undefined ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value } : {}),
         Retry: expression.retry,
@@ -183,7 +183,7 @@ export class AslFactory {
       const mapState = {
         Type: "Map",
         ...properties,
-        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
+        ...(discardResult ? { ResultPath: null } : {}),
         Iterator: iterator,
         ItemsPath: items.path,
         MaxConcurrency: expression.maxConcurrency,

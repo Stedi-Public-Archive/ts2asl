@@ -4,8 +4,9 @@ import { AslFactory } from "./aslfactory";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createObjectContextReplacer, createReplacer, IdentifierReplacer, replaceIdentifiers } from "./identifiers";
 import { assignScopes } from "./scopes";
+import { ConverterOptions } from "../convert";
 
-export const convert = (stateMachine: iasl.StateMachine, context: AslWriter = new AslWriter()): asl.StateMachine | undefined => {
+export const convert = (stateMachine: iasl.StateMachine, options: ConverterOptions, context: AslWriter = new AslWriter()): asl.StateMachine | undefined => {
   const replacers: IdentifierReplacer[] = [];
   if (stateMachine.contextArgumentName) {
     replacers.push(createObjectContextReplacer(stateMachine.contextArgumentName.identifier));
@@ -30,7 +31,7 @@ export const convert = (stateMachine: iasl.StateMachine, context: AslWriter = ne
     AslFactory.append(statement, scopes, context);
   }
   const result = context.finalize();
-  if (result) {
+  if (result && !options.skipVersionComment) {
     result.Comment = `ASL Generated using ts2asl version ${require("../../package.json").version}.`;
   }
   return result;

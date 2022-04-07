@@ -11,7 +11,7 @@
     },
     "Evaluate States.Array(1, ...": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.tmp.eval",
       "Parameters": {
         "value.$": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)"
       },
@@ -21,12 +21,12 @@
     "Assign myArray": {
       "Type": "Pass",
       "ResultPath": "$.vars.myArray",
-      "InputPath": "$.tmp.lastResult.value",
+      "InputPath": "$.tmp.eval.value",
       "Next": "Evaluate States.JsonToStr ..."
     },
     "Evaluate States.JsonToStr ...": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.tmp.eval",
       "Parameters": {
         "value.$": "States.JsonToString($.vars.myArray)"
       },
@@ -36,12 +36,12 @@
     "Assign mySerializedArray": {
       "Type": "Pass",
       "ResultPath": "$.vars.mySerializedArray",
-      "InputPath": "$.tmp.lastResult.value",
+      "InputPath": "$.tmp.eval.value",
       "Next": "Evaluate States.StringToJ ..."
     },
     "Evaluate States.StringToJ ...": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": "$.tmp.eval",
       "Parameters": {
         "value.$": "States.StringToJson($.vars.mySerializedArray)"
       },
@@ -51,7 +51,7 @@
     "Assign myArray_1": {
       "Type": "Pass",
       "ResultPath": "$.vars.myArray",
-      "InputPath": "$.tmp.lastResult.value",
+      "InputPath": "$.tmp.eval.value",
       "Next": "Return myArray"
     },
     "Return myArray": {
@@ -60,5 +60,5 @@
       "InputPath": "$.vars.myArray"
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

@@ -12,16 +12,15 @@ describe("when transpiling function", () => {
       createTransformers({ lineNumbersInStateNames: true })
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -31,7 +30,7 @@ describe("when transpiling function", () => {
             "Parameters": Object {
               "value.$": "States.StringToJson('0')",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -55,16 +54,15 @@ describe("when transpiling function", () => {
       createTransformers({})
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -74,7 +72,7 @@ describe("when transpiling function", () => {
             "Parameters": Object {
               "value.$": "States.StringToJson('s')",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -102,16 +100,15 @@ describe("when transpiling function", () => {
       createTransformers({})
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -131,7 +128,7 @@ describe("when transpiling function", () => {
             "Parameters": Object {
               "value.$": "States.JsonToString($.vars.tmp)",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Initialize": Object {

@@ -16,10 +16,9 @@ describe("when transpiling simple statements", () => {
       createTransformers({ lineNumbersInStateNames: true })
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "6: isDone()": Object {

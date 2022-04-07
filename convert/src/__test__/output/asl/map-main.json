@@ -30,13 +30,13 @@
     },
     "Map": {
       "Type": "Map",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Iterator": {
         "StartAt": "PutItem",
         "States": {
           "PutItem": {
             "Type": "Task",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
             "Parameters": {
               "Item": {
@@ -77,5 +77,5 @@
       "End": true
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

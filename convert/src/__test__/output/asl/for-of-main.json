@@ -42,7 +42,7 @@
     },
     "Log (item)": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "InputPath": "$.foreach.currentItem",
       "Comment": "source: console.log(item)",
       "Next": "Foreach Next"
@@ -64,11 +64,11 @@
     },
     "Log (\"done\")": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Result": "done",
       "Comment": "source: console.log(\"done\")",
       "End": true
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

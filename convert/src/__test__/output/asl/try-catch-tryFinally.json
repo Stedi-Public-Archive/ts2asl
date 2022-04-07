@@ -11,7 +11,7 @@
     },
     "lambda()": {
       "Type": "Task",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Resource": "[!lambda[lambda]arn]",
       "Retry": [
         {
@@ -34,5 +34,5 @@
       "Result": "finally"
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

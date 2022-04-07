@@ -13,6 +13,7 @@ export interface ConverterOptions {
   sourceCodeInComments?: true;
   includeDiagnostics?: true;
   skipCheckCallables?: true;
+  skipVersionComment?: true;
   defaultRetry?: [{
     errorEquals: string[],
     intervalSeconds: number,
@@ -66,7 +67,7 @@ export class Converter {
         try {
           transformed = transformBody(body, optionsWithDefaults);
           transpiled = convertToIntermediaryAsl(transformed, { converterOptions: optionsWithDefaults, typeChecker: this.typeChecker, inputArgumentName: decl.inputArgName, contextArgumentName: decl.contextArgName });
-          asl = convert(transpiled)!;
+          asl = convert(transpiled, optionsWithDefaults)!;
         } catch (err) {
           // if (!includeDiagnostics)
           throw err;

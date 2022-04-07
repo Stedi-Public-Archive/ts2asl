@@ -7,7 +7,7 @@ describe("when converting input-validation", () => {
   it("then main can be converted to asl", async () => {
     expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign input.delayInSeconds": Object {
@@ -92,7 +92,7 @@ describe("when converting input-validation", () => {
   it("then notEquals can be converted to asl", async () => {
     expect(converted.notEquals.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign input.delayInSeconds": Object {

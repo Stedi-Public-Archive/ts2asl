@@ -14,10 +14,9 @@ describe("when enclosing input", () => {
           parameters: () => input)};
   });`;
     const iasl = testConvertToIntermediaryAst(code, "input");
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -41,7 +40,7 @@ describe("when enclosing input", () => {
                   "HeartbeatSeconds": undefined,
                   "InputPath": "$.vars",
                   "Resource": "[!lambda[SayHello]arn]",
-                  "ResultPath": "$.tmp.lastResult",
+                  "ResultPath": null,
                   "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
@@ -54,7 +53,7 @@ describe("when enclosing input", () => {
                 "prefix.$": "$$.Map.Item.Value",
               },
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Map",
           },
         },

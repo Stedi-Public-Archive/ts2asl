@@ -7,7 +7,7 @@ describe("when converting switch", () => {
   it("then main can be converted to asl", async () => {
     expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign creationStatus": Object {
@@ -63,7 +63,7 @@ describe("when converting switch", () => {
             "Comment": "source: console.log(createAccount.CreateAccountStatus. ...",
             "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
             "Next": "Return createAccount.Crea ...",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
           "Return createAccount.Crea ...": Object {

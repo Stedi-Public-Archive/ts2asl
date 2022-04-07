@@ -58,7 +58,7 @@
           "States": {
             "Evaluate States.Format('c ...": {
               "Type": "Pass",
-              "ResultPath": "$.tmp.lastResult",
+              "ResultPath": "$.tmp.eval",
               "Parameters": {
                 "value.$": "States.Format('cause {}', $.vars.error.Cause)"
               },
@@ -67,14 +67,14 @@
             },
             "Log (`cause ${error.Cause}`)": {
               "Type": "Pass",
-              "ResultPath": "$.tmp.lastResult",
-              "InputPath": "$.tmp.lastResult.value",
+              "ResultPath": null,
+              "InputPath": "$.tmp.eval.value",
               "Comment": "source: console.log(`cause ${error.Cause}`)",
               "Next": "Evaluate States.Format('m ..."
             },
             "Evaluate States.Format('m ...": {
               "Type": "Pass",
-              "ResultPath": "$.tmp.lastResult",
+              "ResultPath": "$.tmp.eval",
               "Parameters": {
                 "value.$": "States.Format('message {}', $.vars.error.Error)"
               },
@@ -83,8 +83,8 @@
             },
             "Log (`message ${error.Err ...": {
               "Type": "Pass",
-              "ResultPath": "$.tmp.lastResult",
-              "InputPath": "$.tmp.lastResult.value",
+              "ResultPath": null,
+              "InputPath": "$.tmp.eval.value",
               "Comment": "source: console.log(`message ${error.Error}`)",
               "End": true
             }
@@ -100,5 +100,5 @@
       "End": true
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

@@ -13,10 +13,9 @@ describe("when transpiling binary expressions", () => {
       [ifStatementTransformer({}), consoleLogStatementTransformer({})]
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Empty Default Choice": Object {
@@ -60,7 +59,7 @@ describe("when transpiling binary expressions", () => {
             "Comment": "source: console.log('debug')",
             "End": true,
             "Result": "debug",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
         },
@@ -76,10 +75,9 @@ describe("when transpiling binary expressions", () => {
       [ifStatementTransformer({}), consoleLogStatementTransformer({})]
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Empty Default Choice": Object {
@@ -141,7 +139,7 @@ describe("when transpiling binary expressions", () => {
             "Comment": "source: console.log('debug')",
             "End": true,
             "Result": "debug",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
         },
@@ -157,10 +155,9 @@ describe("when transpiling binary expressions", () => {
       [ifStatementTransformer({}), consoleLogStatementTransformer({})]
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Empty Default Choice": Object {
@@ -208,7 +205,7 @@ describe("when transpiling binary expressions", () => {
             "Comment": "source: console.log('debug')",
             "End": true,
             "Result": "debug",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
         },

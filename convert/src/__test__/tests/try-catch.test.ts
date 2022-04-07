@@ -7,7 +7,7 @@ describe("when converting try-catch", () => {
   it("then simpleTry can be converted to asl", async () => {
     expect(converted.simpleTry.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -37,7 +37,7 @@ describe("when converting try-catch", () => {
             "End": true,
             "HeartbeatSeconds": undefined,
             "Resource": "[!lambda[lambda]arn]",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -60,7 +60,7 @@ describe("when converting try-catch", () => {
   it("then simpleMultipleStatements can be converted to asl", async () => {
     expect(converted.simpleMultipleStatements.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -139,7 +139,7 @@ describe("when converting try-catch", () => {
   it("then tryAroundPassState can be converted to asl", async () => {
     expect(converted.tryAroundPassState.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -163,7 +163,7 @@ describe("when converting try-catch", () => {
   it("then tryFinally can be converted to asl", async () => {
     expect(converted.tryFinally.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -185,7 +185,7 @@ describe("when converting try-catch", () => {
             "HeartbeatSeconds": undefined,
             "Next": "Return \\"finally\\"",
             "Resource": "[!lambda[lambda]arn]",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -208,7 +208,7 @@ describe("when converting try-catch", () => {
   it("then tryCatchFinally can be converted to asl", async () => {
     expect(converted.tryCatchFinally.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -223,7 +223,7 @@ describe("when converting try-catch", () => {
             "Comment": "source: console.log(\\"failed\\")",
             "Next": "Return \\"finally\\"",
             "Result": "failed",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
           "Return \\"finally\\"": Object {
@@ -245,7 +245,7 @@ describe("when converting try-catch", () => {
             "HeartbeatSeconds": undefined,
             "Next": "Return \\"finally\\"",
             "Resource": "[!lambda[lambda]arn]",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Retry": Array [
               Object {
                 "BackoffRate": 2,

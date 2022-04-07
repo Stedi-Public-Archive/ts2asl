@@ -7,7 +7,7 @@ describe("when converting tasks", () => {
   it("then countS3buckets can be converted to asl", async () => {
     expect(converted.countS3buckets.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign count": Object {

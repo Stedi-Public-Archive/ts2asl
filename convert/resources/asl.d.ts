@@ -9,6 +9,12 @@ export declare type While = {
     block: Function;
     name?: string;
 };
+export interface Foreach<T> {
+    items: T[] | undefined | (() => T[]);
+    iterator: <U>(item: T, objectContext: StateMachineContext<U>) => void;
+    comment?: string;
+    name?: string;
+}
 export declare type DoWhile = {
     condition: () => boolean;
     block: Function;
@@ -138,6 +144,7 @@ export declare const typescriptInvoke: <P, R>(args: TypescriptInvoke<P, R>) => P
 export declare const typescriptTry: (args: Try) => Promise<AslState>;
 export declare const typescriptDoWhile: (args: DoWhile) => Promise<AslState>;
 export declare const typescriptWhile: (args: While) => Promise<AslState>;
+export declare const typescriptForeach: <T>(args: Foreach<T>) => Promise<void>;
 export declare const typescriptIf: (args: If) => Promise<void>;
 export declare const task: <TResult>(args: Task) => Promise<TResult>;
 export declare const wait: (args: Wait) => Promise<void>;

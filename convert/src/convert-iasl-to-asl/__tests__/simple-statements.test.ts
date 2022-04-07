@@ -4,10 +4,9 @@ import { testConvertToIntermediaryAst } from "../../convert-asllib-to-iasl/__tes
 describe("when transpiling simple statements", () => {
   it("then assignment ends up in result path", () => {
     const iasl = testConvertToIntermediaryAst("let result = 'hello';");
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
@@ -42,10 +41,9 @@ describe("when transpiling simple statements", () => {
       
       //result = asl.stringToJson('something')`
     );
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign complexVariableAss ...": Object {

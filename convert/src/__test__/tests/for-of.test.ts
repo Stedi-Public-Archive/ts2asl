@@ -7,7 +7,7 @@ describe("when converting for-of", () => {
   it("then main can be converted to asl", async () => {
     expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -68,14 +68,14 @@ describe("when converting for-of", () => {
             "Comment": "source: console.log(\\"done\\")",
             "End": true,
             "Result": "done",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
           "Log (item)": Object {
             "Comment": "source: console.log(item)",
             "InputPath": "$.foreach.currentItem",
             "Next": "Foreach Next",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
         },
@@ -85,7 +85,7 @@ describe("when converting for-of", () => {
   it("then foreachWithBreak can be converted to asl", async () => {
     expect(converted.foreachWithBreak.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -164,14 +164,14 @@ describe("when converting for-of", () => {
             "Comment": "source: console.log(\\"done\\")",
             "End": true,
             "Result": "done",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
           "Log (item)": Object {
             "Comment": "source: console.log(item)",
             "InputPath": "$.foreach.currentItem",
             "Next": "Foreach Next",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
         },

@@ -7,7 +7,7 @@ describe("when converting variable-assignments", () => {
   it("then literals can be converted to asl", async () => {
     expect(converted.literals.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arrayOfNumbers": Object {
@@ -111,12 +111,12 @@ describe("when converting variable-assignments", () => {
   it("then arrayWithIdentifiers can be converted to asl", async () => {
     expect(converted.arrayWithIdentifiers.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign array": Object {
             "Comment": undefined,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "Next": "Return array",
             "ResultPath": "$.vars.array",
             "Type": "Pass",
@@ -159,7 +159,7 @@ describe("when converting variable-assignments", () => {
             "Parameters": Object {
               "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -183,7 +183,7 @@ describe("when converting variable-assignments", () => {
   it("then arrayIndexer can be converted to asl", async () => {
     expect(converted.arrayIndexer.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -227,33 +227,33 @@ describe("when converting variable-assignments", () => {
   it("then functions can be converted to asl", async () => {
     expect(converted.functions.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
             "Comment": undefined,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "Next": "Return arr",
             "ResultPath": "$.vars.arr",
             "Type": "Pass",
           },
           "Assign combined": Object {
             "Comment": undefined,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate States.Array($.v ...",
             "ResultPath": "$.vars.combined",
             "Type": "Pass",
           },
           "Assign num": Object {
             "Comment": undefined,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate States.Format('1 ...",
             "ResultPath": "$.vars.num",
             "Type": "Pass",
           },
           "Assign str": Object {
             "Comment": undefined,
-            "InputPath": "$.tmp.lastResult.value",
+            "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate States.Format('a ...",
             "ResultPath": "$.vars.str",
             "Type": "Pass",
@@ -264,7 +264,7 @@ describe("when converting variable-assignments", () => {
             "Parameters": Object {
               "value.$": "States.Array($.vars.str, $.vars.num, $.vars.combined)",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Evaluate States.Format('1 ...": Object {
@@ -274,7 +274,7 @@ describe("when converting variable-assignments", () => {
               "value.$": "States.Format('1: {}
        2: {}', $.vars.str, $.vars.num)",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Evaluate States.Format('a ...": Object {
@@ -283,7 +283,7 @@ describe("when converting variable-assignments", () => {
             "Parameters": Object {
               "value.$": "States.Format('answer is {}', 42)",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Evaluate States.Format('h ...": Object {
@@ -292,7 +292,7 @@ describe("when converting variable-assignments", () => {
             "Parameters": Object {
               "value.$": "States.Format('hello {}', 'world')",
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Initialize": Object {

@@ -59,7 +59,7 @@
     },
     "PutEvents": {
       "Type": "Task",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
         "Entries": [
@@ -124,7 +124,7 @@
     },
     "PutEvents_1": {
       "Type": "Task",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
         "Entries": [
@@ -140,7 +140,7 @@
     },
     "PutEvents_2": {
       "Type": "Task",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
         "Entries": [
@@ -155,5 +155,5 @@
       "End": true
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

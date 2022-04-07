@@ -84,7 +84,7 @@
     },
     "Log (createAccount.Create ...": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.lastResult",
+      "ResultPath": null,
       "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
       "Comment": "source: console.log(createAccount.CreateAccountStatus. ...",
       "Next": "Return createAccount.Crea ..."
@@ -95,5 +95,5 @@
       "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId"
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.28."
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
 }

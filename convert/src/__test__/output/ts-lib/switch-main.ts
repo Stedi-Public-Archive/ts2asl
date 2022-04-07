@@ -29,12 +29,12 @@ export const main = asl.deploy.asStateMachine(async () =>{
                     },
                     {
                         block: async () => {
-                            asl.wait({ seconds: 1 });
+                            await asl.wait({ seconds: 1 });
                         },
                         condition: () => creationStatus === "IN_PROGRESS"
                     }
                 ],
-                comment: "switch (creationStatus) {\n      case \"FAILED\": throw new AccountCreationFailed(\"account creation is still in progress\");\n      case \"IN_PROGRESS\": asl.wait({ seconds: 1 });\n    }"
+                comment: "switch (creationStatus) {\n      case \"FAILED\": throw new AccountCreationFailed(\"account creation is still in progress\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }"
             })
         }
     })

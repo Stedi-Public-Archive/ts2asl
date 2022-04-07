@@ -6,10 +6,9 @@ describe("when converting input parameter reference to asl", () => {
     const code = `
     asl.pass({parameters: input})`;
     const iasl = testConvertToIntermediaryAst(code, "input");
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -24,7 +23,7 @@ describe("when converting input parameter reference to asl", () => {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars",
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Pass",
           },
         },

@@ -16,10 +16,9 @@ describe("when transpiling simple statements", () => {
       createTransformers({})
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -45,7 +44,7 @@ describe("when transpiling simple statements", () => {
                     "prefix.$": "$.vars.prefix",
                   },
                   "Resource": "[!lambda[worker]arn]",
-                  "ResultPath": "$.tmp.lastResult",
+                  "ResultPath": null,
                   "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
@@ -58,7 +57,7 @@ describe("when transpiling simple statements", () => {
                 "prefix.$": "$$.Map.Item.Value",
               },
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Map",
           },
         },
@@ -77,10 +76,9 @@ describe("when transpiling simple statements", () => {
       createTransformers({})
     );
     const iasl = testConvertToIntermediaryAst(transformed);
-    const result = convert(iasl);
+    const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -106,7 +104,7 @@ describe("when transpiling simple statements", () => {
                     "prefix.$": "$.vars.prefix",
                   },
                   "Resource": "[!lambda[worker]arn]",
-                  "ResultPath": "$.tmp.lastResult",
+                  "ResultPath": null,
                   "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
@@ -119,7 +117,7 @@ describe("when transpiling simple statements", () => {
                 "prefix.$": "$$.Map.Item.Value",
               },
             },
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Type": "Map",
           },
         },
