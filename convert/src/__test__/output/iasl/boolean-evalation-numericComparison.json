@@ -60,7 +60,7 @@
         "type": "object"
       },
       "expression": {
-        "stateName": "For item Of items.map",
+        "stateName": "items.map => item",
         "items": {
           "identifier": "items",
           "_syntaxKind": "identifier",

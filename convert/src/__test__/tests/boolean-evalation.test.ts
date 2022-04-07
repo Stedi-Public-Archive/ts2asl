@@ -23,7 +23,38 @@ describe("when converting boolean-evalation", () => {
             "Type": "Pass",
           },
           "Empty Default Choice": Object {
+            "Next": "If (data.num !== 42)",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "Empty Default Choice_1": Object {
+            "Next": "If (typeof data.text !== ...",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "Empty Default Choice_2": Object {
+            "Next": "If (data.text !== \\"text\\")",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "Empty Default Choice_3": Object {
+            "Next": "If (data.undefined)",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "Empty Default Choice_4": Object {
+            "Next": "If (data.null)",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "Empty Default Choice_5": Object {
+            "Next": "If (typeof data.timestamp ...",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "Empty Default Choice_6": Object {
             "End": true,
+            "ResultPath": null,
             "Type": "Pass",
           },
           "If (data.null)": Object {
@@ -65,7 +96,7 @@ describe("when converting boolean-evalation", () => {
               },
             ],
             "Comment": "source: if (data.null) { throw new ValidationError(\\"nu ...",
-            "Default": "If (typeof data.timestamp ...",
+            "Default": "Empty Default Choice_5",
             "Type": "Choice",
           },
           "If (data.num !== 42)": Object {
@@ -79,7 +110,7 @@ describe("when converting boolean-evalation", () => {
               },
             ],
             "Comment": "source: if (data.num !== 42) { throw new ValidationErr ...",
-            "Default": "If (typeof data.text !== ...",
+            "Default": "Empty Default Choice_1",
             "Type": "Choice",
           },
           "If (data.text !== \\"text\\")": Object {
@@ -93,7 +124,7 @@ describe("when converting boolean-evalation", () => {
               },
             ],
             "Comment": "source: if (data.text !== \\"text\\") { throw new Validati ...",
-            "Default": "If (data.undefined)",
+            "Default": "Empty Default Choice_3",
             "Type": "Choice",
           },
           "If (data.undefined)": Object {
@@ -135,7 +166,7 @@ describe("when converting boolean-evalation", () => {
               },
             ],
             "Comment": "source: if (data.undefined) { throw new ValidationErro ...",
-            "Default": "If (data.null)",
+            "Default": "Empty Default Choice_4",
             "Type": "Choice",
           },
           "If (typeof data.num !== \\" ...": Object {
@@ -157,7 +188,7 @@ describe("when converting boolean-evalation", () => {
               },
             ],
             "Comment": "source: if (typeof data.num !== \\"number\\") { throw new  ...",
-            "Default": "If (data.num !== 42)",
+            "Default": "Empty Default Choice",
             "Type": "Choice",
           },
           "If (typeof data.text !== ...": Object {
@@ -179,7 +210,7 @@ describe("when converting boolean-evalation", () => {
               },
             ],
             "Comment": "source: if (typeof data.text !== \\"string\\") { throw new ...",
-            "Default": "If (data.text !== \\"text\\")",
+            "Default": "Empty Default Choice_2",
             "Type": "Choice",
           },
           "If (typeof data.timestamp ...": Object {
@@ -201,7 +232,7 @@ describe("when converting boolean-evalation", () => {
               },
             ],
             "Comment": "source: if (typeof data.timestamp !== \\"string\\") { thro ...",
-            "Default": "Empty Default Choice",
+            "Default": "Empty Default Choice_6",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -296,6 +327,7 @@ describe("when converting boolean-evalation", () => {
               "States": Object {
                 "Empty Default Choice": Object {
                   "End": true,
+                  "ResultPath": null,
                   "Type": "Pass",
                 },
                 "If (item === condition)": Object {

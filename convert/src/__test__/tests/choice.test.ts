@@ -31,6 +31,34 @@ describe("when converting choice", () => {
             "ResultPath": "$.vars.val.a",
             "Type": "Pass",
           },
+          "Assign val.b": Object {
+            "Comment": undefined,
+            "Next": "Assign val.c",
+            "Result": "val is not an empty string",
+            "ResultPath": "$.vars.val.b",
+            "Type": "Pass",
+          },
+          "Assign val.c": Object {
+            "Comment": undefined,
+            "Next": "Assign val.g",
+            "Result": "val is also not false or 0",
+            "ResultPath": "$.vars.val.c",
+            "Type": "Pass",
+          },
+          "Assign val.d": Object {
+            "Comment": undefined,
+            "Next": "Assign val.e",
+            "Result": "val is empty string",
+            "ResultPath": "$.vars.val.d",
+            "Type": "Pass",
+          },
+          "Assign val.e": Object {
+            "Comment": undefined,
+            "Next": "Assign val.g",
+            "Result": "or false or 0",
+            "ResultPath": "$.vars.val.e",
+            "Type": "Pass",
+          },
           "Assign val.f": Object {
             "Comment": undefined,
             "Next": "Assign val.g",
@@ -45,22 +73,10 @@ describe("when converting choice", () => {
             "ResultPath": "$.vars.val.g",
             "Type": "Pass",
           },
-          "Assign vars": Object {
-            "InputPath": "$.vars[0]",
-            "Next": "Assign vars_1",
-            "ResultPath": "$.vars",
-            "Type": "Pass",
-          },
-          "Assign vars_1": Object {
-            "InputPath": "$.vars[0]",
-            "Next": "Assign val.f",
-            "ResultPath": "$.vars",
-            "Type": "Pass",
-          },
           "Choice": Object {
             "Choices": Array [
               Object {
-                "Next": "Then",
+                "Next": "Assign val.b",
                 "Not": Object {
                   "Or": Array [
                     Object {
@@ -95,7 +111,7 @@ describe("when converting choice", () => {
                 },
               },
               Object {
-                "Next": "Then_1",
+                "Next": "Assign val.d",
                 "Or": Array [
                   Object {
                     "IsPresent": false,
@@ -129,7 +145,7 @@ describe("when converting choice", () => {
               },
             ],
             "Comment": undefined,
-            "Default": "Assign vars",
+            "Default": "Assign val.f",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -145,64 +161,6 @@ describe("when converting choice", () => {
             "End": true,
             "InputPath": "$.vars.val",
             "Type": "Pass",
-          },
-          "Then": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "Assign val.b",
-                "States": Object {
-                  "Assign val.b": Object {
-                    "Comment": undefined,
-                    "Next": "Assign val.c",
-                    "Result": "val is not an empty string",
-                    "ResultPath": "$.vars.val.b",
-                    "Type": "Pass",
-                  },
-                  "Assign val.c": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "val is also not false or 0",
-                    "ResultPath": "$.vars.val.c",
-                    "Type": "Pass",
-                  },
-                },
-              },
-            ],
-            "Next": "Assign val.g",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
-            "Type": "Parallel",
-          },
-          "Then_1": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "Assign val.d",
-                "States": Object {
-                  "Assign val.d": Object {
-                    "Comment": undefined,
-                    "Next": "Assign val.e",
-                    "Result": "val is empty string",
-                    "ResultPath": "$.vars.val.d",
-                    "Type": "Pass",
-                  },
-                  "Assign val.e": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "or false or 0",
-                    "ResultPath": "$.vars.val.e",
-                    "Type": "Pass",
-                  },
-                },
-              },
-            ],
-            "Next": "Assign val.g",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
-            "Type": "Parallel",
           },
         },
       }

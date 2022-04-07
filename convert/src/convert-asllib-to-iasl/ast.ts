@@ -13,6 +13,7 @@ export enum SyntaxKind {
   IfStatement = "if",
   TryStatement = "try",
   CaseStatement = "case",
+  Break = "break",
   WhileStatement = "while",
   ForEachStatement = "for-each",
   DoWhileStatement = "do-while",
@@ -71,6 +72,9 @@ export class Check {
   static isWhileStatement(expr: Identifier | Expression | undefined): expr is WhileStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.WhileStatement;
   }
+  static isBreakStatement(expr: Identifier | Expression | undefined): expr is BreakStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Break;
+  }
   static isForEachStatement(expr: Identifier | Expression | undefined): expr is ForEachStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ForEachStatement;
   }
@@ -109,111 +113,195 @@ export class Check {
   }
 }
 
-export const visitScopes = (scope: Scope, visitor: (scope: Scope) => void) => {
-  for (const child of scope.childScopes) {
-    visitScopes(child, visitor)
-  }
-  visitor(scope);
-}
 
-let scopeCounter = 0;
-
-export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expression, scope: Scope) => void) => {
-  visitor(node, scope);
+export const visitNodes = (node: Expression, visitor: (node: Expression) => void) => {
+  visitor(node);
   if (Check.isVariableAssignment(node)) {
-    visitNodes(node.name, scope, visitor);
-    visitNodes(node.expression, scope, visitor);
+    visitNodes(node.name, visitor);
+    visitNodes(node.expression, visitor);
   } else if (Check.isAslIntrinsicFunction(node)) {
     for (const arg of node.arguments) {
-      visitNodes(arg, scope, visitor);
+      visitNodes(arg, visitor);
     }
   } else if (Check.isAslTaskState(node)) {
-    visitNodes(node.parameters, scope, visitor)
+    visitNodes(node.parameters, visitor)
   } else if (Check.isReturnStatement(node)) {
-    visitNodes(node.expression, scope, visitor)
+    visitNodes(node.expression, visitor)
   }
   else if (Check.isTypeOfExpression(node)) {
-    visitNodes(node.operand, scope, visitor)
+    visitNodes(node.operand, visitor)
   } else if (Check.isBinaryExpression(node)) {
-    if (node.lhs) visitNodes(node.lhs, scope, visitor)
-    visitNodes(node.rhs, scope, visitor)
+    if (node.lhs) visitNodes(node.lhs, visitor)
+    visitNodes(node.rhs, visitor)
+  } else if (Check.isBlock(node)) {
+    for (const child of node.statements) {
+      visitNodes(child, visitor)
+    }
+  } else if (Check.isFunction(node)) {
+    if (node.inputArgumentName) visitNodes(node.inputArgumentName, visitor)
+    for (const child of node.statements) {
+      visitNodes(child, visitor)
+    }
+  } else if (Check.isStateMachine(node)) {
+    for (const child of node.statements) {
+      visitNodes(child, visitor)
+    }
+  } else if (Check.isAslChoiceState(node)) {
+    for (const choice of (node.choices || [])) {
+      visitNodes(choice.condition, visitor)
+      visitNodes(choice.block, visitor);
+    }
+    if (node.default) visitNodes(node.default, visitor);
+  } else if (Check.isAslMapState(node)) {
+    visitNodes(node.items, visitor);
+    visitNodes(node.iterator, visitor);
+  } else if (Check.isForEachStatement(node)) {
+    visitNodes(node.items, visitor);
+    visitNodes(node.iterator, visitor);
+  } else if (Check.isAslParallelState(node)) {
+    for (const child of node.branches) {
+      visitNodes(child, visitor)
+    }
+  } else if (Check.isIfExpression(node)) {
+    visitNodes(node.condition, visitor);
+    visitNodes(node.then, visitor);
+    if (node.else) visitNodes(node.else, visitor);
+  } else if (Check.isCaseStatement(node)) {
+    for (const child of (node.cases || [])) {
+      for (const when of child.when) {
+        visitNodes(when, visitor);
+      }
+      visitNodes(child.then, visitor)
+    }
+  } else if (Check.isDoWhileStatement(node)) {
+    visitNodes(node.condition, visitor);
+    visitNodes(node.while, visitor)
+  } else if (Check.isTryExpression(node)) {
+    visitNodes(node.try, visitor);
+    for (const child of (node.catch || [])) {
+      visitNodes(child.block, visitor)
+    }
+    if (node.finally) visitNodes(node.finally, visitor);
+  } else if (Check.isWhileStatement(node)) {
+    visitNodes(node.condition, visitor);
+    visitNodes(node.while, visitor);
+  } else if (Check.isAslPassState(node)) {
+    visitNodes(node.parameters, visitor)
+  } else if (Check.isLiteralObject(node)) {
+    for (const prop of Object.values(node.properties)) {
+      visitNodes(prop, visitor)
+    }
+  } else if (Check.isAslWaitState(node)) {
+    visitNodes(node.seconds, visitor)
+    visitNodes(node.timestamp, visitor)
+  } else if (Check.isIdentifier(node)) {
+    if (node.filterExpression) {
+      visitNodes(node.filterExpression.argument, visitor)
+      visitNodes(node.filterExpression.expression, visitor);
+    }
+    if (node.indexExpression) {
+      visitNodes(node.indexExpression, visitor)
+    }
+  }
+}
+
+let scopeCounter = 1;
+export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Expression, scope: Scope) => void) => {
+  visitor(node, scope);
+  if (Check.isVariableAssignment(node)) {
+    assignScopes(node.name, scope, visitor);
+    assignScopes(node.expression, scope, visitor);
+  } else if (Check.isAslIntrinsicFunction(node)) {
+    for (const arg of node.arguments) {
+      assignScopes(arg, scope, visitor);
+    }
+  } else if (Check.isAslTaskState(node)) {
+    assignScopes(node.parameters, scope, visitor)
+  } else if (Check.isReturnStatement(node)) {
+    assignScopes(node.expression, scope, visitor)
+  }
+  else if (Check.isTypeOfExpression(node)) {
+    assignScopes(node.operand, scope, visitor)
+  } else if (Check.isBinaryExpression(node)) {
+    if (node.lhs) assignScopes(node.lhs, scope, visitor)
+    assignScopes(node.rhs, scope, visitor)
   } else if (Check.isBlock(node)) {
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "block-" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
     for (const child of node.statements) {
-      visitNodes(child, scope, visitor)
+      assignScopes(child, scope, visitor)
     }
     node.scope = childScope.id;
   } else if (Check.isFunction(node)) {
-    if (node.inputArgumentName) visitNodes(node.inputArgumentName, scope, visitor)
+    if (node.inputArgumentName) assignScopes(node.inputArgumentName, scope, visitor)
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "function-" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
     for (const child of node.statements) {
-      visitNodes(child, childScope, visitor)
+      assignScopes(child, childScope, visitor)
     }
     node.scope = childScope.id;
   } else if (Check.isStateMachine(node)) {
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "state-machine-" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
     for (const child of node.statements) {
-      visitNodes(child, childScope, visitor)
+      assignScopes(child, childScope, visitor)
     }
     node.scope = childScope.id;
   } else if (Check.isAslChoiceState(node)) {
     for (const choice of (node.choices || [])) {
-      visitNodes(choice.condition, scope, visitor)
-      visitNodes(choice.block, scope, visitor);
+      assignScopes(choice.condition, scope, visitor)
+      assignScopes(choice.block, scope, visitor);
     }
-    if (node.default) visitNodes(node.default, scope, visitor);
+    if (node.default) assignScopes(node.default, scope, visitor);
   } else if (Check.isAslMapState(node)) {
-    visitNodes(node.items, scope, visitor);
-    visitNodes(node.iterator, scope, visitor);
+    assignScopes(node.items, scope, visitor);
+    assignScopes(node.iterator, scope, visitor);
   } else if (Check.isForEachStatement(node)) {
-    visitNodes(node.items, scope, visitor);
-    visitNodes(node.iterator, scope, visitor);
+    assignScopes(node.items, scope, visitor);
+    assignScopes(node.iterator, scope, visitor);
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
-      visitNodes(child, scope, visitor)
+      assignScopes(child, scope, visitor)
     }
   } else if (Check.isIfExpression(node)) {
-    visitNodes(node.condition, scope, visitor);
-    visitNodes(node.then, scope, visitor);
-    if (node.else) visitNodes(node.else, scope, visitor);
+    assignScopes(node.condition, scope, visitor);
+    assignScopes(node.then, scope, visitor);
+    if (node.else) assignScopes(node.else, scope, visitor);
   } else if (Check.isCaseStatement(node)) {
     for (const child of (node.cases || [])) {
       for (const when of child.when) {
-        visitNodes(when, scope, visitor);
+        assignScopes(when, scope, visitor);
       }
-      visitNodes(child.then, scope, visitor)
+      assignScopes(child.then, scope, visitor)
     }
   } else if (Check.isDoWhileStatement(node)) {
-    visitNodes(node.condition, scope, visitor);
-    visitNodes(node.while, scope, visitor)
+    assignScopes(node.condition, scope, visitor);
+    assignScopes(node.while, scope, visitor)
   } else if (Check.isTryExpression(node)) {
-    visitNodes(node.try, scope, visitor);
+    assignScopes(node.try, scope, visitor);
     for (const child of (node.catch || [])) {
-      visitNodes(child.block, scope, visitor)
+      assignScopes(child.block, scope, visitor)
     }
-    if (node.finally) visitNodes(node.finally, scope, visitor);
+    if (node.finally) assignScopes(node.finally, scope, visitor);
   } else if (Check.isWhileStatement(node)) {
-    visitNodes(node.condition, scope, visitor);
-    visitNodes(node.while, scope, visitor);
+    assignScopes(node.condition, scope, visitor);
+    assignScopes(node.while, scope, visitor);
   } else if (Check.isAslPassState(node)) {
-    visitNodes(node.parameters, scope, visitor)
+    assignScopes(node.parameters, scope, visitor)
   } else if (Check.isLiteralObject(node)) {
     for (const prop of Object.values(node.properties)) {
-      visitNodes(prop, scope, visitor)
+      assignScopes(prop, scope, visitor)
     }
   } else if (Check.isAslWaitState(node)) {
-    visitNodes(node.seconds, scope, visitor)
-    visitNodes(node.timestamp, scope, visitor)
+    assignScopes(node.seconds, scope, visitor)
+    assignScopes(node.timestamp, scope, visitor)
   } else if (Check.isIdentifier(node)) {
     if (node.filterExpression) {
-      visitNodes(node.filterExpression.argument, scope, visitor)
-      visitNodes(node.filterExpression.expression, scope, visitor);
+      assignScopes(node.filterExpression.argument, scope, visitor)
+      assignScopes(node.filterExpression.expression, scope, visitor);
     }
     if (node.indexExpression) {
-      visitNodes(node.indexExpression, scope, visitor)
+      assignScopes(node.indexExpression, scope, visitor)
     }
   }
 }
@@ -320,6 +408,10 @@ export interface TryStatement extends Expression {
 }
 
 
+
+export interface BreakStatement extends AslState {
+  _syntaxKind: SyntaxKind.Break;
+}
 export interface ForEachStatement extends Expression {
   _syntaxKind: SyntaxKind.ForEachStatement;
   iterator: Function;
@@ -432,4 +524,5 @@ export interface FailState extends AslState {
 export interface SucceedState extends AslState {
   _syntaxKind: SyntaxKind.AslSucceedState;
 }
+
 

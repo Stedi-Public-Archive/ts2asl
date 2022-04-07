@@ -153,8 +153,8 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
   if (ts.isBreakStatement(node)) {
     return {
       stateName: createName(context.converterOptions, node, "Break"),
-      _syntaxKind: iasl.SyntaxKind.AslSucceedState
-    } as iasl.SucceedState
+      _syntaxKind: iasl.SyntaxKind.Break,
+    } as iasl.BreakStatement;
   }
 
   const result = convertExpression(node as ts.Expression, context);

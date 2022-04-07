@@ -21,57 +21,19 @@ describe("when transpiling simple statements", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "3: While (result === 0)": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "_WhileCondition",
-                "States": Object {
-                  "6: isDone()": Object {
-                    "Comment": "source: isDone()",
-                    "HeartbeatSeconds": undefined,
-                    "Next": "_WhileExit",
-                    "Resource": "[!lambda[isDone]arn]",
-                    "ResultPath": "$.vars.result",
-                    "Retry": undefined,
-                    "TimeoutSeconds": undefined,
-                    "Type": "Task",
-                  },
-                  "Wait": Object {
-                    "Comment": undefined,
-                    "Next": "6: isDone()",
-                    "Seconds": 2,
-                    "Type": "Wait",
-                  },
-                  "_WhileCondition": Object {
-                    "Choices": Array [
-                      Object {
-                        "Next": "Wait",
-                        "NumericEquals": 0,
-                        "Variable": "$.vars.result",
-                      },
-                    ],
-                    "Default": "_WhileExit",
-                    "Type": "Choice",
-                  },
-                  "_WhileExit": Object {
-                    "Type": "Succeed",
-                  },
-                },
-              },
-            ],
-            "Comment": undefined,
-            "End": true,
-            "Parameters": Object {
-              "vars": Object {
-                "result.$": "$.vars.result",
-              },
-            },
-            "ResultPath": "$.tmp.lastResult",
-            "Type": "Parallel",
+          "6: isDone()": Object {
+            "Comment": "source: isDone()",
+            "HeartbeatSeconds": undefined,
+            "Next": "_WhileCondition",
+            "Resource": "[!lambda[isDone]arn]",
+            "ResultPath": "$.vars.result",
+            "Retry": undefined,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
           "Assign result": Object {
             "Comment": "source: result = 0",
-            "Next": "3: While (result === 0)",
+            "Next": "_WhileCondition",
             "Result": 0,
             "ResultPath": "$.vars.result",
             "Type": "Pass",
@@ -82,6 +44,28 @@ describe("when transpiling simple statements", () => {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Wait": Object {
+            "Comment": undefined,
+            "Next": "6: isDone()",
+            "Seconds": 2,
+            "Type": "Wait",
+          },
+          "_WhileCondition": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Wait",
+                "NumericEquals": 0,
+                "Variable": "$.vars.result",
+              },
+            ],
+            "Default": "_WhileExit",
+            "Type": "Choice",
+          },
+          "_WhileExit": Object {
+            "End": true,
+            "ResultPath": null,
             "Type": "Pass",
           },
         },

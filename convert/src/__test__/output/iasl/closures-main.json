@@ -135,7 +135,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "For number Of numbers",
+      "stateName": "numbers.map => number",
       "items": {
         "identifier": "numbers",
         "_syntaxKind": "identifier",
@@ -148,7 +148,7 @@
         },
         "statements": [
           {
-            "stateName": "For letter Of letters",
+            "stateName": "letters.map => letter",
             "items": {
               "identifier": "letters",
               "_syntaxKind": "identifier",
@@ -225,12 +225,13 @@
               ],
               "_syntaxKind": "function"
             },
-            "_syntaxKind": "for-each"
+            "source": "letters.map(letter => {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      doSomething(combined);\n    })",
+            "_syntaxKind": "asl-map-state"
           }
         ],
         "_syntaxKind": "function"
       },
-      "_syntaxKind": "for-each"
+      "_syntaxKind": "asl-map-state"
     }
   ],
   "_syntaxKind": "statemachine"

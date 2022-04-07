@@ -26,7 +26,7 @@ export const arrayMapTransformer = (converterOptions: ConverterOptions) => <T ex
         const items = TransformUtil.createWrappedExpression("items", itemsNode);
         const iterator = TransformUtil.createFunction("iterator", argsIdentifier, convertToBlock(arg.body));
         const comment = TransformUtil.createComment(node);
-        const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "For %s Of %s", arg.parameters[0].name, node.expression);
+        const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "%s => %s", node.expression, arg.parameters[0].name,);
 
         const assignments: ts.PropertyAssignment[] = []
         for (const assignment of [name, items, iterator, comment]) {

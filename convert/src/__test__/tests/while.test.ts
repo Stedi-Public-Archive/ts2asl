@@ -9,6 +9,59 @@ describe("when converting while", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Break": Object {
+            "Comment": undefined,
+            "Next": "_WhileExit",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "Empty Default Choice": Object {
+            "Next": "Wait",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "If (result.Authorized)": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Break",
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.result.Authorized",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.result.Authorized",
+                    },
+                    Object {
+                      "BooleanEquals": false,
+                      "Variable": "$.vars.result.Authorized",
+                    },
+                    Object {
+                      "StringEquals": "",
+                      "Variable": "$.vars.result.Authorized",
+                    },
+                    Object {
+                      "StringEquals": "false",
+                      "Variable": "$.vars.result.Authorized",
+                    },
+                    Object {
+                      "StringEquals": "0",
+                      "Variable": "$.vars.result.Authorized",
+                    },
+                    Object {
+                      "NumericEquals": 0,
+                      "Variable": "$.vars.result.Authorized",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": "source: if (result.Authorized) { break; }",
+            "Default": "Empty Default Choice",
+            "Type": "Choice",
+          },
           "Initialize": Object {
             "Next": "Task",
             "Parameters": Object {
@@ -20,7 +73,7 @@ describe("when converting while", () => {
           "Task": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "While (true)",
+            "Next": "_WhileCondition",
             "Parameters": Object {},
             "Resource": "check-password",
             "ResultPath": "$.vars.result",
@@ -28,100 +81,38 @@ describe("when converting while", () => {
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
-          "While (true)": Object {
-            "Branches": Array [
+          "Task_1": Object {
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "_WhileCondition",
+            "Parameters": Object {},
+            "Resource": "check-password",
+            "ResultPath": "$.vars.result",
+            "Retry": undefined,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+          "Wait": Object {
+            "Comment": undefined,
+            "Next": "Task_1",
+            "Seconds": 1,
+            "Type": "Wait",
+          },
+          "_WhileCondition": Object {
+            "Choices": Array [
               Object {
-                "StartAt": "_WhileCondition",
-                "States": Object {
-                  "Break": Object {
-                    "Comment": undefined,
-                    "Type": "Succeed",
-                  },
-                  "If (result.Authorized)": Object {
-                    "Choices": Array [
-                      Object {
-                        "Next": "Break",
-                        "Not": Object {
-                          "Or": Array [
-                            Object {
-                              "IsPresent": false,
-                              "Variable": "$.vars.result.Authorized",
-                            },
-                            Object {
-                              "IsNull": true,
-                              "Variable": "$.vars.result.Authorized",
-                            },
-                            Object {
-                              "BooleanEquals": false,
-                              "Variable": "$.vars.result.Authorized",
-                            },
-                            Object {
-                              "StringEquals": "",
-                              "Variable": "$.vars.result.Authorized",
-                            },
-                            Object {
-                              "StringEquals": "false",
-                              "Variable": "$.vars.result.Authorized",
-                            },
-                            Object {
-                              "StringEquals": "0",
-                              "Variable": "$.vars.result.Authorized",
-                            },
-                            Object {
-                              "NumericEquals": 0,
-                              "Variable": "$.vars.result.Authorized",
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                    "Comment": "source: if (result.Authorized) { break; }",
-                    "Default": "Wait",
-                    "Type": "Choice",
-                  },
-                  "Task_1": Object {
-                    "Comment": undefined,
-                    "HeartbeatSeconds": undefined,
-                    "Next": "_WhileExit",
-                    "Parameters": Object {},
-                    "Resource": "check-password",
-                    "ResultPath": "$.vars.result",
-                    "Retry": undefined,
-                    "TimeoutSeconds": undefined,
-                    "Type": "Task",
-                  },
-                  "Wait": Object {
-                    "Comment": undefined,
-                    "Next": "Task_1",
-                    "Seconds": 1,
-                    "Type": "Wait",
-                  },
-                  "_WhileCondition": Object {
-                    "Choices": Array [
-                      Object {
-                        "IsNull": false,
-                        "Next": "If (result.Authorized)",
-                        "Variable": "$",
-                      },
-                    ],
-                    "Default": "_WhileExit",
-                    "Type": "Choice",
-                  },
-                  "_WhileExit": Object {
-                    "Type": "Succeed",
-                  },
-                },
+                "IsNull": false,
+                "Next": "If (result.Authorized)",
+                "Variable": "$",
               },
             ],
-            "Comment": undefined,
+            "Default": "_WhileExit",
+            "Type": "Choice",
+          },
+          "_WhileExit": Object {
             "End": true,
-            "Parameters": Object {
-              "vars": Object {
-                "result.$": "$.vars.result",
-              },
-            },
-            "ResultPath": "$.tmp.lastResult",
-            "Type": "Parallel",
+            "ResultPath": null,
+            "Type": "Pass",
           },
         },
       }

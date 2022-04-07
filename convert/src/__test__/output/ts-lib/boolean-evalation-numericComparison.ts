@@ -50,7 +50,7 @@ export const numericComparison = asl.deploy.asStateMachine(async () =>{
         comment: "items = [2, 42, 3]"
     });
     const listWithRetunrned = asl.map({
-        name: "For item Of items.map",
+        name: "items.map => item",
         items: () => items,
         iterator: item => {
             asl.typescriptIf({

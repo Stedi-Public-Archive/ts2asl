@@ -26,37 +26,18 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "While (true)",
+      "stateName": "Do While (!result.Authorized)",
       "condition": {
-        "type": "boolean",
-        "value": true,
-        "_syntaxKind": "literal"
+        "operator": "not",
+        "rhs": {
+          "identifier": "result.Authorized",
+          "type": "boolean",
+          "_syntaxKind": "identifier"
+        },
+        "_syntaxKind": "binary-expression"
       },
       "while": {
         "statements": [
-          {
-            "stateName": "If (result.Authorized)",
-            "condition": {
-              "operator": "is-truthy",
-              "rhs": {
-                "identifier": "result.Authorized",
-                "type": "boolean",
-                "_syntaxKind": "identifier"
-              },
-              "_syntaxKind": "binary-expression"
-            },
-            "then": {
-              "statements": [
-                {
-                  "stateName": "Break",
-                  "_syntaxKind": "break"
-                }
-              ],
-              "_syntaxKind": "function"
-            },
-            "source": "if (result.Authorized) {\n      break;\n    }",
-            "_syntaxKind": "if"
-          },
           {
             "seconds": {
               "value": 1,
@@ -85,7 +66,8 @@
         ],
         "_syntaxKind": "function"
       },
-      "_syntaxKind": "while"
+      "source": "do {\n    await asl.wait({ seconds: 1 });\n    result = await asl.task({ resource: \"check-password\", parameters: {} });\n  } while (!result.Authorized)",
+      "_syntaxKind": "do-while"
     }
   ],
   "_syntaxKind": "statemachine"

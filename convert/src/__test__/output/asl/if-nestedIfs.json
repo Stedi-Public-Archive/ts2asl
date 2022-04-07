@@ -36,93 +36,51 @@
         {
           "Variable": "$",
           "IsNull": false,
-          "Next": "Then_1"
+          "Next": "Assign val.b"
         }
       ],
       "Default": "Assign val.f"
     },
-    "Then_1": {
-      "Type": "Parallel",
-      "ResultPath": "$.vars",
-      "Parameters": {
-        "vars.$": "$.vars"
-      },
-      "Branches": [
+    "Assign val.b": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.b",
+      "Result": "outer_1",
+      "Next": "Assign val.c"
+    },
+    "Assign val.c": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.c",
+      "Result": "outer_2",
+      "Next": "If (true)_1"
+    },
+    "If (true)_1": {
+      "Type": "Choice",
+      "Choices": [
         {
-          "StartAt": "Assign val.b",
-          "States": {
-            "Assign val.b": {
-              "Type": "Pass",
-              "ResultPath": "$.vars.val.b",
-              "Result": "outer_1",
-              "Next": "Assign val.c"
-            },
-            "Assign val.c": {
-              "Type": "Pass",
-              "ResultPath": "$.vars.val.c",
-              "Result": "outer_2",
-              "Next": "If (true)_1"
-            },
-            "If (true)_1": {
-              "Type": "Choice",
-              "Choices": [
-                {
-                  "Variable": "$",
-                  "IsNull": false,
-                  "Next": "Then"
-                }
-              ],
-              "Comment": "source: if (true) { val.d = \"inner_1\"; val.e = \"inner_ ...",
-              "Default": "Assign val.e_1"
-            },
-            "Then": {
-              "Type": "Parallel",
-              "ResultPath": "$.vars",
-              "Parameters": {
-                "vars.$": "$.vars"
-              },
-              "Branches": [
-                {
-                  "StartAt": "Assign val.d",
-                  "States": {
-                    "Assign val.d": {
-                      "Type": "Pass",
-                      "ResultPath": "$.vars.val.d",
-                      "Result": "inner_1",
-                      "Next": "Assign val.e"
-                    },
-                    "Assign val.e": {
-                      "Type": "Pass",
-                      "ResultPath": "$.vars.val.e",
-                      "Result": "inner_2",
-                      "End": true
-                    }
-                  }
-                }
-              ],
-              "Next": "Assign vars"
-            },
-            "Assign vars": {
-              "Type": "Pass",
-              "ResultPath": "$.vars",
-              "InputPath": "$.vars[0]",
-              "End": true
-            },
-            "Assign val.e_1": {
-              "Type": "Pass",
-              "ResultPath": "$.vars.val.e",
-              "Result": "inner_else_2",
-              "End": true
-            }
-          }
+          "Variable": "$",
+          "IsNull": false,
+          "Next": "Assign val.d"
         }
       ],
-      "Next": "Assign vars_1"
+      "Comment": "source: if (true) { val.d = \"inner_1\"; val.e = \"inner_ ...",
+      "Default": "Assign val.e_1"
     },
-    "Assign vars_1": {
+    "Assign val.d": {
       "Type": "Pass",
-      "ResultPath": "$.vars",
-      "InputPath": "$.vars[0]",
+      "ResultPath": "$.vars.val.d",
+      "Result": "inner_1",
+      "Next": "Assign val.e"
+    },
+    "Assign val.e": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.e",
+      "Result": "inner_2",
+      "Next": "Assign val.g"
+    },
+    "Assign val.e_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.e",
+      "Result": "inner_else_2",
       "Next": "Assign val.g"
     },
     "Assign val.f": {

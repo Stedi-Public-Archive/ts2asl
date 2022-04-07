@@ -22,60 +22,39 @@
         {
           "Variable": "$",
           "IsNull": false,
-          "Next": "Then"
+          "Next": "Assign enclosedVar_1"
         }
       ],
       "Default": "Assign enclosedVar_4"
     },
-    "Then": {
-      "Type": "Parallel",
-      "ResultPath": "$.vars",
-      "Parameters": {
-        "vars.$": "$.vars"
-      },
-      "Branches": [
+    "Assign enclosedVar_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.enclosedVar",
+      "Result": "outer if",
+      "Next": "If (true)_1"
+    },
+    "If (true)_1": {
+      "Type": "Choice",
+      "Choices": [
         {
-          "StartAt": "Assign enclosedVar_1",
-          "States": {
-            "Assign enclosedVar_1": {
-              "Type": "Pass",
-              "ResultPath": "$.vars.enclosedVar",
-              "Result": "outer if",
-              "Next": "If (true)_1"
-            },
-            "If (true)_1": {
-              "Type": "Choice",
-              "Choices": [
-                {
-                  "Variable": "$",
-                  "IsNull": false,
-                  "Next": "Assign enclosedVar_2"
-                }
-              ],
-              "Comment": "source: if (true) { enclosedVar = \"inner if\"; } else { ...",
-              "Default": "Assign enclosedVar_3"
-            },
-            "Assign enclosedVar_2": {
-              "Type": "Pass",
-              "ResultPath": "$.vars.enclosedVar",
-              "Result": "inner if",
-              "End": true
-            },
-            "Assign enclosedVar_3": {
-              "Type": "Pass",
-              "ResultPath": "$.vars.enclosedVar",
-              "Result": "else if",
-              "End": true
-            }
-          }
+          "Variable": "$",
+          "IsNull": false,
+          "Next": "Assign enclosedVar_2"
         }
       ],
-      "Next": "Assign vars"
+      "Comment": "source: if (true) { enclosedVar = \"inner if\"; } else { ...",
+      "Default": "Assign enclosedVar_3"
     },
-    "Assign vars": {
+    "Assign enclosedVar_2": {
       "Type": "Pass",
-      "ResultPath": "$.vars",
-      "InputPath": "$.vars[0]",
+      "ResultPath": "$.vars.enclosedVar",
+      "Result": "inner if",
+      "Next": "Return enclosedVar"
+    },
+    "Assign enclosedVar_3": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.enclosedVar",
+      "Result": "else if",
       "Next": "Return enclosedVar"
     },
     "Assign enclosedVar_4": {

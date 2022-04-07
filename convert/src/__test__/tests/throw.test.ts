@@ -60,6 +60,7 @@ describe("when converting throw", () => {
                 "States": Object {
                   "Empty Default Choice": Object {
                     "End": true,
+                    "ResultPath": null,
                     "Type": "Pass",
                   },
                   "If (err.Cause === \\"NotImp ...": Object {
@@ -104,6 +105,11 @@ describe("when converting throw", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Empty Default Choice": Object {
+            "Next": "Throw NotImplemented",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
           "If (input.delayInSeconds ...": Object {
             "Choices": Array [
               Object {
@@ -121,7 +127,7 @@ describe("when converting throw", () => {
               },
             ],
             "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
-            "Default": "Throw NotImplemented",
+            "Default": "Empty Default Choice",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -178,7 +184,7 @@ describe("when converting throw", () => {
             "Catch": undefined,
             "Comment": undefined,
             "End": true,
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Retry": Array [
               Object {
                 "BackoffRate": 1.5,
@@ -239,7 +245,7 @@ describe("when converting throw", () => {
             ],
             "Comment": undefined,
             "End": true,
-            "ResultPath": "$.tmp.lastResult",
+            "ResultPath": null,
             "Retry": Array [
               Object {
                 "BackoffRate": 1.5,

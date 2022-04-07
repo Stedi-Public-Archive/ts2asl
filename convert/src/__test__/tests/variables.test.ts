@@ -45,6 +45,11 @@ describe("when converting variables", () => {
             "ResultPath": "$.vars.y",
             "Type": "Pass",
           },
+          "Empty Default Choice": Object {
+            "Next": "Assign x",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
           "If (typeof input.name !== ...": Object {
             "Choices": Array [
               Object {
@@ -64,7 +69,7 @@ describe("when converting variables", () => {
               },
             ],
             "Comment": "source: if (typeof input.name !== \\"string\\") { input.na ...",
-            "Default": "Assign x",
+            "Default": "Empty Default Choice",
             "Type": "Choice",
           },
           "Initialize": Object {

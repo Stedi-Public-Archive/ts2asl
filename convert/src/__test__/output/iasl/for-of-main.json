@@ -1,0 +1,85 @@
+{
+  "inputArgumentName": {
+    "identifier": "_input",
+    "_syntaxKind": "identifier"
+  },
+  "contextArgumentName": {
+    "identifier": "_context",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign arr",
+        "parameters": {
+          "elements": [
+            {
+              "value": 1,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 2,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 3,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "arr = [1, 2, 3]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign arr",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For item Of arr",
+      "items": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "item",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "Log (item)",
+            "parameters": {
+              "identifier": "item",
+              "_syntaxKind": "identifier",
+              "type": "numeric"
+            },
+            "source": "console.log(item)",
+            "_syntaxKind": "asl-pass-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "for-each"
+    },
+    {
+      "stateName": "Log (\"done\")",
+      "parameters": {
+        "value": "done",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "source": "console.log(\"done\")",
+      "_syntaxKind": "asl-pass-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

@@ -1,0 +1,76 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Task"
+    },
+    "Task": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "check-password",
+      "Parameters": {},
+      "Next": "Wait"
+    },
+    "Wait": {
+      "Type": "Wait",
+      "Seconds": 1,
+      "Next": "Task_1"
+    },
+    "Task_1": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "check-password",
+      "Parameters": {},
+      "Next": "_DoWhileCondition"
+    },
+    "_DoWhileCondition": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            {
+              "Variable": "$.vars.result.Authorized",
+              "IsPresent": false
+            },
+            {
+              "Variable": "$.vars.result.Authorized",
+              "IsNull": true
+            },
+            {
+              "Variable": "$.vars.result.Authorized",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.vars.result.Authorized",
+              "StringEquals": ""
+            },
+            {
+              "Variable": "$.vars.result.Authorized",
+              "StringEquals": "false"
+            },
+            {
+              "Variable": "$.vars.result.Authorized",
+              "StringEquals": "0"
+            },
+            {
+              "Variable": "$.vars.result.Authorized",
+              "NumericEquals": 0
+            }
+          ],
+          "Next": "Wait"
+        }
+      ],
+      "Default": "Empty Default Choice"
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "End": true
+    }
+  }
+}

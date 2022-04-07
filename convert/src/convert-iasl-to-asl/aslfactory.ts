@@ -1,14 +1,16 @@
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast"
-import { ConversionContext, convertBlock, isNonTerminalState } from ".";
+import { appendBlock, convertBlock, isNonTerminalState } from ".";
 import { createChoiceOperator } from "./choice-utility";
 import { createParameters, createParametersForMap } from "./parameters";
 import { createFilterExpression } from "./jsonpath-filter";
 import { createSingleOrParallel } from "./blocks";
 import { trimName } from "../create-name";
+import { AslWriter } from "./asl-writer";
+import { createReplacer, replaceIdentifiers } from "./identifiers";
 
 export class AslFactory {
-  static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
+  static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter) {
     let nameSuggestion: string | undefined = expression.stateName;
     let properties = {};
     let discardResult = false;
@@ -71,55 +73,44 @@ export class AslFactory {
       this.appendRetryConfiguration(task, expression.retry);
 
     } else if (iasl.Check.isDoWhileStatement(expression)) {
-      const contextForBranch = context.createChildContext();
 
-      for (const statement of expression.while.statements) {
-        AslFactory.append(statement, scopes, contextForBranch);
+      let firstStatementName: string | undefined;
+      context.registerCallNextStateCallBackOnce((stateName: string) => {
+        if (firstStatementName === undefined) {
+          firstStatementName = stateName;
+        }
+      });
+
+      appendBlock(expression.while, scopes, context)
+
+      if (firstStatementName !== undefined) {
+        const whileConditionOperator = createChoiceOperator(expression.condition);
+        whileConditionOperator.Next = firstStatementName;
+        const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice
+        context.appendNextState(whileCondition, "_DoWhileCondition");
+        context.finalizeChoiceState();
       }
-      const whileConditionOperator = createChoiceOperator(expression.condition);
-      whileConditionOperator.Next = contextForBranch.startAt ?? "XXXX";
-      const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice
-      contextForBranch.appendNextState(whileCondition, "_WhileCondition");
-      const whileExitName = contextForBranch.appendState({ Type: "Succeed" } as asl.Succeed, "_WhileExit");
-      whileCondition.Default = whileExitName;
 
-      const stateMachine = contextForBranch.finalize();
-
-      context.appendNextState({
-        Type: "Parallel",
-        ...properties,
-        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
-        ...createParameters(scopes, [expression.while]),
-        Branches: [stateMachine],
-        Comment: expression.source,
-      } as asl.Parallel, expression.stateName);
     } else if (iasl.Check.isIfExpression(expression)) {
-      const choiceOperator = createChoiceOperator(expression.condition);
       const choiceState = {
         Type: "Choice",
         ...properties,
-        Choices: [choiceOperator],
+        Choices: [],
         Comment: expression.source
       } as asl.Choice;
       context.appendNextState(choiceState, expression.stateName ?? "If");
 
-      const thenState = createSingleOrParallel(expression.then, scopes, context);
-      const thenStateName = context.appendState(thenState.state, thenState.stateName ?? "Then");
-      choiceOperator.Next = thenStateName;
-
-      if (thenState.secondState) {
-        thenState.state["Next"] = context.appendState(thenState.secondState, thenState.secondStateName);
-      }
+      const choiceOperator = createChoiceOperator(expression.condition);
+      const thenWriter = context.appendChoiceOperator(choiceOperator);
+      appendBlock(expression.then, scopes, thenWriter);
 
       if (expression.else) {
-        const elseState = createSingleOrParallel(expression.else, scopes, context);
-        context.appendNextState(elseState.state, elseState.stateName ?? "Else")
-        if (elseState.secondState) {
-          context.appendNextState(elseState.secondState, elseState.secondStateName);
-        }
+        const defaultWriter = context.appendChoiceDefault();
+        appendBlock(expression.else, scopes, defaultWriter);
       }
 
-      context.appendTails(thenState.secondState ?? thenState.state);
+      const breakStates = context.finalizeChoiceState();
+      context.appendTails(breakStates);
     } else if (iasl.Check.isAslChoiceState(expression)) {
       const choiceState = {
         Type: "Choice",
@@ -129,61 +120,36 @@ export class AslFactory {
       } as asl.Choice;
 
       context.appendNextState(choiceState, expression.stateName ?? "Choice");
-      const trailingStates: asl.State[] = [];
       for (const choice of (expression.choices || [])) {
         const choiceOperator = createChoiceOperator(choice.condition);
-        const thenState = createSingleOrParallel(choice.block, scopes, context);
-        const thenStateName = context.appendState(thenState.state, thenState.stateName ?? "Then");
-        choiceOperator.Next = thenStateName;
-        if (thenState.secondState) {
-          context.appendNextState(thenState.secondState, thenState.secondStateName);
-        }
-
-        choiceState.Choices.push(choiceOperator);
-        trailingStates.push(thenState.state);
+        const branch = context.appendChoiceOperator(choiceOperator);
+        appendBlock(choice.block, scopes, branch);
       }
 
       if (expression.default) {
-        const defaultState = createSingleOrParallel(expression.default, scopes, context);
-        context.appendNextState(defaultState.state, defaultState.stateName ?? "Default")
-        if (defaultState.secondState) {
-          context.appendNextState(defaultState.secondState, defaultState.secondStateName);
-        }
+        const branch = context.appendChoiceDefault();
+        appendBlock(expression.default, scopes, branch);
+      }
 
-      } else {
-        context.appendNextState({ Type: "Pass" } as asl.Pass, "EmptyDefault")
-      }
-      for (const state of trailingStates) {
-        if (isNonTerminalState(state)) context.trailingStates.push(state);
-      }
+      const breakStates = context.finalizeChoiceState();
+      context.appendTails(breakStates);
+
     } else if (iasl.Check.isWhileStatement(expression)) {
 
+      const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "_WhileCondition");
       const whileConditionOperator = createChoiceOperator(expression.condition);
-      const contextForBranch = context.createChildContext();
-      const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice
-      const whileConditionName = contextForBranch.appendState(whileCondition, "_WhileCondition");
+      const whileBodyBranch = context.appendChoiceOperator(whileConditionOperator);
+      appendBlock(expression.while, scopes, whileBodyBranch);
+      whileBodyBranch.joinTrailingStates(whileConditionName);
 
-      for (const statement of expression.while.statements) {
-        AslFactory.append(statement, scopes, contextForBranch);
+      const defaultWriter = context.appendChoiceDefault();
+      const whileExitStateName = defaultWriter.appendNextState({ Type: "Pass", ResultPath: null }, "_WhileExit");
+
+      const breakStates = context.finalizeChoiceState();
+      for (const breakState of breakStates) {
+        delete breakState.brand;
+        (breakState as asl.Pass).Next = whileExitStateName;
       }
-
-      whileConditionOperator.Next = contextForBranch.startAt;
-      contextForBranch.startAt = whileConditionName;
-
-      const whileExitName = contextForBranch.appendNextState({ Type: "Succeed" } as asl.Succeed, "_WhileExit");
-      whileCondition.Default = whileExitName;
-      contextForBranch.trailingStates = [];
-
-      const stateMachine = contextForBranch.finalize();
-
-      context.appendNextState({
-        Type: "Parallel",
-        ...properties,
-        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
-        ...createParameters(scopes, [expression.while]),
-        Branches: [stateMachine],
-        Comment: expression.source,
-      } as asl.Parallel, expression.stateName);
     } else if (iasl.Check.isAslWaitState(expression)) {
       const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds) : undefined;
       const timestamp = expression.timestamp !== undefined ? convertExpressionToAsl(expression.timestamp) : undefined;
@@ -200,7 +166,7 @@ export class AslFactory {
       const parallelState = {
         Branches: branches,
         ...properties,
-        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
+        ...(discardResult ? { ResultPath: null } : {}),
         Type: "Parallel",
         Catch: expression.catch,
         Retry: expression.retry,
@@ -229,20 +195,54 @@ export class AslFactory {
       this.appendRetryConfiguration(mapState, expression.retry);
 
     } else if (iasl.Check.isForEachStatement(expression)) {
-      const iterator = convertBlock(expression.iterator, scopes, context.createChildContext())
       const items = convertExpressionToAsl(expression.items);
+      context.appendNextState({
+        Type: "Pass",
+        ResultPath: "$.foreach",
+        Parameters: {
+          "items.$": items.path,
+          "currentItem.$": `${items.path}[0]`,
+        }
+      }, "Foreach Initialize");
 
-      const mapState = {
-        Type: "Map",
-        ...properties,
-        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
-        Iterator: iterator,
-        ItemsPath: items.path,
-        MaxConcurrency: 1,
-        Comment: expression.source,
-        ...createParametersForMap(scopes, expression.iterator, expression.iterator.inputArgumentName),
-      } as asl.Map;
-      context.appendNextState(mapState, nameSuggestion);
+      const checkDoneName = context.appendNextState({
+        Type: "Choice",
+        Choices: [],
+      }, "Foreach CheckDone");
+
+      const iteratorWriter = context.appendChoiceOperator({ Variable: "$.foreach.items[0]", IsPresent: true });
+      let iterator = expression.iterator;
+      if (expression.iterator.inputArgumentName) {
+        const replacer = createReplacer(expression.iterator.inputArgumentName.identifier, "$.foreach.currentItem");
+        iterator = replaceIdentifiers(expression.iterator, [replacer]);
+      }
+      appendBlock(iterator, scopes, iteratorWriter);
+
+      const defaultWriter = context.appendChoiceDefault();
+      const foreachExitState = {
+        Type: "Pass",
+        ResultPath: "$.foreach",
+        Result: undefined,
+      };
+      defaultWriter.appendNextState(foreachExitState, "Foreach Exit");
+
+      const breakStates = context.finalizeChoiceState();
+      for (const breakState of breakStates) {
+        delete breakState.brand;
+      }
+      context.appendTails(breakStates);
+      context.trailingStates = context.trailingStates.filter(x => x != foreachExitState);
+
+      context.appendNextState({
+        Type: "Pass",
+        ResultPath: "$.foreach",
+        Parameters: {
+          "items.$": "$.foreach.items[1:]",
+          "currentItem.$": "$.foreach.items[1]",
+        }
+      }, "Foreach Next");
+      context.joinTrailingStates(checkDoneName);
+      context.trailingStates = [foreachExitState];
 
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({
@@ -269,6 +269,14 @@ export class AslFactory {
           ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
         }, expression.stateName ?? "Return");
       }
+    } else if (iasl.Check.isBreakStatement(expression)) {
+      context.appendNextState({
+        brand: "break",
+        ResultPath: null,
+        Type: "Pass",
+        Comment: expression.source,
+      }, expression.stateName ?? "Break");
+
     } else if (iasl.Check.isTryExpression(expression)) {
       const tryState = createSingleOrParallel(expression.try, scopes, context, { alwaysWrapFailState: true });
       if (tryState.secondState) {
@@ -302,7 +310,7 @@ export class AslFactory {
     }
   }
 
-  private static appendCatchConfiguration(task: asl.Task | asl.Parallel | asl.Map, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: ConversionContext) {
+  private static appendCatchConfiguration(task: asl.Task | asl.Parallel | asl.Map, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter) {
     if (catchConfiguration?.length) {
       const resultingCatchConfiguration = [] as Array<{ ErrorEquals: string[]; Next: string; }>;
       for (const catchClause of catchConfiguration) {

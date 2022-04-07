@@ -2,13 +2,12 @@
 import * as iasl from "../convert-asllib-to-iasl/ast"
 import * as asl from "asl-types";
 import { Scopes } from "./scopes";
-import { ConversionContext } from ".";
+import { AslWriter } from "./asl-writer";
 import { AslFactory } from "./aslfactory";
 
 interface BlockResult { state: asl.State, stateName?: string, secondState?: asl.State, secondStateName?: string };
 
-export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, context: ConversionContext, options: { alwaysWrapFailState?: true } = {}): BlockResult => {
-
+export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, context: AslWriter, options: { alwaysWrapFailState?: true } = {}): BlockResult => {
   const stateMachine = convertBlock(block, scopes, context.createChildContext())
   if (!stateMachine) throw new Error("unable to convert block to state machine");
 
@@ -29,7 +28,6 @@ export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, contex
     state: {
       Type: "Parallel",
       ResultPath: "$.vars",
-      // OutputPath: "$[0]",
       Parameters: { "vars.$": "$.vars" },
       Branches: [stateMachine],
     } as asl.Parallel
@@ -54,7 +52,7 @@ export const createSingleOrParallel = (block: iasl.Block, scopes: Scopes, contex
 }
 
 
-export const convertBlock = (stateMachine: iasl.Block, scopes: Record<string, iasl.Scope>, context: ConversionContext = new ConversionContext()): asl.StateMachine | undefined => {
+export const convertBlock = (stateMachine: iasl.Block, scopes: Record<string, iasl.Scope>, context: AslWriter = new AslWriter()): asl.StateMachine | undefined => {
   const { statements } = stateMachine;
   for (const statement of statements) {
     AslFactory.append(statement, scopes, context);

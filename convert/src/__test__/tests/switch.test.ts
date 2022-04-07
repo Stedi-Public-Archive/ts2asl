@@ -52,7 +52,7 @@ describe("when converting switch", () => {
                   },
                   "Throw AccountCreationFailed": Object {
                     "Cause": "account creation is still in progress",
-                    "Comment": "source: source: throw new AccountCreationFailed(\\"accou ...",
+                    "Comment": "source: throw new AccountCreationFailed(\\"account creat ...",
                     "Error": "AccountCreationFailed",
                     "Type": "Fail",
                   },

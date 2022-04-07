@@ -28,6 +28,11 @@ describe("when transpiling early return", () => {
             "ResultPath": "$.vars.x",
             "Type": "Pass",
           },
+          "Empty Default Choice": Object {
+            "Next": "Throw Error",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
           "If (x === \\"test\\")": Object {
             "Choices": Array [
               Object {
@@ -37,7 +42,7 @@ describe("when transpiling early return", () => {
               },
             ],
             "Comment": "source: if (x === \\"test\\") { return \\"ok\\"; }",
-            "Default": "Throw Error",
+            "Default": "Empty Default Choice",
             "Type": "Choice",
           },
           "Initialize": Object {

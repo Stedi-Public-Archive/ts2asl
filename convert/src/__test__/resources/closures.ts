@@ -5,12 +5,12 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
   const letters = ["a", "b", "c", "d"];
   const global = "prefix";
   const outer = { middle: { inner: 3 } }
-  for (const number of numbers) {
-    for (const letter of letters) {
+  numbers.map(number => {
+    letters.map(letter => {
       const combined = { number, letter, global, inner: outer.middle.inner };
       doSomething(combined);
-    }
-  }
+    });
+  });
 });
 
 

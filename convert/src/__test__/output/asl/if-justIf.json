@@ -36,43 +36,27 @@
         {
           "Variable": "$",
           "IsNull": false,
-          "Next": "Then"
+          "Next": "Assign val.b"
         }
       ],
       "Comment": "source: if (true) { val.b = \"true_1\"; val.c = \"true_2\"; }",
-      "Default": "Assign val.d"
+      "Default": "Empty Default Choice"
     },
-    "Then": {
-      "Type": "Parallel",
-      "ResultPath": "$.vars",
-      "Parameters": {
-        "vars.$": "$.vars"
-      },
-      "Branches": [
-        {
-          "StartAt": "Assign val.b",
-          "States": {
-            "Assign val.b": {
-              "Type": "Pass",
-              "ResultPath": "$.vars.val.b",
-              "Result": "true_1",
-              "Next": "Assign val.c"
-            },
-            "Assign val.c": {
-              "Type": "Pass",
-              "ResultPath": "$.vars.val.c",
-              "Result": "true_2",
-              "End": true
-            }
-          }
-        }
-      ],
-      "Next": "Assign vars"
-    },
-    "Assign vars": {
+    "Assign val.b": {
       "Type": "Pass",
-      "ResultPath": "$.vars",
-      "InputPath": "$.vars[0]",
+      "ResultPath": "$.vars.val.b",
+      "Result": "true_1",
+      "Next": "Assign val.c"
+    },
+    "Assign val.c": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val.c",
+      "Result": "true_2",
+      "Next": "Assign val.d"
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "ResultPath": null,
       "Next": "Assign val.d"
     },
     "Assign val.d": {

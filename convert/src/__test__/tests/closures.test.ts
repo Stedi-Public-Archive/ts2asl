@@ -42,7 +42,7 @@ describe("when converting closures", () => {
           },
           "Assign outer": Object {
             "Comment": "source: outer = { middle: { inner: 3 } }",
-            "Next": "For number Of numbers",
+            "Next": "numbers.map => number",
             "Result": Object {
               "middle": Object {
                 "inner": 3,
@@ -51,15 +51,23 @@ describe("when converting closures", () => {
             "ResultPath": "$.vars.outer",
             "Type": "Pass",
           },
-          "For number Of numbers": Object {
+          "Initialize": Object {
+            "Next": "Assign numbers",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "numbers.map => number": Object {
             "Comment": undefined,
             "End": true,
             "ItemsPath": "$.vars.numbers",
             "Iterator": Object {
-              "StartAt": "For letter Of letters",
+              "StartAt": "letters.map => letter",
               "States": Object {
-                "For letter Of letters": Object {
-                  "Comment": undefined,
+                "letters.map => letter": Object {
+                  "Comment": "source: letters.map(letter => { const combined = { num ...",
                   "End": true,
                   "ItemsPath": "$.vars.letters",
                   "Iterator": Object {
@@ -101,7 +109,7 @@ describe("when converting closures", () => {
                       },
                     },
                   },
-                  "MaxConcurrency": 1,
+                  "MaxConcurrency": undefined,
                   "Parameters": Object {
                     "vars": Object {
                       "global.$": "$.vars.global",
@@ -115,7 +123,7 @@ describe("when converting closures", () => {
                 },
               },
             },
-            "MaxConcurrency": 1,
+            "MaxConcurrency": undefined,
             "Parameters": Object {
               "vars": Object {
                 "global.$": "$.vars.global",
@@ -126,14 +134,6 @@ describe("when converting closures", () => {
             },
             "ResultPath": "$.tmp.lastResult",
             "Type": "Map",
-          },
-          "Initialize": Object {
-            "Next": "Assign numbers",
-            "Parameters": Object {
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
           },
         },
       }

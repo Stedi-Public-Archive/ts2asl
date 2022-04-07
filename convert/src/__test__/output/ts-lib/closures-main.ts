@@ -21,12 +21,12 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
         parameters: () => ({ middle: { inner: 3 } }),
         comment: "outer = { middle: { inner: 3 } }"
     });
-    asl.typescriptForeach({
-        name: "For number Of numbers",
+    asl.map({
+        name: "numbers.map => number",
         items: () => numbers,
         iterator: number => {
-            asl.typescriptForeach({
-                name: "For letter Of letters",
+            asl.map({
+                name: "letters.map => letter",
                 items: () => letters,
                 iterator: letter => {
                     const combined = asl.pass({
@@ -40,10 +40,11 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
                         parameters: () => combined,
                         comment: "doSomething(combined)"
                     });
-                }
-            })
+                },
+                comment: "letters.map(letter => {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      doSomething(combined);\n    })"
+            });
         }
-    })
+    });
 });
 
 

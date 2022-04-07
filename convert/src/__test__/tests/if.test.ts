@@ -31,6 +31,20 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.val.a",
             "Type": "Pass",
           },
+          "Assign val.b": Object {
+            "Comment": undefined,
+            "Next": "Assign val.c",
+            "Result": "true_1",
+            "ResultPath": "$.vars.val.b",
+            "Type": "Pass",
+          },
+          "Assign val.c": Object {
+            "Comment": undefined,
+            "Next": "Assign val.d",
+            "Result": "true_2",
+            "ResultPath": "$.vars.val.c",
+            "Type": "Pass",
+          },
           "Assign val.d": Object {
             "Comment": undefined,
             "Next": "Return val",
@@ -38,22 +52,21 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.val.d",
             "Type": "Pass",
           },
-          "Assign vars": Object {
-            "InputPath": "$.vars[0]",
+          "Empty Default Choice": Object {
             "Next": "Assign val.d",
-            "ResultPath": "$.vars",
+            "ResultPath": null,
             "Type": "Pass",
           },
           "If (true)": Object {
             "Choices": Array [
               Object {
                 "IsNull": false,
-                "Next": "Then",
+                "Next": "Assign val.b",
                 "Variable": "$",
               },
             ],
             "Comment": "source: if (true) { val.b = \\"true_1\\"; val.c = \\"true_2\\"; }",
-            "Default": "Assign val.d",
+            "Default": "Empty Default Choice",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -69,35 +82,6 @@ describe("when converting if", () => {
             "End": true,
             "InputPath": "$.vars.val",
             "Type": "Pass",
-          },
-          "Then": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "Assign val.b",
-                "States": Object {
-                  "Assign val.b": Object {
-                    "Comment": undefined,
-                    "Next": "Assign val.c",
-                    "Result": "true_1",
-                    "ResultPath": "$.vars.val.b",
-                    "Type": "Pass",
-                  },
-                  "Assign val.c": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "true_2",
-                    "ResultPath": "$.vars.val.c",
-                    "Type": "Pass",
-                  },
-                },
-              },
-            ],
-            "Next": "Assign vars",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
-            "Type": "Parallel",
           },
         },
       }
@@ -130,6 +114,34 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.val.a",
             "Type": "Pass",
           },
+          "Assign val.b": Object {
+            "Comment": undefined,
+            "Next": "Assign val.c",
+            "Result": "true_1",
+            "ResultPath": "$.vars.val.b",
+            "Type": "Pass",
+          },
+          "Assign val.b_1": Object {
+            "Comment": undefined,
+            "Next": "Assign val.c_1",
+            "Result": "false_1",
+            "ResultPath": "$.vars.val.b",
+            "Type": "Pass",
+          },
+          "Assign val.c": Object {
+            "Comment": undefined,
+            "Next": "Assign val.d",
+            "Result": "true_2",
+            "ResultPath": "$.vars.val.c",
+            "Type": "Pass",
+          },
+          "Assign val.c_1": Object {
+            "Comment": undefined,
+            "Next": "Assign val.d",
+            "Result": "false_2",
+            "ResultPath": "$.vars.val.c",
+            "Type": "Pass",
+          },
           "Assign val.d": Object {
             "Comment": undefined,
             "Next": "Return val",
@@ -137,57 +149,16 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.val.d",
             "Type": "Pass",
           },
-          "Assign vars": Object {
-            "InputPath": "$.vars[0]",
-            "Next": "Assign val.d",
-            "ResultPath": "$.vars",
-            "Type": "Pass",
-          },
-          "Assign vars_1": Object {
-            "InputPath": "$.vars[0]",
-            "Next": "Assign val.d",
-            "ResultPath": "$.vars",
-            "Type": "Pass",
-          },
-          "Else": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "Assign val.b_1",
-                "States": Object {
-                  "Assign val.b_1": Object {
-                    "Comment": undefined,
-                    "Next": "Assign val.c_1",
-                    "Result": "false_1",
-                    "ResultPath": "$.vars.val.b",
-                    "Type": "Pass",
-                  },
-                  "Assign val.c_1": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "false_2",
-                    "ResultPath": "$.vars.val.c",
-                    "Type": "Pass",
-                  },
-                },
-              },
-            ],
-            "Next": "Assign vars_1",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
-            "Type": "Parallel",
-          },
           "If (true)": Object {
             "Choices": Array [
               Object {
                 "IsNull": false,
-                "Next": "Then",
+                "Next": "Assign val.b",
                 "Variable": "$",
               },
             ],
             "Comment": "source: if (true) { val.b = \\"true_1\\"; val.c = \\"true_2\\" ...",
-            "Default": "Else",
+            "Default": "Assign val.b_1",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -203,35 +174,6 @@ describe("when converting if", () => {
             "End": true,
             "InputPath": "$.vars.val",
             "Type": "Pass",
-          },
-          "Then": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "Assign val.b",
-                "States": Object {
-                  "Assign val.b": Object {
-                    "Comment": undefined,
-                    "Next": "Assign val.c",
-                    "Result": "true_1",
-                    "ResultPath": "$.vars.val.b",
-                    "Type": "Pass",
-                  },
-                  "Assign val.c": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "true_2",
-                    "ResultPath": "$.vars.val.c",
-                    "Type": "Pass",
-                  },
-                },
-              },
-            ],
-            "Next": "Assign vars",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
-            "Type": "Parallel",
           },
         },
       }
@@ -264,6 +206,41 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.val.a",
             "Type": "Pass",
           },
+          "Assign val.b": Object {
+            "Comment": undefined,
+            "Next": "Assign val.c",
+            "Result": "outer_1",
+            "ResultPath": "$.vars.val.b",
+            "Type": "Pass",
+          },
+          "Assign val.c": Object {
+            "Comment": undefined,
+            "Next": "If (true)_1",
+            "Result": "outer_2",
+            "ResultPath": "$.vars.val.c",
+            "Type": "Pass",
+          },
+          "Assign val.d": Object {
+            "Comment": undefined,
+            "Next": "Assign val.e",
+            "Result": "inner_1",
+            "ResultPath": "$.vars.val.d",
+            "Type": "Pass",
+          },
+          "Assign val.e": Object {
+            "Comment": undefined,
+            "Next": "Assign val.g",
+            "Result": "inner_2",
+            "ResultPath": "$.vars.val.e",
+            "Type": "Pass",
+          },
+          "Assign val.e_1": Object {
+            "Comment": undefined,
+            "Next": "Assign val.g",
+            "Result": "inner_else_2",
+            "ResultPath": "$.vars.val.e",
+            "Type": "Pass",
+          },
           "Assign val.f": Object {
             "Comment": undefined,
             "Next": "Assign val.g",
@@ -278,22 +255,28 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.val.g",
             "Type": "Pass",
           },
-          "Assign vars_1": Object {
-            "InputPath": "$.vars[0]",
-            "Next": "Assign val.g",
-            "ResultPath": "$.vars",
-            "Type": "Pass",
-          },
           "If (true)": Object {
             "Choices": Array [
               Object {
                 "IsNull": false,
-                "Next": "Then_1",
+                "Next": "Assign val.b",
                 "Variable": "$",
               },
             ],
             "Comment": undefined,
             "Default": "Assign val.f",
+            "Type": "Choice",
+          },
+          "If (true)_1": Object {
+            "Choices": Array [
+              Object {
+                "IsNull": false,
+                "Next": "Assign val.d",
+                "Variable": "$",
+              },
+            ],
+            "Comment": "source: if (true) { val.d = \\"inner_1\\"; val.e = \\"inner_ ...",
+            "Default": "Assign val.e_1",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -309,89 +292,6 @@ describe("when converting if", () => {
             "End": true,
             "InputPath": "$.vars.val",
             "Type": "Pass",
-          },
-          "Then_1": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "Assign val.b",
-                "States": Object {
-                  "Assign val.b": Object {
-                    "Comment": undefined,
-                    "Next": "Assign val.c",
-                    "Result": "outer_1",
-                    "ResultPath": "$.vars.val.b",
-                    "Type": "Pass",
-                  },
-                  "Assign val.c": Object {
-                    "Comment": undefined,
-                    "Next": "If (true)_1",
-                    "Result": "outer_2",
-                    "ResultPath": "$.vars.val.c",
-                    "Type": "Pass",
-                  },
-                  "Assign val.e_1": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "inner_else_2",
-                    "ResultPath": "$.vars.val.e",
-                    "Type": "Pass",
-                  },
-                  "Assign vars": Object {
-                    "End": true,
-                    "InputPath": "$.vars[0]",
-                    "ResultPath": "$.vars",
-                    "Type": "Pass",
-                  },
-                  "If (true)_1": Object {
-                    "Choices": Array [
-                      Object {
-                        "IsNull": false,
-                        "Next": "Then",
-                        "Variable": "$",
-                      },
-                    ],
-                    "Comment": "source: if (true) { val.d = \\"inner_1\\"; val.e = \\"inner_ ...",
-                    "Default": "Assign val.e_1",
-                    "Type": "Choice",
-                  },
-                  "Then": Object {
-                    "Branches": Array [
-                      Object {
-                        "StartAt": "Assign val.d",
-                        "States": Object {
-                          "Assign val.d": Object {
-                            "Comment": undefined,
-                            "Next": "Assign val.e",
-                            "Result": "inner_1",
-                            "ResultPath": "$.vars.val.d",
-                            "Type": "Pass",
-                          },
-                          "Assign val.e": Object {
-                            "Comment": undefined,
-                            "End": true,
-                            "Result": "inner_2",
-                            "ResultPath": "$.vars.val.e",
-                            "Type": "Pass",
-                          },
-                        },
-                      },
-                    ],
-                    "Next": "Assign vars",
-                    "Parameters": Object {
-                      "vars.$": "$.vars",
-                    },
-                    "ResultPath": "$.vars",
-                    "Type": "Parallel",
-                  },
-                },
-              },
-            ],
-            "Next": "Assign vars_1",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
-            "Type": "Parallel",
           },
         },
       }
@@ -409,6 +309,27 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.enclosedVar",
             "Type": "Pass",
           },
+          "Assign enclosedVar_1": Object {
+            "Comment": undefined,
+            "Next": "If (true)_1",
+            "Result": "outer if",
+            "ResultPath": "$.vars.enclosedVar",
+            "Type": "Pass",
+          },
+          "Assign enclosedVar_2": Object {
+            "Comment": undefined,
+            "Next": "Return enclosedVar",
+            "Result": "inner if",
+            "ResultPath": "$.vars.enclosedVar",
+            "Type": "Pass",
+          },
+          "Assign enclosedVar_3": Object {
+            "Comment": undefined,
+            "Next": "Return enclosedVar",
+            "Result": "else if",
+            "ResultPath": "$.vars.enclosedVar",
+            "Type": "Pass",
+          },
           "Assign enclosedVar_4": Object {
             "Comment": undefined,
             "Next": "Return enclosedVar",
@@ -416,22 +337,28 @@ describe("when converting if", () => {
             "ResultPath": "$.vars.enclosedVar",
             "Type": "Pass",
           },
-          "Assign vars": Object {
-            "InputPath": "$.vars[0]",
-            "Next": "Return enclosedVar",
-            "ResultPath": "$.vars",
-            "Type": "Pass",
-          },
           "If (true)": Object {
             "Choices": Array [
               Object {
                 "IsNull": false,
-                "Next": "Then",
+                "Next": "Assign enclosedVar_1",
                 "Variable": "$",
               },
             ],
             "Comment": undefined,
             "Default": "Assign enclosedVar_4",
+            "Type": "Choice",
+          },
+          "If (true)_1": Object {
+            "Choices": Array [
+              Object {
+                "IsNull": false,
+                "Next": "Assign enclosedVar_2",
+                "Variable": "$",
+              },
+            ],
+            "Comment": "source: if (true) { enclosedVar = \\"inner if\\"; } else { ...",
+            "Default": "Assign enclosedVar_3",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -447,54 +374,6 @@ describe("when converting if", () => {
             "End": true,
             "InputPath": "$.vars.enclosedVar",
             "Type": "Pass",
-          },
-          "Then": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "Assign enclosedVar_1",
-                "States": Object {
-                  "Assign enclosedVar_1": Object {
-                    "Comment": undefined,
-                    "Next": "If (true)_1",
-                    "Result": "outer if",
-                    "ResultPath": "$.vars.enclosedVar",
-                    "Type": "Pass",
-                  },
-                  "Assign enclosedVar_2": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "inner if",
-                    "ResultPath": "$.vars.enclosedVar",
-                    "Type": "Pass",
-                  },
-                  "Assign enclosedVar_3": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "else if",
-                    "ResultPath": "$.vars.enclosedVar",
-                    "Type": "Pass",
-                  },
-                  "If (true)_1": Object {
-                    "Choices": Array [
-                      Object {
-                        "IsNull": false,
-                        "Next": "Assign enclosedVar_2",
-                        "Variable": "$",
-                      },
-                    ],
-                    "Comment": "source: if (true) { enclosedVar = \\"inner if\\"; } else { ...",
-                    "Default": "Assign enclosedVar_3",
-                    "Type": "Choice",
-                  },
-                },
-              },
-            ],
-            "Next": "Assign vars",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
-            "Type": "Parallel",
           },
         },
       }

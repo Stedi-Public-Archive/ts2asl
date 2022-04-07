@@ -20,6 +20,7 @@ describe("when transpiling binary expressions", () => {
         "States": Object {
           "Empty Default Choice": Object {
             "End": true,
+            "ResultPath": null,
             "Type": "Pass",
           },
           "If (x == 1 || x === 2 || ...": Object {
@@ -81,6 +82,7 @@ describe("when transpiling binary expressions", () => {
         "States": Object {
           "Empty Default Choice": Object {
             "End": true,
+            "ResultPath": null,
             "Type": "Pass",
           },
           "If (!!x)": Object {
@@ -160,6 +162,7 @@ describe("when transpiling binary expressions", () => {
         "States": Object {
           "Empty Default Choice": Object {
             "End": true,
+            "ResultPath": null,
             "Type": "Pass",
           },
           "If (x == 1 && x === 2 && ...": Object {

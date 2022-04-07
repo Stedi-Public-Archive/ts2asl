@@ -78,7 +78,7 @@
         "type": "unknown"
       },
       "expression": {
-        "stateName": "For x Of myArray.map",
+        "stateName": "myArray.map => x",
         "items": {
           "identifier": "myArray",
           "_syntaxKind": "identifier",

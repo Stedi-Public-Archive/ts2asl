@@ -49,15 +49,15 @@
         }
       },
       "Comment": "source: outer = { middle: { inner: 3 } }",
-      "Next": "For number Of numbers"
+      "Next": "numbers.map => number"
     },
-    "For number Of numbers": {
+    "numbers.map => number": {
       "Type": "Map",
       "ResultPath": "$.tmp.lastResult",
       "Iterator": {
-        "StartAt": "For letter Of letters",
+        "StartAt": "letters.map => letter",
         "States": {
-          "For letter Of letters": {
+          "letters.map => letter": {
             "Type": "Map",
             "ResultPath": "$.tmp.lastResult",
             "Iterator": {
@@ -98,7 +98,7 @@
               }
             },
             "ItemsPath": "$.vars.letters",
-            "MaxConcurrency": 1,
+            "Comment": "source: letters.map(letter => { const combined = { num ...",
             "Parameters": {
               "vars": {
                 "number.$": "$.vars.number",
@@ -112,7 +112,6 @@
         }
       },
       "ItemsPath": "$.vars.numbers",
-      "MaxConcurrency": 1,
       "Parameters": {
         "vars": {
           "number.$": "$$.Map.Item.Value",

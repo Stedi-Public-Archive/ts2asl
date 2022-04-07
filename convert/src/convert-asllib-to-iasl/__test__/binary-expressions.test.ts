@@ -310,7 +310,7 @@ describe("when converting binary expressions to iasl", () => {
               "maxConcurrency": undefined,
               "retry": undefined,
               "source": undefined,
-              "stateName": "For item Of items.map",
+              "stateName": "items.map => item",
             },
             "name": Object {
               "_syntaxKind": "identifier",

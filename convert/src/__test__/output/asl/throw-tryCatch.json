@@ -74,6 +74,7 @@
             },
             "Empty Default Choice": {
               "Type": "Pass",
+              "ResultPath": null,
               "End": true
             }
           }

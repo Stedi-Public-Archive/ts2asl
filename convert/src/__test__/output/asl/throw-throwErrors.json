@@ -27,13 +27,18 @@
         }
       ],
       "Comment": "source: if (input.delayInSeconds > 10 || input.delayIn ...",
-      "Default": "Throw NotImplemented"
+      "Default": "Empty Default Choice"
     },
     "Throw ValidationError": {
       "Type": "Fail",
       "Error": "ValidationError",
       "Cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
       "Comment": "source: throw new ValidationError(\"delay in seconds mu ..."
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "Next": "Throw NotImplemented"
     },
     "Throw NotImplemented": {
       "Type": "Fail",

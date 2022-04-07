@@ -15,7 +15,7 @@ export const mapArray = asl.deploy.asStateMachine(async () =>{
         comment: "myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
     });
     return asl.map({
-        name: "For x Of myArray.map",
+        name: "myArray.map => x",
         items: () => myArray,
         iterator: x => {
             asl.typescriptIf({

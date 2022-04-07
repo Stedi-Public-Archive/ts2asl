@@ -1,0 +1,94 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arr",
+      "Result": [
+        1,
+        2,
+        3
+      ],
+      "Comment": "source: arr = [1, 2, 3]",
+      "Next": "Foreach Initialize"
+    },
+    "Foreach Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.vars.arr",
+        "currentItem.$": "$.vars.arr[0]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Foreach CheckDone": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.items[0]",
+          "IsPresent": true,
+          "Next": "If (item === 1)"
+        }
+      ],
+      "Default": "Foreach Exit"
+    },
+    "If (item === 1)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.currentItem",
+          "NumericEquals": 1,
+          "Next": "Break"
+        }
+      ],
+      "Comment": "source: if (item === 1) { break; }",
+      "Default": "Empty Default Choice"
+    },
+    "Break": {
+      "ResultPath": null,
+      "Type": "Pass",
+      "Next": "Foreach Next"
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "Next": "Log (item)"
+    },
+    "Log (item)": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.lastResult",
+      "InputPath": "$.foreach.currentItem",
+      "Comment": "source: console.log(item)",
+      "Next": "Foreach Next"
+    },
+    "Foreach Exit": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Next": "Log (\"done\")"
+    },
+    "Foreach Next": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.foreach.items[1:]",
+        "currentItem.$": "$.foreach.items[1]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Log (\"done\")": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.lastResult",
+      "Result": "done",
+      "Comment": "source: console.log(\"done\")",
+      "End": true
+    }
+  }
+}
