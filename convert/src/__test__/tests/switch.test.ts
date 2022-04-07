@@ -10,93 +10,43 @@ describe("when converting switch", () => {
         "Comment": "ASL Generated using ts2asl version 0.1.28.",
         "StartAt": "Initialize",
         "States": Object {
-          "Assign result": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "DescribeCreateAccountStatus",
-                "States": Object {
-                  "DescribeCreateAccountStatus": Object {
-                    "Comment": undefined,
-                    "HeartbeatSeconds": undefined,
-                    "Next": "Switch (describeResult.Cr ...",
-                    "Parameters": Object {
-                      "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id",
-                    },
-                    "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
-                    "ResultPath": "$.vars.describeResult",
-                    "Retry": undefined,
-                    "TimeoutSeconds": undefined,
-                    "Type": "Task",
-                  },
-                  "Return describeResult": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "InputPath": "$.vars.describeResult",
-                    "Type": "Pass",
-                  },
-                  "Switch (describeResult.Cr ...": Object {
-                    "Choices": Array [
-                      Object {
-                        "Next": "Return describeResult",
-                        "StringEquals": "SUCCEEDED",
-                        "Variable": "$.vars.describeResult.CreateAccountStatus",
-                      },
-                      Object {
-                        "Next": "Throw AccountCreationInPr ...",
-                        "StringEquals": "IN_PROGRESS",
-                        "Variable": "$.vars.describeResult.CreateAccountStatus",
-                      },
-                    ],
-                    "Comment": "source: switch (describeResult.CreateAccountStatus) {  ...",
-                    "Default": "Throw AccountCreationFailed",
-                    "Type": "Choice",
-                  },
-                  "Throw AccountCreationFailed": Object {
-                    "Cause": "account creation is still in progress",
-                    "Comment": "source: throw new AccountCreationFailed(\\"account creat ...",
-                    "Error": "AccountCreationFailed",
-                    "Type": "Fail",
-                  },
-                  "Throw AccountCreationInPr ...": Object {
-                    "Cause": "account creation is still in progress",
-                    "Comment": "source: throw new AccountCreationInProgress(\\"account c ...",
-                    "Error": "AccountCreationInProgress",
-                    "Type": "Fail",
-                  },
-                },
-              },
-            ],
-            "Catch": undefined,
+          "Assign creationStatus": Object {
+            "Comment": "source: creationStatus: string | undefined = undefined",
+            "Next": "DescribeCreateAccountStatus",
+            "Result": null,
+            "ResultPath": "$.vars.creationStatus",
+            "Type": "Pass",
+          },
+          "Assign creationStatus_1": Object {
             "Comment": undefined,
-            "Next": "Log (result)",
-            "Parameters": Object {
-              "vars": Object {
-                "createAccount.$": "$.vars.createAccount",
-              },
-            },
-            "ResultPath": "$.vars.result",
-            "Retry": Array [
-              Object {
-                "BackoffRate": 1,
-                "ErrorEquals": Array [
-                  "AccountCreationInProgress",
-                ],
-                "IntervalSeconds": 2,
-                "MaxAttempts": 10,
-              },
-            ],
-            "Type": "Parallel",
+            "InputPath": "$.vars.describeResult.CreateAccountStatus.State",
+            "Next": "Switch (creationStatus)",
+            "ResultPath": "$.vars.creationStatus",
+            "Type": "Pass",
           },
           "CreateAccount": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "Assign result",
+            "Next": "Assign creationStatus",
             "Parameters": Object {
               "AccountName": "test",
               "Email": "something@email.com",
             },
             "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
             "ResultPath": "$.vars.createAccount",
+            "Retry": undefined,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+          "DescribeCreateAccountStatus": Object {
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "Assign creationStatus_1",
+            "Parameters": Object {
+              "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id",
+            },
+            "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
+            "ResultPath": "$.vars.describeResult",
             "Retry": undefined,
             "TimeoutSeconds": undefined,
             "Type": "Task",
@@ -109,18 +59,60 @@ describe("when converting switch", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Log (result)": Object {
-            "Comment": "source: console.log(result)",
-            "InputPath": "$.vars.result",
-            "Next": "Return result",
+          "Log (createAccount.Create ...": Object {
+            "Comment": "source: console.log(createAccount.CreateAccountStatus. ...",
+            "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+            "Next": "Return createAccount.Crea ...",
             "ResultPath": "$.tmp.lastResult",
             "Type": "Pass",
           },
-          "Return result": Object {
+          "Return createAccount.Crea ...": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.vars.result",
+            "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
             "Type": "Pass",
+          },
+          "Switch (creationStatus)": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Throw AccountCreationFailed",
+                "StringEquals": "FAILED",
+                "Variable": "$.vars.creationStatus",
+              },
+              Object {
+                "Next": "Wait",
+                "StringEquals": "IN_PROGRESS",
+                "Variable": "$.vars.creationStatus",
+              },
+            ],
+            "Comment": "source: switch (creationStatus) { case \\"FAILED\\": throw ...",
+            "Default": "_DoWhileCondition",
+            "Type": "Choice",
+          },
+          "Throw AccountCreationFailed": Object {
+            "Cause": "account creation is still in progress",
+            "Comment": "source: throw new AccountCreationFailed(\\"account creat ...",
+            "Error": "AccountCreationFailed",
+            "Type": "Fail",
+          },
+          "Wait": Object {
+            "Comment": undefined,
+            "Next": "_DoWhileCondition",
+            "Seconds": 1,
+            "Type": "Wait",
+          },
+          "_DoWhileCondition": Object {
+            "Choices": Array [
+              Object {
+                "Next": "DescribeCreateAccountStatus",
+                "Not": Object {
+                  "StringEquals": "SUCCEEDED",
+                  "Variable": "$.vars.creationStatus",
+                },
+              },
+            ],
+            "Default": "Log (createAccount.Create ...",
+            "Type": "Choice",
           },
         },
       }
