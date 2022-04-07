@@ -198,6 +198,7 @@ export class AslFactory {
     } else if (iasl.Check.isForEachStatement(expression)) {
 
       const namespace = foreachCounter > 0 ? "foreach_" + (foreachCounter + 1) : "foreach";
+      const namePostFix = foreachCounter > 0 ? " " + (foreachCounter + 1) : "";
       foreachCounter++;
 
       const items = convertExpressionToAsl(expression.items);
@@ -208,12 +209,12 @@ export class AslFactory {
           "items.$": items.path,
           "currentItem.$": `${items.path}[0]`,
         }
-      }, "Foreach Initialize");
+      }, "Foreach Initialize" + namePostFix);
 
       const checkDoneName = context.appendNextState({
         Type: "Choice",
         Choices: [],
-      }, "Foreach CheckDone");
+      }, "Foreach CheckDone" + namePostFix);
 
       const iteratorWriter = context.appendChoiceOperator({ Variable: `$.${namespace}.items[0]`, IsPresent: true });
       let iterator = expression.iterator;
@@ -229,7 +230,7 @@ export class AslFactory {
         ResultPath: `$.${namespace}`,
         Result: {},
       };
-      const exitStateName = defaultWriter.appendNextState(foreachExitState, "Foreach Exit");
+      const exitStateName = defaultWriter.appendNextState(foreachExitState, "Foreach Exit" + namePostFix);
 
       const breakStates = context.finalizeChoiceState();
       for (const breakState of breakStates) {
@@ -243,7 +244,7 @@ export class AslFactory {
           "items.$": `$.${namespace}.items[1:]`,
           "currentItem.$": `$.${namespace}.items[1]`,
         }
-      }, "Foreach Next");
+      }, "Foreach Next" + namePostFix);
 
       context.joinTrailingStates(checkDoneName);
       context.appendTails(breakStates);

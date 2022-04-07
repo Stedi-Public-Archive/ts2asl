@@ -66,21 +66,21 @@
         {
           "Variable": "$.foreach.items[0]",
           "IsPresent": true,
-          "Next": "Foreach Initialize_1"
+          "Next": "Foreach Initialize 2"
         }
       ],
-      "Default": "Foreach Exit_1"
+      "Default": "Foreach Exit"
     },
-    "Foreach Initialize_1": {
+    "Foreach Initialize 2": {
       "Type": "Pass",
       "ResultPath": "$.foreach_2",
       "Parameters": {
         "items.$": "$.vars.letters",
         "currentItem.$": "$.vars.letters[0]"
       },
-      "Next": "Foreach CheckDone_1"
+      "Next": "Foreach CheckDone 2"
     },
-    "Foreach CheckDone_1": {
+    "Foreach CheckDone 2": {
       "Type": "Choice",
       "Choices": [
         {
@@ -89,7 +89,7 @@
           "Next": "Assign combined"
         }
       ],
-      "Default": "Foreach Exit"
+      "Default": "Foreach Exit 2"
     },
     "Assign combined": {
       "Type": "Pass",
@@ -108,30 +108,30 @@
       "ResultPath": null,
       "InputPath": "$.vars.combined",
       "Comment": "source: console.log(combined)",
-      "Next": "Foreach Next"
+      "Next": "Foreach Next 2"
     },
-    "Foreach Exit": {
+    "Foreach Exit 2": {
       "Type": "Pass",
       "ResultPath": "$.foreach_2",
       "Result": {},
-      "Next": "Foreach Next_1"
+      "Next": "Foreach Next"
     },
-    "Foreach Next": {
+    "Foreach Next 2": {
       "Type": "Pass",
       "ResultPath": "$.foreach_2",
       "Parameters": {
         "items.$": "$.foreach_2.items[1:]",
         "currentItem.$": "$.foreach_2.items[1]"
       },
-      "Next": "Foreach CheckDone_1"
+      "Next": "Foreach CheckDone 2"
     },
-    "Foreach Exit_1": {
+    "Foreach Exit": {
       "Type": "Pass",
       "ResultPath": "$.foreach",
       "Result": {},
       "End": true
     },
-    "Foreach Next_1": {
+    "Foreach Next": {
       "Type": "Pass",
       "ResultPath": "$.foreach",
       "Parameters": {

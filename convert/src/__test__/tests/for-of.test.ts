@@ -242,14 +242,14 @@ describe("when converting for-of", () => {
             "Choices": Array [
               Object {
                 "IsPresent": true,
-                "Next": "Foreach Initialize_1",
+                "Next": "Foreach Initialize 2",
                 "Variable": "$.foreach.items[0]",
               },
             ],
-            "Default": "Foreach Exit_1",
+            "Default": "Foreach Exit",
             "Type": "Choice",
           },
-          "Foreach CheckDone_1": Object {
+          "Foreach CheckDone 2": Object {
             "Choices": Array [
               Object {
                 "IsPresent": true,
@@ -257,19 +257,19 @@ describe("when converting for-of", () => {
                 "Variable": "$.foreach_2.items[0]",
               },
             ],
-            "Default": "Foreach Exit",
+            "Default": "Foreach Exit 2",
             "Type": "Choice",
           },
           "Foreach Exit": Object {
-            "Next": "Foreach Next_1",
-            "Result": Object {},
-            "ResultPath": "$.foreach_2",
-            "Type": "Pass",
-          },
-          "Foreach Exit_1": Object {
             "End": true,
             "Result": Object {},
             "ResultPath": "$.foreach",
+            "Type": "Pass",
+          },
+          "Foreach Exit 2": Object {
+            "Next": "Foreach Next",
+            "Result": Object {},
+            "ResultPath": "$.foreach_2",
             "Type": "Pass",
           },
           "Foreach Initialize": Object {
@@ -281,8 +281,8 @@ describe("when converting for-of", () => {
             "ResultPath": "$.foreach",
             "Type": "Pass",
           },
-          "Foreach Initialize_1": Object {
-            "Next": "Foreach CheckDone_1",
+          "Foreach Initialize 2": Object {
+            "Next": "Foreach CheckDone 2",
             "Parameters": Object {
               "currentItem.$": "$.vars.letters[0]",
               "items.$": "$.vars.letters",
@@ -291,21 +291,21 @@ describe("when converting for-of", () => {
             "Type": "Pass",
           },
           "Foreach Next": Object {
-            "Next": "Foreach CheckDone_1",
-            "Parameters": Object {
-              "currentItem.$": "$.foreach_2.items[1]",
-              "items.$": "$.foreach_2.items[1:]",
-            },
-            "ResultPath": "$.foreach_2",
-            "Type": "Pass",
-          },
-          "Foreach Next_1": Object {
             "Next": "Foreach CheckDone",
             "Parameters": Object {
               "currentItem.$": "$.foreach.items[1]",
               "items.$": "$.foreach.items[1:]",
             },
             "ResultPath": "$.foreach",
+            "Type": "Pass",
+          },
+          "Foreach Next 2": Object {
+            "Next": "Foreach CheckDone 2",
+            "Parameters": Object {
+              "currentItem.$": "$.foreach_2.items[1]",
+              "items.$": "$.foreach_2.items[1:]",
+            },
+            "ResultPath": "$.foreach_2",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -319,7 +319,7 @@ describe("when converting for-of", () => {
           "Log (combined)": Object {
             "Comment": "source: console.log(combined)",
             "InputPath": "$.vars.combined",
-            "Next": "Foreach Next",
+            "Next": "Foreach Next 2",
             "ResultPath": null,
             "Type": "Pass",
           },
