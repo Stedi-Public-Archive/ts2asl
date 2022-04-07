@@ -228,6 +228,22 @@ export class AslFactory {
       this.appendCatchConfiguration(mapState, expression.catch, scopes, context);
       this.appendRetryConfiguration(mapState, expression.retry);
 
+    } else if (iasl.Check.isForEachStatement(expression)) {
+      const iterator = convertBlock(expression.iterator, scopes, context.createChildContext())
+      const items = convertExpressionToAsl(expression.items);
+
+      const mapState = {
+        Type: "Map",
+        ...properties,
+        ...(discardResult ? { ResultPath: "$.tmp.lastResult" } : {}),
+        Iterator: iterator,
+        ItemsPath: items.path,
+        MaxConcurrency: 1,
+        Comment: expression.source,
+        ...createParametersForMap(scopes, expression.iterator, expression.iterator.inputArgumentName),
+      } as asl.Map;
+      context.appendNextState(mapState, nameSuggestion);
+
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({
         Type: "Fail",

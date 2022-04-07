@@ -98,6 +98,7 @@
               }
             },
             "ItemsPath": "$.vars.letters",
+            "MaxConcurrency": 1,
             "Parameters": {
               "vars": {
                 "number.$": "$.vars.number",
@@ -111,6 +112,7 @@
         }
       },
       "ItemsPath": "$.vars.numbers",
+      "MaxConcurrency": 1,
       "Parameters": {
         "vars": {
           "number.$": "$$.Map.Item.Value",

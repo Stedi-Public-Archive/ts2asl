@@ -13,6 +13,14 @@ export type While = {
   block: Function;
   name?: string;
 };
+
+export interface Foreach<T> {
+  items: T[] | undefined | (() => T[]);
+  iterator: <U>(item: T, objectContext: StateMachineContext<U>) => void;
+  comment?: string;
+  name?: string;
+}
+
 export type DoWhile = {
   condition: () => boolean;
   block: Function;
@@ -87,6 +95,7 @@ export interface Map<T, O> {
   comment?: string;
   name?: string;
 }
+
 
 export interface Succeed {
   comment?: string;
@@ -168,6 +177,15 @@ export const typescriptWhile = async (args: While) => {
     args.block();
   }
   return {} as AslState;
+}
+
+export const typescriptForeach = async <T>(args: Foreach<T>) => {
+  const items = (typeof args.items === "function" ? args.items() : args.items);
+  if (items) {
+    for (const item of items) {
+      args.iterator(item, {} as any);
+    }
+  }
 }
 
 export const typescriptIf = async (args: If) => {

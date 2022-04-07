@@ -11,7 +11,7 @@ describe("when converting switch statements", () => {
         forOfStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
-      "asl.map({
+      "asl.typescriptForeach({
           name: \\"For element Of collection\\",
           items: () => collection,
           iterator: element => {
@@ -31,7 +31,7 @@ describe("when converting switch statements", () => {
         forOfStatementTransformer({})
       )
     ).toMatchInlineSnapshot(`
-      "asl.map({
+      "asl.typescriptForeach({
           name: \\"For element Of result.list\\",
           items: () => result.list,
           iterator: element => {

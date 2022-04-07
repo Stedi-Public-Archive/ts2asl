@@ -225,12 +225,12 @@
               ],
               "_syntaxKind": "function"
             },
-            "_syntaxKind": "asl-map-state"
+            "_syntaxKind": "for-each"
           }
         ],
         "_syntaxKind": "function"
       },
-      "_syntaxKind": "asl-map-state"
+      "_syntaxKind": "for-each"
     }
   ],
   "_syntaxKind": "statemachine"

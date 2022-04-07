@@ -14,6 +14,7 @@ export enum SyntaxKind {
   TryStatement = "try",
   CaseStatement = "case",
   WhileStatement = "while",
+  ForEachStatement = "for-each",
   DoWhileStatement = "do-while",
   ReturnStatement = "return",
   AslWaitState = "asl-wait-state",
@@ -69,6 +70,9 @@ export class Check {
   }
   static isWhileStatement(expr: Identifier | Expression | undefined): expr is WhileStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.WhileStatement;
+  }
+  static isForEachStatement(expr: Identifier | Expression | undefined): expr is ForEachStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ForEachStatement;
   }
   static isDoWhileStatement(expr: Identifier | Expression | undefined): expr is DoWhileStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.DoWhileStatement;
@@ -162,6 +166,9 @@ export const visitNodes = (node: Expression, scope: Scope, visitor: (node: Expre
     }
     if (node.default) visitNodes(node.default, scope, visitor);
   } else if (Check.isAslMapState(node)) {
+    visitNodes(node.items, scope, visitor);
+    visitNodes(node.iterator, scope, visitor);
+  } else if (Check.isForEachStatement(node)) {
     visitNodes(node.items, scope, visitor);
     visitNodes(node.iterator, scope, visitor);
   } else if (Check.isAslParallelState(node)) {
@@ -312,6 +319,13 @@ export interface TryStatement extends Expression {
   finally?: Block;
 }
 
+
+export interface ForEachStatement extends Expression {
+  _syntaxKind: SyntaxKind.ForEachStatement;
+  iterator: Function;
+  items: Identifier;
+}
+
 export interface CaseStatement extends Expression {
   _syntaxKind: SyntaxKind.CaseStatement;
   variable: Identifier;
@@ -398,6 +412,7 @@ export interface ChoiceState extends AslState {
   choices?: Array<{ condition: BinaryExpression, block: Block }>;
   default?: Block;
 }
+
 
 export interface MapState extends AslState {
   _syntaxKind: SyntaxKind.AslMapState;

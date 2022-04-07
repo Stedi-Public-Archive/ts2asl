@@ -10,7 +10,7 @@ export const forOfStatementTransformer = (converterOptions: ConverterOptions) =>
     node = ts.visitEachChild(node, visit, context);
 
     if (node && ts.isForOfStatement(node)) {
-      if (!isIdentifier(node.expression)) throw new ParserError('for-of expression must be identifier', node);
+      //if (!isIdentifier(node.expression)) throw new ParserError('for-of expression must be identifier', node);
       if (!ts.isVariableDeclarationList(node.initializer)) throw new ParserError('for-of expression must be initialized using decl list', node);
       if (node.initializer.declarations.length !== 1) throw new ParserError('for-of expression must be initialized single declaration', node);
 
@@ -26,7 +26,7 @@ export const forOfStatementTransformer = (converterOptions: ConverterOptions) =>
           assignments.push(assignment);
         }
       }
-      node = TransformUtil.createAslInvoke("map", assignments);
+      node = TransformUtil.createAslInvoke("typescriptForeach", assignments);
     }
     return node;
   }

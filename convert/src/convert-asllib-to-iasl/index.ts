@@ -453,6 +453,21 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         } as iasl.MapState;
       };
 
+      case "typescriptForeach": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
+        const name = unpackAsLiteral(convertedArgs, "name");
+        const items = unpackAsIdentifier(convertedArgs, "items");
+        const iterator = unpackBlock(convertedArgs, "iterator");
+        const comment = unpackAsLiteral(convertedArgs, "comment");
+
+        return {
+          stateName: name,
+          items,
+          iterator,
+          source: comment,
+          _syntaxKind: iasl.SyntaxKind.ForEachStatement
+        } as iasl.ForEachStatement;
+      };
       case "pass": {
         const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");

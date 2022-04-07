@@ -21,11 +21,11 @@ export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.S
         parameters: () => ({ middle: { inner: 3 } }),
         comment: "outer = { middle: { inner: 3 } }"
     });
-    asl.map({
+    asl.typescriptForeach({
         name: "For number Of numbers",
         items: () => numbers,
         iterator: number => {
-            asl.map({
+            asl.typescriptForeach({
                 name: "For letter Of letters",
                 items: () => letters,
                 iterator: letter => {

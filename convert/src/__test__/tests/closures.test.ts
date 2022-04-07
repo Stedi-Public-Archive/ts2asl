@@ -101,7 +101,7 @@ describe("when converting closures", () => {
                       },
                     },
                   },
-                  "MaxConcurrency": undefined,
+                  "MaxConcurrency": 1,
                   "Parameters": Object {
                     "vars": Object {
                       "global.$": "$.vars.global",
@@ -115,7 +115,7 @@ describe("when converting closures", () => {
                 },
               },
             },
-            "MaxConcurrency": undefined,
+            "MaxConcurrency": 1,
             "Parameters": Object {
               "vars": Object {
                 "global.$": "$.vars.global",
