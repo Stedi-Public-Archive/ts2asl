@@ -51,10 +51,10 @@ export class AslWriter {
     const choiceState = states[0];
     this.trailingStates = this.trailingStates.filter(x => x.Type !== "Choice");
     for (const choiceOperator of this.choiceOperators) {
-      const result = choiceOperator.branch.finalize();
-      const states = result?.States;
+      //const result = choiceOperator.branch.finalize();
+      const states = choiceOperator.branch.states;
 
-      if (result === undefined || !(states && Object.keys(states).length > 0)) {
+      if (!(states && Object.keys(states).length > 0)) {
         throw new Error("something to do here");
       }
 
@@ -70,12 +70,12 @@ export class AslWriter {
           breakStates.push(state);
         }
       }
-      choiceOperator.operator.Next = result.StartAt;
+      choiceOperator.operator.Next = choiceOperator.branch.startAt;
       choiceState.Choices.push(choiceOperator.operator);
+      this.trailingStates.push(...choiceOperator.branch.trailingStates);
     }
     if (this.choiceDefault) {
-      const result = this.choiceDefault.finalize();
-      const states = result?.States;
+      const states = this.choiceDefault.states;
 
       if (!(states && Object.keys(states).length > 0)) {
         throw new Error("something to do here");
@@ -92,7 +92,8 @@ export class AslWriter {
           breakStates.push(state);
         }
       }
-      choiceState.Default = result.StartAt;
+      choiceState.Default = this.choiceDefault.startAt;
+      this.trailingStates.push(...this.choiceDefault.trailingStates);
     } else {
       this.trailingStates.push(choiceState);
     }

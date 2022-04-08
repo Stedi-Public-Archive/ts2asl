@@ -30,14 +30,32 @@ export const nestedForeach = asl.deploy.asStateMachine(async () => {
   };
 });
 
-export const foreachEarlyReturn = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) => {
-  const arr = [1, 2, 3]
-  for (const item of arr) {
-    if (item === 1) {
-      return "done";
-    }
-  }
-  throw new Error("should not get here");
+export const foreachEarlyReturn = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
+    const arr = asl.pass({
+        name: "Assign arr",
+        parameters: () => [1, 2, 3],
+        comment: "arr = [1, 2, 3]"
+    });
+    asl.typescriptForeach({
+        name: "For item Of arr",
+        items: () => arr,
+        iterator: item => {
+            asl.typescriptIf({
+                name: "If (item === 1)",
+                condition: () => item === 1,
+                then: async () => {
+                    return "done";
+                },
+                comment: "if (item === 1) {\n      return \"done\";\n    }"
+            })
+        }
+    })
+    asl.fail({
+        name: "Throw Error",
+        error: "Error",
+        cause: "should not get here",
+        comment: "throw new Error(\"should not get here\");"
+    })
 });
 
 

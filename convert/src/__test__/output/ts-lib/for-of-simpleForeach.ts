@@ -1,6 +1,6 @@
 import * as asl from "@ts2asl/asl-lib"
 
-export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
+export const simpleForeach = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) =>{
     const arr = asl.pass({
         name: "Assign arr",
         parameters: () => [1, 2, 3],
@@ -45,4 +45,15 @@ export const nestedForeach = asl.deploy.asStateMachine(async () => {
     };
   };
 });
+
+export const foreachEarlyReturn = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) => {
+  const arr = [1, 2, 3]
+  for (const item of arr) {
+    if (item === 1) {
+      return "done";
+    }
+  }
+  throw new Error("should not get here");
+});
+
 

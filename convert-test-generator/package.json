@@ -7,7 +7,8 @@
   "scripts": {
     "test": "npx jest",
     "build": "npx tsc",
-    "regenerate-all" :"ts-node generate-example && ts-node generate-integration-tests && ts-node generate-unit-tests"
+    "regenerate-all": "export REGEN=true && ts-node generate-example.ts && ts-node generate-integration-tests.ts && ts-node generate-unit-tests",
+    "generate-all": "export REGEN=false && ts-node generate-example.ts && ts-node generate-integration-tests.ts && ts-node generate-unit-tests"
   },
   "files": [
     "lib/**/*"

@@ -250,8 +250,6 @@ export class AslFactory {
       context.appendTails(breakStates);
       context.joinTrailingStates(exitStateName);
       context.trailingStates = [foreachExitState];
-      foreachCounter--;
-
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({
         Type: "Fail",

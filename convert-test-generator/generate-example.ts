@@ -8,11 +8,11 @@ import { FunctionDeclaration } from "../convert/src/convert/list-function-declar
 const explanations: Record<string, string> = {
   "arrays/serializeArray": "This example shows how to serialize and deserialize an array."
 }
-
+const regen = process.env.REGEN == "true";
 const fixtures = enumTests();
 for (const fixture of fixtures) {
   const exampleFilePath = "../examples/" + fixture.fixtureName + ".md";
-  if (true || !existsSync(exampleFilePath)) {
+  if (regen || !existsSync(exampleFilePath)) {
     const tests = fixture.enumTestCases();
     if (tests.length > 0) {
       createExamples(exampleFilePath, fixture.fixtureName, tests)

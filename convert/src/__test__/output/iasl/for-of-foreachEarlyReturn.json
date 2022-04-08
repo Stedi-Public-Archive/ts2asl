@@ -1,0 +1,105 @@
+{
+  "inputArgumentName": {
+    "identifier": "_input",
+    "_syntaxKind": "identifier"
+  },
+  "contextArgumentName": {
+    "identifier": "_context",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign arr",
+        "parameters": {
+          "elements": [
+            {
+              "value": 1,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 2,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 3,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "arr = [1, 2, 3]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign arr",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For item Of arr",
+      "items": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "item",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "If (item === 1)",
+            "condition": {
+              "lhs": {
+                "identifier": "item",
+                "_syntaxKind": "identifier",
+                "type": "numeric"
+              },
+              "operator": "eq",
+              "rhs": {
+                "value": 1,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "then": {
+              "statements": [
+                {
+                  "expression": {
+                    "value": "done",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "return",
+                  "stateName": "Return \"done\""
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (item === 1) {\n      return \"done\";\n    }",
+            "_syntaxKind": "if"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "for-each"
+    },
+    {
+      "stateName": "Throw Error",
+      "cause": "should not get here",
+      "error": "Error",
+      "source": "throw new Error(\"should not get here\");",
+      "_syntaxKind": "asl-fail-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
