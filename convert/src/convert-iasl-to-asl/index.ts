@@ -1,6 +1,6 @@
 import * as iasl from "../convert-asllib-to-iasl/ast"
 import * as asl from "asl-types";
-import { AslFactory } from "./aslfactory";
+import { AslFactory, foreachCounter } from "./aslfactory";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createObjectContextReplacer, createReplacer, IdentifierReplacer, replaceIdentifiers } from "./identifiers";
 import { assignScopes } from "./scopes";
@@ -14,6 +14,8 @@ export const convert = (stateMachine: iasl.StateMachine, options: ConverterOptio
   if (stateMachine.inputArgumentName) {
     replacers.push(createReplacer(stateMachine.inputArgumentName.identifier));
   }
+
+  foreachCounter.value = 0;
 
   const stateMachineCopy = replaceIdentifiers(stateMachine, replacers)
   const scopes = assignScopes(stateMachineCopy);
@@ -42,6 +44,7 @@ export const appendBlock = (stateMachine: iasl.Block, scopes: Record<string, ias
   for (const statement of statements) {
     AslFactory.append(statement, scopes, context);
   }
+  return context;
 }
 
 export const convertBlock = (stateMachine: iasl.Block, scopes: Record<string, iasl.Scope>, context: AslWriter = new AslWriter()): asl.StateMachine | undefined => {
@@ -54,7 +57,7 @@ export const convertBlock = (stateMachine: iasl.Block, scopes: Record<string, ia
 
 
 export const isNonTerminalState = (state?: StateWithBrand): boolean => {
-  return (state != undefined && state.Type !== "Succeed" && state.Type !== "Fail" && !("End" in state && state.End === true) && state.brand !== "break");
+  return (state != undefined && state.Type !== "Succeed" && state.Type !== "Fail" && !("End" in state && state.End === true) && (state.brand !== "break" && state.brand !== "continue"));
 }
 
 export type NonTerminalState = asl.Choice | asl.Map | asl.Parallel | asl.Pass | asl.Task | asl.Wait;

@@ -12,7 +12,7 @@ describe("when converting switch", () => {
         "States": Object {
           "Assign creationStatus": Object {
             "Comment": "source: creationStatus: string | undefined = undefined",
-            "Next": "DescribeCreateAccountStatus",
+            "Next": "Do While Condition",
             "Result": null,
             "ResultPath": "$.vars.creationStatus",
             "Type": "Pass",
@@ -51,6 +51,19 @@ describe("when converting switch", () => {
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
+          "Do While Condition": Object {
+            "Choices": Array [
+              Object {
+                "Next": "DescribeCreateAccountStatus",
+                "Not": Object {
+                  "StringEquals": "SUCCEEDED",
+                  "Variable": "$.vars.creationStatus",
+                },
+              },
+            ],
+            "Default": "Log (createAccount.Create ...",
+            "Type": "Choice",
+          },
           "Initialize": Object {
             "Next": "CreateAccount",
             "Parameters": Object {
@@ -86,7 +99,7 @@ describe("when converting switch", () => {
               },
             ],
             "Comment": "source: switch (creationStatus) { case \\"FAILED\\": throw ...",
-            "Default": "_DoWhileCondition",
+            "Default": "Do While Condition",
             "Type": "Choice",
           },
           "Throw AccountCreationFailed": Object {
@@ -97,22 +110,9 @@ describe("when converting switch", () => {
           },
           "Wait": Object {
             "Comment": undefined,
-            "Next": "_DoWhileCondition",
+            "Next": "Do While Condition",
             "Seconds": 1,
             "Type": "Wait",
-          },
-          "_DoWhileCondition": Object {
-            "Choices": Array [
-              Object {
-                "Next": "DescribeCreateAccountStatus",
-                "Not": Object {
-                  "StringEquals": "SUCCEEDED",
-                  "Variable": "$.vars.creationStatus",
-                },
-              },
-            ],
-            "Default": "Log (createAccount.Create ...",
-            "Type": "Choice",
           },
         },
       }

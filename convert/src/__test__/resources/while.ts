@@ -1,15 +1,45 @@
 import * as asl from "@ts2asl/asl-lib"
-interface Result {
-  Authorized: boolean;
-}
 
-export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) => {
-  let result: Result = await asl.task({ resource: "check-password", parameters: {} });
-  while (true) {
-    if (result.Authorized) {
+export const simpleWhile = asl.deploy.asStateMachine(async () => {
+  let counter = ""
+  while (counter != "aaaaa") {
+    counter = `${counter}a`;
+  }
+  return counter;; //returns "aaaaa"
+});
+
+export const whileWithBreak = asl.deploy.asStateMachine(async () => {
+  let counter = ""
+  while (counter != "aaaaa") {
+    counter = `${counter}a`;
+    if (counter == "aa") {
       break;
     }
-    await asl.wait({ seconds: 1 });
-    result = await asl.task({ resource: "check-password", parameters: {} });
   }
+  return counter;; //returns "aa"
+});
+
+export const whileWithEarlyReturn = asl.deploy.asStateMachine(async () => {
+  let counter = ""
+  while (counter != "aaaaa") {
+    counter = `${counter}a`;
+    if (counter == "aa") {
+      return counter; //returns "aa"
+    }
+  }
+  throw new Error("this should not happen");
+});
+
+
+export const whileWithContinue = asl.deploy.asStateMachine(async () => {
+  let counter = ""
+  let result = "";
+  while (counter != "aaaaa") {
+    counter = `${counter}a`;
+    if (counter == "aa") {
+      continue;
+    }
+    result = `${result}b`;
+  }
+  return result; //returns "bbbb"
 });

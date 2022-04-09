@@ -1,12 +1,4 @@
 {
-  "inputArgumentName": {
-    "identifier": "_input",
-    "_syntaxKind": "identifier"
-  },
-  "contextArgumentName": {
-    "identifier": "_context",
-    "_syntaxKind": "identifier"
-  },
   "statements": [
     {
       "name": {
@@ -48,13 +40,18 @@
             "then": {
               "statements": [
                 {
-                  "stateName": "Break",
-                  "_syntaxKind": "break"
+                  "expression": {
+                    "value": "ok",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "return",
+                  "stateName": "Return \"ok\""
                 }
               ],
               "_syntaxKind": "function"
             },
-            "source": "if (result.Authorized) {\n      break;\n    }",
+            "source": "if (result.Authorized) {\n      return \"ok\";\n    }",
             "_syntaxKind": "if"
           },
           {

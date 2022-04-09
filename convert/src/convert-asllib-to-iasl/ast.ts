@@ -14,6 +14,7 @@ export enum SyntaxKind {
   TryStatement = "try",
   CaseStatement = "case",
   Break = "break",
+  Continue = "continue",
   WhileStatement = "while",
   ForEachStatement = "for-each",
   DoWhileStatement = "do-while",
@@ -74,6 +75,9 @@ export class Check {
   }
   static isBreakStatement(expr: Identifier | Expression | undefined): expr is BreakStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Break;
+  }
+  static isContinueStatement(expr: Identifier | Expression | undefined): expr is ContinueStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Continue;
   }
   static isForEachStatement(expr: Identifier | Expression | undefined): expr is ForEachStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ForEachStatement;
@@ -411,6 +415,9 @@ export interface TryStatement extends Expression {
 
 export interface BreakStatement extends AslState {
   _syntaxKind: SyntaxKind.Break;
+}
+export interface ContinueStatement extends AslState {
+  _syntaxKind: SyntaxKind.Continue;
 }
 export interface ForEachStatement extends Expression {
   _syntaxKind: SyntaxKind.ForEachStatement;

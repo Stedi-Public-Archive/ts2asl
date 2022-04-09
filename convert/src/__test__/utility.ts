@@ -37,6 +37,7 @@ export const runConvertForTest = (filename: string): Record<string, ConvertedSta
 
 export const convertDeployExecute = async (filename: string, name: string, input: {} = {}): Promise<unknown> => {
   asl.clientConfig.region = "us-east-1";
+
   const host = createCompilerHostFromFile(
     `src/__test__/resources/${filename}.ts`
   );
@@ -44,7 +45,6 @@ export const convertDeployExecute = async (filename: string, name: string, input
   const converted = converter
     .convert({ includeDiagnostics: true, getParameter: x => x as any })
     .stateMachines.map(x => x as ConvertedStateMachineWithDiagnostics);
-
   const stateMachineName = `ts2asl` + Math.floor(Math.random() * 10000);
   let sfnArn: string = "";
   try {
@@ -58,7 +58,12 @@ export const convertDeployExecute = async (filename: string, name: string, input
       const result = await asl.sdkSfnStartSyncExecution({ parameters: { stateMachineArn: response.stateMachineArn, input: JSON.stringify(input, null, 2) } });
       return JSON.parse(result.output as string);
     }
-  } finally {
+  }
+  catch (err) {
+    console.log(err);
+    throw err;
+  }
+  finally {
     if (sfnArn) await asl.sdkSfnDeleteStateMachine({ parameters: { stateMachineArn: sfnArn } });
   }
 

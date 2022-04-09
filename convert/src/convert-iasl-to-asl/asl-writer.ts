@@ -3,7 +3,7 @@ import { isNonTerminalState, NonTerminalState } from ".";
 
 type ChoiceOperator = asl.Choice["Choices"][0];
 
-export type StateWithBrand = asl.State & { brand?: "break" };
+export type StateWithBrand = asl.State & { brand?: "break" | "continue" };
 
 export class AslWriter {
   names: string[] = [];
@@ -45,7 +45,7 @@ export class AslWriter {
     return this.choiceDefault = choiceDefault;
   }
   finalizeChoiceState(): StateWithBrand[] {
-    const breakStates: StateWithBrand[] = [];
+    const brandedPassStates: StateWithBrand[] = [];
     const states: asl.Choice[] = this.trailingStates.filter(x => x.Type === "Choice") as asl.Choice[];
     if (states.length !== 1) throw new Error("Must have exactly 1 choice state as tail");
     const choiceState = states[0];
@@ -61,13 +61,12 @@ export class AslWriter {
       for (const [name, state] of Object.entries(states)) {
         this.states[name] = state;
 
-        if (isNonTerminalState(state)) {
+        if ((state as StateWithBrand).brand) {
+          brandedPassStates.push(state);
+        } else if (isNonTerminalState(state)) {
           if (!("Next" in state) && state.Type !== "Choice") {
             this.trailingStates.push(state);
           }
-        }
-        if ((state as StateWithBrand).brand === "break") {
-          breakStates.push(state);
         }
       }
       choiceOperator.operator.Next = choiceOperator.branch.startAt;
@@ -83,13 +82,12 @@ export class AslWriter {
 
       for (const [name, state] of Object.entries(states)) {
         this.states[name] = state;
-        if (isNonTerminalState(state)) {
+        if ((state as StateWithBrand).brand) {
+          brandedPassStates.push(state);
+        } else if (isNonTerminalState(state)) {
           if (!("Next" in state) && state.Type !== "Choice") {
             this.trailingStates.push(state);
           }
-        }
-        if ((state as StateWithBrand).brand === "break") {
-          breakStates.push(state);
         }
       }
       choiceState.Default = this.choiceDefault.startAt;
@@ -100,7 +98,7 @@ export class AslWriter {
     this.choiceDefault = undefined;
     this.choiceOperators = [];
 
-    return breakStates;
+    return brandedPassStates;
   }
   appendState(state: StateWithBrand, nameSuggestion?: string) {
     const name = this.createName(nameSuggestion ?? state.Type);
@@ -112,21 +110,14 @@ export class AslWriter {
     const states = Array.isArray(state) ? state : [state]
     this.trailingStates.push(...states.filter(x => isNonTerminalState(x)));
   }
-  nextStateCallBackOnce?: (stateName: string) => void;
-  registerCallNextStateCallBackOnce(callback: (stateName: string) => void) {
-    if (this.nextStateCallBackOnce !== undefined) throw new Error("only 1 callback allowed");
-    this.nextStateCallBackOnce = callback;
-  }
+
   appendNextState(state: StateWithBrand, nameSuggestion?: string) {
     const name = this.createName(nameSuggestion ?? state.Type);
     if (state.Comment) {
       const withoutWhiteSpace = state.Comment.replace(/\s{1,}/g, " ");
       state.Comment = "source: " + ((withoutWhiteSpace.length > 50) ? withoutWhiteSpace.substring(0, 46) + " ..." : withoutWhiteSpace);
     }
-    if (this.nextStateCallBackOnce !== undefined) {
-      this.nextStateCallBackOnce(name);
-      this.nextStateCallBackOnce = undefined;
-    }
+
     if (this.startAt === undefined) {
       this.startAt = name;
     }
@@ -145,8 +136,9 @@ export class AslWriter {
     return name;
   }
 
-  joinTrailingStates(nextStateName: string) {
+  joinTrailingStates(nextStateName: string, ...except: asl.State[]) {
     for (const trailingState of this.trailingStates) {
+      if (except.includes(trailingState)) continue;
       if (trailingState.Type === "Choice") {
         const choice = trailingState as asl.Choice;
         if (choice.Default === undefined) {
@@ -156,7 +148,7 @@ export class AslWriter {
         trailingState.Next = nextStateName;
       }
     }
-    this.trailingStates = []
+    this.trailingStates = except
   }
   finalize(): asl.StateMachine | undefined {
     if (Object.entries(this.states).length === 0) {

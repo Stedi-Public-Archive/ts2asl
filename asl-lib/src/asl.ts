@@ -256,10 +256,15 @@ export const jsonPathMap = (items: unknown[], expression: string): unknown[] => 
 }
 
 
-export namespace states {
-  export function format(format: string, ...args: unknown[]): string {
-    const formatNode = format.replace(/{}/g, '%s')
-    return util.format(formatNode, ...args);
+export namespace convert {
+  export function booleanToString(arg: boolean | undefined): string {
+    if (arg === undefined) throw new Error(`cannot convert undefined to string`);
+    return String(arg);
+  }
+
+  export function numberToString(arg: number | undefined): string {
+    if (arg === undefined) throw new Error(`cannot convert undefined to string`);
+    return String(arg);
   }
 
   export function stringToBoolean(arg: string | undefined): unknown {
@@ -272,6 +277,13 @@ export namespace states {
   export function stringToNumber(arg: string | undefined): number {
     if (arg === undefined) throw new Error(`cannot convert undefined to number`);
     return Number(arg);
+  }
+}
+
+export namespace states {
+  export function format(format: string, ...args: unknown[]): string {
+    const formatNode = format.replace(/{}/g, '%s')
+    return util.format(formatNode, ...args);
   }
 
   export function stringToJson(arg: string | undefined): unknown {

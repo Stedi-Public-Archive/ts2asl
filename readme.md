@@ -55,7 +55,7 @@ The following Typescript langauge features are supported:
 * [input validation](./examples/input-validation.md)
 * [enclosed variables](./examples/closures.md)
 * [if statements](./examples/if.md)
-* [for ... of statements](./examples/for-of.md)
+* [for ... of statements](./examples/for-each.md)
 * [do while statements](./examples/do-while.md)
 * [switch statements](./examples/switch.md)
 * [try/catch/finally statements](./examples/try-catch.md)

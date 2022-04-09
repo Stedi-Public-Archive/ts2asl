@@ -159,10 +159,14 @@ export declare const jsonPathFilter: <T>(items: T[], predicate: (x: T) => boolea
 export declare const jsonPathSlice: <T>(items: T[], start: number, end?: number | undefined, step?: number | undefined) => T[];
 export declare const jsonPathExpression: (items: unknown, expression: string) => unknown;
 export declare const jsonPathMap: (items: unknown[], expression: string) => unknown[];
-export declare namespace states {
-    function format(format: string, ...args: unknown[]): string;
+export declare namespace convert {
+    function booleanToString(arg: boolean | undefined): string;
+    function numberToString(arg: number | undefined): string;
     function stringToBoolean(arg: string | undefined): unknown;
     function stringToNumber(arg: string | undefined): number;
+}
+export declare namespace states {
+    function format(format: string, ...args: unknown[]): string;
     function stringToJson(arg: string | undefined): unknown;
     function jsonToString(arg: unknown): string;
     function array(...args: unknown[]): unknown[];

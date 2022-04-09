@@ -1,12 +1,4 @@
 {
-  "inputArgumentName": {
-    "identifier": "_input",
-    "_syntaxKind": "identifier"
-  },
-  "contextArgumentName": {
-    "identifier": "_context",
-    "_syntaxKind": "identifier"
-  },
   "statements": [
     {
       "name": {
@@ -56,7 +48,7 @@
         },
         "statements": [
           {
-            "stateName": "If (item === 1)",
+            "stateName": "If (item === 2)",
             "condition": {
               "lhs": {
                 "identifier": "item",
@@ -65,7 +57,7 @@
               },
               "operator": "eq",
               "rhs": {
-                "value": 1,
+                "value": 2,
                 "type": "numeric",
                 "_syntaxKind": "literal"
               },
@@ -74,18 +66,45 @@
             "then": {
               "statements": [
                 {
-                  "expression": {
-                    "value": "done",
-                    "type": "string",
-                    "_syntaxKind": "literal"
+                  "stateName": "",
+                  "name": {
+                    "identifier": "return_var",
+                    "compilerGenerated": true,
+                    "_syntaxKind": "identifier",
+                    "type": "unknown"
                   },
-                  "_syntaxKind": "return",
-                  "stateName": "Return \"done\""
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "found {}!",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "item",
+                        "_syntaxKind": "identifier",
+                        "type": "unknown"
+                      }
+                    ],
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "_syntaxKind": "variable-assignment"
+                },
+                {
+                  "expression": {
+                    "identifier": "return_var",
+                    "compilerGenerated": true,
+                    "_syntaxKind": "identifier",
+                    "type": "unknown"
+                  },
+                  "stateName": "Return result",
+                  "_syntaxKind": "return"
                 }
               ],
               "_syntaxKind": "function"
             },
-            "source": "if (item === 1) {\n      return \"done\";\n    }",
+            "source": "if (item === 2) {\n      return `found ${item}!`; //returns \"found 2!\"\n    }",
             "_syntaxKind": "if"
           }
         ],

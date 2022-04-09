@@ -6,10 +6,12 @@ import { createParameters, createParametersForMap } from "./parameters";
 import { createFilterExpression } from "./jsonpath-filter";
 import { createSingleOrParallel } from "./blocks";
 import { trimName } from "../create-name";
-import { AslWriter } from "./asl-writer";
+import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createReplacer, replaceIdentifiers } from "./identifiers";
 
-let foreachCounter = 0;
+export let foreachCounter = { value: 0 };
+
+
 export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter) {
     let nameSuggestion: string | undefined = expression.stateName;
@@ -75,21 +77,33 @@ export class AslFactory {
 
     } else if (iasl.Check.isDoWhileStatement(expression)) {
 
-      let firstStatementName: string | undefined;
-      context.registerCallNextStateCallBackOnce((stateName: string) => {
-        if (firstStatementName === undefined) {
-          firstStatementName = stateName;
+      const childContext = appendBlock(expression.while, scopes, context.createChildContext())
+
+      if (childContext.startAt !== undefined) {
+        const breakStates: StateWithBrand[] = [], continueStates: StateWithBrand[] = [];
+        for (const [name, state] of Object.entries(childContext.states)) {
+          if (state.brand === "break") {
+            delete state.brand;
+            breakStates.push(state);
+          } else if (state.brand === "continue") {
+            delete state.brand;
+            continueStates.push(state);
+          }
+          context.states[name] = state;
         }
-      });
-
-      appendBlock(expression.while, scopes, context)
-
-      if (firstStatementName !== undefined) {
+        context.appendTails(childContext.trailingStates);
         const whileConditionOperator = createChoiceOperator(expression.condition);
-        whileConditionOperator.Next = firstStatementName;
+        whileConditionOperator.Next = childContext.startAt;
         const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice
-        context.appendNextState(whileCondition, "_DoWhileCondition");
+        const whileConditionName = context.appendNextState(whileCondition, "Do While Condition");
         context.finalizeChoiceState();
+
+        for (const continueState of continueStates) {
+          (continueState as asl.Pass).Next = whileConditionName;
+        }
+
+        context.joinTrailingStates(whileConditionName, whileCondition)
+        context.appendTails(breakStates);
       }
 
     } else if (iasl.Check.isIfExpression(expression)) {
@@ -110,8 +124,8 @@ export class AslFactory {
         appendBlock(expression.else, scopes, defaultWriter);
       }
 
-      const breakStates = context.finalizeChoiceState();
-      context.appendTails(breakStates);
+      const brandedStates = context.finalizeChoiceState();
+      context.appendTails(brandedStates);
     } else if (iasl.Check.isAslChoiceState(expression)) {
       const choiceState = {
         Type: "Choice",
@@ -137,19 +151,24 @@ export class AslFactory {
 
     } else if (iasl.Check.isWhileStatement(expression)) {
 
-      const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "_WhileCondition");
+      const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "While Condition");
       const whileConditionOperator = createChoiceOperator(expression.condition);
       const whileBodyBranch = context.appendChoiceOperator(whileConditionOperator);
       appendBlock(expression.while, scopes, whileBodyBranch);
       whileBodyBranch.joinTrailingStates(whileConditionName);
 
       const defaultWriter = context.appendChoiceDefault();
-      const whileExitStateName = defaultWriter.appendNextState({ Type: "Pass", ResultPath: null }, "_WhileExit");
+      const whileExitStateName = defaultWriter.appendNextState({ Type: "Pass", ResultPath: null }, "While Exit");
 
-      const breakStates = context.finalizeChoiceState();
-      for (const breakState of breakStates) {
-        delete breakState.brand;
-        (breakState as asl.Pass).Next = whileExitStateName;
+      const brandedStatements = context.finalizeChoiceState();
+      for (const brandedStatement of brandedStatements) {
+        if (brandedStatement.brand === "break") {
+          delete brandedStatement.brand;
+          (brandedStatement as asl.Pass).Next = whileExitStateName;
+        } else if (brandedStatement.brand === "continue") {
+          delete brandedStatement.brand;
+          (brandedStatement as asl.Pass).Next = whileConditionName;
+        }
       }
     } else if (iasl.Check.isAslWaitState(expression)) {
       const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds) : undefined;
@@ -197,12 +216,12 @@ export class AslFactory {
 
     } else if (iasl.Check.isForEachStatement(expression)) {
 
-      const namespace = foreachCounter > 0 ? "foreach_" + (foreachCounter + 1) : "foreach";
-      const namePostFix = foreachCounter > 0 ? " " + (foreachCounter + 1) : "";
-      foreachCounter++;
-
+      const namespace = foreachCounter.value > 0 ? "foreach_" + (foreachCounter.value + 1) : "foreach";
+      const namePostFix = foreachCounter.value > 0 ? " " + (foreachCounter.value + 1) : "";
+      foreachCounter.value++;
+      const foreachWriter = context.createChildContext();
       const items = convertExpressionToAsl(expression.items);
-      context.appendNextState({
+      foreachWriter.appendNextState({
         Type: "Pass",
         ResultPath: `$.${namespace}`,
         Parameters: {
@@ -211,12 +230,12 @@ export class AslFactory {
         }
       }, "Foreach Initialize" + namePostFix);
 
-      const checkDoneName = context.appendNextState({
+      const checkDoneName = foreachWriter.appendNextState({
         Type: "Choice",
         Choices: [],
       }, "Foreach CheckDone" + namePostFix);
 
-      const iteratorWriter = context.appendChoiceOperator({ Variable: `$.${namespace}.items[0]`, IsPresent: true });
+      const iteratorWriter = foreachWriter.appendChoiceOperator({ Variable: `$.${namespace}.items[0]`, IsPresent: true });
       let iterator = expression.iterator;
       if (expression.iterator.inputArgumentName) {
         const replacer = createReplacer(expression.iterator.inputArgumentName.identifier, `$.${namespace}.currentItem`);
@@ -224,7 +243,7 @@ export class AslFactory {
       }
       appendBlock(iterator, scopes, iteratorWriter);
 
-      const defaultWriter = context.appendChoiceDefault();
+      const defaultWriter = foreachWriter.appendChoiceDefault();
       const foreachExitState = {
         Type: "Pass",
         ResultPath: `$.${namespace}`,
@@ -232,24 +251,36 @@ export class AslFactory {
       };
       const exitStateName = defaultWriter.appendNextState(foreachExitState, "Foreach Exit" + namePostFix);
 
-      const breakStates = context.finalizeChoiceState();
-      for (const breakState of breakStates) {
-        delete breakState.brand;
-      }
-      context.trailingStates = context.trailingStates.filter(x => x != foreachExitState);
-      context.appendNextState({
+      const brandedStates = foreachWriter.finalizeChoiceState();
+      const foreachNextSate = {
         Type: "Pass",
         ResultPath: `$.${namespace}`,
         Parameters: {
           "items.$": `$.${namespace}.items[1:]`,
           "currentItem.$": `$.${namespace}.items[1]`,
         }
-      }, "Foreach Next" + namePostFix);
+      };
+      const foreachNextName = foreachWriter.appendNextState(foreachNextSate, "Foreach Next" + namePostFix);
 
-      context.joinTrailingStates(checkDoneName);
-      context.appendTails(breakStates);
-      context.joinTrailingStates(exitStateName);
-      context.trailingStates = [foreachExitState];
+      for (const branded of brandedStates) {
+        if (branded.brand === "continue") {
+          (branded as asl.Pass).Next = foreachNextName;
+        }
+        if (branded.brand === "break") {
+          (branded as asl.Pass).Next = exitStateName;
+        }
+        delete branded.brand;
+      }
+
+      foreachWriter.joinTrailingStates(foreachNextName, ...[foreachExitState]);
+      (foreachNextSate as asl.Pass).Next = checkDoneName;
+      for (const [name, state] of Object.entries(foreachWriter.states)) {
+        context.states[name] = state;
+      }
+      context.joinTrailingStates(foreachWriter.startAt as string)
+      delete (foreachExitState as asl.Pass).Next;
+      context.appendTails(foreachExitState);
+
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({
         Type: "Fail",
@@ -282,6 +313,13 @@ export class AslFactory {
         Type: "Pass",
         Comment: expression.source,
       }, expression.stateName ?? "Break");
+    } else if (iasl.Check.isContinueStatement(expression)) {
+      context.appendNextState({
+        brand: "continue",
+        ResultPath: null,
+        Type: "Pass",
+        Comment: expression.source,
+      }, expression.stateName ?? "Continue");
 
     } else if (iasl.Check.isTryExpression(expression)) {
       const tryState = createSingleOrParallel(expression.try, scopes, context, { alwaysWrapFailState: true });

@@ -1,0 +1,71 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign counter"
+    },
+    "Assign counter": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.counter",
+      "Result": "",
+      "Comment": "source: counter = \"\"",
+      "Next": "Do While Condition"
+    },
+    "Evaluate States.Format('{ ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}a', $.vars.counter)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign counter_1"
+    },
+    "Assign counter_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.counter",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "If (counter == \"aa\")"
+    },
+    "If (counter == \"aa\")": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.counter",
+          "StringEquals": "aa",
+          "Next": "Break"
+        }
+      ],
+      "Comment": "source: if (counter == \"aa\") { break; }",
+      "Default": "Do While Condition"
+    },
+    "Break": {
+      "ResultPath": null,
+      "Type": "Pass",
+      "Next": "Return counter"
+    },
+    "Do While Condition": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.counter",
+            "StringEquals": "aaaaa"
+          },
+          "Next": "Evaluate States.Format('{ ..."
+        }
+      ],
+      "Default": "Return counter"
+    },
+    "Return counter": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.counter"
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

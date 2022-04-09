@@ -157,6 +157,13 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     } as iasl.BreakStatement;
   }
 
+  if (ts.isContinueStatement(node)) {
+    return {
+      stateName: createName(context.converterOptions, node, "Continue"),
+      _syntaxKind: iasl.SyntaxKind.Continue,
+    } as iasl.ContinueStatement;
+  }
+
   const result = convertExpression(node as ts.Expression, context);
   if (!result) {
     throw new ParserError("unknown expression type", node);

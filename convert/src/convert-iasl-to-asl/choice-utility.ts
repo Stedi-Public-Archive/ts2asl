@@ -32,8 +32,19 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
       throw new Error("binary expression with 'is-truthy' rhs must be identifier, found: " + expression.rhs._syntaxKind);
     }
 
-
     const expr = convertExpressionToAsl(expression.rhs);
+
+    //if type of boolean we use a simple 'BooleanEquals' check
+    if (expression.rhs.type === "boolean") {
+      return {
+        Not: {
+          Variable: expr.path,
+          BooleanEquals: false
+        }
+      }
+    }
+
+    //otherwise we do "truthy" check 
     const notTruthy = {
       Or: [
         {

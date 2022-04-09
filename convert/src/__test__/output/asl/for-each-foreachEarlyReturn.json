@@ -35,40 +35,48 @@
         {
           "Variable": "$.foreach.items[0]",
           "IsPresent": true,
-          "Next": "If (item === 1)"
+          "Next": "If (item === 2)"
         }
       ],
       "Default": "Foreach Exit"
     },
-    "If (item === 1)": {
+    "If (item === 2)": {
       "Type": "Choice",
       "Choices": [
         {
           "Variable": "$.foreach.currentItem",
-          "NumericEquals": 1,
-          "Next": "Break"
+          "NumericEquals": 2,
+          "Next": "Evaluate States.Format('f ..."
         }
       ],
-      "Comment": "source: if (item === 1) { break; }",
-      "Default": "Log (item)"
+      "Comment": "source: if (item === 2) { return `found ${item}!`; //r ...",
+      "Default": "Foreach Next"
     },
-    "Break": {
-      "ResultPath": null,
+    "Evaluate States.Format('f ...": {
       "Type": "Pass",
-      "Next": "Foreach Exit"
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('found {}!', $.foreach.currentItem)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign Return_var"
     },
-    "Log (item)": {
+    "Assign Return_var": {
       "Type": "Pass",
-      "ResultPath": null,
-      "InputPath": "$.foreach.currentItem",
-      "Comment": "source: console.log(item)",
-      "Next": "Foreach Next"
+      "ResultPath": "$.tmp.return_var",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "Return result"
+    },
+    "Return result": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.tmp.return_var"
     },
     "Foreach Exit": {
       "Type": "Pass",
       "ResultPath": "$.foreach",
       "Result": {},
-      "Next": "Log (\"done\")"
+      "Next": "Throw Error"
     },
     "Foreach Next": {
       "Type": "Pass",
@@ -79,12 +87,11 @@
       },
       "Next": "Foreach CheckDone"
     },
-    "Log (\"done\")": {
-      "Type": "Pass",
-      "ResultPath": null,
-      "Result": "done",
-      "Comment": "source: console.log(\"done\")",
-      "End": true
+    "Throw Error": {
+      "Type": "Fail",
+      "Error": "Error",
+      "Cause": "should not get here",
+      "Comment": "source: throw new Error(\"should not get here\");"
     }
   },
   "Comment": "ASL Generated using ts2asl version 0.1.29."

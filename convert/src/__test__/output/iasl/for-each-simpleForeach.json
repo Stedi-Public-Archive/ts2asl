@@ -1,0 +1,197 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign arr",
+        "parameters": {
+          "elements": [
+            {
+              "value": 1,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 2,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 3,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "arr = [1, 2, 3]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign arr",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign result",
+        "parameters": {
+          "value": "",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "result = \"\"",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign result",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "first",
+        "_syntaxKind": "identifier",
+        "type": "boolean"
+      },
+      "expression": {
+        "stateName": "Assign first",
+        "parameters": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "source": "first = true",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign first",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For item Of arr",
+      "items": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "item",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "If (first)",
+            "condition": {
+              "operator": "is-truthy",
+              "rhs": {
+                "identifier": "first",
+                "_syntaxKind": "identifier",
+                "type": "boolean"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "then": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "result",
+                    "_syntaxKind": "identifier",
+                    "type": "string"
+                  },
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "{}",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "item",
+                        "_syntaxKind": "identifier",
+                        "type": "numeric"
+                      }
+                    ],
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "stateName": "Assign result",
+                  "_syntaxKind": "variable-assignment"
+                },
+                {
+                  "name": {
+                    "identifier": "first",
+                    "_syntaxKind": "identifier",
+                    "type": "boolean"
+                  },
+                  "expression": {
+                    "value": false,
+                    "type": "boolean",
+                    "_syntaxKind": "literal"
+                  },
+                  "stateName": "Assign first",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "else": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "result",
+                    "_syntaxKind": "identifier",
+                    "type": "string"
+                  },
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "{}, {}",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "result",
+                        "_syntaxKind": "identifier",
+                        "type": "string"
+                      },
+                      {
+                        "identifier": "item",
+                        "_syntaxKind": "identifier",
+                        "type": "numeric"
+                      }
+                    ],
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "stateName": "Assign result",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (first) { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n      first = false;\n    } else {\n      result = `${result}, ${item}`;\n    }",
+            "_syntaxKind": "if"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "for-each"
+    },
+    {
+      "expression": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return result"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

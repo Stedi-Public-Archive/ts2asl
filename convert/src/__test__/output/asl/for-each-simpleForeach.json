@@ -1,0 +1,129 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arr",
+      "Result": [
+        1,
+        2,
+        3
+      ],
+      "Comment": "source: arr = [1, 2, 3]",
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "Result": "",
+      "Comment": "source: result = \"\"",
+      "Next": "Assign first"
+    },
+    "Assign first": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.first",
+      "Result": true,
+      "Comment": "source: first = true",
+      "Next": "Foreach Initialize"
+    },
+    "Foreach Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.vars.arr",
+        "currentItem.$": "$.vars.arr[0]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Foreach CheckDone": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.items[0]",
+          "IsPresent": true,
+          "Next": "If (first)"
+        }
+      ],
+      "Default": "Foreach Exit"
+    },
+    "If (first)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.first",
+            "BooleanEquals": false
+          },
+          "Next": "Evaluate States.Format('{ ..."
+        }
+      ],
+      "Comment": "source: if (first) { //first element should not be pre ...",
+      "Default": "Evaluate States.Format('{ ..._1"
+    },
+    "Evaluate States.Format('{ ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}', $.foreach.currentItem)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign result_1"
+    },
+    "Assign result_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "Assign first_1"
+    },
+    "Assign first_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.first",
+      "Result": false,
+      "Next": "Foreach Next"
+    },
+    "Evaluate States.Format('{ ..._1": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}, {}', $.vars.result, $.foreach.currentItem)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign result_2"
+    },
+    "Assign result_2": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "Foreach Next"
+    },
+    "Foreach Exit": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Result": {},
+      "Next": "Return result"
+    },
+    "Foreach Next": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.foreach.items[1:]",
+        "currentItem.$": "$.foreach.items[1]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Return result": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.result"
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

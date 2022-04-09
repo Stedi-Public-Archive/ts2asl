@@ -24,7 +24,7 @@ describe("when transpiling simple statements", () => {
           "6: isDone()": Object {
             "Comment": "source: isDone()",
             "HeartbeatSeconds": undefined,
-            "Next": "_WhileCondition",
+            "Next": "While Condition",
             "Resource": "[!lambda[isDone]arn]",
             "ResultPath": "$.vars.result",
             "Retry": undefined,
@@ -33,7 +33,7 @@ describe("when transpiling simple statements", () => {
           },
           "Assign result": Object {
             "Comment": "source: result = 0",
-            "Next": "_WhileCondition",
+            "Next": "While Condition",
             "Result": 0,
             "ResultPath": "$.vars.result",
             "Type": "Pass",
@@ -52,7 +52,7 @@ describe("when transpiling simple statements", () => {
             "Seconds": 2,
             "Type": "Wait",
           },
-          "_WhileCondition": Object {
+          "While Condition": Object {
             "Choices": Array [
               Object {
                 "Next": "Wait",
@@ -60,10 +60,10 @@ describe("when transpiling simple statements", () => {
                 "Variable": "$.vars.result",
               },
             ],
-            "Default": "_WhileExit",
+            "Default": "While Exit",
             "Type": "Choice",
           },
-          "_WhileExit": Object {
+          "While Exit": Object {
             "End": true,
             "ResultPath": null,
             "Type": "Pass",

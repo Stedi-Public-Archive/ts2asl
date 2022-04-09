@@ -24,7 +24,7 @@
       "ResultPath": "$.vars.creationStatus",
       "Result": null,
       "Comment": "source: creationStatus: string | undefined = undefined",
-      "Next": "DescribeCreateAccountStatus"
+      "Next": "Do While Condition"
     },
     "DescribeCreateAccountStatus": {
       "Type": "Task",
@@ -56,7 +56,7 @@
         }
       ],
       "Comment": "source: switch (creationStatus) { case \"FAILED\": throw ...",
-      "Default": "_DoWhileCondition"
+      "Default": "Do While Condition"
     },
     "Throw AccountCreationFailed": {
       "Type": "Fail",
@@ -67,9 +67,9 @@
     "Wait": {
       "Type": "Wait",
       "Seconds": 1,
-      "Next": "_DoWhileCondition"
+      "Next": "Do While Condition"
     },
-    "_DoWhileCondition": {
+    "Do While Condition": {
       "Type": "Choice",
       "Choices": [
         {

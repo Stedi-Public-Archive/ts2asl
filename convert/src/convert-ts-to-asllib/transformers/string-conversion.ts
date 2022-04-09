@@ -10,7 +10,7 @@ export const stringConversionTransformer = <T extends ts.Node>(context: ts.Trans
     node = ts.visitEachChild(node, visit, context);
     if (ts.isCallExpression(node)) {
       const aslCall = isAslCallExpression(node);
-      if (aslCall === "states.stringToNumber" || aslCall === "states.stringToBoolean") {
+      if (aslCall === "convert.stringToNumber" || aslCall === "convert.stringToBoolean") {
         return factory.createCallExpression(
           factory.createPropertyAccessExpression(
             factory.createIdentifier("asl"),
@@ -18,6 +18,18 @@ export const stringConversionTransformer = <T extends ts.Node>(context: ts.Trans
           ),
           undefined,
           node.arguments
+        )
+      } else if (aslCall === "convert.numberToString" || aslCall === "convert.booleanToString") {
+        return factory.createCallExpression(
+          factory.createPropertyAccessExpression(
+            factory.createIdentifier("asl"),
+            factory.createIdentifier("states.format")
+          ),
+          undefined,
+          [
+            factory.createStringLiteral("{}"),
+            ...node.arguments
+          ]
         )
       }
     }

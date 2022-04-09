@@ -1,18 +1,71 @@
 
-## main
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoX2lucHV0OiB7fSwgX2NvbnRleHQ6IGFzbC5TdGF0ZU1hY2hpbmVDb250ZXh0PHt9PikgPT4gCiB7CiAgbGV0IHJlc3VsdDogUmVzdWx0ID0gYXdhaXQgYXNsLnRhc2soeyByZXNvdXJjZTogImNoZWNrLXBhc3N3b3JkIiwgcGFyYW1ldGVyczoge30gfSk7CiAgd2hpbGUgKHRydWUpIHsKICAgIGlmIChyZXN1bHQuQXV0aG9yaXplZCkgewogICAgICBicmVhazsKICAgIH0KICAgIGF3YWl0IGFzbC53YWl0KHsgc2Vjb25kczogMSB9KTsKICAgIHJlc3VsdCA9IGF3YWl0IGFzbC50YXNrKHsgcmVzb3VyY2U6ICJjaGVjay1wYXNzd29yZCIsIHBhcmFtZXRlcnM6IHt9IH0pOwogIH0KfSk7)
+## simple while
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgd2hpbGUgKGNvdW50ZXIgIT0gImFhYWFhIikgewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgfQogIHJldHVybiBjb3VudGVyOzsgLy9yZXR1cm5zICJhYWFhYSIKfSk7)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async (_input: {}, _context: asl.StateMachineContext<{}>) => 
+export const main = asl.deploy.asStateMachine(async () => 
  {
-  let result: Result = await asl.task({ resource: "check-password", parameters: {} });
-  while (true) {
-    if (result.Authorized) {
+  let counter = ""
+  while (counter != "aaaaa") {
+    counter = `${counter}a`;
+  }
+  return counter;; //returns "aaaaa"
+});
+```
+
+
+## while with break
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgd2hpbGUgKGNvdW50ZXIgIT0gImFhYWFhIikgewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgICBpZiAoY291bnRlciA9PSAiYWEiKSB7CiAgICAgIGJyZWFrOwogICAgfQogIH0KICByZXR1cm4gY291bnRlcjs7IC8vcmV0dXJucyAiYWEiCn0pOw==)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  let counter = ""
+  while (counter != "aaaaa") {
+    counter = `${counter}a`;
+    if (counter == "aa") {
       break;
     }
-    await asl.wait({ seconds: 1 });
-    result = await asl.task({ resource: "check-password", parameters: {} });
   }
+  return counter;; //returns "aa"
+});
+```
+
+
+## while with early return
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgd2hpbGUgKGNvdW50ZXIgIT0gImFhYWFhIikgewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgICBpZiAoY291bnRlciA9PSAiYWEiKSB7CiAgICAgIHJldHVybiBjb3VudGVyOyAvL3JldHVybnMgImFhIgogICAgfQogIH0KICB0aHJvdyBuZXcgRXJyb3IoInRoaXMgc2hvdWxkIG5vdCBoYXBwZW4iKTsKfSk7)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  let counter = ""
+  while (counter != "aaaaa") {
+    counter = `${counter}a`;
+    if (counter == "aa") {
+      return counter; //returns "aa"
+    }
+  }
+  throw new Error("this should not happen");
+});
+```
+
+
+## while with continue
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgbGV0IHJlc3VsdCA9ICIiOwogIHdoaWxlIChjb3VudGVyICE9ICJhYWFhYSIpIHsKICAgIGNvdW50ZXIgPSBgJHtjb3VudGVyfWFgOwogICAgaWYgKGNvdW50ZXIgPT0gImFhIikgewogICAgICBjb250aW51ZTsKICAgIH0KICAgIHJlc3VsdCA9IGAke3Jlc3VsdH1iYDsKICB9CiAgcmV0dXJuIHJlc3VsdDsgLy9yZXR1cm5zICJiYmJiIgp9KTs=)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  let counter = ""
+  let result = "";
+  while (counter != "aaaaa") {
+    counter = `${counter}a`;
+    if (counter == "aa") {
+      continue;
+    }
+    result = `${result}b`;
+  }
+  return result; //returns "bbbb"
 });
 ```
 
