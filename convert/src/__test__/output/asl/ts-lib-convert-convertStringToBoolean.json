@@ -1,0 +1,78 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Evaluate States.StringToJ ..."
+    },
+    "Evaluate States.StringToJ ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.StringToJson('true')"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign bool"
+    },
+    "Assign bool": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.bool",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "If (bool === true)"
+    },
+    "If (bool === true)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.bool",
+          "BooleanEquals": true,
+          "Next": "Evaluate States.Format('{ ..."
+        }
+      ],
+      "Default": "Throw Error"
+    },
+    "Evaluate States.Format('{ ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}', $.vars.bool)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.str",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "If (str === \"true\")"
+    },
+    "If (str === \"true\")": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.str",
+          "StringEquals": "true",
+          "Next": "Return \"succeeded\""
+        }
+      ],
+      "Comment": "source: if (str === \"true\") { return \"succeeded\"; }",
+      "Default": "Throw Error"
+    },
+    "Return \"succeeded\"": {
+      "End": true,
+      "Type": "Pass",
+      "Result": "succeeded"
+    },
+    "Throw Error": {
+      "Type": "Fail",
+      "Error": "Error",
+      "Cause": "failed",
+      "Comment": "source: throw new Error(\"failed\");"
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

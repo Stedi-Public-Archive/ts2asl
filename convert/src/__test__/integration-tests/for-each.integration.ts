@@ -26,7 +26,7 @@ describe("when converting for-each", () => {
         const resultFromNode = await foreachEarlyReturn();
         expect(resultFromSfn).toEqual(resultFromNode);
     });
-    it.skip("will execute nestedForeach as if it were node", async () => {
+    it("will execute nestedForeach as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("for-each", "nestedForeach");
         const { nestedForeach } = require("../resources/for-each");
         const resultFromNode = await nestedForeach();

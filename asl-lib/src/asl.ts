@@ -267,7 +267,7 @@ export namespace convert {
     return String(arg);
   }
 
-  export function stringToBoolean(arg: string | undefined): unknown {
+  export function stringToBoolean(arg: string | undefined): boolean {
     if (arg === undefined) throw new Error(`cannot convert undefined to boolean`);
     if (arg !== "true" && arg !== "false") throw new Error(`cannot convert ${arg} to boolean`);
     if (arg === "false") return false;

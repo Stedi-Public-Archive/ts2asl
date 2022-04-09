@@ -162,7 +162,7 @@ export declare const jsonPathMap: (items: unknown[], expression: string) => unkn
 export declare namespace convert {
     function booleanToString(arg: boolean | undefined): string;
     function numberToString(arg: number | undefined): string;
-    function stringToBoolean(arg: string | undefined): unknown;
+    function stringToBoolean(arg: string | undefined): boolean;
     function stringToNumber(arg: string | undefined): number;
 }
 export declare namespace states {

@@ -1,0 +1,113 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "bool",
+        "_syntaxKind": "identifier",
+        "type": "boolean"
+      },
+      "expression": {
+        "arguments": [
+          {
+            "value": "true",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "function": "asl.states.stringToJson",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "stateName": "Assign bool",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (bool === true)",
+      "condition": {
+        "lhs": {
+          "identifier": "bool",
+          "_syntaxKind": "identifier",
+          "type": "boolean"
+        },
+        "operator": "eq",
+        "rhs": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "str",
+              "_syntaxKind": "identifier",
+              "type": "string"
+            },
+            "expression": {
+              "arguments": [
+                {
+                  "value": "{}",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                {
+                  "identifier": "bool",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                }
+              ],
+              "function": "asl.states.format",
+              "_syntaxKind": "asl-intrinsic-function"
+            },
+            "stateName": "Assign str",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "stateName": "If (str === \"true\")",
+            "condition": {
+              "lhs": {
+                "identifier": "str",
+                "_syntaxKind": "identifier",
+                "type": "string"
+              },
+              "operator": "eq",
+              "rhs": {
+                "value": "true",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "then": {
+              "statements": [
+                {
+                  "expression": {
+                    "value": "succeeded",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "return",
+                  "stateName": "Return \"succeeded\""
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (str === \"true\") {\n      return \"succeeded\";\n    }",
+            "_syntaxKind": "if"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "Throw Error",
+      "cause": "failed",
+      "error": "Error",
+      "source": "throw new Error(\"failed\");",
+      "_syntaxKind": "asl-fail-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
