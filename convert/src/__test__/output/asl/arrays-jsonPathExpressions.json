@@ -59,11 +59,11 @@
         }
       },
       "Comment": "source: filterArray = { cats: { young: [{ age: 2, spec ...",
-      "Next": "Assign uniqueAges"
+      "Next": "Assign ages"
     },
-    "Assign uniqueAges": {
+    "Assign ages": {
       "Type": "Pass",
-      "ResultPath": "$.vars.uniqueAges",
+      "ResultPath": "$.vars.ages",
       "InputPath": "$.vars.filterArray..age",
       "Next": "Assign flattenedPets"
     },
@@ -77,13 +77,13 @@
       "Type": "Pass",
       "ResultPath": "$.vars.slicedArr",
       "InputPath": "$.vars.filterArray.cats.young[1:1]",
-      "Next": "Return { uniqueAges, ..."
+      "Next": "Return { ages, fl ..."
     },
-    "Return { uniqueAges, ...": {
+    "Return { ages, fl ...": {
       "End": true,
       "Type": "Pass",
       "Parameters": {
-        "uniqueAges.$": "$.vars.uniqueAges",
+        "ages.$": "$.vars.ages",
         "flattenedPets.$": "$.vars.flattenedPets",
         "slicedArr.$": "$.vars.slicedArr"
       }

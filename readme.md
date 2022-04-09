@@ -86,7 +86,7 @@ As asl-lib implements the same behavior as AWS Step Functions would, it is possi
 There are some differences between Typescript and ASL that a compiler wont be able to solve (fully):
 -  object references in typescript are passed **by reference**, object references in asl references are passed **by value**.  
 
-## Uefull patterns & examples
+## Usefull patterns & examples
 - [example project](./cdk-example/) containing a [simple program](./cdk-example/src/program.ts), [CDK for deployment](./cdk-example/lib/cdk-example-stack.ts) and [Jest for testing](./cdk-example/test/program.test.ts)
 - Waiting for completion of SDK state, example: [organizations.createAccount](./examples/switch.md#create-aws-account).
 <!-- 

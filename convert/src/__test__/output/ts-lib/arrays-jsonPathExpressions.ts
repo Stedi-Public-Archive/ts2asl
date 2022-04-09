@@ -73,11 +73,11 @@ export const jsonPathExpressions = asl.deploy.asStateMachine(async () =>{
         comment: "filterArray = {\n    cats: {\n      young: [{ age: 2, species: \"cat\" }, { age: 4, species: \"cat\" }],\n      old: [{ age: 12, species: \"cat\" }, { age: 14, species: \"cat\" }],\n    },\n    dogs: {\n      young: [{ age: 1, species: \"dog\" }, { age: 3, species: \"dog\" }],\n      old: [{ age: 11, species: \"dog\" }, { age: 13, species: \"dog\" }]\n    }\n  }"
     });
     //Add array of unique ages using JSONPath Expression
-    let uniqueAges = asl.jsonPathExpression(filterArray, "..age");
+    let ages = asl.jsonPathExpression(filterArray, "..age");
     let flattenedPets = asl.jsonPathExpression(filterArray, "[*][*][*]");
     let slicedArr = asl.jsonPathSlice(filterArray.cats.young, 1, 1);
     return {
-        uniqueAges,
+        ages,
         flattenedPets,
         slicedArr
     };

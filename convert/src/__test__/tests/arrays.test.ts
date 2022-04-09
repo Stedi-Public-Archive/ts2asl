@@ -408,9 +408,16 @@ describe("when converting arrays", () => {
         "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
         "States": Object {
+          "Assign ages": Object {
+            "Comment": undefined,
+            "InputPath": "$.vars.filterArray..age",
+            "Next": "Assign flattenedPets",
+            "ResultPath": "$.vars.ages",
+            "Type": "Pass",
+          },
           "Assign filterArray": Object {
             "Comment": "source: filterArray = { cats: { young: [{ age: 2, spec ...",
-            "Next": "Assign uniqueAges",
+            "Next": "Assign ages",
             "Result": Object {
               "cats": Object {
                 "old": Array [
@@ -470,15 +477,8 @@ describe("when converting arrays", () => {
           "Assign slicedArr": Object {
             "Comment": undefined,
             "InputPath": "$.vars.filterArray.cats.young[1:1]",
-            "Next": "Return { uniqueAges, ...",
+            "Next": "Return { ages, fl ...",
             "ResultPath": "$.vars.slicedArr",
-            "Type": "Pass",
-          },
-          "Assign uniqueAges": Object {
-            "Comment": undefined,
-            "InputPath": "$.vars.filterArray..age",
-            "Next": "Assign flattenedPets",
-            "ResultPath": "$.vars.uniqueAges",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -489,13 +489,13 @@ describe("when converting arrays", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return { uniqueAges, ...": Object {
+          "Return { ages, fl ...": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {
+              "ages.$": "$.vars.ages",
               "flattenedPets.$": "$.vars.flattenedPets",
               "slicedArr.$": "$.vars.slicedArr",
-              "uniqueAges.$": "$.vars.uniqueAges",
             },
             "Type": "Pass",
           },
