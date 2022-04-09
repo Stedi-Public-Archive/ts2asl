@@ -37,11 +37,11 @@ export const createName = (converterOptions: ConverterOptions, mainNode: ts.Node
       ln = getLineNumber(node, pos);
     }
     try {
-      if ((node as any).original) {
+      if ((node as any).original && (node as any).original.pos !== -1) {
         const text = (node as any).original.getText();
         texts.push(text === undefined ? "" : text);
       } else {
-        const text = node.getText();
+        const text = node.pos != -1 ? node.getText() : undefined;
         texts.push(text === undefined ? "" : text);
       }
     } catch {

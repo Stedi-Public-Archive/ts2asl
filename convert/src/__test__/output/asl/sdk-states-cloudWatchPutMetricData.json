@@ -1,0 +1,36 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign value"
+    },
+    "Assign value": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.value",
+      "Result": 42,
+      "Comment": "source: value = 42",
+      "Next": "Publish Metric Data"
+    },
+    "Publish Metric Data": {
+      "Type": "Task",
+      "ResultPath": null,
+      "Resource": "arn:aws:states:::aws-sdk:cloudwatch:putMetricData",
+      "Parameters": {
+        "MetricData": [
+          {
+            "MetricName": "ExampleMetric",
+            "Value.$": "$.vars.value"
+          }
+        ],
+        "Namespace": "ExampleNamespace"
+      },
+      "End": true
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

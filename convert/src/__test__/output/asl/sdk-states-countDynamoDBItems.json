@@ -1,0 +1,39 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "COUNT(where gsi1pk === 'test')"
+    },
+    "COUNT(where gsi1pk === 'test')": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
+      "Parameters": {
+        "TableName": "[!parameter[tableName]]",
+        "IndexName": "GSI1",
+        "KeyConditionExpression": "#pk = :val",
+        "ExpressionAttributeNames": {
+          "#pk": "gsi1pk"
+        },
+        "ExpressionAttributeValues": {
+          ":val": {
+            "S": "test"
+          }
+        },
+        "Select": "COUNT"
+      },
+      "Next": "Return result.Count"
+    },
+    "Return result.Count": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.result.Count"
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

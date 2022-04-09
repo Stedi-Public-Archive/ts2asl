@@ -1,0 +1,49 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "PutItem"
+    },
+    "PutItem": {
+      "Type": "Task",
+      "ResultPath": null,
+      "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+      "Parameters": {
+        "Item": {
+          "pk": {
+            "S": "pk-value"
+          },
+          "sk": {
+            "S": "sk-value"
+          },
+          "string": {
+            "S": "value"
+          },
+          "number": {
+            "N": "42"
+          }
+        },
+        "ConditionExpression": "attribute_not_exists(pk)",
+        "TableName": "[!parameter[assignmentsTableName]]"
+      },
+      "Catch": [
+        {
+          "Next": "Empty",
+          "ErrorEquals": [
+            "DynamoDb.ConditionalCheckFailedException"
+          ]
+        }
+      ],
+      "End": true
+    },
+    "Empty": {
+      "Type": "Succeed"
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

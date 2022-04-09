@@ -1,0 +1,52 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "contextArgumentName": {
+    "identifier": "context",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Human Approval",
+        "resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+        "parameters": {
+          "properties": {
+            "FunctionName": {
+              "value": "sendApprovalEmail",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "Payload": {
+              "properties": {
+                "taskToken": {
+                  "identifier": "context.task.token",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                },
+                "request": {
+                  "identifier": "input",
+                  "_syntaxKind": "identifier",
+                  "type": "object"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "asl-task-state"
+      },
+      "stateName": "Assign result",
+      "_syntaxKind": "variable-assignment"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

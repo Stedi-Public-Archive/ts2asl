@@ -1,0 +1,78 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "COUNT(where gsi1pk === 'test')",
+        "resource": "arn:aws:states:::aws-sdk:dynamodb:query",
+        "parameters": {
+          "properties": {
+            "TableName": {
+              "value": "[!parameter[tableName]]",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "IndexName": {
+              "value": "GSI1",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "KeyConditionExpression": {
+              "value": "#pk = :val",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "ExpressionAttributeNames": {
+              "properties": {
+                "#pk": {
+                  "value": "gsi1pk",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "ExpressionAttributeValues": {
+              "properties": {
+                ":val": {
+                  "properties": {
+                    "S": {
+                      "value": "test",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    }
+                  },
+                  "_syntaxKind": "literal-object"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "Select": {
+              "value": "COUNT",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "asl-task-state"
+      },
+      "stateName": "Assign result",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "result.Count",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return result.Count"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

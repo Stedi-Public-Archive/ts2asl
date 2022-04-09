@@ -28,18 +28,18 @@
           "Next": "Assign input.delayInSeconds"
         }
       ],
-      "Comment": "source: if (typeof input.delayInSeconds != \"number\") { ...",
-      "Default": "Empty Default Choice"
+      "Comment": "source: if (typeof input.delayInSeconds !== \"number\")  ...",
+      "Default": "Wait"
     },
     "Assign input.delayInSeconds": {
       "Type": "Pass",
       "ResultPath": "$.vars.delayInSeconds",
       "Result": 5,
-      "End": true
+      "Next": "Wait"
     },
-    "Empty Default Choice": {
-      "Type": "Pass",
-      "ResultPath": null,
+    "Wait": {
+      "Type": "Wait",
+      "SecondsPath": "$.vars.delayInSeconds",
       "End": true
     }
   },

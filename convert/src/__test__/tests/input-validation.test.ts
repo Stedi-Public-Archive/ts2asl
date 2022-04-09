@@ -4,8 +4,114 @@ describe("when converting input-validation", () => {
   beforeAll(() => {
     converted = runConvertForTest("input-validation");
   });
-  it("then main can be converted to asl", async () => {
-    expect(converted.main.asl).toMatchInlineSnapshot(`
+  it("then checkArgumentType can be converted to asl", async () => {
+    expect(converted.checkArgumentType.asl).toMatchInlineSnapshot(`
+      Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "StartAt": "Initialize",
+        "States": Object {
+          "If (typeof input.delayInS ...": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Throw ValidationError",
+                "Not": Object {
+                  "And": Array [
+                    Object {
+                      "IsPresent": true,
+                      "Variable": "$.vars.delayInSeconds",
+                    },
+                    Object {
+                      "IsNumeric": true,
+                      "Variable": "$.vars.delayInSeconds",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": "source: if (typeof input.delayInSeconds !== \\"number\\")  ...",
+            "Default": "Wait",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "If (typeof input.delayInS ...",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Throw ValidationError": Object {
+            "Cause": "delayInSeconds must be a number",
+            "Comment": "source: throw new ValidationError(\\"delayInSeconds must ...",
+            "Error": "ValidationError",
+            "Type": "Fail",
+          },
+          "Wait": Object {
+            "Comment": undefined,
+            "End": true,
+            "SecondsPath": "$.vars.delayInSeconds",
+            "Type": "Wait",
+          },
+        },
+      }
+    `);
+  });
+  it("then checkArgumentTypeProvideDefault can be converted to asl", async () => {
+    expect(converted.checkArgumentTypeProvideDefault.asl)
+      .toMatchInlineSnapshot(`
+      Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign input.delayInSeconds": Object {
+            "Comment": undefined,
+            "Next": "Wait",
+            "Result": 5,
+            "ResultPath": "$.vars.delayInSeconds",
+            "Type": "Pass",
+          },
+          "If (typeof input.delayInS ...": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Assign input.delayInSeconds",
+                "Not": Object {
+                  "And": Array [
+                    Object {
+                      "IsPresent": true,
+                      "Variable": "$.vars.delayInSeconds",
+                    },
+                    Object {
+                      "IsNumeric": true,
+                      "Variable": "$.vars.delayInSeconds",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": "source: if (typeof input.delayInSeconds !== \\"number\\")  ...",
+            "Default": "Wait",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "If (typeof input.delayInS ...",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Wait": Object {
+            "Comment": undefined,
+            "End": true,
+            "SecondsPath": "$.vars.delayInSeconds",
+            "Type": "Wait",
+          },
+        },
+      }
+    `);
+  });
+  it("then checkArgumentRange can be converted to asl", async () => {
+    expect(converted.checkArgumentRange.asl).toMatchInlineSnapshot(`
       Object {
         "Comment": "ASL Generated using ts2asl version 0.1.29.",
         "StartAt": "Initialize",
@@ -84,58 +190,6 @@ describe("when converting input-validation", () => {
             "Next": "Return input.delayInSeconds",
             "SecondsPath": "$.vars.delayInSeconds",
             "Type": "Wait",
-          },
-        },
-      }
-    `);
-  });
-  it("then notEquals can be converted to asl", async () => {
-    expect(converted.notEquals.asl).toMatchInlineSnapshot(`
-      Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
-        "StartAt": "Initialize",
-        "States": Object {
-          "Assign input.delayInSeconds": Object {
-            "Comment": undefined,
-            "End": true,
-            "Result": 5,
-            "ResultPath": "$.vars.delayInSeconds",
-            "Type": "Pass",
-          },
-          "Empty Default Choice": Object {
-            "End": true,
-            "ResultPath": null,
-            "Type": "Pass",
-          },
-          "If (typeof input.delayInS ...": Object {
-            "Choices": Array [
-              Object {
-                "Next": "Assign input.delayInSeconds",
-                "Not": Object {
-                  "And": Array [
-                    Object {
-                      "IsPresent": true,
-                      "Variable": "$.vars.delayInSeconds",
-                    },
-                    Object {
-                      "IsNumeric": true,
-                      "Variable": "$.vars.delayInSeconds",
-                    },
-                  ],
-                },
-              },
-            ],
-            "Comment": "source: if (typeof input.delayInSeconds != \\"number\\") { ...",
-            "Default": "Empty Default Choice",
-            "Type": "Choice",
-          },
-          "Initialize": Object {
-            "Next": "If (typeof input.delayInS ...",
-            "Parameters": Object {
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
           },
         },
       }

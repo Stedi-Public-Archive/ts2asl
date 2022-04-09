@@ -1,0 +1,27 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Human Approval"
+    },
+    "Human Approval": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Parameters": {
+        "FunctionName": "sendApprovalEmail",
+        "Payload": {
+          "taskToken.$": "$$.Task.Token",
+          "request.$": "$.vars"
+        }
+      },
+      "End": true
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

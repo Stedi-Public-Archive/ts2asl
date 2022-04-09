@@ -1,0 +1,214 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign arr",
+        "parameters": {
+          "elements": [
+            {
+              "value": 1,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 2,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 3,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "arr = [1, 2, 3]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign arr",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign result",
+        "parameters": {
+          "value": "",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "result = \"\"",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign result",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For item Of arr",
+      "items": {
+        "identifier": "arr",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "item",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "Switch (item)",
+            "choices": [
+              {
+                "condition": {
+                  "lhs": {
+                    "identifier": "item",
+                    "_syntaxKind": "identifier",
+                    "type": "numeric"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": 1,
+                    "type": "numeric",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "block": {
+                  "statements": [
+                    {
+                      "name": {
+                        "identifier": "result",
+                        "_syntaxKind": "identifier",
+                        "type": "string"
+                      },
+                      "expression": {
+                        "arguments": [
+                          {
+                            "value": "{}one",
+                            "type": "string",
+                            "_syntaxKind": "literal"
+                          },
+                          {
+                            "identifier": "result",
+                            "_syntaxKind": "identifier",
+                            "type": "string"
+                          }
+                        ],
+                        "function": "asl.states.format",
+                        "_syntaxKind": "asl-intrinsic-function"
+                      },
+                      "stateName": "Assign result",
+                      "_syntaxKind": "variable-assignment"
+                    }
+                  ],
+                  "_syntaxKind": "function"
+                }
+              },
+              {
+                "condition": {
+                  "lhs": {
+                    "identifier": "item",
+                    "_syntaxKind": "identifier",
+                    "type": "numeric"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": 2,
+                    "type": "numeric",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "block": {
+                  "statements": [
+                    {
+                      "name": {
+                        "identifier": "result",
+                        "_syntaxKind": "identifier",
+                        "type": "string"
+                      },
+                      "expression": {
+                        "arguments": [
+                          {
+                            "value": "{}two",
+                            "type": "string",
+                            "_syntaxKind": "literal"
+                          },
+                          {
+                            "identifier": "result",
+                            "_syntaxKind": "identifier",
+                            "type": "string"
+                          }
+                        ],
+                        "function": "asl.states.format",
+                        "_syntaxKind": "asl-intrinsic-function"
+                      },
+                      "stateName": "Assign result",
+                      "_syntaxKind": "variable-assignment"
+                    }
+                  ],
+                  "_syntaxKind": "function"
+                }
+              }
+            ],
+            "default": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "result",
+                    "_syntaxKind": "identifier",
+                    "type": "string"
+                  },
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "{}three",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "result",
+                        "_syntaxKind": "identifier",
+                        "type": "string"
+                      }
+                    ],
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "stateName": "Assign result",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n        result = `${result}two`;\n        break;\n      default:\n        result = `${result}three`;\n        break;\n    }",
+            "_syntaxKind": "asl-choice-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "for-each"
+    },
+    {
+      "expression": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return result"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

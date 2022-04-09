@@ -1,0 +1,47 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "If (typeof input.delayInS ..."
+    },
+    "If (typeof input.delayInS ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "And": [
+              {
+                "Variable": "$.vars.delayInSeconds",
+                "IsPresent": true
+              },
+              {
+                "Variable": "$.vars.delayInSeconds",
+                "IsNumeric": true
+              }
+            ]
+          },
+          "Next": "Throw ValidationError"
+        }
+      ],
+      "Comment": "source: if (typeof input.delayInSeconds !== \"number\")  ...",
+      "Default": "Wait"
+    },
+    "Throw ValidationError": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "delayInSeconds must be a number",
+      "Comment": "source: throw new ValidationError(\"delayInSeconds must ..."
+    },
+    "Wait": {
+      "Type": "Wait",
+      "SecondsPath": "$.vars.delayInSeconds",
+      "End": true
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

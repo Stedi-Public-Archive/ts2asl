@@ -1,10 +1,20 @@
 import * as asl from "@ts2asl/asl-lib"
 
-export const checkArgumentType = asl.deploy.asStateMachine(async (input: Input) => {
-  if (typeof input.delayInSeconds !== "number") {
-    throw new ValidationError("delayInSeconds must be a number");
-  }
-  await asl.wait({ seconds: input.delayInSeconds });
+export const checkArgumentType = asl.deploy.asStateMachine(async (input: Input) =>{
+    asl.typescriptIf({
+        name: "If (typeof input.delayInS ...",
+        condition: () => typeof input.delayInSeconds !== "number",
+        then: async () => {
+            asl.fail({
+                name: "Throw ValidationError",
+                error: "ValidationError",
+                cause: "delayInSeconds must be a number",
+                comment: "throw new ValidationError(\"delayInSeconds must be a number\");"
+            })
+        },
+        comment: "if (typeof input.delayInSeconds !== \"number\") {\n    throw new ValidationError(\"delayInSeconds must be a number\");\n  }"
+    })
+    await asl.wait({ seconds: input.delayInSeconds });
 });
 
 export const checkArgumentTypeProvideDefault = asl.deploy.asStateMachine(async (input: Input) => {

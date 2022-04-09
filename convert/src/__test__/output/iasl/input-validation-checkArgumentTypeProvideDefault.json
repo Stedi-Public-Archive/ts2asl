@@ -46,8 +46,16 @@
         ],
         "_syntaxKind": "function"
       },
-      "source": "if (typeof input.delayInSeconds != \"number\") {\n    input.delayInSeconds = 5;\n  }",
+      "source": "if (typeof input.delayInSeconds !== \"number\") {\n    input.delayInSeconds = 5;\n  }",
       "_syntaxKind": "if"
+    },
+    {
+      "seconds": {
+        "identifier": "input.delayInSeconds",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "asl-wait-state"
     }
   ],
   "_syntaxKind": "statemachine"

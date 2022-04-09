@@ -1,0 +1,55 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "If (typeof input.delayInS ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "input.delayInSeconds",
+              "type": "numeric",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "number",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Throw ValidationError",
+            "cause": "delayInSeconds must be a number",
+            "error": "ValidationError",
+            "source": "throw new ValidationError(\"delayInSeconds must be a number\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof input.delayInSeconds !== \"number\") {\n    throw new ValidationError(\"delayInSeconds must be a number\");\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "seconds": {
+        "identifier": "input.delayInSeconds",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "asl-wait-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

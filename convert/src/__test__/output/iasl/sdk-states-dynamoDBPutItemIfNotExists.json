@@ -1,0 +1,81 @@
+{
+  "statements": [
+    {
+      "stateName": "PutItem",
+      "resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+      "parameters": {
+        "properties": {
+          "Item": {
+            "properties": {
+              "pk": {
+                "properties": {
+                  "S": {
+                    "value": "pk-value",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              },
+              "sk": {
+                "properties": {
+                  "S": {
+                    "value": "sk-value",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              },
+              "string": {
+                "properties": {
+                  "S": {
+                    "value": "value",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              },
+              "number": {
+                "properties": {
+                  "N": {
+                    "value": "42",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          },
+          "ConditionExpression": {
+            "value": "attribute_not_exists(pk)",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "TableName": {
+            "value": "[!parameter[assignmentsTableName]]",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "catch": [
+        {
+          "errorEquals": [
+            "DynamoDb.ConditionalCheckFailedException"
+          ],
+          "block": {
+            "statements": [],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "_syntaxKind": "asl-task-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
