@@ -1,0 +1,31 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign numbers"
+    },
+    "Assign numbers": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.numbers",
+      "Result": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "Comment": "source: numbers = [0, 1, 2, 3]",
+      "Next": "Return \"ok\""
+    },
+    "Return \"ok\"": {
+      "End": true,
+      "Type": "Pass",
+      "Result": "ok"
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.29."
+}

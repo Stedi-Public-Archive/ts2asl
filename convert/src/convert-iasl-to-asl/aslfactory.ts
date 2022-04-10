@@ -76,7 +76,7 @@ export class AslFactory {
       this.appendRetryConfiguration(task, expression.retry);
 
     } else if (iasl.Check.isDoWhileStatement(expression)) {
-
+      if (expression.while.statements.length == 0) throw new Error("Do while must have at least one statement");
       const childContext = appendBlock(expression.while, scopes, context.createChildContext())
 
       if (childContext.startAt !== undefined) {
@@ -150,7 +150,7 @@ export class AslFactory {
       context.appendTails(breakStates);
 
     } else if (iasl.Check.isWhileStatement(expression)) {
-
+      if (expression.while.statements.length == 0) throw new Error("While must have at least one statement");
       const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "While Condition");
       const whileConditionOperator = createChoiceOperator(expression.condition);
       const whileBodyBranch = context.appendChoiceOperator(whileConditionOperator);
@@ -215,7 +215,7 @@ export class AslFactory {
       this.appendRetryConfiguration(mapState, expression.retry);
 
     } else if (iasl.Check.isForEachStatement(expression)) {
-
+      if (expression.iterator.statements.length == 0) return;
       const namespace = foreachCounter.value > 0 ? "foreach_" + (foreachCounter.value + 1) : "foreach";
       const namePostFix = foreachCounter.value > 0 ? " " + (foreachCounter.value + 1) : "";
       foreachCounter.value++;

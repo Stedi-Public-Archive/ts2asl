@@ -1,0 +1,70 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "numbers",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign numbers",
+        "parameters": {
+          "elements": [
+            {
+              "value": 0,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 1,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 2,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            {
+              "value": 3,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            }
+          ],
+          "_syntaxKind": "literal-array"
+        },
+        "source": "numbers = [0, 1, 2, 3]",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign numbers",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For _number Of numbers",
+      "items": {
+        "identifier": "numbers",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "_number",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "for-each"
+    },
+    {
+      "expression": {
+        "value": "ok",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return \"ok\""
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

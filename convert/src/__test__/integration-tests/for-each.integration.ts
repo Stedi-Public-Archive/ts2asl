@@ -32,4 +32,10 @@ describe("when converting for-each", () => {
         const resultFromNode = await nestedForeach();
         expect(resultFromSfn).toEqual(resultFromNode);
     });
+    it("will execute emptyForeach as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("for-each", "emptyForeach");
+        const { emptyForeach } = require("../resources/for-each");
+        const resultFromNode = await emptyForeach();
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
 });

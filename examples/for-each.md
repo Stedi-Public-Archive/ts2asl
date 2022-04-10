@@ -117,3 +117,18 @@ export const main = asl.deploy.asStateMachine(async () =>
 ```
 
 
+## empty foreach
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBudW1iZXJzID0gWzAsIDEsIDIsIDNdOwogIGZvciAoY29uc3QgX251bWJlciBvZiBudW1iZXJzKSB7CgogIH07CiAgcmV0dXJuICJvayIKfSk7)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  const numbers = [0, 1, 2, 3];
+  for (const _number of numbers) {
+
+  };
+  return "ok"
+});
+```
+
+

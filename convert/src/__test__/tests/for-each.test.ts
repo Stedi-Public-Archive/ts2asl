@@ -704,4 +704,40 @@ describe("when converting for-each", () => {
       }
     `);
   });
+  it("then emptyForeach can be converted to asl", async () => {
+    expect(converted.emptyForeach.asl).toMatchInlineSnapshot(`
+      Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign numbers": Object {
+            "Comment": "source: numbers = [0, 1, 2, 3]",
+            "Next": "Return \\"ok\\"",
+            "Result": Array [
+              0,
+              1,
+              2,
+              3,
+            ],
+            "ResultPath": "$.vars.numbers",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign numbers",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return \\"ok\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "ok",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
 });

@@ -107,3 +107,11 @@ export const nestedForeach = asl.deploy.asStateMachine(async () => {
     };
   };
 });
+
+export const emptyForeach = asl.deploy.asStateMachine(async () => {
+  const numbers = [0, 1, 2, 3];
+  for (const _number of numbers) {
+
+  };
+  return "ok"
+});
