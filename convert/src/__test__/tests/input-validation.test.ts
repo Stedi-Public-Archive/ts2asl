@@ -7,7 +7,7 @@ describe("when converting input-validation", () => {
   it("then checkArgumentType can be converted to asl", async () => {
     expect(converted.checkArgumentType.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "If (typeof input.delayInS ...": Object {
@@ -60,7 +60,7 @@ describe("when converting input-validation", () => {
     expect(converted.checkArgumentTypeProvideDefault.asl)
       .toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign input.delayInSeconds": Object {
@@ -113,7 +113,7 @@ describe("when converting input-validation", () => {
   it("then checkArgumentRange can be converted to asl", async () => {
     expect(converted.checkArgumentRange.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign input.delayInSeconds": Object {

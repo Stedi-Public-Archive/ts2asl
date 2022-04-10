@@ -7,7 +7,7 @@ describe("when converting throw", () => {
   it("then tryCatch can be converted to asl", async () => {
     expect(converted.tryCatch.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign vars": Object {
@@ -104,7 +104,7 @@ describe("when converting throw", () => {
   it("then throwErrors can be converted to asl", async () => {
     expect(converted.throwErrors.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "If (input.delayInSeconds ...": Object {
@@ -154,7 +154,7 @@ describe("when converting throw", () => {
   it("then RetryErrors can be converted to asl", async () => {
     expect(converted.RetryErrors.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -202,7 +202,7 @@ describe("when converting throw", () => {
   it("then CatchErrors can be converted to asl", async () => {
     expect(converted.CatchErrors.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign vars": Object {
@@ -260,9 +260,9 @@ describe("when converting throw", () => {
           "Parallel_1": Object {
             "Branches": Array [
               Object {
-                "StartAt": "Evaluate States.Format('c ...",
+                "StartAt": "Evaluate Format('cause {} ...",
                 "States": Object {
-                  "Evaluate States.Format('c ...": Object {
+                  "Evaluate Format('cause {} ...": Object {
                     "Comment": "source: result of an expression cannot be placed in In ...",
                     "Next": "Log (\`cause \${error.Cause}\`)",
                     "Parameters": Object {
@@ -271,7 +271,7 @@ describe("when converting throw", () => {
                     "ResultPath": "$.tmp.eval",
                     "Type": "Pass",
                   },
-                  "Evaluate States.Format('m ...": Object {
+                  "Evaluate Format('message ...": Object {
                     "Comment": "source: result of an expression cannot be placed in In ...",
                     "Next": "Log (\`message \${error.Err ...",
                     "Parameters": Object {
@@ -283,7 +283,7 @@ describe("when converting throw", () => {
                   "Log (\`cause \${error.Cause}\`)": Object {
                     "Comment": "source: console.log(\`cause \${error.Cause}\`)",
                     "InputPath": "$.tmp.eval.value",
-                    "Next": "Evaluate States.Format('m ...",
+                    "Next": "Evaluate Format('message ...",
                     "ResultPath": null,
                     "Type": "Pass",
                   },

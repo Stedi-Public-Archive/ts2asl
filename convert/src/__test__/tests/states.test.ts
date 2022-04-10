@@ -7,7 +7,7 @@ describe("when converting states", () => {
   it("then waitForTaskToken can be converted to asl", async () => {
     expect(converted.waitForTaskToken.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Human Approval": Object {

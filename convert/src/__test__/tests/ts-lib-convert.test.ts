@@ -7,7 +7,7 @@ describe("when converting ts-lib-convert", () => {
   it("then convertStringToNumber can be converted to asl", async () => {
     expect(converted.convertStringToNumber.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign num": Object {
@@ -24,7 +24,7 @@ describe("when converting ts-lib-convert", () => {
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}', $.v ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign str",
             "Parameters": Object {
@@ -33,7 +33,7 @@ describe("when converting ts-lib-convert", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.StringToJ ...": Object {
+          "Evaluate StringToJson('42')": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign num",
             "Parameters": Object {
@@ -45,7 +45,7 @@ describe("when converting ts-lib-convert", () => {
           "If (num === 42)": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}', $.v ...",
                 "NumericEquals": 42,
                 "Variable": "$.vars.num",
               },
@@ -67,7 +67,7 @@ describe("when converting ts-lib-convert", () => {
             "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "Evaluate States.StringToJ ...",
+            "Next": "Evaluate StringToJson('42')",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -93,7 +93,7 @@ describe("when converting ts-lib-convert", () => {
   it("then convertStringToBoolean can be converted to asl", async () => {
     expect(converted.convertStringToBoolean.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign bool": Object {
@@ -110,7 +110,7 @@ describe("when converting ts-lib-convert", () => {
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}', $.v ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign str",
             "Parameters": Object {
@@ -119,7 +119,7 @@ describe("when converting ts-lib-convert", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.StringToJ ...": Object {
+          "Evaluate StringToJson('true')": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign bool",
             "Parameters": Object {
@@ -132,7 +132,7 @@ describe("when converting ts-lib-convert", () => {
             "Choices": Array [
               Object {
                 "BooleanEquals": true,
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}', $.v ...",
                 "Variable": "$.vars.bool",
               },
             ],
@@ -153,7 +153,7 @@ describe("when converting ts-lib-convert", () => {
             "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "Evaluate States.StringToJ ...",
+            "Next": "Evaluate StringToJson('true')",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

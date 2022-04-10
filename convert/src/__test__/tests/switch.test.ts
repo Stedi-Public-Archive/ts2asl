@@ -7,7 +7,7 @@ describe("when converting switch", () => {
   it("then simpleSwitch can be converted to asl", async () => {
     expect(converted.simpleSwitch.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -49,7 +49,7 @@ describe("when converting switch", () => {
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}one', ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
@@ -58,20 +58,20 @@ describe("when converting switch", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ..._1": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign result_2",
-            "Parameters": Object {
-              "value.$": "States.Format('{}two', $.vars.result)",
-            },
-            "ResultPath": "$.tmp.eval",
-            "Type": "Pass",
-          },
-          "Evaluate States.Format('{ ..._2": Object {
+          "Evaluate Format('{}three' ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_3",
             "Parameters": Object {
               "value.$": "States.Format('{}three', $.vars.result)",
+            },
+            "ResultPath": "$.tmp.eval",
+            "Type": "Pass",
+          },
+          "Evaluate Format('{}two', ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign result_2",
+            "Parameters": Object {
+              "value.$": "States.Format('{}two', $.vars.result)",
             },
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
@@ -128,18 +128,18 @@ describe("when converting switch", () => {
           "Switch (item)": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}one', ...",
                 "NumericEquals": 1,
                 "Variable": "$.foreach.currentItem",
               },
               Object {
-                "Next": "Evaluate States.Format('{ ..._1",
+                "Next": "Evaluate Format('{}two', ...",
                 "NumericEquals": 2,
                 "Variable": "$.foreach.currentItem",
               },
             ],
             "Comment": "source: switch (item) { case 1: result = \`\${result}one ...",
-            "Default": "Evaluate States.Format('{ ..._2",
+            "Default": "Evaluate Format('{}three' ...",
             "Type": "Choice",
           },
         },
@@ -149,7 +149,7 @@ describe("when converting switch", () => {
   it("then createAwsAccount can be converted to asl", async () => {
     expect(converted.createAwsAccount.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign creationStatus": Object {

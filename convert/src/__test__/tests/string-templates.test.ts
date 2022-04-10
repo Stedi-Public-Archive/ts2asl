@@ -7,7 +7,7 @@ describe("when converting string-templates", () => {
   it("then stringTemplates can be converted to asl", async () => {
     expect(converted.stringTemplates.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign variable": Object {

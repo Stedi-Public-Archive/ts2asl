@@ -24,7 +24,7 @@ describe("when transpiling function", () => {
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Evaluate States.StringToJ ...": Object {
+          "Evaluate StringToJson('0')": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result",
             "Parameters": Object {
@@ -34,7 +34,7 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "Evaluate States.StringToJ ...",
+            "Next": "Evaluate StringToJson('0')",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -66,7 +66,7 @@ describe("when transpiling function", () => {
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Evaluate States.StringToJ ...": Object {
+          "Evaluate StringToJson('s')": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result",
             "Parameters": Object {
@@ -76,7 +76,7 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "Evaluate States.StringToJ ...",
+            "Next": "Evaluate StringToJson('s')",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -114,7 +114,7 @@ describe("when transpiling function", () => {
           },
           "Assign tmp": Object {
             "Comment": "source: tmp = { num: 12, str: \\"val\\" }",
-            "Next": "Evaluate States.JsonToStr ...",
+            "Next": "Evaluate JsonToString($.v ...",
             "Result": Object {
               "num": 12,
               "str": "val",
@@ -122,7 +122,7 @@ describe("when transpiling function", () => {
             "ResultPath": "$.vars.tmp",
             "Type": "Pass",
           },
-          "Evaluate States.JsonToStr ...": Object {
+          "Evaluate JsonToString($.v ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result",
             "Parameters": Object {

@@ -7,7 +7,7 @@ describe("when converting for-each", () => {
   it("then simpleForeach can be converted to asl", async () => {
     expect(converted.simpleForeach.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -56,7 +56,7 @@ describe("when converting for-each", () => {
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}', $.f ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
@@ -65,7 +65,7 @@ describe("when converting for-each", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ..._1": Object {
+          "Evaluate Format('{}, {}', ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
@@ -112,7 +112,7 @@ describe("when converting for-each", () => {
           "If (first)": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}', $.f ...",
                 "Not": Object {
                   "BooleanEquals": false,
                   "Variable": "$.vars.first",
@@ -120,7 +120,7 @@ describe("when converting for-each", () => {
               },
             ],
             "Comment": "source: if (first) { //first element should not be pre ...",
-            "Default": "Evaluate States.Format('{ ..._1",
+            "Default": "Evaluate Format('{}, {}', ...",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -144,7 +144,7 @@ describe("when converting for-each", () => {
   it("then foreachWithBreak can be converted to asl", async () => {
     expect(converted.foreachWithBreak.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -199,7 +199,7 @@ describe("when converting for-each", () => {
             "ResultPath": null,
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}', $.f ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
@@ -208,7 +208,7 @@ describe("when converting for-each", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ..._1": Object {
+          "Evaluate Format('{}, {}', ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
@@ -255,7 +255,7 @@ describe("when converting for-each", () => {
           "If (first)": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}', $.f ...",
                 "Not": Object {
                   "BooleanEquals": false,
                   "Variable": "$.vars.first",
@@ -263,7 +263,7 @@ describe("when converting for-each", () => {
               },
             ],
             "Comment": "source: if (first) { //first element should not be pre ...",
-            "Default": "Evaluate States.Format('{ ..._1",
+            "Default": "Evaluate Format('{}, {}', ...",
             "Type": "Choice",
           },
           "If (item === 2)": Object {
@@ -299,7 +299,7 @@ describe("when converting for-each", () => {
   it("then foreachWithContinue can be converted to asl", async () => {
     expect(converted.foreachWithContinue.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -354,7 +354,7 @@ describe("when converting for-each", () => {
             "ResultPath": null,
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}', $.f ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
@@ -363,7 +363,7 @@ describe("when converting for-each", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ..._1": Object {
+          "Evaluate Format('{}, {}', ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
@@ -410,7 +410,7 @@ describe("when converting for-each", () => {
           "If (first)": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}', $.f ...",
                 "Not": Object {
                   "BooleanEquals": false,
                   "Variable": "$.vars.first",
@@ -418,7 +418,7 @@ describe("when converting for-each", () => {
               },
             ],
             "Comment": "source: if (first) { //first element should not be pre ...",
-            "Default": "Evaluate States.Format('{ ..._1",
+            "Default": "Evaluate Format('{}, {}', ...",
             "Type": "Choice",
           },
           "If (item === 2)": Object {
@@ -454,14 +454,14 @@ describe("when converting for-each", () => {
   it("then foreachEarlyReturn can be converted to asl", async () => {
     expect(converted.foreachEarlyReturn.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Return_var": Object {
+          "Assign Result": Object {
             "Comment": undefined,
             "InputPath": "$.tmp.eval.value",
             "Next": "Return result",
-            "ResultPath": "$.tmp.return_var",
+            "ResultPath": "$.tmp.result",
             "Type": "Pass",
           },
           "Assign arr": Object {
@@ -475,9 +475,9 @@ describe("when converting for-each", () => {
             "ResultPath": "$.vars.arr",
             "Type": "Pass",
           },
-          "Evaluate States.Format('f ...": Object {
+          "Evaluate Format('found {} ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
-            "Next": "Assign Return_var",
+            "Next": "Assign Result",
             "Parameters": Object {
               "value.$": "States.Format('found {}!', $.foreach.currentItem)",
             },
@@ -522,7 +522,7 @@ describe("when converting for-each", () => {
           "If (item === 2)": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('f ...",
+                "Next": "Evaluate Format('found {} ...",
                 "NumericEquals": 2,
                 "Variable": "$.foreach.currentItem",
               },
@@ -542,7 +542,7 @@ describe("when converting for-each", () => {
           "Return result": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.return_var",
+            "InputPath": "$.tmp.result",
             "Type": "Pass",
           },
           "Throw Error": Object {
@@ -558,7 +558,7 @@ describe("when converting for-each", () => {
   it("then nestedForeach can be converted to asl", async () => {
     expect(converted.nestedForeach.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign combined": Object {
@@ -707,7 +707,7 @@ describe("when converting for-each", () => {
   it("then emptyForeach can be converted to asl", async () => {
     expect(converted.emptyForeach.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign numbers": Object {

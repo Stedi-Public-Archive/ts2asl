@@ -91,7 +91,7 @@ describe("when returning", () => {
             "name": Object {
               "_syntaxKind": "identifier",
               "compilerGenerated": true,
-              "identifier": "return_var",
+              "identifier": "result",
               "type": "unknown",
             },
             "stateName": "asl.typescriptInvoke({ ...",
@@ -101,7 +101,7 @@ describe("when returning", () => {
             "expression": Object {
               "_syntaxKind": "identifier",
               "compilerGenerated": true,
-              "identifier": "return_var",
+              "identifier": "result",
               "type": "unknown",
             },
             "stateName": "Return result",

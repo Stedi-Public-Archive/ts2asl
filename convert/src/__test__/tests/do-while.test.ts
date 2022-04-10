@@ -7,7 +7,7 @@ describe("when converting do-while", () => {
   it("then simpleDoWhile can be converted to asl", async () => {
     expect(converted.simpleDoWhile.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -27,7 +27,7 @@ describe("when converting do-while", () => {
           "Do While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}a', $. ...",
                 "Not": Object {
                   "StringEquals": "aaaaa",
                   "Variable": "$.vars.counter",
@@ -37,7 +37,7 @@ describe("when converting do-while", () => {
             "Default": "Return counter",
             "Type": "Choice",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}a', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
@@ -67,7 +67,7 @@ describe("when converting do-while", () => {
   it("then doWhileWithBreak can be converted to asl", async () => {
     expect(converted.doWhileWithBreak.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -93,7 +93,7 @@ describe("when converting do-while", () => {
           "Do While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}a', $. ...",
                 "Not": Object {
                   "StringEquals": "aaaaa",
                   "Variable": "$.vars.counter",
@@ -103,7 +103,7 @@ describe("when converting do-while", () => {
             "Default": "Return counter",
             "Type": "Choice",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}a', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
@@ -145,7 +145,7 @@ describe("when converting do-while", () => {
   it("then doWhileWithEarlyReturn can be converted to asl", async () => {
     expect(converted.doWhileWithEarlyReturn.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -165,7 +165,7 @@ describe("when converting do-while", () => {
           "Do While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}a', $. ...",
                 "Not": Object {
                   "StringEquals": "aaaaa",
                   "Variable": "$.vars.counter",
@@ -175,7 +175,7 @@ describe("when converting do-while", () => {
             "Default": "Throw Error",
             "Type": "Choice",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}a', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
@@ -223,7 +223,7 @@ describe("when converting do-while", () => {
   it("then doWhileWithContinue can be converted to asl", async () => {
     expect(converted.doWhileWithContinue.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -263,7 +263,7 @@ describe("when converting do-while", () => {
           "Do While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}a', $. ...",
                 "Not": Object {
                   "StringEquals": "aaaaa",
                   "Variable": "$.vars.counter",
@@ -273,7 +273,7 @@ describe("when converting do-while", () => {
             "Default": "Return result",
             "Type": "Choice",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}a', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
@@ -282,7 +282,7 @@ describe("when converting do-while", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ..._1": Object {
+          "Evaluate Format('{}b', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
@@ -300,7 +300,7 @@ describe("when converting do-while", () => {
               },
             ],
             "Comment": "source: if (counter == \\"aa\\") { continue; }",
-            "Default": "Evaluate States.Format('{ ..._1",
+            "Default": "Evaluate Format('{}b', $. ...",
             "Type": "Choice",
           },
           "Initialize": Object {

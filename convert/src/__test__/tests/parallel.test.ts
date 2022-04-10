@@ -7,10 +7,10 @@ describe("when converting parallel", () => {
   it("then simple can be converted to asl", async () => {
     expect(converted.simple.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Return_var": Object {
+          "Assign Result": Object {
             "Branches": Array [
               Object {
                 "StartAt": "worker()",
@@ -80,17 +80,12 @@ describe("when converting parallel", () => {
             "Catch": undefined,
             "Comment": "source: Promise.all([worker(), worker()])",
             "Next": "Return result",
-            "Parameters": Object {
-              "vars": Object {
-                "return_var.$": "$.vars.return_var",
-              },
-            },
-            "ResultPath": "$.tmp.return_var",
+            "ResultPath": "$.tmp.result",
             "Retry": undefined,
             "Type": "Parallel",
           },
           "Initialize": Object {
-            "Next": "Assign Return_var",
+            "Next": "Assign Result",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },
@@ -100,7 +95,7 @@ describe("when converting parallel", () => {
           "Return result": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.return_var",
+            "InputPath": "$.tmp.result",
             "Type": "Pass",
           },
         },
@@ -110,10 +105,10 @@ describe("when converting parallel", () => {
   it("then enclosedVariables can be converted to asl", async () => {
     expect(converted.enclosedVariables.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Return_var": Object {
+          "Assign Result": Object {
             "Branches": Array [
               Object {
                 "StartAt": "worker(enclosedVar1)",
@@ -179,7 +174,7 @@ describe("when converting parallel", () => {
                 "enclosedVar2.$": "$.vars.enclosedVar2",
               },
             },
-            "ResultPath": "$.tmp.return_var",
+            "ResultPath": "$.tmp.result",
             "Retry": undefined,
             "Type": "Parallel",
           },
@@ -194,7 +189,7 @@ describe("when converting parallel", () => {
           },
           "Assign enclosedVar2": Object {
             "Comment": "source: enclosedVar2 = { something: \\"right\\" }",
-            "Next": "Assign Return_var",
+            "Next": "Assign Result",
             "Result": Object {
               "something": "right",
             },
@@ -212,7 +207,7 @@ describe("when converting parallel", () => {
           "Return result": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.return_var",
+            "InputPath": "$.tmp.result",
             "Type": "Pass",
           },
         },

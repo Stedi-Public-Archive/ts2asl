@@ -7,7 +7,7 @@ describe("when converting variable-assignments", () => {
   it("then literals can be converted to asl", async () => {
     expect(converted.literals.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arrayOfNumbers": Object {
@@ -111,7 +111,7 @@ describe("when converting variable-assignments", () => {
   it("then arrayWithIdentifiers can be converted to asl", async () => {
     expect(converted.arrayWithIdentifiers.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign array": Object {
@@ -137,7 +137,7 @@ describe("when converting variable-assignments", () => {
           },
           "Assign object": Object {
             "Comment": "source: object = { str, num, bool }",
-            "Next": "Evaluate States.Array($.v ...",
+            "Next": "Evaluate Array($.vars.str ...",
             "Parameters": Object {
               "bool.$": "$.vars.bool",
               "num.$": "$.vars.num",
@@ -153,7 +153,7 @@ describe("when converting variable-assignments", () => {
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
-          "Evaluate States.Array($.v ...": Object {
+          "Evaluate Array($.vars.str ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign array",
             "Parameters": Object {
@@ -183,7 +183,7 @@ describe("when converting variable-assignments", () => {
   it("then arrayIndexer can be converted to asl", async () => {
     expect(converted.arrayIndexer.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -227,7 +227,7 @@ describe("when converting variable-assignments", () => {
   it("then functions can be converted to asl", async () => {
     expect(converted.functions.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -240,25 +240,25 @@ describe("when converting variable-assignments", () => {
           "Assign combined": Object {
             "Comment": undefined,
             "InputPath": "$.tmp.eval.value",
-            "Next": "Evaluate States.Array($.v ...",
+            "Next": "Evaluate Array($.vars.str ...",
             "ResultPath": "$.vars.combined",
             "Type": "Pass",
           },
           "Assign num": Object {
             "Comment": undefined,
             "InputPath": "$.tmp.eval.value",
-            "Next": "Evaluate States.Format('1 ...",
+            "Next": "Evaluate Format('1: {} 2 ...",
             "ResultPath": "$.vars.num",
             "Type": "Pass",
           },
           "Assign str": Object {
             "Comment": undefined,
             "InputPath": "$.tmp.eval.value",
-            "Next": "Evaluate States.Format('a ...",
+            "Next": "Evaluate Format('answer i ...",
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
-          "Evaluate States.Array($.v ...": Object {
+          "Evaluate Array($.vars.str ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign arr",
             "Parameters": Object {
@@ -267,7 +267,7 @@ describe("when converting variable-assignments", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('1 ...": Object {
+          "Evaluate Format('1: {} 2 ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign combined",
             "Parameters": Object {
@@ -277,7 +277,7 @@ describe("when converting variable-assignments", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('a ...": Object {
+          "Evaluate Format('answer i ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign num",
             "Parameters": Object {
@@ -286,7 +286,7 @@ describe("when converting variable-assignments", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('h ...": Object {
+          "Evaluate Format('hello {} ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign str",
             "Parameters": Object {
@@ -296,7 +296,7 @@ describe("when converting variable-assignments", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "Evaluate States.Format('h ...",
+            "Next": "Evaluate Format('hello {} ...",
             "Parameters": Object {
               "vars.$": "$$.Execution.Input",
             },

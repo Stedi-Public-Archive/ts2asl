@@ -7,7 +7,7 @@ describe("when converting while", () => {
   it("then simpleWhile can be converted to asl", async () => {
     expect(converted.simpleWhile.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -24,7 +24,7 @@ describe("when converting while", () => {
             "ResultPath": "$.vars.counter",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}a', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
@@ -50,7 +50,7 @@ describe("when converting while", () => {
           "While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}a', $. ...",
                 "Not": Object {
                   "StringEquals": "aaaaa",
                   "Variable": "$.vars.counter",
@@ -72,7 +72,7 @@ describe("when converting while", () => {
   it("then whileWithBreak can be converted to asl", async () => {
     expect(converted.whileWithBreak.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -95,7 +95,7 @@ describe("when converting while", () => {
             "ResultPath": null,
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}a', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
@@ -133,7 +133,7 @@ describe("when converting while", () => {
           "While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}a', $. ...",
                 "Not": Object {
                   "StringEquals": "aaaaa",
                   "Variable": "$.vars.counter",
@@ -155,7 +155,7 @@ describe("when converting while", () => {
   it("then whileWithEarlyReturn can be converted to asl", async () => {
     expect(converted.whileWithEarlyReturn.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -172,7 +172,7 @@ describe("when converting while", () => {
             "ResultPath": "$.vars.counter",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}a', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
@@ -216,7 +216,7 @@ describe("when converting while", () => {
           "While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}a', $. ...",
                 "Not": Object {
                   "StringEquals": "aaaaa",
                   "Variable": "$.vars.counter",
@@ -238,7 +238,7 @@ describe("when converting while", () => {
   it("then whileWithContinue can be converted to asl", async () => {
     expect(converted.whileWithContinue.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.29.",
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -275,7 +275,7 @@ describe("when converting while", () => {
             "ResultPath": null,
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ...": Object {
+          "Evaluate Format('{}a', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
@@ -284,7 +284,7 @@ describe("when converting while", () => {
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate States.Format('{ ..._1": Object {
+          "Evaluate Format('{}b', $. ...": Object {
             "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
@@ -302,7 +302,7 @@ describe("when converting while", () => {
               },
             ],
             "Comment": "source: if (counter == \\"aa\\") { continue; }",
-            "Default": "Evaluate States.Format('{ ..._1",
+            "Default": "Evaluate Format('{}b', $. ...",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -322,7 +322,7 @@ describe("when converting while", () => {
           "While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "Evaluate States.Format('{ ...",
+                "Next": "Evaluate Format('{}a', $. ...",
                 "Not": Object {
                   "StringEquals": "aaaaa",
                   "Variable": "$.vars.counter",
