@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Evaluate States.Array(1, ..."
+      "Next": "Evaluate Array(1, 2, 3, 4 ..."
     },
-    "Evaluate States.Array(1, ...": {
+    "Evaluate Array(1, 2, 3, 4 ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -22,9 +22,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.myArray",
       "InputPath": "$.tmp.eval.value",
-      "Next": "Evaluate States.JsonToStr ..."
+      "Next": "Evaluate JsonToString($.v ..."
     },
-    "Evaluate States.JsonToStr ...": {
+    "Evaluate JsonToString($.v ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -37,9 +37,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.mySerializedArray",
       "InputPath": "$.tmp.eval.value",
-      "Next": "Evaluate States.StringToJ ..."
+      "Next": "Evaluate StringToJson($.v ..."
     },
-    "Evaluate States.StringToJ ...": {
+    "Evaluate StringToJson($.v ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {

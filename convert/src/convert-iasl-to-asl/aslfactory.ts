@@ -33,6 +33,7 @@ export class AslFactory {
       const parameters = convertExpressionToAsl(expression.parameters);
 
       if (parameters.path && parameters.path.startsWith("States")) {
+        const fnName = parameters.path.substring(7)
         context.appendNextState({
           Type: "Pass",
           ResultPath: "$.tmp.eval",
@@ -40,7 +41,7 @@ export class AslFactory {
             "value.$": parameters.path
           },
           Comment: "result of an expression cannot be placed in InputPath, therefore copying it around a little",
-        } as asl.Pass, trimName("Evaluate " + parameters.path));
+        } as asl.Pass, trimName("Evaluate " + fnName));
         context.appendNextState({
           Type: "Pass",
           ResultPath: (null as any),

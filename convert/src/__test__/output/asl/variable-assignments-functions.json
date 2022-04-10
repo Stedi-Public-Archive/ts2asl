@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Evaluate States.Format('h ..."
+      "Next": "Evaluate Format('hello {} ..."
     },
-    "Evaluate States.Format('h ...": {
+    "Evaluate Format('hello {} ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -22,9 +22,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.str",
       "InputPath": "$.tmp.eval.value",
-      "Next": "Evaluate States.Format('a ..."
+      "Next": "Evaluate Format('answer i ..."
     },
-    "Evaluate States.Format('a ...": {
+    "Evaluate Format('answer i ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -37,9 +37,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.num",
       "InputPath": "$.tmp.eval.value",
-      "Next": "Evaluate States.Format('1 ..."
+      "Next": "Evaluate Format('1: {} 2 ..."
     },
-    "Evaluate States.Format('1 ...": {
+    "Evaluate Format('1: {} 2 ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -52,9 +52,9 @@
       "Type": "Pass",
       "ResultPath": "$.vars.combined",
       "InputPath": "$.tmp.eval.value",
-      "Next": "Evaluate States.Array($.v ..."
+      "Next": "Evaluate Array($.vars.str ..."
     },
-    "Evaluate States.Array($.v ...": {
+    "Evaluate Array($.vars.str ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {

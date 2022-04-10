@@ -70,7 +70,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
         {
           stateName: createName(context.converterOptions, node.expression, `%s`, node.expression),
           name: {
-            identifier: "return_var",
+            identifier: "result",
             compilerGenerated: true,
             _syntaxKind: iasl.SyntaxKind.Identifier,
             type: "unknown"
@@ -80,7 +80,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
         } as iasl.VariableAssignmentStatement,
         {
           expression: {
-            identifier: "return_var",
+            identifier: "result",
             compilerGenerated: true,
             _syntaxKind: iasl.SyntaxKind.Identifier,
             type: "unknown"
@@ -920,7 +920,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
         statements: [
           {
             name: {
-              identifier: "return_var",
+              identifier: "result",
               compilerGenerated: true,
               _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"
@@ -930,7 +930,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
           } as iasl.VariableAssignmentStatement,
           {
             expression: {
-              identifier: "return_var",
+              identifier: "result",
               compilerGenerated: true,
               _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"

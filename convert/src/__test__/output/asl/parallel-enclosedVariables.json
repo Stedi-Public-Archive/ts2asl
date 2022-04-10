@@ -25,9 +25,9 @@
         "something": "right"
       },
       "Comment": "source: enclosedVar2 = { something: \"right\" }",
-      "Next": "Assign Return_var"
+      "Next": "Assign Result"
     },
-    "Assign Return_var": {
+    "Assign Result": {
       "Branches": [
         {
           "StartAt": "worker(enclosedVar1)",
@@ -80,7 +80,7 @@
           }
         }
       ],
-      "ResultPath": "$.tmp.return_var",
+      "ResultPath": "$.tmp.result",
       "Type": "Parallel",
       "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
       "Parameters": {
@@ -94,7 +94,7 @@
     "Return result": {
       "End": true,
       "Type": "Pass",
-      "InputPath": "$.tmp.return_var"
+      "InputPath": "$.tmp.result"
     }
   },
   "Comment": "ASL Generated using ts2asl version 0.1.29."

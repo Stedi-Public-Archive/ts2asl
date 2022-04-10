@@ -53,18 +53,18 @@
         {
           "Variable": "$.foreach.currentItem",
           "NumericEquals": 1,
-          "Next": "Evaluate States.Format('{ ..."
+          "Next": "Evaluate Format('{}one', ..."
         },
         {
           "Variable": "$.foreach.currentItem",
           "NumericEquals": 2,
-          "Next": "Evaluate States.Format('{ ..._1"
+          "Next": "Evaluate Format('{}two', ..."
         }
       ],
       "Comment": "source: switch (item) { case 1: result = `${result}one ...",
-      "Default": "Evaluate States.Format('{ ..._2"
+      "Default": "Evaluate Format('{}three' ..."
     },
-    "Evaluate States.Format('{ ...": {
+    "Evaluate Format('{}one', ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -79,7 +79,7 @@
       "InputPath": "$.tmp.eval.value",
       "Next": "Foreach Next"
     },
-    "Evaluate States.Format('{ ..._1": {
+    "Evaluate Format('{}two', ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -94,7 +94,7 @@
       "InputPath": "$.tmp.eval.value",
       "Next": "Foreach Next"
     },
-    "Evaluate States.Format('{ ..._2": {
+    "Evaluate Format('{}three' ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {

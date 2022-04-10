@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Assign Return_var"
+      "Next": "Assign Result"
     },
-    "Assign Return_var": {
+    "Assign Result": {
       "Branches": [
         {
           "StartAt": "worker()",
@@ -70,20 +70,15 @@
           }
         }
       ],
-      "ResultPath": "$.tmp.return_var",
+      "ResultPath": "$.tmp.result",
       "Type": "Parallel",
       "Comment": "source: Promise.all([worker(), worker()])",
-      "Parameters": {
-        "vars": {
-          "return_var.$": "$.vars.return_var"
-        }
-      },
       "Next": "Return result"
     },
     "Return result": {
       "End": true,
       "Type": "Pass",
-      "InputPath": "$.tmp.return_var"
+      "InputPath": "$.tmp.result"
     }
   },
   "Comment": "ASL Generated using ts2asl version 0.1.29."

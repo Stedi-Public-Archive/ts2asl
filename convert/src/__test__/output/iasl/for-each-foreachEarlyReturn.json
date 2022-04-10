@@ -68,7 +68,7 @@
                 {
                   "stateName": "",
                   "name": {
-                    "identifier": "return_var",
+                    "identifier": "result",
                     "compilerGenerated": true,
                     "_syntaxKind": "identifier",
                     "type": "unknown"
@@ -93,7 +93,7 @@
                 },
                 {
                   "expression": {
-                    "identifier": "return_var",
+                    "identifier": "result",
                     "compilerGenerated": true,
                     "_syntaxKind": "identifier",
                     "type": "unknown"

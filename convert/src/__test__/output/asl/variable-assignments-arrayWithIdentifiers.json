@@ -39,9 +39,9 @@
         "bool.$": "$.vars.bool"
       },
       "Comment": "source: object = { str, num, bool }",
-      "Next": "Evaluate States.Array($.v ..."
+      "Next": "Evaluate Array($.vars.str ..."
     },
-    "Evaluate States.Array($.v ...": {
+    "Evaluate Array($.vars.str ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {

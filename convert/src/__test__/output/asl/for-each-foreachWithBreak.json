@@ -62,13 +62,13 @@
             "Variable": "$.vars.first",
             "BooleanEquals": false
           },
-          "Next": "Evaluate States.Format('{ ..."
+          "Next": "Evaluate Format('{}', $.f ..."
         }
       ],
       "Comment": "source: if (first) { //first element should not be pre ...",
-      "Default": "Evaluate States.Format('{ ..._1"
+      "Default": "Evaluate Format('{}, {}', ..."
     },
-    "Evaluate States.Format('{ ...": {
+    "Evaluate Format('{}', $.f ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -89,7 +89,7 @@
       "Result": false,
       "Next": "If (item === 2)"
     },
-    "Evaluate States.Format('{ ..._1": {
+    "Evaluate Format('{}, {}', ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {

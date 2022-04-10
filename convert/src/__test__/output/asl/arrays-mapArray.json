@@ -25,11 +25,11 @@
         10
       ],
       "Comment": "source: myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
-      "Next": "Assign Return_var"
+      "Next": "Assign Result"
     },
-    "Assign Return_var": {
+    "Assign Result": {
       "Type": "Map",
-      "ResultPath": "$.tmp.return_var",
+      "ResultPath": "$.tmp.result",
       "Iterator": {
         "StartAt": "If (x === 1 || x === 3 || ...",
         "States": {
@@ -94,7 +94,7 @@
     "Return result": {
       "End": true,
       "Type": "Pass",
-      "InputPath": "$.tmp.return_var"
+      "InputPath": "$.tmp.result"
     }
   },
   "Comment": "ASL Generated using ts2asl version 0.1.29."

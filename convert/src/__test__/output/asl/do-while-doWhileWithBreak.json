@@ -16,7 +16,7 @@
       "Comment": "source: counter = \"\"",
       "Next": "Do While Condition"
     },
-    "Evaluate States.Format('{ ...": {
+    "Evaluate Format('{}a', $. ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -56,7 +56,7 @@
             "Variable": "$.vars.counter",
             "StringEquals": "aaaaa"
           },
-          "Next": "Evaluate States.Format('{ ..."
+          "Next": "Evaluate Format('{}a', $. ..."
         }
       ],
       "Default": "Return counter"

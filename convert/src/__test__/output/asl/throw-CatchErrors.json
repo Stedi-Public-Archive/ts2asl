@@ -54,9 +54,9 @@
       },
       "Branches": [
         {
-          "StartAt": "Evaluate States.Format('c ...",
+          "StartAt": "Evaluate Format('cause {} ...",
           "States": {
-            "Evaluate States.Format('c ...": {
+            "Evaluate Format('cause {} ...": {
               "Type": "Pass",
               "ResultPath": "$.tmp.eval",
               "Parameters": {
@@ -70,9 +70,9 @@
               "ResultPath": null,
               "InputPath": "$.tmp.eval.value",
               "Comment": "source: console.log(`cause ${error.Cause}`)",
-              "Next": "Evaluate States.Format('m ..."
+              "Next": "Evaluate Format('message ..."
             },
-            "Evaluate States.Format('m ...": {
+            "Evaluate Format('message ...": {
               "Type": "Pass",
               "ResultPath": "$.tmp.eval",
               "Parameters": {

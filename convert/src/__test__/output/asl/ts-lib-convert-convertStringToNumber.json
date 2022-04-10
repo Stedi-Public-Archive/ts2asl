@@ -7,9 +7,9 @@
       "Parameters": {
         "vars.$": "$$.Execution.Input"
       },
-      "Next": "Evaluate States.StringToJ ..."
+      "Next": "Evaluate StringToJson('42')"
     },
-    "Evaluate States.StringToJ ...": {
+    "Evaluate StringToJson('42')": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
@@ -30,12 +30,12 @@
         {
           "Variable": "$.vars.num",
           "NumericEquals": 42,
-          "Next": "Evaluate States.Format('{ ..."
+          "Next": "Evaluate Format('{}', $.v ..."
         }
       ],
       "Default": "Throw Error"
     },
-    "Evaluate States.Format('{ ...": {
+    "Evaluate Format('{}', $.v ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {

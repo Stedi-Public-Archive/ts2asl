@@ -46,31 +46,31 @@
         {
           "Variable": "$.foreach.currentItem",
           "NumericEquals": 2,
-          "Next": "Evaluate States.Format('f ..."
+          "Next": "Evaluate Format('found {} ..."
         }
       ],
       "Comment": "source: if (item === 2) { return `found ${item}!`; //r ...",
       "Default": "Foreach Next"
     },
-    "Evaluate States.Format('f ...": {
+    "Evaluate Format('found {} ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
         "value.$": "States.Format('found {}!', $.foreach.currentItem)"
       },
       "Comment": "source: result of an expression cannot be placed in In ...",
-      "Next": "Assign Return_var"
+      "Next": "Assign Result"
     },
-    "Assign Return_var": {
+    "Assign Result": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.return_var",
+      "ResultPath": "$.tmp.result",
       "InputPath": "$.tmp.eval.value",
       "Next": "Return result"
     },
     "Return result": {
       "End": true,
       "Type": "Pass",
-      "InputPath": "$.tmp.return_var"
+      "InputPath": "$.tmp.result"
     },
     "Foreach Exit": {
       "Type": "Pass",
