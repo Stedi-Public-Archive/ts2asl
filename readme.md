@@ -2,7 +2,7 @@
 
 ⚠️ **All internal and external interfaces are considered unstable and subject to change without notice.** ⚠️
 
-`t2asl` allows developers to define [AWS Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) using the TypeScript programming language. `t2asl` allows developers to benefit from a familiar syntax, type safety, and mature ecosystem of tools for linting, editing, and automated testing.
+`t2asl` allows developers to define [AWS Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) using the TypeScript programming language. It allows developers to benefit from a familiar syntax, type safety, and mature ecosystem of tools for linting, editing, and automated testing.
 
 ## Example
 
