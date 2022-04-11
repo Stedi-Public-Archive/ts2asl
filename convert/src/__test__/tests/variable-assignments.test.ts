@@ -180,6 +180,44 @@ describe("when converting variable-assignments", () => {
       }
     `);
   });
+  it("then unassignedVariable can be converted to asl", async () => {
+    expect(converted.unassignedVariable.asl).toMatchInlineSnapshot(`
+      Object {
+        "Comment": "ASL Generated using ts2asl version 0.1.30.",
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign arr": Object {
+            "Comment": "source: arr: []",
+            "Next": "Assign two",
+            "Result": Object {},
+            "ResultPath": "$.vars.arr",
+            "Type": "Pass",
+          },
+          "Assign two": Object {
+            "Comment": "source: two: string",
+            "Next": "Return two",
+            "Result": Object {},
+            "ResultPath": "$.vars.two",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign arr",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return two": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.two",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
   it("then arrayIndexer can be converted to asl", async () => {
     expect(converted.arrayIndexer.asl).toMatchInlineSnapshot(`
       Object {

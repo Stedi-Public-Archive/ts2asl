@@ -49,7 +49,7 @@ export const createAwsAccount = asl.deploy.asStateMachine(async () => {
     const describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus.Id } });
     creationStatus = describeResult.CreateAccountStatus.State;
     switch (creationStatus) {
-      case "FAILED": throw new Error("account creation is still in progress");
+      case "FAILED": throw new Error("account creation failed");
       case "IN_PROGRESS": await asl.wait({ seconds: 1 });
     }
   } while (creationStatus !== "SUCCEEDED");

@@ -30,7 +30,8 @@ export class AslFactory {
     }
 
     if (iasl.Check.isAslPassState(expression)) {
-      const parameters = convertExpressionToAsl(expression.parameters);
+      //if the rhs of a pass-state is undefined, use {}. both "undefined" and "null" will evaluate to the entire context.
+      const parameters = expression.parameters ? convertExpressionToAsl(expression.parameters) : { value: {}, type: "object" } as AslExpressionOrIdentifier;
 
       if (parameters.path && parameters.path.startsWith("States")) {
         const fnName = parameters.path.substring(7)
@@ -454,6 +455,7 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
       valueContainsReplacements,
     }
   }
+  debugger;
   throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expr._syntaxKind}`);
 }
 

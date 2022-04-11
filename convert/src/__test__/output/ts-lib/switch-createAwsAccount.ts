@@ -43,8 +43,8 @@ export const createAwsAccount = asl.deploy.asStateMachine(async () =>{
                             asl.fail({
                                 name: "Throw Error",
                                 error: "Error",
-                                cause: "account creation is still in progress",
-                                comment: "throw new Error(\"account creation is still in progress\");"
+                                cause: "account creation failed",
+                                comment: "throw new Error(\"account creation failed\");"
                             })
                         },
                         condition: () => creationStatus === "FAILED"
@@ -56,7 +56,7 @@ export const createAwsAccount = asl.deploy.asStateMachine(async () =>{
                         condition: () => creationStatus === "IN_PROGRESS"
                     }
                 ],
-                comment: "switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation is still in progress\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }"
+                comment: "switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }"
             })
         }
     })

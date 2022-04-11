@@ -38,6 +38,15 @@ describe("when converting variable statements", () => {
       });"
     `);
   });
+  it("unassigned variable gets assigned undefined", () => {
+    expect(testTransform("let abc : any;", variableStatementTransformer({})))
+      .toMatchInlineSnapshot(`
+      "let abc: any = asl.pass({
+          name: \\"Assign abc\\",
+          comment: \\"abc : any\\"
+      });"
+    `);
+  });
   // it("then equals is supported on boolean ", () => {
   //   expect(testTransform("if (optIn === true) console.log();", ifStatementTransformer)).toMatchInlineSnapshot();
   // });

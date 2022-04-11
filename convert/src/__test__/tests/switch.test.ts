@@ -245,8 +245,8 @@ describe("when converting switch", () => {
             "Type": "Choice",
           },
           "Throw Error": Object {
-            "Cause": "account creation is still in progress",
-            "Comment": "source: throw new Error(\\"account creation is still in  ...",
+            "Cause": "account creation failed",
+            "Comment": "source: throw new Error(\\"account creation failed\\");",
             "Error": "Error",
             "Type": "Fail",
           },

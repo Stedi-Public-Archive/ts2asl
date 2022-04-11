@@ -1,0 +1,33 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arr",
+      "Result": {},
+      "Comment": "source: arr: []",
+      "Next": "Assign two"
+    },
+    "Assign two": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.two",
+      "Result": {},
+      "Comment": "source: two: string",
+      "Next": "Return two"
+    },
+    "Return two": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.two"
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.30."
+}

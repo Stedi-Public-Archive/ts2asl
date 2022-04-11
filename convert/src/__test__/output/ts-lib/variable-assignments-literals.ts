@@ -48,6 +48,13 @@ export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
   let array = [str, num, bool, object];
   return array;
 });
+
+export const unassignedVariable = asl.deploy.asStateMachine(async () => {
+  let arr: [];
+  let two: string;
+  return two;
+});
+
 export const arrayIndexer = asl.deploy.asStateMachine(async () => {
   let arr = [1, 2, 3, 4, 5]
   let two = arr[1];

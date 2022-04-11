@@ -14,6 +14,12 @@ describe("when converting variable-assignments", () => {
         const resultFromNode = await arrayWithIdentifiers();
         expect(resultFromSfn).toEqual(resultFromNode);
     });
+    it("will execute unassignedVariable as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("variable-assignments", "unassignedVariable");
+        const { unassignedVariable } = require("../resources/variable-assignments");
+        const resultFromNode = await unassignedVariable();
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
     it("will execute arrayIndexer as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("variable-assignments", "arrayIndexer");
         const { arrayIndexer } = require("../resources/variable-assignments");

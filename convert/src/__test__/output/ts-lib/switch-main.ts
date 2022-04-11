@@ -1,6 +1,6 @@
 import * as asl from "@ts2asl/asl-lib"
 
-export const main = asl.deploy.asStateMachine(async () =>{
+export const main = asl.deploy.asStateMachine(async () => {
     const createAccount = await asl.sdkOrganizationsCreateAccount({ parameters: { AccountName: "test", Email: "something@email.com" } });
     let creationStatus: string | undefined = asl.pass({
         name: "Assign creationStatus",
@@ -21,7 +21,7 @@ export const main = asl.deploy.asStateMachine(async () =>{
                             asl.fail({
                                 name: "Throw AccountCreationFailed",
                                 error: "AccountCreationFailed",
-                                cause: "account creation is still in progress",
+                                cause: "account creation failed",
                                 comment: "throw new AccountCreationFailed(\"account creation is still in progress\");"
                             })
                         },

@@ -130,9 +130,9 @@
                   "statements": [
                     {
                       "stateName": "Throw Error",
-                      "cause": "account creation is still in progress",
+                      "cause": "account creation failed",
                       "error": "Error",
-                      "source": "throw new Error(\"account creation is still in progress\");",
+                      "source": "throw new Error(\"account creation failed\");",
                       "_syntaxKind": "asl-fail-state"
                     }
                   ],
@@ -169,7 +169,7 @@
                 }
               }
             ],
-            "source": "switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation is still in progress\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }",
+            "source": "switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }",
             "_syntaxKind": "asl-choice-state"
           }
         ],

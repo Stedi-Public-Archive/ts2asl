@@ -33,6 +33,19 @@ export const main = asl.deploy.asStateMachine(async () =>
 ```
 
 
+## unassigned variable
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgYXJyOiBbXTsKICBsZXQgdHdvOiBzdHJpbmc7CiAgcmV0dXJuIHR3bzsKfSk7)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  let arr: [];
+  let two: string;
+  return two;
+});
+```
+
+
 ## array indexer
 [Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgYXJyID0gWzEsIDIsIDMsIDQsIDVdCiAgbGV0IHR3byA9IGFyclsxXTsKICByZXR1cm4gdHdvOwp9KTs=)
 

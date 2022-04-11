@@ -21,24 +21,23 @@ export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
   return array;
 });
 
-export const unassignedVariable = asl.deploy.asStateMachine(async () => {
-  let arr: [];
-  let two: string;
-  return two;
-});
-
-export const arrayIndexer = asl.deploy.asStateMachine(async () =>{
-    let arr = asl.pass({
+export const unassignedVariable = asl.deploy.asStateMachine(async () =>{
+    let arr: [
+    ] = asl.pass({
         name: "Assign arr",
-        parameters: () => [1, 2, 3, 4, 5],
-        comment: "arr = [1, 2, 3, 4, 5]"
+        comment: "arr: []"
     });
-    let two = asl.pass({
+    let two: string = asl.pass({
         name: "Assign two",
-        parameters: () => arr[1],
-        comment: "two = arr[1]"
+        comment: "two: string"
     });
     return two;
+});
+
+export const arrayIndexer = asl.deploy.asStateMachine(async () => {
+  let arr = [1, 2, 3, 4, 5]
+  let two = arr[1];
+  return two;
 });
 
 export const functions = asl.deploy.asStateMachine(async () => {
