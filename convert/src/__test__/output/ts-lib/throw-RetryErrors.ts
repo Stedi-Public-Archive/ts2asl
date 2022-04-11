@@ -19,23 +19,23 @@ export const throwErrors = asl.deploy.asStateMachine(async (input: Input) => {
 });
 
 
-export const RetryErrors = asl.deploy.asStateMachine(async () =>{
-    asl.parallel({
-        branches: [() => {
-                asl.fail({
-                    name: "Throw RetryableError",
-                    error: "RetryableError",
-                    cause: "retry me",
-                    comment: "throw new RetryableError(\"retry me\")"
-                })
-            }],
-        retry: [{
-                errorEquals: ["RetryableError"],
-                backoffRate: 1.5,
-                intervalSeconds: 3,
-                maxAttempts: 2
-            }]
-    });
+export const RetryErrors = asl.deploy.asStateMachine(async () => {
+  asl.parallel({
+    branches: [() => {
+      asl.fail({
+        name: "Throw RetryableError",
+        error: "RetryableError",
+        cause: "retry me",
+        comment: "throw new RetryableError(\"retry me\")"
+      })
+    }],
+    retry: [{
+      errorEquals: ["RetryableError"],
+      backoffRate: 1.5,
+      intervalSeconds: 3,
+      maxAttempts: 2
+    }]
+  });
 });
 
 export const CatchErrors = asl.deploy.asStateMachine(async () => {
@@ -59,7 +59,7 @@ export const CatchErrors = asl.deploy.asStateMachine(async () => {
   })
 });
 
-// https://github.com/OlafConijn/ts2asl/issues/31
+// https://github.com/Stedi/ts2asl/issues/31
 // export const rethrowErrors = asl.deploy.asStateMachine(async (input: Input) => {
 //   try {
 //     throw new Error("bad luck");

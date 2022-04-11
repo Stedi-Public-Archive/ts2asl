@@ -54,7 +54,7 @@ export const CatchErrors = asl.deploy.asStateMachine(async () => {
   })
 });
 
-// https://github.com/OlafConijn/ts2asl/issues/31
+// https://github.com/Stedi/ts2asl/issues/31
 // export const rethrowErrors = asl.deploy.asStateMachine(async (input: Input) => {
 //   try {
 //     throw new Error("bad luck");

@@ -33,41 +33,41 @@ export const RetryErrors = asl.deploy.asStateMachine(async () => {
   })
 });
 
-export const CatchErrors = asl.deploy.asStateMachine(async () =>{
-    asl.parallel({
-        branches: [() => {
-                asl.fail({
-                    name: "Throw UnexpectedError",
-                    error: "UnexpectedError",
-                    cause: "bad luck!",
-                    comment: "throw new UnexpectedError(\"bad luck!\")"
-                })
-            }],
-        retry: [{
-                errorEquals: ["RetryableError"],
-                backoffRate: 1.5,
-                intervalSeconds: 3,
-                maxAttempts: 2
-            }],
-        catch: [{
-                errorEquals: ["UnexpectedError"],
-                block: (error) => {
-                    asl.pass({
-                        name: "Log (`cause ${error.Cause}`)",
-                        parameters: () => asl.states.format("cause {}", error.Cause),
-                        comment: "console.log(`cause ${error.Cause}`)"
-                    });
-                    asl.pass({
-                        name: "Log (`message ${error.Err ...",
-                        parameters: () => asl.states.format("message {}", error.Error),
-                        comment: "console.log(`message ${error.Error}`)"
-                    });
-                }
-            }]
-    });
+export const CatchErrors = asl.deploy.asStateMachine(async () => {
+  asl.parallel({
+    branches: [() => {
+      asl.fail({
+        name: "Throw UnexpectedError",
+        error: "UnexpectedError",
+        cause: "bad luck!",
+        comment: "throw new UnexpectedError(\"bad luck!\")"
+      })
+    }],
+    retry: [{
+      errorEquals: ["RetryableError"],
+      backoffRate: 1.5,
+      intervalSeconds: 3,
+      maxAttempts: 2
+    }],
+    catch: [{
+      errorEquals: ["UnexpectedError"],
+      block: (error) => {
+        asl.pass({
+          name: "Log (`cause ${error.Cause}`)",
+          parameters: () => asl.states.format("cause {}", error.Cause),
+          comment: "console.log(`cause ${error.Cause}`)"
+        });
+        asl.pass({
+          name: "Log (`message ${error.Err ...",
+          parameters: () => asl.states.format("message {}", error.Error),
+          comment: "console.log(`message ${error.Error}`)"
+        });
+      }
+    }]
+  });
 });
 
-// https://github.com/OlafConijn/ts2asl/issues/31
+// https://github.com/Stedi/ts2asl/issues/31
 // export const rethrowErrors = asl.deploy.asStateMachine(async (input: Input) => {
 //   try {
 //     throw new Error("bad luck");
