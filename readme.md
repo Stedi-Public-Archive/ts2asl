@@ -52,7 +52,7 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 
 ## Typescript language support
 Typescript 2 ASL converts native typescript code to ASL. The following Typescript langauge features are supported:
-* [variable assingments](./examples/variable-assignments.md)
+* [variable assignments](./examples/variable-assignments.md)
 * [throwing errors](./examples/throw.md)
 * [input validation](./examples/input-validation.md)
 * [enclosed variables](./examples/closures.md)
