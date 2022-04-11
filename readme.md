@@ -76,7 +76,7 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 ## ASL TypeScript library runtime support
 `ts2asl` is integrated with the `@ts2asl/asl-lib` module. This module can be used to integrate ASL features such as states and JsonPath with native typescript.
 
-* ASL States (Pass, Wait, Choice, Parallel, Map, etc.)
+* [ASL States](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-states.html) (Pass, Wait, Choice, Parallel, Map, etc.)
 * tasks with sync invocations, [waitForTaskToken](./examples/states.md#wait-for-task-token)
 * [typesafe SDK Integrations](./examples/sdk-states.md)
 * [intrinsic functions](./examples/variable-assignments.md#functions)
