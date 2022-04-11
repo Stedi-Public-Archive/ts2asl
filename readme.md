@@ -1,4 +1,4 @@
-# ts2asL: A TypeScript to Amazon States Language ([ASL]) transpiler
+# ts2asl: A TypeScript to Amazon States Language ([ASL]) transpiler
 
 ⚠️ **All internal and external interfaces are considered unstable and subject to change without notice.** ⚠️
 
