@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 30
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    versioning-strategy: "lockfile-only"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 30
