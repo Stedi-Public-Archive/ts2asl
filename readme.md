@@ -1,8 +1,8 @@
-# t2asL: A TypeScript to Amazon States Language ([ASL]) transpiler
+# ts2asL: A TypeScript to Amazon States Language ([ASL]) transpiler
 
 ⚠️ **All internal and external interfaces are considered unstable and subject to change without notice.** ⚠️
 
-`t2asl` allows developers to define [AWS Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) using the TypeScript programming language. It allows developers to benefit from a familiar syntax, type safety, and mature ecosystem of tools for linting, editing, and automated testing.
+`ts2asl` allows developers to define [AWS Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) using the TypeScript programming language. It allows developers to benefit from a familiar syntax, type safety, and mature ecosystem of tools for linting, editing, and automated testing.
 
 ## Example
 
@@ -38,7 +38,7 @@ interface IInput {
 ```
 
 ## Deployment using the AWS Cloud Development Kit ([CDK])
-`t2asl` features a CDK Construct that allows developers to integrate the TypeScript -> ASL conversion process into existing CI/CD pipelines. An example stack can be found in [this repository](cdk-example/lib/cdk-example-stack.ts).
+`ts2asl` features a CDK Construct that allows developers to integrate the TypeScript -> ASL conversion process into existing CI/CD pipelines. An example stack can be found in [this repository](cdk-example/lib/cdk-example-stack.ts).
 
 ``` typescript
 import * as ts2asl from '@ts2asl/cdk-typescript-statemachine';
@@ -55,7 +55,7 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 ```
 
 ## TypeScript language support
-`t2asl` converts native TypeScript code to ASL. The following TypeScript langauge features are supported:
+`ts2asl` converts native TypeScript code to ASL. The following TypeScript langauge features are supported:
 * [variable assignments](./examples/variable-assignments.md)
 * [throwing errors](./examples/throw.md)
 * [input validation](./examples/input-validation.md)
@@ -74,7 +74,7 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 * [string templates](./examples/string-templates.md)
 
 ## ASL TypeScript library runtime support
-`t2asl` is integrated with the `@ts2asl/asl-lib` module. This module can be used to integrate ASL features such as states and JsonPath with native typescript.
+`ts2asl` is integrated with the `@ts2asl/asl-lib` module. This module can be used to integrate ASL features such as states and JsonPath with native typescript.
 
 * ASL States (Pass, Wait, Choice, Parallel, Map, etc.)
 * tasks with sync invocations, [waitForTaskToken](./examples/states.md#wait-for-task-token)
