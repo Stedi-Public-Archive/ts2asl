@@ -54,25 +54,6 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "name": {
-        "identifier": "first",
-        "_syntaxKind": "identifier",
-        "type": "boolean"
-      },
-      "expression": {
-        "stateName": "Assign first",
-        "parameters": {
-          "value": true,
-          "type": "boolean",
-          "_syntaxKind": "literal"
-        },
-        "source": "first = true",
-        "_syntaxKind": "asl-pass-state"
-      },
-      "stateName": "Assign first",
-      "_syntaxKind": "variable-assignment"
-    },
-    {
       "stateName": "For item Of arr",
       "items": {
         "identifier": "arr",
@@ -86,13 +67,18 @@
         },
         "statements": [
           {
-            "stateName": "If (first)",
+            "stateName": "If (result === \"\")",
             "condition": {
-              "operator": "is-truthy",
-              "rhs": {
-                "identifier": "first",
+              "lhs": {
+                "identifier": "result",
                 "_syntaxKind": "identifier",
-                "type": "boolean"
+                "type": "string"
+              },
+              "operator": "eq",
+              "rhs": {
+                "value": "",
+                "type": "string",
+                "_syntaxKind": "literal"
               },
               "_syntaxKind": "binary-expression"
             },
@@ -121,20 +107,6 @@
                     "_syntaxKind": "asl-intrinsic-function"
                   },
                   "stateName": "Assign result",
-                  "_syntaxKind": "variable-assignment"
-                },
-                {
-                  "name": {
-                    "identifier": "first",
-                    "_syntaxKind": "identifier",
-                    "type": "boolean"
-                  },
-                  "expression": {
-                    "value": false,
-                    "type": "boolean",
-                    "_syntaxKind": "literal"
-                  },
-                  "stateName": "Assign first",
                   "_syntaxKind": "variable-assignment"
                 }
               ],
@@ -175,7 +147,7 @@
               ],
               "_syntaxKind": "function"
             },
-            "source": "if (first) { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n      first = false;\n    } else {\n      result = `${result}, ${item}`;\n    }",
+            "source": "if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }",
             "_syntaxKind": "if"
           },
           {

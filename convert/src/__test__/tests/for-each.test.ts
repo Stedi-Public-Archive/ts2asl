@@ -21,23 +21,9 @@ describe("when converting for-each", () => {
             "ResultPath": "$.vars.arr",
             "Type": "Pass",
           },
-          "Assign first": Object {
-            "Comment": "source: first = true",
-            "Next": "Foreach Initialize",
-            "Result": true,
-            "ResultPath": "$.vars.first",
-            "Type": "Pass",
-          },
-          "Assign first_1": Object {
-            "Comment": undefined,
-            "Next": "Foreach Next",
-            "Result": false,
-            "ResultPath": "$.vars.first",
-            "Type": "Pass",
-          },
           "Assign result": Object {
             "Comment": "source: result = \\"\\"",
-            "Next": "Assign first",
+            "Next": "Foreach Initialize",
             "Result": "",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
@@ -45,7 +31,7 @@ describe("when converting for-each", () => {
           "Assign result_1": Object {
             "Comment": undefined,
             "InputPath": "$.tmp.eval.value",
-            "Next": "Assign first_1",
+            "Next": "Foreach Next",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -78,7 +64,7 @@ describe("when converting for-each", () => {
             "Choices": Array [
               Object {
                 "IsPresent": true,
-                "Next": "If (first)",
+                "Next": "If (result === \\"\\")",
                 "Variable": "$.foreach.items[0]",
               },
             ],
@@ -109,17 +95,15 @@ describe("when converting for-each", () => {
             "ResultPath": "$.foreach",
             "Type": "Pass",
           },
-          "If (first)": Object {
+          "If (result === \\"\\")": Object {
             "Choices": Array [
               Object {
                 "Next": "Evaluate Format('{}', $.f ...",
-                "Not": Object {
-                  "BooleanEquals": false,
-                  "Variable": "$.vars.first",
-                },
+                "StringEquals": "",
+                "Variable": "$.vars.result",
               },
             ],
-            "Comment": "source: if (first) { //first element should not be pre ...",
+            "Comment": "source: if (result === \\"\\") { //first element should no ...",
             "Default": "Evaluate Format('{}, {}', ...",
             "Type": "Choice",
           },
@@ -158,23 +142,9 @@ describe("when converting for-each", () => {
             "ResultPath": "$.vars.arr",
             "Type": "Pass",
           },
-          "Assign first": Object {
-            "Comment": "source: first = true",
-            "Next": "Foreach Initialize",
-            "Result": true,
-            "ResultPath": "$.vars.first",
-            "Type": "Pass",
-          },
-          "Assign first_1": Object {
-            "Comment": undefined,
-            "Next": "If (item === 2)",
-            "Result": false,
-            "ResultPath": "$.vars.first",
-            "Type": "Pass",
-          },
           "Assign result": Object {
             "Comment": "source: result = \\"\\"",
-            "Next": "Assign first",
+            "Next": "Foreach Initialize",
             "Result": "",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
@@ -182,7 +152,7 @@ describe("when converting for-each", () => {
           "Assign result_1": Object {
             "Comment": undefined,
             "InputPath": "$.tmp.eval.value",
-            "Next": "Assign first_1",
+            "Next": "If (item === 2)",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -221,7 +191,7 @@ describe("when converting for-each", () => {
             "Choices": Array [
               Object {
                 "IsPresent": true,
-                "Next": "If (first)",
+                "Next": "If (result === \\"\\")",
                 "Variable": "$.foreach.items[0]",
               },
             ],
@@ -252,20 +222,6 @@ describe("when converting for-each", () => {
             "ResultPath": "$.foreach",
             "Type": "Pass",
           },
-          "If (first)": Object {
-            "Choices": Array [
-              Object {
-                "Next": "Evaluate Format('{}', $.f ...",
-                "Not": Object {
-                  "BooleanEquals": false,
-                  "Variable": "$.vars.first",
-                },
-              },
-            ],
-            "Comment": "source: if (first) { //first element should not be pre ...",
-            "Default": "Evaluate Format('{}, {}', ...",
-            "Type": "Choice",
-          },
           "If (item === 2)": Object {
             "Choices": Array [
               Object {
@@ -276,6 +232,18 @@ describe("when converting for-each", () => {
             ],
             "Comment": "source: if (item === 2) { break; // this break will pr ...",
             "Default": "Foreach Next",
+            "Type": "Choice",
+          },
+          "If (result === \\"\\")": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Evaluate Format('{}', $.f ...",
+                "StringEquals": "",
+                "Variable": "$.vars.result",
+              },
+            ],
+            "Comment": "source: if (result === \\"\\") { //first element should no ...",
+            "Default": "Evaluate Format('{}, {}', ...",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -313,23 +281,9 @@ describe("when converting for-each", () => {
             "ResultPath": "$.vars.arr",
             "Type": "Pass",
           },
-          "Assign first": Object {
-            "Comment": "source: first = true",
-            "Next": "Foreach Initialize",
-            "Result": true,
-            "ResultPath": "$.vars.first",
-            "Type": "Pass",
-          },
-          "Assign first_1": Object {
-            "Comment": undefined,
-            "Next": "Foreach Next",
-            "Result": false,
-            "ResultPath": "$.vars.first",
-            "Type": "Pass",
-          },
           "Assign result": Object {
             "Comment": "source: result = \\"\\"",
-            "Next": "Assign first",
+            "Next": "Foreach Initialize",
             "Result": "",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
@@ -337,7 +291,7 @@ describe("when converting for-each", () => {
           "Assign result_1": Object {
             "Comment": undefined,
             "InputPath": "$.tmp.eval.value",
-            "Next": "Assign first_1",
+            "Next": "Foreach Next",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
@@ -407,20 +361,6 @@ describe("when converting for-each", () => {
             "ResultPath": "$.foreach",
             "Type": "Pass",
           },
-          "If (first)": Object {
-            "Choices": Array [
-              Object {
-                "Next": "Evaluate Format('{}', $.f ...",
-                "Not": Object {
-                  "BooleanEquals": false,
-                  "Variable": "$.vars.first",
-                },
-              },
-            ],
-            "Comment": "source: if (first) { //first element should not be pre ...",
-            "Default": "Evaluate Format('{}, {}', ...",
-            "Type": "Choice",
-          },
           "If (item === 2)": Object {
             "Choices": Array [
               Object {
@@ -430,7 +370,19 @@ describe("when converting for-each", () => {
               },
             ],
             "Comment": "source: if (item === 2) { continue; // this break will ...",
-            "Default": "If (first)",
+            "Default": "If (result === \\"\\")",
+            "Type": "Choice",
+          },
+          "If (result === \\"\\")": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Evaluate Format('{}', $.f ...",
+                "StringEquals": "",
+                "Variable": "$.vars.result",
+              },
+            ],
+            "Comment": "source: if (result === \\"\\") { //first element should no ...",
+            "Default": "Evaluate Format('{}, {}', ...",
             "Type": "Choice",
           },
           "Initialize": Object {

@@ -3,13 +3,11 @@ import * as asl from "@ts2asl/asl-lib"
 export const simpleForeach = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
   let result = "";
-  let first = true;
 
   // use a for loop to append all numbers to a single string
   for (const item of arr) {
-    if (first) { //first element should not be prefixed with a comma
+    if (result === "") { //first element should not be prefixed with a comma
       result = asl.convert.numberToString(item);
-      first = false;
     } else {
       result = `${result}, ${item}`;
     }
@@ -20,13 +18,11 @@ export const simpleForeach = asl.deploy.asStateMachine(async () => {
 export const foreachWithBreak = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
   let result = "";
-  let first = true;
 
   // use a for loop to append all numbers to a single string
   for (const item of arr) {
-    if (first) { //first element should not be prefixed with a comma
+    if (result === "") { //first element should not be prefixed with a comma
       result = asl.convert.numberToString(item);
-      first = false;
     } else {
       result = `${result}, ${item}`;
     }
@@ -40,15 +36,13 @@ export const foreachWithBreak = asl.deploy.asStateMachine(async () => {
 export const foreachWithContinue = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
   let result = "";
-  let first = true;
   // use a for loop to append all numbers to a single string
   for (const item of arr) {
     if (item === 2) {
       continue; // this break will prevent 2 from being added to the string
     }
-    if (first) { //first element should not be prefixed with a comma
+    if (result === "") { //first element should not be prefixed with a comma
       result = asl.convert.numberToString(item);
-      first = false;
     } else {
       result = `${result}, ${item}`;
     }

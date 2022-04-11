@@ -25,13 +25,6 @@
       "ResultPath": "$.vars.result",
       "Result": "",
       "Comment": "source: result = \"\"",
-      "Next": "Assign first"
-    },
-    "Assign first": {
-      "Type": "Pass",
-      "ResultPath": "$.vars.first",
-      "Result": true,
-      "Comment": "source: first = true",
       "Next": "Foreach Initialize"
     },
     "Foreach Initialize": {
@@ -64,25 +57,23 @@
         }
       ],
       "Comment": "source: if (item === 2) { continue; // this break will ...",
-      "Default": "If (first)"
+      "Default": "If (result === \"\")"
     },
     "Continue": {
       "ResultPath": null,
       "Type": "Pass",
       "Next": "Foreach Next"
     },
-    "If (first)": {
+    "If (result === \"\")": {
       "Type": "Choice",
       "Choices": [
         {
-          "Not": {
-            "Variable": "$.vars.first",
-            "BooleanEquals": false
-          },
+          "Variable": "$.vars.result",
+          "StringEquals": "",
           "Next": "Evaluate Format('{}', $.f ..."
         }
       ],
-      "Comment": "source: if (first) { //first element should not be pre ...",
+      "Comment": "source: if (result === \"\") { //first element should no ...",
       "Default": "Evaluate Format('{}, {}', ..."
     },
     "Evaluate Format('{}', $.f ...": {
@@ -98,12 +89,6 @@
       "Type": "Pass",
       "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
-      "Next": "Assign first_1"
-    },
-    "Assign first_1": {
-      "Type": "Pass",
-      "ResultPath": "$.vars.first",
-      "Result": false,
       "Next": "Foreach Next"
     },
     "Evaluate Format('{}, {}', ...": {

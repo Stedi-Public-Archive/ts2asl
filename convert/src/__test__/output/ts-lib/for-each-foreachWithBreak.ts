@@ -3,13 +3,11 @@ import * as asl from "@ts2asl/asl-lib"
 export const simpleForeach = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
   let result = "";
-  let first = true;
 
   // use a for loop to append all numbers to a single string
   for (const item of arr) {
-    if (first) { //first element should not be prefixed with a comma
+    if (result === "") { //first element should not be prefixed with a comma
       result = asl.convert.numberToString(item);
-      first = false;
     } else {
       result = `${result}, ${item}`;
     }
@@ -28,26 +26,20 @@ export const foreachWithBreak = asl.deploy.asStateMachine(async () =>{
         parameters: () => "",
         comment: "result = \"\""
     });
-    let first = asl.pass({
-        name: "Assign first",
-        parameters: () => true,
-        comment: "first = true"
-    });
     asl.typescriptForeach({
         name: "For item Of arr",
         items: () => arr,
         iterator: item => {
             asl.typescriptIf({
-                name: "If (first)",
-                condition: () => first,
+                name: "If (result === \"\")",
+                condition: () => result === "",
                 then: async () => {
                     result = asl.states.format("{}", item);
-                    first = false;
                 },
                 else: async () => {
                     result = asl.states.format("{}, {}", result, item);
                 },
-                comment: "if (first) { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n      first = false;\n    } else {\n      result = `${result}, ${item}`;\n    }"
+                comment: "if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }"
             })
             asl.typescriptIf({
                 name: "If (item === 2)",
@@ -65,15 +57,13 @@ export const foreachWithBreak = asl.deploy.asStateMachine(async () =>{
 export const foreachWithContinue = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
   let result = "";
-  let first = true;
   // use a for loop to append all numbers to a single string
   for (const item of arr) {
     if (item === 2) {
       continue; // this break will prevent 2 from being added to the string
     }
-    if (first) { //first element should not be prefixed with a comma
+    if (result === "") { //first element should not be prefixed with a comma
       result = asl.convert.numberToString(item);
-      first = false;
     } else {
       result = `${result}, ${item}`;
     }

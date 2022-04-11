@@ -1,20 +1,18 @@
 
 ## simple foreach
 This example demonstrates a simple `for-each` (or: `for ... of`) statement. It converts an array of numbers to a single string. in order to ensure there is no leading `,` a local variable is used to treat the first element in the array differently. This function returns `1, 2, 3.`.
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBhcnIgPSBbMSwgMiwgM107CiAgbGV0IHJlc3VsdCA9ICIiOwogIGxldCBmaXJzdCA9IHRydWU7CgogIC8vIHVzZSBhIGZvciBsb29wIHRvIGFwcGVuZCBhbGwgbnVtYmVycyB0byBhIHNpbmdsZSBzdHJpbmcKICBmb3IgKGNvbnN0IGl0ZW0gb2YgYXJyKSB7CiAgICBpZiAoZmlyc3QpIHsgLy9maXJzdCBlbGVtZW50IHNob3VsZCBub3QgYmUgcHJlZml4ZWQgd2l0aCBhIGNvbW1hCiAgICAgIHJlc3VsdCA9IGFzbC5jb252ZXJ0Lm51bWJlclRvU3RyaW5nKGl0ZW0pOwogICAgICBmaXJzdCA9IGZhbHNlOwogICAgfSBlbHNlIHsKICAgICAgcmVzdWx0ID0gYCR7cmVzdWx0fSwgJHtpdGVtfWA7CiAgICB9CiAgfQogIHJldHVybiByZXN1bHQ7Cn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBhcnIgPSBbMSwgMiwgM107CiAgbGV0IHJlc3VsdCA9ICIiOwoKICAvLyB1c2UgYSBmb3IgbG9vcCB0byBhcHBlbmQgYWxsIG51bWJlcnMgdG8gYSBzaW5nbGUgc3RyaW5nCiAgZm9yIChjb25zdCBpdGVtIG9mIGFycikgewogICAgaWYgKHJlc3VsdCA9PT0gIiIpIHsgLy9maXJzdCBlbGVtZW50IHNob3VsZCBub3QgYmUgcHJlZml4ZWQgd2l0aCBhIGNvbW1hCiAgICAgIHJlc3VsdCA9IGFzbC5jb252ZXJ0Lm51bWJlclRvU3RyaW5nKGl0ZW0pOwogICAgfSBlbHNlIHsKICAgICAgcmVzdWx0ID0gYCR7cmVzdWx0fSwgJHtpdGVtfWA7CiAgICB9CiAgfQogIHJldHVybiByZXN1bHQ7Cn0pOw==)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
   const arr = [1, 2, 3];
   let result = "";
-  let first = true;
 
   // use a for loop to append all numbers to a single string
   for (const item of arr) {
-    if (first) { //first element should not be prefixed with a comma
+    if (result === "") { //first element should not be prefixed with a comma
       result = asl.convert.numberToString(item);
-      first = false;
     } else {
       result = `${result}, ${item}`;
     }
@@ -26,20 +24,18 @@ export const main = asl.deploy.asStateMachine(async () =>
 
 ## foreach with break
 This example demonstrates a `break` statement within a `for-each` statement. The break statements exists the loop after number `2` was added to the list. this function returns  `1, 2`.
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBhcnIgPSBbMSwgMiwgM107CiAgbGV0IHJlc3VsdCA9ICIiOwogIGxldCBmaXJzdCA9IHRydWU7CgogIC8vIHVzZSBhIGZvciBsb29wIHRvIGFwcGVuZCBhbGwgbnVtYmVycyB0byBhIHNpbmdsZSBzdHJpbmcKICBmb3IgKGNvbnN0IGl0ZW0gb2YgYXJyKSB7CiAgICBpZiAoZmlyc3QpIHsgLy9maXJzdCBlbGVtZW50IHNob3VsZCBub3QgYmUgcHJlZml4ZWQgd2l0aCBhIGNvbW1hCiAgICAgIHJlc3VsdCA9IGFzbC5jb252ZXJ0Lm51bWJlclRvU3RyaW5nKGl0ZW0pOwogICAgICBmaXJzdCA9IGZhbHNlOwogICAgfSBlbHNlIHsKICAgICAgcmVzdWx0ID0gYCR7cmVzdWx0fSwgJHtpdGVtfWA7CiAgICB9CiAgICBpZiAoaXRlbSA9PT0gMikgewogICAgICBicmVhazsgLy8gdGhpcyBicmVhayB3aWxsIHByZXZlbnQgMyBmcm9tIGJlaW5nIGFkZGVkIHRvIHRoZSBzdHJpbmcKICAgIH0KICB9CiAgcmV0dXJuIHJlc3VsdDsKfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBhcnIgPSBbMSwgMiwgM107CiAgbGV0IHJlc3VsdCA9ICIiOwoKICAvLyB1c2UgYSBmb3IgbG9vcCB0byBhcHBlbmQgYWxsIG51bWJlcnMgdG8gYSBzaW5nbGUgc3RyaW5nCiAgZm9yIChjb25zdCBpdGVtIG9mIGFycikgewogICAgaWYgKHJlc3VsdCA9PT0gIiIpIHsgLy9maXJzdCBlbGVtZW50IHNob3VsZCBub3QgYmUgcHJlZml4ZWQgd2l0aCBhIGNvbW1hCiAgICAgIHJlc3VsdCA9IGFzbC5jb252ZXJ0Lm51bWJlclRvU3RyaW5nKGl0ZW0pOwogICAgfSBlbHNlIHsKICAgICAgcmVzdWx0ID0gYCR7cmVzdWx0fSwgJHtpdGVtfWA7CiAgICB9CiAgICBpZiAoaXRlbSA9PT0gMikgewogICAgICBicmVhazsgLy8gdGhpcyBicmVhayB3aWxsIHByZXZlbnQgMyBmcm9tIGJlaW5nIGFkZGVkIHRvIHRoZSBzdHJpbmcKICAgIH0KICB9CiAgcmV0dXJuIHJlc3VsdDsKfSk7)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
   const arr = [1, 2, 3];
   let result = "";
-  let first = true;
 
   // use a for loop to append all numbers to a single string
   for (const item of arr) {
-    if (first) { //first element should not be prefixed with a comma
+    if (result === "") { //first element should not be prefixed with a comma
       result = asl.convert.numberToString(item);
-      first = false;
     } else {
       result = `${result}, ${item}`;
     }
@@ -54,22 +50,20 @@ export const main = asl.deploy.asStateMachine(async () =>
 
 ## foreach with continue
 This example demonstrates a `continue` statement within a `for-each` statement. The `continue` statements prevents number `2` from being added to the list. this function returns  `1, 3`.
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBhcnIgPSBbMSwgMiwgM107CiAgbGV0IHJlc3VsdCA9ICIiOwogIGxldCBmaXJzdCA9IHRydWU7CiAgLy8gdXNlIGEgZm9yIGxvb3AgdG8gYXBwZW5kIGFsbCBudW1iZXJzIHRvIGEgc2luZ2xlIHN0cmluZwogIGZvciAoY29uc3QgaXRlbSBvZiBhcnIpIHsKICAgIGlmIChpdGVtID09PSAyKSB7CiAgICAgIGNvbnRpbnVlOyAvLyB0aGlzIGJyZWFrIHdpbGwgcHJldmVudCAyIGZyb20gYmVpbmcgYWRkZWQgdG8gdGhlIHN0cmluZwogICAgfQogICAgaWYgKGZpcnN0KSB7IC8vZmlyc3QgZWxlbWVudCBzaG91bGQgbm90IGJlIHByZWZpeGVkIHdpdGggYSBjb21tYQogICAgICByZXN1bHQgPSBhc2wuY29udmVydC5udW1iZXJUb1N0cmluZyhpdGVtKTsKICAgICAgZmlyc3QgPSBmYWxzZTsKICAgIH0gZWxzZSB7CiAgICAgIHJlc3VsdCA9IGAke3Jlc3VsdH0sICR7aXRlbX1gOwogICAgfQogIH0KICByZXR1cm4gcmVzdWx0OyAvL3JldHVybnMgIjEsIDMiCn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBhcnIgPSBbMSwgMiwgM107CiAgbGV0IHJlc3VsdCA9ICIiOwogIC8vIHVzZSBhIGZvciBsb29wIHRvIGFwcGVuZCBhbGwgbnVtYmVycyB0byBhIHNpbmdsZSBzdHJpbmcKICBmb3IgKGNvbnN0IGl0ZW0gb2YgYXJyKSB7CiAgICBpZiAoaXRlbSA9PT0gMikgewogICAgICBjb250aW51ZTsgLy8gdGhpcyBicmVhayB3aWxsIHByZXZlbnQgMiBmcm9tIGJlaW5nIGFkZGVkIHRvIHRoZSBzdHJpbmcKICAgIH0KICAgIGlmIChyZXN1bHQgPT09ICIiKSB7IC8vZmlyc3QgZWxlbWVudCBzaG91bGQgbm90IGJlIHByZWZpeGVkIHdpdGggYSBjb21tYQogICAgICByZXN1bHQgPSBhc2wuY29udmVydC5udW1iZXJUb1N0cmluZyhpdGVtKTsKICAgIH0gZWxzZSB7CiAgICAgIHJlc3VsdCA9IGAke3Jlc3VsdH0sICR7aXRlbX1gOwogICAgfQogIH0KICByZXR1cm4gcmVzdWx0OyAvL3JldHVybnMgIjEsIDMiCn0pOw==)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
   const arr = [1, 2, 3];
   let result = "";
-  let first = true;
   // use a for loop to append all numbers to a single string
   for (const item of arr) {
     if (item === 2) {
       continue; // this break will prevent 2 from being added to the string
     }
-    if (first) { //first element should not be prefixed with a comma
+    if (result === "") { //first element should not be prefixed with a comma
       result = asl.convert.numberToString(item);
-      first = false;
     } else {
       result = `${result}, ${item}`;
     }
