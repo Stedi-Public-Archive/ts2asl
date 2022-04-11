@@ -7,7 +7,6 @@ describe("when converting kyc", () => {
   it("then main can be converted to asl", async () => {
     expect(converted.main.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign checksPassed": Object {

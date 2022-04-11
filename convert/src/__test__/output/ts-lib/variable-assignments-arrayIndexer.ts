@@ -24,6 +24,8 @@ export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
 export const unassignedVariable = asl.deploy.asStateMachine(async () => {
   let arr: [];
   let two: string;
+  let _null = null;
+  let _undefined = undefined;
   return two;
 });
 

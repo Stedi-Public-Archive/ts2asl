@@ -7,7 +7,6 @@ describe("when converting throw", () => {
   it("then tryCatch can be converted to asl", async () => {
     expect(converted.tryCatch.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign vars": Object {
@@ -104,7 +103,6 @@ describe("when converting throw", () => {
   it("then throwErrors can be converted to asl", async () => {
     expect(converted.throwErrors.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "If (input.delayInSeconds ...": Object {
@@ -154,7 +152,6 @@ describe("when converting throw", () => {
   it("then RetryErrors can be converted to asl", async () => {
     expect(converted.RetryErrors.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -202,7 +199,6 @@ describe("when converting throw", () => {
   it("then CatchErrors can be converted to asl", async () => {
     expect(converted.CatchErrors.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign vars": Object {

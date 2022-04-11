@@ -72,6 +72,5 @@
       "Cause": "this should not happen",
       "Comment": "source: throw new Error(\"this should not happen\");"
     }
-  },
-  "Comment": "ASL Generated using ts2asl version 0.1.30."
+  }
 }

@@ -23,6 +23,5 @@
         "b.$": "States.Format('hello {}', $.vars.variable)"
       }
     }
-  },
-  "Comment": "ASL Generated using ts2asl version 0.1.30."
+  }
 }

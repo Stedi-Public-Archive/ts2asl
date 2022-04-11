@@ -7,7 +7,6 @@ describe("when converting for-each", () => {
   it("then simpleForeach can be converted to asl", async () => {
     expect(converted.simpleForeach.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -128,7 +127,6 @@ describe("when converting for-each", () => {
   it("then foreachWithBreak can be converted to asl", async () => {
     expect(converted.foreachWithBreak.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -267,7 +265,6 @@ describe("when converting for-each", () => {
   it("then foreachWithContinue can be converted to asl", async () => {
     expect(converted.foreachWithContinue.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -406,7 +403,6 @@ describe("when converting for-each", () => {
   it("then foreachEarlyReturn can be converted to asl", async () => {
     expect(converted.foreachEarlyReturn.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign Result": Object {
@@ -510,7 +506,6 @@ describe("when converting for-each", () => {
   it("then nestedForeach can be converted to asl", async () => {
     expect(converted.nestedForeach.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign combined": Object {
@@ -659,7 +654,6 @@ describe("when converting for-each", () => {
   it("then emptyForeach can be converted to asl", async () => {
     expect(converted.emptyForeach.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign numbers": Object {

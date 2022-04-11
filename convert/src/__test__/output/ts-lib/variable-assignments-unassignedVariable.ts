@@ -31,6 +31,16 @@ export const unassignedVariable = asl.deploy.asStateMachine(async () =>{
         name: "Assign two",
         comment: "two: string"
     });
+    let _null = asl.pass({
+        name: "Assign _null",
+        parameters: () => null,
+        comment: "_null = null"
+    });
+    let _undefined = asl.pass({
+        name: "Assign _undefined",
+        parameters: () => undefined,
+        comment: "_undefined = undefined"
+    });
     return two;
 });
 

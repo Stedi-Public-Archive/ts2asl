@@ -7,7 +7,6 @@ describe("when converting ts-lib-convert", () => {
   it("then convertStringToNumber can be converted to asl", async () => {
     expect(converted.convertStringToNumber.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign num": Object {
@@ -93,7 +92,6 @@ describe("when converting ts-lib-convert", () => {
   it("then convertStringToBoolean can be converted to asl", async () => {
     expect(converted.convertStringToBoolean.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign bool": Object {

@@ -7,7 +7,6 @@ describe("when converting try-catch", () => {
   it("then simpleTry can be converted to asl", async () => {
     expect(converted.simpleTry.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -60,7 +59,6 @@ describe("when converting try-catch", () => {
   it("then simpleMultipleStatements can be converted to asl", async () => {
     expect(converted.simpleMultipleStatements.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -139,7 +137,6 @@ describe("when converting try-catch", () => {
   it("then tryAroundPassState can be converted to asl", async () => {
     expect(converted.tryAroundPassState.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -163,7 +160,6 @@ describe("when converting try-catch", () => {
   it("then tryFinally can be converted to asl", async () => {
     expect(converted.tryFinally.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -208,7 +204,6 @@ describe("when converting try-catch", () => {
   it("then tryCatchFinally can be converted to asl", async () => {
     expect(converted.tryCatchFinally.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {

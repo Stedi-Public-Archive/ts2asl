@@ -9,7 +9,7 @@ export const runConvertForTest = (filename: string): Record<string, ConvertedSta
   );
   const converter = new Converter(host);
   const converted = converter
-    .convert({ includeDiagnostics: true, getParameter: x => x as any })
+    .convert({ includeDiagnostics: true, skipVersionComment: true, getParameter: x => x as any })
     .stateMachines.map(x => x as ConvertedStateMachineWithDiagnostics);
 
   for (const stateMachine of converted) {

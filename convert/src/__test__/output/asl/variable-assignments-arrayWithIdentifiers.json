@@ -61,6 +61,5 @@
       "Type": "Pass",
       "InputPath": "$.vars.array"
     }
-  },
-  "Comment": "ASL Generated using ts2asl version 0.1.30."
+  }
 }

@@ -7,7 +7,6 @@ describe("when converting expressions", () => {
   it("then concatStrings can be converted to asl", async () => {
     expect(converted.concatStrings.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -36,7 +35,6 @@ describe("when converting expressions", () => {
   it("then numbers can be converted to asl", async () => {
     expect(converted.numbers.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -66,7 +64,6 @@ describe("when converting expressions", () => {
   it("then booleans can be converted to asl", async () => {
     expect(converted.booleans.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
@@ -97,7 +94,6 @@ describe("when converting expressions", () => {
   it("then parameters can be converted to asl", async () => {
     expect(converted.parameters.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {

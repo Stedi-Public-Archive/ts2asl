@@ -7,7 +7,6 @@ describe("when converting sdk-states", () => {
   it("then dynamoDBPutItemIfNotExists can be converted to asl", async () => {
     expect(converted.dynamoDBPutItemIfNotExists.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Empty": Object {
@@ -64,7 +63,6 @@ describe("when converting sdk-states", () => {
   it("then countDynamoDBItems can be converted to asl", async () => {
     expect(converted.countDynamoDBItems.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "COUNT(where gsi1pk === 'test')": Object {
@@ -112,7 +110,6 @@ describe("when converting sdk-states", () => {
   it("then cloudWatchPutMetricData can be converted to asl", async () => {
     expect(converted.cloudWatchPutMetricData.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign value": Object {

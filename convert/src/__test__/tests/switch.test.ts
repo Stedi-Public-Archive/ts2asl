@@ -7,7 +7,6 @@ describe("when converting switch", () => {
   it("then simpleSwitch can be converted to asl", async () => {
     expect(converted.simpleSwitch.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -149,13 +148,12 @@ describe("when converting switch", () => {
   it("then createAwsAccount can be converted to asl", async () => {
     expect(converted.createAwsAccount.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign creationStatus": Object {
             "Comment": "source: creationStatus: string | undefined = undefined",
             "Next": "Do While Condition",
-            "Result": null,
+            "Result": Object {},
             "ResultPath": "$.vars.creationStatus",
             "Type": "Pass",
           },

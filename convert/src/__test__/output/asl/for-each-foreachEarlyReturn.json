@@ -93,6 +93,5 @@
       "Cause": "should not get here",
       "Comment": "source: throw new Error(\"should not get here\");"
     }
-  },
-  "Comment": "ASL Generated using ts2asl version 0.1.30."
+  }
 }

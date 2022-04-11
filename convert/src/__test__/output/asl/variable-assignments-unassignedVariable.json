@@ -21,6 +21,20 @@
       "ResultPath": "$.vars.two",
       "Result": {},
       "Comment": "source: two: string",
+      "Next": "Assign _null"
+    },
+    "Assign _null": {
+      "Type": "Pass",
+      "ResultPath": "$.vars._null",
+      "Result": {},
+      "Comment": "source: _null = null",
+      "Next": "Assign _undefined"
+    },
+    "Assign _undefined": {
+      "Type": "Pass",
+      "ResultPath": "$.vars._undefined",
+      "Result": {},
+      "Comment": "source: _undefined = undefined",
       "Next": "Return two"
     },
     "Return two": {
@@ -28,6 +42,5 @@
       "Type": "Pass",
       "InputPath": "$.vars.two"
     }
-  },
-  "Comment": "ASL Generated using ts2asl version 0.1.30."
+  }
 }

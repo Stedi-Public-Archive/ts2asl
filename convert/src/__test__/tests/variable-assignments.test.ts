@@ -7,7 +7,6 @@ describe("when converting variable-assignments", () => {
   it("then literals can be converted to asl", async () => {
     expect(converted.literals.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arrayOfNumbers": Object {
@@ -111,7 +110,6 @@ describe("when converting variable-assignments", () => {
   it("then arrayWithIdentifiers can be converted to asl", async () => {
     expect(converted.arrayWithIdentifiers.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign array": Object {
@@ -183,9 +181,22 @@ describe("when converting variable-assignments", () => {
   it("then unassignedVariable can be converted to asl", async () => {
     expect(converted.unassignedVariable.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
+          "Assign _null": Object {
+            "Comment": "source: _null = null",
+            "Next": "Assign _undefined",
+            "Result": Object {},
+            "ResultPath": "$.vars._null",
+            "Type": "Pass",
+          },
+          "Assign _undefined": Object {
+            "Comment": "source: _undefined = undefined",
+            "Next": "Return two",
+            "Result": Object {},
+            "ResultPath": "$.vars._undefined",
+            "Type": "Pass",
+          },
           "Assign arr": Object {
             "Comment": "source: arr: []",
             "Next": "Assign two",
@@ -195,7 +206,7 @@ describe("when converting variable-assignments", () => {
           },
           "Assign two": Object {
             "Comment": "source: two: string",
-            "Next": "Return two",
+            "Next": "Assign _null",
             "Result": Object {},
             "ResultPath": "$.vars.two",
             "Type": "Pass",
@@ -221,7 +232,6 @@ describe("when converting variable-assignments", () => {
   it("then arrayIndexer can be converted to asl", async () => {
     expect(converted.arrayIndexer.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
@@ -265,7 +275,6 @@ describe("when converting variable-assignments", () => {
   it("then functions can be converted to asl", async () => {
     expect(converted.functions.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {

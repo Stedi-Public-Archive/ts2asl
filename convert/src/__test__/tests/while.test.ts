@@ -7,7 +7,6 @@ describe("when converting while", () => {
   it("then simpleWhile can be converted to asl", async () => {
     expect(converted.simpleWhile.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -72,7 +71,6 @@ describe("when converting while", () => {
   it("then whileWithBreak can be converted to asl", async () => {
     expect(converted.whileWithBreak.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -155,7 +153,6 @@ describe("when converting while", () => {
   it("then whileWithEarlyReturn can be converted to asl", async () => {
     expect(converted.whileWithEarlyReturn.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
@@ -238,7 +235,6 @@ describe("when converting while", () => {
   it("then whileWithContinue can be converted to asl", async () => {
     expect(converted.whileWithContinue.asl).toMatchInlineSnapshot(`
       Object {
-        "Comment": "ASL Generated using ts2asl version 0.1.30.",
         "StartAt": "Initialize",
         "States": Object {
           "Assign counter": Object {
