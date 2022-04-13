@@ -37,23 +37,6 @@ interface IInput {
 
 ```
 
-## Deployment using the AWS Cloud Development Kit ([CDK])
-`ts2asl` features a CDK Construct that allows developers to integrate the TypeScript -> ASL conversion process into existing CI/CD pipelines. An example stack can be found in [this repository](cdk-example/lib/cdk-example-stack.ts).
-
-``` typescript
-import * as ts2asl from '@ts2asl/cdk-typescript-statemachine';
-
-new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
-  programName: "hello-world",
-  defaultFunctionProps: {},
-  defaultStepFunctionProps: {
-    stateMachineType: "EXPRESS",
-    roleArn: executionRole.roleArn
-  },
-  sourceFile: "./src/program.ts",
-});
-```
-
 ## TypeScript language support
 `ts2asl` converts native TypeScript code to ASL. The following TypeScript langauge features are supported:
 * [variable assignments](./examples/variable-assignments.md)
@@ -89,6 +72,23 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 ## Differences between TypeScript and ASL
 There are some differences between TypeScript and ASL that a compiler won't be able to solve (fully):
 -  object references in TypeScript are passed **by reference**; object references in ASL references are passed **by value**.  
+
+## Deployment using the AWS Cloud Development Kit ([CDK])
+`ts2asl` features a CDK Construct that allows developers to integrate the TypeScript -> ASL conversion process into existing CI/CD pipelines. An example stack can be found in [this repository](cdk-example/lib/cdk-example-stack.ts).
+
+``` typescript
+import * as ts2asl from '@ts2asl/cdk-typescript-statemachine';
+
+new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
+  programName: "hello-world",
+  defaultFunctionProps: {},
+  defaultStepFunctionProps: {
+    stateMachineType: "EXPRESS",
+    roleArn: executionRole.roleArn
+  },
+  sourceFile: "./src/program.ts",
+});
+```
 
 ## Useful patterns & examples
 - [example project](./cdk-example/) containing a [simple program](./cdk-example/src/program.ts), [CDK for deployment](./cdk-example/lib/cdk-example-stack.ts) and [Jest for testing](./cdk-example/test/program.test.ts)
