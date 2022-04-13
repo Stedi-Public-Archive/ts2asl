@@ -74,7 +74,7 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 * [string templates](./examples/string-templates.md)
 
 ## ASL TypeScript library runtime support
-`ts2asl` is integrated with the `@ts2asl/asl-lib` module. This module can be used to integrate ASL features such as states and JsonPath with native typescript.
+`ts2asl` is integrated with the `@ts2asl/asl-lib` module. This module can be used to integrate ASL features such as states and JsonPath with native TypeScript.
 
 * [ASL States](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-states.html) (Pass, Wait, Choice, Parallel, Map, etc.)
 * tasks with sync invocations, [waitForTaskToken](./examples/states.md#wait-for-task-token)
@@ -84,15 +84,15 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 * [jsonPath expressions](./examples/arrays.md#json-path-expressions)
 * deploytime configuration & integration with CDK
 
-As `asl-lib` implements the same behavior as AWS Step Functions, you can execute your TypeScript code locally (using `ts-node`) or write unit tests against that execute using `ts-jest` within having to deploy anything to AWS.
+`asl-lib` implements the same behavior as AWS Step Functions, so you can execute your TypeScript code locally (using `ts-node`) or write unit tests (using `ts-jest`) without having to deploy anything to AWS.
 
 ## Differences between TypeScript and ASL
-There are some differences between TypeScript and ASL that a compiler wont be able to solve (fully):
--  object references in TypeScript are passed **by reference**, object references in ASL references are passed **by value**.  
+There are some differences between TypeScript and ASL that a compiler won't be able to solve (fully):
+-  object references in TypeScript are passed **by reference**; object references in ASL references are passed **by value**.  
 
 ## Useful patterns & examples
 - [example project](./cdk-example/) containing a [simple program](./cdk-example/src/program.ts), [CDK for deployment](./cdk-example/lib/cdk-example-stack.ts) and [Jest for testing](./cdk-example/test/program.test.ts)
-- Waiting for completion of SDK state, example: [organizations.createAccount](./examples/switch.md#create-aws-account).
+- Waiting for completion of SDK state: [organizations.createAccount](./examples/switch.md#create-aws-account).
 <!-- 
 - Using sdk integrations to page over data in DynamoDB
 - Using a Lambda to page over data (in memory)
