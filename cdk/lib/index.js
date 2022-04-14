@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TypescriptStateMachine = void 0;
-const aws_stepfunctions_1 = require("@aws-cdk/aws-stepfunctions");
+const sfn = __importStar(require("@aws-cdk/aws-stepfunctions"));
 const aws_lambda_1 = require("@aws-cdk/aws-lambda");
 const core_1 = require("@aws-cdk/core");
 const convert_1 = require("@ts2asl/convert");
@@ -67,13 +67,15 @@ class TypescriptStateMachine extends core_1.Construct {
         for (const step of converted.stateMachines) {
             const logicalId = `${id}${step.name.substring(0, 1).toUpperCase()}${step.name.substring(1)}`;
             const sfnProps = (_f = (_e = props.stepFunctionProps) === null || _e === void 0 ? void 0 : _e[step.name]) !== null && _f !== void 0 ? _f : {};
-            const sm = new aws_stepfunctions_1.CfnStateMachine(scope, logicalId, {
+            const sm = new sfn.StateMachine(scope, logicalId, {
                 ...props.defaultStepFunctionProps,
                 ...sfnProps,
-                definition: step.asl,
+                definition: new sfn.Succeed(this, "empty-success"),
             });
-            sm.addMetadata("ts2asl:sourceFunctionName", step.name);
-            arnDict["statemachine:" + step.name] = sm.attrArn;
+            const underlyingResource = sm.node.findChild("Resource");
+            underlyingResource.addMetadata("ts2asl:sourceFunctionName", step.name);
+            underlyingResource.definition = step.asl;
+            arnDict["statemachine:" + step.name] = sm.stateMachineArn;
             stateMachines.push(sm);
             this.stateMachines[step.name] = sm;
             foundStateMachineNames.push(step.name);
@@ -84,14 +86,16 @@ class TypescriptStateMachine extends core_1.Construct {
             throw new Error(`CDK Configuration expected to find the following state machines that weren't part of the source: ${missingStateMachines.join(", ")}`);
         }
         for (const sm of stateMachines) {
-            const replaced = replaceArns(sm.definition, arnDict);
+            const underlyingResource = sm.node.findChild("Resource");
+            const replaced = replaceArns(underlyingResource.definition, arnDict);
             const stringified = JSON.stringify(replaced, null, 2);
-            sm.definitionString = replaceExpressions(stringified, (_h = props.parameters) !== null && _h !== void 0 ? _h : {}, this.stateMachines, this.functions);
-            delete sm.definition;
+            underlyingResource.definitionString = replaceExpressions(stringified, (_h = props.parameters) !== null && _h !== void 0 ? _h : {}, this.stateMachines, this.functions);
+            delete underlyingResource.definition;
+            sm.node.findChild("Resource");
             if ((_j = props.conversionOptions) === null || _j === void 0 ? void 0 : _j.emitStateLanguageFiles) {
-                const fnName = sm.getMetadata("ts2asl:sourceFunctionName");
+                const fnName = underlyingResource.getMetadata("ts2asl:sourceFunctionName");
                 const filename = sourceFile.replace(".ts", "." + fnName + ".json");
-                fs.writeFileSync(filename, sm.definitionString);
+                fs.writeFileSync(filename, underlyingResource.definitionString);
             }
         }
     }

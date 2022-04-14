@@ -1,4 +1,4 @@
-import { CfnStateMachine, CfnStateMachineProps } from "@aws-cdk/aws-stepfunctions";
+import * as sfn from "@aws-cdk/aws-stepfunctions";
 import { Runtime } from "@aws-cdk/aws-lambda";
 import { Construct } from "@aws-cdk/core";
 import { Converter, ConverterOptions } from "@ts2asl/convert"
@@ -8,8 +8,8 @@ import { StateMachine, Task, Map, Parallel } from "asl-types";
 import * as fs from "fs";
 
 export interface TypescriptStateMachineProps {
-  defaultStepFunctionProps: Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">;
-  stepFunctionProps?: Record<string, Omit<CfnStateMachineProps, "stateMachineName" | "definition" | "definitionS3Location" | "definitionString">>;
+  defaultStepFunctionProps: Omit<sfn.StateMachineProps, "stateMachineName" | "definition">;
+  stepFunctionProps?: Record<string, Omit<sfn.StateMachineProps, "stateMachineName" | "definition">>;
   defaultFunctionProps?: Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
   functionProps?: Record<string, Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">>;
   programName: string;
@@ -21,7 +21,7 @@ export interface TypescriptStateMachineProps {
 
 export class TypescriptStateMachine extends Construct {
   functions: Record<string, NodejsFunction>;
-  stateMachines: Record<string, CfnStateMachine>;
+  stateMachines: Record<string, sfn.StateMachine>;
 
   constructor(scope: Construct, id: string, props: TypescriptStateMachineProps) {
 
@@ -59,20 +59,22 @@ export class TypescriptStateMachine extends Construct {
     if (missingLambdas.length) {
       throw new Error(`CDK Configuration expected to find the following lambdas that weren't part of the source: ${missingLambdas.join(", ")}`);
     }
-    const stateMachines: CfnStateMachine[] = [];
+    const stateMachines: sfn.StateMachine[] = [];
 
     this.stateMachines = {};
     const foundStateMachineNames: string[] = [];
     for (const step of converted.stateMachines) {
       const logicalId = `${id}${step.name.substring(0, 1).toUpperCase()}${step.name.substring(1)}`;
       const sfnProps = props.stepFunctionProps?.[step.name] ?? {};
-      const sm = new CfnStateMachine(scope, logicalId, {
+      const sm = new sfn.StateMachine(scope, logicalId, {
         ...props.defaultStepFunctionProps,
         ...sfnProps,
-        definition: step.asl!,
+        definition: new sfn.Succeed(this, "empty-success"),
       });
-      sm.addMetadata("ts2asl:sourceFunctionName", step.name);
-      arnDict["statemachine:" + step.name] = sm.attrArn;
+      const underlyingResource = sm.node.findChild("Resource") as sfn.CfnStateMachine;
+      underlyingResource.addMetadata("ts2asl:sourceFunctionName", step.name);
+      underlyingResource.definition = step.asl!;
+      arnDict["statemachine:" + step.name] = sm.stateMachineArn;
       stateMachines.push(sm);
       this.stateMachines[step.name] = sm;
       foundStateMachineNames.push(step.name);
@@ -84,21 +86,23 @@ export class TypescriptStateMachine extends Construct {
     }
 
     for (const sm of stateMachines) {
-      const replaced = replaceArns(sm.definition as StateMachine, arnDict);
+      const underlyingResource = sm.node.findChild("Resource") as sfn.CfnStateMachine;
+      const replaced = replaceArns(underlyingResource.definition as StateMachine, arnDict);
       const stringified = JSON.stringify(replaced, null, 2);
-      sm.definitionString = replaceExpressions(stringified, props.parameters ?? {}, this.stateMachines, this.functions);
-      delete sm.definition;
+      underlyingResource.definitionString = replaceExpressions(stringified, props.parameters ?? {}, this.stateMachines as any, this.functions);
+      delete underlyingResource.definition;
+      sm.node.findChild("Resource");
 
       if (props.conversionOptions?.emitStateLanguageFiles) {
-        const fnName = sm.getMetadata("ts2asl:sourceFunctionName");
+        const fnName = underlyingResource.getMetadata("ts2asl:sourceFunctionName");
         const filename = sourceFile.replace(".ts", "." + fnName + ".json");
-        fs.writeFileSync(filename, sm.definitionString);
+        fs.writeFileSync(filename, underlyingResource.definitionString);
       }
     }
   }
 }
 
-const replaceExpressions = (input: string, parameters: Record<string, string>, satemachines: Record<string, CfnStateMachine>, functions: Record<string, NodejsFunction>): string => {
+const replaceExpressions = (input: string, parameters: Record<string, string>, satemachines: Record<string, sfn.CfnStateMachine>, functions: Record<string, NodejsFunction>): string => {
 
   const replaced1 = input.replace(/\[!(lambda|state-machine)\[(\w*)\](name|arn)\]/g, (val: string, type: string, name: string, attrib: string) => {
     // const type = groups[0];
