@@ -7,7 +7,6 @@ import { convert } from "../convert-iasl-to-asl";
 import { convertToIntermediaryAsl } from "../convert-asllib-to-iasl";
 import { ICompilerHost } from "../compiler-host";
 
-
 export interface ConverterOptions {
   lineNumbersInStateNames?: true;
   sourceCodeInComments?: true;
@@ -27,6 +26,10 @@ export interface ConverterOptions {
   getParameter?: <T>(paramName: string, defaultValue?: T) => T;
 }
 
+interface TSDebug {
+  getAssertionLevel(): number;
+  setAssertionLevel(val: number): void;
+}
 
 export class Converter {
   sourceFile: ts.SourceFile;
@@ -41,6 +44,9 @@ export class Converter {
 
 
   convert(options: ConverterOptions = {}): Converted {
+    let debug = (ts as any).Debug as TSDebug;
+    debug.setAssertionLevel(0);
+
     const declarations = listFunctionDeclarations(this.sourceFile, this.typeChecker);
     const optionsWithDefaults = options;
     if (optionsWithDefaults.defaultRetry === undefined) {
