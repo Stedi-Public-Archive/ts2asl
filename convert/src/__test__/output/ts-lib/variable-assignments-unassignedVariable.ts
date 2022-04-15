@@ -31,17 +31,18 @@ export const unassignedVariable = asl.deploy.asStateMachine(async () =>{
         name: "Assign two",
         comment: "two: string"
     });
-    let _null = asl.pass({
-        name: "Assign _null",
-        parameters: () => null,
-        comment: "_null = null"
-    });
-    let _undefined = asl.pass({
-        name: "Assign _undefined",
-        parameters: () => undefined,
-        comment: "_undefined = undefined"
-    });
     return two;
+});
+
+
+export const assignmentToUndefined = asl.deploy.asStateMachine(async () => {
+  //this will assign '{}', undefined would otherwise be interpreted as "entire context"
+  let _undefined = undefined;
+});
+
+export const assignmentToNull = asl.deploy.asStateMachine(async () => {
+  //this will assign '{}', null would otherwise be interpreted as "entire context"
+  let _null = null;
 });
 
 export const arrayIndexer = asl.deploy.asStateMachine(async () => {

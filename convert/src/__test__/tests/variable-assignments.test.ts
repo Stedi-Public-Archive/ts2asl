@@ -183,20 +183,6 @@ describe("when converting variable-assignments", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign _null": Object {
-            "Comment": "source: _null = null",
-            "Next": "Assign _undefined",
-            "Result": Object {},
-            "ResultPath": "$.vars._null",
-            "Type": "Pass",
-          },
-          "Assign _undefined": Object {
-            "Comment": "source: _undefined = undefined",
-            "Next": "Return two",
-            "Result": Object {},
-            "ResultPath": "$.vars._undefined",
-            "Type": "Pass",
-          },
           "Assign arr": Object {
             "Comment": "source: arr: []",
             "Next": "Assign two",
@@ -206,7 +192,7 @@ describe("when converting variable-assignments", () => {
           },
           "Assign two": Object {
             "Comment": "source: two: string",
-            "Next": "Assign _null",
+            "Next": "Return two",
             "Result": Object {},
             "ResultPath": "$.vars.two",
             "Type": "Pass",
@@ -223,6 +209,54 @@ describe("when converting variable-assignments", () => {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.vars.two",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
+  it("then assignmentToUndefined can be converted to asl", async () => {
+    expect(converted.assignmentToUndefined.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign _undefined": Object {
+            "Comment": "source: _undefined = undefined",
+            "End": true,
+            "Result": Object {},
+            "ResultPath": "$.vars._undefined",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign _undefined",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
+  it("then assignmentToNull can be converted to asl", async () => {
+    expect(converted.assignmentToNull.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign _null": Object {
+            "Comment": "source: _null = null",
+            "End": true,
+            "Result": Object {},
+            "ResultPath": "$.vars._null",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign _null",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
             "Type": "Pass",
           },
         },

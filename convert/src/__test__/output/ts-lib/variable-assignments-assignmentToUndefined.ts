@@ -28,9 +28,13 @@ export const unassignedVariable = asl.deploy.asStateMachine(async () => {
 });
 
 
-export const assignmentToUndefined = asl.deploy.asStateMachine(async () => {
-  //this will assign '{}', undefined would otherwise be interpreted as "entire context"
-  let _undefined = undefined;
+export const assignmentToUndefined = asl.deploy.asStateMachine(async () =>{
+    //this will assign '{}', undefined would otherwise be interpreted as "entire context"
+    let _undefined = asl.pass({
+        name: "Assign _undefined",
+        parameters: () => undefined,
+        comment: "_undefined = undefined"
+    });
 });
 
 export const assignmentToNull = asl.deploy.asStateMachine(async () => {

@@ -46,6 +46,30 @@ export const main = asl.deploy.asStateMachine(async () =>
 ```
 
 
+## assignment to undefined
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICAvL3RoaXMgd2lsbCBhc3NpZ24gJ3t9JywgdW5kZWZpbmVkIHdvdWxkIG90aGVyd2lzZSBiZSBpbnRlcnByZXRlZCBhcyAiZW50aXJlIGNvbnRleHQiCiAgbGV0IF91bmRlZmluZWQgPSB1bmRlZmluZWQ7Cn0pOw==)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  //this will assign '{}', undefined would otherwise be interpreted as "entire context"
+  let _undefined = undefined;
+});
+```
+
+
+## assignment to null
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICAvL3RoaXMgd2lsbCBhc3NpZ24gJ3t9JywgbnVsbCB3b3VsZCBvdGhlcndpc2UgYmUgaW50ZXJwcmV0ZWQgYXMgImVudGlyZSBjb250ZXh0IgogIGxldCBfbnVsbCA9IG51bGw7Cn0pOw==)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  //this will assign '{}', null would otherwise be interpreted as "entire context"
+  let _null = null;
+});
+```
+
+
 ## array indexer
 [Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgYXJyID0gWzEsIDIsIDMsIDQsIDVdCiAgbGV0IHR3byA9IGFyclsxXTsKICByZXR1cm4gdHdvOwp9KTs=)
 

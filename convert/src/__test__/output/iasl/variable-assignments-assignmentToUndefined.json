@@ -1,0 +1,24 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "_undefined",
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "expression": {
+        "stateName": "Assign _undefined",
+        "parameters": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "source": "_undefined = undefined",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign _undefined",
+      "_syntaxKind": "variable-assignment"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

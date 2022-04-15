@@ -1,0 +1,20 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign _null"
+    },
+    "Assign _null": {
+      "Type": "Pass",
+      "ResultPath": "$.vars._null",
+      "Result": {},
+      "Comment": "source: _null = null",
+      "End": true
+    }
+  }
+}
