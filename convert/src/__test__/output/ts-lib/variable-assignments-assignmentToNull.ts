@@ -33,9 +33,13 @@ export const assignmentToUndefined = asl.deploy.asStateMachine(async () => {
   let _undefined = undefined;
 });
 
-export const assignmentToNull = asl.deploy.asStateMachine(async () => {
-  //this will assign '{}', null would otherwise be interpreted as "entire context"
-  let _null = null;
+export const assignmentToNull = asl.deploy.asStateMachine(async () =>{
+    //this will assign '{}', null would otherwise be interpreted as "entire context"
+    let _null = asl.pass({
+        name: "Assign _null",
+        parameters: () => null,
+        comment: "_null = null"
+    });
 });
 
 export const arrayIndexer = asl.deploy.asStateMachine(async () => {

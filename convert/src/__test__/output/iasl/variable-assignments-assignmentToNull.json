@@ -1,0 +1,24 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "_null",
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "expression": {
+        "stateName": "Assign _null",
+        "parameters": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "source": "_null = null",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign _null",
+      "_syntaxKind": "variable-assignment"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
