@@ -14,7 +14,8 @@
     "test:deploy": "cd deploy && npm run test",
     "bootstrap:deploy": "cd deploy && npm ci",
     "test:cli": "",
-    "bootstrap:cli": "cd cli && npm ci"
+    "bootstrap:cli": "cd cli && npm ci",
+    "generate-native-integrations": "npx ts-node asl-lib-generator/generate-native-integrations.ts"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +23,8 @@
     "concurrently": "^7.0.0",
     "esbuild": "^0.14.36",
     "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "ts-node": "^10.7.0"
   }
 }

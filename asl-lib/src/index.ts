@@ -1,6 +1,7 @@
 import { S3ClientConfig } from "@aws-sdk/client-s3";
 export type ClientConfig = S3ClientConfig;
 export * from "./asl";
+export * from "./sdk-integrations-athena";
 export * from "./sdk-integrations-ecs";
 export * from "./sdk-integrations-dynamodb";
 export * from "./sdk-integrations-eventbridge";
