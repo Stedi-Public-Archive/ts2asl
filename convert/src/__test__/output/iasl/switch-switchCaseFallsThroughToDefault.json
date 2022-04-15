@@ -133,40 +133,6 @@
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
-                },
-                "then": {
-                  "statements": [
-                    {
-                      "name": {
-                        "identifier": "result",
-                        "_syntaxKind": "identifier",
-                        "type": "string"
-                      },
-                      "expression": {
-                        "arguments": [
-                          {
-                            "value": "{}two",
-                            "type": "string",
-                            "_syntaxKind": "literal"
-                          },
-                          {
-                            "identifier": "result",
-                            "_syntaxKind": "identifier",
-                            "type": "string"
-                          }
-                        ],
-                        "function": "asl.states.format",
-                        "_syntaxKind": "asl-intrinsic-function"
-                      },
-                      "stateName": "Assign result",
-                      "_syntaxKind": "variable-assignment"
-                    },
-                    {
-                      "stateName": "Break",
-                      "_syntaxKind": "break"
-                    }
-                  ],
-                  "_syntaxKind": "function"
                 }
               },
               {
@@ -181,7 +147,7 @@
                       "expression": {
                         "arguments": [
                           {
-                            "value": "{}three",
+                            "value": "{}not-one",
                             "type": "string",
                             "_syntaxKind": "literal"
                           },
@@ -206,7 +172,7 @@
                 }
               }
             ],
-            "source": "switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n        result = `${result}two`;\n        break;\n      default:\n        result = `${result}three`;\n        break;\n    }",
+            "source": "switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n      default:\n        result = `${result}not-one`;\n        break;\n    }",
             "_syntaxKind": "switch"
           }
         ],

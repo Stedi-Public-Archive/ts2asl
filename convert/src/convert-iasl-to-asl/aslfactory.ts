@@ -8,6 +8,7 @@ import { createSingleOrParallel } from "./blocks";
 import { trimName } from "../create-name";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createReplacer, replaceIdentifiers } from "./identifiers";
+import { Operator } from "asl-types/dist/choice";
 
 export let foreachCounter = { value: 0 };
 
@@ -152,6 +153,55 @@ export class AslFactory {
       const breakStates = context.finalizeChoiceState();
       context.appendTails(breakStates);
 
+    } else if (iasl.Check.isSwitch(expression)) {
+      const choiceState = {
+        Type: "Choice",
+        ...properties,
+        Choices: [],
+        Comment: expression.source
+      } as asl.Choice;
+
+      context.appendNextState(choiceState, expression.stateName ?? "Switch");
+      let unjoinedBranches: { operator: Operator | undefined; branch: AslWriter }[] = [];
+      for (const _case of (expression.cases || [])) {
+        let branch: AslWriter | undefined;
+        let operator: Operator | undefined;
+        if (_case.when) {
+          operator = createChoiceOperator(_case.when);
+          branch = context.appendChoiceOperator(operator);
+        } else {
+          branch = context.appendChoiceDefault();
+        }
+        if (_case.then) appendBlock(_case.then, scopes, branch);
+        if (branch) {
+          if (branch.startAt) {
+            for (const unjoined of unjoinedBranches) {
+              if (unjoined.branch.startAt === undefined) {
+                if (unjoined.operator) {
+                  unjoined.operator.Next = branch.startAt;
+                } else {
+                  choiceState.Default = branch.startAt;
+                }
+              } else {
+                unjoined.branch.joinUnbrandedStates(branch.startAt);
+              }
+            }
+            unjoinedBranches = [{ branch, operator }];
+          }
+          else {
+            unjoinedBranches.push({ branch, operator });
+          }
+        }
+      }
+
+      const breakStates = context.finalizeChoiceState();
+      for (const state of breakStates) {
+        if (state.brand === "break") {
+          context.removeState(state);
+        } else {
+          throw new Error(`${state.brand} statement is not supported inside switch`);
+        }
+      }
     } else if (iasl.Check.isWhileStatement(expression)) {
       if (expression.while.statements.length == 0) throw new Error("While must have at least one statement");
       const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "While Condition");

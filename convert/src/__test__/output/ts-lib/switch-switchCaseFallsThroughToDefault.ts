@@ -56,23 +56,47 @@ export const switchCaseNonEmptyFallThrough = asl.deploy.asStateMachine(async () 
   }
   return result;
 });
-export const switchCaseFallsThroughToDefault = asl.deploy.asStateMachine(async () => {
-  const arr = [1, 2, 3];
-  let result = "";
-
-  // use a for loop to append all numbers to a single string
-  for (const item of arr) {
-    switch (item) {
-      case 1:
-        result = `${result}one`;
-        break;
-      case 2:
-      default:
-        result = `${result}not-one`;
-        break;
-    }
-  }
-  return result;
+export const switchCaseFallsThroughToDefault = asl.deploy.asStateMachine(async () =>{
+    const arr = asl.pass({
+        name: "Assign arr",
+        parameters: () => [1, 2, 3],
+        comment: "arr = [1, 2, 3]"
+    });
+    let result = asl.pass({
+        name: "Assign result",
+        parameters: () => "",
+        comment: "result = \"\""
+    });
+    asl.typescriptForeach({
+        name: "For item Of arr",
+        items: () => arr,
+        iterator: item => {
+            asl.typescriptSwitch({
+                name: "Switch (item)",
+                expression: () => item,
+                cases: [
+                    {
+                        label: 1,
+                        block: async () => {
+                            result = asl.states.format("{}one", result);
+                            break;
+                        }
+                    },
+                    {
+                        label: 2
+                    },
+                    {
+                        block: async () => {
+                            result = asl.states.format("{}not-one", result);
+                            break;
+                        }
+                    }
+                ],
+                comment: "switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n      default:\n        result = `${result}not-one`;\n        break;\n    }"
+            })
+        }
+    })
+    return result;
 });
 export const switchDefaultFallsThrough = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];

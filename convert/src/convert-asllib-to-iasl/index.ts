@@ -475,6 +475,37 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           _syntaxKind: iasl.SyntaxKind.ForEachStatement
         } as iasl.ForEachStatement;
       };
+      case "typescriptSwitch": {
+        const convertedArgs = convertObjectLiteralExpression(argument, context);
+        const name = unpackAsLiteral(convertedArgs, "name");
+        const expression = unpackAsIdentifier(convertedArgs, "expression");
+        const cases = unpackArray(convertedArgs, "cases", element => {
+          const unpackedSimple = unpackLiteralValue(element) as { label: string | number | undefined, block: iasl.Block };
+          if (unpackedSimple.label !== undefined) {
+            return {
+              when: {
+                lhs: expression,
+                operator: "eq",
+                rhs: { type: typeof unpackedSimple.label, value: unpackedSimple.label, _syntaxKind: iasl.SyntaxKind.Literal } as iasl.LiteralExpression,
+                _syntaxKind: iasl.SyntaxKind.BinaryExpression,
+              } as iasl.BinaryExpression,
+              then: unpackedSimple.block,
+            }
+          } else {
+            return {
+              then: unpackedSimple.block,
+            }
+          }
+        });
+        const comment = unpackAsLiteral(convertedArgs, "comment");
+
+        return {
+          stateName: name,
+          cases,
+          source: comment,
+          _syntaxKind: iasl.SyntaxKind.Switch
+        } as iasl.SwitchStatement;
+      };
       case "pass": {
         const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteral(convertedArgs, "name");
@@ -540,6 +571,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       if (!foundService) {
         throw new Error(`unable to find service of sdk integration ${type} `);
       }
+
       resource += remainder[0].toLowerCase() + remainder.substring(1);
       const caseConvertedArgs = {
         ...convertedArgs,

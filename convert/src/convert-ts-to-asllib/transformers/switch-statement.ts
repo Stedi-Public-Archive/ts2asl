@@ -1,58 +1,87 @@
 import * as ts from 'typescript';
 import { ConverterOptions } from '../../convert';
+import { ParserError } from '../../ParserError';
 import { TransformUtil } from './transform-utility';
 import factory = ts.factory;
 
-export const switchStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
-  function removeBreakStatements(node: ts.Node): ts.Node | undefined {
-    if (ts.isBreakStatement(node)) {
-      return undefined;
+type Case = { label?: string | number, block: ts.Block | undefined };
 
-    }
-    return node;
-  }
+export type Switch = {
+  expression: ts.Expression;
+  cases: Case[];
+  name?: string;
+};
+
+
+
+
+
+
+export const switchStatementTransformer = (converterOptions: ConverterOptions) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
   function visit(node: ts.Node): ts.Node | undefined {
     node = ts.visitEachChild(node, visit, context);
 
     if (ts.isSwitchStatement(node)) {
-
       if (!node.caseBlock || !node.caseBlock.clauses) throw new Error("switch statement must have case clauses");
 
-      const switchExpression = node.expression;
-      const defaultCase = node.caseBlock.clauses.find(x => ts.isDefaultClause(x))
-      const defaultCaseWithoutBreaks = ts.visitEachChild(defaultCase, removeBreakStatements, context) as ts.DefaultClause;
-      const default_ = TransformUtil.createNamedBlock("default", defaultCaseWithoutBreaks ? factory.createBlock(defaultCaseWithoutBreaks.statements, true) : undefined)
+      const _switch: Switch = {
+        expression: node.expression,
+        cases: [],
+      };
+      for (const clause of node.caseBlock.clauses) {
+        let label: string | number | undefined;
+        if (!ts.isDefaultClause(clause)) {
+          if (!ts.isStringLiteral(clause.expression) && !ts.isNumericLiteral(clause.expression)) {
+            throw new ParserError("switch case statement must have literal string or literal number for label", clause);
+          }
+          label = ts.isStringLiteral(clause.expression) ? clause.expression.text : Number(clause.expression.text);
+        }
+        const caseClause = {
+          label,
+          block: clause.statements !== undefined && clause.statements.length > 0 ? factory.createBlock(clause.statements, true) : undefined,
+        };
+        _switch.cases.push(caseClause);
+      }
 
-      const choiceCases = node.caseBlock.clauses.filter(x => !ts.isDefaultClause(x))
-      const choiceCasesWithoutBreaks = choiceCases.map(x => ts.visitEachChild(x, removeBreakStatements, context) as ts.CaseClause)
-      const choices_ = choiceCasesWithoutBreaks.map(x => {
-        return [
-          TransformUtil.createNamedBlock("block", factory.createBlock(x.statements, true)),
-          TransformUtil.createWrappedExpression("condition",
-            factory.createBinaryExpression(
-              switchExpression,
-              factory.createToken(ts.SyntaxKind.EqualsEqualsEqualsToken),
-              (x as ts.CaseClause).expression
-            )
-          )
-        ]
-      })
-      const choices = TransformUtil.createArrayOfObjects("choices", choices_)
+
+      const getCaseProperties = (x: Case): Array<ts.PropertyAssignment> => {
+        const result: Array<ts.PropertyAssignment> = [];
+        if (x.label) {
+          result.push(
+            TransformUtil.createLiteral("label", x.label)!
+          );
+        }
+        if (x.block) {
+          result.push(
+            TransformUtil.createNamedBlock("block", x.block)!
+          );
+        }
+
+        return result;
+      };
+
+
+      const expression = TransformUtil.createWrappedExpression("expression", _switch.expression);
+
+      const caseProperties = _switch.cases.map(x => getCaseProperties(x));
+      const cases_ = TransformUtil.createArrayOfObjects("cases", caseProperties);
       const comment = TransformUtil.createComment(node);
       const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "Switch (%s)", node.expression);
 
       const assignments: ts.PropertyAssignment[] = []
-      for (const assignment of [name, choices, default_, comment]) {
+      for (const assignment of [name, expression, cases_, comment]) {
         if (assignment) {
           assignments.push(assignment);
         }
       }
 
-      node = TransformUtil.createAslInvoke("choice", assignments);
+      node = TransformUtil.createAslInvoke("typescriptSwitch", assignments);
     }
     return node;
   }
+
   return ts.visitNode(rootNode, visit);
+
 };
 
 

@@ -1,6 +1,44 @@
 import * as asl from "@ts2asl/asl-lib"
 
-export const simpleSwitch = asl.deploy.asStateMachine(async () =>{
+export const simpleSwitch = asl.deploy.asStateMachine(async () => {
+  const arr = [1, 2, 3];
+  let result = "";
+
+  // use a for loop to append all numbers to a single string
+  for (const item of arr) {
+    switch (item) {
+      case 1:
+        result = `${result}one`;
+        break;
+      case 2:
+        result = `${result}two`;
+        break;
+      default:
+        result = `${result}three`;
+        break;
+    }
+  }
+  return result;
+});
+export const switchCaseFallsThrough = asl.deploy.asStateMachine(async () => {
+  const arr = [1, 2, 3];
+  let result = "";
+
+  // use a for loop to append all numbers to a single string
+  for (const item of arr) {
+    switch (item) {
+      case 1:
+      case 2:
+        result = `${result}not-three`;
+        break;
+      default:
+        result = `${result}three`;
+        break;
+    }
+  }
+  return result;
+});
+export const switchCaseNonEmptyFallThrough = asl.deploy.asStateMachine(async () =>{
     const arr = asl.pass({
         name: "Assign arr",
         parameters: () => [1, 2, 3],
@@ -22,65 +60,27 @@ export const simpleSwitch = asl.deploy.asStateMachine(async () =>{
                     {
                         label: 1,
                         block: async () => {
-                            result = asl.states.format("{}one", result);
-                            break;
+                            result = asl.states.format("{}1", result);
                         }
                     },
                     {
                         label: 2,
                         block: async () => {
-                            result = asl.states.format("{}two", result);
-                            break;
+                            result = asl.states.format("{}1or2", result);
                         }
                     },
                     {
                         block: async () => {
-                            result = asl.states.format("{}three", result);
-                            break;
+                            result = asl.states.format("{}1or2or3", result);
                         }
                     }
                 ],
-                comment: "switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n        result = `${result}two`;\n        break;\n      default:\n        result = `${result}three`;\n        break;\n    }"
+                comment: "switch (item) {\n      case 1:\n        result = `${result}1`;\n      case 2:\n        result = `${result}1or2`;\n      default:\n        result = `${result}1or2or3`;\n    }"
             })
+            result = asl.states.format("{}|", result);
         }
     })
     return result;
-});
-export const switchCaseFallsThrough = asl.deploy.asStateMachine(async () => {
-  const arr = [1, 2, 3];
-  let result = "";
-
-  // use a for loop to append all numbers to a single string
-  for (const item of arr) {
-    switch (item) {
-      case 1:
-      case 2:
-        result = `${result}not-three`;
-        break;
-      default:
-        result = `${result}three`;
-        break;
-    }
-  }
-  return result;
-});
-export const switchCaseNonEmptyFallThrough = asl.deploy.asStateMachine(async () => {
-  const arr = [1, 2, 3];
-  let result = "";
-
-  // use a for loop to append all numbers to a single string
-  for (const item of arr) {
-    switch (item) {
-      case 1:
-        result = `${result}1`;
-      case 2:
-        result = `${result}1or2`;
-      default:
-        result = `${result}1or2or3`;
-    }
-    result = `${result}|`
-  }
-  return result;
 });
 export const switchCaseFallsThroughToDefault = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];

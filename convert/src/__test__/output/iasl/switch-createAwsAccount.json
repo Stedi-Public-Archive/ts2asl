@@ -110,9 +110,9 @@
           },
           {
             "stateName": "Switch (creationStatus)",
-            "choices": [
+            "cases": [
               {
-                "condition": {
+                "when": {
                   "lhs": {
                     "identifier": "creationStatus",
                     "_syntaxKind": "identifier",
@@ -120,13 +120,13 @@
                   },
                   "operator": "eq",
                   "rhs": {
-                    "value": "FAILED",
                     "type": "string",
+                    "value": "FAILED",
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
                 },
-                "block": {
+                "then": {
                   "statements": [
                     {
                       "stateName": "Throw Error",
@@ -140,7 +140,7 @@
                 }
               },
               {
-                "condition": {
+                "when": {
                   "lhs": {
                     "identifier": "creationStatus",
                     "_syntaxKind": "identifier",
@@ -148,13 +148,13 @@
                   },
                   "operator": "eq",
                   "rhs": {
-                    "value": "IN_PROGRESS",
                     "type": "string",
+                    "value": "IN_PROGRESS",
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
                 },
-                "block": {
+                "then": {
                   "statements": [
                     {
                       "seconds": {
@@ -170,7 +170,7 @@
               }
             ],
             "source": "switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }",
-            "_syntaxKind": "asl-choice-state"
+            "_syntaxKind": "switch"
           }
         ],
         "_syntaxKind": "function"
@@ -184,7 +184,7 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
-      "source": "console.log(createAccount.CreateAccountStatus.AccountId)",
+      "source": "console.log(createAccount.CreateAccountStatus?.AccountId)",
       "_syntaxKind": "asl-pass-state"
     },
     {

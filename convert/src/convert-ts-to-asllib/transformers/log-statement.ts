@@ -10,7 +10,7 @@ export const consoleLogStatementTransformer = (converterOptions: ConverterOption
 
       const parameters = TransformUtil.createWrappedExpression("parameters", node.arguments[0]);
       const comment = TransformUtil.createComment(node);
-      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "Log (%s)", node.arguments[0]);
+      const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "Log (%s)", node.arguments[0] ?? "");
 
       const assignments: ts.PropertyAssignment[] = []
       for (const assignment of [name, parameters, comment]) {

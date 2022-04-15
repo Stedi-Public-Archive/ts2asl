@@ -86,7 +86,7 @@
       "Type": "Pass",
       "ResultPath": null,
       "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
-      "Comment": "source: console.log(createAccount.CreateAccountStatus. ...",
+      "Comment": "source: console.log(createAccount.CreateAccountStatus? ...",
       "Next": "Return createAccount.Crea ..."
     },
     "Return createAccount.Crea ...": {

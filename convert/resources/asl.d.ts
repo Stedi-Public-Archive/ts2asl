@@ -1,31 +1,6 @@
-export interface AslState {
-}
 export declare type AslError = {
     Cause: string;
     Error: string;
-};
-export declare type While = {
-    condition: () => boolean;
-    block: Function;
-    name?: string;
-};
-export interface Foreach<T> {
-    items: T[] | undefined | (() => T[]);
-    iterator: <U>(item: T, objectContext: StateMachineContext<U>) => void;
-    comment?: string;
-    name?: string;
-}
-export declare type DoWhile = {
-    condition: () => boolean;
-    block: Function;
-    name?: string;
-};
-export declare type If = {
-    condition: boolean | (() => boolean);
-    then: Function;
-    else?: Function;
-    comment?: string;
-    name?: string;
 };
 export declare type CatchConfiguration = Array<{
     errorEquals: string[];
@@ -141,18 +116,13 @@ export interface StateMachineContext<TInput> {
     };
 }
 export declare const typescriptInvoke: <P, R>(args: TypescriptInvoke<P, R>) => Promise<R>;
-export declare const typescriptTry: (args: Try) => Promise<AslState>;
-export declare const typescriptDoWhile: (args: DoWhile) => Promise<AslState>;
-export declare const typescriptWhile: (args: While) => Promise<AslState>;
-export declare const typescriptForeach: <T>(args: Foreach<T>) => Promise<void>;
-export declare const typescriptIf: (args: If) => Promise<void>;
 export declare const task: <TResult>(args: Task) => Promise<TResult>;
 export declare const wait: (args: Wait) => Promise<void>;
 export declare const parallel: <Item>(args: Parallel<Item>) => Promise<unknown[]>;
 export declare const choice: (args: Choice) => Promise<void>;
 export declare const map: <Input, Output>(args: Map<Input, Output>) => Promise<Output[]>;
 export declare const pass: <T>(args: Pass<T>) => T;
-export declare const succeed: (x: Succeed) => AslState;
+export declare const succeed: (x: Succeed) => {};
 export declare const fail: (x: Fail) => never;
 export declare const jsonPathLength: <T>(items: T[]) => number;
 export declare const jsonPathFilter: <T>(items: T[], predicate: (x: T) => boolean) => T[];

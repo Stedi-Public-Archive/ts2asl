@@ -69,6 +69,7 @@
           {
             "stateName": "Switch (item)",
             "cases": [
+              {},
               {
                 "when": {
                   "lhs": {
@@ -95,7 +96,7 @@
                       "expression": {
                         "arguments": [
                           {
-                            "value": "{}one",
+                            "value": "{}not-three",
                             "type": "string",
                             "_syntaxKind": "literal"
                           },
@@ -129,47 +130,11 @@
                   "operator": "eq",
                   "rhs": {
                     "type": "number",
-                    "value": 2,
+                    "value": 3,
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
                 },
-                "then": {
-                  "statements": [
-                    {
-                      "name": {
-                        "identifier": "result",
-                        "_syntaxKind": "identifier",
-                        "type": "string"
-                      },
-                      "expression": {
-                        "arguments": [
-                          {
-                            "value": "{}two",
-                            "type": "string",
-                            "_syntaxKind": "literal"
-                          },
-                          {
-                            "identifier": "result",
-                            "_syntaxKind": "identifier",
-                            "type": "string"
-                          }
-                        ],
-                        "function": "asl.states.format",
-                        "_syntaxKind": "asl-intrinsic-function"
-                      },
-                      "stateName": "Assign result",
-                      "_syntaxKind": "variable-assignment"
-                    },
-                    {
-                      "stateName": "Break",
-                      "_syntaxKind": "break"
-                    }
-                  ],
-                  "_syntaxKind": "function"
-                }
-              },
-              {
                 "then": {
                   "statements": [
                     {
@@ -206,7 +171,7 @@
                 }
               }
             ],
-            "source": "switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n        result = `${result}two`;\n        break;\n      default:\n        result = `${result}three`;\n        break;\n    }",
+            "source": "switch (item) {\n      default:\n      case 1:\n        result = `${result}not-three`;\n        break;\n      case 3:\n        result = `${result}three`;\n        break;\n    }",
             "_syntaxKind": "switch"
           }
         ],

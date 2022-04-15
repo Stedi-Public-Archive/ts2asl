@@ -2,10 +2,11 @@ import * as asl from "asl-types";
 import { isNonTerminalState, NonTerminalState } from ".";
 
 type ChoiceOperator = asl.Choice["Choices"][0];
-
-export type StateWithBrand = asl.State & { brand?: "break" | "continue" };
+type Brand = "break" | "continue";
+export type StateWithBrand = asl.State & { brand?: Brand };
 
 export class AslWriter {
+
   names: string[] = [];
   root: AslWriter;
   startAt: string | undefined;
@@ -51,46 +52,49 @@ export class AslWriter {
     const choiceState = states[0];
     this.trailingStates = this.trailingStates.filter(x => x.Type !== "Choice");
     for (const choiceOperator of this.choiceOperators) {
-      //const result = choiceOperator.branch.finalize();
-      const states = choiceOperator.branch.states;
 
-      if (!(states && Object.keys(states).length > 0)) {
-        throw new Error("something to do here");
-      }
+      if (choiceOperator.operator.Next === undefined) {
+        const states = choiceOperator.branch.states;
 
-      for (const [name, state] of Object.entries(states)) {
-        this.states[name] = state;
+        if (!(states && Object.keys(states).length > 0)) {
+          choiceOperator.branch.appendNextState({ Type: "Pass", Result: null }, "Empty Branch");
+        }
 
-        if ((state as StateWithBrand).brand) {
-          brandedPassStates.push(state);
-        } else if (isNonTerminalState(state)) {
-          if (!("Next" in state) && state.Type !== "Choice") {
-            this.trailingStates.push(state);
+        for (const [name, state] of Object.entries(states)) {
+          this.states[name] = state;
+
+          if ((state as StateWithBrand).brand) {
+            brandedPassStates.push(state);
+          } else if (isNonTerminalState(state)) {
+            if (!("Next" in state) && state.Type !== "Choice") {
+              this.trailingStates.push(state);
+            }
           }
         }
+        choiceOperator.operator.Next = choiceOperator.branch.startAt;
       }
-      choiceOperator.operator.Next = choiceOperator.branch.startAt;
       choiceState.Choices.push(choiceOperator.operator);
       this.trailingStates.push(...choiceOperator.branch.trailingStates);
     }
     if (this.choiceDefault) {
       const states = this.choiceDefault.states;
 
-      if (!(states && Object.keys(states).length > 0)) {
-        throw new Error("something to do here");
-      }
-
-      for (const [name, state] of Object.entries(states)) {
-        this.states[name] = state;
-        if ((state as StateWithBrand).brand) {
-          brandedPassStates.push(state);
-        } else if (isNonTerminalState(state)) {
-          if (!("Next" in state) && state.Type !== "Choice") {
-            this.trailingStates.push(state);
+      if (choiceState.Default === undefined) {
+        if (!(states && Object.keys(states).length > 0)) {
+          this.choiceDefault.appendNextState({ Type: "Pass", Result: null }, "Empty Branch");
+        }
+        for (const [name, state] of Object.entries(states)) {
+          this.states[name] = state;
+          if ((state as StateWithBrand).brand) {
+            brandedPassStates.push(state);
+          } else if (isNonTerminalState(state)) {
+            if (!("Next" in state) && state.Type !== "Choice") {
+              this.trailingStates.push(state);
+            }
           }
         }
+        choiceState.Default = this.choiceDefault.startAt;
       }
-      choiceState.Default = this.choiceDefault.startAt;
       this.trailingStates.push(...this.choiceDefault.trailingStates);
     } else {
       this.trailingStates.push(choiceState);
@@ -105,6 +109,22 @@ export class AslWriter {
     this.states[name] = state;
 
     return name;
+  }
+  removeState(state: StateWithBrand) {
+    const names = Object.entries(this.states).filter(x => x[1] === state)?.map(x => x[0] as string);
+    if (!names || names.length === 0) throw new Error("State not found");
+    const name = names[0];
+    if (this.trailingStates.includes(state)) {
+      this.trailingStates = this.trailingStates.filter(x => x !== state);
+    }
+    this.names = this.names.filter(x => x !== name);
+    for (const state of Object.values(this.states)) {
+      if ("Next" in state && state.Next === name) {
+        state.Next = undefined;
+        this.trailingStates.push(state);
+      }
+    }
+    delete this.states[name];
   }
   appendTails(state: (StateWithBrand | StateWithBrand[])) {
     const states = Array.isArray(state) ? state : [state]
@@ -134,6 +154,30 @@ export class AslWriter {
     }
     this.trailingStates = [state].filter(x => isNonTerminalState(x));
     return name;
+  }
+
+  joinUnbrandedStates(nextStateName: string) {
+    const remainingTails: NonTerminalState[] = [];
+    for (const trailingState of (this.trailingStates as StateWithBrand[])) {
+      if (trailingState.brand === undefined) {
+        (trailingState as asl.Pass).Next = nextStateName;
+      } else {
+        remainingTails.push(trailingState);
+      }
+    }
+    this.trailingStates = remainingTails;
+  }
+
+  joinBrandedStates(brand: Brand, nextStateName: string) {
+    const remainingTails: NonTerminalState[] = [];
+    for (const trailingState of (this.trailingStates as StateWithBrand[])) {
+      if (trailingState.brand === brand) {
+        (trailingState as asl.Pass).Next = nextStateName;
+      } else {
+        remainingTails.push(trailingState);
+      }
+    }
+    this.trailingStates = remainingTails;
   }
 
   joinTrailingStates(nextStateName: string, ...except: asl.State[]) {

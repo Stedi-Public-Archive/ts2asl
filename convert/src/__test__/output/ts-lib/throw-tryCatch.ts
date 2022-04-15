@@ -1,34 +1,34 @@
 import * as asl from "@ts2asl/asl-lib"
 
-export const tryCatch = asl.deploy.asStateMachine(async (input: Input) => {
-  asl.typescriptTry({
-    name: "Try Catch",
-    try: async () => {
-      asl.fail({
-        name: "Throw NotImplemented",
-        error: "NotImplemented",
-        cause: "not implemented",
-        comment: "throw new NotImplemented(\"not implemented\")"
-      })
-    },
-    catch: [
-      {
-        errorEquals: [
-          "States.ALL"
-        ],
-        block: err => {
-          asl.typescriptIf({
-            name: "If (err.Cause === \"NotImp ...",
-            condition: () => err.Cause === "NotImplemented",
-            then: async () => {
-              return "Todo";
-            },
-            comment: "if (err.Cause === \"NotImplemented\") {\n      return \"Todo\"\n    }"
-          })
-        }
-      }
-    ]
-  })
+export const tryCatch = asl.deploy.asStateMachine(async (input: Input) =>{
+    asl.typescriptTry({
+        name: "Try Catch",
+        try: async () => {
+            asl.fail({
+                name: "Throw NotImplemented",
+                error: "NotImplemented",
+                cause: "not implemented",
+                comment: "throw new NotImplemented(\"not implemented\")"
+            })
+        },
+        catch: [
+            {
+                errorEquals: [
+                    "States.ALL"
+                ],
+                block: err => {
+                    asl.typescriptIf({
+                        name: "If (err.Cause === \"NotImp ...",
+                        condition: () => err.Cause === "NotImplemented",
+                        then: async () => {
+                            return "Todo";
+                        },
+                        comment: "if (err.Cause === \"NotImplemented\") {\n      return \"Todo\"\n    }"
+                    })
+                }
+            }
+        ]
+    })
 });
 
 export const throwErrors = asl.deploy.asStateMachine(async (input: Input) => {

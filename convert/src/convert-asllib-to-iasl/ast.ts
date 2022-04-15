@@ -15,6 +15,7 @@ export enum SyntaxKind {
   CaseStatement = "case",
   Break = "break",
   Continue = "continue",
+  Switch = "switch",
   WhileStatement = "while",
   ForEachStatement = "for-each",
   DoWhileStatement = "do-while",
@@ -52,6 +53,9 @@ export class Check {
   static isBlock(expr: Identifier | Expression | undefined): expr is Block {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Block;
   }
+  static isSwitch(expr: Identifier | Expression | undefined): expr is SwitchStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Switch;
+  }
   static isBinaryExpression(expr: Identifier | Expression | undefined): expr is BinaryExpression {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.BinaryExpression;
   }
@@ -66,9 +70,6 @@ export class Check {
   }
   static isTryExpression(expr: Identifier | Expression | undefined): expr is TryStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.TryStatement;
-  }
-  static isCaseStatement(expr: Identifier | Expression | undefined): expr is CaseStatement {
-    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.CaseStatement;
   }
   static isWhileStatement(expr: Identifier | Expression | undefined): expr is WhileStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.WhileStatement;
@@ -170,10 +171,10 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
     visitNodes(node.condition, visitor);
     visitNodes(node.then, visitor);
     if (node.else) visitNodes(node.else, visitor);
-  } else if (Check.isCaseStatement(node)) {
+  } else if (Check.isSwitch(node)) {
     for (const child of (node.cases || [])) {
-      for (const when of child.when) {
-        visitNodes(when, visitor);
+      if (child.when) {
+        visitNodes(child.when, visitor);
       }
       visitNodes(child.then, visitor)
     }
@@ -271,10 +272,10 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
     assignScopes(node.condition, scope, visitor);
     assignScopes(node.then, scope, visitor);
     if (node.else) assignScopes(node.else, scope, visitor);
-  } else if (Check.isCaseStatement(node)) {
+  } else if (Check.isSwitch(node)) {
     for (const child of (node.cases || [])) {
-      for (const when of child.when) {
-        assignScopes(when, scope, visitor);
+      if (child.when) {
+        assignScopes(child.when, scope, visitor);
       }
       assignScopes(child.then, scope, visitor)
     }
@@ -335,6 +336,13 @@ export interface Identifier {
   lhs?: Identifier;
   type: Type;
   _syntaxKind: SyntaxKind.Identifier;
+}
+
+export interface Expression {
+  _syntaxKind: string;
+  source?: string;
+  comment?: string;
+  stateName?: string;
 }
 
 export interface Expression {
@@ -411,8 +419,6 @@ export interface TryStatement extends Expression {
   finally?: Block;
 }
 
-
-
 export interface BreakStatement extends AslState {
   _syntaxKind: SyntaxKind.Break;
 }
@@ -425,13 +431,10 @@ export interface ForEachStatement extends Expression {
   items: Identifier;
 }
 
-export interface CaseStatement extends Expression {
-  _syntaxKind: SyntaxKind.CaseStatement;
-  variable: Identifier;
-  cases?: Array<{ when: LiteralExpression[], then: Block }>;
-  default?: Block;
+export interface SwitchStatement extends Expression {
+  _syntaxKind: SyntaxKind.Switch;
+  cases?: Array<{ when?: BinaryExpression, then: Block }>;
 }
-
 export interface DoWhileStatement extends Expression {
   _syntaxKind: SyntaxKind.DoWhileStatement;
   while: Block;

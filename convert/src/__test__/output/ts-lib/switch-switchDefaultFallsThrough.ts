@@ -1,50 +1,24 @@
 import * as asl from "@ts2asl/asl-lib"
 
-export const simpleSwitch = asl.deploy.asStateMachine(async () =>{
-    const arr = asl.pass({
-        name: "Assign arr",
-        parameters: () => [1, 2, 3],
-        comment: "arr = [1, 2, 3]"
-    });
-    let result = asl.pass({
-        name: "Assign result",
-        parameters: () => "",
-        comment: "result = \"\""
-    });
-    asl.typescriptForeach({
-        name: "For item Of arr",
-        items: () => arr,
-        iterator: item => {
-            asl.typescriptSwitch({
-                name: "Switch (item)",
-                expression: () => item,
-                cases: [
-                    {
-                        label: 1,
-                        block: async () => {
-                            result = asl.states.format("{}one", result);
-                            break;
-                        }
-                    },
-                    {
-                        label: 2,
-                        block: async () => {
-                            result = asl.states.format("{}two", result);
-                            break;
-                        }
-                    },
-                    {
-                        block: async () => {
-                            result = asl.states.format("{}three", result);
-                            break;
-                        }
-                    }
-                ],
-                comment: "switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n        result = `${result}two`;\n        break;\n      default:\n        result = `${result}three`;\n        break;\n    }"
-            })
-        }
-    })
-    return result;
+export const simpleSwitch = asl.deploy.asStateMachine(async () => {
+  const arr = [1, 2, 3];
+  let result = "";
+
+  // use a for loop to append all numbers to a single string
+  for (const item of arr) {
+    switch (item) {
+      case 1:
+        result = `${result}one`;
+        break;
+      case 2:
+        result = `${result}two`;
+        break;
+      default:
+        result = `${result}three`;
+        break;
+    }
+  }
+  return result;
 });
 export const switchCaseFallsThrough = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
@@ -100,23 +74,46 @@ export const switchCaseFallsThroughToDefault = asl.deploy.asStateMachine(async (
   }
   return result;
 });
-export const switchDefaultFallsThrough = asl.deploy.asStateMachine(async () => {
-  const arr = [1, 2, 3];
-  let result = "";
-
-  // use a for loop to append all numbers to a single string
-  for (const item of arr) {
-    switch (item) {
-      default:
-      case 1:
-        result = `${result}not-three`;
-        break;
-      case 3:
-        result = `${result}three`;
-        break;
-    }
-  }
-  return result;
+export const switchDefaultFallsThrough = asl.deploy.asStateMachine(async () =>{
+    const arr = asl.pass({
+        name: "Assign arr",
+        parameters: () => [1, 2, 3],
+        comment: "arr = [1, 2, 3]"
+    });
+    let result = asl.pass({
+        name: "Assign result",
+        parameters: () => "",
+        comment: "result = \"\""
+    });
+    asl.typescriptForeach({
+        name: "For item Of arr",
+        items: () => arr,
+        iterator: item => {
+            asl.typescriptSwitch({
+                name: "Switch (item)",
+                expression: () => item,
+                cases: [
+                    {},
+                    {
+                        label: 1,
+                        block: async () => {
+                            result = asl.states.format("{}not-three", result);
+                            break;
+                        }
+                    },
+                    {
+                        label: 3,
+                        block: async () => {
+                            result = asl.states.format("{}three", result);
+                            break;
+                        }
+                    }
+                ],
+                comment: "switch (item) {\n      default:\n      case 1:\n        result = `${result}not-three`;\n        break;\n      case 3:\n        result = `${result}three`;\n        break;\n    }"
+            })
+        }
+    })
+    return result;
 });
 
 

@@ -1,0 +1,148 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input"
+      },
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arr",
+      "Result": [
+        1,
+        2,
+        3
+      ],
+      "Comment": "source: arr = [1, 2, 3]",
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "Result": "",
+      "Comment": "source: result = \"\"",
+      "Next": "Foreach Initialize"
+    },
+    "Foreach Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.vars.arr",
+        "currentItem.$": "$.vars.arr[0]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Foreach CheckDone": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.items[0]",
+          "IsPresent": true,
+          "Next": "Switch (item)"
+        }
+      ],
+      "Default": "Foreach Exit"
+    },
+    "Switch (item)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.currentItem",
+          "NumericEquals": 1,
+          "Next": "Evaluate Format('{}1', $. ..."
+        },
+        {
+          "Variable": "$.foreach.currentItem",
+          "NumericEquals": 2,
+          "Next": "Evaluate Format('{}1or2', ..."
+        }
+      ],
+      "Comment": "source: switch (item) { case 1: result = `${result}1`; ...",
+      "Default": "Evaluate Format('{}1or2or ..."
+    },
+    "Evaluate Format('{}1', $. ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}1', $.vars.result)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign result_1"
+    },
+    "Assign result_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "Evaluate Format('{}1or2', ..."
+    },
+    "Evaluate Format('{}1or2', ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}1or2', $.vars.result)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign result_2"
+    },
+    "Assign result_2": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "Evaluate Format('{}1or2or ..."
+    },
+    "Evaluate Format('{}1or2or ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}1or2or3', $.vars.result)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign result_3"
+    },
+    "Assign result_3": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "Evaluate Format('{}|', $. ..."
+    },
+    "Evaluate Format('{}|', $. ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}|', $.vars.result)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign result_4"
+    },
+    "Assign result_4": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "InputPath": "$.tmp.eval.value",
+      "Next": "Foreach Next"
+    },
+    "Foreach Exit": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Result": {},
+      "Next": "Return result"
+    },
+    "Foreach Next": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.foreach.items[1:]",
+        "currentItem.$": "$.foreach.items[1]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Return result": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.result"
+    }
+  }
+}

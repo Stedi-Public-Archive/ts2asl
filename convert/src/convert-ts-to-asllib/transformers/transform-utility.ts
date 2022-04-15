@@ -18,7 +18,21 @@ export class TransformUtil {
       )
     }
   }
-  static createIdentifier(propertyName: string, expression: ts.Expression) {
+  static createObject(propertyName: string, properties: Array<ts.PropertyAssignment>) {
+    return factory.createPropertyAssignment(
+      factory.createIdentifier(propertyName),
+      factory.createObjectLiteralExpression(properties, true)
+    );
+  }
+
+  static createBoolean(propertyName: string, val: Boolean) {
+    return factory.createPropertyAssignment(
+      factory.createIdentifier(propertyName),
+      val ? factory.createTrue() : factory.createFalse()
+    );
+  }
+
+  static createIdentifier(propertyName: string, expression: ts.Identifier) {
     return factory.createPropertyAssignment(
       factory.createIdentifier(propertyName),
       expression
