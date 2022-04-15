@@ -2,41 +2,16 @@
 import { internalWaitSeconds } from './asl-internals';
 import util from 'util';
 
-export interface AslState { }
-
 export type AslError = {
   Cause: string;
   Error: string;
 }
-export type While = {
-  condition: () => boolean;
-  block: Function;
-  name?: string;
-};
 
-export interface Foreach<T> {
-  items: T[] | undefined | (() => T[]);
-  iterator: <U>(item: T, objectContext: StateMachineContext<U>) => void;
-  comment?: string;
-  name?: string;
-}
-
-export type DoWhile = {
-  condition: () => boolean;
-  block: Function;
-  name?: string;
-};
-export type If = {
-  condition: boolean | (() => boolean),
-  then: Function;
-  else?: Function;
-  comment?: string;
-  name?: string;
-};
 export declare type CatchConfiguration = Array<{
   errorEquals: string[];
   block: (error?: AslError) => unknown;
 }>;
+
 export declare type RetryConfiguration = Array<{
   errorEquals: string[];
   intervalSeconds?: number;
@@ -161,43 +136,6 @@ export const typescriptInvoke = async <P, R>(args: TypescriptInvoke<P, R>): Prom
   }
 }
 
-export const typescriptTry = async (args: Try) => {
-  return {} as AslState;
-}
-
-export const typescriptDoWhile = async (args: DoWhile) => {
-  do {
-    args.block();
-  } while (typeof args.condition === "function" ? args.condition() : args)
-  return {} as AslState;
-}
-
-export const typescriptWhile = async (args: While) => {
-  while (typeof args.condition === "function" ? args.condition() : args) {
-    args.block();
-  }
-  return {} as AslState;
-}
-
-export const typescriptForeach = async <T>(args: Foreach<T>) => {
-  const items = (typeof args.items === "function" ? args.items() : args.items);
-  if (items) {
-    for (const item of items) {
-      args.iterator(item, {} as any);
-    }
-  }
-}
-
-export const typescriptIf = async (args: If) => {
-  if ((typeof args.condition === "function" && args.condition()) || args.condition) {
-    args.then();
-  } else {
-    if (args.else) {
-      args.else();
-    }
-  }
-}
-
 export const task = async <TResult>(args: Task): Promise<TResult> => {
   return Promise.resolve({} as TResult);
 }
@@ -229,7 +167,7 @@ export const pass = <T>(args: Pass<T>): T => {
 }
 
 export const succeed = (x: Succeed) => {
-  return {} as AslState;
+  return {};
 }
 
 export const fail = (x: Fail): never => {
