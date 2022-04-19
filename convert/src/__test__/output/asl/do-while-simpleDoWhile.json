@@ -14,7 +14,7 @@
       "ResultPath": "$.vars.counter",
       "Result": "",
       "Comment": "source: counter = \"\"",
-      "Next": "Do While Condition"
+      "Next": "Evaluate Format('{}a', $. ..."
     },
     "Evaluate Format('{}a', $. ...": {
       "Type": "Pass",

@@ -11,7 +11,7 @@ describe("when converting do-while", () => {
         "States": Object {
           "Assign counter": Object {
             "Comment": "source: counter = \\"\\"",
-            "Next": "Do While Condition",
+            "Next": "Evaluate Format('{}a', $. ...",
             "Result": "",
             "ResultPath": "$.vars.counter",
             "Type": "Pass",
@@ -70,7 +70,7 @@ describe("when converting do-while", () => {
         "States": Object {
           "Assign counter": Object {
             "Comment": "source: counter = \\"\\"",
-            "Next": "Do While Condition",
+            "Next": "Evaluate Format('{}a', $. ...",
             "Result": "",
             "ResultPath": "$.vars.counter",
             "Type": "Pass",
@@ -147,7 +147,7 @@ describe("when converting do-while", () => {
         "States": Object {
           "Assign counter": Object {
             "Comment": "source: counter = \\"\\"",
-            "Next": "Do While Condition",
+            "Next": "Evaluate Format('{}a', $. ...",
             "Result": "",
             "ResultPath": "$.vars.counter",
             "Type": "Pass",
@@ -238,7 +238,7 @@ describe("when converting do-while", () => {
           },
           "Assign result": Object {
             "Comment": "source: result = \\"\\"",
-            "Next": "Do While Condition",
+            "Next": "Evaluate Format('{}a', $. ...",
             "Result": "",
             "ResultPath": "$.vars.result",
             "Type": "Pass",
