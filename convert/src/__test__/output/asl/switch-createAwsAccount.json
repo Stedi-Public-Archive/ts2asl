@@ -22,7 +22,7 @@
     "Assign creationStatus": {
       "Type": "Pass",
       "ResultPath": "$.vars.creationStatus",
-      "Result": {},
+      "InputPath": "$._undefined",
       "Comment": "source: creationStatus: string | undefined = undefined",
       "Next": "DescribeCreateAccountStatus"
     },

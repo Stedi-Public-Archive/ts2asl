@@ -685,8 +685,8 @@ describe("when converting switch", () => {
         "States": Object {
           "Assign creationStatus": Object {
             "Comment": "source: creationStatus: string | undefined = undefined",
+            "InputPath": "$._undefined",
             "Next": "DescribeCreateAccountStatus",
-            "Result": Object {},
             "ResultPath": "$.vars.creationStatus",
             "Type": "Pass",
           },
