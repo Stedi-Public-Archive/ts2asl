@@ -95,6 +95,7 @@ export class AslFactory {
           }
           context.states[name] = state;
         }
+        context.joinTrailingStates(childContext.startAt);
         context.appendTails(childContext.trailingStates);
         const whileConditionOperator = createChoiceOperator(expression.condition);
         whileConditionOperator.Next = childContext.startAt;

@@ -11,7 +11,7 @@ describe("when converting do-while", () => {
         "States": Object {
           "Assign counter": Object {
             "Comment": "source: counter = \\"\\"",
-            "Next": "Do While Condition",
+            "Next": "Evaluate Format('{}a', $. ...",
             "Result": "",
             "ResultPath": "$.vars.counter",
             "Type": "Pass",
@@ -63,6 +63,63 @@ describe("when converting do-while", () => {
       }
     `);
   });
+  it("then simpleDoAlwaysFalse can be converted to asl", async () => {
+    expect(converted.simpleDoAlwaysFalse.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign counter": Object {
+            "Comment": "source: counter = \\"\\"",
+            "Next": "Evaluate Format('{}a', $. ...",
+            "Result": "",
+            "ResultPath": "$.vars.counter",
+            "Type": "Pass",
+          },
+          "Assign counter_1": Object {
+            "Comment": undefined,
+            "InputPath": "$.tmp.eval.value",
+            "Next": "Do While Condition",
+            "ResultPath": "$.vars.counter",
+            "Type": "Pass",
+          },
+          "Do While Condition": Object {
+            "Choices": Array [
+              Object {
+                "IsNull": true,
+                "Next": "Evaluate Format('{}a', $. ...",
+                "Variable": "$",
+              },
+            ],
+            "Default": "Return counter",
+            "Type": "Choice",
+          },
+          "Evaluate Format('{}a', $. ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Assign counter_1",
+            "Parameters": Object {
+              "value.$": "States.Format('{}a', $.vars.counter)",
+            },
+            "ResultPath": "$.tmp.eval",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign counter",
+            "Parameters": Object {
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return counter": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.counter",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
   it("then doWhileWithBreak can be converted to asl", async () => {
     expect(converted.doWhileWithBreak.asl).toMatchInlineSnapshot(`
       Object {
@@ -70,7 +127,7 @@ describe("when converting do-while", () => {
         "States": Object {
           "Assign counter": Object {
             "Comment": "source: counter = \\"\\"",
-            "Next": "Do While Condition",
+            "Next": "Evaluate Format('{}a', $. ...",
             "Result": "",
             "ResultPath": "$.vars.counter",
             "Type": "Pass",
@@ -147,7 +204,7 @@ describe("when converting do-while", () => {
         "States": Object {
           "Assign counter": Object {
             "Comment": "source: counter = \\"\\"",
-            "Next": "Do While Condition",
+            "Next": "Evaluate Format('{}a', $. ...",
             "Result": "",
             "ResultPath": "$.vars.counter",
             "Type": "Pass",
@@ -238,7 +295,7 @@ describe("when converting do-while", () => {
           },
           "Assign result": Object {
             "Comment": "source: result = \\"\\"",
-            "Next": "Do While Condition",
+            "Next": "Evaluate Format('{}a', $. ...",
             "Result": "",
             "ResultPath": "$.vars.result",
             "Type": "Pass",

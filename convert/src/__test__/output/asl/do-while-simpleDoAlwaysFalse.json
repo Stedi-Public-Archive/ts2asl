@@ -29,43 +29,23 @@
       "Type": "Pass",
       "ResultPath": "$.vars.counter",
       "InputPath": "$.tmp.eval.value",
-      "Next": "If (counter == \"aa\")"
-    },
-    "If (counter == \"aa\")": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "Variable": "$.vars.counter",
-          "StringEquals": "aa",
-          "Next": "Return counter"
-        }
-      ],
-      "Comment": "source: if (counter == \"aa\") { return counter; //retur ...",
-      "Default": "Do While Condition"
-    },
-    "Return counter": {
-      "End": true,
-      "Type": "Pass",
-      "InputPath": "$.vars.counter"
+      "Next": "Do While Condition"
     },
     "Do While Condition": {
       "Type": "Choice",
       "Choices": [
         {
-          "Not": {
-            "Variable": "$.vars.counter",
-            "StringEquals": "aaaaa"
-          },
+          "Variable": "$",
+          "IsNull": true,
           "Next": "Evaluate Format('{}a', $. ..."
         }
       ],
-      "Default": "Throw Error"
+      "Default": "Return counter"
     },
-    "Throw Error": {
-      "Type": "Fail",
-      "Error": "Error",
-      "Cause": "this should not happen",
-      "Comment": "source: throw new Error(\"this should not happen\");"
+    "Return counter": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.counter"
     }
   }
 }

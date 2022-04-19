@@ -19,6 +19,22 @@ export const main = asl.deploy.asStateMachine(async () =>
 ```
 
 
+## simple do always false
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgZG8gewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgfQogIHdoaWxlIChmYWxzZSkKICByZXR1cm4gY291bnRlcjsgLy9yZXR1cm5zICIxIgp9KTs=)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  let counter = ""
+  do {
+    counter = `${counter}a`;
+  }
+  while (false)
+  return counter; //returns "1"
+});
+```
+
+
 ## do while with break
 This example demonstrates a `do-while` statement with a `break` statement. The do-while statement will break once the container equals `aa`, this function will return `aa`.
 
