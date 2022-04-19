@@ -12,6 +12,7 @@ describe("when converting expressions", () => {
           "Initialize": Object {
             "Next": "Return",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -40,6 +41,7 @@ describe("when converting expressions", () => {
           "Initialize": Object {
             "Next": "Return { a: 10 + 10, ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -69,6 +71,7 @@ describe("when converting expressions", () => {
           "Initialize": Object {
             "Next": "Return { a: true, ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -99,6 +102,7 @@ describe("when converting expressions", () => {
           "Initialize": Object {
             "Next": "Return",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

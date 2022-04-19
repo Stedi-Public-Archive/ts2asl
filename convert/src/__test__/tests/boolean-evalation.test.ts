@@ -208,6 +208,7 @@ describe("when converting boolean-evalation", () => {
           "Initialize": Object {
             "Next": "Assign data",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -336,6 +337,7 @@ describe("when converting boolean-evalation", () => {
           "Initialize": Object {
             "Next": "Assign condition",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

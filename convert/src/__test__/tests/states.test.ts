@@ -29,6 +29,7 @@ describe("when converting states", () => {
           "Initialize": Object {
             "Next": "Human Approval",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

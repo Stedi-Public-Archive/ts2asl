@@ -15,6 +15,7 @@ describe("when converting sdk-states", () => {
           "Initialize": Object {
             "Next": "PutItem",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -92,6 +93,7 @@ describe("when converting sdk-states", () => {
           "Initialize": Object {
             "Next": "COUNT(where gsi1pk === 'test')",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -122,6 +124,7 @@ describe("when converting sdk-states", () => {
           "Initialize": Object {
             "Next": "Assign value",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

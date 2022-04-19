@@ -43,6 +43,7 @@ describe("when transpiling early return", () => {
           "Initialize": Object {
             "Next": "Assign x",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

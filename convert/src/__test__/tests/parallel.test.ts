@@ -86,6 +86,7 @@ describe("when converting parallel", () => {
           "Initialize": Object {
             "Next": "Assign Result",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -197,6 +198,7 @@ describe("when converting parallel", () => {
           "Initialize": Object {
             "Next": "Assign enclosedVar1",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

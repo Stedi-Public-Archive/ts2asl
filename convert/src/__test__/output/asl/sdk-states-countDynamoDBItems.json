@@ -5,7 +5,8 @@
       "Type": "Pass",
       "ResultPath": "$",
       "Parameters": {
-        "vars.$": "$$.Execution.Input"
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
       },
       "Next": "COUNT(where gsi1pk === 'test')"
     },

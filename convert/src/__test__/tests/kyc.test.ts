@@ -116,6 +116,7 @@ describe("when converting kyc", () => {
           "Initialize": Object {
             "Next": "Assign result",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

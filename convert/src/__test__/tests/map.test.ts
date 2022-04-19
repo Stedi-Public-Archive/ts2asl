@@ -12,6 +12,7 @@ describe("when converting map", () => {
           "Initialize": Object {
             "Next": "getEntries()",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

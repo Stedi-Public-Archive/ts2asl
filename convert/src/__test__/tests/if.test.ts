@@ -67,6 +67,7 @@ describe("when converting if", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -159,6 +160,7 @@ describe("when converting if", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -277,6 +279,7 @@ describe("when converting if", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -359,6 +362,7 @@ describe("when converting if", () => {
           "Initialize": Object {
             "Next": "Assign enclosedVar",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

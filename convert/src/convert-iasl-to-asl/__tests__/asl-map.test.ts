@@ -24,6 +24,7 @@ describe("when transpiling simple statements", () => {
           "Initialize": Object {
             "Next": "Map",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -84,6 +85,7 @@ describe("when transpiling simple statements", () => {
           "Initialize": Object {
             "Next": "Map",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

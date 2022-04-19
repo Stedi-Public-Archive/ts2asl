@@ -18,6 +18,7 @@ describe("when converting throw", () => {
           "Initialize": Object {
             "Next": "Assign vars",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -128,6 +129,7 @@ describe("when converting throw", () => {
           "Initialize": Object {
             "Next": "If (input.delayInSeconds ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -157,6 +159,7 @@ describe("when converting throw", () => {
           "Initialize": Object {
             "Next": "Parallel",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -210,6 +213,7 @@ describe("when converting throw", () => {
           "Initialize": Object {
             "Next": "Parallel",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
