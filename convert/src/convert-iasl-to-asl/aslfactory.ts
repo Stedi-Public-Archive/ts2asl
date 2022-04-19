@@ -31,9 +31,9 @@ export class AslFactory {
     }
 
     if (iasl.Check.isAslPassState(expression)) {
-      //if the rhs of a pass-state is undefined, use {}. both "undefined" and "null" will evaluate to the entire context.
+      //if the rhs of a pass-state is undefined, use $._undefined. both "undefined" and "null" will evaluate to the entire context.
       const emptyRhs = expression.parameters === undefined || iasl.Check.isLiteral(expression.parameters) && (expression.parameters.value === undefined || expression.parameters.value === null);
-      const parameters = !emptyRhs ? convertExpressionToAsl(expression.parameters) : { value: {}, type: "object" } as AslExpressionOrIdentifier;
+      const parameters = !emptyRhs ? convertExpressionToAsl(expression.parameters) : { path: "$._undefined", type: "object" } as AslExpressionOrIdentifier;
 
       if (parameters.path && parameters.path.startsWith("States")) {
         const fnName = parameters.path.substring(7)

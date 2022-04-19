@@ -12,7 +12,7 @@
     "Assign _null": {
       "Type": "Pass",
       "ResultPath": "$.vars._null",
-      "Result": {},
+      "InputPath": "$._undefined",
       "Comment": "source: _null = null",
       "End": true
     }

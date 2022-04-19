@@ -52,7 +52,6 @@ export const main = asl.deploy.asStateMachine(async () =>
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
-  //this will assign '{}', undefined would otherwise be interpreted as "entire context"
   let _undefined = undefined;
 });
 ```
@@ -64,7 +63,6 @@ export const main = asl.deploy.asStateMachine(async () =>
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
-  //this will assign '{}', null would otherwise be interpreted as "entire context"
   let _null = null;
 });
 ```

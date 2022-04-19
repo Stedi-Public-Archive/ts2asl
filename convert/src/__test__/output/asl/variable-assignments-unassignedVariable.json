@@ -12,14 +12,14 @@
     "Assign arr": {
       "Type": "Pass",
       "ResultPath": "$.vars.arr",
-      "Result": {},
+      "InputPath": "$._undefined",
       "Comment": "source: arr: []",
       "Next": "Assign two"
     },
     "Assign two": {
       "Type": "Pass",
       "ResultPath": "$.vars.two",
-      "Result": {},
+      "InputPath": "$._undefined",
       "Comment": "source: two: string",
       "Next": "Return two"
     },

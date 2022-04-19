@@ -185,15 +185,15 @@ describe("when converting variable-assignments", () => {
         "States": Object {
           "Assign arr": Object {
             "Comment": "source: arr: []",
+            "InputPath": "$._undefined",
             "Next": "Assign two",
-            "Result": Object {},
             "ResultPath": "$.vars.arr",
             "Type": "Pass",
           },
           "Assign two": Object {
             "Comment": "source: two: string",
+            "InputPath": "$._undefined",
             "Next": "Return two",
-            "Result": Object {},
             "ResultPath": "$.vars.two",
             "Type": "Pass",
           },
@@ -223,7 +223,7 @@ describe("when converting variable-assignments", () => {
           "Assign _undefined": Object {
             "Comment": "source: _undefined = undefined",
             "End": true,
-            "Result": Object {},
+            "InputPath": "$._undefined",
             "ResultPath": "$.vars._undefined",
             "Type": "Pass",
           },
@@ -247,7 +247,7 @@ describe("when converting variable-assignments", () => {
           "Assign _null": Object {
             "Comment": "source: _null = null",
             "End": true,
-            "Result": Object {},
+            "InputPath": "$._undefined",
             "ResultPath": "$.vars._null",
             "Type": "Pass",
           },
