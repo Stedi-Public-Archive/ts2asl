@@ -8,6 +8,12 @@ describe("when converting do-while", () => {
         const resultFromNode = await simpleDoWhile();
         expect(resultFromSfn).toEqual(resultFromNode);
     });
+    it("will execute simpleDoAlwaysFalse as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("do-while", "simpleDoAlwaysFalse");
+        const { simpleDoAlwaysFalse } = require("../resources/do-while");
+        const resultFromNode = await simpleDoAlwaysFalse();
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
     it("will execute doWhileWithBreak as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("do-while", "doWhileWithBreak");
         const { doWhileWithBreak } = require("../resources/do-while");

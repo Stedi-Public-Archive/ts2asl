@@ -1,0 +1,72 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "counter",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign counter",
+        "parameters": {
+          "value": "",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "counter = \"\"",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign counter",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Do While (false)",
+      "condition": {
+        "type": "boolean",
+        "value": false,
+        "_syntaxKind": "literal"
+      },
+      "while": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "counter",
+              "_syntaxKind": "identifier",
+              "type": "string"
+            },
+            "expression": {
+              "arguments": [
+                {
+                  "value": "{}a",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                {
+                  "identifier": "counter",
+                  "_syntaxKind": "identifier",
+                  "type": "string"
+                }
+              ],
+              "function": "asl.states.format",
+              "_syntaxKind": "asl-intrinsic-function"
+            },
+            "stateName": "Assign counter",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "do-while"
+    },
+    {
+      "expression": {
+        "identifier": "counter",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return counter"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

@@ -16,6 +16,15 @@ export const simpleDoWhile = asl.deploy.asStateMachine(async () =>{
     return counter; //returns "aaaaa"
 });
 
+export const simpleDoAlwaysFalse = asl.deploy.asStateMachine(async () => {
+  let counter = ""
+  do {
+    counter = `${counter}a`;
+  }
+  while (false)
+  return counter; //returns "1"
+});
+
 export const doWhileWithBreak = asl.deploy.asStateMachine(async () => {
   let counter = ""
   do {
