@@ -25,7 +25,8 @@ export const convert = (stateMachine: iasl.StateMachine, options: ConverterOptio
     Type: "Pass",
     ResultPath: "$",
     Parameters: {
-      "vars.$": "$$.Execution.Input"
+      "vars.$": "$$.Execution.Input",
+      "_undefined": null
     }
   }, "Initialize");
 

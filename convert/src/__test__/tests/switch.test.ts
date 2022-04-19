@@ -113,6 +113,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -238,6 +239,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -395,6 +397,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -521,6 +524,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -646,6 +650,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -740,6 +745,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "CreateAccount",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

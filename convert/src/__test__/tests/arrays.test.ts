@@ -60,6 +60,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Evaluate Array(1, 2, 3, 4 ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -169,6 +170,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign myArray",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -246,6 +248,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign mappedArray",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -300,6 +303,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign source",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -382,6 +386,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign mappedArray",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -478,6 +483,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign filterArray",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

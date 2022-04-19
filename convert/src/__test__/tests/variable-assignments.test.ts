@@ -88,6 +88,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign str",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -163,6 +164,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign str",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -200,6 +202,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -230,6 +233,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign _undefined",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -254,6 +258,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign _null",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -291,6 +296,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -379,6 +385,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Evaluate Format('hello {} ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

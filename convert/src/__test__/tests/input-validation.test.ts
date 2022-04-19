@@ -34,6 +34,7 @@ describe("when converting input-validation", () => {
           "Initialize": Object {
             "Next": "If (typeof input.delayInS ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -93,6 +94,7 @@ describe("when converting input-validation", () => {
           "Initialize": Object {
             "Next": "If (typeof input.delayInS ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -165,6 +167,7 @@ describe("when converting input-validation", () => {
           "Initialize": Object {
             "Next": "If (typeof input.delayInS ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

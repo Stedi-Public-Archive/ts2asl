@@ -70,6 +70,7 @@ describe("when converting variables", () => {
           "Initialize": Object {
             "Next": "If (typeof input.name !== ...",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

@@ -12,6 +12,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "lambda()",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -64,6 +65,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Return From Scope",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -142,6 +144,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Return \\"this cannot fail\\"",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -165,6 +168,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "lambda()",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -209,6 +213,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "lambda()",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",

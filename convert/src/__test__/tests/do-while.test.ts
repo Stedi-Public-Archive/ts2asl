@@ -48,6 +48,7 @@ describe("when converting do-while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -105,6 +106,7 @@ describe("when converting do-while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -182,6 +184,7 @@ describe("when converting do-while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -253,6 +256,7 @@ describe("when converting do-while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
@@ -359,6 +363,7 @@ describe("when converting do-while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
