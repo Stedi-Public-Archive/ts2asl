@@ -11,7 +11,7 @@ describe("when converting string-templates", () => {
         "States": Object {
           "Assign variable": Object {
             "Comment": "source: variable = \\"some var\\"",
-            "Next": "Return { b: \`hello \${ ...",
+            "Next": "Return { hello: \`hell ...",
             "Result": "some var",
             "ResultPath": "$.vars.variable",
             "Type": "Pass",
@@ -25,11 +25,48 @@ describe("when converting string-templates", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return { b: \`hello \${ ...": Object {
+          "Return { hello: \`hell ...": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {
-              "b.$": "States.Format('hello {}', $.vars.variable)",
+              "hello.$": "States.Format('hello {}', $.vars.variable)",
+            },
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
+  it("then escapedCharacters can be converted to asl", async () => {
+    expect(converted.escapedCharacters.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign variable": Object {
+            "Comment": "source: variable = \\"some var\\"",
+            "Next": "Return { hello: \`hell ...",
+            "Result": "some var",
+            "ResultPath": "$.vars.variable",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign variable",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return { hello: \`hell ...": Object {
+            "Comment": undefined,
+            "End": true,
+            "Parameters": Object {
+              "backSlash.$": "States.Format('hello \\\\\\\\ + {}', $.vars.variable)",
+              "curlyBrace.$": "States.Format('hello \\\\}\\\\{\\\\} + {}', $.vars.variable)",
+              "emoji.$": "States.Format('hello 🙂 + {}', $.vars.variable)",
+              "hello.$": "States.Format('hello {}', $.vars.variable)",
+              "singleQuote.$": "States.Format('hello \\\\' + {}', $.vars.variable)",
             },
             "Type": "Pass",
           },

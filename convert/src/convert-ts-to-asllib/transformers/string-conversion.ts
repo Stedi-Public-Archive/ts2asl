@@ -1,6 +1,4 @@
 import * as ts from 'typescript';
-import { ConverterOptions } from '../../convert';
-import { isLiteral } from '../../util';
 import { isAslCallExpression } from './node-utility';
 const factory = ts.factory;
 

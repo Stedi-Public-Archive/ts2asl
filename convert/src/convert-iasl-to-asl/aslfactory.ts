@@ -466,7 +466,6 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
         if (argFromArray.path) {
           args.push(argFromArray.path);
         } else if (typeof argFromArray.value === "string") {
-          if (argFromArray.value.includes("'")) throw new Error("todo implement escaping of string literals passed to intrinsic function args")
           args.push(`'${argFromArray.value}'`);
         } else if (typeof argFromArray.value === "object") {
           args.push(`${JSON.stringify(argFromArray.value, null, 2)}`);

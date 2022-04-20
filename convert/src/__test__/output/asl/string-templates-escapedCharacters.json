@@ -21,7 +21,11 @@
       "End": true,
       "Type": "Pass",
       "Parameters": {
-        "hello.$": "States.Format('hello {}', $.vars.variable)"
+        "hello.$": "States.Format('hello {}', $.vars.variable)",
+        "singleQuote.$": "States.Format('hello \\' + {}', $.vars.variable)",
+        "curlyBrace.$": "States.Format('hello \\}\\{\\} + {}', $.vars.variable)",
+        "backSlash.$": "States.Format('hello \\\\ + {}', $.vars.variable)",
+        "emoji.$": "States.Format('hello 🙂 + {}', $.vars.variable)"
       }
     }
   }

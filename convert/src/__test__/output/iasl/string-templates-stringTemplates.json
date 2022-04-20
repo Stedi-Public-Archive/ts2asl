@@ -22,7 +22,7 @@
     {
       "expression": {
         "properties": {
-          "b": {
+          "hello": {
             "arguments": [
               {
                 "value": "hello {}",
@@ -42,7 +42,7 @@
         "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "return",
-      "stateName": "Return { b: `hello ${ ..."
+      "stateName": "Return { hello: `hell ..."
     }
   ],
   "_syntaxKind": "statemachine"
