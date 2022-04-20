@@ -9,7 +9,7 @@ export const stringTemplateTransformer = <T extends ts.Node>(context: ts.Transfo
       return factory.createStringLiteral(node.text);
     }
     if (ts.isTemplateExpression(node)) {
-      let result = node.head.text;
+      let result = escapeText(node.head.text);
       let allLiterals = true;
       let args = [] as ts.Expression[];
       for (const span of node.templateSpans) {
@@ -18,9 +18,9 @@ export const stringTemplateTransformer = <T extends ts.Node>(context: ts.Transfo
           result = result + "{}";
           args.push(span.expression);
         } else {
-          result = result + span.expression.text;
+          result = result + escapeText(span.expression.text);
         }
-        result = result + span.literal.text
+        result = result + escapeText(span.literal.text)
       }
       if (allLiterals) {
         return valueToLiteralExpression(result);
@@ -46,3 +46,8 @@ export const stringTemplateTransformer = <T extends ts.Node>(context: ts.Transfo
   }
   return ts.visitNode(rootNode, visit);
 };
+
+const escapeText = (text: string): string => {
+  if (!text) return text;
+  return text.replace(/}|{|\'|\\/g, x => '\\' + x);
+}

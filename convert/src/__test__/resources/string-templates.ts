@@ -4,7 +4,19 @@ export const stringTemplates = asl.deploy.asStateMachine(async () => {
   let variable = "some var";
 
   return {
-    b: `hello ${variable}`,
+    hello: `hello ${variable}`,
+  };
+});
+
+export const escapedCharacters = asl.deploy.asStateMachine(async () => {
+  let variable = "some var";
+
+  return {
+    hello: `hello ${variable}`,
+    singleQuote: `hello ' + ${variable}`,
+    curlyBrace: `hello }{} + ${variable}`,
+    backSlash: `hello \\ + ${variable}`,
+    emoji: `hello 🙂 + ${variable}`,
   };
 });
 
