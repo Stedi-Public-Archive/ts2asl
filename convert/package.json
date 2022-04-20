@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/convert",
-  "version": "0.1.35s",
+  "version": "0.1.36",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
