@@ -559,7 +559,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       let remainder = type.substring(3);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
-      const servicesNames = ["DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations", "CodeBuild", "CloudWatch"];
+      const servicesNames = ["Athena", "DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations", "CodeBuild", "CloudWatch"];
       for (const serviceName of servicesNames) {
         if (remainder.startsWith(serviceName)) {
           resource += serviceName.toLowerCase() + ':';
