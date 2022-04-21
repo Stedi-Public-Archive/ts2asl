@@ -506,7 +506,6 @@ export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression):
       valueContainsReplacements,
     }
   }
-  debugger;
   throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expr._syntaxKind}`);
 }
 

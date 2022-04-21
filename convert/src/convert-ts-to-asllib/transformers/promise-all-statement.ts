@@ -33,7 +33,7 @@ export const promiseAllStatementTransformer = (converterOptions: ConverterOption
 
         if (!ts.isArrayLiteralExpression(arg)) throw new ParserError("promise.all statement must have array literal expression as argument", node);
 
-        const blocks_ = arg.elements.map(x => convertToBlock(x));
+        const blocks_ = arg.elements.map(x => convertToBlock(x, true));
         const branches = TransformUtil.createNamedBlockArray("branches", blocks_)
         const comment = TransformUtil.createComment(node);
 

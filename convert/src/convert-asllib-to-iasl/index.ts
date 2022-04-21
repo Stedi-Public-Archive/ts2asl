@@ -704,8 +704,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     if (!fn.inputArgumentName) delete fn.inputArgumentName;
     (fn as iasl.Function)._syntaxKind = iasl.SyntaxKind.Function;
     return fn;
-  }
-  else if (ts.isCallExpression(expr)) {
+  } else if (ts.isCallExpression(expr)) {
     const expressionType = isAslCallExpression(expr);
     if (expressionType?.startsWith("states.")) {
 
@@ -848,6 +847,18 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       } as iasl.BinaryExpression;
     }
     //
+  } else if (ts.isReturnStatement(expr)) {
+    return {
+      _syntaxKind: iasl.SyntaxKind.ReturnStatement
+    } as iasl.ReturnStatement;
+  } else if (ts.isContinueStatement(expr)) {
+    return {
+      _syntaxKind: iasl.SyntaxKind.Continue
+    } as iasl.ContinueStatement;
+  } else if (ts.isBreakStatement(expr)) {
+    return {
+      _syntaxKind: iasl.SyntaxKind.Break
+    } as iasl.BreakStatement;
   }
 
   const converted = convertExpression(expr, context)

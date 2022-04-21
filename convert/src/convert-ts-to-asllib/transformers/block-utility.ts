@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import factory = ts.factory;
 
 
-export const convertToBlock = (node: ts.Node): ts.Block => {
+export const convertToBlock = (node: ts.Node, implicitReturn = false): ts.Block => {
 
   let context = node;
   if (ts.isArrowFunction(node)) {
@@ -23,18 +23,26 @@ export const convertToBlock = (node: ts.Node): ts.Block => {
     return factory.createBlock([context]);
   }
 
-  return factory.createBlock([factory.createVariableStatement(
-    undefined,
-    factory.createVariableDeclarationList(
-      [factory.createVariableDeclaration(
-        factory.createIdentifier("return_var"),
-        undefined,
-        undefined,
-        context as ts.Expression
-      )],
-      ts.NodeFlags.Let
-    )
-  ),
-  factory.createReturnStatement(factory.createIdentifier("return_var"))
-  ])
+  if (ts.isBreakOrContinueStatement(context)) {
+    return factory.createBlock([context]);
+  }
+
+  if (implicitReturn) {
+    return factory.createBlock([factory.createVariableStatement(
+      undefined,
+      factory.createVariableDeclarationList(
+        [factory.createVariableDeclaration(
+          factory.createIdentifier("return_var"),
+          undefined,
+          undefined,
+          context as ts.Expression
+        )],
+        ts.NodeFlags.Let
+      )
+    ),
+    factory.createReturnStatement(factory.createIdentifier("return_var"))
+    ]);
+  }
+
+  return factory.createBlock([context as ts.Statement]);
 };
