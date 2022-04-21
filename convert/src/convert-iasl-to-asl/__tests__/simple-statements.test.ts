@@ -35,8 +35,9 @@ describe("when transpiling simple statements", () => {
       let literalString = 'hello'; 
       literalNum = 42; 
       variableAssignment = anotherVar; 
-      complexVariableAssignment = anotherVar.path[something.pointer].leaf; 
-       literalArrayAccessExpression = anotherVar.path[0].leaf; 
+      let array = anotherVar.path[pointer]; 
+      complexVariableAssignment = anotherVar.path[something.pointer].leaf;
+      literalArrayAccessExpression = anotherVar.path[0].leaf; 
       objectLiteral = { name: 'literal', num: 42}; 
       objectLiteralWithVariableAssignment = { name: 'literal', age: anotherVar}; 
       
@@ -47,6 +48,13 @@ describe("when transpiling simple statements", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign array": Object {
+            "Comment": undefined,
+            "InputPath": "$.vars.anotherVar.path[$.vars.pointer]",
+            "Next": "Assign complexVariableAss ...",
+            "ResultPath": "$.vars.array",
+            "Type": "Pass",
+          },
           "Assign complexVariableAss ...": Object {
             "Comment": undefined,
             "InputPath": "$.vars.anotherVar.path[$.vars.something.pointer]leaf",
@@ -98,7 +106,7 @@ describe("when transpiling simple statements", () => {
           "Assign variableAssignment": Object {
             "Comment": undefined,
             "InputPath": "$.vars.anotherVar",
-            "Next": "Assign complexVariableAss ...",
+            "Next": "Assign array",
             "ResultPath": "$.vars.variableAssignment",
             "Type": "Pass",
           },

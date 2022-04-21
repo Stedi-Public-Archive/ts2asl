@@ -34,21 +34,20 @@ export const unassignedVariable = asl.deploy.asStateMachine(async () =>{
     return two;
 });
 
-
 export const assignmentToUndefined = asl.deploy.asStateMachine(async () => {
-  //this will assign '{}', undefined would otherwise be interpreted as "entire context"
   let _undefined = undefined;
 });
 
 export const assignmentToNull = asl.deploy.asStateMachine(async () => {
-  //this will assign '{}', null would otherwise be interpreted as "entire context"
   let _null = null;
 });
 
 export const arrayIndexer = asl.deploy.asStateMachine(async () => {
   let arr = [1, 2, 3, 4, 5]
   let two = arr[1];
-  return two;
+  arr[1] = arr[3];
+  arr[3] = two;
+  return arr; //returns [1, 4, 3, 2, 5] 
 });
 
 export const functions = asl.deploy.asStateMachine(async () => {

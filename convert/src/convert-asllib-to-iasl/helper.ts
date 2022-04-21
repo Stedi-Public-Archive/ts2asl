@@ -13,29 +13,29 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
     return { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, type: iaslType } as iasl.Identifier;
   }
 
-
   let path: string[] = [];
   let contextual: ts.Expression | undefined = (expression as ts.PropertyAccessExpression | ts.ElementAccessExpression).expression;
-  while (contextual) {
-    if (ts.isIdentifier(contextual)) {
-      if (contextual.text) {
-        path.push(contextual.text);
+  if (!ts.isElementAccessExpression(expression)) {
+    while (contextual) {
+      if (ts.isIdentifier(contextual)) {
+        if (contextual.text) {
+          path.push(contextual.text);
+        }
+        contextual = undefined;
+      } else if (ts.isElementAccessExpression(contextual)) {
+        if (ts.isPropertyAccessExpression(expression)) {
+          path.push(expression.name.text);
+        }
+        expression = contextual;
+        break;
+      } else if (ts.isPropertyAccessExpression(contextual)) {
+        path.push(contextual.name.text);
+        contextual = contextual.expression;
+      } else {
+        return undefined;
       }
-      contextual = undefined;
-    } else if (ts.isPropertyAccessExpression(contextual)) {
-      path.push(contextual.name.text);
-      contextual = contextual.expression;
-    } else if (ts.isElementAccessExpression(contextual)) {
-      if (ts.isPropertyAccessExpression(expression)) {
-        path.push(expression.name.text);
-      }
-      expression = contextual;
-      break;
-    } else {
-      return undefined;
     }
   }
-
   let pathAsString = path.reverse().join(".")
   if (ts.isPropertyAccessExpression(expression)) {
     const type = typeChecker.getTypeAtLocation(expression);
