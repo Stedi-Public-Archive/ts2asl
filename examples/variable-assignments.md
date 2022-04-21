@@ -47,38 +47,38 @@ export const main = asl.deploy.asStateMachine(async () =>
 
 
 ## assignment to undefined
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICAvL3RoaXMgd2lsbCBhc3NpZ24gJ3t9JywgdW5kZWZpbmVkIHdvdWxkIG90aGVyd2lzZSBiZSBpbnRlcnByZXRlZCBhcyAiZW50aXJlIGNvbnRleHQiCiAgbGV0IF91bmRlZmluZWQgPSB1bmRlZmluZWQ7Cn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgX3VuZGVmaW5lZCA9IHVuZGVmaW5lZDsKfSk7)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
-  //this will assign '{}', undefined would otherwise be interpreted as "entire context"
   let _undefined = undefined;
 });
 ```
 
 
 ## assignment to null
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICAvL3RoaXMgd2lsbCBhc3NpZ24gJ3t9JywgbnVsbCB3b3VsZCBvdGhlcndpc2UgYmUgaW50ZXJwcmV0ZWQgYXMgImVudGlyZSBjb250ZXh0IgogIGxldCBfbnVsbCA9IG51bGw7Cn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgX251bGwgPSBudWxsOwp9KTs=)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
-  //this will assign '{}', null would otherwise be interpreted as "entire context"
   let _null = null;
 });
 ```
 
 
 ## array indexer
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgYXJyID0gWzEsIDIsIDMsIDQsIDVdCiAgbGV0IHR3byA9IGFyclsxXTsKICByZXR1cm4gdHdvOwp9KTs=)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgYXJyID0gWzEsIDIsIDMsIDQsIDVdCiAgbGV0IHR3byA9IGFyclsxXTsKICBhcnJbMV0gPSBhcnJbM107CiAgYXJyWzNdID0gdHdvOwogIHJldHVybiBhcnI7IC8vcmV0dXJucyBbMSwgNCwgMywgMiwgNV0gCn0pOw==)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
   let arr = [1, 2, 3, 4, 5]
   let two = arr[1];
-  return two;
+  arr[1] = arr[3];
+  arr[3] = two;
+  return arr; //returns [1, 4, 3, 2, 5] 
 });
 ```
 

@@ -113,7 +113,7 @@ describe("when converting pass statements to iasl", () => {
                 "properties": Object {
                   "field": Object {
                     "_syntaxKind": "identifier",
-                    "identifier": "xxx.elements",
+                    "identifier": "",
                     "indexExpression": Object {
                       "_syntaxKind": "literal",
                       "type": "numeric",

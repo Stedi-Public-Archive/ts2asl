@@ -26,14 +26,26 @@
     "Assign two": {
       "Type": "Pass",
       "ResultPath": "$.vars.two",
-      "InputPath": "$.vars.arr[1]arr",
+      "InputPath": "$.vars.arr[1]",
       "Comment": "source: two = arr[1]",
-      "Next": "Return two"
+      "Next": "Assign arr[1]"
     },
-    "Return two": {
+    "Assign arr[1]": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arr[1]",
+      "InputPath": "$.vars.arr[3]",
+      "Next": "Assign arr[3]"
+    },
+    "Assign arr[3]": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.arr[3]",
+      "InputPath": "$.vars.two",
+      "Next": "Return arr"
+    },
+    "Return arr": {
       "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.two"
+      "InputPath": "$.vars.arr"
     }
   }
 }
