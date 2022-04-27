@@ -8,8 +8,7 @@ describe("when transpiling function", () => {
     const transformed = testTransform(
       `
     let result = asl.states.stringToJson("0") as number
-    `,
-      createTransformers({ lineNumbersInStateNames: true })
+    `
     );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
@@ -51,8 +50,7 @@ describe("when transpiling function", () => {
     const transformed = testTransform(
       `
     let result = asl.states.stringToJson("s"),
-    `,
-      createTransformers({})
+    `
     );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
@@ -98,9 +96,7 @@ describe("when transpiling function", () => {
         str: "val"
       };
     let result = asl.states.jsonToString(tmp),
-    `,
-      createTransformers({})
-    );
+    `);
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`

@@ -8,10 +8,7 @@ describe("when returning", () => {
     return;
     `;
 
-    const transformed = testTransform(
-      code,
-      createTransformers({ lineNumbersInStateNames: true })
-    );
+    const transformed = testTransform(code);
     const result = testConvertToIntermediaryAst(transformed);
     expect(result).toMatchInlineSnapshot(`
       Object {
@@ -32,10 +29,7 @@ describe("when returning", () => {
     return {name: "fred"};
     `;
 
-    const transformed = testTransform(
-      code,
-      createTransformers({ lineNumbersInStateNames: true })
-    );
+    const transformed = testTransform(code);
     const result = testConvertToIntermediaryAst(transformed);
     expect(result).toMatchInlineSnapshot(`
       Object {
@@ -66,10 +60,7 @@ describe("when returning", () => {
     return doSomething();
     `;
 
-    const transformed = testTransform(
-      code,
-      createTransformers({ lineNumbersInStateNames: true })
-    );
+    const transformed = testTransform(code);
     const result = testConvertToIntermediaryAst(transformed);
     expect(result).toMatchInlineSnapshot(`
       Object {
@@ -86,7 +77,7 @@ describe("when returning", () => {
               "resource": "[!lambda[doSomething]arn]",
               "retry": undefined,
               "source": "doSomething()",
-              "stateName": "3: doSomething()",
+              "stateName": "doSomething()",
             },
             "name": Object {
               "_syntaxKind": "identifier",

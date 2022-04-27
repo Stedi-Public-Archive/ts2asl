@@ -12,9 +12,7 @@ describe("when transpiling simple statements", () => {
         items: array,
         iterator: (prefix) => worker({ prefix }),
       });
-    `,
-      createTransformers({})
-    );
+    `);
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
@@ -73,9 +71,7 @@ describe("when transpiling simple statements", () => {
         items: array,
         iterator: (prefix) => {void worker({ prefix });},
       });
-    `,
-      createTransformers({})
-    );
+    `);
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`

@@ -8,7 +8,7 @@ import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-u
 import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
-import { evalConstTransformer } from "./eval-const";
+import { evalConstTransformer } from "../convert-ts-to-asllib/transformers/eval-const";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -21,7 +21,7 @@ export interface ConverterContext {
 export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.SourceFile, context: ConverterContext): iasl.StateMachine => {
   const result: iasl.Expression[] = [];
 
-  const transformed = ts.transform<ts.Block | ts.ConciseBody | ts.SourceFile>(body, [removeSyntaxTransformer, ensureNamedPropertiesTransformer, evalConstTransformer(context.typeChecker)]).transformed[0];
+  const transformed = ts.transform<ts.Block | ts.ConciseBody | ts.SourceFile>(body, [removeSyntaxTransformer, ensureNamedPropertiesTransformer]).transformed[0];
   ts.forEachChild(transformed, toplevel => {
     const converted = convertNodeToIntermediaryAst(toplevel, context);
     if (!converted) return;

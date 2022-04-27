@@ -187,7 +187,7 @@ describe("when converting binary expressions to iasl", () => {
       const item = listWithRetunrned.filter(x=>x.returned);
       return item;
     `;
-    const transformed = testTransform(code, createTransformers({}));
+    const transformed = testTransform(code);
     const result = testConvertToIntermediaryAst(transformed);
     expect(result).toMatchInlineSnapshot(`
       Object {
