@@ -1,26 +1,41 @@
 {
   "statements": [
     {
+      "name": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign result",
+        "parameters": {
+          "value": "",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "result = \"\"",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign result",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
       "stateName": "Try Catch Finally",
       "try": {
         "statements": [
           {
-            "stateName": "lambda()",
-            "resource": "[!lambda[lambda]arn]",
-            "retry": [
-              {
-                "errorEquals": [
-                  "Lambda.ServiceException",
-                  "Lambda.AWSLambdaException",
-                  "Lambda.SdkClientException"
-                ],
-                "intervalSeconds": 2,
-                "maxAttempts": 6,
-                "backoffRate": 2
-              }
-            ],
-            "source": "lambda()",
-            "_syntaxKind": "asl-task-state"
+            "name": {
+              "identifier": "result",
+              "_syntaxKind": "identifier",
+              "type": "string"
+            },
+            "expression": {
+              "value": "try",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign result",
+            "_syntaxKind": "variable-assignment"
           }
         ],
         "_syntaxKind": "function"
@@ -28,13 +43,18 @@
       "finally": {
         "statements": [
           {
+            "name": {
+              "identifier": "result",
+              "_syntaxKind": "identifier",
+              "type": "string"
+            },
             "expression": {
               "value": "finally",
               "type": "string",
               "_syntaxKind": "literal"
             },
-            "_syntaxKind": "return",
-            "stateName": "Return \"finally\""
+            "stateName": "Assign result",
+            "_syntaxKind": "variable-assignment"
           }
         ],
         "_syntaxKind": "function"
@@ -47,22 +67,35 @@
           "block": {
             "statements": [
               {
-                "stateName": "Log (\"failed\")",
-                "parameters": {
-                  "value": "failed",
+                "name": {
+                  "identifier": "result",
+                  "_syntaxKind": "identifier",
+                  "type": "string"
+                },
+                "expression": {
+                  "value": "catch",
                   "type": "string",
                   "_syntaxKind": "literal"
                 },
-                "source": "console.log(\"failed\")",
-                "_syntaxKind": "asl-pass-state"
+                "stateName": "Assign result",
+                "_syntaxKind": "variable-assignment"
               }
             ],
             "_syntaxKind": "function"
           }
         }
       ],
-      "source": "try {\n    lambda();\n  } catch {\n    console.log(\"failed\")\n  } finally {\n    return \"finally\";\n  }",
+      "source": "try {\n    result = \"try\"\n  } catch {\n    result = \"catch\"\n  } finally {\n    result = \"finally\"\n  }",
       "_syntaxKind": "try"
+    },
+    {
+      "expression": {
+        "identifier": "result",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return result"
     }
   ],
   "_syntaxKind": "statemachine"

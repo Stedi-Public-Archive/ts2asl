@@ -30,7 +30,8 @@
           "ErrorEquals": [
             "States.ALL"
           ],
-          "Next": "Assign result_2"
+          "ResultPath": "$.vars.err",
+          "Next": "Evaluate Format('failed { ..."
         }
       ],
       "End": true,
@@ -48,10 +49,19 @@
         }
       ]
     },
+    "Evaluate Format('failed { ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('failed {} ({})', $.vars.err.Error, $.vars.err.Cause)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Assign result_2"
+    },
     "Assign result_2": {
       "Type": "Pass",
       "ResultPath": "$.vars.result",
-      "Result": "failed",
+      "InputPath": "$.tmp.eval.value",
       "Next": "Return result"
     },
     "Return result": {

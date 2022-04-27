@@ -4,14 +4,12 @@ import { appendBlock, convertBlock, isNonTerminalState } from ".";
 import { createChoiceOperator } from "./choice-utility";
 import { createParameters, createParametersForMap } from "./parameters";
 import { createFilterExpression } from "./jsonpath-filter";
-import { createSingleOrParallel } from "./blocks";
 import { trimName } from "../create-name";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createReplacer, replaceIdentifiers } from "./identifiers";
 import { Operator } from "asl-types/dist/choice";
 
 export let foreachCounter = { value: 0 };
-
 
 export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter) {
@@ -76,7 +74,7 @@ export class AslFactory {
         Comment: expression.source,
       } as asl.Task;
       context.appendNextState(task, expression.stateName);
-      this.appendCatchConfiguration(task, expression.catch, scopes, context);
+      this.appendCatchConfiguration([task], expression.catch, scopes, context);
       this.appendRetryConfiguration(task, expression.retry);
 
     } else if (iasl.Check.isDoWhileStatement(expression)) {
@@ -242,13 +240,12 @@ export class AslFactory {
         ...properties,
         ...(discardResult ? { ResultPath: null } : {}),
         Type: "Parallel",
-        Catch: expression.catch,
         Retry: expression.retry,
         Comment: expression.source,
         ...createParameters(scopes, expression.branches),
       } as asl.Parallel;
       context.appendNextState(parallelState, nameSuggestion);
-      this.appendCatchConfiguration(parallelState, expression.catch, scopes, context);
+      this.appendCatchConfiguration([parallelState], expression.catch, scopes, context);
       this.appendRetryConfiguration(parallelState, expression.retry);
     } else if (iasl.Check.isAslMapState(expression)) {
       const iterator = convertBlock(expression.iterator, scopes, context.createChildContext())
@@ -265,7 +262,7 @@ export class AslFactory {
         ...createParametersForMap(scopes, expression.iterator, expression.iterator.inputArgumentName),
       } as asl.Map;
       context.appendNextState(mapState, nameSuggestion);
-      this.appendCatchConfiguration(mapState, expression.catch, scopes, context);
+      this.appendCatchConfiguration([mapState], expression.catch, scopes, context);
       this.appendRetryConfiguration(mapState, expression.retry);
 
     } else if (iasl.Check.isForEachStatement(expression)) {
@@ -376,20 +373,90 @@ export class AslFactory {
       }, expression.stateName ?? "Continue");
 
     } else if (iasl.Check.isTryExpression(expression)) {
-      const tryState = createSingleOrParallel(expression.try, scopes, context, { alwaysWrapFailState: true });
-      if (tryState.secondState) {
-        context.appendNextState(tryState.secondState, tryState.secondStateName);
-      }
-      context.appendNextState(tryState.state, tryState.stateName);
-      if (["Map", "Parallel", "Task"].includes(tryState.state.Type) && expression.catch?.length) {
-        this.appendCatchConfiguration(tryState.state as (asl.Map | asl.Parallel | asl.Task), expression.catch, scopes, context);
-      }
-      if (expression.finally) {
-        const finallyState = createSingleOrParallel(expression.finally, scopes, context);
-        context.appendNextState(finallyState.state, finallyState.stateName);
-        if (finallyState.secondState) {
-          context.appendNextState(finallyState.secondState, finallyState.secondStateName);
+      const tryWriter = context.createChildContext();
+      appendBlock(expression.try, scopes, tryWriter);
+      const tryStatesWithCatchConfiguration: Array<(asl.Map | asl.Parallel | asl.Task | asl.Fail)> = [];
+      if (tryWriter.startAt) {
+        context.joinTrailingStates(tryWriter.startAt)
+        for (const [name, state] of Object.entries(tryWriter.states)) {
+          context.states[name] = state;
+          if (["Map", "Parallel", "Task", "Fail"].includes(state.Type)) {
+            tryStatesWithCatchConfiguration.push(state as asl.Map | asl.Parallel | asl.Task | asl.Fail);
+          }
         }
+      }
+      context.appendTails(tryWriter.trailingStates);
+
+      const catchStatesWithCatchConfiguration: Array<(asl.Map | asl.Parallel | asl.Task | asl.Fail)> = [];
+      if (tryStatesWithCatchConfiguration.length > 0 && expression.catch?.length) {
+        const normalizedTryStatesWithCatchConfiguration: Array<(asl.Map | asl.Parallel | asl.Task)> = [];
+        for (const stateWithCatch of tryStatesWithCatchConfiguration) {
+          if (stateWithCatch.Type === "Fail") {
+            const stateName = Object.entries(context.states).filter(x => stateWithCatch === x[1]).map(x => x[0]).find(x => true);
+            if (stateName === undefined) throw new Error("unable to find fail state");
+            const wrapped = {
+              Type: "Parallel",
+              Catch: [],
+              End: true,
+              Branches: [{
+                StartAt: stateName,
+                States: {
+                  [stateName]: stateWithCatch,
+                }
+              }],
+            } as asl.Parallel;
+            context.replaceState(stateName, "Fail State Wrapper", wrapped);
+            normalizedTryStatesWithCatchConfiguration.push(wrapped);
+          } else {
+            const casted = stateWithCatch as asl.Map | asl.Parallel | asl.Task;
+            normalizedTryStatesWithCatchConfiguration.push(casted);
+          }
+        }
+        const { appendedStates } = this.appendCatchConfiguration(normalizedTryStatesWithCatchConfiguration, expression.catch, scopes, context);
+
+        for (const appendedState of appendedStates) {
+          if (["Map", "Parallel", "Task", "Fail"].includes(appendedState.Type)) {
+            catchStatesWithCatchConfiguration.push(appendedState as asl.Map | asl.Parallel | asl.Task | asl.Fail);
+          }
+        }
+      }
+
+      //join all end: true states from try and catch
+      if (expression.finally) {
+        const normalizedCatchStatesWithCatchConfiguration: Array<(asl.Map | asl.Parallel | asl.Task)> = [];
+        for (const stateWithCatch of catchStatesWithCatchConfiguration) {
+          if (stateWithCatch.Type === "Fail") {
+            const stateName = Object.entries(context.states).filter(x => stateWithCatch === x[1]).map(x => x[0]).find(x => true);
+            if (stateName === undefined) throw new Error("unable to find fail state");
+            const wrapped = {
+              Type: "Parallel",
+              Catch: [],
+              End: true,
+              Branches: [{
+                StartAt: stateName,
+                States: {
+                  [stateName]: stateWithCatch,
+                }
+              }],
+            } as asl.Parallel;
+            context.replaceState(stateName, "Fail State Wrapper", wrapped);
+            normalizedCatchStatesWithCatchConfiguration.push(wrapped);
+          } else {
+            const casted = stateWithCatch as asl.Map | asl.Parallel | asl.Task;
+            if (casted.Catch === undefined) {
+              casted.Catch = []
+            }
+            normalizedCatchStatesWithCatchConfiguration.push(casted);
+          }
+        }
+
+        const catchConfiguration: iasl.CatchConfiguration = [{
+          errorEquals: ["States.All"],
+          block: { ...expression.finally, _syntaxKind: iasl.SyntaxKind.Function } as iasl.Function,
+        }]
+        const result = this.appendCatchConfiguration(normalizedCatchStatesWithCatchConfiguration, catchConfiguration, scopes, context);
+        const finallyStart = result.startStates[0];
+        context.joinTrailingStates(finallyStart, ...result.appendedStates);
       }
     } else {
       throw new Error(`syntax type ${expression._syntaxKind} cannot be converted to ASL`);
@@ -408,26 +475,40 @@ export class AslFactory {
     }
   }
 
-  private static appendCatchConfiguration(task: asl.Task | asl.Parallel | asl.Map, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter) {
-    if (catchConfiguration?.length) {
-      const resultingCatchConfiguration = [] as Array<{ ErrorEquals: string[]; Next: string; }>;
-      for (const catchClause of catchConfiguration) {
-        const catchState = createSingleOrParallel(catchClause.block, scopes, context);
-
-        const name = context.appendState(catchState.state, catchState.stateName);
-        if (catchState.secondState) {
-          catchState.state["Next"] = context.appendState(catchState.secondState, catchState.secondStateName);
-        }
-        context.appendTails(catchState.secondState ?? catchState.state);
-
-        const catchConfiguration = { Next: name, ErrorEquals: catchClause.errorEquals } as { Next: string, ErrorEquals: string[], ResultPath?: string };
-        if (catchClause.block.inputArgumentName) {
-          catchConfiguration.ResultPath = convertIdentifierToPathExpression(catchClause.block.inputArgumentName);
-        }
-        resultingCatchConfiguration.push(catchConfiguration);
+  private static appendCatchConfiguration(states: Array<asl.Task | asl.Parallel | asl.Map>, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter) {
+    const appendedStates: asl.State[] = [];
+    const startStates: string[] = [];
+    for (const _catch of (catchConfiguration || [])) {
+      let catchWriterStart: string | undefined;
+      const catchWriter = context.createChildContext();
+      if (_catch.block) {
+        appendBlock(_catch.block, scopes, catchWriter);
+        catchWriterStart = catchWriter.startAt;
       }
-      task.Catch = resultingCatchConfiguration;
+      if (catchWriterStart === undefined) {
+        const emptyCatch = { Type: "Pass" };
+        catchWriterStart = context.appendState(emptyCatch, "Empty Catch");;
+        catchWriter.appendTails(emptyCatch);
+      }
+      startStates.push(catchWriterStart);
+      for (const stateWithCatch of states) {
+        if (stateWithCatch.Catch === undefined) {
+          stateWithCatch.Catch = [];
+        }
+        stateWithCatch.Catch?.push({
+          ErrorEquals: _catch.errorEquals,
+          ...(_catch.block.inputArgumentName ? { ResultPath: "$.vars." + _catch.block.inputArgumentName.identifier } : {}),
+          Next: catchWriterStart
+        });
+      }
+      for (const [name, state] of Object.entries(catchWriter.states)) {
+        context.states[name] = state;
+        appendedStates.push(state);
+      }
+
+      context.appendTails(catchWriter.trailingStates);
     }
+    return { startStates, appendedStates };
   }
 }
 

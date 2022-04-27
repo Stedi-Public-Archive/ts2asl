@@ -8,25 +8,24 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "lambda()"
+      "Next": "Parallel"
     },
-    "lambda()": {
-      "Type": "Task",
-      "ResultPath": null,
-      "Resource": "[!lambda[lambda]arn]",
-      "Retry": [
+    "Parallel": {
+      "Branches": [
         {
-          "ErrorEquals": [
-            "Lambda.ServiceException",
-            "Lambda.AWSLambdaException",
-            "Lambda.SdkClientException"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 6,
-          "BackoffRate": 2
+          "StartAt": "Return \"succeeded\"",
+          "States": {
+            "Return \"succeeded\"": {
+              "End": true,
+              "Type": "Pass",
+              "Result": "succeeded"
+            }
+          }
         }
       ],
-      "Comment": "source: source: lambda()",
+      "ResultPath": null,
+      "Type": "Parallel",
+      "Comment": "source: Promise.all([() => \"succeeded\"])",
       "Next": "Return \"finally\""
     },
     "Return \"finally\"": {

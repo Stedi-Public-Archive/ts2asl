@@ -25,8 +25,9 @@ describe("when converting map", () => {
             "Iterator": Object {
               "StartAt": "PutItem",
               "States": Object {
-                "Empty": Object {
-                  "Type": "Succeed",
+                "Empty Catch": Object {
+                  "End": true,
+                  "Type": "Pass",
                 },
                 "PutItem": Object {
                   "Catch": Array [
@@ -34,7 +35,7 @@ describe("when converting map", () => {
                       "ErrorEquals": Array [
                         "DynamoDb.ConditionalCheckFailedException",
                       ],
-                      "Next": "Empty",
+                      "Next": "Empty Catch",
                     },
                   ],
                   "Comment": undefined,

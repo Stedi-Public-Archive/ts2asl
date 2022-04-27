@@ -126,6 +126,23 @@ export class AslWriter {
     }
     delete this.states[name];
   }
+
+  replaceState(currentStateName: string, newStateNameSuggestion: string, newState: asl.State) {
+    const newStateName = this.createName(newStateNameSuggestion);
+    for (const state of Object.values(this.states)) {
+      if (currentStateName === (state as asl.Pass).Next) {
+        (state as asl.Pass).Next = newStateName;
+      }
+    }
+    const currentState = this.states[currentStateName];
+    delete this.states[currentStateName];
+    this.states[newStateName] = newState;
+    if (this.trailingStates.includes(currentState)) {
+      this.trailingStates = this.trailingStates.filter(x => x !== currentState);
+      this.trailingStates.push(newState);
+    }
+  }
+
   appendTails(state: (StateWithBrand | StateWithBrand[])) {
     const states = Array.isArray(state) ? state : [state]
     this.trailingStates.push(...states.filter(x => isNonTerminalState(x)));

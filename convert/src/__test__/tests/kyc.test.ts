@@ -64,7 +64,6 @@ describe("when converting kyc", () => {
                 },
               },
             ],
-            "Catch": undefined,
             "Comment": undefined,
             "Next": "PutEvents",
             "ResultPath": "$.vars.result",

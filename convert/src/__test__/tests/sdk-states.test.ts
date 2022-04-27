@@ -9,8 +9,9 @@ describe("when converting sdk-states", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Empty": Object {
-            "Type": "Succeed",
+          "Empty Catch": Object {
+            "End": true,
+            "Type": "Pass",
           },
           "Initialize": Object {
             "Next": "PutItem",
@@ -27,7 +28,7 @@ describe("when converting sdk-states", () => {
                 "ErrorEquals": Array [
                   "DynamoDb.ConditionalCheckFailedException",
                 ],
-                "Next": "Empty",
+                "Next": "Empty Catch",
               },
             ],
             "Comment": undefined,

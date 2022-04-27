@@ -14,46 +14,46 @@ export const simpleTry = asl.deploy.asStateMachine(async () => {
   return result;
 });
 
-export const referenceError = asl.deploy.asStateMachine(async () => {
-  let result = "";
-  try {
-    result = "succeeded";
-    throw new Error("fail");
-  } catch (err) {
-    result = `failed ${(err as asl.AslError).Error} (${(err as asl.AslError).Cause})`;
-  }
-  return result;
-});
-
-
-export const simpleMultipleStatements = asl.deploy.asStateMachine(async () =>{
+export const referenceError = asl.deploy.asStateMachine(async () =>{
+    let result = asl.pass({
+        name: "Assign result",
+        parameters: () => "",
+        comment: "result = \"\""
+    });
     asl.typescriptTry({
         name: "Try Catch",
         try: async () => {
-            const arr = asl.pass({
-                name: "Assign arr",
-                parameters: () => [1],
-                comment: "arr = [1]"
-            });
-            const withinTry = asl.map({
-                name: "arr.map => x",
-                items: () => arr,
-                iterator: x => { return "succeeded"; },
-                comment: "arr.map(x => \"succeeded\")"
-            });
-            return withinTry[0];
+            result = "succeeded";
+            asl.fail({
+                name: "Throw Error",
+                error: "Error",
+                cause: "fail",
+                comment: "throw new Error(\"fail\");"
+            })
         },
         catch: [
             {
                 errorEquals: [
                     "States.ALL"
                 ],
-                block: () => {
-                    return "it failed";
+                block: err => {
+                    result = asl.states.format("failed {} ({})", err.Error, err.Cause);
                 }
             }
         ]
     })
+    return result;
+});
+
+
+export const simpleMultipleStatements = asl.deploy.asStateMachine(async () => {
+  try {
+    const arr = [1]
+    const withinTry = arr.map(x => "succeeded");
+    return withinTry[0];
+  } catch {
+    return "it failed";
+  }
 });
 
 export const tryAroundPassState = asl.deploy.asStateMachine(async () => {

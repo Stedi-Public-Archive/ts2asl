@@ -8,46 +8,31 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "lambda()"
+      "Next": "Assign result"
     },
-    "lambda()": {
-      "Type": "Task",
-      "ResultPath": null,
-      "Resource": "[!lambda[lambda]arn]",
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "Lambda.ServiceException",
-            "Lambda.AWSLambdaException",
-            "Lambda.SdkClientException"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 6,
-          "BackoffRate": 2
-        }
-      ],
-      "Comment": "source: source: lambda()",
-      "Catch": [
-        {
-          "Next": "Log (\"failed\")",
-          "ErrorEquals": [
-            "States.ALL"
-          ]
-        }
-      ],
-      "Next": "Return \"finally\""
-    },
-    "Log (\"failed\")": {
+    "Assign result": {
       "Type": "Pass",
-      "ResultPath": null,
-      "Result": "failed",
-      "Comment": "source: console.log(\"failed\")",
-      "Next": "Return \"finally\""
+      "ResultPath": "$.vars.result",
+      "Result": "",
+      "Comment": "source: result = \"\"",
+      "Next": "Assign result_1"
     },
-    "Return \"finally\"": {
+    "Assign result_1": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "Result": "try",
+      "Next": "Assign result_2"
+    },
+    "Assign result_2": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.result",
+      "Result": "finally",
+      "Next": "Return result"
+    },
+    "Return result": {
       "End": true,
       "Type": "Pass",
-      "Result": "finally"
+      "InputPath": "$.vars.result"
     }
   }
 }

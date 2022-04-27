@@ -5,22 +5,24 @@
       "try": {
         "statements": [
           {
-            "stateName": "lambda()",
-            "resource": "[!lambda[lambda]arn]",
-            "retry": [
+            "branches": [
               {
-                "errorEquals": [
-                  "Lambda.ServiceException",
-                  "Lambda.AWSLambdaException",
-                  "Lambda.SdkClientException"
+                "statements": [
+                  {
+                    "expression": {
+                      "value": "succeeded",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    },
+                    "_syntaxKind": "return",
+                    "stateName": "Return \"succeeded\""
+                  }
                 ],
-                "intervalSeconds": 2,
-                "maxAttempts": 6,
-                "backoffRate": 2
+                "_syntaxKind": "function"
               }
             ],
-            "source": "lambda()",
-            "_syntaxKind": "asl-task-state"
+            "source": "Promise.all([() => \"succeeded\"])",
+            "_syntaxKind": "asl-parallel-state"
           }
         ],
         "_syntaxKind": "function"
@@ -39,7 +41,7 @@
         ],
         "_syntaxKind": "function"
       },
-      "source": "try {\n    lambda();\n  } finally {\n    return \"finally\";\n  }",
+      "source": "try {\n    await Promise.all([() => \"succeeded\"]);\n  } finally {\n    return \"finally\";\n  }",
       "_syntaxKind": "try"
     }
   ],

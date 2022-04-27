@@ -6,39 +6,82 @@
         "statements": [
           {
             "name": {
+              "identifier": "arr",
+              "_syntaxKind": "identifier",
+              "type": "object"
+            },
+            "expression": {
+              "stateName": "Assign arr",
+              "parameters": {
+                "elements": [
+                  {
+                    "value": 1,
+                    "type": "numeric",
+                    "_syntaxKind": "literal"
+                  }
+                ],
+                "_syntaxKind": "literal-array"
+              },
+              "source": "arr = [1]",
+              "_syntaxKind": "asl-pass-state"
+            },
+            "stateName": "Assign arr",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "name": {
               "identifier": "withinTry",
               "_syntaxKind": "identifier",
               "type": "object"
             },
             "expression": {
-              "stateName": "lambda()",
-              "resource": "[!lambda[lambda]arn]",
-              "retry": [
-                {
-                  "errorEquals": [
-                    "Lambda.ServiceException",
-                    "Lambda.AWSLambdaException",
-                    "Lambda.SdkClientException"
-                  ],
-                  "intervalSeconds": 2,
-                  "maxAttempts": 6,
-                  "backoffRate": 2
-                }
-              ],
-              "source": "lambda()",
-              "_syntaxKind": "asl-task-state"
+              "stateName": "arr.map => x",
+              "items": {
+                "identifier": "arr",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "iterator": {
+                "inputArgumentName": {
+                  "identifier": "x",
+                  "_syntaxKind": "identifier"
+                },
+                "statements": [
+                  {
+                    "expression": {
+                      "value": "succeeded",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    },
+                    "_syntaxKind": "return",
+                    "stateName": "Return \"succeeded\""
+                  }
+                ],
+                "_syntaxKind": "function"
+              },
+              "source": "arr.map(x => \"succeeded\")",
+              "_syntaxKind": "asl-map-state"
             },
             "stateName": "Assign withinTry",
             "_syntaxKind": "variable-assignment"
           },
           {
             "expression": {
-              "identifier": "withinTry",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "identifier": "",
+              "indexExpression": {
+                "value": 0,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              "lhs": {
+                "identifier": "withinTry",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "_syntaxKind": "identifier"
             },
             "_syntaxKind": "return",
-            "stateName": "Return withinTry"
+            "stateName": "Return withinTry[0]"
           }
         ],
         "_syntaxKind": "function"
@@ -64,7 +107,6 @@
           }
         }
       ],
-      "source": "try {\n    const withinTry = lambda();\n    return withinTry;\n  } catch {\n    return \"it failed\";\n  }",
       "_syntaxKind": "try"
     }
   ],
