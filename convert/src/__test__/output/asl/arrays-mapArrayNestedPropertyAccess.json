@@ -27,13 +27,13 @@
     "Assign num": {
       "Type": "Pass",
       "ResultPath": "$.vars.num",
-      "InputPath": "$.vars.source..obj.num",
+      "InputPath": "$.vars.source.obj.num",
       "Next": "Assign str"
     },
     "Assign str": {
       "Type": "Pass",
       "ResultPath": "$.vars.str",
-      "InputPath": "$.vars.source..obj.str",
+      "InputPath": "$.vars.source.obj.str",
       "Next": "Return { num, str }"
     },
     "Return { num, str }": {
