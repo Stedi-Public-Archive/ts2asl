@@ -1,0 +1,64 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "x",
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "expression": {
+        "stateName": "Assign x",
+        "parameters": {
+          "value": 0,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign x",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (x === ExampleEnum.A)",
+      "condition": {
+        "lhs": {
+          "identifier": "x",
+          "_syntaxKind": "identifier",
+          "type": "unknown"
+        },
+        "operator": "eq",
+        "rhs": {
+          "value": 0,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "expression": {
+              "value": "success",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return",
+            "stateName": "Return \"success\""
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "if"
+    },
+    {
+      "expression": {
+        "value": "fail",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return \"fail\""
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
