@@ -40,6 +40,7 @@
           "Next": "Assign val.b"
         }
       ],
+      "Comment": "source: if (true) { val.b = \"outer_1\"; val.c = \"outer_ ...",
       "Default": "Assign val.f"
     },
     "Assign val.b": {

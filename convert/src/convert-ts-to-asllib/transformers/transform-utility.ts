@@ -178,9 +178,17 @@ export class TransformUtil {
 
   static createComment(node: ts.Node) {
     let comment: string | undefined = undefined;
-    try {
-      comment = node.getText();
-    } catch { }
+    const original = (node as any).original as ts.Node;
+    if (original) {
+      try {
+        comment = original.getText();
+      } catch { }
+    }
+    if (comment === undefined) {
+      try {
+        comment = node.getText();
+      } catch { }
+    }
     if (!comment) return undefined;
 
     return factory.createPropertyAssignment(

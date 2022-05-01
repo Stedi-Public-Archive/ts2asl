@@ -15,7 +15,8 @@ describe("when evaluating const", () => {
       });
       const x = asl.pass({
           name: \\"Assign x\\",
-          parameters: () => 42
+          parameters: () => 42,
+          comment: \\"x = asl.deploy.evalConst(num)\\"
       });"
     `);
   });
@@ -33,7 +34,8 @@ describe("when evaluating const", () => {
       });
       const x = asl.pass({
           name: \\"Assign x\\",
-          parameters: () => \\"abc\\"
+          parameters: () => \\"abc\\",
+          comment: \\"x = asl.deploy.evalConst(str)\\"
       });"
     `);
   });
@@ -51,7 +53,8 @@ describe("when evaluating const", () => {
       });
       const x = asl.pass({
           name: \\"Assign x\\",
-          parameters: () => true
+          parameters: () => true,
+          comment: \\"x = asl.deploy.evalConst(b)\\"
       });"
     `);
   });
@@ -69,7 +72,8 @@ describe("when evaluating const", () => {
       });
       const x = asl.pass({
           name: \\"Assign x\\",
-          parameters: () => ({ bool: true, str: \\"abc\\", num: 42 })
+          parameters: () => ({ bool: true, str: \\"abc\\", num: 42 }),
+          comment: \\"x = asl.deploy.evalConst(o)\\"
       });"
     `);
   });
@@ -88,7 +92,8 @@ describe("when evaluating const", () => {
       });
       const x = asl.pass({
           name: \\"Assign x\\",
-          parameters: () => [1, 2, 3, 4]
+          parameters: () => [1, 2, 3, 4],
+          comment: \\"x = asl.deploy.evalConst(arr)\\"
       });"
     `);
   });

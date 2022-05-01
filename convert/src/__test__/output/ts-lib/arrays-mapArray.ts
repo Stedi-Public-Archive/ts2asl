@@ -35,7 +35,8 @@ export const mapArray = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (x === 1 || x === 3 || x === 5 || x === 7 || x == 9) {\n      return {\n        age: x,\n        species: \"dog\",\n      }\n    } else {\n      return {\n        age: x,\n        species: \"cat\",\n      }\n    }"
             })
-        }
+        },
+        comment: "myArray.map(x => {\n    if (x === 1 || x === 3 || x === 5 || x === 7 || x == 9) {\n      return {\n        age: x,\n        species: \"dog\",\n      }\n    } else {\n      return {\n        age: x,\n        species: \"cat\",\n      }\n    }\n  })"
     });
 });
 

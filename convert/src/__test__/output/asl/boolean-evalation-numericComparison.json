@@ -61,6 +61,7 @@
         }
       },
       "ItemsPath": "$.vars.items",
+      "Comment": "source: items.map(item => { if (item === condition) {  ...",
       "Parameters": {
         "vars": {
           "item.$": "$$.Map.Item.Value",

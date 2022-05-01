@@ -86,7 +86,8 @@ export const emptyForeach = asl.deploy.asStateMachine(async () =>{
         name: "For _number Of numbers",
         items: () => numbers,
         iterator: _number => {
-        }
+        },
+        comment: "for (const _number of numbers) {\n\n  }"
     })
     ;
     return "ok";

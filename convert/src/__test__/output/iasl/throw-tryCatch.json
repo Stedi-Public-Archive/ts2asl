@@ -67,6 +67,7 @@
           }
         }
       ],
+      "source": "try {\n    throw new NotImplemented(\"not implemented\")\n  } catch (err) {\n    if (err.Cause === \"NotImplemented\") {\n      return \"Todo\"\n    }\n  }",
       "_syntaxKind": "try"
     }
   ],

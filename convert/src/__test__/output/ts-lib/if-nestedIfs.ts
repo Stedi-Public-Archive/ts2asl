@@ -54,7 +54,8 @@ export const nestedIfs = asl.deploy.asStateMachine(async () =>{
         },
         else: async () => {
             val.f = "outer_else_2";
-        }
+        },
+        comment: "if (true) {\n    val.b = \"outer_1\";\n    val.c = \"outer_2\";\n    if (true) {\n      val.d = \"inner_1\";\n      val.e = \"inner_2\";\n    } else {\n      val.e = \"inner_else_2\";\n    }\n  } else {\n    val.f = \"outer_else_2\";\n  }"
     })
     val.g = "after";
     return val;

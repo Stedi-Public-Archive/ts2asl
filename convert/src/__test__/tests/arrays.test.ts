@@ -82,7 +82,7 @@ describe("when converting arrays", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign Result": Object {
-            "Comment": undefined,
+            "Comment": "source: myArray.map(x => { if (x === 1 || x === 3 || x ...",
             "ItemsPath": "$.vars.myArray",
             "Iterator": Object {
               "StartAt": "If (x === 1 || x === 3 || ...",
@@ -328,7 +328,7 @@ describe("when converting arrays", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign filterArray": Object {
-            "Comment": undefined,
+            "Comment": "source: filterArray = { cats: { young: mappedArray.fil ...",
             "Next": "Return filterArray",
             "Parameters": Object {
               "cats": Object {

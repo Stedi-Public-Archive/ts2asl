@@ -18,7 +18,8 @@ export const convertStringToNumber = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (str === \"42\") {\n      return \"succeeded\";\n    }"
             })
-        }
+        },
+        comment: "if (num === 42) {\n    const str = asl.convert.numberToString(num);\n    if (str === \"42\") {\n      return \"succeeded\";\n    }\n  }"
     })
     asl.fail({
         name: "Throw Error",

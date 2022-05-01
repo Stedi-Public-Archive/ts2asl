@@ -42,7 +42,8 @@
             "Throw Test Error": {
               "Type": "Fail",
               "Error": "Test Error",
-              "Cause": "Failed on purpose"
+              "Cause": "Failed on purpose",
+              "Comment": "source: throw asl.runtime.createError(\"Test Error\", \"F ..."
             }
           }
         }

@@ -22,7 +22,8 @@ const x = ExampleEnum.A;
       }
       const x = asl.pass({
           name: \\"Assign x\\",
-          parameters: () => 0
+          parameters: () => 0,
+          comment: \\"x = ExampleEnum.A\\"
       });"
     `);
   });
@@ -48,7 +49,8 @@ const x = ExampleEnum.A;
       }
       const x = asl.pass({
           name: \\"Assign x\\",
-          parameters: () => \\"real a\\"
+          parameters: () => \\"real a\\",
+          comment: \\"x = ExampleEnum.A\\"
       });"
     `);
   });

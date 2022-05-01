@@ -69,6 +69,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "do {\n    counter = `${counter}a`;\n  }\n  while (counter != \"aaaaa\")",
       "_syntaxKind": "do-while"
     },
     {

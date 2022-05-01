@@ -24,7 +24,8 @@ describe("when converting throw statements", () => {
       "asl.fail({
           name: \\"Throw error\\",
           error: \\"error\\",
-          cause: \\"reason here\\"
+          cause: \\"reason here\\",
+          comment: \\"throw asl.runtime.createError('error', 'reason here');\\"
       })"
     `);
   });

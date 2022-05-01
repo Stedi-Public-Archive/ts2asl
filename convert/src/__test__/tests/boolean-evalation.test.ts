@@ -291,7 +291,7 @@ describe("when converting boolean-evalation", () => {
             "Type": "Pass",
           },
           "Assign listWithRetunrned": Object {
-            "Comment": undefined,
+            "Comment": "source: items.map(item => { if (item === condition) {  ...",
             "ItemsPath": "$.vars.items",
             "Iterator": Object {
               "StartAt": "If (item === condition)",

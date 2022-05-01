@@ -26,6 +26,7 @@
           "Next": "Assign enclosedVar_1"
         }
       ],
+      "Comment": "source: if (true) { enclosedVar = \"outer if\"; if (true ...",
       "Default": "Assign enclosedVar_4"
     },
     "Assign enclosedVar_1": {

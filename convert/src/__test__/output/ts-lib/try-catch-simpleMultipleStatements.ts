@@ -54,7 +54,8 @@ export const simpleMultipleStatements = asl.deploy.asStateMachine(async () =>{
                     return "it failed";
                 }
             }
-        ]
+        ],
+        comment: "try {\n    const arr = [1]\n    const withinTry = arr.map(x => \"succeeded\");\n    return withinTry[0];\n  } catch {\n    return \"it failed\";\n  }"
     })
 });
 

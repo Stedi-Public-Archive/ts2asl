@@ -61,7 +61,7 @@ describe("when converting closures", () => {
             "Type": "Pass",
           },
           "numbers.map => number": Object {
-            "Comment": undefined,
+            "Comment": "source: numbers.map(number => { letters.map(letter =>  ...",
             "End": true,
             "ItemsPath": "$.vars.numbers",
             "Iterator": Object {

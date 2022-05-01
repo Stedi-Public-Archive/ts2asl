@@ -70,7 +70,8 @@ export const enclosedVars = asl.deploy.asStateMachine(async () =>{
         },
         else: async () => {
             enclosedVar = "outer else if";
-        }
+        },
+        comment: "if (true) {\n    enclosedVar = \"outer if\";\n    if (true) {\n      enclosedVar = \"inner if\";\n    } else {\n      enclosedVar = \"else if\";\n    }\n  } else {\n    enclosedVar = \"outer else if\";\n  }"
     })
     return enclosedVar;
 });

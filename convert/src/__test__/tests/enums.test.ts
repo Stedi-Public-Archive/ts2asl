@@ -10,7 +10,7 @@ describe("when converting enums", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign x": Object {
-            "Comment": undefined,
+            "Comment": "source: x = ExampleEnum.A",
             "Next": "If (x === ExampleEnum.A)",
             "Result": 0,
             "ResultPath": "$.vars.x",
@@ -24,7 +24,7 @@ describe("when converting enums", () => {
                 "Variable": "$.vars.x",
               },
             ],
-            "Comment": undefined,
+            "Comment": "source: if (x === ExampleEnum.A) { return \\"success\\" }",
             "Default": "Return \\"fail\\"",
             "Type": "Choice",
           },
@@ -59,7 +59,7 @@ describe("when converting enums", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign x": Object {
-            "Comment": undefined,
+            "Comment": "source: x = ExampleEnumString.A",
             "Next": "If (x === ExampleEnumStri ...",
             "Result": "a",
             "ResultPath": "$.vars.x",
@@ -73,7 +73,7 @@ describe("when converting enums", () => {
                 "Variable": "$.vars.x",
               },
             ],
-            "Comment": undefined,
+            "Comment": "source: if (x === ExampleEnumString.A) { return \\"succe ...",
             "Default": "Return \\"fail\\"",
             "Type": "Choice",
           },

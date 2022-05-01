@@ -85,6 +85,7 @@
         }
       },
       "ItemsPath": "$.vars.myArray",
+      "Comment": "source: myArray.map(x => { if (x === 1 || x === 3 || x ...",
       "Parameters": {
         "vars": {
           "x.$": "$$.Map.Item.Value"

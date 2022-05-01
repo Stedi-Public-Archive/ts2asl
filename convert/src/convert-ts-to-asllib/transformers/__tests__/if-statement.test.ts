@@ -165,7 +165,8 @@ describe("when converting if statements", () => {
               condition: () => 1 === 2,
               then: async () => { console.log() },
               comment: \\"if (1 === 2) console.log();\\"
-          }) }
+          }) },
+          comment: \\"if (lhs === rhs) console.log(); else if (1 === 2) console.log();\\"
       })"
     `);
   });

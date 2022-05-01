@@ -116,7 +116,7 @@ describe("when converting try-catch", () => {
                 "States": Object {
                   "Throw Test Error": Object {
                     "Cause": "Failed on purpose",
-                    "Comment": undefined,
+                    "Comment": "source: throw asl.runtime.createError(\\"Test Error\\", \\"F ...",
                     "Error": "Test Error",
                     "Type": "Fail",
                   },

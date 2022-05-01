@@ -8,14 +8,16 @@ enum ExampleEnum {
 export const compareEnum = asl.deploy.asStateMachine(async () =>{
     const x = asl.pass({
         name: "Assign x",
-        parameters: () => 0
+        parameters: () => 0,
+        comment: "x = ExampleEnum.A"
     });
     asl.typescriptIf({
         name: "If (x === ExampleEnum.A)",
         condition: () => x === 0,
         then: async () => {
             return "success";
-        }
+        },
+        comment: "if (x === ExampleEnum.A) {\n    return \"success\"\n  }"
     })
     return "fail";
 });

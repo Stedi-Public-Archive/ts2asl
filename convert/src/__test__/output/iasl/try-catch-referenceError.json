@@ -41,6 +41,7 @@
             "stateName": "Throw Test Error",
             "cause": "Failed on purpose",
             "error": "Test Error",
+            "source": "throw asl.runtime.createError(\"Test Error\", \"Failed on purpose\");",
             "_syntaxKind": "asl-fail-state"
           }
         ],
@@ -92,6 +93,7 @@
           }
         }
       ],
+      "source": "try {\n    result = \"succeeded\";\n\n    //asl.createError will create an node error with Error and Cause properties\n    throw asl.runtime.createError(\"Test Error\", \"Failed on purpose\");\n  } catch (err) {\n    result = `failed ${(err as asl.AslError).Error} (${(err as asl.AslError).Cause})`;\n  }",
       "_syntaxKind": "try"
     },
     {

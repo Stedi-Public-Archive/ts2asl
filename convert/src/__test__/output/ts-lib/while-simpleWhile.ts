@@ -11,7 +11,8 @@ export const simpleWhile = asl.deploy.asStateMachine(async () =>{
         condition: () => counter != "aaaaa",
         block: async () => {
             counter = asl.states.format("{}a", counter);
-        }
+        },
+        comment: "while (counter != \"aaaaa\") {\n    counter = `${counter}a`;\n  }"
     })
     return counter;
     ; //returns "aaaaa"
