@@ -1,6 +1,6 @@
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast"
-import { appendBlock, convertBlock, isNonTerminalState } from ".";
+import { appendBlock, convertBlock } from ".";
 import { createChoiceOperator } from "./choice-utility";
 import { createParameters, createParametersForMap } from "./parameters";
 import { createFilterExpression } from "./jsonpath-filter";

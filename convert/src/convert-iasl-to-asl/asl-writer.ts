@@ -157,7 +157,11 @@ export class AslWriter {
 
     if (this.startAt === undefined) {
       this.startAt = name;
+    } else if (this.trailingStates.length === 0) {
+      //unreachable code
+      return name;
     }
+
     this.states[name] = state;
     for (const trailingState of this.trailingStates) {
       if (trailingState.Type === "Choice") {
