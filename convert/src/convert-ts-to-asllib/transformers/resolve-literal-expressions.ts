@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import { ParserError } from '../../ParserError';
 import { literalExpressionToValue, valueToLiteralExpression } from '../../util';
 
 export const literalExpressionTransformer = <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
@@ -9,8 +10,12 @@ export const literalExpressionTransformer = <T extends ts.Node>(context: ts.Tran
       const left = literalExpressionToValue(node.left) as number;
       const right = literalExpressionToValue(node.right) as number;
 
-      if (left === undefined && right === undefined) {
-        return node;
+      if (left === undefined || right === undefined) {
+        if ([ts.SyntaxKind.PlusToken, ts.SyntaxKind.MinusToken, ts.SyntaxKind.AsteriskToken, ts.SyntaxKind.SlashToken].includes(node.operatorToken.kind)) {
+          throw new ParserError("unable to resolve binary expression", node);
+        } else {
+          return node;
+        }
       }
 
       switch (node.operatorToken.kind) {
