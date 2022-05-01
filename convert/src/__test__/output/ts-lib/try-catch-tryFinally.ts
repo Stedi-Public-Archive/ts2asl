@@ -18,7 +18,9 @@ export const referenceError = asl.deploy.asStateMachine(async () => {
   let result = "";
   try {
     result = "succeeded";
-    throw new Error("fail");
+
+    //asl.createError will create an node error with Error and Cause properties
+    throw asl.runtime.createError("Test Error", "Failed on purpose");
   } catch (err) {
     result = `failed ${(err as asl.AslError).Error} (${(err as asl.AslError).Cause})`;
   }

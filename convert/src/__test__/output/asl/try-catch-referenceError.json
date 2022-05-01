@@ -37,13 +37,12 @@
       "End": true,
       "Branches": [
         {
-          "StartAt": "Throw Error",
+          "StartAt": "Throw Test Error",
           "States": {
-            "Throw Error": {
+            "Throw Test Error": {
               "Type": "Fail",
-              "Error": "Error",
-              "Cause": "fail",
-              "Comment": "source: throw new Error(\"fail\");"
+              "Error": "Test Error",
+              "Cause": "Failed on purpose"
             }
           }
         }

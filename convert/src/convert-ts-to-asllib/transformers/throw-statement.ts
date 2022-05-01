@@ -11,11 +11,12 @@ export const throwStatementTransformer = (converterOptions: ConverterOptions) =>
 
     if (ts.isThrowStatement(node)) {
       if (!ts.isNewExpression(node.expression)) throw new ParserError(`throw statement must have new expression`, node);
+      if (!ts.isIdentifier(node.expression.expression)) throw new ParserError(`throw statement must throw new type`, node);
       if (node.expression.arguments && 2 <= node.expression.arguments.length) throw new ParserError(`error thrown must not have 2 or more arguments`, node);
       if (node.expression.arguments && node.expression.arguments.length === 1 && !ts.isStringLiteral(node.expression.arguments[0])) throw new ParserError(`error thrown must have string literal as argument`, node);
 
 
-      const errorName = node.expression.expression.getText();
+      const errorName = node.expression.expression.escapedText.toString();
       const error = TransformUtil.createLiteral("error", errorName);
       const comment = TransformUtil.createComment(node);
       let cause: ts.PropertyAssignment | undefined;

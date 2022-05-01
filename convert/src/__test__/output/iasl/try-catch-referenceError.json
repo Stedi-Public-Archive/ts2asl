@@ -38,10 +38,9 @@
             "_syntaxKind": "variable-assignment"
           },
           {
-            "stateName": "Throw Error",
-            "cause": "fail",
-            "error": "Error",
-            "source": "throw new Error(\"fail\");",
+            "stateName": "Throw Test Error",
+            "cause": "Failed on purpose",
+            "error": "Test Error",
             "_syntaxKind": "asl-fail-state"
           }
         ],
