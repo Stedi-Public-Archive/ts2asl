@@ -1,0 +1,41 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign x"
+    },
+    "Assign x": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.x",
+      "Result": 0,
+      "Next": "If (x === ExampleEnum.A)"
+    },
+    "If (x === ExampleEnum.A)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.x",
+          "NumericEquals": 0,
+          "Next": "Return \"success\""
+        }
+      ],
+      "Default": "Return \"fail\""
+    },
+    "Return \"success\"": {
+      "End": true,
+      "Type": "Pass",
+      "Result": "success"
+    },
+    "Return \"fail\"": {
+      "End": true,
+      "Type": "Pass",
+      "Result": "fail"
+    }
+  }
+}

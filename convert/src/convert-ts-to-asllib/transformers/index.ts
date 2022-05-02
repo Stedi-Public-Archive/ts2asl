@@ -22,10 +22,12 @@ import { deployTimeStatementTransformer } from "./deploy-time-replacements";
 import { stringConversionTransformer } from "./string-conversion";
 import { ICompilerHost } from "../../compiler-host";
 import { evalConstTransformer } from "./eval-const";
+import { enumValueTransformer } from "./enum-values";
 
 export const createTransformers = (converterOptions: ConverterOptions = {}, host: ICompilerHost) => {
   return [
     evalConstTransformer(host.typeChecker),
+    enumValueTransformer(host.typeChecker),
     removeUnnecessaryExpressionsTransformer(converterOptions),
     unsupportedStatementTransformer(converterOptions),
     ifStatementTransformer(converterOptions),

@@ -43,6 +43,7 @@ interface IInput {
 * [throwing errors](./examples/throw.md)
 * [input validation](./examples/input-validation.md)
 * [enclosed variables](./examples/closures.md)
+* [enum literals](./examples/enums.md)
 * [if statements](./examples/if.md)
 * [for ... of statements](./examples/for-each.md)
 * [do while statements](./examples/do-while.md)
