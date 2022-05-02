@@ -112,12 +112,12 @@ describe("when converting try-catch", () => {
           "Fail State Wrapper": Object {
             "Branches": Array [
               Object {
-                "StartAt": "Throw Error",
+                "StartAt": "Throw Test Error",
                 "States": Object {
-                  "Throw Error": Object {
-                    "Cause": "fail",
-                    "Comment": "source: throw new Error(\\"fail\\");",
-                    "Error": "Error",
+                  "Throw Test Error": Object {
+                    "Cause": "Failed on purpose",
+                    "Comment": undefined,
+                    "Error": "Test Error",
                     "Type": "Fail",
                   },
                 },

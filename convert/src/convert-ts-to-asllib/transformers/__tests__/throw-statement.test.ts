@@ -1,4 +1,5 @@
 import { testTransform } from "../../__tests__/test-transform";
+import { deployTimeStatementTransformer } from "../deploy-time-replacements";
 import { throwStatementTransformer } from "../throw-statement";
 
 describe("when converting throw statements", () => {
@@ -9,6 +10,21 @@ describe("when converting throw statements", () => {
           name: \\"Throw Error\\",
           error: \\"Error\\",
           comment: \\"throw new Error()\\"
+      })"
+    `);
+  });
+
+  it("then runtime.createError will become ASL.Fail", () => {
+    expect(
+      testTransform("throw asl.runtime.createError('error', 'reason here');", [
+        deployTimeStatementTransformer,
+        throwStatementTransformer({})
+      ])
+    ).toMatchInlineSnapshot(`
+      "asl.fail({
+          name: \\"Throw error\\",
+          error: \\"error\\",
+          cause: \\"reason here\\"
       })"
     `);
   });

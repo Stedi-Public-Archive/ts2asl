@@ -25,10 +25,9 @@ export const referenceError = asl.deploy.asStateMachine(async () =>{
         try: async () => {
             result = "succeeded";
             asl.fail({
-                name: "Throw Error",
-                error: "Error",
-                cause: "fail",
-                comment: "throw new Error(\"fail\");"
+                name: "Throw Test Error",
+                error: "Test Error",
+                cause: "Failed on purpose"
             })
         },
         catch: [

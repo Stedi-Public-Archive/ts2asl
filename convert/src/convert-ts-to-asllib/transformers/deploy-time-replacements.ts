@@ -13,9 +13,15 @@ export const deployTimeStatementTransformer = <T extends ts.Node>(context: ts.Tr
 
       if (ts.isCallExpression(node)) {
         let type = isAslCallExpression(node);
+        if (type === "runtime.createError") {
+          if (node.arguments.length !== 2) throw new Error(`call to asl.runtime.createError must have 2 arguments`);
+          if (!ts.isStringLiteral(node.arguments[0])) throw new Error(`first argument to asl.runtime.createError must be a literal string (not a variable)`);
+          if (!ts.isStringLiteral(node.arguments[1])) throw new Error(`second argument to asl.runtime.createError must be a literal string (not a variable)`);
 
+          return ts.factory.createNewExpression(ts.factory.createIdentifier(node.arguments[0].text), undefined, [node.arguments[1]])
+        }
         if (type === "deploy.getParameter") {
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error(`first argument to asl.deploy.getParameter must be a literal (not a variable)`);
+          if (!ts.isStringLiteral(node.arguments[0])) throw new Error(`first argument to asl.deploy.getParameter must be a literal string (not a variable)`);
           const paramName = node.arguments[0].text;
           const val = asl.deploy.getParameter(paramName);
 
