@@ -1,7 +1,6 @@
 import { testTransform } from "../../__tests__/test-transform";
 import { literalExpressionTransformer } from "../resolve-literal-expressions";
 
-
 describe("when converting constant expressions", () => {
   it("then simple binary expressions get converted", () => {
     expect(
@@ -17,6 +16,39 @@ describe("when converting constant expressions", () => {
       const b = \\"one2\\";
       const c = 3;"
     `);
+  });
+  it("throws for expressions with identifier", () => {
+    expect(() => {
+      testTransform(
+        `
+      const a = 'one' + 'two';
+      const b = 'one' + a;
+      `,
+        literalExpressionTransformer
+      )
+    }
+    ).toThrowError();
+
+    expect(() => {
+      testTransform(
+        `
+      const a = 'one' + 'two';
+      const b = a + 'three';
+      `,
+        literalExpressionTransformer
+      )
+    }
+    ).toThrowError();
+    expect(() => {
+      testTransform(
+        `
+    const a = 'one' + 'two';
+    const b = 'one' + (a);
+    `,
+        literalExpressionTransformer
+      )
+    }
+    ).toThrowError()
   });
   it("then simple template expressions get converted", () => {
     expect(
@@ -36,13 +68,19 @@ describe("when converting constant expressions", () => {
     expect(
       testTransform(
         'const a = { attrib : "abc" + asl.deploy.getParameter("param") };' +
-        'const b = { attrib : `a${asl.deploy.getParameter("param")} c` };',
-
-        literalExpressionTransformer
+        'const b = { attrib : `a${asl.deploy.getParameter("param")} c` };'
       )
     ).toMatchInlineSnapshot(`
-      "const a = { attrib: \\"abcundefined\\" };
-      const b = { attrib: \`a\${asl.deploy.getParameter(\\"param\\")} c\` };"
+      "const a = asl.pass({
+          name: \\"Assign a\\",
+          parameters: () => ({ attrib: \\"abc[!parameter[param]]\\" }),
+          comment: \\"a = { attrib : \\\\\\"abc\\\\\\" + asl.deploy.getParameter(\\\\\\"param\\\\\\") }\\"
+      });
+      const b = asl.pass({
+          name: \\"Assign b\\",
+          parameters: () => ({ attrib: \\"a[!parameter[param]] c\\" }),
+          comment: \\"b = { attrib : \`a\${asl.deploy.getParameter(\\\\\\"param\\\\\\")} c\` }\\"
+      });"
     `);
   });
 });
