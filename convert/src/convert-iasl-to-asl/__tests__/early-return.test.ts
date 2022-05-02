@@ -12,8 +12,7 @@ describe("when transpiling early return", () => {
         return "ok";
       }
       throw new Error("should not get here");
-    `,
-      createTransformers({})
+    `
     );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });

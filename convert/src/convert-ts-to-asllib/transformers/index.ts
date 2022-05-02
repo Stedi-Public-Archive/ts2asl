@@ -20,9 +20,12 @@ import { stringTemplateTransformer } from "./string-template";
 import { literalExpressionTransformer } from "./resolve-literal-expressions";
 import { deployTimeStatementTransformer } from "./deploy-time-replacements";
 import { stringConversionTransformer } from "./string-conversion";
+import { ICompilerHost } from "../../compiler-host";
+import { evalConstTransformer } from "./eval-const";
 
-export const createTransformers = (converterOptions: ConverterOptions = {}) => {
+export const createTransformers = (converterOptions: ConverterOptions = {}, host: ICompilerHost) => {
   return [
+    evalConstTransformer(host.typeChecker),
     removeUnnecessaryExpressionsTransformer(converterOptions),
     unsupportedStatementTransformer(converterOptions),
     ifStatementTransformer(converterOptions),

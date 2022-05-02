@@ -15,10 +15,7 @@ describe("when converting choice statement to iasl", () => {
       }
     }
     `;
-    const transformed = testTransform(
-      code,
-      createTransformers({ lineNumbersInStateNames: true })
-    );
+    const transformed = testTransform(code);
     const result = testConvertToIntermediaryAst(transformed, "input", {
       lineNumbersInStateNames: true
     });
@@ -41,7 +38,7 @@ describe("when converting choice statement to iasl", () => {
                 "value": "hello",
               },
               "source": "xxx = \\"hello\\"",
-              "stateName": "5: Assign xxx",
+              "stateName": "Assign xxx",
             },
             "name": Object {
               "_syntaxKind": "identifier",
@@ -66,7 +63,7 @@ describe("when converting choice statement to iasl", () => {
                 "value": "anotherString",
               },
             },
-            "stateName": "5: If (xxx === \\"anotherString\\")",
+            "stateName": "If (xxx === \\"anotherString\\")",
             "then": Object {
               "_syntaxKind": "function",
               "statements": Array [
@@ -80,7 +77,7 @@ describe("when converting choice statement to iasl", () => {
                       "value": 42,
                     },
                     "source": "num = 42",
-                    "stateName": "7: Assign num",
+                    "stateName": "Assign num",
                   },
                   "name": Object {
                     "_syntaxKind": "identifier",
@@ -108,7 +105,7 @@ describe("when converting choice statement to iasl", () => {
                   "source": "if (num === 12) {
               
             }",
-                  "stateName": "7: If (num === 12)",
+                  "stateName": "If (num === 12)",
                   "then": Object {
                     "_syntaxKind": "function",
                     "statements": Array [],

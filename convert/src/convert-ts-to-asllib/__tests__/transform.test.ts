@@ -17,24 +17,21 @@ describe("when converting source files", () => {
     }
   }
       `;
-    const output = testTransform(
-      code,
-      createTransformers({ lineNumbersInStateNames: true })
-    );
+    const output = testTransform(code);
 
     expect(output).toMatchInlineSnapshot(`
       "let completedActions: string[] = asl.pass({
-          name: \\"3: Assign completedActions\\",
+          name: \\"Assign completedActions\\",
           parameters: () => [],
           comment: \\"completedActions: string[] = []\\"
       });
       let getActionsArgs = asl.pass({
-          name: \\"4: Assign getActionsArgs\\",
+          name: \\"Assign getActionsArgs\\",
           parameters: () => ({ targetState: desiredStateTemplate, completedActions }),
           comment: \\"getActionsArgs = { targetState: desiredStateTemplate, completedActions }\\"
       });
       let remainingActions = await asl.typescriptInvoke({
-          name: \\"5: getNextActions(getNextAct ...\\",
+          name: \\"getNextActions(getNextAct ...\\",
           resource: getNextActions,
           parameters: () => getNextActionsArg,
           comment: \\"getNextActions(getNextActionsArg)\\"
@@ -44,17 +41,17 @@ describe("when converting source files", () => {
           condition: () => asl.jsonPathLength(remainingActions) !== 0,
           block: async () => {
               const results = await asl.typescriptInvoke({
-                  name: \\"7: performAction(getActionsArgs)\\",
+                  name: \\"performAction(getActionsArgs)\\",
                   resource: performAction,
                   parameters: () => getActionsArgs,
                   comment: \\"performAction(getActionsArgs)\\"
               });
               asl.typescriptIf({
-                  name: \\"7: If (results[0].status === ...\\",
+                  name: \\"If (results[0].status === ...\\",
                   condition: () => results[0].status === \\"failed\\",
                   then: async () => {
                       asl.fail({
-                          name: \\"8: Throw Error\\",
+                          name: \\"Throw Error\\",
                           error: \\"Error\\",
                           cause: \\"task failed\\",
                           comment: \\"throw new Error(\\\\\\"task failed\\\\\\")\\"
@@ -63,11 +60,11 @@ describe("when converting source files", () => {
                   comment: \\"if (results[0].status === \\\\\\"failed\\\\\\") {\\\\n      throw new Error(\\\\\\"task failed\\\\\\")\\\\n    }\\"
               })
               asl.typescriptIf({
-                  name: \\"10: If (results[0].status !== ...\\",
+                  name: \\"If (results[0].status !== ...\\",
                   condition: () => results[0].status !== \\"failed\\",
                   then: async () => {
                       remainingActions = await asl.typescriptInvoke({
-                          name: \\"12: getNextActions(getActions ...\\",
+                          name: \\"getNextActions(getActions ...\\",
                           resource: getNextActions,
                           parameters: () => getActionsArgs,
                           comment: \\"getNextActions(getActionsArgs)\\"
@@ -87,7 +84,7 @@ describe("when converting source files", () => {
             page = await ASL.Task({ Resource: "arn:aws:states:::apigateway:invoke" });
         }
             `;
-    const output = testTransform(code, createTransformers({}));
+    const output = testTransform(code);
     expect(output).toMatchInlineSnapshot(`
       "let page = await ASL.Task({ Resource: \\"arn:aws:states:::apigateway:invoke\\" });
       asl.typescriptWhile({

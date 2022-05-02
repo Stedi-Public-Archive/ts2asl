@@ -12,8 +12,7 @@ describe("when transpiling simple statements", () => {
       asl.wait({seconds : 2});
       result = isDone();
     }
-    `,
-      createTransformers({ lineNumbersInStateNames: true })
+    `
     );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
@@ -21,16 +20,6 @@ describe("when transpiling simple statements", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "6: isDone()": Object {
-            "Comment": "source: isDone()",
-            "HeartbeatSeconds": undefined,
-            "Next": "While Condition",
-            "Resource": "[!lambda[isDone]arn]",
-            "ResultPath": "$.vars.result",
-            "Retry": undefined,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
           "Assign result": Object {
             "Comment": "source: result = 0",
             "Next": "While Condition",
@@ -49,7 +38,7 @@ describe("when transpiling simple statements", () => {
           },
           "Wait": Object {
             "Comment": undefined,
-            "Next": "6: isDone()",
+            "Next": "isDone()",
             "Seconds": 2,
             "Type": "Wait",
           },
@@ -68,6 +57,16 @@ describe("when transpiling simple statements", () => {
             "End": true,
             "ResultPath": null,
             "Type": "Pass",
+          },
+          "isDone()": Object {
+            "Comment": "source: isDone()",
+            "HeartbeatSeconds": undefined,
+            "Next": "While Condition",
+            "Resource": "[!lambda[isDone]arn]",
+            "ResultPath": "$.vars.result",
+            "Retry": undefined,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
         },
       }

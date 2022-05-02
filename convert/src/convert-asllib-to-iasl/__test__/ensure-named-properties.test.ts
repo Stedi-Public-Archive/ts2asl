@@ -5,12 +5,9 @@ import { removeUnnecessaryExpressionsTransformer } from "../../convert-ts-to-asl
 describe("when converting unnamed properties", () => {
   it("statement becomes invoke", () => {
     expect(
-      testTransform(
-        `
+      testTransform(`
           const x = {a, b, c, d:e};
-    `,
-        ensureNamedPropertiesTransformer
-      )
+    `, ensureNamedPropertiesTransformer)
     ).toMatchInlineSnapshot(`"const x = { a: a, b: b, c: c, d: e };"`);
   });
 });

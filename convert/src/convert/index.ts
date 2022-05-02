@@ -36,7 +36,7 @@ export class Converter {
   typeChecker: ts.TypeChecker;
   program: ts.Program;
 
-  constructor(compilerHost: ICompilerHost) {
+  constructor(private readonly compilerHost: ICompilerHost) {
     this.sourceFile = compilerHost.sourceFile;
     this.typeChecker = compilerHost.typeChecker;
     this.program = compilerHost.program;
@@ -71,7 +71,7 @@ export class Converter {
         let transpiled: iasl.StateMachine = { _syntaxKind: iasl.SyntaxKind.StateMachine, statements: [] };
         let asl: asl.StateMachine | undefined;
         try {
-          transformed = transformBody(body, optionsWithDefaults);
+          transformed = transformBody(body, this.compilerHost, optionsWithDefaults);
           transpiled = convertToIntermediaryAsl(transformed, { converterOptions: optionsWithDefaults, typeChecker: this.typeChecker, inputArgumentName: decl.inputArgName, contextArgumentName: decl.contextArgName });
           asl = convert(transpiled, optionsWithDefaults)!;
         } catch (err) {

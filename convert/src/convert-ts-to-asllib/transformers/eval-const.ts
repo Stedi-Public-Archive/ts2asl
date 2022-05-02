@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
-import { ParserError } from '../ParserError';
-import { isAslCallExpression } from '../convert-ts-to-asllib/transformers/node-utility';
+import { ParserError } from '../../ParserError';
+import { isAslCallExpression } from './node-utility';
 const factory = ts.factory;
 
 
