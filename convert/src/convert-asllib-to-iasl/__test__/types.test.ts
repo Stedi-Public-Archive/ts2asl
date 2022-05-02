@@ -63,6 +63,12 @@ describe("when converting choice statement to iasl", () => {
                 "value": "anotherString",
               },
             },
+            "source": "if (xxx === \\"anotherString\\") {
+            const num = 42;
+            if (num === 12) {
+              
+            }
+          }",
             "stateName": "If (xxx === \\"anotherString\\")",
             "then": Object {
               "_syntaxKind": "function",

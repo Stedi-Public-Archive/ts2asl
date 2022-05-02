@@ -29,7 +29,8 @@ export const convertStringToBoolean = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (str === \"true\") {\n      return \"succeeded\";\n    }"
             })
-        }
+        },
+        comment: "if (bool === true) {\n    const str = asl.convert.booleanToString(bool);\n    if (str === \"true\") {\n      return \"succeeded\";\n    }\n  }"
     })
     asl.fail({
         name: "Throw Error",

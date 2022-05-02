@@ -14,6 +14,7 @@
       "Type": "Pass",
       "ResultPath": "$.vars.x",
       "Result": 0,
+      "Comment": "source: x = ExampleEnum.A",
       "Next": "If (x === ExampleEnum.A)"
     },
     "If (x === ExampleEnum.A)": {
@@ -25,6 +26,7 @@
           "Next": "Return \"success\""
         }
       ],
+      "Comment": "source: if (x === ExampleEnum.A) { return \"success\" }",
       "Default": "Return \"fail\""
     },
     "Return \"success\"": {

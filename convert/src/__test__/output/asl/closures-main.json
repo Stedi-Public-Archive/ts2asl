@@ -113,6 +113,7 @@
         }
       },
       "ItemsPath": "$.vars.numbers",
+      "Comment": "source: numbers.map(number => { letters.map(letter =>  ...",
       "Parameters": {
         "vars": {
           "number.$": "$$.Map.Item.Value",

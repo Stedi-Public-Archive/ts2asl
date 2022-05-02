@@ -27,7 +27,8 @@ export const tryCatch = asl.deploy.asStateMachine(async (input: Input) =>{
                     })
                 }
             }
-        ]
+        ],
+        comment: "try {\n    throw new NotImplemented(\"not implemented\")\n  } catch (err) {\n    if (err.Cause === \"NotImplemented\") {\n      return \"Todo\"\n    }\n  }"
     })
 });
 

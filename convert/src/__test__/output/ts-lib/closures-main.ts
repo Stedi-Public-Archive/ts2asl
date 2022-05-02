@@ -43,7 +43,8 @@ export const main = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "letters.map(letter => {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      doSomething(combined);\n    })"
             });
-        }
+        },
+        comment: "numbers.map(number => {\n    letters.map(letter => {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      doSomething(combined);\n    });\n  })"
     });
 });
 

@@ -20,7 +20,8 @@ export const simpleDoAlwaysFalse = asl.deploy.asStateMachine(async () =>{
         condition: () => false,
         block: async () => {
             counter = asl.states.format("{}a", counter);
-        }
+        },
+        comment: "do {\n    counter = `${counter}a`;\n  }\n  while (false)"
     })
     return counter; //returns "1"
 });

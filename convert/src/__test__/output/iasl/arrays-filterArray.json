@@ -338,6 +338,7 @@
           },
           "_syntaxKind": "literal-object"
         },
+        "source": "filterArray = {\n    cats: {\n      young: mappedArray.filter(x => x.species === \"cat\" && x.age < 5),\n      old: mappedArray.filter(x => x.species === \"cat\" && x.age >= 5),\n    },\n    dogs: {\n      young: mappedArray.filter(x => x.species === \"dog\" && x.age < 5),\n      old: mappedArray.filter(x => x.species === \"dog\" && x.age >= 5),\n    }\n  }",
         "_syntaxKind": "asl-pass-state"
       },
       "stateName": "Assign filterArray",

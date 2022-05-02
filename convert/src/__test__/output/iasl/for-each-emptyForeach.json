@@ -54,6 +54,7 @@
         "statements": [],
         "_syntaxKind": "function"
       },
+      "source": "for (const _number of numbers) {\n\n  }",
       "_syntaxKind": "for-each"
     },
     {

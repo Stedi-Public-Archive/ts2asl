@@ -63,6 +63,7 @@
           "old.$": "$.vars.mappedArray[?(@.species == 'dog' && @.age >= 5)]"
         }
       },
+      "Comment": "source: filterArray = { cats: { young: mappedArray.fil ...",
       "Next": "Return filterArray"
     },
     "Return filterArray": {

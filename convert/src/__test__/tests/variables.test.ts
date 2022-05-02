@@ -27,7 +27,7 @@ describe("when converting variables", () => {
             "Type": "Pass",
           },
           "Assign y": Object {
-            "Comment": undefined,
+            "Comment": "source: y = { x, somethingLiteral: [\\"one\\", 2, \\"three\\"] ...",
             "Next": "Return y",
             "Parameters": Object {
               "arr.$": "States.Array(1, 2, 3, 4, 5, 6)",

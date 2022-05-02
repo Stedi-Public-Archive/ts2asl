@@ -27,7 +27,8 @@ export const referenceError = asl.deploy.asStateMachine(async () =>{
             asl.fail({
                 name: "Throw Test Error",
                 error: "Test Error",
-                cause: "Failed on purpose"
+                cause: "Failed on purpose",
+                comment: "throw asl.runtime.createError(\"Test Error\", \"Failed on purpose\");"
             })
         },
         catch: [
@@ -39,7 +40,8 @@ export const referenceError = asl.deploy.asStateMachine(async () =>{
                     result = asl.states.format("failed {} ({})", err.Error, err.Cause);
                 }
             }
-        ]
+        ],
+        comment: "try {\n    result = \"succeeded\";\n\n    //asl.createError will create an node error with Error and Cause properties\n    throw asl.runtime.createError(\"Test Error\", \"Failed on purpose\");\n  } catch (err) {\n    result = `failed ${(err as asl.AslError).Error} (${(err as asl.AslError).Cause})`;\n  }"
     })
     return result;
 });

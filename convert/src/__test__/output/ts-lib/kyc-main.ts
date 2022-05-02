@@ -12,7 +12,8 @@ export const main = asl.deploy.asStateMachine(async () =>{
                 comment: "performIdentifyCheck()"
             }); return return_var; },
             () => { return { agencyChecked: true }; }
-        ]
+        ],
+        comment: "Promise.all([\n    performIdentifyCheck(),\n    Promise.resolve({ agencyChecked: true }),\n  ])"
     });
     await asl.sdkEventBridgePutEvents({
         parameters: {

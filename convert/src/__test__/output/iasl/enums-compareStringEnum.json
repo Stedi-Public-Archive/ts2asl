@@ -13,6 +13,7 @@
           "type": "string",
           "_syntaxKind": "literal"
         },
+        "source": "x = ExampleEnumString.A",
         "_syntaxKind": "asl-pass-state"
       },
       "stateName": "Assign x",
@@ -48,6 +49,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "if (x === ExampleEnumString.A) {\n    return \"success\"\n  }",
       "_syntaxKind": "if"
     },
     {

@@ -59,7 +59,8 @@ export const filterArray = asl.deploy.asStateMachine(async () =>{
                 young: asl.jsonPathFilter(mappedArray, (x) => x.species === "dog" && x.age < 5),
                 old: asl.jsonPathFilter(mappedArray, (x) => x.species === "dog" && x.age >= 5),
             }
-        })
+        }),
+        comment: "filterArray = {\n    cats: {\n      young: mappedArray.filter(x => x.species === \"cat\" && x.age < 5),\n      old: mappedArray.filter(x => x.species === \"cat\" && x.age >= 5),\n    },\n    dogs: {\n      young: mappedArray.filter(x => x.species === \"dog\" && x.age < 5),\n      old: mappedArray.filter(x => x.species === \"dog\" && x.age >= 5),\n    }\n  }"
     });
     return filterArray;
 });

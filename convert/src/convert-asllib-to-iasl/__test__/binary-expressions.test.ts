@@ -309,7 +309,11 @@ describe("when converting binary expressions to iasl", () => {
               },
               "maxConcurrency": undefined,
               "retry": undefined,
-              "source": undefined,
+              "source": "items.map(item => {
+              if (item === condition) {
+                return { returned : item };
+              }
+            })",
               "stateName": "items.map => item",
             },
             "name": Object {

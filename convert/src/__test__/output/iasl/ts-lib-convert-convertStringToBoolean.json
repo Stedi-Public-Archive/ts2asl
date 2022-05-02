@@ -99,6 +99,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "if (bool === true) {\n    const str = asl.convert.booleanToString(bool);\n    if (str === \"true\") {\n      return \"succeeded\";\n    }\n  }",
       "_syntaxKind": "if"
     },
     {

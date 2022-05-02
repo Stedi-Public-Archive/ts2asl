@@ -113,6 +113,7 @@
           ],
           "_syntaxKind": "function"
         },
+        "source": "items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n  })",
         "_syntaxKind": "asl-map-state"
       },
       "stateName": "Assign listWithRetunrned",

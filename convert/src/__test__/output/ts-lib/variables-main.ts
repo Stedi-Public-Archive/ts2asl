@@ -29,7 +29,8 @@ export const main = asl.deploy.asStateMachine(async (input: IInput, context: Sta
             fmt: asl.states.format("hello {}", x),
             number: asl.states.stringToJson("123"),
             arr: asl.states.array(1, 2, 3, 4, 5, 6),
-        })
+        }),
+        comment: "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    fmt: asl.states.format(\"hello {}\", x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }"
     });
     return y;
 });

@@ -61,7 +61,8 @@ export const numericComparison = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (item === condition) {\n      return { returned: item };\n    }"
             })
-        }
+        },
+        comment: "items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n  })"
     });
     const item = asl.jsonPathFilter(listWithRetunrned, (x) => x.returned);
     return item;

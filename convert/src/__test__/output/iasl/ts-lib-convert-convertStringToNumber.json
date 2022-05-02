@@ -99,6 +99,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "if (num === 42) {\n    const str = asl.convert.numberToString(num);\n    if (str === \"42\") {\n      return \"succeeded\";\n    }\n  }",
       "_syntaxKind": "if"
     },
     {
