@@ -8,20 +8,20 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Assign vars"
+      "Next": "Fail State Wrapper"
     },
-    "Assign vars": {
-      "Type": "Pass",
-      "ResultPath": "$.vars",
-      "InputPath": "$.vars[0]",
-      "Next": "Parallel"
-    },
-    "Parallel": {
+    "Fail State Wrapper": {
       "Type": "Parallel",
-      "ResultPath": "$.vars",
-      "Parameters": {
-        "vars.$": "$.vars"
-      },
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.vars.err",
+          "Next": "If (err.Cause === \"NotImp ..."
+        }
+      ],
+      "End": true,
       "Branches": [
         {
           "StartAt": "Throw NotImplemented",
@@ -34,58 +34,28 @@
             }
           }
         }
-      ],
-      "Catch": [
+      ]
+    },
+    "If (err.Cause === \"NotImp ...": {
+      "Type": "Choice",
+      "Choices": [
         {
-          "Next": "Parallel_1",
-          "ErrorEquals": [
-            "States.ALL"
-          ],
-          "ResultPath": "$.vars.err"
+          "Variable": "$.vars.err.Cause",
+          "StringEquals": "NotImplemented",
+          "Next": "Return \"Todo\""
         }
       ],
-      "End": true
+      "Comment": "source: if (err.Cause === \"NotImplemented\") { return \" ...",
+      "Default": "Empty Default Choice"
     },
-    "Parallel_1": {
-      "Type": "Parallel",
-      "ResultPath": "$.vars",
-      "Parameters": {
-        "vars.$": "$.vars"
-      },
-      "Branches": [
-        {
-          "StartAt": "If (err.Cause === \"NotImp ...",
-          "States": {
-            "If (err.Cause === \"NotImp ...": {
-              "Type": "Choice",
-              "Choices": [
-                {
-                  "Variable": "$.vars.err.Cause",
-                  "StringEquals": "NotImplemented",
-                  "Next": "Return \"Todo\""
-                }
-              ],
-              "Comment": "source: if (err.Cause === \"NotImplemented\") { return \" ...",
-              "Default": "Empty Default Choice"
-            },
-            "Return \"Todo\"": {
-              "End": true,
-              "Type": "Pass",
-              "Result": "Todo"
-            },
-            "Empty Default Choice": {
-              "Type": "Pass",
-              "ResultPath": null,
-              "End": true
-            }
-          }
-        }
-      ],
-      "Next": "Return From Scope"
-    },
-    "Return From Scope": {
+    "Return \"Todo\"": {
+      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars[0]",
+      "Result": "Todo"
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "ResultPath": null,
       "End": true
     }
   }

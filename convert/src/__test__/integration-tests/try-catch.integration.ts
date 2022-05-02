@@ -8,6 +8,12 @@ describe("when converting try-catch", () => {
         const resultFromNode = await simpleTry();
         expect(resultFromSfn).toEqual(resultFromNode);
     });
+    it("will execute referenceError as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("try-catch", "referenceError");
+        const { referenceError } = require("../resources/try-catch");
+        const resultFromNode = await referenceError();
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
     it("will execute simpleMultipleStatements as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("try-catch", "simpleMultipleStatements");
         const { simpleMultipleStatements } = require("../resources/try-catch");

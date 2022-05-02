@@ -26,15 +26,6 @@
       ],
       "ResultPath": null,
       "Type": "Parallel",
-      "Catch": [
-        {
-          "Next": "Parallel_1",
-          "ErrorEquals": [
-            "UnexpectedError"
-          ],
-          "ResultPath": "$.vars.error"
-        }
-      ],
       "Retry": [
         {
           "ErrorEquals": [
@@ -45,59 +36,47 @@
           "BackoffRate": 1.5
         }
       ],
-      "End": true
-    },
-    "Parallel_1": {
-      "Type": "Parallel",
-      "ResultPath": "$.vars",
-      "Parameters": {
-        "vars.$": "$.vars"
-      },
-      "Branches": [
+      "Catch": [
         {
-          "StartAt": "Evaluate Format('cause {} ...",
-          "States": {
-            "Evaluate Format('cause {} ...": {
-              "Type": "Pass",
-              "ResultPath": "$.tmp.eval",
-              "Parameters": {
-                "value.$": "States.Format('cause {}', $.vars.error.Cause)"
-              },
-              "Comment": "source: result of an expression cannot be placed in In ...",
-              "Next": "Log (`cause ${error.Cause}`)"
-            },
-            "Log (`cause ${error.Cause}`)": {
-              "Type": "Pass",
-              "ResultPath": null,
-              "InputPath": "$.tmp.eval.value",
-              "Comment": "source: console.log(`cause ${error.Cause}`)",
-              "Next": "Evaluate Format('message ..."
-            },
-            "Evaluate Format('message ...": {
-              "Type": "Pass",
-              "ResultPath": "$.tmp.eval",
-              "Parameters": {
-                "value.$": "States.Format('message {}', $.vars.error.Error)"
-              },
-              "Comment": "source: result of an expression cannot be placed in In ...",
-              "Next": "Log (`message ${error.Err ..."
-            },
-            "Log (`message ${error.Err ...": {
-              "Type": "Pass",
-              "ResultPath": null,
-              "InputPath": "$.tmp.eval.value",
-              "Comment": "source: console.log(`message ${error.Error}`)",
-              "End": true
-            }
-          }
+          "ErrorEquals": [
+            "UnexpectedError"
+          ],
+          "ResultPath": "$.vars.error",
+          "Next": "Evaluate Format('cause {} ..."
         }
       ],
-      "Next": "Assign vars"
+      "End": true
     },
-    "Assign vars": {
+    "Evaluate Format('cause {} ...": {
       "Type": "Pass",
-      "ResultPath": "$.vars",
-      "InputPath": "$.vars[0]",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('cause {}', $.vars.error.Cause)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Log (`cause ${error.Cause}`)"
+    },
+    "Log (`cause ${error.Cause}`)": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "InputPath": "$.tmp.eval.value",
+      "Comment": "source: console.log(`cause ${error.Cause}`)",
+      "Next": "Evaluate Format('message ..."
+    },
+    "Evaluate Format('message ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('message {}', $.vars.error.Error)"
+      },
+      "Comment": "source: result of an expression cannot be placed in In ...",
+      "Next": "Log (`message ${error.Err ..."
+    },
+    "Log (`message ${error.Err ...": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "InputPath": "$.tmp.eval.value",
+      "Comment": "source: console.log(`message ${error.Error}`)",
       "End": true
     }
   }

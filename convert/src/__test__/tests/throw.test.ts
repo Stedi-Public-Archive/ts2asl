@@ -9,22 +9,12 @@ describe("when converting throw", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign vars": Object {
-            "InputPath": "$.vars[0]",
-            "Next": "Parallel",
-            "ResultPath": "$.vars",
+          "Empty Default Choice": Object {
+            "End": true,
+            "ResultPath": null,
             "Type": "Pass",
           },
-          "Initialize": Object {
-            "Next": "Assign vars",
-            "Parameters": Object {
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Parallel": Object {
+          "Fail State Wrapper": Object {
             "Branches": Array [
               Object {
                 "StartAt": "Throw NotImplemented",
@@ -43,58 +33,38 @@ describe("when converting throw", () => {
                 "ErrorEquals": Array [
                   "States.ALL",
                 ],
-                "Next": "Parallel_1",
+                "Next": "If (err.Cause === \\"NotImp ...",
                 "ResultPath": "$.vars.err",
               },
             ],
             "End": true,
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
             "Type": "Parallel",
           },
-          "Parallel_1": Object {
-            "Branches": Array [
+          "If (err.Cause === \\"NotImp ...": Object {
+            "Choices": Array [
               Object {
-                "StartAt": "If (err.Cause === \\"NotImp ...",
-                "States": Object {
-                  "Empty Default Choice": Object {
-                    "End": true,
-                    "ResultPath": null,
-                    "Type": "Pass",
-                  },
-                  "If (err.Cause === \\"NotImp ...": Object {
-                    "Choices": Array [
-                      Object {
-                        "Next": "Return \\"Todo\\"",
-                        "StringEquals": "NotImplemented",
-                        "Variable": "$.vars.err.Cause",
-                      },
-                    ],
-                    "Comment": "source: if (err.Cause === \\"NotImplemented\\") { return \\" ...",
-                    "Default": "Empty Default Choice",
-                    "Type": "Choice",
-                  },
-                  "Return \\"Todo\\"": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "Result": "Todo",
-                    "Type": "Pass",
-                  },
-                },
+                "Next": "Return \\"Todo\\"",
+                "StringEquals": "NotImplemented",
+                "Variable": "$.vars.err.Cause",
               },
             ],
-            "Next": "Return From Scope",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
-            "Type": "Parallel",
+            "Comment": "source: if (err.Cause === \\"NotImplemented\\") { return \\" ...",
+            "Default": "Empty Default Choice",
+            "Type": "Choice",
           },
-          "Return From Scope": Object {
+          "Initialize": Object {
+            "Next": "Fail State Wrapper",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return \\"Todo\\"": Object {
+            "Comment": undefined,
             "End": true,
-            "InputPath": "$.vars[0]",
+            "Result": "Todo",
             "Type": "Pass",
           },
         },
@@ -179,7 +149,6 @@ describe("when converting throw", () => {
                 },
               },
             ],
-            "Catch": undefined,
             "Comment": undefined,
             "End": true,
             "ResultPath": null,
@@ -204,10 +173,22 @@ describe("when converting throw", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign vars": Object {
-            "End": true,
-            "InputPath": "$.vars[0]",
-            "ResultPath": "$.vars",
+          "Evaluate Format('cause {} ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Log (\`cause \${error.Cause}\`)",
+            "Parameters": Object {
+              "value.$": "States.Format('cause {}', $.vars.error.Cause)",
+            },
+            "ResultPath": "$.tmp.eval",
+            "Type": "Pass",
+          },
+          "Evaluate Format('message ...": Object {
+            "Comment": "source: result of an expression cannot be placed in In ...",
+            "Next": "Log (\`message \${error.Err ...",
+            "Parameters": Object {
+              "value.$": "States.Format('message {}', $.vars.error.Error)",
+            },
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -217,6 +198,20 @@ describe("when converting throw", () => {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Log (\`cause \${error.Cause}\`)": Object {
+            "Comment": "source: console.log(\`cause \${error.Cause}\`)",
+            "InputPath": "$.tmp.eval.value",
+            "Next": "Evaluate Format('message ...",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "Log (\`message \${error.Err ...": Object {
+            "Comment": "source: console.log(\`message \${error.Error}\`)",
+            "End": true,
+            "InputPath": "$.tmp.eval.value",
+            "ResultPath": null,
             "Type": "Pass",
           },
           "Parallel": Object {
@@ -238,7 +233,7 @@ describe("when converting throw", () => {
                 "ErrorEquals": Array [
                   "UnexpectedError",
                 ],
-                "Next": "Parallel_1",
+                "Next": "Evaluate Format('cause {} ...",
                 "ResultPath": "$.vars.error",
               },
             ],
@@ -255,53 +250,6 @@ describe("when converting throw", () => {
                 "MaxAttempts": 2,
               },
             ],
-            "Type": "Parallel",
-          },
-          "Parallel_1": Object {
-            "Branches": Array [
-              Object {
-                "StartAt": "Evaluate Format('cause {} ...",
-                "States": Object {
-                  "Evaluate Format('cause {} ...": Object {
-                    "Comment": "source: result of an expression cannot be placed in In ...",
-                    "Next": "Log (\`cause \${error.Cause}\`)",
-                    "Parameters": Object {
-                      "value.$": "States.Format('cause {}', $.vars.error.Cause)",
-                    },
-                    "ResultPath": "$.tmp.eval",
-                    "Type": "Pass",
-                  },
-                  "Evaluate Format('message ...": Object {
-                    "Comment": "source: result of an expression cannot be placed in In ...",
-                    "Next": "Log (\`message \${error.Err ...",
-                    "Parameters": Object {
-                      "value.$": "States.Format('message {}', $.vars.error.Error)",
-                    },
-                    "ResultPath": "$.tmp.eval",
-                    "Type": "Pass",
-                  },
-                  "Log (\`cause \${error.Cause}\`)": Object {
-                    "Comment": "source: console.log(\`cause \${error.Cause}\`)",
-                    "InputPath": "$.tmp.eval.value",
-                    "Next": "Evaluate Format('message ...",
-                    "ResultPath": null,
-                    "Type": "Pass",
-                  },
-                  "Log (\`message \${error.Err ...": Object {
-                    "Comment": "source: console.log(\`message \${error.Error}\`)",
-                    "End": true,
-                    "InputPath": "$.tmp.eval.value",
-                    "ResultPath": null,
-                    "Type": "Pass",
-                  },
-                },
-              },
-            ],
-            "Next": "Assign vars",
-            "Parameters": Object {
-              "vars.$": "$.vars",
-            },
-            "ResultPath": "$.vars",
             "Type": "Parallel",
           },
         },

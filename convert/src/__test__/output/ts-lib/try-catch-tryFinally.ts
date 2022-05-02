@@ -4,20 +4,38 @@ import * as asl from "@ts2asl/asl-lib"
 export const lambda = asl.deploy.asLambda(() => { return ["succeeded"] });
 
 export const simpleTry = asl.deploy.asStateMachine(async () => {
+  let result = "";
   try {
-    lambda();
+    result = "succeeded";
+    throw new Error("fail");
   } catch {
-    return "it failed";
+    result = "failed";
   }
+  return result;
 });
+
+export const referenceError = asl.deploy.asStateMachine(async () => {
+  let result = "";
+  try {
+    result = "succeeded";
+    throw new Error("fail");
+  } catch (err) {
+    result = `failed ${(err as asl.AslError).Error} (${(err as asl.AslError).Cause})`;
+  }
+  return result;
+});
+
+
 export const simpleMultipleStatements = asl.deploy.asStateMachine(async () => {
   try {
-    const withinTry = lambda();
-    return withinTry;
+    const arr = [1]
+    const withinTry = arr.map(x => "succeeded");
+    return withinTry[0];
   } catch {
     return "it failed";
   }
 });
+
 export const tryAroundPassState = asl.deploy.asStateMachine(async () => {
   try {
     return "this cannot fail";
@@ -25,29 +43,34 @@ export const tryAroundPassState = asl.deploy.asStateMachine(async () => {
     return "this never happens";
   }
 });
+
 export const tryFinally = asl.deploy.asStateMachine(async () =>{
     asl.typescriptTry({
         name: "Try Finally",
         try: async () => {
-            asl.typescriptInvoke({
-                name: "lambda()",
-                resource: lambda,
-                comment: "lambda()"
+            await asl.parallel({
+                branches: [
+                    () => { return "succeeded"; }
+                ],
+                comment: "Promise.all([() => \"succeeded\"])"
             });
         },
         finally: async () => {
             return "finally";
         },
-        comment: "try {\n    lambda();\n  } finally {\n    return \"finally\";\n  }"
+        comment: "try {\n    await Promise.all([() => \"succeeded\"]);\n  } finally {\n    return \"finally\";\n  }"
     })
 });
+
 export const tryCatchFinally = asl.deploy.asStateMachine(async () => {
+  let result = "";
   try {
-    lambda();
+    result = "try"
   } catch {
-    console.log("failed")
+    result = "catch"
   } finally {
-    return "finally";
+    result = "finally"
   }
+  return result;
 });
 

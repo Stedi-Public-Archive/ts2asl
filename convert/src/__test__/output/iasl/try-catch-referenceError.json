@@ -53,6 +53,10 @@
             "States.ALL"
           ],
           "block": {
+            "inputArgumentName": {
+              "identifier": "err",
+              "_syntaxKind": "identifier"
+            },
             "statements": [
               {
                 "name": {
@@ -61,9 +65,25 @@
                   "type": "string"
                 },
                 "expression": {
-                  "value": "failed",
-                  "type": "string",
-                  "_syntaxKind": "literal"
+                  "arguments": [
+                    {
+                      "value": "failed {} ({})",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    },
+                    {
+                      "identifier": "err.Error",
+                      "type": "string",
+                      "_syntaxKind": "identifier"
+                    },
+                    {
+                      "identifier": "err.Cause",
+                      "type": "string",
+                      "_syntaxKind": "identifier"
+                    }
+                  ],
+                  "function": "asl.states.format",
+                  "_syntaxKind": "asl-intrinsic-function"
                 },
                 "stateName": "Assign result",
                 "_syntaxKind": "variable-assignment"
@@ -73,7 +93,6 @@
           }
         }
       ],
-      "source": "try {\n    result = \"succeeded\";\n    throw new Error(\"fail\");\n  } catch {\n    result = \"failed\";\n  }",
       "_syntaxKind": "try"
     },
     {

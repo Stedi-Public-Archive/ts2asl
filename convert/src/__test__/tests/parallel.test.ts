@@ -76,7 +76,6 @@ describe("when converting parallel", () => {
                 },
               },
             ],
-            "Catch": undefined,
             "Comment": "source: Promise.all([worker(), worker()])",
             "Next": "Return result",
             "ResultPath": "$.tmp.result",
@@ -164,7 +163,6 @@ describe("when converting parallel", () => {
                 },
               },
             ],
-            "Catch": undefined,
             "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
             "Next": "Return result",
             "Parameters": Object {

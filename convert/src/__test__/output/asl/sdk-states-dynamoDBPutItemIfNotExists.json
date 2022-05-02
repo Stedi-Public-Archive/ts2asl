@@ -34,16 +34,17 @@
       },
       "Catch": [
         {
-          "Next": "Empty",
           "ErrorEquals": [
             "DynamoDb.ConditionalCheckFailedException"
-          ]
+          ],
+          "Next": "Empty Catch"
         }
       ],
       "End": true
     },
-    "Empty": {
-      "Type": "Succeed"
+    "Empty Catch": {
+      "Type": "Pass",
+      "End": true
     }
   }
 }

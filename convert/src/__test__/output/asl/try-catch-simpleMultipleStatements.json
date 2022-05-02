@@ -8,59 +8,51 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Return From Scope"
+      "Next": "Assign arr"
     },
-    "Return From Scope": {
+    "Assign arr": {
       "Type": "Pass",
-      "InputPath": "$.vars[0]",
-      "Next": "Parallel"
+      "ResultPath": "$.vars.arr",
+      "Result": [
+        1
+      ],
+      "Comment": "source: arr = [1]",
+      "Next": "Assign withinTry"
     },
-    "Parallel": {
-      "Type": "Parallel",
-      "ResultPath": "$.vars",
-      "Parameters": {
-        "vars.$": "$.vars"
-      },
-      "Branches": [
-        {
-          "StartAt": "lambda()",
-          "States": {
-            "lambda()": {
-              "Type": "Task",
-              "ResultPath": "$.vars.withinTry",
-              "Resource": "[!lambda[lambda]arn]",
-              "Retry": [
-                {
-                  "ErrorEquals": [
-                    "Lambda.ServiceException",
-                    "Lambda.AWSLambdaException",
-                    "Lambda.SdkClientException"
-                  ],
-                  "IntervalSeconds": 2,
-                  "MaxAttempts": 6,
-                  "BackoffRate": 2
-                }
-              ],
-              "Comment": "source: lambda()",
-              "Next": "Return withinTry"
-            },
-            "Return withinTry": {
-              "End": true,
-              "Type": "Pass",
-              "InputPath": "$.vars.withinTry"
-            }
+    "Assign withinTry": {
+      "Type": "Map",
+      "ResultPath": "$.vars.withinTry",
+      "Iterator": {
+        "StartAt": "Return \"succeeded\"",
+        "States": {
+          "Return \"succeeded\"": {
+            "End": true,
+            "Type": "Pass",
+            "Result": "succeeded"
           }
         }
-      ],
+      },
+      "ItemsPath": "$.vars.arr",
+      "Comment": "source: arr.map(x => \"succeeded\")",
+      "Parameters": {
+        "vars": {
+          "x.$": "$$.Map.Item.Value"
+        }
+      },
+      "Next": "Return withinTry[0]",
       "Catch": [
         {
-          "Next": "Return \"it failed\"",
           "ErrorEquals": [
             "States.ALL"
-          ]
+          ],
+          "Next": "Return \"it failed\""
         }
-      ],
-      "End": true
+      ]
+    },
+    "Return withinTry[0]": {
+      "End": true,
+      "Type": "Pass",
+      "InputPath": "$.vars.withinTry[0]"
     },
     "Return \"it failed\"": {
       "End": true,

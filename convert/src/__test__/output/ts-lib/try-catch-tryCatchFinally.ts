@@ -4,20 +4,38 @@ import * as asl from "@ts2asl/asl-lib"
 export const lambda = asl.deploy.asLambda(() => { return ["succeeded"] });
 
 export const simpleTry = asl.deploy.asStateMachine(async () => {
+  let result = "";
   try {
-    lambda();
+    result = "succeeded";
+    throw new Error("fail");
   } catch {
-    return "it failed";
+    result = "failed";
   }
+  return result;
 });
+
+export const referenceError = asl.deploy.asStateMachine(async () => {
+  let result = "";
+  try {
+    result = "succeeded";
+    throw new Error("fail");
+  } catch (err) {
+    result = `failed ${(err as asl.AslError).Error} (${(err as asl.AslError).Cause})`;
+  }
+  return result;
+});
+
+
 export const simpleMultipleStatements = asl.deploy.asStateMachine(async () => {
   try {
-    const withinTry = lambda();
-    return withinTry;
+    const arr = [1]
+    const withinTry = arr.map(x => "succeeded");
+    return withinTry[0];
   } catch {
     return "it failed";
   }
 });
+
 export const tryAroundPassState = asl.deploy.asStateMachine(async () => {
   try {
     return "this cannot fail";
@@ -25,22 +43,25 @@ export const tryAroundPassState = asl.deploy.asStateMachine(async () => {
     return "this never happens";
   }
 });
+
 export const tryFinally = asl.deploy.asStateMachine(async () => {
   try {
-    lambda();
+    await Promise.all([() => "succeeded"]);
   } finally {
     return "finally";
   }
 });
+
 export const tryCatchFinally = asl.deploy.asStateMachine(async () =>{
+    let result = asl.pass({
+        name: "Assign result",
+        parameters: () => "",
+        comment: "result = \"\""
+    });
     asl.typescriptTry({
         name: "Try Catch Finally",
         try: async () => {
-            asl.typescriptInvoke({
-                name: "lambda()",
-                resource: lambda,
-                comment: "lambda()"
-            });
+            result = "try";
         },
         catch: [
             {
@@ -48,18 +69,15 @@ export const tryCatchFinally = asl.deploy.asStateMachine(async () =>{
                     "States.ALL"
                 ],
                 block: () => {
-                    asl.pass({
-                        name: "Log (\"failed\")",
-                        parameters: () => "failed",
-                        comment: "console.log(\"failed\")"
-                    });
+                    result = "catch";
                 }
             }
         ],
         finally: async () => {
-            return "finally";
+            result = "finally";
         },
-        comment: "try {\n    lambda();\n  } catch {\n    console.log(\"failed\")\n  } finally {\n    return \"finally\";\n  }"
+        comment: "try {\n    result = \"try\"\n  } catch {\n    result = \"catch\"\n  } finally {\n    result = \"finally\"\n  }"
     })
+    return result;
 });
 
