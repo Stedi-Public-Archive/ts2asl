@@ -1,0 +1,55 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign val"
+    },
+    "Assign val": {
+      "Type": "Pass",
+      "ResultPath": "$.vars.val",
+      "Result": {
+        "greeting": "hello"
+      },
+      "Comment": "source: val = { greeting: \"hello\" }",
+      "Next": "If (\"greeting\" in val && ..."
+    },
+    "If (\"greeting\" in val && ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "And": [
+            {
+              "Variable": "$.vars.val.greeting",
+              "IsPresent": true
+            },
+            {
+              "Not": {
+                "Variable": "$.vars.val.somethingElse",
+                "IsPresent": true
+              }
+            }
+          ],
+          "Next": "Return \"success\""
+        }
+      ],
+      "Comment": "source: if (\"greeting\" in val && !(\"somethingElse\" in  ...",
+      "Default": "Return \"failure\""
+    },
+    "Return \"success\"": {
+      "End": true,
+      "Type": "Pass",
+      "Result": "success"
+    },
+    "Return \"failure\"": {
+      "End": true,
+      "Type": "Pass",
+      "Result": "failure"
+    }
+  }
+}

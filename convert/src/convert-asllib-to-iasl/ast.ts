@@ -129,31 +129,31 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
       visitNodes(arg, visitor);
     }
   } else if (Check.isAslTaskState(node)) {
-    visitNodes(node.parameters, visitor)
+    visitNodes(node.parameters, visitor);
   } else if (Check.isReturnStatement(node)) {
-    visitNodes(node.expression, visitor)
+    visitNodes(node.expression, visitor);
   }
   else if (Check.isTypeOfExpression(node)) {
-    visitNodes(node.operand, visitor)
+    visitNodes(node.operand, visitor);
   } else if (Check.isBinaryExpression(node)) {
-    if (node.lhs) visitNodes(node.lhs, visitor)
-    visitNodes(node.rhs, visitor)
+    if (node.lhs) visitNodes(node.lhs, visitor);
+    visitNodes(node.rhs, visitor);
   } else if (Check.isBlock(node)) {
     for (const child of node.statements) {
-      visitNodes(child, visitor)
+      visitNodes(child, visitor);
     }
   } else if (Check.isFunction(node)) {
-    if (node.inputArgumentName) visitNodes(node.inputArgumentName, visitor)
+    if (node.inputArgumentName) visitNodes(node.inputArgumentName, visitor);
     for (const child of node.statements) {
-      visitNodes(child, visitor)
+      visitNodes(child, visitor);
     }
   } else if (Check.isStateMachine(node)) {
     for (const child of node.statements) {
-      visitNodes(child, visitor)
+      visitNodes(child, visitor);
     }
   } else if (Check.isAslChoiceState(node)) {
     for (const choice of (node.choices || [])) {
-      visitNodes(choice.condition, visitor)
+      visitNodes(choice.condition, visitor);
       visitNodes(choice.block, visitor);
     }
     if (node.default) visitNodes(node.default, visitor);
@@ -165,7 +165,7 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
     visitNodes(node.iterator, visitor);
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
-      visitNodes(child, visitor)
+      visitNodes(child, visitor);
     }
   } else if (Check.isIfExpression(node)) {
     visitNodes(node.condition, visitor);
@@ -176,39 +176,39 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
       if (child.when) {
         visitNodes(child.when, visitor);
       }
-      visitNodes(child.then, visitor)
+      visitNodes(child.then, visitor);
     }
   } else if (Check.isDoWhileStatement(node)) {
     visitNodes(node.condition, visitor);
-    visitNodes(node.while, visitor)
+    visitNodes(node.while, visitor);
   } else if (Check.isTryExpression(node)) {
     visitNodes(node.try, visitor);
     for (const child of (node.catch || [])) {
-      visitNodes(child.block, visitor)
+      visitNodes(child.block, visitor);
     }
     if (node.finally) visitNodes(node.finally, visitor);
   } else if (Check.isWhileStatement(node)) {
     visitNodes(node.condition, visitor);
     visitNodes(node.while, visitor);
   } else if (Check.isAslPassState(node)) {
-    visitNodes(node.parameters, visitor)
+    visitNodes(node.parameters, visitor);
   } else if (Check.isLiteralObject(node)) {
     for (const prop of Object.values(node.properties)) {
-      visitNodes(prop, visitor)
+      visitNodes(prop, visitor);
     }
   } else if (Check.isAslWaitState(node)) {
-    visitNodes(node.seconds, visitor)
-    visitNodes(node.timestamp, visitor)
+    visitNodes(node.seconds, visitor);
+    visitNodes(node.timestamp, visitor);
   } else if (Check.isIdentifier(node)) {
     if (node.filterExpression) {
-      visitNodes(node.filterExpression.argument, visitor)
+      visitNodes(node.filterExpression.argument, visitor);
       visitNodes(node.filterExpression.expression, visitor);
     }
     if (node.indexExpression) {
-      visitNodes(node.indexExpression, visitor)
+      visitNodes(node.indexExpression, visitor);
     }
   }
-}
+};
 
 let scopeCounter = 1;
 export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Expression, scope: Scope) => void) => {
@@ -221,40 +221,40 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
       assignScopes(arg, scope, visitor);
     }
   } else if (Check.isAslTaskState(node)) {
-    assignScopes(node.parameters, scope, visitor)
+    assignScopes(node.parameters, scope, visitor);
   } else if (Check.isReturnStatement(node)) {
-    assignScopes(node.expression, scope, visitor)
+    assignScopes(node.expression, scope, visitor);
   }
   else if (Check.isTypeOfExpression(node)) {
-    assignScopes(node.operand, scope, visitor)
+    assignScopes(node.operand, scope, visitor);
   } else if (Check.isBinaryExpression(node)) {
-    if (node.lhs) assignScopes(node.lhs, scope, visitor)
-    assignScopes(node.rhs, scope, visitor)
+    if (node.lhs) assignScopes(node.lhs, scope, visitor);
+    assignScopes(node.rhs, scope, visitor);
   } else if (Check.isBlock(node)) {
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "block-" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
     for (const child of node.statements) {
-      assignScopes(child, scope, visitor)
+      assignScopes(child, scope, visitor);
     }
     node.scope = childScope.id;
   } else if (Check.isFunction(node)) {
-    if (node.inputArgumentName) assignScopes(node.inputArgumentName, scope, visitor)
+    if (node.inputArgumentName) assignScopes(node.inputArgumentName, scope, visitor);
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "function-" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
     for (const child of node.statements) {
-      assignScopes(child, childScope, visitor)
+      assignScopes(child, childScope, visitor);
     }
     node.scope = childScope.id;
   } else if (Check.isStateMachine(node)) {
     const childScope = { accessed: [], enclosed: [], childScopes: [], parentScope: scope, id: "state-machine-" + (scopeCounter += 1) } as Scope;
     scope.childScopes.push(childScope);
     for (const child of node.statements) {
-      assignScopes(child, childScope, visitor)
+      assignScopes(child, childScope, visitor);
     }
     node.scope = childScope.id;
   } else if (Check.isAslChoiceState(node)) {
     for (const choice of (node.choices || [])) {
-      assignScopes(choice.condition, scope, visitor)
+      assignScopes(choice.condition, scope, visitor);
       assignScopes(choice.block, scope, visitor);
     }
     if (node.default) assignScopes(node.default, scope, visitor);
@@ -266,7 +266,7 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
     assignScopes(node.iterator, scope, visitor);
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
-      assignScopes(child, scope, visitor)
+      assignScopes(child, scope, visitor);
     }
   } else if (Check.isIfExpression(node)) {
     assignScopes(node.condition, scope, visitor);
@@ -277,39 +277,39 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
       if (child.when) {
         assignScopes(child.when, scope, visitor);
       }
-      assignScopes(child.then, scope, visitor)
+      assignScopes(child.then, scope, visitor);
     }
   } else if (Check.isDoWhileStatement(node)) {
     assignScopes(node.condition, scope, visitor);
-    assignScopes(node.while, scope, visitor)
+    assignScopes(node.while, scope, visitor);
   } else if (Check.isTryExpression(node)) {
     assignScopes(node.try, scope, visitor);
     for (const child of (node.catch || [])) {
-      assignScopes(child.block, scope, visitor)
+      assignScopes(child.block, scope, visitor);
     }
     if (node.finally) assignScopes(node.finally, scope, visitor);
   } else if (Check.isWhileStatement(node)) {
     assignScopes(node.condition, scope, visitor);
     assignScopes(node.while, scope, visitor);
   } else if (Check.isAslPassState(node)) {
-    assignScopes(node.parameters, scope, visitor)
+    assignScopes(node.parameters, scope, visitor);
   } else if (Check.isLiteralObject(node)) {
     for (const prop of Object.values(node.properties)) {
-      assignScopes(prop, scope, visitor)
+      assignScopes(prop, scope, visitor);
     }
   } else if (Check.isAslWaitState(node)) {
-    assignScopes(node.seconds, scope, visitor)
-    assignScopes(node.timestamp, scope, visitor)
+    assignScopes(node.seconds, scope, visitor);
+    assignScopes(node.timestamp, scope, visitor);
   } else if (Check.isIdentifier(node)) {
     if (node.filterExpression) {
-      assignScopes(node.filterExpression.argument, scope, visitor)
+      assignScopes(node.filterExpression.argument, scope, visitor);
       assignScopes(node.filterExpression.expression, scope, visitor);
     }
     if (node.indexExpression) {
-      assignScopes(node.indexExpression, scope, visitor)
+      assignScopes(node.indexExpression, scope, visitor);
     }
   }
-}
+};
 
 export interface StateMachine extends Function {
   contextArgumentName?: Identifier;
@@ -326,10 +326,10 @@ export interface Identifier {
   objectContextExpression?: true; //is this an expression against the statemachine global context?
   identifier: string;
   indexExpression?: Identifier | Expression;
-  sliceExpression?: { start: number, end?: number, step?: number };
+  sliceExpression?: { start: number, end?: number, step?: number; };
   filterExpression?: {
     argument: Identifier,
-    expression: BinaryExpression
+    expression: BinaryExpression;
   },
   mapExpression?: string;
   jsonPathExpression?: string;
@@ -364,7 +364,7 @@ export interface Scope {
   parentScope: Scope | undefined;
 }
 
-export type BinaryOperator = "and" | "or" | "not" | "is-truthy" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
+export type BinaryOperator = "exists-in" | "and" | "or" | "not" | "is-truthy" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
 
 
 export interface BinaryExpression extends Expression {
@@ -433,7 +433,7 @@ export interface ForEachStatement extends Expression {
 
 export interface SwitchStatement extends Expression {
   _syntaxKind: SyntaxKind.Switch;
-  cases?: Array<{ when?: BinaryExpression, then: Block }>;
+  cases?: Array<{ when?: BinaryExpression, then: Block; }>;
 }
 export interface DoWhileStatement extends Expression {
   _syntaxKind: SyntaxKind.DoWhileStatement;
@@ -460,7 +460,7 @@ export interface ReturnStatement extends Expression {
 
 export interface Block extends Expression, DeclaresScope {
   _syntaxKind: SyntaxKind.Block | SyntaxKind.Function | SyntaxKind.StateMachine;
-  statements: Expression[]
+  statements: Expression[];
 }
 
 ///ASL States
@@ -473,9 +473,9 @@ export declare type RetryConfiguration = Array<{
   intervalSeconds?: number;
   maxAttempts?: number;
   backoffRate?: number;
-}>
+}>;
 
-export type CatchConfiguration = Array<{ errorEquals: string[], block: Function }>;
+export type CatchConfiguration = Array<{ errorEquals: string[], block: Function; }>;
 
 export interface WaitState extends AslState {
   _syntaxKind: SyntaxKind.AslWaitState;
@@ -484,7 +484,7 @@ export interface WaitState extends AslState {
 }
 
 export interface ParallelState extends AslState {
-  _syntaxKind: SyntaxKind.AslParallelState
+  _syntaxKind: SyntaxKind.AslParallelState;
   branches: (Function)[];
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
@@ -510,8 +510,8 @@ export interface TaskState extends AslState {
 }
 
 export interface ChoiceState extends AslState {
-  _syntaxKind: SyntaxKind.AslChoiceState
-  choices?: Array<{ condition: BinaryExpression, block: Block }>;
+  _syntaxKind: SyntaxKind.AslChoiceState;
+  choices?: Array<{ condition: BinaryExpression, block: Block; }>;
   default?: Block;
 }
 
@@ -526,7 +526,7 @@ export interface MapState extends AslState {
 }
 
 export interface FailState extends AslState {
-  _syntaxKind: SyntaxKind.AslFailState
+  _syntaxKind: SyntaxKind.AslFailState;
   cause?: string;
   error?: string;
 }

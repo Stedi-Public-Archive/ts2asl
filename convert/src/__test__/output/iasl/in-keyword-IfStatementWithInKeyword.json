@@ -1,0 +1,93 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "val",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign val",
+        "parameters": {
+          "properties": {
+            "greeting": {
+              "value": "hello",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "val = { greeting: \"hello\" }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign val",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (\"greeting\" in val && ...",
+      "condition": {
+        "lhs": {
+          "lhs": {
+            "value": "greeting",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "operator": "exists-in",
+          "rhs": {
+            "identifier": "val",
+            "_syntaxKind": "identifier",
+            "type": "object"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "operator": "and",
+        "rhs": {
+          "operator": "not",
+          "rhs": {
+            "lhs": {
+              "value": "somethingElse",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "operator": "exists-in",
+            "rhs": {
+              "identifier": "val",
+              "_syntaxKind": "identifier",
+              "type": "object"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "expression": {
+              "value": "success",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return",
+            "stateName": "Return \"success\""
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (\"greeting\" in val && !(\"somethingElse\" in val)) {\n    return \"success\";\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "expression": {
+        "value": "failure",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return \"failure\""
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
