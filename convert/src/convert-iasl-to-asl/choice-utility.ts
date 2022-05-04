@@ -1,4 +1,4 @@
-import * as iasl from "../convert-asllib-to-iasl/ast"
+import * as iasl from "../convert-asllib-to-iasl/ast";
 import { Operator } from 'asl-types/dist/choice';
 import { convertExpressionToAsl } from "./aslfactory";
 
@@ -17,15 +17,27 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
       return { // always true
         Variable: "$",
         IsNull: false
-      }
+      };
     } else {
       return { // always false
         Variable: "$",
         IsNull: true
-      }
+      };
     }
   }
 
+  if (expression.operator === "exists-in") {
+    if (!iasl.Check.isLiteral(expression.lhs) || expression.lhs.type !== "string" || (expression.lhs.value as string).length === 0) throw new Error("binary expression with 'exists-in' operand must have string literal as lhs");
+    if (!iasl.Check.isIdentifier(expression.rhs)) {
+      throw new Error("binary expression with 'is-truthy' rhs must be identifier, found: " + expression.rhs._syntaxKind);
+    }
+    const expr = convertExpressionToAsl(expression.rhs);
+
+    return {
+      Variable: expr.path + `.${expression.lhs.value}`,
+      IsPresent: true
+    };
+  }
   if (expression.operator === "is-truthy") {
     if (expression.lhs) throw new Error("binary expression with 'is-truthy' operand should not have lhs");
     if (!iasl.Check.isIdentifier(expression.rhs)) {
@@ -41,7 +53,7 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
           Variable: expr.path,
           BooleanEquals: false
         }
-      }
+      };
     }
 
     //otherwise we do "truthy" check 
@@ -89,7 +101,7 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
       return truthy.Not;
     }
     if (iasl.Check.isBinaryExpression(expression.rhs)) {
-      const notExpression = createChoiceOperator(expression.rhs)
+      const notExpression = createChoiceOperator(expression.rhs);
       if (notExpression.IsNumeric === true) {
         return { ...notExpression, IsNumeric: false };
       } else if (notExpression.IsBoolean === true) {
@@ -102,11 +114,11 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
       }
       return {
         Not: operator
-      }
+      };
     } else {
       return {
         Not: convertExpressionToAsl(expression.rhs)
-      }
+      };
     }
   }
 
@@ -134,24 +146,24 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
         if (operator.And) {
           And.push(...operator.And);
         } else {
-          And.push(operator)
+          And.push(operator);
         }
       }
       return {
         And: operands
-      }
+      };
     } else if (expression.operator === "or") {
       const Or: Operator[] = [];
       for (const operator of operands) {
         if (operator.Or) {
           Or.push(...operator.Or);
         } else {
-          Or.push(operator)
+          Or.push(operator);
         }
       }
       return {
         Or
-      }
+      };
     }
   }
   if (iasl.Check.isTypeOfExpression(expression.lhs) || iasl.Check.isTypeOfExpression(expression.rhs)) {
@@ -170,19 +182,19 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
           result.And.push({
             Variable: convered.path,
             IsString: true,
-          })
+          });
           break;
         case "number":
           result.And.push({
             Variable: convered.path,
             IsNumeric: true,
-          })
+          });
           break;
         case "boolean":
           result.And.push({
             Variable: convered.path,
             IsBoolean: true,
-          })
+          });
           break;
         default:
           throw new Error("typeof must be one of 'string', 'number' or 'boolean'");
@@ -202,37 +214,37 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
   }
 
   let operatorField = 'String';
-  let type: iasl.Type | undefined = [lhs.type, rhs.type].find(x => x !== "unknown")
+  let type: iasl.Type | undefined = [lhs.type, rhs.type].find(x => x !== "unknown");
   if (type) {
     switch (type) {
       case "numeric":
-        operatorField = "Numeric"
+        operatorField = "Numeric";
         break;
       case "boolean":
-        operatorField = "Boolean"
+        operatorField = "Boolean";
         break;
       case "timestamp":
-        operatorField = "Timestamp"
+        operatorField = "Timestamp";
     }
   }
   switch (expression.operator) {
     case "eq":
-      operatorField += 'Equals'
+      operatorField += 'Equals';
       break;
     case "gt":
-      operatorField += 'GreaterThan'
+      operatorField += 'GreaterThan';
       break;
     case "gte":
-      operatorField += 'GreaterThanEquals'
+      operatorField += 'GreaterThanEquals';
       break;
     case "lt":
-      operatorField += 'LessThan'
+      operatorField += 'LessThan';
       break;
     case "lte":
-      operatorField += 'LessThanEquals'
+      operatorField += 'LessThanEquals';
       break;
     case "matches":
-      operatorField += 'Matches'
+      operatorField += 'Matches';
       break;
   }
 
@@ -245,7 +257,7 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
   return {
     Variable: lhs.path,
     [operatorField]: operand
-  }
+  };
 }
 
 
@@ -263,39 +275,39 @@ const reverseBinaryExpression = (expression: iasl.BinaryExpression): iasl.Binary
         ...expression,
         lhs: expression.rhs,
         rhs: expression.lhs
-      }
+      };
     case "lte":
       return {
         ...expression,
         lhs: expression.rhs,
         rhs: expression.lhs,
         operator: "gt"
-      }
+      };
     case "lt":
       return {
         ...expression,
         lhs: expression.rhs,
         rhs: expression.lhs,
         operator: "gte"
-      }
+      };
     case "gte":
       return {
         ...expression,
         lhs: expression.rhs,
         rhs: expression.lhs,
         operator: "lt"
-      }
+      };
     case "gt":
       return {
         ...expression,
         lhs: expression.rhs,
         rhs: expression.lhs,
         operator: "lte"
-      }
+      };
   }
 
-  throw new Error(`unable to reverse expression, ${JSON.stringify(expression, null, 2)} `)
-}
+  throw new Error(`unable to reverse expression, ${JSON.stringify(expression, null, 2)} `);
+};
 
 
 
