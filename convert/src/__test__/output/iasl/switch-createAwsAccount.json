@@ -101,9 +101,26 @@
               "type": "string"
             },
             "expression": {
-              "identifier": "describeResult.CreateAccountStatus.State",
-              "type": "string",
-              "_syntaxKind": "identifier"
+              "condition": {
+                "rhs": {
+                  "identifier": "describeResult.CreateAccountStatus",
+                  "type": "object",
+                  "_syntaxKind": "identifier"
+                },
+                "operator": "is-truthy",
+                "_syntaxKind": "binary-expression"
+              },
+              "whenTrue": {
+                "identifier": "describeResult.CreateAccountStatus.State",
+                "type": "unknown",
+                "_syntaxKind": "identifier"
+              },
+              "whenFalse": {
+                "value": null,
+                "type": "null",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "conditional-expression"
             },
             "stateName": "Assign creationStatus",
             "_syntaxKind": "variable-assignment"
@@ -180,18 +197,52 @@
     {
       "stateName": "Log (createAccount.Create ...",
       "parameters": {
-        "identifier": "createAccount.CreateAccountStatus.AccountId",
-        "type": "string",
-        "_syntaxKind": "identifier"
+        "condition": {
+          "rhs": {
+            "identifier": "createAccount.CreateAccountStatus",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "createAccount.CreateAccountStatus.AccountId",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
       },
       "source": "console.log(createAccount.CreateAccountStatus?.AccountId)",
       "_syntaxKind": "asl-pass-state"
     },
     {
       "expression": {
-        "identifier": "createAccount.CreateAccountStatus.AccountId",
-        "type": "string",
-        "_syntaxKind": "identifier"
+        "condition": {
+          "rhs": {
+            "identifier": "createAccount.CreateAccountStatus",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "createAccount.CreateAccountStatus.AccountId",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
       },
       "_syntaxKind": "return",
       "stateName": "Return createAccount.Crea ..."

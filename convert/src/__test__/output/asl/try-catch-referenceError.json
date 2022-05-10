@@ -12,15 +12,15 @@
     },
     "Assign result": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "Result": "",
+      "ResultPath": "$.vars.result",
       "Comment": "source: result = \"\"",
       "Next": "Assign result_1"
     },
     "Assign result_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "Result": "succeeded",
+      "ResultPath": "$.vars.result",
       "Next": "Fail State Wrapper"
     },
     "Fail State Wrapper": {
@@ -55,19 +55,18 @@
       "Parameters": {
         "value.$": "States.Format('failed {} ({})', $.vars.err.Error, $.vars.err.Cause)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign result_2"
     },
     "Assign result_2": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Return result"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.result"
+      "InputPath": "$.vars.result",
+      "End": true
     }
   }
 }

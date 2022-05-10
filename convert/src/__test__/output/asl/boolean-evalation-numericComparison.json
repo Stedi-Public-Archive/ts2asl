@@ -12,19 +12,19 @@
     },
     "Assign condition": {
       "Type": "Pass",
-      "ResultPath": "$.vars.condition",
       "Result": 42,
+      "ResultPath": "$.vars.condition",
       "Comment": "source: condition = 42",
       "Next": "Assign items"
     },
     "Assign items": {
       "Type": "Pass",
-      "ResultPath": "$.vars.items",
       "Result": [
         2,
         42,
         3
       ],
+      "ResultPath": "$.vars.items",
       "Comment": "source: items = [2, 42, 3]",
       "Next": "Assign listWithRetunrned"
     },
@@ -47,11 +47,11 @@
             "Default": "Empty Default Choice"
           },
           "Return { returned: item }": {
-            "End": true,
             "Type": "Pass",
             "Parameters": {
               "returned.$": "$.vars.item"
-            }
+            },
+            "End": true
           },
           "Empty Default Choice": {
             "Type": "Pass",
@@ -72,14 +72,14 @@
     },
     "Assign item": {
       "Type": "Pass",
-      "ResultPath": "$.vars.item",
       "InputPath": "$.vars.listWithRetunrned[?(@.returned)]",
+      "ResultPath": "$.vars.item",
       "Next": "Return item"
     },
     "Return item": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.item"
+      "InputPath": "$.vars.item",
+      "End": true
     }
   }
 }

@@ -1,0 +1,54 @@
+{
+  "inputArgumentName": {
+    "identifier": "args",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "name",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "expression": {
+        "stateName": "Assign name",
+        "parameters": {
+          "condition": {
+            "rhs": {
+              "identifier": "args",
+              "_syntaxKind": "identifier",
+              "type": "object"
+            },
+            "operator": "is-truthy",
+            "_syntaxKind": "binary-expression"
+          },
+          "whenTrue": {
+            "identifier": "args.name",
+            "type": "unknown",
+            "_syntaxKind": "identifier"
+          },
+          "whenFalse": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "conditional-expression"
+        },
+        "source": "name = args?.name",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign name",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "name",
+        "_syntaxKind": "identifier",
+        "type": "string"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return name"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

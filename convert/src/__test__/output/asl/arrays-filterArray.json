@@ -12,7 +12,6 @@
     },
     "Assign mappedArray": {
       "Type": "Pass",
-      "ResultPath": "$.vars.mappedArray",
       "Result": [
         {
           "age": 1,
@@ -47,12 +46,12 @@
           "species": "cat"
         }
       ],
+      "ResultPath": "$.vars.mappedArray",
       "Comment": "source: mappedArray = [{ age: 1, species: \"dog\" }, { a ...",
       "Next": "Assign filterArray"
     },
     "Assign filterArray": {
       "Type": "Pass",
-      "ResultPath": "$.vars.filterArray",
       "Parameters": {
         "cats": {
           "young.$": "$.vars.mappedArray[?(@.species == 'cat' && @.age < 5)]",
@@ -63,13 +62,14 @@
           "old.$": "$.vars.mappedArray[?(@.species == 'dog' && @.age >= 5)]"
         }
       },
+      "ResultPath": "$.vars.filterArray",
       "Comment": "source: filterArray = { cats: { young: mappedArray.fil ...",
       "Next": "Return filterArray"
     },
     "Return filterArray": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.filterArray"
+      "InputPath": "$.vars.filterArray",
+      "End": true
     }
   }
 }

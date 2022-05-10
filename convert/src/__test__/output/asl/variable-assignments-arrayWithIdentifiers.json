@@ -12,33 +12,33 @@
     },
     "Assign str": {
       "Type": "Pass",
-      "ResultPath": "$.vars.str",
       "Result": "string",
+      "ResultPath": "$.vars.str",
       "Comment": "source: str = \"string\"",
       "Next": "Assign num"
     },
     "Assign num": {
       "Type": "Pass",
-      "ResultPath": "$.vars.num",
       "Result": 42,
+      "ResultPath": "$.vars.num",
       "Comment": "source: num = 42",
       "Next": "Assign bool"
     },
     "Assign bool": {
       "Type": "Pass",
-      "ResultPath": "$.vars.bool",
       "Result": true,
+      "ResultPath": "$.vars.bool",
       "Comment": "source: bool = true || false",
       "Next": "Assign object"
     },
     "Assign object": {
       "Type": "Pass",
-      "ResultPath": "$.vars.object",
       "Parameters": {
         "str.$": "$.vars.str",
         "num.$": "$.vars.num",
         "bool.$": "$.vars.bool"
       },
+      "ResultPath": "$.vars.object",
       "Comment": "source: object = { str, num, bool }",
       "Next": "Evaluate Array($.vars.str ..."
     },
@@ -48,19 +48,18 @@
       "Parameters": {
         "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign array"
     },
     "Assign array": {
       "Type": "Pass",
-      "ResultPath": "$.vars.array",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.array",
       "Next": "Return array"
     },
     "Return array": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.array"
+      "InputPath": "$.vars.array",
+      "End": true
     }
   }
 }

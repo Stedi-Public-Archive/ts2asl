@@ -1,0 +1,62 @@
+{
+  "inputArgumentName": {
+    "identifier": "args",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "",
+      "name": {
+        "identifier": "result",
+        "compilerGenerated": true,
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "expression": {
+        "arguments": [
+          {
+            "value": "hello: {}",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "condition": {
+              "rhs": {
+                "identifier": "args",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
+            },
+            "whenTrue": {
+              "identifier": "args",
+              "_syntaxKind": "identifier",
+              "type": "object"
+            },
+            "whenFalse": {
+              "value": "jim",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "conditional-expression"
+          }
+        ],
+        "function": "asl.states.format",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "identifier": "result",
+        "compilerGenerated": true,
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "stateName": "Return result",
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

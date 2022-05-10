@@ -12,7 +12,6 @@
     },
     "Assign arr": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr",
       "Result": [
         1,
         2,
@@ -20,32 +19,33 @@
         4,
         5
       ],
+      "ResultPath": "$.vars.arr",
       "Comment": "source: arr = [1, 2, 3, 4, 5]",
       "Next": "Assign two"
     },
     "Assign two": {
       "Type": "Pass",
-      "ResultPath": "$.vars.two",
       "InputPath": "$.vars.arr[1]",
+      "ResultPath": "$.vars.two",
       "Comment": "source: two = arr[1]",
       "Next": "Assign arr[1]"
     },
     "Assign arr[1]": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr[1]",
       "InputPath": "$.vars.arr[3]",
+      "ResultPath": "$.vars.arr[1]",
       "Next": "Assign arr[3]"
     },
     "Assign arr[3]": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr[3]",
       "InputPath": "$.vars.two",
+      "ResultPath": "$.vars.arr[3]",
       "Next": "Return arr"
     },
     "Return arr": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.arr"
+      "InputPath": "$.vars.arr",
+      "End": true
     }
   }
 }

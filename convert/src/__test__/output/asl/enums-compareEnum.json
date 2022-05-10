@@ -12,8 +12,8 @@
     },
     "Assign x": {
       "Type": "Pass",
-      "ResultPath": "$.vars.x",
       "Result": 0,
+      "ResultPath": "$.vars.x",
       "Comment": "source: x = ExampleEnum.A",
       "Next": "If (x === ExampleEnum.A)"
     },
@@ -30,14 +30,14 @@
       "Default": "Return \"fail\""
     },
     "Return \"success\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "success"
+      "Result": "success",
+      "End": true
     },
     "Return \"fail\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "fail"
+      "Result": "fail",
+      "End": true
     }
   }
 }

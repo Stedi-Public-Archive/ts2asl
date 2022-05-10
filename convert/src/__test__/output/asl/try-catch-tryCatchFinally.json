@@ -12,27 +12,27 @@
     },
     "Assign result": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "Result": "",
+      "ResultPath": "$.vars.result",
       "Comment": "source: result = \"\"",
       "Next": "Assign result_1"
     },
     "Assign result_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "Result": "try",
+      "ResultPath": "$.vars.result",
       "Next": "Assign result_2"
     },
     "Assign result_2": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "Result": "finally",
+      "ResultPath": "$.vars.result",
       "Next": "Return result"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.result"
+      "InputPath": "$.vars.result",
+      "End": true
     }
   }
 }

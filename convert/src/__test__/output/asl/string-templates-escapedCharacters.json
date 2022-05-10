@@ -12,13 +12,12 @@
     },
     "Assign variable": {
       "Type": "Pass",
-      "ResultPath": "$.vars.variable",
       "Result": "some var",
+      "ResultPath": "$.vars.variable",
       "Comment": "source: variable = \"some var\"",
       "Next": "Return { hello: `hell ..."
     },
     "Return { hello: `hell ...": {
-      "End": true,
       "Type": "Pass",
       "Parameters": {
         "hello.$": "States.Format('hello {}', $.vars.variable)",
@@ -26,7 +25,8 @@
         "curlyBrace.$": "States.Format('hello \\}\\{\\} + {}', $.vars.variable)",
         "backSlash.$": "States.Format('hello \\\\ + {}', $.vars.variable)",
         "emoji.$": "States.Format('hello 🙂 + {}', $.vars.variable)"
-      }
+      },
+      "End": true
     }
   }
 }

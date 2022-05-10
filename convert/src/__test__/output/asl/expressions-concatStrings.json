@@ -11,14 +11,14 @@
       "Next": "Return"
     },
     "Return": {
-      "End": true,
       "Type": "Pass",
       "Result": {
         "a": "hello world ",
         "b": "abc",
         "c": "abc",
         "d": "n=42;"
-      }
+      },
+      "End": true
     }
   }
 }

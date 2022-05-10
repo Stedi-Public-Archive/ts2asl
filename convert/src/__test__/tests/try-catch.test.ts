@@ -101,7 +101,6 @@ describe("when converting try-catch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('failed { ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('failed {} ({})', $.vars.err.Error, $.vars.err.Cause)",

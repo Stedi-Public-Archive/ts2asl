@@ -11,9 +11,9 @@
       "Next": "Return \"this cannot fail\""
     },
     "Return \"this cannot fail\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "this cannot fail"
+      "Result": "this cannot fail",
+      "End": true
     }
   }
 }

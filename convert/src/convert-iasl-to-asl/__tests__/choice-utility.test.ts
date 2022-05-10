@@ -17,7 +17,7 @@ describe("when transpiling simple statements", () => {
       _syntaxKind: iasl.SyntaxKind.BinaryExpression
     } as iasl.BinaryExpression;
 
-    const result = createChoiceOperator(binaryExpression);
+    const result = createChoiceOperator(binaryExpression, {}, {} as any);
     expect(result).toMatchInlineSnapshot(`
       Object {
         "NumericEquals": 23,
@@ -41,7 +41,7 @@ describe("when transpiling simple statements", () => {
       _syntaxKind: iasl.SyntaxKind.BinaryExpression
     } as iasl.BinaryExpression;
 
-    const result = createChoiceOperator(binaryExpression);
+    const result = createChoiceOperator(binaryExpression, {}, {} as any);
     expect(result).toMatchInlineSnapshot(`
       Object {
         "Or": Array [
@@ -102,7 +102,7 @@ it("then not typeof is optimized to typeof: false", () => {
     _syntaxKind: iasl.SyntaxKind.BinaryExpression
   } as iasl.BinaryExpression;
 
-  const result = createChoiceOperator(binaryExpression);
+  const result = createChoiceOperator(binaryExpression, {}, {} as any);
   expect(result).toMatchInlineSnapshot(`
     Object {
       "Not": Object {
@@ -264,7 +264,7 @@ describe("when transpiling complex statements", () => {
       _syntaxKind: "binary-expression"
     } as iasl.BinaryExpression;
 
-    const result = createChoiceOperator(binaryExpression);
+    const result = createChoiceOperator(binaryExpression, {}, {} as any);
     expect(result).toMatchInlineSnapshot(`
       Object {
         "Or": Array [

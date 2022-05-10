@@ -1,7 +1,7 @@
-import * as ts from "typescript"
+import * as ts from "typescript";
 import { ConverterContext, convertExpressionToLiteralOrIdentifier } from ".";
 import { aslStyleCallExpression } from "../convert/list-function-declarations";
-import * as iasl from "./ast"
+import * as iasl from "./ast";
 
 export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, context: ConverterContext): iasl.Identifier | undefined => {
   const { typeChecker } = context;
@@ -10,7 +10,8 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
     const type = typeChecker.getTypeAtLocation(expression);
     const symbol = typeChecker.getSymbolAtLocation(expression);
     const iaslType = convertType(type, symbol);
-    return { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, type: iaslType } as iasl.Identifier;
+    const identifier = { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, type: iaslType } as iasl.Identifier;
+    return identifier;
   }
 
   let path: string[] = [];
@@ -36,7 +37,7 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
       }
     }
   }
-  let pathAsString = path.reverse().join(".")
+  let pathAsString = path.reverse().join(".");
   if (ts.isPropertyAccessExpression(expression)) {
     const type = typeChecker.getTypeAtLocation(expression);
     const iaslType = convertType(type);
@@ -48,10 +49,10 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
       indexExpression: convertedIndexExpression,
       lhs: convertToIdentifier(expression.expression, context),
       _syntaxKind: iasl.SyntaxKind.Identifier,
-    } as iasl.Identifier
+    } as iasl.Identifier;
   }
   return undefined;
-}
+};
 
 function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
 
@@ -59,7 +60,7 @@ function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
     const callSignatures = type.getCallSignatures();
     if (callSignatures.length > 0) {
       if (symbol?.valueDeclaration && ts.isVariableDeclaration(symbol.valueDeclaration) && symbol.valueDeclaration.initializer) {
-        const result = aslStyleCallExpression(symbol.valueDeclaration.initializer)
+        const result = aslStyleCallExpression(symbol.valueDeclaration.initializer);
         if (result?.operation === "asLambda") {
           return "callable-lambda";
         }
@@ -69,23 +70,21 @@ function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
       }
       return "callable";
     }
-    return "object"
+    return "object";
   }
 
   if (hasFlag(type, ts.TypeFlags.String)) {
-    return "string"
+    return "string";
   }
 
   if (hasFlag(type, ts.TypeFlags.Number)) {
-    return "numeric"
+    return "numeric";
   }
 
   if (hasFlag(type, ts.TypeFlags.Boolean)) {
-    return "boolean"
+    return "boolean";
   }
   return "unknown";
-  return (type as unknown as { intrinsicName: string }).intrinsicName as iasl.Type;
-
 }
 function hasFlag(type: ts.Type, flag: ts.TypeFlags) {
   return (type.flags & flag) === flag;

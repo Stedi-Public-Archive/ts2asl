@@ -12,10 +12,10 @@
     },
     "Assign val": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val",
       "Result": {
         "greeting": "hello"
       },
+      "ResultPath": "$.vars.val",
       "Comment": "source: val = { greeting: \"hello\" }",
       "Next": "If (\"greeting\" in val && ..."
     },
@@ -42,14 +42,14 @@
       "Default": "Return \"failure\""
     },
     "Return \"success\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "success"
+      "Result": "success",
+      "End": true
     },
     "Return \"failure\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "failure"
+      "Result": "failure",
+      "End": true
     }
   }
 }

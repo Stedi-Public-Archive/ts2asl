@@ -22,8 +22,8 @@
     },
     "Assign creationStatus": {
       "Type": "Pass",
-      "ResultPath": "$.vars.creationStatus",
       "InputPath": "$._undefined",
+      "ResultPath": "$.vars.creationStatus",
       "Comment": "source: creationStatus: string | undefined = undefined",
       "Next": "DescribeCreateAccountStatus"
     },
@@ -34,12 +34,45 @@
       "Parameters": {
         "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id"
       },
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.describeResult.CreateAccountStatus",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.describeResult.CreateAccountStatus",
+                "IsNull": true
+              }
+            ]
+          },
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.describeResult.CreateAccountStatus.State",
+      "Next": "Assign creationStatus_1"
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$._undefined",
       "Next": "Assign creationStatus_1"
     },
     "Assign creationStatus_1": {
       "Type": "Pass",
+      "InputPath": "$.tmp.var",
       "ResultPath": "$.vars.creationStatus",
-      "InputPath": "$.vars.describeResult.CreateAccountStatus.State",
       "Next": "Switch (creationStatus)"
     },
     "Switch (creationStatus)": {
@@ -81,19 +114,85 @@
           "Next": "DescribeCreateAccountStatus"
         }
       ],
-      "Default": "Log (createAccount.Create ..."
+      "Default": "Eval Conditional_1"
+    },
+    "Eval Conditional_1": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.createAccount.CreateAccountStatus",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.createAccount.CreateAccountStatus",
+                "IsNull": true
+              }
+            ]
+          },
+          "Next": "Conditional True_1"
+        }
+      ],
+      "Default": "Conditional False_1"
+    },
+    "Conditional True_1": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+      "Next": "Log (createAccount.Create ..."
+    },
+    "Conditional False_1": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$._undefined",
+      "Next": "Log (createAccount.Create ..."
     },
     "Log (createAccount.Create ...": {
       "Type": "Pass",
+      "InputPath": "$.tmp.var",
       "ResultPath": null,
-      "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
       "Comment": "source: console.log(createAccount.CreateAccountStatus? ...",
+      "Next": "Eval Conditional_2"
+    },
+    "Eval Conditional_2": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.createAccount.CreateAccountStatus",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.createAccount.CreateAccountStatus",
+                "IsNull": true
+              }
+            ]
+          },
+          "Next": "Conditional True_2"
+        }
+      ],
+      "Default": "Conditional False_2"
+    },
+    "Conditional True_2": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+      "Next": "Return createAccount.Crea ..."
+    },
+    "Conditional False_2": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$._undefined",
       "Next": "Return createAccount.Crea ..."
     },
     "Return createAccount.Crea ...": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId"
+      "InputPath": "$.tmp.var",
+      "End": true
     }
   }
 }

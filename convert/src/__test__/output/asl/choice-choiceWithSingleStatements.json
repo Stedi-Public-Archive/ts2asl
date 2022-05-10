@@ -12,7 +12,6 @@
     },
     "Assign val": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val",
       "Result": {
         "a": "",
         "b": "",
@@ -22,6 +21,7 @@
         "f": "",
         "g": ""
       },
+      "ResultPath": "$.vars.val",
       "Comment": "source: val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f:  ...",
       "Next": "Choice"
     },
@@ -101,26 +101,26 @@
     },
     "Assign val.a": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.a",
       "Result": "val is truthy",
+      "ResultPath": "$.vars.val.a",
       "Next": "Return val"
     },
     "Assign val.b": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.b",
       "Result": "val is falsy",
+      "ResultPath": "$.vars.val.b",
       "Next": "Return val"
     },
     "Assign val.c": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.c",
       "Result": "val is not truthy and not falsy",
+      "ResultPath": "$.vars.val.c",
       "Next": "Return val"
     },
     "Return val": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.val"
+      "InputPath": "$.vars.val",
+      "End": true
     }
   }
 }

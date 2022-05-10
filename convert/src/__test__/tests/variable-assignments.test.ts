@@ -153,7 +153,6 @@ describe("when converting variable-assignments", () => {
             "Type": "Pass",
           },
           "Evaluate Array($.vars.str ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign array",
             "Parameters": Object {
               "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)",
@@ -360,7 +359,6 @@ describe("when converting variable-assignments", () => {
             "Type": "Pass",
           },
           "Evaluate Array($.vars.str ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign arr",
             "Parameters": Object {
               "value.$": "States.Array($.vars.str, $.vars.num, $.vars.combined)",
@@ -369,7 +367,6 @@ describe("when converting variable-assignments", () => {
             "Type": "Pass",
           },
           "Evaluate Format('1: {} 2 ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign combined",
             "Parameters": Object {
               "value.$": "States.Format('1: {}
@@ -379,7 +376,6 @@ describe("when converting variable-assignments", () => {
             "Type": "Pass",
           },
           "Evaluate Format('answer i ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign num",
             "Parameters": Object {
               "value.$": "States.Format('answer is {}', 42)",
@@ -388,7 +384,6 @@ describe("when converting variable-assignments", () => {
             "Type": "Pass",
           },
           "Evaluate Format('hello {} ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign str",
             "Parameters": Object {
               "value.$": "States.Format('hello {}', 'world')",

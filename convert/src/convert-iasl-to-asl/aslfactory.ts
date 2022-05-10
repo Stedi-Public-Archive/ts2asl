@@ -1,71 +1,42 @@
 import * as asl from "asl-types";
-import * as iasl from "../convert-asllib-to-iasl/ast"
+import * as iasl from "../convert-asllib-to-iasl/ast";
 import { appendBlock, convertBlock } from ".";
 import { createChoiceOperator } from "./choice-utility";
 import { createParameters, createParametersForMap } from "./parameters";
-import { createFilterExpression } from "./jsonpath-filter";
-import { trimName } from "../create-name";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createReplacer, replaceIdentifiers } from "./identifiers";
 import { Operator } from "asl-types/dist/choice";
+import { AslRhsFactory, convertIdentifierToPathExpression } from "./aslfactory.rhs";
+import { AslPassFactory } from "./aslfactory.pass";
 
 export let foreachCounter = { value: 0 };
 
 export class AslFactory {
   static append(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter) {
     let nameSuggestion: string | undefined = expression.stateName;
-    let properties = {};
-    let discardResult = false;
+
+    let resultPath: string | null;
     if (iasl.Check.isVariableAssignment(expression)) {
-      properties["ResultPath"] = convertIdentifierToPathExpression(expression.name);
+      resultPath = convertIdentifierToPathExpression(expression.name, scopes, context);
       nameSuggestion = nameSuggestionForAssignment(expression.name, expression.stateName);
-      if (!iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isAslIntrinsicFunction(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
+      if (!iasl.Check.isConditionalExpression(expression.expression) && !iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isAslIntrinsicFunction(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
         expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
       }
     } else {
-      discardResult = true;
+      resultPath = null;
     }
 
     if (iasl.Check.isAslPassState(expression)) {
-      //if the rhs of a pass-state is undefined, use $._undefined. both "undefined" and "null" will evaluate to the entire context.
-      const emptyRhs = expression.parameters === undefined || iasl.Check.isLiteral(expression.parameters) && (expression.parameters.value === undefined || expression.parameters.value === null);
-      const parameters = !emptyRhs ? convertExpressionToAsl(expression.parameters) : { path: "$._undefined", type: "object" } as AslExpressionOrIdentifier;
 
-      if (parameters.path && parameters.path.startsWith("States")) {
-        const fnName = parameters.path.substring(7)
-        context.appendNextState({
-          Type: "Pass",
-          ResultPath: "$.tmp.eval",
-          Parameters: {
-            "value.$": parameters.path
-          },
-          Comment: "result of an expression cannot be placed in InputPath, therefore copying it around a little",
-        } as asl.Pass, trimName("Evaluate " + fnName));
-        context.appendNextState({
-          Type: "Pass",
-          ResultPath: (null as any),
-          ...properties,
-          InputPath: "$.tmp.eval.value",
-          Comment: expression.source,
-        } as asl.Pass, nameSuggestion);
-      } else {
-        context.appendNextState({
-          Type: "Pass",
-          ResultPath: (null as any),
-          ...properties,
-          ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
-          Comment: expression.source,
-        } as asl.Pass, nameSuggestion);
-      }
+      AslPassFactory.appendIaslPass(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isAslTaskState(expression)) {
-      const parameters = expression.parameters ? convertExpressionToAsl(expression.parameters) : undefined;
+      const parameters = expression.parameters ? AslRhsFactory.appendIasl(expression.parameters, scopes, context) : undefined;
 
       const task = {
         Type: "Task",
-        ...properties,
-        ...(discardResult ? { ResultPath: null } : {}),
+        ResultPath: resultPath,
         Resource: expression.resource,
         ...(parameters && parameters.path !== undefined ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value } : {}),
         Retry: expression.retry,
@@ -79,7 +50,7 @@ export class AslFactory {
 
     } else if (iasl.Check.isDoWhileStatement(expression)) {
       if (expression.while.statements.length == 0) throw new Error("Do while must have at least one statement");
-      const childContext = appendBlock(expression.while, scopes, context.createChildContext())
+      const childContext = appendBlock(expression.while, scopes, context.createChildContext());
 
       if (childContext.startAt !== undefined) {
         const breakStates: StateWithBrand[] = [], continueStates: StateWithBrand[] = [];
@@ -95,9 +66,9 @@ export class AslFactory {
         }
         context.joinTrailingStates(childContext.startAt);
         context.appendTails(childContext.trailingStates);
-        const whileConditionOperator = createChoiceOperator(expression.condition);
+        const whileConditionOperator = createChoiceOperator(expression.condition, scopes, context);
         whileConditionOperator.Next = childContext.startAt;
-        const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice
+        const whileCondition = { Type: "Choice", Choices: [whileConditionOperator] } as asl.Choice;
         const whileConditionName = context.appendNextState(whileCondition, "Do While Condition");
         context.finalizeChoiceState();
 
@@ -105,20 +76,19 @@ export class AslFactory {
           (continueState as asl.Pass).Next = whileConditionName;
         }
 
-        context.joinTrailingStates(whileConditionName, whileCondition)
+        context.joinTrailingStates(whileConditionName, whileCondition);
         context.appendTails(breakStates);
       }
 
     } else if (iasl.Check.isIfExpression(expression)) {
       const choiceState = {
         Type: "Choice",
-        ...properties,
         Choices: [],
         Comment: expression.source
       } as asl.Choice;
       context.appendNextState(choiceState, expression.stateName ?? "If");
 
-      const choiceOperator = createChoiceOperator(expression.condition);
+      const choiceOperator = createChoiceOperator(expression.condition, scopes, context);
       const thenWriter = context.appendChoiceOperator(choiceOperator);
       appendBlock(expression.then, scopes, thenWriter);
 
@@ -132,14 +102,13 @@ export class AslFactory {
     } else if (iasl.Check.isAslChoiceState(expression)) {
       const choiceState = {
         Type: "Choice",
-        ...properties,
         Choices: [],
         Comment: expression.source
       } as asl.Choice;
 
       context.appendNextState(choiceState, expression.stateName ?? "Choice");
       for (const choice of (expression.choices || [])) {
-        const choiceOperator = createChoiceOperator(choice.condition);
+        const choiceOperator = createChoiceOperator(choice.condition, scopes, context);
         const branch = context.appendChoiceOperator(choiceOperator);
         appendBlock(choice.block, scopes, branch);
       }
@@ -155,18 +124,17 @@ export class AslFactory {
     } else if (iasl.Check.isSwitch(expression)) {
       const choiceState = {
         Type: "Choice",
-        ...properties,
         Choices: [],
         Comment: expression.source
       } as asl.Choice;
 
       context.appendNextState(choiceState, expression.stateName ?? "Switch");
-      let unjoinedBranches: { operator: Operator | undefined; branch: AslWriter }[] = [];
+      let unjoinedBranches: { operator: Operator | undefined; branch: AslWriter; }[] = [];
       for (const _case of (expression.cases || [])) {
         let branch: AslWriter | undefined;
         let operator: Operator | undefined;
         if (_case.when) {
-          operator = createChoiceOperator(_case.when);
+          operator = createChoiceOperator(_case.when, scopes, context);
           branch = context.appendChoiceOperator(operator);
         } else {
           branch = context.appendChoiceDefault();
@@ -204,7 +172,7 @@ export class AslFactory {
     } else if (iasl.Check.isWhileStatement(expression)) {
       if (expression.while.statements.length == 0) throw new Error("While must have at least one statement");
       const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "While Condition");
-      const whileConditionOperator = createChoiceOperator(expression.condition);
+      const whileConditionOperator = createChoiceOperator(expression.condition, scopes, context);
       const whileBodyBranch = context.appendChoiceOperator(whileConditionOperator);
       appendBlock(expression.while, scopes, whileBodyBranch);
       whileBodyBranch.joinTrailingStates(whileConditionName);
@@ -223,12 +191,11 @@ export class AslFactory {
         }
       }
     } else if (iasl.Check.isAslWaitState(expression)) {
-      const seconds = expression.seconds !== undefined ? convertExpressionToAsl(expression.seconds) : undefined;
-      const timestamp = expression.timestamp !== undefined ? convertExpressionToAsl(expression.timestamp) : undefined;
+      const seconds = expression.seconds !== undefined ? AslRhsFactory.appendIasl(expression.seconds, scopes, context) : undefined;
+      const timestamp = expression.timestamp !== undefined ? AslRhsFactory.appendIasl(expression.timestamp, scopes, context) : undefined;
 
       context.appendNextState({
         Type: "Wait",
-        ...properties,
         ...(seconds && seconds.path !== undefined ? { SecondsPath: seconds.path } : seconds ? { Seconds: seconds.value } : {}),
         ...(timestamp && timestamp.path !== undefined ? { TimestampPath: timestamp.path } : timestamp ? { Timestamp: timestamp.value } : {}),
         Comment: expression.source,
@@ -237,8 +204,7 @@ export class AslFactory {
       const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext()));
       const parallelState = {
         Branches: branches,
-        ...properties,
-        ...(discardResult ? { ResultPath: null } : {}),
+        ResultPath: resultPath,
         Type: "Parallel",
         Retry: expression.retry,
         Comment: expression.source,
@@ -248,13 +214,12 @@ export class AslFactory {
       this.appendCatchConfiguration([parallelState], expression.catch, scopes, context);
       this.appendRetryConfiguration(parallelState, expression.retry);
     } else if (iasl.Check.isAslMapState(expression)) {
-      const iterator = convertBlock(expression.iterator, scopes, context.createChildContext())
-      const items = convertExpressionToAsl(expression.items);
+      const iterator = convertBlock(expression.iterator, scopes, context.createChildContext());
+      const items = AslRhsFactory.appendIasl(expression.items, scopes, context);
 
       const mapState = {
         Type: "Map",
-        ...properties,
-        ...(discardResult ? { ResultPath: null } : {}),
+        ResultPath: resultPath,
         Iterator: iterator,
         ItemsPath: items.path,
         MaxConcurrency: expression.maxConcurrency,
@@ -271,7 +236,7 @@ export class AslFactory {
       const namePostFix = foreachCounter.value > 0 ? " " + (foreachCounter.value + 1) : "";
       foreachCounter.value++;
       const foreachWriter = context.createChildContext();
-      const items = convertExpressionToAsl(expression.items);
+      const items = AslRhsFactory.appendIasl(expression.items, scopes, context);
       foreachWriter.appendNextState({
         Type: "Pass",
         ResultPath: `$.${namespace}`,
@@ -328,14 +293,13 @@ export class AslFactory {
       for (const [name, state] of Object.entries(foreachWriter.states)) {
         context.states[name] = state;
       }
-      context.joinTrailingStates(foreachWriter.startAt as string)
+      context.joinTrailingStates(foreachWriter.startAt as string);
       delete (foreachExitState as asl.Pass).Next;
       context.appendTails(foreachExitState);
 
     } else if (iasl.Check.isAslFailState(expression)) {
       context.appendNextState({
         Type: "Fail",
-        ...properties,
         Error: expression.error,
         Cause: expression.cause,
         Comment: expression.source
@@ -343,20 +307,10 @@ export class AslFactory {
     } else if (iasl.Check.isAslSucceedState(expression)) {
       context.appendNextState({
         Type: "Succeed",
-        ...properties,
         Comment: expression.source
       } as asl.Succeed, nameSuggestion);
     } else if (iasl.Check.isReturnStatement(expression)) {
-      if (expression.expression) {
-        const parameters = convertExpressionToAsl(expression.expression);
-        context.appendNextState({
-          End: true,
-          Type: "Pass",
-          Comment: expression.source,
-          ...properties,
-          ...(parameters.path !== undefined ? { InputPath: parameters.path } : parameters.valueContainsReplacements ? { Parameters: parameters.value } : { Result: parameters.value }),
-        }, expression.stateName ?? "Return");
-      }
+      AslPassFactory.appendIaslReturn(expression, scopes, context);
     } else if (iasl.Check.isBreakStatement(expression)) {
       context.appendNextState({
         brand: "break",
@@ -377,7 +331,7 @@ export class AslFactory {
       appendBlock(expression.try, scopes, tryWriter);
       const tryStatesWithCatchConfiguration: Array<(asl.Map | asl.Parallel | asl.Task | asl.Fail)> = [];
       if (tryWriter.startAt) {
-        context.joinTrailingStates(tryWriter.startAt)
+        context.joinTrailingStates(tryWriter.startAt);
         for (const [name, state] of Object.entries(tryWriter.states)) {
           context.states[name] = state;
           if (["Map", "Parallel", "Task", "Fail"].includes(state.Type)) {
@@ -444,7 +398,7 @@ export class AslFactory {
           } else {
             const casted = stateWithCatch as asl.Map | asl.Parallel | asl.Task;
             if (casted.Catch === undefined) {
-              casted.Catch = []
+              casted.Catch = [];
             }
             normalizedCatchStatesWithCatchConfiguration.push(casted);
           }
@@ -453,7 +407,7 @@ export class AslFactory {
         const catchConfiguration: iasl.CatchConfiguration = [{
           errorEquals: ["States.All"],
           block: { ...expression.finally, _syntaxKind: iasl.SyntaxKind.Function } as iasl.Function,
-        }]
+        }];
         const result = this.appendCatchConfiguration(normalizedCatchStatesWithCatchConfiguration, catchConfiguration, scopes, context);
         const finallyStart = result.startStates[0];
         context.joinTrailingStates(finallyStart, ...result.appendedStates);
@@ -512,133 +466,7 @@ export class AslFactory {
   }
 }
 
-interface AslExpressionOrIdentifier {
-  path?: string;
-  value?: unknown;
-  type: iasl.Type;
-  valueContainsReplacements?: boolean;
-};
 
-export const convertExpressionToAsl = (expr: iasl.Identifier | iasl.Expression): AslExpressionOrIdentifier => {
-  if (iasl.Check.isIdentifier(expr)) {
-    return { path: convertIdentifierToPathExpression(expr), type: expr.type ?? "unknown" }
-  } else if (iasl.Check.isLiteral(expr)) {
-    return {
-      value: expr.value,
-      type: expr.type,
-      valueContainsReplacements: false,
-    }
-  } else if (iasl.Check.isLiteralArray(expr)) {
-    const convertedElements = expr.elements.map(x => convertExpressionToAsl(x));
-    if (convertedElements.some(x => x.path)) {
-      throw new Error("initializing an array with an identifier as one of the elements is not supported yet");
-    }
-    return {
-      value: convertedElements.map(x => x.value),
-      type: "array",
-      valueContainsReplacements: convertedElements.findIndex(x => x.path || x.valueContainsReplacements === true) !== -1
-    }
-  } else if (iasl.Check.isAslIntrinsicFunction(expr)) {
-    let args: string[] = [];
-    for (const arg of expr.arguments) {
-      const convertedArg = convertExpressionToAsl(arg);
-      const convertedArgAsArray = convertedArg.type === "array" ? convertedArg.value as [] : [convertedArg]
-      for (const argFromArray of convertedArgAsArray) {
-        if (argFromArray.path) {
-          args.push(argFromArray.path);
-        } else if (typeof argFromArray.value === "string") {
-          args.push(`'${argFromArray.value}'`);
-        } else if (typeof argFromArray.value === "object") {
-          args.push(`${JSON.stringify(argFromArray.value, null, 2)}`);
-        } else {
-          args.push(`${argFromArray.value}`);
-        }
-      }
-    }
-    let intrinsicFunctionName = expr.function;
-    if (intrinsicFunctionName.startsWith("asl.states.")) {
-      const firstCharFunctionName = intrinsicFunctionName[11].toUpperCase();
-      intrinsicFunctionName = "States." + firstCharFunctionName + intrinsicFunctionName.substring(12);
-    }
-
-    return {
-      path: `${intrinsicFunctionName}(${args.join(', ')})`,
-      type: "unknown",
-      valueContainsReplacements: true
-    }
-  } else if (iasl.Check.isLiteralObject(expr)) {
-    const value: Record<string, unknown> = {};
-    let valueContainsReplacements: boolean = false;
-    for (const [propName, propValue] of Object.entries(expr.properties)) {
-      const result = convertExpressionToAsl(propValue);
-      if (result.path) {
-        valueContainsReplacements = true;
-        value[propName + ".$"] = result.path;
-      } else {
-        value[propName] = result.value;
-        if (result.valueContainsReplacements) {
-          valueContainsReplacements = true;
-        }
-      }
-    }
-    return {
-      value,
-      type: "object",
-      valueContainsReplacements,
-    }
-  }
-  throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expr._syntaxKind}`);
-}
-
-export const convertIdentifierToPathExpression = (expr: iasl.Identifier): string => {
-  let lhs = "";
-  if (expr.lhs) {
-    lhs += convertIdentifierToPathExpression(expr.lhs);
-  }
-  if (expr.indexExpression) {
-    const indexExpr = convertExpressionToAsl(expr.indexExpression);
-    if (indexExpr.path) {
-      return lhs + "[" + indexExpr.path + "]" + expr.identifier;
-    } else {
-      return lhs + "[" + indexExpr.value + "]" + expr.identifier;
-    }
-  }
-
-  let trailing = "";
-  if (expr.jsonPathExpression) {
-    trailing = expr.jsonPathExpression;
-  } else if (expr.sliceExpression) {
-    let expression = expr.sliceExpression.start + ':';
-    if (expr.sliceExpression.end) expression += expr.sliceExpression.end;
-    if (expr.sliceExpression.step) expression += ":" + expr.sliceExpression.step;
-    trailing = `[${expression}]`;
-  } else if (expr.filterExpression) {
-    const expression = createFilterExpression(expr.filterExpression.argument.identifier, expr.filterExpression.expression);
-    trailing = `[?(${expression})]`;
-  } else if (expr.mapExpression) {
-    trailing = `.${expr.mapExpression}`;
-  }
-
-  if (expr.identifier) {
-    if (expr.identifier.startsWith("$")) {
-      return expr.identifier + trailing;
-    }
-    if (!lhs) {
-      if (expr.objectContextExpression) {
-        return "$$." + expr.identifier + trailing;
-      }
-      if (!expr.compilerGenerated) {
-        return "$.vars." + expr.identifier + trailing;
-      } else {
-        return "$.tmp." + expr.identifier + trailing;
-      }
-    }
-    return lhs + "." + expr.identifier + trailing;
-
-  } else {
-    return lhs + trailing;
-  }
-}
 
 export const nameSuggestionForAssignment = (id: iasl.Identifier, stateName: string | undefined): string => {
   if (stateName) return stateName;
@@ -647,4 +475,4 @@ export const nameSuggestionForAssignment = (id: iasl.Identifier, stateName: stri
   const capitalized = lastPart[0].toUpperCase() + (lastPart.length > 1 ? lastPart.substring(1) : "");
 
   return `Assign ${capitalized}`;
-}
+};

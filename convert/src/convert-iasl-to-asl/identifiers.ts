@@ -22,7 +22,7 @@ export const createObjectContextReplacer = (objectContextName: string) => {
   return {
     replace: (identifier: iasl.Identifier) => {
       if (identifier.identifier === objectContextName) {
-        identifier.identifier = "$$"
+        identifier.identifier = "$$";
       } else if (identifier.identifier.startsWith(objectContextName + ".")) {
         const parts = identifier.identifier.replace(objectContextName + ".", "").split(".");
         const converted = parts.map(x => x[0].toUpperCase() + x.substring(1)).join(".");
@@ -31,7 +31,7 @@ export const createObjectContextReplacer = (objectContextName: string) => {
       }
     }
   } as IdentifierReplacer;
-}
+};
 
 export const createReplacer = (inputArgumentName: string, root: string = "$.vars") => {
   return {
@@ -43,4 +43,4 @@ export const createReplacer = (inputArgumentName: string, root: string = "$.vars
       }
     }
   } as IdentifierReplacer;
-}
+};

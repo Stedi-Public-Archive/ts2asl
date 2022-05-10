@@ -42,7 +42,6 @@ describe("when converting for-each", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}', $.f ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}', $.foreach.currentItem)",
@@ -51,7 +50,6 @@ describe("when converting for-each", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}, {}', ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('{}, {}', $.vars.result, $.foreach.currentItem)",
@@ -169,7 +167,6 @@ describe("when converting for-each", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}', $.f ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}', $.foreach.currentItem)",
@@ -178,7 +175,6 @@ describe("when converting for-each", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}, {}', ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('{}, {}', $.vars.result, $.foreach.currentItem)",
@@ -308,7 +304,6 @@ describe("when converting for-each", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}', $.f ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}', $.foreach.currentItem)",
@@ -317,7 +312,6 @@ describe("when converting for-each", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}, {}', ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('{}, {}', $.vars.result, $.foreach.currentItem)",
@@ -427,7 +421,6 @@ describe("when converting for-each", () => {
             "Type": "Pass",
           },
           "Evaluate Format('found {} ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign Result",
             "Parameters": Object {
               "value.$": "States.Format('found {}!', $.foreach.currentItem)",

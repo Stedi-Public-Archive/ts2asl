@@ -24,7 +24,6 @@ describe("when converting ts-lib-convert", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}', $.v ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign str",
             "Parameters": Object {
               "value.$": "States.Format('{}', $.vars.num)",
@@ -33,7 +32,6 @@ describe("when converting ts-lib-convert", () => {
             "Type": "Pass",
           },
           "Evaluate StringToJson('42')": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign num",
             "Parameters": Object {
               "value.$": "States.StringToJson('42')",
@@ -110,7 +108,6 @@ describe("when converting ts-lib-convert", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}', $.v ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign str",
             "Parameters": Object {
               "value.$": "States.Format('{}', $.vars.bool)",
@@ -119,7 +116,6 @@ describe("when converting ts-lib-convert", () => {
             "Type": "Pass",
           },
           "Evaluate StringToJson('true')": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign bool",
             "Parameters": Object {
               "value.$": "States.StringToJson('true')",

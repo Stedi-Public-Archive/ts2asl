@@ -12,7 +12,6 @@
     },
     "Assign val": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val",
       "Result": {
         "a": "",
         "b": "",
@@ -22,13 +21,14 @@
         "f": "",
         "g": ""
       },
+      "ResultPath": "$.vars.val",
       "Comment": "source: val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f:  ...",
       "Next": "Assign val.a"
     },
     "Assign val.a": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.a",
       "Result": "before",
+      "ResultPath": "$.vars.val.a",
       "Next": "If (true)"
     },
     "If (true)": {
@@ -45,14 +45,14 @@
     },
     "Assign val.b": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.b",
       "Result": "outer_1",
+      "ResultPath": "$.vars.val.b",
       "Next": "Assign val.c"
     },
     "Assign val.c": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.c",
       "Result": "outer_2",
+      "ResultPath": "$.vars.val.c",
       "Next": "If (true)_1"
     },
     "If (true)_1": {
@@ -69,38 +69,38 @@
     },
     "Assign val.d": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.d",
       "Result": "inner_1",
+      "ResultPath": "$.vars.val.d",
       "Next": "Assign val.e"
     },
     "Assign val.e": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.e",
       "Result": "inner_2",
+      "ResultPath": "$.vars.val.e",
       "Next": "Assign val.g"
     },
     "Assign val.e_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.e",
       "Result": "inner_else_2",
+      "ResultPath": "$.vars.val.e",
       "Next": "Assign val.g"
     },
     "Assign val.f": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.f",
       "Result": "outer_else_2",
+      "ResultPath": "$.vars.val.f",
       "Next": "Assign val.g"
     },
     "Assign val.g": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.g",
       "Result": "after",
+      "ResultPath": "$.vars.val.g",
       "Next": "Return val"
     },
     "Return val": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.val"
+      "InputPath": "$.vars.val",
+      "End": true
     }
   }
 }

@@ -17,8 +17,8 @@ describe("when converting constant expressions", () => {
       const c = 3;"
     `);
   });
-  it("throws for expressions with identifier", () => {
-    expect(() => {
+  it("doesnt throws for expressions with identifier", () => {
+    expect(
       testTransform(
         `
       const a = 'one' + 'two';
@@ -26,10 +26,12 @@ describe("when converting constant expressions", () => {
       `,
         literalExpressionTransformer
       )
-    }
-    ).toThrowError();
+    ).toMatchInlineSnapshot(`
+      "const a = \\"onetwo\\";
+      const b = asl.states.format(\\"one{}\\", a);"
+    `);
 
-    expect(() => {
+    expect(
       testTransform(
         `
       const a = 'one' + 'two';
@@ -37,9 +39,11 @@ describe("when converting constant expressions", () => {
       `,
         literalExpressionTransformer
       )
-    }
-    ).toThrowError();
-    expect(() => {
+    ).toMatchInlineSnapshot(`
+      "const a = \\"onetwo\\";
+      const b = asl.states.format(\\"{}three\\", a);"
+    `);
+    expect(
       testTransform(
         `
     const a = 'one' + 'two';
@@ -47,15 +51,17 @@ describe("when converting constant expressions", () => {
     `,
         literalExpressionTransformer
       )
-    }
-    ).toThrowError()
+    ).toMatchInlineSnapshot(`
+      "const a = \\"onetwo\\";
+      const b = asl.states.format(\\"one{}\\", (a));"
+    `);
   });
   it("then simple template expressions get converted", () => {
     expect(
       testTransform(
         'const a = { attrib : `a${"b"} ${"b"} c` };' +
-        "const b = { attrib : `a${6} c` };" +
-        "const c = { attrib : `a${6 + 2 + 4} c` };",
+          "const b = { attrib : `a${6} c` };" +
+          "const c = { attrib : `a${6 + 2 + 4} c` };",
         literalExpressionTransformer
       )
     ).toMatchInlineSnapshot(`
@@ -68,7 +74,7 @@ describe("when converting constant expressions", () => {
     expect(
       testTransform(
         'const a = { attrib : "abc" + asl.deploy.getParameter("param") };' +
-        'const b = { attrib : `a${asl.deploy.getParameter("param")} c` };'
+          'const b = { attrib : `a${asl.deploy.getParameter("param")} c` };'
       )
     ).toMatchInlineSnapshot(`
       "const a = asl.pass({

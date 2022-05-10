@@ -12,7 +12,6 @@
     },
     "Assign filterArray": {
       "Type": "Pass",
-      "ResultPath": "$.vars.filterArray",
       "Result": {
         "cats": {
           "young": [
@@ -59,35 +58,36 @@
           ]
         }
       },
+      "ResultPath": "$.vars.filterArray",
       "Comment": "source: filterArray = { cats: { young: [{ age: 2, spec ...",
       "Next": "Assign ages"
     },
     "Assign ages": {
       "Type": "Pass",
-      "ResultPath": "$.vars.ages",
       "InputPath": "$.vars.filterArray..age",
+      "ResultPath": "$.vars.ages",
       "Next": "Assign flattenedPets"
     },
     "Assign flattenedPets": {
       "Type": "Pass",
-      "ResultPath": "$.vars.flattenedPets",
       "InputPath": "$.vars.filterArray[*][*][*]",
+      "ResultPath": "$.vars.flattenedPets",
       "Next": "Assign slicedArr"
     },
     "Assign slicedArr": {
       "Type": "Pass",
-      "ResultPath": "$.vars.slicedArr",
       "InputPath": "$.vars.filterArray.cats.young[1:1]",
+      "ResultPath": "$.vars.slicedArr",
       "Next": "Return { ages, fl ..."
     },
     "Return { ages, fl ...": {
-      "End": true,
       "Type": "Pass",
       "Parameters": {
         "ages.$": "$.vars.ages",
         "flattenedPets.$": "$.vars.flattenedPets",
         "slicedArr.$": "$.vars.slicedArr"
-      }
+      },
+      "End": true
     }
   }
 }

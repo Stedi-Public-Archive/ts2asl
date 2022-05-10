@@ -12,43 +12,43 @@
     },
     "Assign numbers": {
       "Type": "Pass",
-      "ResultPath": "$.vars.numbers",
       "Result": [
         0,
         1,
         2,
         3
       ],
+      "ResultPath": "$.vars.numbers",
       "Comment": "source: numbers = [0, 1, 2, 3]",
       "Next": "Assign letters"
     },
     "Assign letters": {
       "Type": "Pass",
-      "ResultPath": "$.vars.letters",
       "Result": [
         "a",
         "b",
         "c",
         "d"
       ],
+      "ResultPath": "$.vars.letters",
       "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
       "Next": "Assign global"
     },
     "Assign global": {
       "Type": "Pass",
-      "ResultPath": "$.vars.global",
       "Result": "prefix",
+      "ResultPath": "$.vars.global",
       "Comment": "source: global = \"prefix\"",
       "Next": "Assign outer"
     },
     "Assign outer": {
       "Type": "Pass",
-      "ResultPath": "$.vars.outer",
       "Result": {
         "middle": {
           "inner": 3
         }
       },
+      "ResultPath": "$.vars.outer",
       "Comment": "source: outer = { middle: { inner: 3 } }",
       "Next": "numbers.map => number"
     },
@@ -66,13 +66,13 @@
               "States": {
                 "Assign combined": {
                   "Type": "Pass",
-                  "ResultPath": "$.vars.combined",
                   "Parameters": {
                     "number.$": "$.vars.number",
                     "letter.$": "$.vars.letter",
                     "global.$": "$.vars.global",
                     "inner.$": "$.vars.outer.middle.inner"
                   },
+                  "ResultPath": "$.vars.combined",
                   "Comment": "source: combined = { number, letter, global, inner: ou ...",
                   "Next": "doSomething(combined)"
                 },

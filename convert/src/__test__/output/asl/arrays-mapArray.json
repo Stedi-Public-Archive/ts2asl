@@ -12,7 +12,6 @@
     },
     "Assign myArray": {
       "Type": "Pass",
-      "ResultPath": "$.vars.myArray",
       "Result": [
         1,
         2,
@@ -25,6 +24,7 @@
         9,
         10
       ],
+      "ResultPath": "$.vars.myArray",
       "Comment": "source: myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
       "Next": "Assign Result"
     },
@@ -67,20 +67,20 @@
             "Default": "Return { age: x, ..._1"
           },
           "Return { age: x, ...": {
-            "End": true,
             "Type": "Pass",
             "Parameters": {
               "age.$": "$.vars.x",
               "species": "dog"
-            }
+            },
+            "End": true
           },
           "Return { age: x, ..._1": {
-            "End": true,
             "Type": "Pass",
             "Parameters": {
               "age.$": "$.vars.x",
               "species": "cat"
-            }
+            },
+            "End": true
           }
         }
       },
@@ -94,9 +94,9 @@
       "Next": "Return result"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.tmp.result"
+      "InputPath": "$.tmp.result",
+      "End": true
     }
   }
 }

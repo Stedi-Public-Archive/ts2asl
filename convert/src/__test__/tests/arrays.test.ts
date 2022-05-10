@@ -31,7 +31,6 @@ describe("when converting arrays", () => {
             "Type": "Pass",
           },
           "Evaluate Array(1, 2, 3, 4 ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign myArray",
             "Parameters": Object {
               "value.$": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)",
@@ -40,7 +39,6 @@ describe("when converting arrays", () => {
             "Type": "Pass",
           },
           "Evaluate JsonToString($.v ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign mySerializedArray",
             "Parameters": Object {
               "value.$": "States.JsonToString($.vars.myArray)",
@@ -49,7 +47,6 @@ describe("when converting arrays", () => {
             "Type": "Pass",
           },
           "Evaluate StringToJson($.v ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign myArray_1",
             "Parameters": Object {
               "value.$": "States.StringToJson($.vars.mySerializedArray)",

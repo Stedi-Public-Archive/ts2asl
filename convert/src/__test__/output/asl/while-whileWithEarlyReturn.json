@@ -12,8 +12,8 @@
     },
     "Assign counter": {
       "Type": "Pass",
-      "ResultPath": "$.vars.counter",
       "Result": "",
+      "ResultPath": "$.vars.counter",
       "Comment": "source: counter = \"\"",
       "Next": "While Condition"
     },
@@ -36,13 +36,12 @@
       "Parameters": {
         "value.$": "States.Format('{}a', $.vars.counter)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign counter_1"
     },
     "Assign counter_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.counter",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.counter",
       "Next": "If (counter == \"aa\")"
     },
     "If (counter == \"aa\")": {
@@ -58,9 +57,9 @@
       "Default": "While Condition"
     },
     "Return counter": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.counter"
+      "InputPath": "$.vars.counter",
+      "End": true
     },
     "While Exit": {
       "Type": "Pass",

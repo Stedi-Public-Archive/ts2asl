@@ -1,0 +1,86 @@
+{
+  "inputArgumentName": {
+    "identifier": "args",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "expression": {
+        "condition": {
+          "rhs": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "value": "doesn't happen",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "whenFalse": {
+          "condition": {
+            "rhs": {
+              "condition": {
+                "rhs": {
+                  "identifier": "args",
+                  "_syntaxKind": "identifier",
+                  "type": "object"
+                },
+                "operator": "is-truthy",
+                "_syntaxKind": "binary-expression"
+              },
+              "whenTrue": {
+                "identifier": "args.name",
+                "type": "unknown",
+                "_syntaxKind": "identifier"
+              },
+              "whenFalse": {
+                "value": null,
+                "type": "null",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "conditional-expression"
+            },
+            "operator": "is-truthy",
+            "_syntaxKind": "binary-expression"
+          },
+          "whenTrue": {
+            "condition": {
+              "rhs": {
+                "identifier": "args",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
+            },
+            "whenTrue": {
+              "identifier": "args.name",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "whenFalse": {
+              "value": null,
+              "type": "null",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "conditional-expression"
+          },
+          "whenFalse": {
+            "value": "world",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "conditional-expression"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return null ? \"doesn't ha ..."
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

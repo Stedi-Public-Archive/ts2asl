@@ -12,14 +12,14 @@
     },
     "Assign data": {
       "Type": "Pass",
-      "ResultPath": "$.vars.data",
-      "Result": {
+      "Parameters": {
         "num": 42,
         "text": "text",
-        "undefined": null,
-        "null": null,
+        "undefined.$": "$._undefined",
+        "null.$": "$._undefined",
         "timestamp": "2016-03-14T01:59:00Z"
       },
+      "ResultPath": "$.vars.data",
       "Comment": "source: data = { num: 42, text: \"text\", undefined: und ...",
       "Next": "If (typeof data.num !== \" ..."
     },

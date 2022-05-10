@@ -1,0 +1,66 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars",
+                "IsNull": true
+              }
+            ]
+          },
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars",
+      "Next": "Evaluate Format('hello: { ..."
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "Result": "jim",
+      "Next": "Evaluate Format('hello: { ..."
+    },
+    "Evaluate Format('hello: { ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('hello: {}', $.tmp.var)"
+      },
+      "Next": "Assign Result"
+    },
+    "Assign Result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.tmp.result",
+      "Next": "Return result"
+    },
+    "Return result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "inputArgumentName": {
+    "identifier": "args",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "expression": {
+        "condition": {
+          "rhs": {
+            "condition": {
+              "rhs": {
+                "identifier": "args",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
+            },
+            "whenTrue": {
+              "identifier": "args.inner",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "whenFalse": {
+              "value": null,
+              "type": "null",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "conditional-expression",
+            "type": "object"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "args.inner.name",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return args?.inner?.name"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

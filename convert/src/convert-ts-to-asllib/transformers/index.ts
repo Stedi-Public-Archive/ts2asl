@@ -23,6 +23,7 @@ import { stringConversionTransformer } from "./string-conversion";
 import { ICompilerHost } from "../../compiler-host";
 import { evalConstTransformer } from "./eval-const";
 import { enumValueTransformer } from "./enum-values";
+import { nullCoalescingStatementTransformer } from "./null-coalescing-statement";
 
 export const createTransformers = (converterOptions: ConverterOptions = {}, host: ICompilerHost) => {
   return [
@@ -41,6 +42,7 @@ export const createTransformers = (converterOptions: ConverterOptions = {}, host
     promiseAllStatementTransformer(converterOptions),
     consoleLogStatementTransformer(converterOptions),
     callStatementTransformer(converterOptions),
+    nullCoalescingStatementTransformer(converterOptions),
     deployTimeStatementTransformer,
     literalExpressionTransformer,
     stringTemplateTransformer,
@@ -50,4 +52,4 @@ export const createTransformers = (converterOptions: ConverterOptions = {}, host
     doWhileStatementTransformer(converterOptions),
     forOfStatementTransformer(converterOptions),
   ];
-}
+};

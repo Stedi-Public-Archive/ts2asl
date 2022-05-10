@@ -24,7 +24,6 @@ describe("when converting while", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}a', $. ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
               "value.$": "States.Format('{}a', $.vars.counter)",
@@ -95,7 +94,6 @@ describe("when converting while", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}a', $. ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
               "value.$": "States.Format('{}a', $.vars.counter)",
@@ -172,7 +170,6 @@ describe("when converting while", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}a', $. ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
               "value.$": "States.Format('{}a', $.vars.counter)",
@@ -275,7 +272,6 @@ describe("when converting while", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}a', $. ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign counter_1",
             "Parameters": Object {
               "value.$": "States.Format('{}a', $.vars.counter)",
@@ -284,7 +280,6 @@ describe("when converting while", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}b', $. ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}b', $.vars.result)",

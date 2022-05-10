@@ -1,0 +1,159 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign obj"
+    },
+    "Assign obj": {
+      "Type": "Pass",
+      "Parameters": {
+        "name.$": "$._undefined"
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { name: undefined }",
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "Result": {},
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result: { a?: string, b?: string; } = {}",
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.obj.name",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "NumericEquals": 0
+              }
+            ]
+          },
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.obj.name",
+      "Next": "Assign result.a"
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "Result": "jim",
+      "Next": "Assign result.a"
+    },
+    "Assign result.a": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "ResultPath": "$.vars.result.a",
+      "Next": "Assign obj.name"
+    },
+    "Assign obj.name": {
+      "Type": "Pass",
+      "Result": "jack",
+      "ResultPath": "$.vars.obj.name",
+      "Next": "Eval Conditional_1"
+    },
+    "Eval Conditional_1": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.obj.name",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "NumericEquals": 0
+              }
+            ]
+          },
+          "Next": "Conditional True_1"
+        }
+      ],
+      "Default": "Conditional False_1"
+    },
+    "Conditional True_1": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.obj.name",
+      "Next": "Assign result.b"
+    },
+    "Conditional False_1": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "Result": "jim",
+      "Next": "Assign result.b"
+    },
+    "Assign result.b": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "ResultPath": "$.vars.result.b",
+      "Next": "Return result"
+    },
+    "Return result": {
+      "Type": "Pass",
+      "InputPath": "$.vars.result",
+      "End": true
+    }
+  }
+}

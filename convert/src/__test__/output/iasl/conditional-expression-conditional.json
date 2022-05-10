@@ -1,0 +1,69 @@
+{
+  "inputArgumentName": {
+    "identifier": "args",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "expression": {
+        "condition": {
+          "rhs": {
+            "condition": {
+              "rhs": {
+                "identifier": "args",
+                "_syntaxKind": "identifier",
+                "type": "object"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
+            },
+            "whenTrue": {
+              "identifier": "args.name",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "whenFalse": {
+              "value": null,
+              "type": "null",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "conditional-expression"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "condition": {
+            "rhs": {
+              "identifier": "args",
+              "_syntaxKind": "identifier",
+              "type": "object"
+            },
+            "operator": "is-truthy",
+            "_syntaxKind": "binary-expression"
+          },
+          "whenTrue": {
+            "identifier": "args.name",
+            "type": "unknown",
+            "_syntaxKind": "identifier"
+          },
+          "whenFalse": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "conditional-expression"
+        },
+        "whenFalse": {
+          "value": "jim",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return args?.name ? args? ..."
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

@@ -35,9 +35,9 @@
               "Next": "Return"
             },
             "Return": {
-              "End": true,
               "Type": "Pass",
-              "InputPath": "$.vars.return_var"
+              "InputPath": "$.vars.return_var",
+              "End": true
             }
           }
         },
@@ -45,11 +45,11 @@
           "StartAt": "Return { agencyChecked: t ...",
           "States": {
             "Return { agencyChecked: t ...": {
-              "End": true,
               "Type": "Pass",
               "Result": {
                 "agencyChecked": true
-              }
+              },
+              "End": true
             }
           }
         }
@@ -77,8 +77,8 @@
     },
     "Assign checksPassed": {
       "Type": "Pass",
-      "ResultPath": "$.vars.checksPassed",
       "Result": true,
+      "ResultPath": "$.vars.checksPassed",
       "Comment": "source: checksPassed = true",
       "Next": "If (checksPassed)"
     },

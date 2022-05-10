@@ -12,20 +12,20 @@
     },
     "Assign numbers": {
       "Type": "Pass",
-      "ResultPath": "$.vars.numbers",
       "Result": [
         0,
         1,
         2,
         3
       ],
+      "ResultPath": "$.vars.numbers",
       "Comment": "source: numbers = [0, 1, 2, 3]",
       "Next": "Return \"ok\""
     },
     "Return \"ok\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "ok"
+      "Result": "ok",
+      "End": true
     }
   }
 }

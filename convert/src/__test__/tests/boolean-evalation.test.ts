@@ -12,12 +12,12 @@ describe("when converting boolean-evalation", () => {
           "Assign data": Object {
             "Comment": "source: data = { num: 42, text: \\"text\\", undefined: und ...",
             "Next": "If (typeof data.num !== \\" ...",
-            "Result": Object {
-              "null": null,
+            "Parameters": Object {
+              "null.$": "$._undefined",
               "num": 42,
               "text": "text",
               "timestamp": "2016-03-14T01:59:00Z",
-              "undefined": null,
+              "undefined.$": "$._undefined",
             },
             "ResultPath": "$.vars.data",
             "Type": "Pass",

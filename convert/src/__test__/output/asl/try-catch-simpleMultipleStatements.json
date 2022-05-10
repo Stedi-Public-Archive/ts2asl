@@ -12,10 +12,10 @@
     },
     "Assign arr": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr",
       "Result": [
         1
       ],
+      "ResultPath": "$.vars.arr",
       "Comment": "source: arr = [1]",
       "Next": "Assign withinTry"
     },
@@ -26,9 +26,9 @@
         "StartAt": "Return \"succeeded\"",
         "States": {
           "Return \"succeeded\"": {
-            "End": true,
             "Type": "Pass",
-            "Result": "succeeded"
+            "Result": "succeeded",
+            "End": true
           }
         }
       },
@@ -50,14 +50,14 @@
       ]
     },
     "Return withinTry[0]": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.withinTry[0]"
+      "InputPath": "$.vars.withinTry[0]",
+      "End": true
     },
     "Return \"it failed\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "it failed"
+      "Result": "it failed",
+      "End": true
     }
   }
 }

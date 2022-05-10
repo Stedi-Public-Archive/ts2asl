@@ -16,13 +16,12 @@
       "Parameters": {
         "value.$": "States.Format('hello {}', 'world')"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign str"
     },
     "Assign str": {
       "Type": "Pass",
-      "ResultPath": "$.vars.str",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.str",
       "Next": "Evaluate Format('answer i ..."
     },
     "Evaluate Format('answer i ...": {
@@ -31,13 +30,12 @@
       "Parameters": {
         "value.$": "States.Format('answer is {}', 42)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign num"
     },
     "Assign num": {
       "Type": "Pass",
-      "ResultPath": "$.vars.num",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.num",
       "Next": "Evaluate Format('1: {} 2 ..."
     },
     "Evaluate Format('1: {} 2 ...": {
@@ -46,13 +44,12 @@
       "Parameters": {
         "value.$": "States.Format('1: {}\n 2: {}', $.vars.str, $.vars.num)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign combined"
     },
     "Assign combined": {
       "Type": "Pass",
-      "ResultPath": "$.vars.combined",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.combined",
       "Next": "Evaluate Array($.vars.str ..."
     },
     "Evaluate Array($.vars.str ...": {
@@ -61,19 +58,18 @@
       "Parameters": {
         "value.$": "States.Array($.vars.str, $.vars.num, $.vars.combined)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign arr"
     },
     "Assign arr": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.arr",
       "Next": "Return arr"
     },
     "Return arr": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.arr"
+      "InputPath": "$.vars.arr",
+      "End": true
     }
   }
 }
