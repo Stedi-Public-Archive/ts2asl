@@ -1,14 +1,34 @@
 {
-  "inputArgumentName": {
-    "identifier": "args",
-    "_syntaxKind": "identifier"
-  },
   "statements": [
+    {
+      "name": {
+        "identifier": "obj",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign obj",
+        "parameters": {
+          "properties": {
+            "name": {
+              "value": "jim",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "obj = { name: \"jim\" }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign obj",
+      "_syntaxKind": "variable-assignment"
+    },
     {
       "expression": {
         "condition": {
           "rhs": {
-            "identifier": "args",
+            "identifier": "obj",
             "_syntaxKind": "identifier",
             "type": "object"
           },
@@ -16,7 +36,7 @@
           "_syntaxKind": "binary-expression"
         },
         "whenTrue": {
-          "identifier": "args.name",
+          "identifier": "obj.name",
           "type": "unknown",
           "_syntaxKind": "identifier"
         },
@@ -28,7 +48,7 @@
         "_syntaxKind": "conditional-expression"
       },
       "_syntaxKind": "return",
-      "stateName": "Return args?.name"
+      "stateName": "Return obj?.name"
     }
   ],
   "_syntaxKind": "statemachine"

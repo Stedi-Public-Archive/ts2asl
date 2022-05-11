@@ -5,54 +5,44 @@
   },
   "statements": [
     {
+      "name": {
+        "identifier": "obj",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
       "expression": {
-        "condition": {
-          "rhs": {
-            "condition": {
-              "rhs": {
-                "identifier": "args",
-                "_syntaxKind": "identifier",
-                "type": "object"
-              },
-              "operator": "is-truthy",
-              "_syntaxKind": "binary-expression"
-            },
-            "whenTrue": {
-              "identifier": "args.name",
-              "type": "unknown",
-              "_syntaxKind": "identifier"
-            },
-            "whenFalse": {
+        "stateName": "Assign obj",
+        "parameters": {
+          "properties": {
+            "name": {
               "value": null,
               "type": "null",
               "_syntaxKind": "literal"
-            },
-            "_syntaxKind": "conditional-expression"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "obj = { name: undefined }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign obj",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "condition": {
+          "rhs": {
+            "identifier": "obj.name",
+            "type": "unknown",
+            "_syntaxKind": "identifier"
           },
           "operator": "is-truthy",
           "_syntaxKind": "binary-expression"
         },
         "whenTrue": {
-          "condition": {
-            "rhs": {
-              "identifier": "args",
-              "_syntaxKind": "identifier",
-              "type": "object"
-            },
-            "operator": "is-truthy",
-            "_syntaxKind": "binary-expression"
-          },
-          "whenTrue": {
-            "identifier": "args.name",
-            "type": "unknown",
-            "_syntaxKind": "identifier"
-          },
-          "whenFalse": {
-            "value": null,
-            "type": "null",
-            "_syntaxKind": "literal"
-          },
-          "_syntaxKind": "conditional-expression"
+          "identifier": "obj.name",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
         },
         "whenFalse": {
           "value": "jim",
@@ -62,7 +52,7 @@
         "_syntaxKind": "conditional-expression"
       },
       "_syntaxKind": "return",
-      "stateName": "Return args?.name ? args? ..."
+      "stateName": "Return obj.name ? obj.nam ..."
     }
   ],
   "_syntaxKind": "statemachine"

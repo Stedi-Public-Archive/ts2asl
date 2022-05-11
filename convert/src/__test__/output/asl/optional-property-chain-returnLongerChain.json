@@ -8,6 +8,17 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
+      "Next": "Assign obj"
+    },
+    "Assign obj": {
+      "Type": "Pass",
+      "Result": {
+        "inner": {
+          "name": "jim"
+        }
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { inner: { name: \"jim\" } }",
       "Next": "Eval Conditional"
     },
     "Eval Conditional": {
@@ -17,11 +28,11 @@
           "Not": {
             "Or": [
               {
-                "Variable": "$.vars",
+                "Variable": "$.vars.obj",
                 "IsPresent": false
               },
               {
-                "Variable": "$.vars",
+                "Variable": "$.vars.obj",
                 "IsNull": true
               }
             ]
@@ -34,7 +45,7 @@
     "Conditional True": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars.inner",
+      "InputPath": "$.vars.obj.inner",
       "Next": "Eval Conditional_1"
     },
     "Conditional False": {
@@ -87,16 +98,16 @@
     "Conditional True_1": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars.inner.name",
-      "Next": "Return args?.inner?.name"
+      "InputPath": "$.vars.obj.inner.name",
+      "Next": "Return obj?.inner?.name"
     },
     "Conditional False_1": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
-      "Next": "Return args?.inner?.name"
+      "Next": "Return obj?.inner?.name"
     },
-    "Return args?.inner?.name": {
+    "Return obj?.inner?.name": {
       "Type": "Pass",
       "InputPath": "$.tmp.var",
       "End": true

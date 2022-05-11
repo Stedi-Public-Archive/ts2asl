@@ -8,6 +8,15 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
+      "Next": "Assign obj"
+    },
+    "Assign obj": {
+      "Type": "Pass",
+      "Parameters": {
+        "name.$": "$._undefined"
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { name: undefined }",
       "Next": "Eval Conditional"
     },
     "Eval Conditional": {
@@ -17,12 +26,32 @@
           "Not": {
             "Or": [
               {
-                "Variable": "$.vars",
+                "Variable": "$.vars.obj.name",
                 "IsPresent": false
               },
               {
-                "Variable": "$.vars",
+                "Variable": "$.vars.obj.name",
                 "IsNull": true
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "NumericEquals": 0
               }
             ]
           },
@@ -34,102 +63,16 @@
     "Conditional True": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars.name",
-      "Next": "Eval Conditional_1"
+      "InputPath": "$.vars.obj.name",
+      "Next": "Return obj.name ? obj.nam ..."
     },
     "Conditional False": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "InputPath": "$._undefined",
-      "Next": "Eval Conditional_1"
-    },
-    "Eval Conditional_1": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "Not": {
-            "Or": [
-              {
-                "Variable": "$.vars",
-                "IsPresent": false
-              },
-              {
-                "Variable": "$.vars",
-                "IsNull": true
-              }
-            ]
-          },
-          "Next": "Conditional True_1"
-        }
-      ],
-      "Default": "Conditional False_1"
-    },
-    "Conditional True_1": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars.name",
-      "Next": "Eval Conditional_2"
-    },
-    "Conditional False_1": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.var",
-      "InputPath": "$._undefined",
-      "Next": "Eval Conditional_2"
-    },
-    "Eval Conditional_2": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "Not": {
-            "Or": [
-              {
-                "Variable": "$.tmp.var",
-                "IsPresent": false
-              },
-              {
-                "Variable": "$.tmp.var",
-                "IsNull": true
-              },
-              {
-                "Variable": "$.tmp.var",
-                "BooleanEquals": false
-              },
-              {
-                "Variable": "$.tmp.var",
-                "StringEquals": ""
-              },
-              {
-                "Variable": "$.tmp.var",
-                "StringEquals": "false"
-              },
-              {
-                "Variable": "$.tmp.var",
-                "StringEquals": "0"
-              },
-              {
-                "Variable": "$.tmp.var",
-                "NumericEquals": 0
-              }
-            ]
-          },
-          "Next": "Conditional True_2"
-        }
-      ],
-      "Default": "Conditional False_2"
-    },
-    "Conditional True_2": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.var",
-      "InputPath": "$.tmp.var",
-      "Next": "Return args?.name ? args? ..."
-    },
-    "Conditional False_2": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "jim",
-      "Next": "Return args?.name ? args? ..."
+      "Next": "Return obj.name ? obj.nam ..."
     },
-    "Return args?.name ? args? ...": {
+    "Return obj.name ? obj.nam ...": {
       "Type": "Pass",
       "InputPath": "$.tmp.var",
       "End": true

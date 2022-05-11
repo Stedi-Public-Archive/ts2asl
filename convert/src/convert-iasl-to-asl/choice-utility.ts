@@ -14,6 +14,12 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
     } as iasl.BinaryExpression;
   }
 
+  if (iasl.Check.isBinaryExpression(expression) && expression.operator === "is-truthy") {
+    if (iasl.Check.isLiteral(expression.rhs)) {
+      expression = expression.rhs;
+    }
+  }
+
   if (iasl.Check.isLiteral(expression)) {
     if (expression.value) {
       return { // always true

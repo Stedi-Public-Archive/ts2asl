@@ -8,83 +8,26 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Eval Conditional"
+      "Next": "Assign obj"
     },
-    "Eval Conditional": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "Not": {
-            "Or": [
-              {
-                "Variable": "$.vars",
-                "IsPresent": false
-              },
-              {
-                "Variable": "$.vars",
-                "IsNull": true
-              }
-            ]
-          },
-          "Next": "Conditional True"
-        }
-      ],
-      "Default": "Conditional False"
-    },
-    "Conditional True": {
+    "Assign obj": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars.name",
-      "Next": "Eval Conditional_1"
-    },
-    "Conditional False": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.var",
-      "InputPath": "$._undefined",
-      "Next": "Eval Conditional_1"
-    },
-    "Eval Conditional_1": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "Not": {
-            "Or": [
-              {
-                "Variable": "$.vars",
-                "IsPresent": false
-              },
-              {
-                "Variable": "$.vars",
-                "IsNull": true
-              }
-            ]
-          },
-          "Next": "Conditional True_1"
-        }
-      ],
-      "Default": "Conditional False_1"
-    },
-    "Conditional True_1": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars.name",
-      "Next": "Evaluate Format('hello{}' ..."
-    },
-    "Conditional False_1": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.var",
-      "InputPath": "$._undefined",
+      "Result": {
+        "name": "jim"
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { name: \"jim\" }",
       "Next": "Evaluate Format('hello{}' ..."
     },
     "Evaluate Format('hello{}' ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
-        "value.$": "States.Format('hello{}', $.tmp.var)"
+        "value.$": "States.Format('hello{}', $.vars.obj.name)"
       },
-      "Next": "Eval Conditional_2"
+      "Next": "Eval Conditional"
     },
-    "Eval Conditional_2": {
+    "Eval Conditional": {
       "Type": "Choice",
       "Choices": [
         {
@@ -120,24 +63,24 @@
               }
             ]
           },
-          "Next": "Conditional True_2"
+          "Next": "Conditional True"
         }
       ],
-      "Default": "Conditional False_2"
+      "Default": "Conditional False"
     },
-    "Conditional True_2": {
+    "Conditional True": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "InputPath": "$.tmp.var",
-      "Next": "Return \"hello\" + args?.na ..."
+      "InputPath": "$.vars.obj.name",
+      "Next": "Return \"hello\" + obj.name ..."
     },
-    "Conditional False_2": {
+    "Conditional False": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
       "Result": "world",
-      "Next": "Return \"hello\" + args?.na ..."
+      "Next": "Return \"hello\" + obj.name ..."
     },
-    "Return \"hello\" + args?.na ...": {
+    "Return \"hello\" + obj.name ...": {
       "Type": "Pass",
       "InputPath": "$.tmp.var",
       "End": true

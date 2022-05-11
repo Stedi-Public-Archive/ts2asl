@@ -2,7 +2,8 @@
 import * as asl from "@ts2asl/asl-lib";
 
 export const conditional = asl.deploy.asStateMachine(async (args: { name?: string; }) => {
-  return args?.name ? args?.name : "jim";
+  const obj = { name: undefined };
+  return obj.name ? obj.name : "jim";
 });
 
 export const conditionalWithLiteral = asl.deploy.asStateMachine(async () => {
@@ -10,13 +11,16 @@ export const conditionalWithLiteral = asl.deploy.asStateMachine(async () => {
 });
 
 export const conditionalWithinExpression = asl.deploy.asStateMachine(async (args: { name?: string; }) => {
-  return "hello" + args?.name ? args?.name : "world";
+  const obj = { name: "jim" };
+  return "hello" + obj.name ? obj.name : "world";
 });
 
 export const nestedConditional = asl.deploy.asStateMachine(async (args: { name?: string; }) => {
-  return null ? "doesn't happen" : args?.name ?? "world";
+  const obj = { name: "jim" };
+  return null ? "doesn't happen" : obj.name ?? "world";
 });
 
 export const conditionalWithinStringFormat = asl.deploy.asStateMachine(async (args: { name?: string; }) => {
-  return `hello: ${args ? args : "jim"}`;
+  const obj = { name: "jim" };
+  return `hello: ${obj ? obj.name : "jim"}`;
 });

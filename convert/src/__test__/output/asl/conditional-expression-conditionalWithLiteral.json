@@ -14,9 +14,8 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Not": {
-            "BooleanEquals": false
-          },
+          "Variable": "$",
+          "IsNull": true,
           "Next": "Conditional True"
         }
       ],

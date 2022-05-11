@@ -9,15 +9,24 @@ describe("when converting optional-property-chain", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign obj": Object {
+            "Comment": "source: obj = { name: \\"jim\\" }",
+            "Next": "Eval Conditional",
+            "Result": Object {
+              "name": "jim",
+            },
+            "ResultPath": "$.vars.obj",
+            "Type": "Pass",
+          },
           "Conditional False": Object {
             "InputPath": "$._undefined",
-            "Next": "Return args?.name",
+            "Next": "Return obj?.name",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
           "Conditional True": Object {
-            "InputPath": "$.vars.name",
-            "Next": "Return args?.name",
+            "InputPath": "$.vars.obj.name",
+            "Next": "Return obj?.name",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
@@ -29,11 +38,11 @@ describe("when converting optional-property-chain", () => {
                   "Or": Array [
                     Object {
                       "IsPresent": false,
-                      "Variable": "$.vars",
+                      "Variable": "$.vars.obj",
                     },
                     Object {
                       "IsNull": true,
-                      "Variable": "$.vars",
+                      "Variable": "$.vars.obj",
                     },
                   ],
                 },
@@ -44,7 +53,7 @@ describe("when converting optional-property-chain", () => {
             "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "Eval Conditional",
+            "Next": "Assign obj",
             "Parameters": Object {
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
@@ -52,7 +61,7 @@ describe("when converting optional-property-chain", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return args?.name": Object {
+          "Return obj?.name": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.tmp.var",
@@ -68,10 +77,19 @@ describe("when converting optional-property-chain", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign name": Object {
-            "Comment": "source: name = args?.name",
+            "Comment": "source: name = obj?.name",
             "InputPath": "$.tmp.var",
             "Next": "Return name",
             "ResultPath": "$.vars.name",
+            "Type": "Pass",
+          },
+          "Assign obj": Object {
+            "Comment": "source: obj = { name: \\"jim\\" }",
+            "Next": "Eval Conditional",
+            "Result": Object {
+              "name": "jim",
+            },
+            "ResultPath": "$.vars.obj",
             "Type": "Pass",
           },
           "Conditional False": Object {
@@ -81,7 +99,7 @@ describe("when converting optional-property-chain", () => {
             "Type": "Pass",
           },
           "Conditional True": Object {
-            "InputPath": "$.vars.name",
+            "InputPath": "$.vars.obj.name",
             "Next": "Assign name",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
@@ -94,11 +112,11 @@ describe("when converting optional-property-chain", () => {
                   "Or": Array [
                     Object {
                       "IsPresent": false,
-                      "Variable": "$.vars",
+                      "Variable": "$.vars.obj",
                     },
                     Object {
                       "IsNull": true,
-                      "Variable": "$.vars",
+                      "Variable": "$.vars.obj",
                     },
                   ],
                 },
@@ -109,7 +127,7 @@ describe("when converting optional-property-chain", () => {
             "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "Eval Conditional",
+            "Next": "Assign obj",
             "Parameters": Object {
               "_undefined": null,
               "vars.$": "$$.Execution.Input",

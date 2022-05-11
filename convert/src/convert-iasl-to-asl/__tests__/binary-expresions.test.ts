@@ -149,6 +149,57 @@ describe("when transpiling binary expressions", () => {
     `);
   });
 
+  it("then literal expression is supported", () => {
+    const transformed = testTransform(
+      `
+      if (null) { console.log('debug') }
+    `,
+      [ifStatementTransformer({}), consoleLogStatementTransformer({})]
+    );
+    const iasl = testConvertToIntermediaryAst(transformed);
+    const result = convert(iasl, { skipVersionComment: true });
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Empty Default Choice": Object {
+            "End": true,
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+          "If (null)": Object {
+            "Choices": Array [
+              Object {
+                "IsNull": true,
+                "Next": "Log ('debug')",
+                "Variable": "$",
+              },
+            ],
+            "Comment": "source: if (null) { console.log('debug') }",
+            "Default": "Empty Default Choice",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "If (null)",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Log ('debug')": Object {
+            "Comment": "source: console.log('debug')",
+            "End": true,
+            "Result": "debug",
+            "ResultPath": null,
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
+
   it("then and expressions are grouped", () => {
     const transformed = testTransform(
       `

@@ -8,6 +8,15 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
+      "Next": "Assign obj"
+    },
+    "Assign obj": {
+      "Type": "Pass",
+      "Result": {
+        "name": "jim"
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { name: \"jim\" }",
       "Next": "Eval Conditional"
     },
     "Eval Conditional": {
@@ -17,11 +26,11 @@
           "Not": {
             "Or": [
               {
-                "Variable": "$.vars",
+                "Variable": "$.vars.obj",
                 "IsPresent": false
               },
               {
-                "Variable": "$.vars",
+                "Variable": "$.vars.obj",
                 "IsNull": true
               }
             ]
@@ -34,7 +43,7 @@
     "Conditional True": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars",
+      "InputPath": "$.vars.obj.name",
       "Next": "Evaluate Format('hello: { ..."
     },
     "Conditional False": {

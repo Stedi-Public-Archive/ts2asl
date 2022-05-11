@@ -2,7 +2,7 @@ import { convertDeployExecute } from "../utility";
 jest.setTimeout(99999999);
 
 describe("when converting null-coalescing", () => {
-    it.only("will execute nullCoalescing as if it were node", async () => {
+    it("will execute nullCoalescing as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("null-coalescing", "nullCoalescing");
         const { nullCoalescing } = require("../resources/null-coalescing");
         const resultFromNode = await nullCoalescing();
