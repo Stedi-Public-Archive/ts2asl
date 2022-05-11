@@ -35,9 +35,9 @@
               "Next": "Return"
             },
             "Return": {
-              "End": true,
               "Type": "Pass",
-              "InputPath": "$.vars.return_var"
+              "InputPath": "$.vars.return_var",
+              "End": true
             }
           }
         },
@@ -64,9 +64,9 @@
               "Next": "Return_1"
             },
             "Return_1": {
-              "End": true,
               "Type": "Pass",
-              "InputPath": "$.vars.return_var"
+              "InputPath": "$.vars.return_var",
+              "End": true
             }
           }
         }
@@ -77,9 +77,9 @@
       "Next": "Return result"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.tmp.result"
+      "InputPath": "$.tmp.result",
+      "End": true
     }
   }
 }

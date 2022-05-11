@@ -18,7 +18,7 @@ export const main = asl.deploy.asStateMachine(async () =>
 
 
 ## reference error
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgcmVzdWx0ID0gIiI7CiAgdHJ5IHsKICAgIHJlc3VsdCA9ICJzdWNjZWVkZWQiOwogICAgdGhyb3cgbmV3IEVycm9yKCJmYWlsIik7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICByZXN1bHQgPSBgZmFpbGVkICR7KGVyciBhcyBhc2wuQXNsRXJyb3IpLkVycm9yfSAoJHsoZXJyIGFzIGFzbC5Bc2xFcnJvcikuQ2F1c2V9KWA7CiAgfQogIHJldHVybiByZXN1bHQ7Cn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgcmVzdWx0ID0gIiI7CiAgdHJ5IHsKICAgIHJlc3VsdCA9ICJzdWNjZWVkZWQiOwoKICAgIC8vYXNsLmNyZWF0ZUVycm9yIHdpbGwgY3JlYXRlIGFuIG5vZGUgZXJyb3Igd2l0aCBFcnJvciBhbmQgQ2F1c2UgcHJvcGVydGllcwogICAgdGhyb3cgYXNsLnJ1bnRpbWUuY3JlYXRlRXJyb3IoIlRlc3QgRXJyb3IiLCAiRmFpbGVkIG9uIHB1cnBvc2UiKTsKICB9IGNhdGNoIChlcnIpIHsKICAgIHJlc3VsdCA9IGBmYWlsZWQgJHsoZXJyIGFzIGFzbC5Bc2xFcnJvcikuRXJyb3J9ICgkeyhlcnIgYXMgYXNsLkFzbEVycm9yKS5DYXVzZX0pYDsKICB9CiAgcmV0dXJuIHJlc3VsdDsKfSk7)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
@@ -26,7 +26,9 @@ export const main = asl.deploy.asStateMachine(async () =>
   let result = "";
   try {
     result = "succeeded";
-    throw new Error("fail");
+
+    //asl.createError will create an node error with Error and Cause properties
+    throw asl.runtime.createError("Test Error", "Failed on purpose");
   } catch (err) {
     result = `failed ${(err as asl.AslError).Error} (${(err as asl.AslError).Cause})`;
   }

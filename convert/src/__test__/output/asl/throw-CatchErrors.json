@@ -53,13 +53,12 @@
       "Parameters": {
         "value.$": "States.Format('cause {}', $.vars.error.Cause)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Log (`cause ${error.Cause}`)"
     },
     "Log (`cause ${error.Cause}`)": {
       "Type": "Pass",
-      "ResultPath": null,
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": null,
       "Comment": "source: console.log(`cause ${error.Cause}`)",
       "Next": "Evaluate Format('message ..."
     },
@@ -69,13 +68,12 @@
       "Parameters": {
         "value.$": "States.Format('message {}', $.vars.error.Error)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Log (`message ${error.Err ..."
     },
     "Log (`message ${error.Err ...": {
       "Type": "Pass",
-      "ResultPath": null,
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": null,
       "Comment": "source: console.log(`message ${error.Error}`)",
       "End": true
     }

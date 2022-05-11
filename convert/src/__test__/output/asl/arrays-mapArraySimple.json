@@ -12,7 +12,6 @@
     },
     "Assign mappedArray": {
       "Type": "Pass",
-      "ResultPath": "$.vars.mappedArray",
       "Result": [
         {
           "age": 1,
@@ -47,28 +46,29 @@
           "species": "cat"
         }
       ],
+      "ResultPath": "$.vars.mappedArray",
       "Comment": "source: mappedArray = [{ age: 1, species: \"dog\" }, { a ...",
       "Next": "Assign ages"
     },
     "Assign ages": {
       "Type": "Pass",
-      "ResultPath": "$.vars.ages",
       "InputPath": "$.vars.mappedArray.age",
+      "ResultPath": "$.vars.ages",
       "Next": "Assign species"
     },
     "Assign species": {
       "Type": "Pass",
-      "ResultPath": "$.vars.species",
       "InputPath": "$.vars.mappedArray.species",
+      "ResultPath": "$.vars.species",
       "Next": "Return { ages, specie ..."
     },
     "Return { ages, specie ...": {
-      "End": true,
       "Type": "Pass",
       "Parameters": {
         "ages.$": "$.vars.ages",
         "species.$": "$.vars.species"
-      }
+      },
+      "End": true
     }
   }
 }

@@ -55,7 +55,7 @@
     },
     {
       "name": {
-        "identifier": "listWithRetunrned",
+        "identifier": "listWithReturned",
         "_syntaxKind": "identifier",
         "type": "object"
       },
@@ -109,14 +109,22 @@
               },
               "source": "if (item === condition) {\n      return { returned: item };\n    }",
               "_syntaxKind": "if"
+            },
+            {
+              "expression": {
+                "properties": {},
+                "_syntaxKind": "literal-object"
+              },
+              "_syntaxKind": "return",
+              "stateName": "Return {}"
             }
           ],
           "_syntaxKind": "function"
         },
-        "source": "items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n  })",
+        "source": "items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n    return {};\n  })",
         "_syntaxKind": "asl-map-state"
       },
-      "stateName": "Assign listWithRetunrned",
+      "stateName": "Assign listWithReturned",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -126,14 +134,14 @@
         "type": "object"
       },
       "expression": {
-        "identifier": "listWithRetunrned",
+        "identifier": "listWithReturned",
         "_syntaxKind": "identifier",
         "type": "object",
         "filterExpression": {
           "argument": {
             "identifier": "x",
             "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "unknown"
           },
           "expression": {
             "identifier": "x.returned",

@@ -12,15 +12,15 @@
     },
     "Assign counter": {
       "Type": "Pass",
-      "ResultPath": "$.vars.counter",
       "Result": "",
+      "ResultPath": "$.vars.counter",
       "Comment": "source: counter = \"\"",
       "Next": "Assign result"
     },
     "Assign result": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "Result": "",
+      "ResultPath": "$.vars.result",
       "Comment": "source: result = \"\"",
       "Next": "Evaluate Format('{}a', $. ..."
     },
@@ -30,13 +30,12 @@
       "Parameters": {
         "value.$": "States.Format('{}a', $.vars.counter)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign counter_1"
     },
     "Assign counter_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.counter",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.counter",
       "Next": "If (counter == \"aa\")"
     },
     "If (counter == \"aa\")": {
@@ -62,13 +61,12 @@
       "Parameters": {
         "value.$": "States.Format('{}b', $.vars.result)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign result_1"
     },
     "Assign result_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Do While Condition"
     },
     "Do While Condition": {
@@ -85,9 +83,9 @@
       "Default": "Return result"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.result"
+      "InputPath": "$.vars.result",
+      "End": true
     }
   }
 }

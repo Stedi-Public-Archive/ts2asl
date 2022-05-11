@@ -12,19 +12,19 @@
     },
     "Assign enclosedVar1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.enclosedVar1",
       "Result": {
         "something": "left"
       },
+      "ResultPath": "$.vars.enclosedVar1",
       "Comment": "source: enclosedVar1 = { something: \"left\" }",
       "Next": "Assign enclosedVar2"
     },
     "Assign enclosedVar2": {
       "Type": "Pass",
-      "ResultPath": "$.vars.enclosedVar2",
       "Result": {
         "something": "right"
       },
+      "ResultPath": "$.vars.enclosedVar2",
       "Comment": "source: enclosedVar2 = { something: \"right\" }",
       "Next": "Assign Result"
     },
@@ -93,9 +93,9 @@
       "Next": "Return result"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.tmp.result"
+      "InputPath": "$.tmp.result",
+      "End": true
     }
   }
 }

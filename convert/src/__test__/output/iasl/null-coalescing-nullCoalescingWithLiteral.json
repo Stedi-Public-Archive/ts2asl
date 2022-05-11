@@ -1,0 +1,31 @@
+{
+  "statements": [
+    {
+      "expression": {
+        "condition": {
+          "rhs": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "whenFalse": {
+          "value": "jim",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

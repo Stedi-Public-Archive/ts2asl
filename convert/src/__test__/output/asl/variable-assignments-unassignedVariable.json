@@ -12,22 +12,22 @@
     },
     "Assign arr": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr",
       "InputPath": "$._undefined",
+      "ResultPath": "$.vars.arr",
       "Comment": "source: arr: []",
       "Next": "Assign two"
     },
     "Assign two": {
       "Type": "Pass",
-      "ResultPath": "$.vars.two",
       "InputPath": "$._undefined",
+      "ResultPath": "$.vars.two",
       "Comment": "source: two: string",
       "Next": "Return two"
     },
     "Return two": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.two"
+      "InputPath": "$.vars.two",
+      "End": true
     }
   }
 }

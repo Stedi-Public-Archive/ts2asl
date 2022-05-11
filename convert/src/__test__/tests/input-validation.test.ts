@@ -100,9 +100,15 @@ describe("when converting input-validation", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Wait": Object {
+          "Return input.delayInSeconds": Object {
             "Comment": undefined,
             "End": true,
+            "InputPath": "$.vars.delayInSeconds",
+            "Type": "Pass",
+          },
+          "Wait": Object {
+            "Comment": undefined,
+            "Next": "Return input.delayInSeconds",
             "SecondsPath": "$.vars.delayInSeconds",
             "Type": "Wait",
           },

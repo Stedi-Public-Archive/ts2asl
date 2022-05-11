@@ -1,0 +1,31 @@
+{
+  "statements": [
+    {
+      "expression": {
+        "condition": {
+          "rhs": {
+            "value": false,
+            "type": "boolean",
+            "_syntaxKind": "literal"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "value": "jim",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "whenFalse": {
+          "value": "james",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return false ? \"jim\" : \"j ..."
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

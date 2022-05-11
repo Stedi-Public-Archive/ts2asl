@@ -12,7 +12,6 @@
     },
     "Assign val": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val",
       "Result": {
         "a": "",
         "b": "",
@@ -22,13 +21,14 @@
         "f": "",
         "g": ""
       },
+      "ResultPath": "$.vars.val",
       "Comment": "source: val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f:  ...",
       "Next": "Assign val.a"
     },
     "Assign val.a": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.a",
       "Result": "before",
+      "ResultPath": "$.vars.val.a",
       "Next": "If (true)"
     },
     "If (true)": {
@@ -45,26 +45,26 @@
     },
     "Assign val.b": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.b",
       "Result": "true_1",
+      "ResultPath": "$.vars.val.b",
       "Next": "Assign val.c"
     },
     "Assign val.c": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.c",
       "Result": "true_2",
+      "ResultPath": "$.vars.val.c",
       "Next": "Assign val.d"
     },
     "Assign val.d": {
       "Type": "Pass",
-      "ResultPath": "$.vars.val.d",
       "Result": "after",
+      "ResultPath": "$.vars.val.d",
       "Next": "Return val"
     },
     "Return val": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.val"
+      "InputPath": "$.vars.val",
+      "End": true
     }
   }
 }

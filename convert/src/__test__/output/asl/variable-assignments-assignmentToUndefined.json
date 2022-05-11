@@ -12,8 +12,8 @@
     },
     "Assign _undefined": {
       "Type": "Pass",
-      "ResultPath": "$.vars._undefined",
       "InputPath": "$._undefined",
+      "ResultPath": "$.vars._undefined",
       "Comment": "source: _undefined = undefined",
       "End": true
     }

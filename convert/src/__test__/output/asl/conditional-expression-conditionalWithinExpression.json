@@ -1,0 +1,89 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign obj"
+    },
+    "Assign obj": {
+      "Type": "Pass",
+      "Result": {
+        "name": "jim"
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { name: \"jim\" }",
+      "Next": "Evaluate Format('hello{}' ..."
+    },
+    "Evaluate Format('hello{}' ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('hello{}', $.vars.obj.name)"
+      },
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.tmp.eval.value",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.tmp.eval.value",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.tmp.eval.value",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.tmp.eval.value",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.tmp.eval.value",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.tmp.eval.value",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.tmp.eval.value",
+                "NumericEquals": 0
+              }
+            ]
+          },
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.obj.name",
+      "Next": "Return \"hello\" + obj.name ..."
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "Result": "world",
+      "Next": "Return \"hello\" + obj.name ..."
+    },
+    "Return \"hello\" + obj.name ...": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "End": true
+    }
+  }
+}

@@ -24,7 +24,6 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Evaluate StringToJson('0')": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result",
             "Parameters": Object {
               "value.$": "States.StringToJson('0')",
@@ -66,7 +65,6 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Evaluate StringToJson('s')": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result",
             "Parameters": Object {
               "value.$": "States.StringToJson('s')",
@@ -96,7 +94,8 @@ describe("when transpiling function", () => {
         str: "val"
       };
     let result = asl.states.jsonToString(tmp),
-    `);
+    `
+    );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
@@ -121,7 +120,6 @@ describe("when transpiling function", () => {
             "Type": "Pass",
           },
           "Evaluate JsonToString($.v ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result",
             "Parameters": Object {
               "value.$": "States.JsonToString($.vars.tmp)",

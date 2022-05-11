@@ -10,7 +10,7 @@ describe("when converting string templates", () => {
     ).toMatchInlineSnapshot(`"const a = \\"val\\";"`);
   });
 
-  it.only("then contained expressions will be resolved", () => {
+  it("then contained expressions will be resolved", () => {
     expect(
       testTransform("const a = `1+1 = ${1+1}`;", [
         stringTemplateTransformer,

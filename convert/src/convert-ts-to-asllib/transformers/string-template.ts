@@ -20,7 +20,7 @@ export const stringTemplateTransformer = <T extends ts.Node>(context: ts.Transfo
         } else {
           result = result + escapeText(span.expression.text);
         }
-        result = result + escapeText(span.literal.text)
+        result = result + escapeText(span.literal.text);
       }
       if (allLiterals) {
         return valueToLiteralExpression(result);
@@ -41,7 +41,6 @@ export const stringTemplateTransformer = <T extends ts.Node>(context: ts.Transfo
         );
       }
     }
-
     return node;
   }
   return ts.visitNode(rootNode, visit);
@@ -50,4 +49,4 @@ export const stringTemplateTransformer = <T extends ts.Node>(context: ts.Transfo
 const escapeText = (text: string): string => {
   if (!text) return text;
   return text.replace(/}|{|\'|\\/g, x => '\\' + x);
-}
+};

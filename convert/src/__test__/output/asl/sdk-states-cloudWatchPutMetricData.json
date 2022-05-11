@@ -12,8 +12,8 @@
     },
     "Assign value": {
       "Type": "Pass",
-      "ResultPath": "$.vars.value",
       "Result": 42,
+      "ResultPath": "$.vars.value",
       "Comment": "source: value = 42",
       "Next": "Publish Metric Data"
     },

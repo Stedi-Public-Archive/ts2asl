@@ -34,23 +34,22 @@
     },
     "Assign input.name": {
       "Type": "Pass",
-      "ResultPath": "$.vars.name",
       "Result": "fred",
+      "ResultPath": "$.vars.name",
       "Next": "Assign x"
     },
     "Assign x": {
       "Type": "Pass",
-      "ResultPath": "$.vars.x",
       "Parameters": {
         "name.$": "$.vars.name",
         "executionId.$": "$$.Execution.Id"
       },
+      "ResultPath": "$.vars.x",
       "Comment": "source: x = { name: input.name, executionId: context.e ...",
       "Next": "Assign y"
     },
     "Assign y": {
       "Type": "Pass",
-      "ResultPath": "$.vars.y",
       "Parameters": {
         "x.$": "$.vars.x",
         "somethingLiteral": [
@@ -64,13 +63,14 @@
         "number.$": "States.StringToJson('123')",
         "arr.$": "States.Array(1, 2, 3, 4, 5, 6)"
       },
+      "ResultPath": "$.vars.y",
       "Comment": "source: y = { x, somethingLiteral: [\"one\", 2, \"three\"] ...",
       "Next": "Return y"
     },
     "Return y": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.y"
+      "InputPath": "$.vars.y",
+      "End": true
     }
   }
 }

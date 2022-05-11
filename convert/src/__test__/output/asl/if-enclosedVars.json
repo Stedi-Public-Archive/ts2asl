@@ -12,8 +12,8 @@
     },
     "Assign enclosedVar": {
       "Type": "Pass",
-      "ResultPath": "$.vars.enclosedVar",
       "Result": "before",
+      "ResultPath": "$.vars.enclosedVar",
       "Comment": "source: enclosedVar = \"before\"",
       "Next": "If (true)"
     },
@@ -31,8 +31,8 @@
     },
     "Assign enclosedVar_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.enclosedVar",
       "Result": "outer if",
+      "ResultPath": "$.vars.enclosedVar",
       "Next": "If (true)_1"
     },
     "If (true)_1": {
@@ -49,26 +49,26 @@
     },
     "Assign enclosedVar_2": {
       "Type": "Pass",
-      "ResultPath": "$.vars.enclosedVar",
       "Result": "inner if",
+      "ResultPath": "$.vars.enclosedVar",
       "Next": "Return enclosedVar"
     },
     "Assign enclosedVar_3": {
       "Type": "Pass",
-      "ResultPath": "$.vars.enclosedVar",
       "Result": "else if",
+      "ResultPath": "$.vars.enclosedVar",
       "Next": "Return enclosedVar"
     },
     "Assign enclosedVar_4": {
       "Type": "Pass",
-      "ResultPath": "$.vars.enclosedVar",
       "Result": "outer else if",
+      "ResultPath": "$.vars.enclosedVar",
       "Next": "Return enclosedVar"
     },
     "Return enclosedVar": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.enclosedVar"
+      "InputPath": "$.vars.enclosedVar",
+      "End": true
     }
   }
 }

@@ -1,0 +1,81 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign obj"
+    },
+    "Assign obj": {
+      "Type": "Pass",
+      "Parameters": {
+        "name.$": "$._undefined"
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { name: undefined }",
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.obj.name",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.obj.name",
+                "NumericEquals": 0
+              }
+            ]
+          },
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.obj.name",
+      "Next": "Return obj.name ? obj.nam ..."
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "Result": "jim",
+      "Next": "Return obj.name ? obj.nam ..."
+    },
+    "Return obj.name ? obj.nam ...": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "End": true
+    }
+  }
+}

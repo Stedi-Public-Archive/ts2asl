@@ -31,9 +31,9 @@
       "Next": "Return result.Count"
     },
     "Return result.Count": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.result.Count"
+      "InputPath": "$.vars.result.Count",
+      "End": true
     }
   }
 }

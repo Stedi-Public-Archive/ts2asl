@@ -12,19 +12,14 @@ describe("when converting boolean-evalation", () => {
           "Assign data": Object {
             "Comment": "source: data = { num: 42, text: \\"text\\", undefined: und ...",
             "Next": "If (typeof data.num !== \\" ...",
-            "Result": Object {
-              "null": null,
+            "Parameters": Object {
+              "null.$": "$._undefined",
               "num": 42,
               "text": "text",
               "timestamp": "2016-03-14T01:59:00Z",
-              "undefined": null,
+              "undefined.$": "$._undefined",
             },
             "ResultPath": "$.vars.data",
-            "Type": "Pass",
-          },
-          "Empty Default Choice": Object {
-            "End": true,
-            "ResultPath": null,
             "Type": "Pass",
           },
           "If (data.null)": Object {
@@ -202,7 +197,7 @@ describe("when converting boolean-evalation", () => {
               },
             ],
             "Comment": "source: if (typeof data.timestamp !== \\"string\\") { thro ...",
-            "Default": "Empty Default Choice",
+            "Default": "Return \\"success\\"",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -212,6 +207,12 @@ describe("when converting boolean-evalation", () => {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return \\"success\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "success",
             "Type": "Pass",
           },
           "Throw ValidationError": Object {
@@ -274,14 +275,14 @@ describe("when converting boolean-evalation", () => {
           },
           "Assign item": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.listWithRetunrned[?(@.returned)]",
+            "InputPath": "$.vars.listWithReturned[?(@.returned)]",
             "Next": "Return item",
             "ResultPath": "$.vars.item",
             "Type": "Pass",
           },
           "Assign items": Object {
             "Comment": "source: items = [2, 42, 3]",
-            "Next": "Assign listWithRetunrned",
+            "Next": "Assign listWithReturned",
             "Result": Array [
               2,
               42,
@@ -290,17 +291,12 @@ describe("when converting boolean-evalation", () => {
             "ResultPath": "$.vars.items",
             "Type": "Pass",
           },
-          "Assign listWithRetunrned": Object {
+          "Assign listWithReturned": Object {
             "Comment": "source: items.map(item => { if (item === condition) {  ...",
             "ItemsPath": "$.vars.items",
             "Iterator": Object {
               "StartAt": "If (item === condition)",
               "States": Object {
-                "Empty Default Choice": Object {
-                  "End": true,
-                  "ResultPath": null,
-                  "Type": "Pass",
-                },
                 "If (item === condition)": Object {
                   "Choices": Array [
                     Object {
@@ -310,7 +306,7 @@ describe("when converting boolean-evalation", () => {
                     },
                   ],
                   "Comment": "source: if (item === condition) { return { returned: i ...",
-                  "Default": "Empty Default Choice",
+                  "Default": "Return {}",
                   "Type": "Choice",
                 },
                 "Return { returned: item }": Object {
@@ -319,6 +315,12 @@ describe("when converting boolean-evalation", () => {
                   "Parameters": Object {
                     "returned.$": "$.vars.item",
                   },
+                  "Type": "Pass",
+                },
+                "Return {}": Object {
+                  "Comment": undefined,
+                  "End": true,
+                  "Result": Object {},
                   "Type": "Pass",
                 },
               },
@@ -331,7 +333,7 @@ describe("when converting boolean-evalation", () => {
                 "item.$": "$$.Map.Item.Value",
               },
             },
-            "ResultPath": "$.vars.listWithRetunrned",
+            "ResultPath": "$.vars.listWithReturned",
             "Type": "Map",
           },
           "Initialize": Object {

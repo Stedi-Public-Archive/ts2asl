@@ -16,13 +16,12 @@
       "Parameters": {
         "value.$": "States.StringToJson('true')"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign bool"
     },
     "Assign bool": {
       "Type": "Pass",
-      "ResultPath": "$.vars.bool",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.bool",
       "Next": "If (bool === true)"
     },
     "If (bool === true)": {
@@ -43,13 +42,12 @@
       "Parameters": {
         "value.$": "States.Format('{}', $.vars.bool)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign str"
     },
     "Assign str": {
       "Type": "Pass",
-      "ResultPath": "$.vars.str",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.str",
       "Next": "If (str === \"true\")"
     },
     "If (str === \"true\")": {
@@ -65,9 +63,9 @@
       "Default": "Throw Error"
     },
     "Return \"succeeded\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "succeeded"
+      "Result": "succeeded",
+      "End": true
     },
     "Throw Error": {
       "Type": "Fail",

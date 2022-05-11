@@ -8,7 +8,6 @@ import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-u
 import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
-import { evalConstTransformer } from "../convert-ts-to-asllib/transformers/eval-const";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -354,7 +353,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           else: else_,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.IfStatement
-        } as iasl.IfExpression;
+        } as iasl.IfStatement;
       };
 
       case "task": {
@@ -657,8 +656,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
         _syntaxKind: iasl.SyntaxKind.Literal,
       } as iasl.LiteralExpression;
     }
-  }
-  else if (ts.isObjectLiteralExpression(expr)) {
+  } else if (ts.isObjectLiteralExpression(expr)) {
     return {
       properties: convertObjectLiteralExpression(expr, context),
       _syntaxKind: iasl.SyntaxKind.LiteralObject,
@@ -846,7 +844,24 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
         _syntaxKind: iasl.SyntaxKind.BinaryExpression
       } as iasl.BinaryExpression;
     }
-    //
+  } else if (ts.isConditionalExpression(expr)) {
+    return {
+      condition: { rhs: convertExpressionToLiteralOrIdentifier(expr.condition, {}, context), operator: "is-truthy", _syntaxKind: "binary-expression" } as iasl.BinaryExpression,
+      whenTrue: convertExpressionToLiteralOrIdentifier(expr.whenTrue, {}, context),
+      whenFalse: convertExpressionToLiteralOrIdentifier(expr.whenFalse, {}, context),
+      _syntaxKind: iasl.SyntaxKind.ConditionalExpression
+    } as iasl.ConditionalExpression;
+
+  } else if (ts.isPropertyAccessExpression(expr) && expr.questionDotToken?.kind === ts.SyntaxKind.QuestionDotToken) {
+    const identifier = convertExpressionToLiteralOrIdentifier(expr.expression, {}, context) as iasl.Identifier;
+    const property = factory.createPropertyAccessExpression(expr.expression, expr.name);
+    return {
+      condition: { rhs: { ...identifier, type: "object" }, operator: "is-truthy", _syntaxKind: "binary-expression" } as iasl.BinaryExpression,
+      whenTrue: convertExpressionToLiteralOrIdentifier(property, {}, context),
+      whenFalse: { value: null, type: "null", _syntaxKind: "literal" } as iasl.LiteralExpression,
+      _syntaxKind: iasl.SyntaxKind.ConditionalExpression
+    } as iasl.ConditionalExpression;
+
   } else if (ts.isReturnStatement(expr)) {
     return {
       _syntaxKind: iasl.SyntaxKind.ReturnStatement
@@ -860,7 +875,6 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       _syntaxKind: iasl.SyntaxKind.Break
     } as iasl.BreakStatement;
   }
-
   const converted = convertExpression(expr, context);
   if (converted) {
     if (Array.isArray(converted)) {
@@ -947,7 +961,6 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
   if (propValue === undefined) return undefined;
 
   if (!(iasl.Check.isBlock(propValue) || iasl.Check.isFunction(propValue))) {
-
     if (iasl.Check.isAslFailState(propValue) || iasl.Check.isAslSucceedState(propValue)) {
       return {
         statements: [

@@ -174,7 +174,6 @@ describe("when converting throw", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Evaluate Format('cause {} ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Log (\`cause \${error.Cause}\`)",
             "Parameters": Object {
               "value.$": "States.Format('cause {}', $.vars.error.Cause)",
@@ -183,7 +182,6 @@ describe("when converting throw", () => {
             "Type": "Pass",
           },
           "Evaluate Format('message ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Log (\`message \${error.Err ...",
             "Parameters": Object {
               "value.$": "States.Format('message {}', $.vars.error.Error)",

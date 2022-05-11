@@ -12,25 +12,25 @@
     },
     "Assign condition": {
       "Type": "Pass",
-      "ResultPath": "$.vars.condition",
       "Result": 42,
+      "ResultPath": "$.vars.condition",
       "Comment": "source: condition = 42",
       "Next": "Assign items"
     },
     "Assign items": {
       "Type": "Pass",
-      "ResultPath": "$.vars.items",
       "Result": [
         2,
         42,
         3
       ],
+      "ResultPath": "$.vars.items",
       "Comment": "source: items = [2, 42, 3]",
-      "Next": "Assign listWithRetunrned"
+      "Next": "Assign listWithReturned"
     },
-    "Assign listWithRetunrned": {
+    "Assign listWithReturned": {
       "Type": "Map",
-      "ResultPath": "$.vars.listWithRetunrned",
+      "ResultPath": "$.vars.listWithReturned",
       "Iterator": {
         "StartAt": "If (item === condition)",
         "States": {
@@ -44,18 +44,18 @@
               }
             ],
             "Comment": "source: if (item === condition) { return { returned: i ...",
-            "Default": "Empty Default Choice"
+            "Default": "Return {}"
           },
           "Return { returned: item }": {
-            "End": true,
             "Type": "Pass",
             "Parameters": {
               "returned.$": "$.vars.item"
-            }
+            },
+            "End": true
           },
-          "Empty Default Choice": {
+          "Return {}": {
             "Type": "Pass",
-            "ResultPath": null,
+            "Result": {},
             "End": true
           }
         }
@@ -72,14 +72,14 @@
     },
     "Assign item": {
       "Type": "Pass",
+      "InputPath": "$.vars.listWithReturned[?(@.returned)]",
       "ResultPath": "$.vars.item",
-      "InputPath": "$.vars.listWithRetunrned[?(@.returned)]",
       "Next": "Return item"
     },
     "Return item": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.item"
+      "InputPath": "$.vars.item",
+      "End": true
     }
   }
 }

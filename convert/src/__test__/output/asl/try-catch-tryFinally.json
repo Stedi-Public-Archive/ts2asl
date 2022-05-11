@@ -16,9 +16,9 @@
           "StartAt": "Return \"succeeded\"",
           "States": {
             "Return \"succeeded\"": {
-              "End": true,
               "Type": "Pass",
-              "Result": "succeeded"
+              "Result": "succeeded",
+              "End": true
             }
           }
         }
@@ -29,9 +29,9 @@
       "Next": "Return \"finally\""
     },
     "Return \"finally\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "finally"
+      "Result": "finally",
+      "End": true
     }
   }
 }

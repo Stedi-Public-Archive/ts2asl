@@ -1,0 +1,68 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign obj"
+    },
+    "Assign obj": {
+      "Type": "Pass",
+      "Result": {
+        "name": "jim"
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { name: \"jim\" }",
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.obj",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.obj",
+                "IsNull": true
+              }
+            ]
+          },
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.obj.name",
+      "Next": "Assign name"
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$._undefined",
+      "Next": "Assign name"
+    },
+    "Assign name": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "ResultPath": "$.vars.name",
+      "Comment": "source: name = obj?.name",
+      "Next": "Return name"
+    },
+    "Return name": {
+      "Type": "Pass",
+      "InputPath": "$.vars.name",
+      "End": true
+    }
+  }
+}

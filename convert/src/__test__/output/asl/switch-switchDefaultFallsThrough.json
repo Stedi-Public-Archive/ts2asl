@@ -12,19 +12,19 @@
     },
     "Assign arr": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr",
       "Result": [
         1,
         2,
         3
       ],
+      "ResultPath": "$.vars.arr",
       "Comment": "source: arr = [1, 2, 3]",
       "Next": "Assign result"
     },
     "Assign result": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "Result": "",
+      "ResultPath": "$.vars.result",
       "Comment": "source: result = \"\"",
       "Next": "Foreach Initialize"
     },
@@ -71,13 +71,12 @@
       "Parameters": {
         "value.$": "States.Format('{}not-three', $.vars.result)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign result_1"
     },
     "Assign result_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Foreach Next"
     },
     "Evaluate Format('{}three' ...": {
@@ -86,13 +85,12 @@
       "Parameters": {
         "value.$": "States.Format('{}three', $.vars.result)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign result_2"
     },
     "Assign result_2": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Foreach Next"
     },
     "Foreach Exit": {
@@ -111,9 +109,9 @@
       "Next": "Foreach CheckDone"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.result"
+      "InputPath": "$.vars.result",
+      "End": true
     }
   }
 }

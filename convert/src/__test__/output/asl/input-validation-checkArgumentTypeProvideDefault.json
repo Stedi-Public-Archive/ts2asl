@@ -34,13 +34,18 @@
     },
     "Assign input.delayInSeconds": {
       "Type": "Pass",
-      "ResultPath": "$.vars.delayInSeconds",
       "Result": 5,
+      "ResultPath": "$.vars.delayInSeconds",
       "Next": "Wait"
     },
     "Wait": {
       "Type": "Wait",
       "SecondsPath": "$.vars.delayInSeconds",
+      "Next": "Return input.delayInSeconds"
+    },
+    "Return input.delayInSeconds": {
+      "Type": "Pass",
+      "InputPath": "$.vars.delayInSeconds",
       "End": true
     }
   }

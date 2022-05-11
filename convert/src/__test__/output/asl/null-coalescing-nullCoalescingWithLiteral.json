@@ -1,0 +1,42 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsNull": true,
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$._undefined",
+      "Next": "Return"
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "Result": "jim",
+      "Next": "Return"
+    },
+    "Return": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "End": true
+    }
+  }
+}

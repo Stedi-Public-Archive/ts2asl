@@ -1,0 +1,127 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign obj"
+    },
+    "Assign obj": {
+      "Type": "Pass",
+      "Parameters": {
+        "name.$": "$._undefined"
+      },
+      "ResultPath": "$.vars.obj",
+      "Comment": "source: obj = { name: undefined }",
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsNull": true,
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$._undefined",
+      "Next": "Eval Conditional_1"
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.obj.name",
+      "Next": "Eval Conditional_1"
+    },
+    "Eval Conditional_1": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsNull": true,
+          "Next": "Conditional True_1"
+        }
+      ],
+      "Default": "Conditional False_1"
+    },
+    "Conditional True_1": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$._undefined",
+      "Next": "Eval Conditional_2"
+    },
+    "Conditional False_1": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.obj.name",
+      "Next": "Eval Conditional_2"
+    },
+    "Eval Conditional_2": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.tmp.var",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.tmp.var",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.tmp.var",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.tmp.var",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.tmp.var",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.tmp.var",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.tmp.var",
+                "NumericEquals": 0
+              }
+            ]
+          },
+          "Next": "Conditional True_2"
+        }
+      ],
+      "Default": "Conditional False_2"
+    },
+    "Conditional True_2": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.tmp.var",
+      "Next": "Return"
+    },
+    "Conditional False_2": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "Result": "world",
+      "Next": "Return"
+    },
+    "Return": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "End": true
+    }
+  }
+}

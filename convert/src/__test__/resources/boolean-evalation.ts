@@ -1,4 +1,4 @@
-import * as asl from "@ts2asl/asl-lib"
+import * as asl from "@ts2asl/asl-lib";
 
 export const main = asl.deploy.asStateMachine(async () => {
   const data = {
@@ -7,7 +7,7 @@ export const main = asl.deploy.asStateMachine(async () => {
     undefined: undefined,
     null: null,
     timestamp: "2016-03-14T01:59:00Z"
-  }
+  };
 
   if (typeof data.num !== "number") {
     throw new ValidationError("num expected to be number");
@@ -36,17 +36,19 @@ export const main = asl.deploy.asStateMachine(async () => {
   if (typeof data.timestamp !== "string") {
     throw new ValidationError("timestamp expected to be string'");
   }
+  return "success";
 });
 
 export const numericComparison = asl.deploy.asStateMachine(async () => {
   const condition = 42;
   const items = [2, 42, 3];
-  const listWithRetunrned = items.map(item => {
+  const listWithReturned = items.map(item => {
     if (item === condition) {
       return { returned: item };
     }
+    return {};
   });
-  const item = listWithRetunrned.filter(x => x.returned);
+  const item = listWithReturned.filter(x => x.returned);
   return item;
 });
 

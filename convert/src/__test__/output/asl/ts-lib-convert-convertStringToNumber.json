@@ -16,13 +16,12 @@
       "Parameters": {
         "value.$": "States.StringToJson('42')"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign num"
     },
     "Assign num": {
       "Type": "Pass",
-      "ResultPath": "$.vars.num",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.num",
       "Next": "If (num === 42)"
     },
     "If (num === 42)": {
@@ -43,13 +42,12 @@
       "Parameters": {
         "value.$": "States.Format('{}', $.vars.num)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign str"
     },
     "Assign str": {
       "Type": "Pass",
-      "ResultPath": "$.vars.str",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.str",
       "Next": "If (str === \"42\")"
     },
     "If (str === \"42\")": {
@@ -65,9 +63,9 @@
       "Default": "Throw Error"
     },
     "Return \"succeeded\"": {
-      "End": true,
       "Type": "Pass",
-      "Result": "succeeded"
+      "Result": "succeeded",
+      "End": true
     },
     "Throw Error": {
       "Type": "Fail",

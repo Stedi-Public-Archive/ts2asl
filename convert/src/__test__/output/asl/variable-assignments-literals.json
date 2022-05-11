@@ -12,50 +12,49 @@
     },
     "Assign str": {
       "Type": "Pass",
-      "ResultPath": "$.vars.str",
       "Result": "string",
+      "ResultPath": "$.vars.str",
       "Comment": "source: str = \"string\"",
       "Next": "Assign num"
     },
     "Assign num": {
       "Type": "Pass",
-      "ResultPath": "$.vars.num",
       "Result": 42,
+      "ResultPath": "$.vars.num",
       "Comment": "source: num = 42",
       "Next": "Assign bool"
     },
     "Assign bool": {
       "Type": "Pass",
-      "ResultPath": "$.vars.bool",
       "Result": true,
+      "ResultPath": "$.vars.bool",
       "Comment": "source: bool = true || false",
       "Next": "Assign object"
     },
     "Assign object": {
       "Type": "Pass",
-      "ResultPath": "$.vars.object",
       "Parameters": {
         "str.$": "$.vars.str",
         "num.$": "$.vars.num",
         "bool.$": "$.vars.bool"
       },
+      "ResultPath": "$.vars.object",
       "Comment": "source: object = { str, num, bool }",
       "Next": "Assign object2"
     },
     "Assign object2": {
       "Type": "Pass",
-      "ResultPath": "$.vars.object2",
       "Parameters": {
         "str": "string",
         "num": 33,
         "inner.$": "$.vars.object"
       },
+      "ResultPath": "$.vars.object2",
       "Comment": "source: object2 = { str: \"string\", num: 33, inner: obj ...",
       "Next": "Assign arrayOfNumbers"
     },
     "Assign arrayOfNumbers": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arrayOfNumbers",
       "Result": [
         1,
         2,
@@ -63,12 +62,12 @@
         4,
         5
       ],
+      "ResultPath": "$.vars.arrayOfNumbers",
       "Comment": "source: arrayOfNumbers = [1, 2, 3, 4, 5]",
       "Next": "Assign arrayOfObjects"
     },
     "Assign arrayOfObjects": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arrayOfObjects",
       "Result": [
         {
           "left": 1,
@@ -83,17 +82,18 @@
           "right": 6
         }
       ],
+      "ResultPath": "$.vars.arrayOfObjects",
       "Comment": "source: arrayOfObjects = [{ left: 1, right: 2 }, { lef ...",
       "Next": "Return { arrayOfNumbers, ..."
     },
     "Return { arrayOfNumbers, ...": {
-      "End": true,
       "Type": "Pass",
       "Parameters": {
         "arrayOfNumbers.$": "$.vars.arrayOfNumbers",
         "arrayOfObjects.$": "$.vars.arrayOfObjects",
         "object2.$": "$.vars.object2"
-      }
+      },
+      "End": true
     }
   }
 }

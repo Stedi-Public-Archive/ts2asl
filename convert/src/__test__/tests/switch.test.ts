@@ -49,7 +49,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}one', ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}one', $.vars.result)",
@@ -58,7 +57,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}three' ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_3",
             "Parameters": Object {
               "value.$": "States.Format('{}three', $.vars.result)",
@@ -67,7 +65,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}two', ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('{}two', $.vars.result)",
@@ -184,7 +181,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}not-th ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}not-three', $.vars.result)",
@@ -193,7 +189,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}three' ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('{}three', $.vars.result)",
@@ -324,7 +319,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}1', $. ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}1', $.vars.result)",
@@ -333,7 +327,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}1or2', ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('{}1or2', $.vars.result)",
@@ -342,7 +335,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}1or2or ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_3",
             "Parameters": Object {
               "value.$": "States.Format('{}1or2or3', $.vars.result)",
@@ -351,7 +343,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}|', $. ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_4",
             "Parameters": Object {
               "value.$": "States.Format('{}|', $.vars.result)",
@@ -469,7 +460,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}not-on ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('{}not-one', $.vars.result)",
@@ -478,7 +468,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}one', ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}one', $.vars.result)",
@@ -595,7 +584,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}not-th ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_1",
             "Parameters": Object {
               "value.$": "States.Format('{}not-three', $.vars.result)",
@@ -604,7 +592,6 @@ describe("when converting switch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{}three' ...": Object {
-            "Comment": "source: result of an expression cannot be placed in In ...",
             "Next": "Assign result_2",
             "Parameters": Object {
               "value.$": "States.Format('{}three', $.vars.result)",
@@ -697,9 +684,45 @@ describe("when converting switch", () => {
           },
           "Assign creationStatus_1": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.describeResult.CreateAccountStatus.State",
+            "InputPath": "$.tmp.var",
             "Next": "Switch (creationStatus)",
             "ResultPath": "$.vars.creationStatus",
+            "Type": "Pass",
+          },
+          "Conditional False": Object {
+            "InputPath": "$._undefined",
+            "Next": "Assign creationStatus_1",
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Conditional False_1": Object {
+            "InputPath": "$._undefined",
+            "Next": "Log (createAccount.Create ...",
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Conditional False_2": Object {
+            "InputPath": "$._undefined",
+            "Next": "Return createAccount.Crea ...",
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Conditional True": Object {
+            "InputPath": "$.vars.describeResult.CreateAccountStatus.State",
+            "Next": "Assign creationStatus_1",
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Conditional True_1": Object {
+            "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+            "Next": "Log (createAccount.Create ...",
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Conditional True_2": Object {
+            "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+            "Next": "Return createAccount.Crea ...",
+            "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
           "CreateAccount": Object {
@@ -719,7 +742,7 @@ describe("when converting switch", () => {
           "DescribeCreateAccountStatus": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "Assign creationStatus_1",
+            "Next": "Eval Conditional",
             "Parameters": Object {
               "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id",
             },
@@ -739,7 +762,73 @@ describe("when converting switch", () => {
                 },
               },
             ],
-            "Default": "Log (createAccount.Create ...",
+            "Default": "Eval Conditional_1",
+            "Type": "Choice",
+          },
+          "Eval Conditional": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Conditional True",
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.describeResult.CreateAccountStatus",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.describeResult.CreateAccountStatus",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": undefined,
+            "Default": "Conditional False",
+            "Type": "Choice",
+          },
+          "Eval Conditional_1": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Conditional True_1",
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.createAccount.CreateAccountStatus",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.createAccount.CreateAccountStatus",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": undefined,
+            "Default": "Conditional False_1",
+            "Type": "Choice",
+          },
+          "Eval Conditional_2": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Conditional True_2",
+                "Not": Object {
+                  "Or": Array [
+                    Object {
+                      "IsPresent": false,
+                      "Variable": "$.vars.createAccount.CreateAccountStatus",
+                    },
+                    Object {
+                      "IsNull": true,
+                      "Variable": "$.vars.createAccount.CreateAccountStatus",
+                    },
+                  ],
+                },
+              },
+            ],
+            "Comment": undefined,
+            "Default": "Conditional False_2",
             "Type": "Choice",
           },
           "Initialize": Object {
@@ -753,15 +842,15 @@ describe("when converting switch", () => {
           },
           "Log (createAccount.Create ...": Object {
             "Comment": "source: console.log(createAccount.CreateAccountStatus? ...",
-            "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
-            "Next": "Return createAccount.Crea ...",
+            "InputPath": "$.tmp.var",
+            "Next": "Eval Conditional_2",
             "ResultPath": null,
             "Type": "Pass",
           },
           "Return createAccount.Crea ...": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+            "InputPath": "$.tmp.var",
             "Type": "Pass",
           },
           "Switch (creationStatus)": Object {

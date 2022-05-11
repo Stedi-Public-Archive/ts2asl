@@ -16,13 +16,12 @@
       "Parameters": {
         "value.$": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign myArray"
     },
     "Assign myArray": {
       "Type": "Pass",
-      "ResultPath": "$.vars.myArray",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.myArray",
       "Next": "Evaluate JsonToString($.v ..."
     },
     "Evaluate JsonToString($.v ...": {
@@ -31,13 +30,12 @@
       "Parameters": {
         "value.$": "States.JsonToString($.vars.myArray)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign mySerializedArray"
     },
     "Assign mySerializedArray": {
       "Type": "Pass",
-      "ResultPath": "$.vars.mySerializedArray",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.mySerializedArray",
       "Next": "Evaluate StringToJson($.v ..."
     },
     "Evaluate StringToJson($.v ...": {
@@ -46,19 +44,18 @@
       "Parameters": {
         "value.$": "States.StringToJson($.vars.mySerializedArray)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign myArray_1"
     },
     "Assign myArray_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.myArray",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.myArray",
       "Next": "Return myArray"
     },
     "Return myArray": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.myArray"
+      "InputPath": "$.vars.myArray",
+      "End": true
     }
   }
 }

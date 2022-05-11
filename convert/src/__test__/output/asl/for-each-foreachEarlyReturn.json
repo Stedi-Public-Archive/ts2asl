@@ -12,12 +12,12 @@
     },
     "Assign arr": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr",
       "Result": [
         1,
         2,
         3
       ],
+      "ResultPath": "$.vars.arr",
       "Comment": "source: arr = [1, 2, 3]",
       "Next": "Foreach Initialize"
     },
@@ -59,19 +59,18 @@
       "Parameters": {
         "value.$": "States.Format('found {}!', $.foreach.currentItem)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign Result"
     },
     "Assign Result": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.tmp.result",
       "Next": "Return result"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.tmp.result"
+      "InputPath": "$.tmp.result",
+      "End": true
     },
     "Foreach Exit": {
       "Type": "Pass",

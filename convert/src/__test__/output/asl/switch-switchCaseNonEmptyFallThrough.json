@@ -12,19 +12,19 @@
     },
     "Assign arr": {
       "Type": "Pass",
-      "ResultPath": "$.vars.arr",
       "Result": [
         1,
         2,
         3
       ],
+      "ResultPath": "$.vars.arr",
       "Comment": "source: arr = [1, 2, 3]",
       "Next": "Assign result"
     },
     "Assign result": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "Result": "",
+      "ResultPath": "$.vars.result",
       "Comment": "source: result = \"\"",
       "Next": "Foreach Initialize"
     },
@@ -71,13 +71,12 @@
       "Parameters": {
         "value.$": "States.Format('{}1', $.vars.result)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign result_1"
     },
     "Assign result_1": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Evaluate Format('{}1or2', ..."
     },
     "Evaluate Format('{}1or2', ...": {
@@ -86,13 +85,12 @@
       "Parameters": {
         "value.$": "States.Format('{}1or2', $.vars.result)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign result_2"
     },
     "Assign result_2": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Evaluate Format('{}1or2or ..."
     },
     "Evaluate Format('{}1or2or ...": {
@@ -101,13 +99,12 @@
       "Parameters": {
         "value.$": "States.Format('{}1or2or3', $.vars.result)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign result_3"
     },
     "Assign result_3": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Evaluate Format('{}|', $. ..."
     },
     "Evaluate Format('{}|', $. ...": {
@@ -116,13 +113,12 @@
       "Parameters": {
         "value.$": "States.Format('{}|', $.vars.result)"
       },
-      "Comment": "source: result of an expression cannot be placed in In ...",
       "Next": "Assign result_4"
     },
     "Assign result_4": {
       "Type": "Pass",
-      "ResultPath": "$.vars.result",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Foreach Next"
     },
     "Foreach Exit": {
@@ -141,9 +137,9 @@
       "Next": "Foreach CheckDone"
     },
     "Return result": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.result"
+      "InputPath": "$.vars.result",
+      "End": true
     }
   }
 }

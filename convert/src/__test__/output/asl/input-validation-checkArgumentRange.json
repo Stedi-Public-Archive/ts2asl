@@ -34,8 +34,8 @@
     },
     "Assign input.delayInSeconds": {
       "Type": "Pass",
-      "ResultPath": "$.vars.delayInSeconds",
       "Result": 5,
+      "ResultPath": "$.vars.delayInSeconds",
       "Next": "If (input.delayInSeconds ..."
     },
     "If (input.delayInSeconds ...": {
@@ -70,9 +70,9 @@
       "Next": "Return input.delayInSeconds"
     },
     "Return input.delayInSeconds": {
-      "End": true,
       "Type": "Pass",
-      "InputPath": "$.vars.delayInSeconds"
+      "InputPath": "$.vars.delayInSeconds",
+      "End": true
     }
   }
 }

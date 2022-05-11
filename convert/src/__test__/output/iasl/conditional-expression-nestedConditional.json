@@ -1,0 +1,76 @@
+{
+  "inputArgumentName": {
+    "identifier": "args",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "obj",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign obj",
+        "parameters": {
+          "properties": {
+            "name": {
+              "value": "jim",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "obj = { name: \"jim\" }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign obj",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "condition": {
+          "rhs": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "value": "doesn't happen",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "whenFalse": {
+          "condition": {
+            "rhs": {
+              "identifier": "obj.name",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "operator": "is-truthy",
+            "_syntaxKind": "binary-expression"
+          },
+          "whenTrue": {
+            "identifier": "obj.name",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          "whenFalse": {
+            "value": "world",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "conditional-expression"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return null ? \"doesn't ha ..."
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

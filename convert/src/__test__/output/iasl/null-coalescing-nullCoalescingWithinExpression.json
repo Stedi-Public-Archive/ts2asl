@@ -1,0 +1,77 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "obj",
+        "_syntaxKind": "identifier",
+        "type": "object"
+      },
+      "expression": {
+        "stateName": "Assign obj",
+        "parameters": {
+          "properties": {
+            "name": {
+              "value": "world",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "source": "obj = { name: \"world\" }",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign obj",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "expression": {
+        "condition": {
+          "rhs": {
+            "arguments": [
+              {
+                "value": "hello {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "obj.name",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "arguments": [
+            {
+              "value": "hello {}",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            {
+              "identifier": "obj.name",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            }
+          ],
+          "function": "asl.states.format",
+          "_syntaxKind": "asl-intrinsic-function"
+        },
+        "whenFalse": {
+          "value": "you",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

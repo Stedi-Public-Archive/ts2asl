@@ -1,7 +1,7 @@
-import { writeFileSync } from "fs";
+import { unwatchFile, writeFileSync } from "fs";
 import { createCompilerHostFromFile } from "../compiler-host/node";
 import { ConvertedStateMachineWithDiagnostics, Converter } from "../convert";
-import * as asl from "@ts2asl/asl-lib"
+import * as asl from "@ts2asl/asl-lib";
 export const runConvertForTest = (filename: string): Record<string, ConvertedStateMachineWithDiagnostics> => {
 
   const host = createCompilerHostFromFile(
@@ -19,7 +19,7 @@ export const runConvertForTest = (filename: string): Record<string, ConvertedSta
     );
     writeFileSync(
       `src/__test__/output/iasl/${filename}-${stateMachine.name}.json`,
-      JSON.stringify(stateMachine.iasl, function (this: any, key: string, val: any) { return key === "parentScope" ? undefined : val }, 2) ?? ""
+      JSON.stringify(stateMachine.iasl, function (this: any, key: string, val: any) { return key === "parentScope" ? undefined : val; }, 2) ?? ""
     );
     writeFileSync(
       `src/__test__/output/asl/${filename}-${stateMachine.name}.json`,
@@ -33,7 +33,7 @@ export const runConvertForTest = (filename: string): Record<string, ConvertedSta
   }
 
   return result;
-}
+};
 
 export const convertDeployExecute = async (filename: string, name: string, input: {} = {}): Promise<unknown> => {
   asl.clientConfig.region = "us-east-1";
@@ -48,14 +48,16 @@ export const convertDeployExecute = async (filename: string, name: string, input
   const stateMachineName = `ts2asl` + Math.floor(Math.random() * 10000);
   let sfnArn: string = "";
   try {
+
     const results: Record<string, unknown> = {};
     for (const stateMachine of converted) {
       if (stateMachine.name !== name) continue;
       const aslString = JSON.stringify(stateMachine.asl);
 
-      const response = await asl.sdkSfnCreateStateMachine({ parameters: { name: stateMachineName, type: "EXPRESS", definition: aslString, roleArn: "arn:aws:iam::102625093955:role/ts2asl-test" } })
+      const response = await asl.sdkSfnCreateStateMachine({ parameters: { name: stateMachineName, type: "EXPRESS", definition: aslString, roleArn: "arn:aws:iam::642712255693:role/ts2asl-test" } });
       sfnArn = response.stateMachineArn!;
       const result = await asl.sdkSfnStartSyncExecution({ parameters: { stateMachineArn: response.stateMachineArn, input: JSON.stringify(input, null, 2) } });
+      if (result.output === undefined) return undefined;
       return JSON.parse(result.output as string);
     }
   }

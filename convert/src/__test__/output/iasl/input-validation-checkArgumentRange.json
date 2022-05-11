@@ -89,13 +89,13 @@
             "stateName": "Throw ValidationError",
             "cause": "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
             "error": "ValidationError",
-            "source": "throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")",
+            "source": "throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\");",
             "_syntaxKind": "asl-fail-state"
           }
         ],
         "_syntaxKind": "function"
       },
-      "source": "if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {\n    throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")\n  }",
+      "source": "if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {\n    throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\");\n  }",
       "_syntaxKind": "if"
     },
     {

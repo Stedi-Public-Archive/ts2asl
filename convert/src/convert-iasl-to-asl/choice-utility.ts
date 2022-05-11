@@ -1,15 +1,23 @@
 import * as iasl from "../convert-asllib-to-iasl/ast";
 import { Operator } from 'asl-types/dist/choice';
-import { convertExpressionToAsl } from "./aslfactory";
+import { AslRhsFactory } from "./aslfactory.rhs";
+import { AslWriter } from "./asl-writer";
 
-export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.LiteralExpression | iasl.Identifier): Operator {
 
-  if (iasl.Check.isIdentifier(expression)) {
+export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.LiteralExpression | iasl.Identifier, scopes: Record<string, iasl.Scope>, context: AslWriter): Operator {
+
+  if (iasl.Check.isIdentifier(expression) || iasl.Check.isAslIntrinsicFunction(expression) || iasl.Check.isConditionalExpression(expression)) {
     expression = {
       _syntaxKind: iasl.SyntaxKind.BinaryExpression,
       operator: "is-truthy",
       rhs: expression,
     } as iasl.BinaryExpression;
+  }
+
+  if (iasl.Check.isBinaryExpression(expression) && expression.operator === "is-truthy") {
+    if (iasl.Check.isLiteral(expression.rhs)) {
+      expression = expression.rhs;
+    }
   }
 
   if (iasl.Check.isLiteral(expression)) {
@@ -28,30 +36,40 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
 
   if (expression.operator === "exists-in") {
     if (!iasl.Check.isLiteral(expression.lhs) || expression.lhs.type !== "string" || (expression.lhs.value as string).length === 0) throw new Error("binary expression with 'exists-in' operand must have string literal as lhs");
-    if (!iasl.Check.isIdentifier(expression.rhs)) {
-      throw new Error("binary expression with 'is-truthy' rhs must be identifier, found: " + expression.rhs._syntaxKind);
-    }
-    const expr = convertExpressionToAsl(expression.rhs);
+    const expr = AslRhsFactory.appendIasl(expression.rhs, scopes, context);
 
     return {
       Variable: expr.path + `.${expression.lhs.value}`,
       IsPresent: true
     };
   }
+
   if (expression.operator === "is-truthy") {
     if (expression.lhs) throw new Error("binary expression with 'is-truthy' operand should not have lhs");
-    if (!iasl.Check.isIdentifier(expression.rhs)) {
-      throw new Error("binary expression with 'is-truthy' rhs must be identifier, found: " + expression.rhs._syntaxKind);
-    }
-
-    const expr = convertExpressionToAsl(expression.rhs);
+    const expr = AslRhsFactory.appendIasl(expression.rhs, scopes, context, true);
 
     //if type of boolean we use a simple 'BooleanEquals' check
-    if (expression.rhs.type === "boolean") {
+    if (expr.type === "boolean") {
       return {
         Not: {
           Variable: expr.path,
           BooleanEquals: false
+        }
+      };
+    }
+    if (expr.type === "object") {
+      return {
+        Not: {
+          Or: [
+            {
+              Variable: expr.path,
+              IsPresent: false
+            },
+            {
+              Variable: expr.path,
+              IsNull: true
+            }
+          ]
         }
       };
     }
@@ -96,19 +114,19 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
 
   if (expression.operator === "not") {
     if (iasl.Check.isIdentifier(expression.rhs)) {
-      const truthy = createChoiceOperator(expression.rhs);
+      const truthy = createChoiceOperator(expression.rhs, scopes, context);
       if (truthy.Not === undefined) throw new Error("truthy check expected to have Not");
       return truthy.Not;
     }
     if (iasl.Check.isBinaryExpression(expression.rhs)) {
-      const notExpression = createChoiceOperator(expression.rhs);
+      const notExpression = createChoiceOperator(expression.rhs, scopes, context);
       if (notExpression.IsNumeric === true) {
         return { ...notExpression, IsNumeric: false };
       } else if (notExpression.IsBoolean === true) {
         return { ...notExpression, IsBoolean: false };
       }
 
-      const operator = createChoiceOperator(expression.rhs);
+      const operator = createChoiceOperator(expression.rhs, scopes, context);
       if (operator.Not) {
         return operator.Not;
       }
@@ -117,7 +135,7 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
       };
     } else {
       return {
-        Not: convertExpressionToAsl(expression.rhs)
+        Not: AslRhsFactory.appendIasl(expression.rhs, scopes, context)
       };
     }
   }
@@ -126,17 +144,17 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
     let operands: Operator[] = [];
     if (expression.lhs) {
       if (iasl.Check.isBinaryExpression(expression.lhs)) {
-        operands.push(createChoiceOperator(expression.lhs));
+        operands.push(createChoiceOperator(expression.lhs, scopes, context));
       } else {
-        operands.push(convertExpressionToAsl(expression.lhs));
+        operands.push(AslRhsFactory.appendIasl(expression.lhs, scopes, context));
       }
     }
 
     if (expression.rhs) {
       if (iasl.Check.isBinaryExpression(expression.rhs)) {
-        operands.push(createChoiceOperator(expression.rhs));
+        operands.push(createChoiceOperator(expression.rhs, scopes, context));
       } else {
-        operands.push(convertExpressionToAsl(expression.rhs));
+        operands.push(AslRhsFactory.appendIasl(expression.rhs, scopes, context));
       }
     }
 
@@ -169,7 +187,7 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
   if (iasl.Check.isTypeOfExpression(expression.lhs) || iasl.Check.isTypeOfExpression(expression.rhs)) {
     if (expression.operator !== "eq") throw new Error("if lhs or rhs is typeof expression, operator must be equals (e.g. typeof myvar === 'string'");
     if (iasl.Check.isTypeOfExpression(expression.lhs) && iasl.Check.isLiteral(expression.rhs) && iasl.Check.isIdentifier(expression.lhs.operand)) {
-      const convered = convertExpressionToAsl(expression.lhs.operand);
+      const convered = AslRhsFactory.appendIasl(expression.lhs.operand, scopes, context);
       const result = {
         And: [{
           Variable: convered.path,
@@ -202,15 +220,15 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
       return result;
     }
   }
-  const lhs = expression.lhs ? convertExpressionToAsl(expression.lhs) : undefined;
-  const rhs = convertExpressionToAsl(expression.rhs);
+  const lhs = expression.lhs ? AslRhsFactory.appendIasl(expression.lhs, scopes, context) : undefined;
+  const rhs = AslRhsFactory.appendIasl(expression.rhs, scopes, context);
   if (!lhs) throw new Error("expected lhs on binary expression");
   if (lhs.path === undefined) { //lhs will be bound to variable, must not be literal
     if (rhs.path === undefined) {
       throw new Error("expected either rhs or lhs to be path");
     }
     const reversedExpression = reverseBinaryExpression(expression);
-    return createChoiceOperator(reversedExpression);
+    return createChoiceOperator(reversedExpression, scopes, context);
   }
 
   let operatorField = 'String';
