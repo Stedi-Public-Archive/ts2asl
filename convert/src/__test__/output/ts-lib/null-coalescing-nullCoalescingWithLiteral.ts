@@ -2,7 +2,7 @@
 import * as asl from "@ts2asl/asl-lib";
 
 export const nullCoalescing = asl.deploy.asStateMachine(async () => {
-  const obj = { name: undefined };
+  const obj = { name: undefined as string | undefined };
   let result: { a?: string, b?: string; } = {};
   result.a = obj.name ?? "jim";
 
@@ -16,25 +16,25 @@ export const nullCoalescingWithLiteral = asl.deploy.asStateMachine(async () =>{
     return null ? null : "jim";
 });
 
-export const nullCoalescingWithinExpression = asl.deploy.asStateMachine(async (args: { name?: string; }) => {
-  const obj = { name: undefined };
-  return "hello" + args.name ?? "world";
+export const nullCoalescingWithinExpression = asl.deploy.asStateMachine(async () => {
+  const obj = { name: "world" };
+  return "hello " + obj.name ?? "you";
 });
 
-export const nestedNullCoalescing = asl.deploy.asStateMachine(async (args: { name: string; }) => {
+export const nestedNullCoalescing = asl.deploy.asStateMachine(async () => {
   const obj = { name: undefined };
 
   return null ?? obj.name ?? "world";
 });
 
-export const nullCoalescingWithinStringFormat = asl.deploy.asStateMachine(async (args: { name?: string; }) => {
-  const obj = { name: undefined };
+export const nullCoalescingWithinStringFormat = asl.deploy.asStateMachine(async () => {
+  const obj = { name: undefined as string | undefined };
 
   let result: { a?: string, b?: string; } = {};
-  result.a = `hello: ${args.name ?? "jim"}`;
+  result.a = `hello: ${obj.name ?? "jim"}`;
 
   obj.name = "jack";
-  result.b = `hello: ${args.name ?? "jim"}`;
+  result.b = `hello: ${obj.name ?? "jim"}`;
 
   return result;
 });

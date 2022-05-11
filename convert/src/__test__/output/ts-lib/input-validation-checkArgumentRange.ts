@@ -1,4 +1,4 @@
-import * as asl from "@ts2asl/asl-lib"
+import * as asl from "@ts2asl/asl-lib";
 
 export const checkArgumentType = asl.deploy.asStateMachine(async (input: Input) => {
   if (typeof input.delayInSeconds !== "number") {
@@ -12,6 +12,7 @@ export const checkArgumentTypeProvideDefault = asl.deploy.asStateMachine(async (
     input.delayInSeconds = 5;
   }
   await asl.wait({ seconds: input.delayInSeconds });
+  return input.delayInSeconds;
 });
 
 export const checkArgumentRange = asl.deploy.asStateMachine(async (input: Input) =>{
@@ -31,10 +32,10 @@ export const checkArgumentRange = asl.deploy.asStateMachine(async (input: Input)
                 name: "Throw ValidationError",
                 error: "ValidationError",
                 cause: "delay in seconds must be numeric value no greater than 10 and no smaller than 1",
-                comment: "throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")"
+                comment: "throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\");"
             })
         },
-        comment: "if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {\n    throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\")\n  }"
+        comment: "if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {\n    throw new ValidationError(\"delay in seconds must be numeric value no greater than 10 and no smaller than 1\");\n  }"
     })
     await asl.wait({ seconds: input.delayInSeconds });
     return input.delayInSeconds;

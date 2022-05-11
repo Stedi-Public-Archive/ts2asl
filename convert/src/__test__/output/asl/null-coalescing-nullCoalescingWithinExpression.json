@@ -12,26 +12,26 @@
     },
     "Assign obj": {
       "Type": "Pass",
-      "Parameters": {
-        "name.$": "$._undefined"
+      "Result": {
+        "name": "world"
       },
       "ResultPath": "$.vars.obj",
-      "Comment": "source: obj = { name: undefined }",
-      "Next": "Evaluate Format('hello{}' ..."
+      "Comment": "source: obj = { name: \"world\" }",
+      "Next": "Evaluate Format('hello {} ..."
     },
-    "Evaluate Format('hello{}' ...": {
+    "Evaluate Format('hello {} ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
-        "value.$": "States.Format('hello{}', $.vars.name)"
+        "value.$": "States.Format('hello {}', $.vars.obj.name)"
       },
-      "Next": "Evaluate Format('hello{}' ..._1"
+      "Next": "Evaluate Format('hello {} ..._1"
     },
-    "Evaluate Format('hello{}' ..._1": {
+    "Evaluate Format('hello {} ..._1": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
-        "value.$": "States.Format('hello{}', $.vars.name)"
+        "value.$": "States.Format('hello {}', $.vars.obj.name)"
       },
       "Next": "Eval Conditional"
     },
@@ -85,7 +85,7 @@
     "Conditional False": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "Result": "world",
+      "Result": "you",
       "Next": "Return"
     },
     "Return": {

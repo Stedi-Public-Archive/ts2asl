@@ -1,6 +1,6 @@
 
 ## main
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBkYXRhID0gewogICAgbnVtOiA0MiwKICAgIHRleHQ6ICJ0ZXh0IiwKICAgIHVuZGVmaW5lZDogdW5kZWZpbmVkLAogICAgbnVsbDogbnVsbCwKICAgIHRpbWVzdGFtcDogIjIwMTYtMDMtMTRUMDE6NTk6MDBaIgogIH0KCiAgaWYgKHR5cGVvZiBkYXRhLm51bSAhPT0gIm51bWJlciIpIHsKICAgIHRocm93IG5ldyBWYWxpZGF0aW9uRXJyb3IoIm51bSBleHBlY3RlZCB0byBiZSBudW1iZXIiKTsKICB9CgogIGlmIChkYXRhLm51bSAhPT0gNDIpIHsKICAgIHRocm93IG5ldyBWYWxpZGF0aW9uRXJyb3IoIm51bSBleHBlY3RlZCB0byBiZSA0MiIpOwogIH0KCiAgaWYgKHR5cGVvZiBkYXRhLnRleHQgIT09ICJzdHJpbmciKSB7CiAgICB0aHJvdyBuZXcgVmFsaWRhdGlvbkVycm9yKCJ0ZXh0IGV4cGVjdGVkIHRvIGJlIHN0cmluZyIpOwogIH0KCiAgaWYgKGRhdGEudGV4dCAhPT0gInRleHQiKSB7CiAgICB0aHJvdyBuZXcgVmFsaWRhdGlvbkVycm9yKCJ0ZXh0IGV4cGVjdGVkIHRvIGJlICd0ZXh0JyIpOwogIH0KCiAgaWYgKGRhdGEudW5kZWZpbmVkKSB7CiAgICB0aHJvdyBuZXcgVmFsaWRhdGlvbkVycm9yKCJ1bmRlZmluZWQgZXhwZWN0ZWQgdG8gYmUgbm9uLXRydXRoeSciKTsKICB9CgogIGlmIChkYXRhLm51bGwpIHsKICAgIHRocm93IG5ldyBWYWxpZGF0aW9uRXJyb3IoIm51bGwgZXhwZWN0ZWQgdG8gYmUgbm9uLXRydXRoeSciKTsKICB9CgogIGlmICh0eXBlb2YgZGF0YS50aW1lc3RhbXAgIT09ICJzdHJpbmciKSB7CiAgICB0aHJvdyBuZXcgVmFsaWRhdGlvbkVycm9yKCJ0aW1lc3RhbXAgZXhwZWN0ZWQgdG8gYmUgc3RyaW5nJyIpOwogIH0KfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBkYXRhID0gewogICAgbnVtOiA0MiwKICAgIHRleHQ6ICJ0ZXh0IiwKICAgIHVuZGVmaW5lZDogdW5kZWZpbmVkLAogICAgbnVsbDogbnVsbCwKICAgIHRpbWVzdGFtcDogIjIwMTYtMDMtMTRUMDE6NTk6MDBaIgogIH07CgogIGlmICh0eXBlb2YgZGF0YS5udW0gIT09ICJudW1iZXIiKSB7CiAgICB0aHJvdyBuZXcgVmFsaWRhdGlvbkVycm9yKCJudW0gZXhwZWN0ZWQgdG8gYmUgbnVtYmVyIik7CiAgfQoKICBpZiAoZGF0YS5udW0gIT09IDQyKSB7CiAgICB0aHJvdyBuZXcgVmFsaWRhdGlvbkVycm9yKCJudW0gZXhwZWN0ZWQgdG8gYmUgNDIiKTsKICB9CgogIGlmICh0eXBlb2YgZGF0YS50ZXh0ICE9PSAic3RyaW5nIikgewogICAgdGhyb3cgbmV3IFZhbGlkYXRpb25FcnJvcigidGV4dCBleHBlY3RlZCB0byBiZSBzdHJpbmciKTsKICB9CgogIGlmIChkYXRhLnRleHQgIT09ICJ0ZXh0IikgewogICAgdGhyb3cgbmV3IFZhbGlkYXRpb25FcnJvcigidGV4dCBleHBlY3RlZCB0byBiZSAndGV4dCciKTsKICB9CgogIGlmIChkYXRhLnVuZGVmaW5lZCkgewogICAgdGhyb3cgbmV3IFZhbGlkYXRpb25FcnJvcigidW5kZWZpbmVkIGV4cGVjdGVkIHRvIGJlIG5vbi10cnV0aHknIik7CiAgfQoKICBpZiAoZGF0YS5udWxsKSB7CiAgICB0aHJvdyBuZXcgVmFsaWRhdGlvbkVycm9yKCJudWxsIGV4cGVjdGVkIHRvIGJlIG5vbi10cnV0aHknIik7CiAgfQoKICBpZiAodHlwZW9mIGRhdGEudGltZXN0YW1wICE9PSAic3RyaW5nIikgewogICAgdGhyb3cgbmV3IFZhbGlkYXRpb25FcnJvcigidGltZXN0YW1wIGV4cGVjdGVkIHRvIGJlIHN0cmluZyciKTsKICB9CiAgcmV0dXJuICJzdWNjZXNzIjsKfSk7)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
@@ -11,7 +11,7 @@ export const main = asl.deploy.asStateMachine(async () =>
     undefined: undefined,
     null: null,
     timestamp: "2016-03-14T01:59:00Z"
-  }
+  };
 
   if (typeof data.num !== "number") {
     throw new ValidationError("num expected to be number");
@@ -40,24 +40,26 @@ export const main = asl.deploy.asStateMachine(async () =>
   if (typeof data.timestamp !== "string") {
     throw new ValidationError("timestamp expected to be string'");
   }
+  return "success";
 });
 ```
 
 
 ## numeric comparison
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBjb25kaXRpb24gPSA0MjsKICBjb25zdCBpdGVtcyA9IFsyLCA0MiwgM107CiAgY29uc3QgbGlzdFdpdGhSZXR1bnJuZWQgPSBpdGVtcy5tYXAoaXRlbSA9PiB7CiAgICBpZiAoaXRlbSA9PT0gY29uZGl0aW9uKSB7CiAgICAgIHJldHVybiB7IHJldHVybmVkOiBpdGVtIH07CiAgICB9CiAgfSk7CiAgY29uc3QgaXRlbSA9IGxpc3RXaXRoUmV0dW5ybmVkLmZpbHRlcih4ID0+IHgucmV0dXJuZWQpOwogIHJldHVybiBpdGVtOwp9KTs=)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCBjb25kaXRpb24gPSA0MjsKICBjb25zdCBpdGVtcyA9IFsyLCA0MiwgM107CiAgY29uc3QgbGlzdFdpdGhSZXR1cm5lZCA9IGl0ZW1zLm1hcChpdGVtID0+IHsKICAgIGlmIChpdGVtID09PSBjb25kaXRpb24pIHsKICAgICAgcmV0dXJuIHsgcmV0dXJuZWQ6IGl0ZW0gfTsKICAgIH0KICAgIHJldHVybiB7fTsKICB9KTsKICBjb25zdCBpdGVtID0gbGlzdFdpdGhSZXR1cm5lZC5maWx0ZXIoeCA9PiB4LnJldHVybmVkKTsKICByZXR1cm4gaXRlbTsKfSk7)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
  {
   const condition = 42;
   const items = [2, 42, 3];
-  const listWithRetunrned = items.map(item => {
+  const listWithReturned = items.map(item => {
     if (item === condition) {
       return { returned: item };
     }
+    return {};
   });
-  const item = listWithRetunrned.filter(x => x.returned);
+  const item = listWithReturned.filter(x => x.returned);
   return item;
 });
 ```

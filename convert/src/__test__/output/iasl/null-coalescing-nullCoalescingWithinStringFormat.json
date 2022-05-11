@@ -1,8 +1,4 @@
 {
-  "inputArgumentName": {
-    "identifier": "args",
-    "_syntaxKind": "identifier"
-  },
   "statements": [
     {
       "name": {
@@ -22,7 +18,7 @@
           },
           "_syntaxKind": "literal-object"
         },
-        "source": "obj = { name: undefined }",
+        "source": "obj = { name: undefined as string | undefined }",
         "_syntaxKind": "asl-pass-state"
       },
       "stateName": "Assign obj",
@@ -62,7 +58,7 @@
           {
             "condition": {
               "rhs": {
-                "identifier": "args.name",
+                "identifier": "obj.name",
                 "type": "string",
                 "_syntaxKind": "identifier"
               },
@@ -70,7 +66,7 @@
               "_syntaxKind": "binary-expression"
             },
             "whenTrue": {
-              "identifier": "args.name",
+              "identifier": "obj.name",
               "type": "string",
               "_syntaxKind": "identifier"
             },
@@ -91,7 +87,7 @@
     {
       "name": {
         "identifier": "obj.name",
-        "type": "unknown",
+        "type": "string",
         "_syntaxKind": "identifier"
       },
       "expression": {
@@ -118,7 +114,7 @@
           {
             "condition": {
               "rhs": {
-                "identifier": "args.name",
+                "identifier": "obj.name",
                 "type": "string",
                 "_syntaxKind": "identifier"
               },
@@ -126,7 +122,7 @@
               "_syntaxKind": "binary-expression"
             },
             "whenTrue": {
-              "identifier": "args.name",
+              "identifier": "obj.name",
               "type": "string",
               "_syntaxKind": "identifier"
             },

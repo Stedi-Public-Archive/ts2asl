@@ -279,6 +279,15 @@
       },
       "source": "if (typeof data.timestamp !== \"string\") {\n    throw new ValidationError(\"timestamp expected to be string'\");\n  }",
       "_syntaxKind": "if"
+    },
+    {
+      "expression": {
+        "value": "success",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return \"success\""
     }
   ],
   "_syntaxKind": "statemachine"

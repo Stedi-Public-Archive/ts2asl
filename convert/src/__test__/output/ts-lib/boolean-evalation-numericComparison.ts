@@ -1,4 +1,4 @@
-import * as asl from "@ts2asl/asl-lib"
+import * as asl from "@ts2asl/asl-lib";
 
 export const main = asl.deploy.asStateMachine(async () => {
   const data = {
@@ -7,7 +7,7 @@ export const main = asl.deploy.asStateMachine(async () => {
     undefined: undefined,
     null: null,
     timestamp: "2016-03-14T01:59:00Z"
-  }
+  };
 
   if (typeof data.num !== "number") {
     throw new ValidationError("num expected to be number");
@@ -36,6 +36,7 @@ export const main = asl.deploy.asStateMachine(async () => {
   if (typeof data.timestamp !== "string") {
     throw new ValidationError("timestamp expected to be string'");
   }
+  return "success";
 });
 
 export const numericComparison = asl.deploy.asStateMachine(async () =>{
@@ -49,7 +50,7 @@ export const numericComparison = asl.deploy.asStateMachine(async () =>{
         parameters: () => [2, 42, 3],
         comment: "items = [2, 42, 3]"
     });
-    const listWithRetunrned = asl.map({
+    const listWithReturned = asl.map({
         name: "items.map => item",
         items: () => items,
         iterator: item => {
@@ -61,10 +62,11 @@ export const numericComparison = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (item === condition) {\n      return { returned: item };\n    }"
             })
+            return {};
         },
-        comment: "items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n  })"
+        comment: "items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n    return {};\n  })"
     });
-    const item = asl.jsonPathFilter(listWithRetunrned, (x) => x.returned);
+    const item = asl.jsonPathFilter(listWithReturned, (x) => x.returned);
     return item;
 });
 

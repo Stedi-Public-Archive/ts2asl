@@ -235,7 +235,7 @@
         }
       ],
       "Comment": "source: if (typeof data.timestamp !== \"string\") { thro ...",
-      "Default": "Empty Default Choice"
+      "Default": "Return \"success\""
     },
     "Throw ValidationError_6": {
       "Type": "Fail",
@@ -243,9 +243,9 @@
       "Cause": "timestamp expected to be string'",
       "Comment": "source: throw new ValidationError(\"timestamp expected  ..."
     },
-    "Empty Default Choice": {
+    "Return \"success\"": {
       "Type": "Pass",
-      "ResultPath": null,
+      "Result": "success",
       "End": true
     }
   }

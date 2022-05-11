@@ -10,7 +10,7 @@ describe("when converting null-coalescing", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign obj": Object {
-            "Comment": "source: obj = { name: undefined }",
+            "Comment": "source: obj = { name: undefined as string | undefined }",
             "Next": "Assign result",
             "Parameters": Object {
               "name.$": "$._undefined",
@@ -193,19 +193,9 @@ describe("when converting null-coalescing", () => {
           "Eval Conditional": Object {
             "Choices": Array [
               Object {
+                "IsNull": true,
                 "Next": "Conditional True",
-                "Not": Object {
-                  "Or": Array [
-                    Object {
-                      "IsPresent": false,
-                      "Variable": "$._undefined",
-                    },
-                    Object {
-                      "IsNull": true,
-                      "Variable": "$._undefined",
-                    },
-                  ],
-                },
+                "Variable": "$",
               },
             ],
             "Comment": undefined,
@@ -237,17 +227,17 @@ describe("when converting null-coalescing", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign obj": Object {
-            "Comment": "source: obj = { name: undefined }",
-            "Next": "Evaluate Format('hello{}' ...",
-            "Parameters": Object {
-              "name.$": "$._undefined",
+            "Comment": "source: obj = { name: \\"world\\" }",
+            "Next": "Evaluate Format('hello {} ...",
+            "Result": Object {
+              "name": "world",
             },
             "ResultPath": "$.vars.obj",
             "Type": "Pass",
           },
           "Conditional False": Object {
             "Next": "Return",
-            "Result": "world",
+            "Result": "you",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
@@ -299,18 +289,18 @@ describe("when converting null-coalescing", () => {
             "Default": "Conditional False",
             "Type": "Choice",
           },
-          "Evaluate Format('hello{}' ...": Object {
-            "Next": "Evaluate Format('hello{}' ..._1",
+          "Evaluate Format('hello {} ...": Object {
+            "Next": "Evaluate Format('hello {} ..._1",
             "Parameters": Object {
-              "value.$": "States.Format('hello{}', $.vars.name)",
+              "value.$": "States.Format('hello {}', $.vars.obj.name)",
             },
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
-          "Evaluate Format('hello{}' ..._1": Object {
+          "Evaluate Format('hello {} ..._1": Object {
             "Next": "Eval Conditional",
             "Parameters": Object {
-              "value.$": "States.Format('hello{}', $.vars.name)",
+              "value.$": "States.Format('hello {}', $.vars.obj.name)",
             },
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
@@ -387,19 +377,9 @@ describe("when converting null-coalescing", () => {
           "Eval Conditional": Object {
             "Choices": Array [
               Object {
+                "IsNull": true,
                 "Next": "Conditional True",
-                "Not": Object {
-                  "Or": Array [
-                    Object {
-                      "IsPresent": false,
-                      "Variable": "$._undefined",
-                    },
-                    Object {
-                      "IsNull": true,
-                      "Variable": "$._undefined",
-                    },
-                  ],
-                },
+                "Variable": "$",
               },
             ],
             "Comment": undefined,
@@ -409,19 +389,9 @@ describe("when converting null-coalescing", () => {
           "Eval Conditional_1": Object {
             "Choices": Array [
               Object {
+                "IsNull": true,
                 "Next": "Conditional True_1",
-                "Not": Object {
-                  "Or": Array [
-                    Object {
-                      "IsPresent": false,
-                      "Variable": "$._undefined",
-                    },
-                    Object {
-                      "IsNull": true,
-                      "Variable": "$._undefined",
-                    },
-                  ],
-                },
+                "Variable": "$",
               },
             ],
             "Comment": undefined,
@@ -496,7 +466,7 @@ describe("when converting null-coalescing", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign obj": Object {
-            "Comment": "source: obj = { name: undefined }",
+            "Comment": "source: obj = { name: undefined as string | undefined }",
             "Next": "Assign result",
             "Parameters": Object {
               "name.$": "$._undefined",
@@ -545,13 +515,13 @@ describe("when converting null-coalescing", () => {
             "Type": "Pass",
           },
           "Conditional True": Object {
-            "InputPath": "$.vars.name",
+            "InputPath": "$.vars.obj.name",
             "Next": "Evaluate Format('hello: { ...",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
           "Conditional True_1": Object {
-            "InputPath": "$.vars.name",
+            "InputPath": "$.vars.obj.name",
             "Next": "Evaluate Format('hello: { ..._1",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
@@ -564,31 +534,31 @@ describe("when converting null-coalescing", () => {
                   "Or": Array [
                     Object {
                       "IsPresent": false,
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "IsNull": true,
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "BooleanEquals": false,
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "StringEquals": "",
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "StringEquals": "false",
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "StringEquals": "0",
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "NumericEquals": 0,
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                   ],
                 },
@@ -606,31 +576,31 @@ describe("when converting null-coalescing", () => {
                   "Or": Array [
                     Object {
                       "IsPresent": false,
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "IsNull": true,
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "BooleanEquals": false,
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "StringEquals": "",
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "StringEquals": "false",
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "StringEquals": "0",
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                     Object {
                       "NumericEquals": 0,
-                      "Variable": "$.vars.name",
+                      "Variable": "$.vars.obj.name",
                     },
                   ],
                 },

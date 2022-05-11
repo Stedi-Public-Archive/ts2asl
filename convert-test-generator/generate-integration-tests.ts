@@ -11,7 +11,7 @@ for (const fixture of fixtures) {
   if (regen || !existsSync(testFilePath)) {
     const tests = fixture.enumTestCases();
     if (tests.length > 0) {
-      createIntegrationTestFile(testFilePath, fixture.fixtureName, tests.map(x => x.testName))
+      createIntegrationTestFile(testFilePath, fixture.fixtureName, tests.map(x => x.testName));
     }
   }
 }
@@ -104,7 +104,12 @@ function createIntegrationTestFile(path: string, filename: string, tests: string
                   factory.createAwaitExpression(factory.createCallExpression(
                     factory.createIdentifier(test),
                     undefined,
-                    []
+                    [
+                      factory.createObjectLiteralExpression(
+                        [],
+                        false
+                      )
+                    ]
                   ))
                 )],
                 ts.NodeFlags.Const | ts.NodeFlags.AwaitContext | ts.NodeFlags.ContextFlags | ts.NodeFlags.TypeExcludesFlags
@@ -128,7 +133,7 @@ function createIntegrationTestFile(path: string, filename: string, tests: string
       )
     ]
   ))
-  )
+  );
 
   const describe = factory.createExpressionStatement(factory.createCallExpression(
     factory.createIdentifier("describe"),

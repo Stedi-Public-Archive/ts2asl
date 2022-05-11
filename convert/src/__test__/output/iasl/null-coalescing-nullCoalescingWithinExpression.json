@@ -1,8 +1,4 @@
 {
-  "inputArgumentName": {
-    "identifier": "args",
-    "_syntaxKind": "identifier"
-  },
   "statements": [
     {
       "name": {
@@ -15,14 +11,14 @@
         "parameters": {
           "properties": {
             "name": {
-              "value": null,
-              "type": "null",
+              "value": "world",
+              "type": "string",
               "_syntaxKind": "literal"
             }
           },
           "_syntaxKind": "literal-object"
         },
-        "source": "obj = { name: undefined }",
+        "source": "obj = { name: \"world\" }",
         "_syntaxKind": "asl-pass-state"
       },
       "stateName": "Assign obj",
@@ -34,12 +30,12 @@
           "rhs": {
             "arguments": [
               {
-                "value": "hello{}",
+                "value": "hello {}",
                 "type": "string",
                 "_syntaxKind": "literal"
               },
               {
-                "identifier": "args.name",
+                "identifier": "obj.name",
                 "type": "string",
                 "_syntaxKind": "identifier"
               }
@@ -53,12 +49,12 @@
         "whenTrue": {
           "arguments": [
             {
-              "value": "hello{}",
+              "value": "hello {}",
               "type": "string",
               "_syntaxKind": "literal"
             },
             {
-              "identifier": "args.name",
+              "identifier": "obj.name",
               "type": "string",
               "_syntaxKind": "identifier"
             }
@@ -67,7 +63,7 @@
           "_syntaxKind": "asl-intrinsic-function"
         },
         "whenFalse": {
-          "value": "world",
+          "value": "you",
           "type": "string",
           "_syntaxKind": "literal"
         },

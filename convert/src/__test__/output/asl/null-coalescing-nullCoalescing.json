@@ -16,7 +16,7 @@
         "name.$": "$._undefined"
       },
       "ResultPath": "$.vars.obj",
-      "Comment": "source: obj = { name: undefined }",
+      "Comment": "source: obj = { name: undefined as string | undefined }",
       "Next": "Assign result"
     },
     "Assign result": {

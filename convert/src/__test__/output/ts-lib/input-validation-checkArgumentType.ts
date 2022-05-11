@@ -1,4 +1,4 @@
-import * as asl from "@ts2asl/asl-lib"
+import * as asl from "@ts2asl/asl-lib";
 
 export const checkArgumentType = asl.deploy.asStateMachine(async (input: Input) =>{
     asl.typescriptIf({
@@ -22,6 +22,7 @@ export const checkArgumentTypeProvideDefault = asl.deploy.asStateMachine(async (
     input.delayInSeconds = 5;
   }
   await asl.wait({ seconds: input.delayInSeconds });
+  return input.delayInSeconds;
 });
 
 export const checkArgumentRange = asl.deploy.asStateMachine(async (input: Input) => {
@@ -30,7 +31,7 @@ export const checkArgumentRange = asl.deploy.asStateMachine(async (input: Input)
   }
 
   if (input.delayInSeconds > 10 || input.delayInSeconds < 1) {
-    throw new ValidationError("delay in seconds must be numeric value no greater than 10 and no smaller than 1")
+    throw new ValidationError("delay in seconds must be numeric value no greater than 10 and no smaller than 1");
   }
 
   await asl.wait({ seconds: input.delayInSeconds });

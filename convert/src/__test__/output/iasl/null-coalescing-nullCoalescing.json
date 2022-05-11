@@ -18,7 +18,7 @@
           },
           "_syntaxKind": "literal-object"
         },
-        "source": "obj = { name: undefined }",
+        "source": "obj = { name: undefined as string | undefined }",
         "_syntaxKind": "asl-pass-state"
       },
       "stateName": "Assign obj",
@@ -52,7 +52,7 @@
         "condition": {
           "rhs": {
             "identifier": "obj.name",
-            "type": "unknown",
+            "type": "string",
             "_syntaxKind": "identifier"
           },
           "operator": "is-truthy",
@@ -60,7 +60,7 @@
         },
         "whenTrue": {
           "identifier": "obj.name",
-          "type": "unknown",
+          "type": "string",
           "_syntaxKind": "identifier"
         },
         "whenFalse": {
@@ -76,7 +76,7 @@
     {
       "name": {
         "identifier": "obj.name",
-        "type": "unknown",
+        "type": "string",
         "_syntaxKind": "identifier"
       },
       "expression": {
@@ -97,7 +97,7 @@
         "condition": {
           "rhs": {
             "identifier": "obj.name",
-            "type": "unknown",
+            "type": "string",
             "_syntaxKind": "identifier"
           },
           "operator": "is-truthy",
@@ -105,7 +105,7 @@
         },
         "whenTrue": {
           "identifier": "obj.name",
-          "type": "unknown",
+          "type": "string",
           "_syntaxKind": "identifier"
         },
         "whenFalse": {

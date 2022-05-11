@@ -16,7 +16,7 @@
         "name.$": "$._undefined"
       },
       "ResultPath": "$.vars.obj",
-      "Comment": "source: obj = { name: undefined }",
+      "Comment": "source: obj = { name: undefined as string | undefined }",
       "Next": "Assign result"
     },
     "Assign result": {
@@ -33,31 +33,31 @@
           "Not": {
             "Or": [
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "IsPresent": false
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "IsNull": true
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "BooleanEquals": false
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "StringEquals": ""
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "StringEquals": "false"
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "StringEquals": "0"
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "NumericEquals": 0
               }
             ]
@@ -70,7 +70,7 @@
     "Conditional True": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars.name",
+      "InputPath": "$.vars.obj.name",
       "Next": "Evaluate Format('hello: { ..."
     },
     "Conditional False": {
@@ -106,31 +106,31 @@
           "Not": {
             "Or": [
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "IsPresent": false
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "IsNull": true
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "BooleanEquals": false
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "StringEquals": ""
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "StringEquals": "false"
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "StringEquals": "0"
               },
               {
-                "Variable": "$.vars.name",
+                "Variable": "$.vars.obj.name",
                 "NumericEquals": 0
               }
             ]
@@ -143,7 +143,7 @@
     "Conditional True_1": {
       "Type": "Pass",
       "ResultPath": "$.tmp.var",
-      "InputPath": "$.vars.name",
+      "InputPath": "$.vars.obj.name",
       "Next": "Evaluate Format('hello: { ..._1"
     },
     "Conditional False_1": {

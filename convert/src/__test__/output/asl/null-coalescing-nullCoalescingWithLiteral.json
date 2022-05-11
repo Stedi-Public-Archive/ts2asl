@@ -14,18 +14,8 @@
       "Type": "Choice",
       "Choices": [
         {
-          "Not": {
-            "Or": [
-              {
-                "Variable": "$._undefined",
-                "IsPresent": false
-              },
-              {
-                "Variable": "$._undefined",
-                "IsNull": true
-              }
-            ]
-          },
+          "Variable": "$",
+          "IsNull": true,
           "Next": "Conditional True"
         }
       ],
