@@ -1,11 +1,12 @@
 import * as sfn from "@aws-cdk/aws-stepfunctions";
 import { Runtime } from "@aws-cdk/aws-lambda";
 import { Construct } from "@aws-cdk/core";
-import { Converter, ConverterOptions } from "@ts2asl/convert"
-import { createCompilerHostFromFile } from "@ts2asl/convert"
+import { Converter, ConverterOptions } from "@ts2asl/convert";
+import { createCompilerHostFromFile } from "@ts2asl/convert";
 import { NodejsFunction, NodejsFunctionProps } from "@aws-cdk/aws-lambda-nodejs";
 import { StateMachine, Task, Map, Parallel } from "asl-types";
 import * as fs from "fs";
+import { ensureBundleTsConfig } from "./util";
 
 export interface TypescriptStateMachineProps {
   defaultStepFunctionProps: Omit<sfn.StateMachineProps, "stateMachineName" | "definition">;
@@ -14,7 +15,7 @@ export interface TypescriptStateMachineProps {
   functionProps?: Record<string, Omit<NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">>;
   programName: string;
   sourceFile: string;
-  conversionOptions?: ConverterOptions & { emitStateLanguageFiles?: true };
+  conversionOptions?: ConverterOptions & { emitStateLanguageFiles?: true; };
   cwd?: string; // current working directory, used to resolve dependencies and tsconfig.json. default is process.cwd();
   parameters?: Record<string, string>;
 }
@@ -25,6 +26,7 @@ export class TypescriptStateMachine extends Construct {
 
   constructor(scope: Construct, id: string, props: TypescriptStateMachineProps) {
 
+
     //sourceFile, cwd & diagnostics are converted to a definitionString.
     const { sourceFile, cwd } = props;
 
@@ -33,7 +35,7 @@ export class TypescriptStateMachine extends Construct {
     const options = props.conversionOptions ?? {};
     const converted = converter.convert(options);
 
-    super(scope, id)
+    super(scope, id);
 
     const arnDict: Record<string, string> = {};
     const foundLambdaNames: string[] = [];
@@ -43,12 +45,17 @@ export class TypescriptStateMachine extends Construct {
       const entry = sourceFile;
       const handler = lambda.name;
       const fnProps = props.functionProps?.[lambda.name] ?? {};
-      const fn = new NodejsFunction(scope, logicalId, {
+      const userProps = {
         ...props.defaultFunctionProps,
         ...fnProps,
+      };
+      const bundling = { ... (userProps.bundling ?? {}), tsconfig: ensureBundleTsConfig() };
+      const fn = new NodejsFunction(scope, logicalId, {
+        runtime: Runtime.NODEJS_14_X,
+        ...userProps,
+        bundling,
         entry,
         handler,
-        runtime: Runtime.NODEJS_14_X
       });
       arnDict["lambda:" + lambda.name] = fn.functionArn;
       this.functions[lambda.name] = fn;
@@ -144,7 +151,7 @@ const replaceExpressions = (input: string, parameters: Record<string, string>, s
     return parameters[paramName];
   });
   return replaced2;
-}
+};
 
 const replaceArns = (statemachine: StateMachine, arnDict: Record<string, string>) => {
   for (const state of Object.values(statemachine.States)) {
@@ -171,4 +178,4 @@ const replaceArns = (statemachine: StateMachine, arnDict: Record<string, string>
     }
   }
   return statemachine;
-}
+};

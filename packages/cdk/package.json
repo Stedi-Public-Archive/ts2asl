@@ -20,11 +20,11 @@
     "aws-cdk": "1.x"
   },
   "devDependencies": {
-    "@aws-cdk/aws-lambda-nodejs": "1.134.0",
-    "@aws-cdk/aws-stepfunctions": "1.134.0",
-    "@aws-cdk/core": "1.134.0",
+    "@aws-cdk/aws-lambda-nodejs": "1.139.0",
+    "@aws-cdk/aws-stepfunctions": "1.139.0",
+    "@aws-cdk/core": "1.139.0",
     "@types/tmp": "^0.2.3",
-    "aws-cdk": "1.134.0"
+    "aws-cdk": "1.139.0"
   },
   "dependencies": {
     "@ts2asl/asl-lib": "^0.1.16",

@@ -1,5 +1,3 @@
-import { AslError } from "./asl";
-
 class ThrowableAslError extends Error {
   name: string;
   Cause: string;
@@ -13,8 +11,12 @@ class ThrowableAslError extends Error {
 }
 
 export namespace runtime {
-  export const createError = (error: string, cause: string): AslError & Error & { name: string; } => {
+  export const createError = (error: string, cause: string): ThrowableAslError & Error & { name: string; } => {
     return new ThrowableAslError(error, cause);
   };
 }
 
+export namespace deploy {
+  export const asStateMachine = <T>(fn: T): T => { return fn; };
+  export const asLambda = <T>(fn: T): T => { return fn; };
+}
