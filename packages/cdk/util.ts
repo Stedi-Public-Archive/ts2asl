@@ -7,6 +7,7 @@ const bundleTsconfigFilePath = path.join(cdkDir, "./tsconfig.bundle.json");
 
 export const ensureBundleTsConfig = () => {
 
+
   if (!fs.existsSync(cdkDir)) {
     fs.mkdirSync(cdkDir);
   }
@@ -16,7 +17,7 @@ export const ensureBundleTsConfig = () => {
       "baseUrl": "../",
       "paths": {
         "@ts2asl/asl-lib": [
-          "node_modules/@ts2asl/asl-lib/lib/runtime"
+          "node_modules/@ts2asl/asl-lib/lib/runtime/index.js"
         ]
       }
     }
