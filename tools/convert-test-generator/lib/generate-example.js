@@ -92,7 +92,7 @@ const explanations = {
 const regen = process.env.REGEN == "true";
 const fixtures = (0, enum_tests_1.enumTests)();
 for (const fixture of fixtures) {
-    const exampleFilePath = "../examples/" + fixture.fixtureName + ".md";
+    const exampleFilePath = "../../examples/" + fixture.fixtureName + ".md";
     if (regen || !(0, fs_1.existsSync)(exampleFilePath)) {
         const tests = fixture.enumTestCases();
         if (tests.length > 0) {

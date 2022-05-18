@@ -5,7 +5,6 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "npx jest",
     "build": "npx tsc",
     "regenerate-all": "npx ts-node generate-native-integrations"
   },

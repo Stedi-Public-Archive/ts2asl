@@ -4,23 +4,8 @@
   "description": "",
   "main": "web.js",
   "workspaces": [
-    "packages/*",
-    "tools/*"
+    "packages/*"
   ],
-  "scripts": {
-    "package": "npx esbuild ./convert/src/convert/web.ts --outdir=../asl-editor-spike/lib/ --format=esm --bundle --minify --target=chrome58",
-    "bootstrap": "npm ci && npm run bootstrap:asl-lib && npm run bootstrap:convert && npm run bootstrap:deploy && npm run bootstrap:cli",
-    "test": "concurrently npm:test:asl-lib npm:test:convert npm:test:deploy npm:test:cli",
-    "test:asl-lib": "cd asl-lib && npm run test",
-    "bootstrap:asl-lib": "cd asl-lib && npm ci",
-    "test:convert": "cd convert && npm run test",
-    "bootstrap:convert": "cd convert && npm ci",
-    "test:deploy": "cd deploy && npm run test",
-    "bootstrap:deploy": "cd deploy && npm ci",
-    "test:cli": "",
-    "bootstrap:cli": "cd cli && npm ci",
-    "generate-native-integrations": "npx ts-node asl-lib-generator/generate-native-integrations.ts"
-  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
