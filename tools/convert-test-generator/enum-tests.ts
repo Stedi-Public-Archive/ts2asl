@@ -1,10 +1,10 @@
 import { readdirSync, statSync } from "fs";
-import { createCompilerHostFromFile } from "../convert/lib";
-import { FunctionDeclaration, listFunctionDeclarations } from "../convert/src/convert/list-function-declarations";
+import { createCompilerHostFromFile } from "@ts2asl/convert";
+import { FunctionDeclaration, listFunctionDeclarations } from "@ts2asl/convert/src/convert/list-function-declarations";
 
 export const enumTests = (): TestFixture[] => {
   const result: TestFixture[] = [];
-  const path = "../convert/src/__test__/resources";
+  const path = "../../packages/convert/src/__test__/resources";
   const files = readdirSync(path);
   let testCaseCache: Record<string, TestCase[]> = {};
   for (const fileName of files) {
@@ -20,7 +20,7 @@ export const enumTests = (): TestFixture[] => {
         }
         const tests: TestCase[] = [];
         const host = createCompilerHostFromFile(filePath, "../convert");
-        const fnDecls = listFunctionDeclarations(host.sourceFile, host.typeChecker)
+        const fnDecls = listFunctionDeclarations(host.sourceFile, host.typeChecker);
         for (const decl of fnDecls) {
           if (decl.kind !== "asl") continue;
           const testCase: TestCase = {
@@ -29,16 +29,16 @@ export const enumTests = (): TestFixture[] => {
             decl,
           };
 
-          tests.push(testCase)
+          tests.push(testCase);
         }
         testCaseCache[fixtureName] = tests;
         return tests;
       },
     } as TestFixture;
-    result.push(fixture)
+    result.push(fixture);
   };
   return result;
-}
+};
 
 
 interface TestFixture {

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "baseBranch": "origin/main",
+    "pipeline": {
+      "regenerate-all": {
+        
+      },
+      "build": {
+        "dependsOn": ["^build"]
+      },
+      "test": {
+        "dependsOn": ["^test"]
+      },
+      "dev": {
+        "cache": false
+      }
+    }
+}

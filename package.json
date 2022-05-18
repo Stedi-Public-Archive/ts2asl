@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "web.js",
+  "workspaces": [
+    "packages/*",
+    "tools/*"
+  ],
   "scripts": {
     "package": "npx esbuild ./convert/src/convert/web.ts --outdir=../asl-editor-spike/lib/ --format=esm --bundle --minify --target=chrome58",
     "bootstrap": "npm ci && npm run bootstrap:asl-lib && npm run bootstrap:convert && npm run bootstrap:deploy && npm run bootstrap:cli",
@@ -19,12 +23,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "concurrently": "^7.0.0",
-    "esbuild": "^0.14.36",
-    "typescript": "^4.5.5"
-  },
   "devDependencies": {
-    "ts-node": "^10.7.0"
+    "ts-node": "^10.7.0",
+    "turbo": "^1.2.9",
+    "typescript": "^4.6.4"
   }
 }

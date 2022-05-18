@@ -2,8 +2,8 @@ import * as ts from "typescript";
 import factory = ts.factory;
 import { existsSync, writeFileSync } from "fs";
 import { enumTests, TestCase } from "./enum-tests";
-import { capitalCase } from "change-case"
-import { FunctionDeclaration } from "../convert/src/convert/list-function-declarations";
+import { capitalCase } from "change-case";
+import { FunctionDeclaration } from "@ts2asl/convert/src/convert/list-function-declarations";
 
 const explanations: Record<string, string> = {
   "arrays/serializeArray": "This example shows how to serialize and deserialize an array.",
@@ -65,15 +65,15 @@ const explanations: Record<string, string> = {
   "while/whileWithBreak": "",
   "while/whileWithEarlyReturn": "",
   "while/whileWithContinue": "",
-}
+};
 const regen = process.env.REGEN == "true";
 const fixtures = enumTests();
 for (const fixture of fixtures) {
-  const exampleFilePath = "../examples/" + fixture.fixtureName + ".md";
+  const exampleFilePath = "../../examples/" + fixture.fixtureName + ".md";
   if (regen || !existsSync(exampleFilePath)) {
     const tests = fixture.enumTestCases();
     if (tests.length > 0) {
-      createExamples(exampleFilePath, fixture.fixtureName, tests)
+      createExamples(exampleFilePath, fixture.fixtureName, tests);
     }
   }
 }

@@ -1,4 +1,4 @@
-import sdkIntegrations from "./native-integrations.json"
+import sdkIntegrations from "./native-integrations.json";
 import * as ts from "typescript";
 import factory = ts.factory;
 import { writeFileSync } from "fs";
@@ -9,7 +9,7 @@ const lambdaTypeOverloads = `declare module "@aws-sdk/client-lambda" {
       Payload: {};
   }
 }
-`
+`;
 
 const supportedServices = [
   { serviceId: "dynamodb", serviceName: "DynamoDB" },
@@ -28,7 +28,7 @@ const supportedServices = [
   { serviceId: "codebuild", serviceName: "CodeBuild" },
   { serviceId: "cloudwatch", serviceName: "CloudWatch" },
   { serviceId: "athena", serviceName: "Athena" },
-]
+];
 
 // interface NativeIntegrationDefinition {
 //   docUrl: string;
@@ -39,7 +39,7 @@ const supportedServices = [
 //   }
 // }
 
-const generateServiceAst = (serviceName: string): { importAst: ts.Node[] } => {
+const generateServiceAst = (serviceName: string): { importAst: ts.Node[]; } => {
   const lowercaseServiceId = serviceName.toLowerCase();
   const moduleName = (lowercaseServiceId === "apigateway") ? "api-gateway" : lowercaseServiceId;
   const clientName = (lowercaseServiceId === "sfn") ? "SFNClient" : `${serviceName}Client`;
@@ -97,9 +97,9 @@ const generateServiceAst = (serviceName: string): { importAst: ts.Node[] } => {
         undefined
       ),
     ],
-  }
-}
-const generateFunctionAst = (serviceName: string, actionName: string): { functionAst: ts.Statement, importAst: ts.Node } => {
+  };
+};
+const generateFunctionAst = (serviceName: string, actionName: string): { functionAst: ts.Statement, importAst: ts.Node; } => {
   const lowercaseServiceId = serviceName.toLowerCase();
   const moduleName = (lowercaseServiceId === "apigateway") ? "api-gateway" : lowercaseServiceId;
   const actionNameCamel = actionName[0].toLowerCase() + actionName.substring(1);
@@ -225,13 +225,13 @@ const generateFunctionAst = (serviceName: string, actionName: string): { functio
   const comment = ` Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:${lowercaseServiceId}:${actionNameCamel}'`;
   ts.addSyntheticLeadingComment(result.functionAst, ts.SyntaxKind.MultiLineCommentTrivia, comment, true);
   return result;
-}
+};
 
 for (const service of sdkIntegrations.services) {
   const serviceConfig = supportedServices.find(x => x.serviceId === service.serviceId);
   if (!serviceConfig) continue;
 
-  const filename = `asl-lib/src/sdk-integrations-${serviceConfig.serviceId}.ts`
+  const filename = `../../packages/asl-lib/src/sdk-integrations-${serviceConfig.serviceId}.ts`;
 
   const functionNodes: ts.Statement[] = [];
   const importNodes: ts.Node[] = [];

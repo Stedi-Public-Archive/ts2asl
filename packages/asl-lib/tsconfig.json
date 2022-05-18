@@ -1,11 +1,6 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
-    "lib": [
-      "es2018",
-      "es2019"
-    ],
     "allowJs": true,
     "noImplicitAny": true,
     "declaration": true,
@@ -13,5 +8,11 @@
     "outDir": "./lib",
     "strict": true,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "**/__tests__/*"
+  ]
 }
