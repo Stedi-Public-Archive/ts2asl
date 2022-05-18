@@ -31,6 +31,7 @@
     "@ts2asl/asl-lib": "^0.1.26",
     "@ts2asl/cdk-typescript-statemachine": "^0.1.13",
     "@ts2asl/convert": "^0.1.31",
+    "esbuild": "^0.14.39",
     "source-map-support": "^0.5.16"
   }
 }
