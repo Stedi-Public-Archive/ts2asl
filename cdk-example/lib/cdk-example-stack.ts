@@ -2,6 +2,7 @@ import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as logs from '@aws-cdk/aws-logs';
 import * as ts2asl from '@ts2asl/cdk-typescript-statemachine';
+import * as fs from "fs";
 import { LogLevel } from '@aws-cdk/aws-stepfunctions';
 
 export class CdkExampleStack extends cdk.Stack {
@@ -11,8 +12,8 @@ export class CdkExampleStack extends cdk.Stack {
     // The code that defines your stack goes here
     const executionRole = new iam.Role(this, "executionRole", {
       assumedBy: new iam.ServicePrincipal("states.amazonaws.com")
-    })
-    executionRole.addManagedPolicy(iam.ManagedPolicy.fromManagedPolicyArn(this, "executionRolePolicy", "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"))
+    });
+    executionRole.addManagedPolicy(iam.ManagedPolicy.fromManagedPolicyArn(this, "executionRolePolicy", "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"));
 
     const logGroup = new logs.LogGroup(this, "TypescriptStateMachineLogs", {
       logGroupName: "/aws/vendedlogs/states/typescript-hello-world",
@@ -31,4 +32,4 @@ export class CdkExampleStack extends cdk.Stack {
       sourceFile: "./src/program.ts",
     });
   }
-}
+};

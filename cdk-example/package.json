@@ -14,7 +14,7 @@
     "@aws-cdk/assertions": "1.139.0",
     "@types/jest": "^27.5.1",
     "@types/node": "10.17.27",
-    "aws-cdk": "^1.134.0",
+    "aws-cdk": "1.139.0",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
     "ts-node": "^9.0.0",
@@ -31,6 +31,7 @@
     "@ts2asl/asl-lib": "^0.1.26",
     "@ts2asl/cdk-typescript-statemachine": "^0.1.13",
     "@ts2asl/convert": "^0.1.31",
+    "esbuild": "^0.14.39",
     "source-map-support": "^0.5.16"
   }
 }
