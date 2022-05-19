@@ -1,5 +1,5 @@
 {
-  "name": "@ts2asl/cdk-typescript-statemachine",
+  "name": "@ts2asl/cdk-v1-typescript-statemachine",
   "version": "0.1.15",
   "description": "",
   "main": "lib/index.js",
