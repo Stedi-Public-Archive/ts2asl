@@ -9,7 +9,7 @@
         "packages/convert"
       ],
       "@ts2asl/cdk-typescript-statemachine": [
-        "packages/cdk"
+        "packages/cdk-v2"
       ]
     }
   }

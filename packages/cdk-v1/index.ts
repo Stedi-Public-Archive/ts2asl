@@ -76,7 +76,7 @@ export class TypescriptStateMachine extends Construct {
       const sm = new sfn.StateMachine(scope, logicalId, {
         ...props.defaultStepFunctionProps,
         ...sfnProps,
-        definition: new sfn.Succeed(this, "empty-success"),
+        definition: new sfn.Succeed(this, logicalId + "-empty-success"),
       });
       const underlyingResource = sm.node.findChild("Resource") as sfn.CfnStateMachine;
       underlyingResource.addMetadata("ts2asl:sourceFunctionName", step.name);
