@@ -19,11 +19,4 @@ export * from "./sdk-integrations-cloudwatch";
 export * from "./deploy"
 export * from "./runtime"
 
-
-/* Compiles to Task State with Resource = 'arn:aws:states:::aws-sdk:apigateway:invoke'*/
-export const sdkAPIGatewayInvoke = (input: unknown): Promise<unknown> => {
-  return Promise.resolve({});
-};
-
-
 export const clientConfig = {} as ClientConfig;

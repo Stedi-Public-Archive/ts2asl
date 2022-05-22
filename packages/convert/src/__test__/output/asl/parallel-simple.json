@@ -8,9 +8,9 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Assign Result"
+      "Next": "Parallel"
     },
-    "Assign Result": {
+    "Parallel": {
       "Branches": [
         {
           "StartAt": "worker()",
@@ -72,11 +72,11 @@
         }
       ],
       "ResultPath": "$.tmp.result",
-      "Type": "Parallel",
       "Comment": "source: Promise.all([worker(), worker()])",
-      "Next": "Return result"
+      "Type": "Parallel",
+      "Next": "Return_2"
     },
-    "Return result": {
+    "Return_2": {
       "Type": "Pass",
       "InputPath": "$.tmp.result",
       "End": true

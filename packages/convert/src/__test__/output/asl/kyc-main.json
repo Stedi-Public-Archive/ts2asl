@@ -55,8 +55,8 @@
         }
       ],
       "ResultPath": "$.vars.result",
-      "Type": "Parallel",
       "Comment": "source: Promise.all([ performIdentifyCheck(), Promise. ...",
+      "Type": "Parallel",
       "Next": "PutEvents"
     },
     "PutEvents": {

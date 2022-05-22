@@ -13,6 +13,7 @@ module.exports = {
     "**/do-while.integration.ts",
     "**/choice.integration.ts",
     "**/in-keyword.integration.ts",
+    //"**/nested-stepfunctions.integration.ts"
     // "**/parallel.integration.ts",
     // "**/switch.integration.ts",
   ],

@@ -24,8 +24,8 @@
         }
       ],
       "ResultPath": null,
-      "Type": "Parallel",
       "Comment": "source: Promise.all([() => \"succeeded\"])",
+      "Type": "Parallel",
       "Next": "Return \"finally\""
     },
     "Return \"finally\"": {

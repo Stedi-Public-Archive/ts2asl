@@ -1,0 +1,52 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Pass"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval1",
+      "Parameters": {
+        "firstName": "Santa",
+        "lastName": "Claus",
+        "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID.$": "$$.Execution.Id"
+      },
+      "Next": "childStateMachine({firstN ..."
+    },
+    "childStateMachine({firstN ...": {
+      "Type": "Task",
+      "ResultPath": "$.vars.name",
+      "Resource": "arn:aws:states:::states:startExecution.sync",
+      "Parameters": {
+        "Input.$": "States.JsonToString($.tmp.eval1)",
+        "StateMachineArn": "[!state-machine[childStateMachine]arn]"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Comment": "source: childStateMachine({firstName: \"Santa\", lastNam ...",
+      "Next": "Return name"
+    },
+    "Return name": {
+      "Type": "Pass",
+      "InputPath": "$.vars.name",
+      "End": true
+    }
+  }
+}

@@ -8,9 +8,9 @@ export const removeSyntaxTransformer = <T extends ts.Node>(context: ts.Transform
       return node.expression;
     }
 
-    if (ts.isAwaitExpression(node)) {
-      return node.expression;
-    }
+    // if (ts.isAwaitExpression(node)) {
+    //   return node.expression;
+    // }
 
     if (ts.isAsExpression(node)) {
       return node.expression;

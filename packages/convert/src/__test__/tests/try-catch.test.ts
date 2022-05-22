@@ -281,7 +281,6 @@ describe("when converting try-catch", () => {
             "Comment": "source: Promise.all([() => \\"succeeded\\"])",
             "Next": "Return \\"finally\\"",
             "ResultPath": null,
-            "Retry": undefined,
             "Type": "Parallel",
           },
           "Return \\"finally\\"": Object {

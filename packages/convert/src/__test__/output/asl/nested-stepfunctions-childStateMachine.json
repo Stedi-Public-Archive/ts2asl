@@ -1,0 +1,33 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Evaluate Format('{} {}', ..."
+    },
+    "Evaluate Format('{} {}', ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{} {}', $.vars.firstName, $.vars.lastName)"
+      },
+      "Next": "Assign Result"
+    },
+    "Assign Result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.tmp.result",
+      "Next": "Return result"
+    },
+    "Return result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "End": true
+    }
+  }
+}

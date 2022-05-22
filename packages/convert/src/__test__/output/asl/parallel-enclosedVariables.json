@@ -26,9 +26,9 @@
       },
       "ResultPath": "$.vars.enclosedVar2",
       "Comment": "source: enclosedVar2 = { something: \"right\" }",
-      "Next": "Assign Result"
+      "Next": "Parallel"
     },
-    "Assign Result": {
+    "Parallel": {
       "Branches": [
         {
           "StartAt": "worker(enclosedVar1)",
@@ -82,17 +82,17 @@
         }
       ],
       "ResultPath": "$.tmp.result",
-      "Type": "Parallel",
-      "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
       "Parameters": {
         "vars": {
           "enclosedVar1.$": "$.vars.enclosedVar1",
           "enclosedVar2.$": "$.vars.enclosedVar2"
         }
       },
-      "Next": "Return result"
+      "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
+      "Type": "Parallel",
+      "Next": "Return"
     },
-    "Return result": {
+    "Return": {
       "Type": "Pass",
       "InputPath": "$.tmp.result",
       "End": true

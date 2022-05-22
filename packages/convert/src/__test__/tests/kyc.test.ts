@@ -67,7 +67,6 @@ describe("when converting kyc", () => {
             "Comment": "source: Promise.all([ performIdentifyCheck(), Promise. ...",
             "Next": "PutEvents",
             "ResultPath": "$.vars.result",
-            "Retry": undefined,
             "Type": "Parallel",
           },
           "If (checksPassed)": Object {

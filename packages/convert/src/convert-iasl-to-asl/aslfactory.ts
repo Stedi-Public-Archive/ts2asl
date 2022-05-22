@@ -8,6 +8,7 @@ import { createReplacer, replaceIdentifiers } from "./identifiers";
 import { Operator } from "asl-types/dist/choice";
 import { AslRhsFactory, convertIdentifierToPathExpression } from "./aslfactory.rhs";
 import { AslPassFactory } from "./aslfactory.pass";
+import { AslParallelFactory } from "./aslfactory.parallel";
 
 export let foreachCounter = { value: 0 };
 
@@ -201,18 +202,7 @@ export class AslFactory {
         Comment: expression.source,
       } as asl.Wait, expression.stateName);
     } else if (iasl.Check.isAslParallelState(expression)) {
-      const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext()));
-      const parallelState = {
-        Branches: branches,
-        ResultPath: resultPath,
-        Type: "Parallel",
-        Retry: expression.retry,
-        Comment: expression.source,
-        ...createParameters(scopes, expression.branches),
-      } as asl.Parallel;
-      context.appendNextState(parallelState, nameSuggestion);
-      this.appendCatchConfiguration([parallelState], expression.catch, scopes, context);
-      this.appendRetryConfiguration(parallelState, expression.retry);
+      AslParallelFactory.appendIaslParallel(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
       const iterator = convertBlock(expression.iterator, scopes, context.createChildContext());
       const items = AslRhsFactory.appendIasl(expression.items, scopes, context);
@@ -418,7 +408,7 @@ export class AslFactory {
     }
   }
 
-  private static appendRetryConfiguration(task: asl.Task | asl.Parallel | asl.Map, retryConfiguration: iasl.RetryConfiguration | undefined) {
+  public static appendRetryConfiguration(task: asl.Task | asl.Parallel | asl.Map, retryConfiguration: iasl.RetryConfiguration | undefined) {
     if (retryConfiguration?.length) {
       task.Retry = retryConfiguration.map(x => ({
         ErrorEquals: x.errorEquals,
@@ -429,7 +419,7 @@ export class AslFactory {
     }
   }
 
-  private static appendCatchConfiguration(states: Array<asl.Task | asl.Parallel | asl.Map>, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter) {
+  public static appendCatchConfiguration(states: Array<asl.Task | asl.Parallel | asl.Map>, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter) {
     const appendedStates: asl.State[] = [];
     const startStates: string[] = [];
     for (const _catch of (catchConfiguration || [])) {

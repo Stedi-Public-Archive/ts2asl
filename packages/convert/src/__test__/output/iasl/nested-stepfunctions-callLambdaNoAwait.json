@@ -1,0 +1,38 @@
+{
+  "statements": [
+    {
+      "stateName": "childLambda({firstName: \" ...",
+      "resource": "[!lambda[childLambda]arn]",
+      "retry": [
+        {
+          "errorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "intervalSeconds": 2,
+          "maxAttempts": 6,
+          "backoffRate": 2
+        }
+      ],
+      "parameters": {
+        "properties": {
+          "firstName": {
+            "value": "Santa",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "lastName": {
+            "value": "Claus",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "source": "childLambda({firstName: \"Santa\", lastName: \"Claus\" })",
+      "_syntaxKind": "asl-task-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

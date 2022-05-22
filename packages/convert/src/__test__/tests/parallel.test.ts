@@ -9,7 +9,16 @@ describe("when converting parallel", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
+          "Initialize": Object {
+            "Next": "Parallel",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Parallel": Object {
             "Branches": Array [
               Object {
                 "StartAt": "worker()",
@@ -77,21 +86,11 @@ describe("when converting parallel", () => {
               },
             ],
             "Comment": "source: Promise.all([worker(), worker()])",
-            "Next": "Return result",
+            "Next": "Return_2",
             "ResultPath": "$.tmp.result",
-            "Retry": undefined,
             "Type": "Parallel",
           },
-          "Initialize": Object {
-            "Next": "Assign Result",
-            "Parameters": Object {
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Return result": Object {
+          "Return_2": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.tmp.result",
@@ -106,7 +105,34 @@ describe("when converting parallel", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
+          "Assign enclosedVar1": Object {
+            "Comment": "source: enclosedVar1 = { something: \\"left\\" }",
+            "Next": "Assign enclosedVar2",
+            "Result": Object {
+              "something": "left",
+            },
+            "ResultPath": "$.vars.enclosedVar1",
+            "Type": "Pass",
+          },
+          "Assign enclosedVar2": Object {
+            "Comment": "source: enclosedVar2 = { something: \\"right\\" }",
+            "Next": "Parallel",
+            "Result": Object {
+              "something": "right",
+            },
+            "ResultPath": "$.vars.enclosedVar2",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign enclosedVar1",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Parallel": Object {
             "Branches": Array [
               Object {
                 "StartAt": "worker(enclosedVar1)",
@@ -164,7 +190,7 @@ describe("when converting parallel", () => {
               },
             ],
             "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
-            "Next": "Return result",
+            "Next": "Return",
             "Parameters": Object {
               "vars": Object {
                 "enclosedVar1.$": "$.vars.enclosedVar1",
@@ -172,37 +198,9 @@ describe("when converting parallel", () => {
               },
             },
             "ResultPath": "$.tmp.result",
-            "Retry": undefined,
             "Type": "Parallel",
           },
-          "Assign enclosedVar1": Object {
-            "Comment": "source: enclosedVar1 = { something: \\"left\\" }",
-            "Next": "Assign enclosedVar2",
-            "Result": Object {
-              "something": "left",
-            },
-            "ResultPath": "$.vars.enclosedVar1",
-            "Type": "Pass",
-          },
-          "Assign enclosedVar2": Object {
-            "Comment": "source: enclosedVar2 = { something: \\"right\\" }",
-            "Next": "Assign Result",
-            "Result": Object {
-              "something": "right",
-            },
-            "ResultPath": "$.vars.enclosedVar2",
-            "Type": "Pass",
-          },
-          "Initialize": Object {
-            "Next": "Assign enclosedVar1",
-            "Parameters": Object {
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Return result": Object {
+          "Return": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.tmp.result",
