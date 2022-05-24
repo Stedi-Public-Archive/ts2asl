@@ -10,6 +10,9 @@
       ],
       "@ts2asl/cdk-typescript-statemachine": [
         "packages/cdk-v2"
+      ],
+      "cdk-tests": [
+        "test/cdk-tests"
       ]
     }
   }

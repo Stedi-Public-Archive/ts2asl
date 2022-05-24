@@ -58,27 +58,45 @@
           {
             "statements": [
               {
-                "stateName": "worker(enclosedVar1)",
-                "resource": "[!lambda[worker]arn]",
-                "retry": [
-                  {
-                    "errorEquals": [
-                      "Lambda.ServiceException",
-                      "Lambda.AWSLambdaException",
-                      "Lambda.SdkClientException"
-                    ],
-                    "intervalSeconds": 2,
-                    "maxAttempts": 6,
-                    "backoffRate": 2
-                  }
-                ],
-                "parameters": {
-                  "identifier": "enclosedVar1",
+                "name": {
+                  "identifier": "return_var",
                   "_syntaxKind": "identifier",
-                  "type": "object"
+                  "type": "unknown"
                 },
-                "source": "worker(enclosedVar1)",
-                "_syntaxKind": "asl-task-state"
+                "expression": {
+                  "stateName": "worker(enclosedVar1)",
+                  "resource": "[!lambda[worker]arn]",
+                  "retry": [
+                    {
+                      "errorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "intervalSeconds": 2,
+                      "maxAttempts": 6,
+                      "backoffRate": 2
+                    }
+                  ],
+                  "parameters": {
+                    "identifier": "enclosedVar1",
+                    "_syntaxKind": "identifier",
+                    "type": "object"
+                  },
+                  "source": "worker(enclosedVar1)",
+                  "_syntaxKind": "asl-task-state"
+                },
+                "stateName": "Assign",
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "expression": {
+                  "identifier": "return_var",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "_syntaxKind": "return",
+                "stateName": "Return"
               }
             ],
             "_syntaxKind": "function"
@@ -86,33 +104,51 @@
           {
             "statements": [
               {
-                "stateName": "worker(enclosedVar2)",
-                "resource": "[!lambda[worker]arn]",
-                "retry": [
-                  {
-                    "errorEquals": [
-                      "Lambda.ServiceException",
-                      "Lambda.AWSLambdaException",
-                      "Lambda.SdkClientException"
-                    ],
-                    "intervalSeconds": 2,
-                    "maxAttempts": 6,
-                    "backoffRate": 2
-                  }
-                ],
-                "parameters": {
-                  "identifier": "enclosedVar2",
+                "name": {
+                  "identifier": "return_var",
                   "_syntaxKind": "identifier",
-                  "type": "object"
+                  "type": "unknown"
                 },
-                "source": "worker(enclosedVar2)",
-                "_syntaxKind": "asl-task-state"
+                "expression": {
+                  "stateName": "worker(enclosedVar2)",
+                  "resource": "[!lambda[worker]arn]",
+                  "retry": [
+                    {
+                      "errorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "intervalSeconds": 2,
+                      "maxAttempts": 6,
+                      "backoffRate": 2
+                    }
+                  ],
+                  "parameters": {
+                    "identifier": "enclosedVar2",
+                    "_syntaxKind": "identifier",
+                    "type": "object"
+                  },
+                  "source": "worker(enclosedVar2)",
+                  "_syntaxKind": "asl-task-state"
+                },
+                "stateName": "Assign",
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "expression": {
+                  "identifier": "return_var",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "_syntaxKind": "return",
+                "stateName": "Return"
               }
             ],
             "_syntaxKind": "function"
           }
         ],
-        "source": "Promise.all([\n    async () => {\n      await worker(enclosedVar1);\n    },\n    async () => {\n      await worker(enclosedVar2);\n    },\n  ])",
+        "source": "Promise.all([\n    worker(enclosedVar1),\n    worker(enclosedVar2),\n  ])",
         "_syntaxKind": "asl-parallel-state"
       },
       "_syntaxKind": "return",

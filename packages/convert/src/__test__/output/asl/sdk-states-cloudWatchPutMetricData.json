@@ -18,7 +18,6 @@
       "Next": "Publish Metric Data"
     },
     "Publish Metric Data": {
-      "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:cloudwatch:putMetricData",
       "Parameters": {
@@ -30,6 +29,7 @@
         ],
         "Namespace": "ExampleNamespace"
       },
+      "Type": "Task",
       "End": true
     }
   }

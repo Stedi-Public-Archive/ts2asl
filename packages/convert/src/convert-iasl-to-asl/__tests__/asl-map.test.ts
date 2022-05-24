@@ -12,7 +12,8 @@ describe("when transpiling simple statements", () => {
         items: array,
         iterator: (prefix) => worker({ prefix }),
       });
-    `);
+    `
+    );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
@@ -44,7 +45,6 @@ describe("when transpiling simple statements", () => {
                   },
                   "Resource": "[!lambda[worker]arn]",
                   "ResultPath": null,
-                  "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
                 },
@@ -71,7 +71,8 @@ describe("when transpiling simple statements", () => {
         items: array,
         iterator: (prefix) => {void worker({ prefix });},
       });
-    `);
+    `
+    );
     const iasl = testConvertToIntermediaryAst(transformed);
     const result = convert(iasl, { skipVersionComment: true });
     expect(result).toMatchInlineSnapshot(`
@@ -103,7 +104,6 @@ describe("when transpiling simple statements", () => {
                   },
                   "Resource": "[!lambda[worker]arn]",
                   "ResultPath": null,
-                  "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
                 },

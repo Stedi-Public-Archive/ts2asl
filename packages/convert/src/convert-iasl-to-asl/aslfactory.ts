@@ -2,13 +2,15 @@ import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
 import { appendBlock, convertBlock } from ".";
 import { createChoiceOperator } from "./choice-utility";
-import { createParameters, createParametersForMap } from "./parameters";
+import { createParametersForMap } from "./parameters";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createReplacer, replaceIdentifiers } from "./identifiers";
 import { Operator } from "asl-types/dist/choice";
 import { AslRhsFactory, convertIdentifierToPathExpression } from "./aslfactory.rhs";
 import { AslPassFactory } from "./aslfactory.pass";
 import { AslParallelFactory } from "./aslfactory.parallel";
+import { AslTaskFactory } from "./aslfactory.task";
+import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
 
 export let foreachCounter = { value: 0 };
 
@@ -30,25 +32,11 @@ export class AslFactory {
     }
 
     if (iasl.Check.isAslPassState(expression)) {
-
       AslPassFactory.appendIaslPass(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isAslTaskState(expression)) {
-      const parameters = expression.parameters ? AslRhsFactory.appendIasl(expression.parameters, scopes, context) : undefined;
-
-      const task = {
-        Type: "Task",
-        ResultPath: resultPath,
-        Resource: expression.resource,
-        ...(parameters && parameters.path !== undefined ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value } : {}),
-        Retry: expression.retry,
-        TimeoutSeconds: expression.timeoutSeconds,
-        HeartbeatSeconds: expression.heartbeatSeconds,
-        Comment: expression.source,
-      } as asl.Task;
-      context.appendNextState(task, expression.stateName);
-      this.appendCatchConfiguration([task], expression.catch, scopes, context);
-      this.appendRetryConfiguration(task, expression.retry);
-
+      AslTaskFactory.appendIaslTask(expression, scopes, context, resultPath, expression.stateName);
+    } else if (iasl.Check.isAslInvokeStateMachine(expression)) {
+      AslInvokeStateMachineFactory.appendIaslInvoke(expression, scopes, context, resultPath, expression.stateName);
     } else if (iasl.Check.isDoWhileStatement(expression)) {
       if (expression.while.statements.length == 0) throw new Error("Do while must have at least one statement");
       const childContext = appendBlock(expression.while, scopes, context.createChildContext());

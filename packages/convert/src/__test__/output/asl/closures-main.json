@@ -77,10 +77,10 @@
                   "Next": "doSomething(combined)"
                 },
                 "doSomething(combined)": {
-                  "Type": "Task",
                   "ResultPath": null,
                   "Resource": "[!lambda[doSomething]arn]",
                   "InputPath": "$.vars.combined",
+                  "Comment": "source: doSomething(combined)",
                   "Retry": [
                     {
                       "ErrorEquals": [
@@ -93,7 +93,7 @@
                       "BackoffRate": 2
                     }
                   ],
-                  "Comment": "source: doSomething(combined)",
+                  "Type": "Task",
                   "End": true
                 }
               }

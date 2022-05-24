@@ -1,0 +1,34 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "name": "cdk-tests",
+  "version": "0.1.0",
+  "bin": {
+    "-tests": "bin/-tests.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "test:e2e": "npx cdk deploy --all --require-approval never && npx jest && npx cdk destroy --all --require-approval never"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.5.1",
+    "@types/node": "10.17.27",
+    "@types/prettier": "2.6.0",
+    "aws-cdk": "2.24.1",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudformation": "^3.95.0",
+    "@aws-sdk/client-lambda": "^3.95.0",
+    "@ts2asl/asl-lib": "^0.1.29",
+    "@ts2asl/cdk-typescript-statemachine": "^0.2.0",
+    "aws-cdk-lib": "2.24.1",
+    "constructs": "^10.0.0",
+    "esbuild": "^0.14.39",
+    "source-map-support": "^0.5.21"
+  }
+}

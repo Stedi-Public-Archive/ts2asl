@@ -11,9 +11,9 @@
       "Next": "getEntries()"
     },
     "getEntries()": {
-      "Type": "Task",
       "ResultPath": "$.vars.entries",
       "Resource": "[!lambda[getEntries]arn]",
+      "Comment": "source: getEntries()",
       "Retry": [
         {
           "ErrorEquals": [
@@ -26,7 +26,7 @@
           "BackoffRate": 2
         }
       ],
-      "Comment": "source: getEntries()",
+      "Type": "Task",
       "Next": "Map"
     },
     "Map": {
@@ -35,8 +35,11 @@
       "Iterator": {
         "StartAt": "PutItem",
         "States": {
+          "Empty Catch": {
+            "Type": "Pass",
+            "Next": "PutItem"
+          },
           "PutItem": {
-            "Type": "Task",
             "ResultPath": null,
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
             "Parameters": {
@@ -63,10 +66,7 @@
                 "Next": "Empty Catch"
               }
             ],
-            "End": true
-          },
-          "Empty Catch": {
-            "Type": "Pass",
+            "Type": "Task",
             "End": true
           }
         }

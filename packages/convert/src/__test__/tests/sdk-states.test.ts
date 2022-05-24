@@ -10,7 +10,7 @@ describe("when converting sdk-states", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Empty Catch": Object {
-            "End": true,
+            "Next": "PutItem",
             "Type": "Pass",
           },
           "Initialize": Object {
@@ -55,7 +55,6 @@ describe("when converting sdk-states", () => {
             },
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
             "ResultPath": null,
-            "Retry": undefined,
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
@@ -88,7 +87,6 @@ describe("when converting sdk-states", () => {
             },
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
             "ResultPath": "$.vars.result",
-            "Retry": undefined,
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
@@ -147,7 +145,6 @@ describe("when converting sdk-states", () => {
             },
             "Resource": "arn:aws:states:::aws-sdk:cloudwatch:putMetricData",
             "ResultPath": null,
-            "Retry": undefined,
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },

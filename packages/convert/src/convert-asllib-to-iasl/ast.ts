@@ -25,6 +25,7 @@ export enum SyntaxKind {
   AslParallelState = "asl-parallel-state",
   AslPassState = "asl-pass-state",
   AslTaskState = "asl-task-state",
+  AslInvokeStateMachine = "asl-invoke-state-machine",
   AslChoiceState = "asl-choice-state",
   AslMapState = "asl-map-state",
   AslFailState = "asl-fail-state",
@@ -120,6 +121,9 @@ export class Check {
   static isConditionalExpression(expr: Identifier | Expression | Statement | undefined): expr is ConditionalExpression {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ConditionalExpression;
   }
+  static isAslInvokeStateMachine(expr: Identifier | Expression | Statement | undefined): expr is InvokeStateMachineState {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslInvokeStateMachine;
+  }
 }
 
 
@@ -133,6 +137,8 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
       visitNodes(arg, visitor);
     }
   } else if (Check.isAslTaskState(node)) {
+    visitNodes(node.parameters, visitor);
+  } else if (Check.isAslInvokeStateMachine(node)) {
     visitNodes(node.parameters, visitor);
   } else if (Check.isReturnStatement(node)) {
     visitNodes(node.expression, visitor);
@@ -230,7 +236,9 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
     }
   } else if (Check.isAslTaskState(node)) {
     assignScopes(node.parameters, scope, visitor);
-  } else if (Check.isReturnStatement(node)) {
+  } else if (Check.isAslInvokeStateMachine(node)) {
+    assignScopes(node.parameters, scope, visitor);
+  }else if (Check.isReturnStatement(node)) {
     assignScopes(node.expression, scope, visitor);
   }
   else if (Check.isTypeOfExpression(node)) {
@@ -517,6 +525,15 @@ export interface PassState extends AslState {
   //if identifier, assign to ResultPath
   //if (all) literal, assign to Result
   //otherwise assign to Parameters
+  parameters: LiteralExpressionLike | Identifier;
+}
+
+export interface InvokeStateMachineState extends AslState {
+  _syntaxKind: SyntaxKind.AslInvokeStateMachine;
+  retry?: RetryConfiguration;
+  stateMachineName: string;
+  integrationPattern: undefined | "sync" | "waitForTaskToken";
+  stateMachineArn: string;
   parameters: LiteralExpressionLike | Identifier;
 }
 

@@ -14,8 +14,8 @@ module.exports = {
     "**/choice.integration.ts",
     "**/in-keyword.integration.ts",
     //"**/nested-stepfunctions.integration.ts"
-    // "**/parallel.integration.ts",
-    // "**/switch.integration.ts",
+    //"**/parallel.integration.ts",
+    //"**/switch.integration.ts",
   ],
   testTimeout: 99999999,
   // setupFiles: ["<rootDir>/test/setupTests.ts"],

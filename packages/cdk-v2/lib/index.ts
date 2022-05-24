@@ -108,7 +108,7 @@ export class TypescriptStateMachine extends Construct {
   }
 }
 
-const replaceExpressions = (input: string, parameters: Record<string, string>, satemachines: Record<string, sfn.CfnStateMachine>, functions: Record<string, node.NodejsFunction>): string => {
+const replaceExpressions = (input: string, parameters: Record<string, string>, satemachines: Record<string, sfn.StateMachine>, functions: Record<string, node.NodejsFunction>): string => {
 
   const replaced1 = input.replace(/\[!(lambda|state-machine)\[(\w*)\](name|arn)\]/g, (val: string, type: string, name: string, attrib: string) => {
     // const type = groups[0];
@@ -131,9 +131,9 @@ const replaceExpressions = (input: string, parameters: Record<string, string>, s
         if (!statemachine) throw Error(`cannot replace expression. state-machine called '${name}' not found, complete expression ${val}`);
         switch (attrib) {
           case "arn":
-            return statemachine.attrArn;
+            return statemachine.stateMachineArn;
           case "name":
-            return statemachine.attrName;
+            return statemachine.stateMachineName;
           default:
             throw Error(`cannot replace expression. unknown attribute '${attrib}', complete expression ${val}`);
         }

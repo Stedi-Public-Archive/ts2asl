@@ -20,6 +20,22 @@ export const callLambdaWithAwait = asl.deploy.asStateMachine(async () =>{
     return name;
 });
 
+
+// export const callLambdaWithAwaitUsingTask = asl.deploy.asStateMachine(async () => {
+//   let name: any = await asl.sdkSfnStartSyncExecution( { parameters: {} });
+//   switch(result.Status) {
+//     case "SUCCEEDED":
+//       result = asl.states.stringToJson(result.Output);
+//       break;
+//     case "FAILED":
+//       throw new Error("Invoking state machine XXXXX failed");
+//     case "TIMED_OUT":
+//       throw new Error("Invoking state machine XXXXX timed out");
+//   }
+//   return name;
+// });
+
+
 // this is not supported
 // export const callLambdaNoAwait = asl.deploy.asStateMachine(async () => {
 //   childLambda({firstName: "Santa", lastName: "Claus" });

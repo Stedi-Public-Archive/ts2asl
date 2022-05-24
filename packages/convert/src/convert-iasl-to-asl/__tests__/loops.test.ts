@@ -64,7 +64,6 @@ describe("when transpiling simple statements", () => {
             "Next": "While Condition",
             "Resource": "[!lambda[isDone]arn]",
             "ResultPath": "$.vars.result",
-            "Retry": undefined,
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },

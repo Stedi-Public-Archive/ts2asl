@@ -8,26 +8,20 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Pass"
-    },
-    "Pass": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.eval1",
-      "Parameters": {
-        "firstName": "Santa",
-        "lastName": "Claus",
-        "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID.$": "$$.Execution.Id"
-      },
       "Next": "childStateMachine({firstN ..."
     },
     "childStateMachine({firstN ...": {
-      "Type": "Task",
-      "ResultPath": "$.vars.name",
       "Resource": "arn:aws:states:::states:startExecution.sync",
       "Parameters": {
-        "Input.$": "States.JsonToString($.tmp.eval1)",
-        "StateMachineArn": "[!state-machine[childStateMachine]arn]"
+        "StateMachineArn": "[!state-machine[childStateMachine]arn]",
+        "Input": {
+          "firstName": "Santa",
+          "lastName": "Claus",
+          "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID.$": "$$.Execution.Id"
+        }
       },
+      "Comment": "source: childStateMachine({firstName: \"Santa\", lastNam ...",
+      "ResultPath": "$.vars.name",
       "Retry": [
         {
           "ErrorEquals": [
@@ -40,7 +34,21 @@
           "BackoffRate": 2
         }
       ],
-      "Comment": "source: childStateMachine({firstName: \"Santa\", lastNam ...",
+      "Type": "Task",
+      "Next": "Evaluate StringToJson($.v ..."
+    },
+    "Evaluate StringToJson($.v ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.StringToJson($.vars.name.Output)"
+      },
+      "Next": "Convert Result"
+    },
+    "Convert Result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.name",
       "Next": "Return name"
     },
     "Return name": {

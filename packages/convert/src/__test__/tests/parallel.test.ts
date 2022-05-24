@@ -137,13 +137,19 @@ describe("when converting parallel", () => {
               Object {
                 "StartAt": "worker(enclosedVar1)",
                 "States": Object {
+                  "Return": Object {
+                    "Comment": undefined,
+                    "End": true,
+                    "InputPath": "$.vars.return_var",
+                    "Type": "Pass",
+                  },
                   "worker(enclosedVar1)": Object {
                     "Comment": "source: worker(enclosedVar1)",
-                    "End": true,
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar1",
+                    "Next": "Return",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": null,
+                    "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -164,13 +170,19 @@ describe("when converting parallel", () => {
               Object {
                 "StartAt": "worker(enclosedVar2)",
                 "States": Object {
+                  "Return_1": Object {
+                    "Comment": undefined,
+                    "End": true,
+                    "InputPath": "$.vars.return_var",
+                    "Type": "Pass",
+                  },
                   "worker(enclosedVar2)": Object {
                     "Comment": "source: worker(enclosedVar2)",
-                    "End": true,
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar2",
+                    "Next": "Return_1",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": null,
+                    "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -189,8 +201,8 @@ describe("when converting parallel", () => {
                 },
               },
             ],
-            "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
-            "Next": "Return",
+            "Comment": "source: Promise.all([ worker(enclosedVar1), worker(enc ...",
+            "Next": "Return_2",
             "Parameters": Object {
               "vars": Object {
                 "enclosedVar1.$": "$.vars.enclosedVar1",
@@ -200,7 +212,7 @@ describe("when converting parallel", () => {
             "ResultPath": "$.tmp.result",
             "Type": "Parallel",
           },
-          "Return": Object {
+          "Return_2": Object {
             "Comment": undefined,
             "End": true,
             "InputPath": "$.tmp.result",

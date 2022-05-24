@@ -34,10 +34,10 @@
           "StartAt": "worker(enclosedVar1)",
           "States": {
             "worker(enclosedVar1)": {
-              "Type": "Task",
-              "ResultPath": null,
+              "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "InputPath": "$.vars.enclosedVar1",
+              "Comment": "source: worker(enclosedVar1)",
               "Retry": [
                 {
                   "ErrorEquals": [
@@ -50,7 +50,12 @@
                   "BackoffRate": 2
                 }
               ],
-              "Comment": "source: worker(enclosedVar1)",
+              "Type": "Task",
+              "Next": "Return"
+            },
+            "Return": {
+              "Type": "Pass",
+              "InputPath": "$.vars.return_var",
               "End": true
             }
           }
@@ -59,10 +64,10 @@
           "StartAt": "worker(enclosedVar2)",
           "States": {
             "worker(enclosedVar2)": {
-              "Type": "Task",
-              "ResultPath": null,
+              "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "InputPath": "$.vars.enclosedVar2",
+              "Comment": "source: worker(enclosedVar2)",
               "Retry": [
                 {
                   "ErrorEquals": [
@@ -75,7 +80,12 @@
                   "BackoffRate": 2
                 }
               ],
-              "Comment": "source: worker(enclosedVar2)",
+              "Type": "Task",
+              "Next": "Return_1"
+            },
+            "Return_1": {
+              "Type": "Pass",
+              "InputPath": "$.vars.return_var",
               "End": true
             }
           }
@@ -88,11 +98,11 @@
           "enclosedVar2.$": "$.vars.enclosedVar2"
         }
       },
-      "Comment": "source: Promise.all([ async () => { await worker(enclo ...",
+      "Comment": "source: Promise.all([ worker(enclosedVar1), worker(enc ...",
       "Type": "Parallel",
-      "Next": "Return"
+      "Next": "Return_2"
     },
-    "Return": {
+    "Return_2": {
       "Type": "Pass",
       "InputPath": "$.tmp.result",
       "End": true

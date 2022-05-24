@@ -250,36 +250,16 @@ export const convertExpression = (expression: ts.Expression | undefined, context
             _syntaxKind: iasl.SyntaxKind.AslTaskState
           } as iasl.TaskState;
         } else {
-          if (iasl.Check.isLiteralObject(parameters)) {
-            parameters.properties["AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID"] = {
-              identifier: "$$.Execution.Id",
-              _syntaxKind: iasl.SyntaxKind.Identifier,
-              type: "unknown"
-            };
-          }
-          return  {
+          return {
               stateName: name ?? "Invoke " + resource?.identifier,
-              resource: `arn:aws:states:::states:startExecution${isAwaited ? ".sync" : ""}`,
-              retry: retryConfiguration ?? context.converterOptions.defaultRetry,
-              catch: catchConfiguration,
-              parameters: {
-                properties: {
-                  Input: {
-                    arguments: [parameters],
-                    function: "asl.states.jsonToString",
-                    _syntaxKind: iasl.SyntaxKind.AslIntrinsicFunction
-                  },
-                  StateMachineArn: {
-                    value: `[!state-machine[${resource?.identifier}]arn]`,
-                    type: "string",
-                    _syntaxKind: iasl.SyntaxKind.Literal,
-                  }
-                },
-                _syntaxKind: iasl.SyntaxKind.LiteralObject
-              } as iasl.LiteralObjectExpression,
+              integrationPattern: isAwaited ? "sync" : undefined,
+              stateMachineName: `[!state-machine[${resource?.identifier}]name]`,
+              stateMachineArn: `[!state-machine[${resource?.identifier}]arn]`,
+              parameters,
+              retry: context.converterOptions.defaultRetry,
               source: comment,
-              _syntaxKind: iasl.SyntaxKind.AslTaskState
-            } as iasl.TaskState
+              _syntaxKind: iasl.SyntaxKind.AslInvokeStateMachine
+            } as iasl.InvokeStateMachineState
           ;
         }
       };

@@ -11,13 +11,13 @@
       "Next": "childLambda({firstName: \" ..."
     },
     "childLambda({firstName: \" ...": {
-      "Type": "Task",
       "ResultPath": "$.vars.name",
       "Resource": "[!lambda[childLambda]arn]",
       "Parameters": {
         "firstName": "Santa",
         "lastName": "Claus"
       },
+      "Comment": "source: childLambda({firstName: \"Santa\", lastName: \"Cl ...",
       "Retry": [
         {
           "ErrorEquals": [
@@ -30,7 +30,7 @@
           "BackoffRate": 2
         }
       ],
-      "Comment": "source: childLambda({firstName: \"Santa\", lastName: \"Cl ...",
+      "Type": "Task",
       "Next": "Return name"
     },
     "Return name": {
