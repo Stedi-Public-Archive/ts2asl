@@ -54,4 +54,27 @@ const x = ExampleEnum.A;
       });"
     `);
   });
+  it("enum is returned by property access expression", () => {
+    const code = `
+
+enum ExampleEnum {
+  "A",
+  "B"
+}
+
+const x = (Something.Leaf as {A: ExampleEnum}).A;
+    `;
+
+    expect(testTransform(code)).toMatchInlineSnapshot(`
+      "enum ExampleEnum {
+          \\"A\\",
+          \\"B\\"
+      }
+      const x = asl.pass({
+          name: \\"Assign x\\",
+          parameters: () => Something.Leaf.A,
+          comment: \\"x = (Something.Leaf as {A: ExampleEnum}).A\\"
+      });"
+    `);
+  });
 });
