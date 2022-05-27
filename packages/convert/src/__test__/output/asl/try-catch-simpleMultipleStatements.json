@@ -45,6 +45,7 @@
           "ErrorEquals": [
             "States.ALL"
           ],
+          "ResultPath": null,
           "Next": "Return \"it failed\""
         }
       ]

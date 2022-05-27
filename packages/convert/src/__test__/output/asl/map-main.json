@@ -59,6 +59,7 @@
                 "ErrorEquals": [
                   "DynamoDb.ConditionalCheckFailedException"
                 ],
+                "ResultPath": null,
                 "Next": "Empty Catch"
               }
             ],

@@ -29,6 +29,7 @@ describe("when converting sdk-states", () => {
                   "DynamoDb.ConditionalCheckFailedException",
                 ],
                 "Next": "Empty Catch",
+                "ResultPath": null,
               },
             ],
             "Comment": undefined,
