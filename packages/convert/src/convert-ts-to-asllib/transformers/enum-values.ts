@@ -10,7 +10,9 @@ export const enumValueTransformer = (typeChecker: ts.TypeChecker) => <T extends 
       const type = typeChecker.getTypeAtLocation(node);
       if (hasFlag(type, ts.TypeFlags.EnumLiteral)) {
         const litType = type as ts.LiteralType;
-        return valueToLiteralExpression(litType.value as string | number);
+        if (litType.value !== undefined) {
+          return valueToLiteralExpression(litType.value as string | number);
+        }
       }
       return node;
     }
