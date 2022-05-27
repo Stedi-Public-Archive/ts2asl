@@ -36,6 +36,7 @@ describe("when converting map", () => {
                         "DynamoDb.ConditionalCheckFailedException",
                       ],
                       "Next": "Empty Catch",
+                      "ResultPath": null,
                     },
                   ],
                   "Comment": undefined,

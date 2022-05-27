@@ -451,7 +451,7 @@ export class AslFactory {
         }
         stateWithCatch.Catch?.push({
           ErrorEquals: _catch.errorEquals,
-          ...(_catch.block.inputArgumentName ? { ResultPath: "$.vars." + _catch.block.inputArgumentName.identifier } : {}),
+          ResultPath: _catch.block.inputArgumentName ? "$.vars." + _catch.block.inputArgumentName.identifier : null,
           Next: catchWriterStart
         });
       }
