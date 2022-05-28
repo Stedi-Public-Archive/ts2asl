@@ -38,4 +38,10 @@ describe("when converting try-catch", () => {
         const resultFromNode = await tryCatchFinally({});
         expect(resultFromSfn).toEqual(resultFromNode);
     });
+    it("will execute tryCatchFailState as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("try-catch", "tryCatchFailState");
+        const { tryCatchFailState } = require("../resources/try-catch");
+        const resultFromNode = await tryCatchFailState({});
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
 });

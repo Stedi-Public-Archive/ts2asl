@@ -1,6 +1,7 @@
 
 import { internalWaitSeconds } from './asl-internals';
 import util from 'util';
+import { runtime } from './runtime';
 
 export type AslError = {
   Cause: string;
@@ -171,7 +172,7 @@ export const succeed = (x: Succeed) => {
 }
 
 export const fail = (x: Fail): never => {
-  throw new Error(x.cause);
+  throw runtime.createError(x.error as string, x.cause as string);
 }
 
 export const jsonPathLength = <T>(items: T[]): number => {

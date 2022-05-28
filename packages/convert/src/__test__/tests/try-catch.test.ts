@@ -338,4 +338,102 @@ describe("when converting try-catch", () => {
       }
     `);
   });
+  it("then tryCatchFailState can be converted to asl", async () => {
+    expect(converted.tryCatchFailState.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign Result": Object {
+            "Comment": undefined,
+            "InputPath": "$.tmp.eval.value",
+            "Next": "Return result_1",
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Assign aslError": Object {
+            "Comment": "source: aslError = e as asl.AslError",
+            "InputPath": "$.vars.e",
+            "Next": "If (\\"Error\\" in aslError & ...",
+            "ResultPath": "$.vars.aslError",
+            "Type": "Pass",
+          },
+          "Evaluate Format('{} ({})' ...": Object {
+            "Next": "Assign Result",
+            "Parameters": Object {
+              "value.$": "States.Format('{} ({})', $.vars.aslError.Error, $.vars.aslError.Cause)",
+            },
+            "ResultPath": "$.tmp.eval",
+            "Type": "Pass",
+          },
+          "Fail State Wrapper": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "asl.fail({ error: \\" ...",
+                "States": Object {
+                  "asl.fail({ error: \\" ...": Object {
+                    "Cause": "bad luck",
+                    "Comment": undefined,
+                    "Error": "InternalFailure",
+                    "Type": "Fail",
+                  },
+                },
+              },
+            ],
+            "Catch": Array [
+              Object {
+                "ErrorEquals": Array [
+                  "States.ALL",
+                ],
+                "Next": "Assign aslError",
+                "ResultPath": "$.vars.e",
+              },
+            ],
+            "End": true,
+            "Type": "Parallel",
+          },
+          "If (\\"Error\\" in aslError & ...": Object {
+            "Choices": Array [
+              Object {
+                "And": Array [
+                  Object {
+                    "IsPresent": true,
+                    "Variable": "$.vars.aslError.Error",
+                  },
+                  Object {
+                    "IsPresent": true,
+                    "Variable": "$.vars.aslError.Cause",
+                  },
+                ],
+                "Next": "Evaluate Format('{} ({})' ...",
+              },
+            ],
+            "Comment": "source: if (\\"Error\\" in aslError && \\"Cause\\" in aslError ...",
+            "Default": "Return \\"this should not h ...",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "Fail State Wrapper",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return \\"this should not h ...": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "this should not happen",
+            "Type": "Pass",
+          },
+          "Return result_1": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
 });
