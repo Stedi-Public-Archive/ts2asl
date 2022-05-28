@@ -60,6 +60,7 @@ interface IInput {
 * console.log
 * [evaluation of literal expressions](./examples/expressions.md)
 * [string templates](./examples/string-templates.md)
+* [state machines invoking state machines](./examples/nested-stepfunctions.md)
 
 ## ASL TypeScript library runtime support
 `ts2asl` is integrated with the `@ts2asl/asl-lib` module. This module can be used to integrate ASL features such as states and JsonPath with native TypeScript.
