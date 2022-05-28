@@ -1,0 +1,37 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "childLambda({firstName: \" ..."
+    },
+    "childLambda({firstName: \" ...": {
+      "Type": "Task",
+      "ResultPath": null,
+      "Resource": "[!lambda[childLambda]arn]",
+      "Parameters": {
+        "firstName": "Santa",
+        "lastName": "Claus"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Comment": "source: childLambda({firstName: \"Santa\", lastName: \"Cl ...",
+      "End": true
+    }
+  }
+}

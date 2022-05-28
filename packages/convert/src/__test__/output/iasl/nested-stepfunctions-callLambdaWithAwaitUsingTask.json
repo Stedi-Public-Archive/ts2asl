@@ -1,0 +1,140 @@
+{
+  "statements": [
+    {
+      "name": {
+        "identifier": "name",
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "expression": {
+        "stateName": "StartSyncExecution",
+        "resource": "arn:aws:states:::aws-sdk:sfn:startSyncExecution",
+        "parameters": {
+          "properties": {},
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "asl-task-state"
+      },
+      "stateName": "Assign name",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Switch (result.Status)",
+      "cases": [
+        {
+          "when": {
+            "lhs": {
+              "identifier": "result.Status",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "operator": "eq",
+            "rhs": {
+              "type": "string",
+              "value": "SUCCEEDED",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "then": {
+            "statements": [
+              {
+                "name": {
+                  "identifier": "result",
+                  "_syntaxKind": "identifier",
+                  "type": "unknown"
+                },
+                "expression": {
+                  "arguments": [
+                    {
+                      "identifier": "result.Output",
+                      "type": "unknown",
+                      "_syntaxKind": "identifier"
+                    }
+                  ],
+                  "function": "asl.states.stringToJson",
+                  "_syntaxKind": "asl-intrinsic-function"
+                },
+                "stateName": "Assign result",
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "stateName": "Break",
+                "_syntaxKind": "break"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        },
+        {
+          "when": {
+            "lhs": {
+              "identifier": "result.Status",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "operator": "eq",
+            "rhs": {
+              "type": "string",
+              "value": "FAILED",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "then": {
+            "statements": [
+              {
+                "stateName": "Throw Error",
+                "cause": "Invoking state machine XXXXX failed",
+                "error": "Error",
+                "source": "throw new Error(\"Invoking state machine XXXXX failed\");",
+                "_syntaxKind": "asl-fail-state"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        },
+        {
+          "when": {
+            "lhs": {
+              "identifier": "result.Status",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "operator": "eq",
+            "rhs": {
+              "type": "string",
+              "value": "TIMED_OUT",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "then": {
+            "statements": [
+              {
+                "stateName": "Throw Error",
+                "cause": "Invoking state machine XXXXX timed out",
+                "error": "Error",
+                "source": "throw new Error(\"Invoking state machine XXXXX timed out\");",
+                "_syntaxKind": "asl-fail-state"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "source": "switch(result.Status) {\n    case \"SUCCEEDED\":\n      result = asl.states.stringToJson(result.Output);\n      break;\n    case \"FAILED\":\n      throw new Error(\"Invoking state machine XXXXX failed\");\n    case \"TIMED_OUT\":\n      throw new Error(\"Invoking state machine XXXXX timed out\");\n  }",
+      "_syntaxKind": "switch"
+    },
+    {
+      "expression": {
+        "identifier": "name",
+        "_syntaxKind": "identifier",
+        "type": "unknown"
+      },
+      "_syntaxKind": "return",
+      "stateName": "Return name"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

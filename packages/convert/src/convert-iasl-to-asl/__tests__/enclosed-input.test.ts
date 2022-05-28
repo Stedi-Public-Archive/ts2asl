@@ -42,7 +42,6 @@ describe("when enclosing input", () => {
                   "InputPath": "$.vars",
                   "Resource": "[!lambda[SayHello]arn]",
                   "ResultPath": null,
-                  "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
                 },

@@ -19,9 +19,19 @@ jobs:
           node-version: 16
       - name: Install Dependencies with NPM
         id: installation
-        run: |
-          npm ci
-      - name: Run Tests
-        id: test
-        run: |
-           npx turbo run test
+        run: npm ci
+      - name: Run Unit Tests
+        id: unittest
+        run: npx turbo run test
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+      # - name: Configure creds
+      #   id: configcreds
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     role-to-assume: arn:aws:iam::642712255693:role/github-actions
+      #     role-duration-seconds: 3600
+      #     aws-region: us-east-1
+      # - name: Run e2e Tests
+      #   id: e2etest
+      #   run: npx turbo run test:e2e

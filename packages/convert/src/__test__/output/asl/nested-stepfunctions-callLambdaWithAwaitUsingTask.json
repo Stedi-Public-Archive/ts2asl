@@ -1,0 +1,74 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "StartSyncExecution"
+    },
+    "StartSyncExecution": {
+      "ResultPath": "$.vars.name",
+      "Resource": "arn:aws:states:::aws-sdk:sfn:startSyncExecution",
+      "Parameters": {},
+      "Type": "Task",
+      "Next": "Switch (result.Status)"
+    },
+    "Switch (result.Status)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.result.Status",
+          "StringEquals": "SUCCEEDED",
+          "Next": "Evaluate StringToJson($.v ..."
+        },
+        {
+          "Variable": "$.vars.result.Status",
+          "StringEquals": "FAILED",
+          "Next": "Throw Error"
+        },
+        {
+          "Variable": "$.vars.result.Status",
+          "StringEquals": "TIMED_OUT",
+          "Next": "Throw Error_1"
+        }
+      ],
+      "Comment": "source: switch(result.Status) { case \"SUCCEEDED\": resu ...",
+      "Default": "Return name"
+    },
+    "Evaluate StringToJson($.v ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.StringToJson($.vars.result.Output)"
+      },
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
+      "Next": "Return name"
+    },
+    "Throw Error": {
+      "Type": "Fail",
+      "Error": "Error",
+      "Cause": "Invoking state machine XXXXX failed",
+      "Comment": "source: throw new Error(\"Invoking state machine XXXXX  ..."
+    },
+    "Throw Error_1": {
+      "Type": "Fail",
+      "Error": "Error",
+      "Cause": "Invoking state machine XXXXX timed out",
+      "Comment": "source: throw new Error(\"Invoking state machine XXXXX  ..."
+    },
+    "Return name": {
+      "Type": "Pass",
+      "InputPath": "$.vars.name",
+      "End": true
+    }
+  }
+}

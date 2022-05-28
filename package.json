@@ -4,11 +4,13 @@
   "description": "",
   "main": "web.js",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "test/*"
   ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.5.1",
     "ts-node": "^10.7.0",
     "turbo": "^1.2.8",
     "typescript": "^4.6.4"

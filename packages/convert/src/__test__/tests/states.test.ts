@@ -22,7 +22,6 @@ describe("when converting states", () => {
             },
             "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
             "ResultPath": "$.vars.result",
-            "Retry": undefined,
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },

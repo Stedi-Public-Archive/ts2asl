@@ -25,7 +25,6 @@
         }
       ],
       "ResultPath": null,
-      "Type": "Parallel",
       "Retry": [
         {
           "ErrorEquals": [
@@ -36,6 +35,7 @@
           "BackoffRate": 1.5
         }
       ],
+      "Type": "Parallel",
       "End": true
     }
   }

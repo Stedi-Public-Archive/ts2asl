@@ -5,6 +5,7 @@
     "lib": [
       "es2018"
     ],
+    "outDir": "./dist",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "declaration": true,

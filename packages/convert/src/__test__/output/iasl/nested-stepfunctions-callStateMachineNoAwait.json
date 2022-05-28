@@ -1,0 +1,39 @@
+{
+  "statements": [
+    {
+      "stateName": "childStateMachine({firstN ...",
+      "stateMachineName": "[!state-machine[childStateMachine]name]",
+      "stateMachineArn": "[!state-machine[childStateMachine]arn]",
+      "parameters": {
+        "properties": {
+          "firstName": {
+            "value": "Santa",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "lastName": {
+            "value": "Claus",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "retry": [
+        {
+          "errorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "intervalSeconds": 2,
+          "maxAttempts": 6,
+          "backoffRate": 2
+        }
+      ],
+      "source": "childStateMachine({firstName: \"Santa\", lastName: \"Claus\" })",
+      "_syntaxKind": "asl-invoke-state-machine"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

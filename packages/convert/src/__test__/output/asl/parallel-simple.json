@@ -8,17 +8,17 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Assign Result"
+      "Next": "Parallel"
     },
-    "Assign Result": {
+    "Parallel": {
       "Branches": [
         {
           "StartAt": "worker()",
           "States": {
             "worker()": {
-              "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
+              "Comment": "source: worker()",
               "Retry": [
                 {
                   "ErrorEquals": [
@@ -31,7 +31,7 @@
                   "BackoffRate": 2
                 }
               ],
-              "Comment": "source: worker()",
+              "Type": "Task",
               "Next": "Return"
             },
             "Return": {
@@ -45,9 +45,9 @@
           "StartAt": "worker()_1",
           "States": {
             "worker()_1": {
-              "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
+              "Comment": "source: worker()",
               "Retry": [
                 {
                   "ErrorEquals": [
@@ -60,7 +60,7 @@
                   "BackoffRate": 2
                 }
               ],
-              "Comment": "source: worker()",
+              "Type": "Task",
               "Next": "Return_1"
             },
             "Return_1": {
@@ -72,11 +72,11 @@
         }
       ],
       "ResultPath": "$.tmp.result",
-      "Type": "Parallel",
       "Comment": "source: Promise.all([worker(), worker()])",
-      "Next": "Return result"
+      "Type": "Parallel",
+      "Next": "Return_2"
     },
-    "Return result": {
+    "Return_2": {
       "Type": "Pass",
       "InputPath": "$.tmp.result",
       "End": true

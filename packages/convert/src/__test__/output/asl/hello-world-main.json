@@ -39,9 +39,9 @@
       "Next": "random()"
     },
     "random()": {
-      "Type": "Task",
       "ResultPath": "$.vars.rnd",
       "Resource": "[!lambda[random]arn]",
+      "Comment": "source: random()",
       "Retry": [
         {
           "ErrorEquals": [
@@ -54,7 +54,7 @@
           "BackoffRate": 2
         }
       ],
-      "Comment": "source: random()",
+      "Type": "Task",
       "Next": "Return { greeting: `H ..."
     },
     "Return { greeting: `H ...": {

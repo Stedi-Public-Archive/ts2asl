@@ -10,43 +10,6 @@
       },
       "Next": "Parallel"
     },
-    "Parallel": {
-      "Branches": [
-        {
-          "StartAt": "Throw UnexpectedError",
-          "States": {
-            "Throw UnexpectedError": {
-              "Type": "Fail",
-              "Error": "UnexpectedError",
-              "Cause": "bad luck!",
-              "Comment": "source: throw new UnexpectedError(\"bad luck!\")"
-            }
-          }
-        }
-      ],
-      "ResultPath": null,
-      "Type": "Parallel",
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "RetryableError"
-          ],
-          "IntervalSeconds": 3,
-          "MaxAttempts": 2,
-          "BackoffRate": 1.5
-        }
-      ],
-      "Catch": [
-        {
-          "ErrorEquals": [
-            "UnexpectedError"
-          ],
-          "ResultPath": "$.vars.error",
-          "Next": "Evaluate Format('cause {} ..."
-        }
-      ],
-      "End": true
-    },
     "Evaluate Format('cause {} ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
@@ -75,6 +38,43 @@
       "InputPath": "$.tmp.eval.value",
       "ResultPath": null,
       "Comment": "source: console.log(`message ${error.Error}`)",
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Branches": [
+        {
+          "StartAt": "Throw UnexpectedError",
+          "States": {
+            "Throw UnexpectedError": {
+              "Type": "Fail",
+              "Error": "UnexpectedError",
+              "Cause": "bad luck!",
+              "Comment": "source: throw new UnexpectedError(\"bad luck!\")"
+            }
+          }
+        }
+      ],
+      "ResultPath": null,
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "UnexpectedError"
+          ],
+          "ResultPath": "$.vars.error",
+          "Next": "Evaluate Format('cause {} ..."
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "RetryableError"
+          ],
+          "IntervalSeconds": 3,
+          "MaxAttempts": 2,
+          "BackoffRate": 1.5
+        }
+      ],
+      "Type": "Parallel",
       "End": true
     }
   }

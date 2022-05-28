@@ -2,12 +2,15 @@ import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
 import { appendBlock, convertBlock } from ".";
 import { createChoiceOperator } from "./choice-utility";
-import { createParameters, createParametersForMap } from "./parameters";
+import { createParametersForMap } from "./parameters";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createReplacer, replaceIdentifiers } from "./identifiers";
 import { Operator } from "asl-types/dist/choice";
 import { AslRhsFactory, convertIdentifierToPathExpression } from "./aslfactory.rhs";
 import { AslPassFactory } from "./aslfactory.pass";
+import { AslParallelFactory } from "./aslfactory.parallel";
+import { AslTaskFactory } from "./aslfactory.task";
+import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
 
 export let foreachCounter = { value: 0 };
 
@@ -29,25 +32,11 @@ export class AslFactory {
     }
 
     if (iasl.Check.isAslPassState(expression)) {
-
       AslPassFactory.appendIaslPass(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isAslTaskState(expression)) {
-      const parameters = expression.parameters ? AslRhsFactory.appendIasl(expression.parameters, scopes, context) : undefined;
-
-      const task = {
-        Type: "Task",
-        ResultPath: resultPath,
-        Resource: expression.resource,
-        ...(parameters && parameters.path !== undefined ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value } : {}),
-        Retry: expression.retry,
-        TimeoutSeconds: expression.timeoutSeconds,
-        HeartbeatSeconds: expression.heartbeatSeconds,
-        Comment: expression.source,
-      } as asl.Task;
-      context.appendNextState(task, expression.stateName);
-      this.appendCatchConfiguration([task], expression.catch, scopes, context);
-      this.appendRetryConfiguration(task, expression.retry);
-
+      AslTaskFactory.appendIaslTask(expression, scopes, context, resultPath, expression.stateName);
+    } else if (iasl.Check.isAslInvokeStateMachine(expression)) {
+      AslInvokeStateMachineFactory.appendIaslInvoke(expression, scopes, context, resultPath, expression.stateName);
     } else if (iasl.Check.isDoWhileStatement(expression)) {
       if (expression.while.statements.length == 0) throw new Error("Do while must have at least one statement");
       const childContext = appendBlock(expression.while, scopes, context.createChildContext());
@@ -201,18 +190,7 @@ export class AslFactory {
         Comment: expression.source,
       } as asl.Wait, expression.stateName);
     } else if (iasl.Check.isAslParallelState(expression)) {
-      const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext()));
-      const parallelState = {
-        Branches: branches,
-        ResultPath: resultPath,
-        Type: "Parallel",
-        Retry: expression.retry,
-        Comment: expression.source,
-        ...createParameters(scopes, expression.branches),
-      } as asl.Parallel;
-      context.appendNextState(parallelState, nameSuggestion);
-      this.appendCatchConfiguration([parallelState], expression.catch, scopes, context);
-      this.appendRetryConfiguration(parallelState, expression.retry);
+      AslParallelFactory.appendIaslParallel(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
       const iterator = convertBlock(expression.iterator, scopes, context.createChildContext());
       const items = AslRhsFactory.appendIasl(expression.items, scopes, context);
@@ -418,7 +396,7 @@ export class AslFactory {
     }
   }
 
-  private static appendRetryConfiguration(task: asl.Task | asl.Parallel | asl.Map, retryConfiguration: iasl.RetryConfiguration | undefined) {
+  public static appendRetryConfiguration(task: asl.Task | asl.Parallel | asl.Map, retryConfiguration: iasl.RetryConfiguration | undefined) {
     if (retryConfiguration?.length) {
       task.Retry = retryConfiguration.map(x => ({
         ErrorEquals: x.errorEquals,
@@ -429,7 +407,7 @@ export class AslFactory {
     }
   }
 
-  private static appendCatchConfiguration(states: Array<asl.Task | asl.Parallel | asl.Map>, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter) {
+  public static appendCatchConfiguration(states: Array<asl.Task | asl.Parallel | asl.Map>, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter) {
     const appendedStates: asl.State[] = [];
     const startStates: string[] = [];
     for (const _catch of (catchConfiguration || [])) {

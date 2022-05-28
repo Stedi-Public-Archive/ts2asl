@@ -207,8 +207,8 @@ describe("when converting throw", () => {
           },
           "Log (\`message \${error.Err ...": Object {
             "Comment": "source: console.log(\`message \${error.Error}\`)",
-            "End": true,
             "InputPath": "$.tmp.eval.value",
+            "Next": "Parallel",
             "ResultPath": null,
             "Type": "Pass",
           },

@@ -4,6 +4,9 @@ import * as iasl from "../convert-asllib-to-iasl/ast";
 import { AslWriter } from "./asl-writer";
 import { trimName } from "../create-name";
 import { createChoiceOperator } from "./choice-utility";
+import { AslParallelFactory } from "./aslfactory.parallel";
+import { AslTaskFactory } from "./aslfactory.task";
+import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
 
 export class AslRhsFactory {
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral {
@@ -45,6 +48,7 @@ export class AslRhsFactory {
       return path;
     } else if (iasl.Check.isAslIntrinsicFunction(expression)) {
       let args: string[] = [];
+      let argCount = 0;
       for (const arg of expression.arguments) {
         const convertedArg = AslRhsFactory.appendIasl(arg, scopes, context);
         const convertedArgAsArray = convertedArg.type === "array" ? convertedArg.value as [] : [convertedArg];
@@ -54,7 +58,14 @@ export class AslRhsFactory {
           } else if (typeof argFromArray.value === "string") {
             args.push(`'${argFromArray.value}'`);
           } else if (typeof argFromArray.value === "object") {
-            args.push(`${JSON.stringify(argFromArray.value, null, 2)}`);
+            const path = "$.tmp.arg" + (argCount++);
+            context.appendNextState({
+              Type: "Pass",
+              ResultPath: path,
+              Parameters: argFromArray.value,
+            } as asl.Pass);
+
+            args.push(`${path}`);
           } else {
             args.push(`${argFromArray.value}`);
           }
@@ -118,7 +129,17 @@ export class AslRhsFactory {
         type: "object",
         valueContainsReplacements,
       };
+    } else if (iasl.Check.isAslParallelState(expression)) {
+      AslParallelFactory.appendIaslParallel(expression, scopes, context, "$.tmp.result", expression.comment)
+      return { path: "$.tmp.result", type: "unknown" };
+    } else if (iasl.Check.isAslTaskState(expression)) {
+      AslTaskFactory.appendIaslTask(expression, scopes, context, "$.tmp.result", expression.stateName)
+      return { path: "$.tmp.result", type: "unknown" };
+    } else if (iasl.Check.isAslInvokeStateMachine(expression)) {
+      AslInvokeStateMachineFactory.appendIaslInvoke(expression, scopes, context, "$.tmp.result",expression.stateName);
+      return { path: "$.tmp.result", type: "unknown" };
     }
+
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);
   }
 

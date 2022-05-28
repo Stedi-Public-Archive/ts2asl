@@ -5,13 +5,6 @@
   },
   "statements": [
     {
-      "stateName": "",
-      "name": {
-        "identifier": "result",
-        "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
-      },
       "expression": {
         "branches": [
           {
@@ -100,17 +93,8 @@
         "source": "Promise.all([worker(), worker()])",
         "_syntaxKind": "asl-parallel-state"
       },
-      "_syntaxKind": "variable-assignment"
-    },
-    {
-      "expression": {
-        "identifier": "result",
-        "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
-      },
-      "stateName": "Return result",
-      "_syntaxKind": "return"
+      "_syntaxKind": "return",
+      "stateName": "Return"
     }
   ],
   "_syntaxKind": "statemachine"

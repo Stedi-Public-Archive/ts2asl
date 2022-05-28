@@ -26,7 +26,7 @@ describe("when converting map", () => {
               "StartAt": "PutItem",
               "States": Object {
                 "Empty Catch": Object {
-                  "End": true,
+                  "Next": "PutItem",
                   "Type": "Pass",
                 },
                 "PutItem": Object {
@@ -59,7 +59,6 @@ describe("when converting map", () => {
                   },
                   "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
                   "ResultPath": null,
-                  "Retry": undefined,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
                 },
