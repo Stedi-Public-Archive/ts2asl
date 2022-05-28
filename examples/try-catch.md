@@ -103,3 +103,25 @@ export const main = asl.deploy.asStateMachine(async () =>
 ```
 
 
+## try catch fail state
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICB0cnkgewogICAgcmV0dXJuIGFzbC5mYWlsKHsKICAgICAgZXJyb3I6ICJJbnRlcm5hbEZhaWx1cmUiLAogICAgICBjYXVzZTogImJhZCBsdWNrIgogICAgfSk7CiAgfSBjYXRjaChlKSB7CiAgICBjb25zdCBhc2xFcnJvciA9IGUgYXMgYXNsLkFzbEVycm9yCiAgICBpZiAoIkVycm9yIiBpbiBhc2xFcnJvciAmJiAiQ2F1c2UiIGluIGFzbEVycm9yKSB7CiAgICAgIHJldHVybiBgJHthc2xFcnJvci5FcnJvcn0gKCR7YXNsRXJyb3IuQ2F1c2V9KWA7CiAgICB9CiAgfSAKICByZXR1cm4gInRoaXMgc2hvdWxkIG5vdCBoYXBwZW4iOwp9KTs=)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => 
+ {
+  try {
+    return asl.fail({
+      error: "InternalFailure",
+      cause: "bad luck"
+    });
+  } catch(e) {
+    const aslError = e as asl.AslError
+    if ("Error" in aslError && "Cause" in aslError) {
+      return `${aslError.Error} (${aslError.Cause})`;
+    }
+  } 
+  return "this should not happen";
+});
+```
+
+

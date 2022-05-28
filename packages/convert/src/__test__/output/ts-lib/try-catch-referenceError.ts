@@ -85,3 +85,19 @@ export const tryCatchFinally = asl.deploy.asStateMachine(async () => {
   return result;
 });
 
+export const tryCatchFailState = asl.deploy.asStateMachine(async () => {
+  try {
+    return asl.fail({
+      error: "InternalFailure",
+      cause: "bad luck"
+    });
+  } catch(e) {
+    const aslError = e as asl.AslError
+    if ("Error" in aslError && "Cause" in aslError) {
+      return `${aslError.Error} (${aslError.Cause})`;
+    }
+  } 
+  return "this should not happen";
+});
+
+
