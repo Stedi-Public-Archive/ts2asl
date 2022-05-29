@@ -1,0 +1,78 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign args"
+    },
+    "Assign args": {
+      "Type": "Pass",
+      "Result": {
+        "firstName": "Santa",
+        "lastName": "Claus"
+      },
+      "ResultPath": "$.vars.args",
+      "Comment": "source: args = {firstName: \"Santa\", lastName: \"Claus\" }",
+      "Next": "Create Copy"
+    },
+    "Create Copy": {
+      "Type": "Pass",
+      "InputPath": "$.vars.args",
+      "ResultPath": "$.tmp.result",
+      "Next": "Add AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID"
+    },
+    "Add AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID": {
+      "Type": "Pass",
+      "InputPath": "$$.Execution.Id",
+      "ResultPath": "$.tmp.result.AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID",
+      "Next": "childStateMachine(args)"
+    },
+    "childStateMachine(args)": {
+      "Resource": "arn:aws:states:::states:startExecution.sync",
+      "Parameters": {
+        "StateMachineArn": "[!state-machine[childStateMachine]arn]",
+        "Input.$": "$.tmp.result"
+      },
+      "Comment": "source: childStateMachine(args)",
+      "ResultPath": "$.vars.name",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Type": "Task",
+      "Next": "Evaluate StringToJson($.v ..."
+    },
+    "Evaluate StringToJson($.v ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.StringToJson($.vars.name.Output)"
+      },
+      "Next": "Convert Result"
+    },
+    "Convert Result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.name",
+      "Next": "Return name"
+    },
+    "Return name": {
+      "Type": "Pass",
+      "InputPath": "$.vars.name",
+      "End": true
+    }
+  }
+}

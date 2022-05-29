@@ -12,6 +12,14 @@ describe("when deploying nested-stepfunctions", () => {
         const resultFromNode = await callStateMachineWithAwait({});
         expect(resultFromSfn).toEqual(resultFromNode);
     });
+
+    it("will execute callStateMachinePassReference as if it were node", async () => {
+        const resultFromSfn = await executeStepFunction("nested-stepfunctions", "callStateMachinePassReference");
+        const { callStateMachinePassReference } = require("../../../packages/convert/src/__test__/resources/nested-stepfunctions");
+        const resultFromNode = await callStateMachinePassReference({});
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
+
     // it("will execute callStateMachineNoAwait as if it were node", async () => {
     //     const resultFromSfn = await ExecuteStepFunction("nested-stepfunctions", "callStateMachineNoAwait");
     //     const { callStateMachineNoAwait } = require("../resources/nested-stepfunctions");

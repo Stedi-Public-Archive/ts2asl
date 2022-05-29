@@ -30,7 +30,6 @@ export class AslPassFactory {
       expression.stateName ?? "Return");
   }
 
-
   static appendAsl(pass: Omit<asl.Pass, "Type">, result: PathExpressionOrLiteral, context: AslWriter, nameSuggestion: string) {
     context.appendNextState(
       {

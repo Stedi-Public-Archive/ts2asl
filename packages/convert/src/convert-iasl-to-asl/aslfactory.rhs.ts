@@ -7,6 +7,7 @@ import { createChoiceOperator } from "./choice-utility";
 import { AslParallelFactory } from "./aslfactory.parallel";
 import { AslTaskFactory } from "./aslfactory.task";
 import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
+import { AslPassFactory } from "./aslfactory.pass";
 
 export class AslRhsFactory {
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral {
@@ -143,6 +144,33 @@ export class AslRhsFactory {
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);
   }
 
+  static modifyMergeWith(expression: PathExpressionOrLiteral, mergeWith: iasl.LiteralObjectExpression, scopes: Record<string, iasl.Scope>, context: AslWriter): PathExpressionOrLiteral {
+    
+    // merge with literal
+    if (expression.path === undefined) {
+      const additional = AslRhsFactory.appendIasl(mergeWith, scopes, context, true);
+      if (!additional.value || additional.path !== undefined || additional.type !== "object") throw new Error("modifyMergeWith only takes object literal expression");  
+      const value = expression.value as {} ?? {};
+      return {
+        type: "object",
+        value: {
+          ...value,
+          ...additional.value  as {} ?? {}
+        },
+        valueContainsReplacements: expression.valueContainsReplacements || additional.valueContainsReplacements,          
+      }
+    }
+
+    // merge with identifier
+    const copy = { path: "$.tmp.result", type: "object" as const };
+    AslPassFactory.appendAsl({ResultPath: copy.path}, expression, context, "Create Copy");
+
+    for(const [prop, val] of Object.entries(mergeWith.properties)) {
+      AslPassFactory.appendIaslPass({parameters: val as iasl.LiteralExpressionLike, _syntaxKind: iasl.SyntaxKind.AslPassState}, scopes, context, copy.path + `.${prop}`, `Add ${prop}`);
+    }
+
+    return copy;
+  }
 }
 
 export interface PathExpressionOrLiteral {

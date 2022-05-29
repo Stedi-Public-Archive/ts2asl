@@ -1,6 +1,7 @@
 import { readdirSync, statSync } from "fs";
 import { createCompilerHostFromFile } from "@ts2asl/convert";
 import { FunctionDeclaration, listFunctionDeclarations } from "@ts2asl/convert/src/convert/list-function-declarations";
+import ts from "typescript";
 
 export const enumTests = (): TestFixture[] => {
   const result: TestFixture[] = [];
@@ -45,6 +46,7 @@ interface TestFixture {
   path: string;
   fixtureName: string;
   enumTestCases: () => TestCase[];
+  GetDeclaration(name: string): ts.Node;
 }
 
 
