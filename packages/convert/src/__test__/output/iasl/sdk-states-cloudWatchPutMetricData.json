@@ -4,7 +4,7 @@
       "name": {
         "identifier": "value",
         "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "numeric"
       },
       "expression": {
         "stateName": "Assign value",
@@ -36,7 +36,7 @@
                   "Value": {
                     "identifier": "value",
                     "_syntaxKind": "identifier",
-                    "type": "unknown"
+                    "type": "numeric"
                   }
                 },
                 "_syntaxKind": "literal-object"

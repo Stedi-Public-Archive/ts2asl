@@ -76,7 +76,7 @@
       "expression": {
         "identifier": "counter",
         "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "string"
       },
       "_syntaxKind": "return",
       "stateName": "Return counter"

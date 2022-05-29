@@ -74,36 +74,8 @@ describe("when converting kyc", () => {
               Object {
                 "Next": "PutEvents_1",
                 "Not": Object {
-                  "Or": Array [
-                    Object {
-                      "IsPresent": false,
-                      "Variable": "$.vars.checksPassed",
-                    },
-                    Object {
-                      "IsNull": true,
-                      "Variable": "$.vars.checksPassed",
-                    },
-                    Object {
-                      "BooleanEquals": false,
-                      "Variable": "$.vars.checksPassed",
-                    },
-                    Object {
-                      "StringEquals": "",
-                      "Variable": "$.vars.checksPassed",
-                    },
-                    Object {
-                      "StringEquals": "false",
-                      "Variable": "$.vars.checksPassed",
-                    },
-                    Object {
-                      "StringEquals": "0",
-                      "Variable": "$.vars.checksPassed",
-                    },
-                    Object {
-                      "NumericEquals": 0,
-                      "Variable": "$.vars.checksPassed",
-                    },
-                  ],
+                  "BooleanEquals": false,
+                  "Variable": "$.vars.checksPassed",
                 },
               },
             ],

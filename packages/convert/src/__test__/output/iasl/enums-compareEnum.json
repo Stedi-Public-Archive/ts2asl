@@ -4,7 +4,7 @@
       "name": {
         "identifier": "x",
         "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "numeric"
       },
       "expression": {
         "stateName": "Assign x",
@@ -25,7 +25,7 @@
         "lhs": {
           "identifier": "x",
           "_syntaxKind": "identifier",
-          "type": "unknown"
+          "type": "numeric"
         },
         "operator": "eq",
         "rhs": {

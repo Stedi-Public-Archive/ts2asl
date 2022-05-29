@@ -85,15 +85,15 @@ function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
     return "object";
   }
 
-  if (hasFlag(type, ts.TypeFlags.String)) {
+  if (hasFlag(type, ts.TypeFlags.String) || hasFlag(type, ts.TypeFlags.StringLiteral)) {
     return "string";
   }
 
-  if (hasFlag(type, ts.TypeFlags.Number)) {
+  if (hasFlag(type, ts.TypeFlags.Number) || hasFlag(type, ts.TypeFlags.NumberLiteral)) {
     return "numeric";
   }
 
-  if (hasFlag(type, ts.TypeFlags.Boolean)) {
+  if (hasFlag(type, ts.TypeFlags.Boolean) || hasFlag(type, ts.TypeFlags.BooleanLiteral)) {
     return "boolean";
   }
   return "unknown";
