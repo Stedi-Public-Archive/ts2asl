@@ -125,7 +125,7 @@
       "name": {
         "identifier": "checksPassed",
         "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "boolean"
       },
       "expression": {
         "stateName": "Assign checksPassed",
@@ -147,7 +147,7 @@
         "rhs": {
           "identifier": "checksPassed",
           "_syntaxKind": "identifier",
-          "type": "unknown"
+          "type": "boolean"
         },
         "_syntaxKind": "binary-expression"
       },

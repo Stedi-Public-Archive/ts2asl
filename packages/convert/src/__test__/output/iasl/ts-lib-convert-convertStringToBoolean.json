@@ -54,7 +54,7 @@
                 {
                   "identifier": "bool",
                   "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "boolean"
                 }
               ],
               "function": "asl.states.format",

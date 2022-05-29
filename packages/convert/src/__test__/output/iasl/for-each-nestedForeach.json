@@ -82,7 +82,7 @@
       "name": {
         "identifier": "global",
         "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "string"
       },
       "expression": {
         "stateName": "Assign global",

@@ -4,7 +4,7 @@
       "name": {
         "identifier": "condition",
         "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "numeric"
       },
       "expression": {
         "stateName": "Assign condition",
@@ -84,7 +84,7 @@
                 "rhs": {
                   "identifier": "condition",
                   "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "numeric"
                 },
                 "_syntaxKind": "binary-expression"
               },
@@ -96,7 +96,7 @@
                         "returned": {
                           "identifier": "item",
                           "_syntaxKind": "identifier",
-                          "type": "unknown"
+                          "type": "numeric"
                         }
                       },
                       "_syntaxKind": "literal-object"

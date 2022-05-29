@@ -83,7 +83,7 @@
                       {
                         "identifier": "item",
                         "_syntaxKind": "identifier",
-                        "type": "unknown"
+                        "type": "numeric"
                       }
                     ],
                     "function": "asl.states.format",
