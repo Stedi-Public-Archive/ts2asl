@@ -8,6 +8,12 @@ describe("when converting nested-stepfunctions", () => {
         const resultFromNode = await callStateMachineWithAwait({});
         expect(resultFromSfn).toEqual(resultFromNode);
     });
+    it("will execute callStateMachinePassReference as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("nested-stepfunctions", "callStateMachinePassReference");
+        const { callStateMachinePassReference } = require("../resources/nested-stepfunctions");
+        const resultFromNode = await callStateMachinePassReference({});
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
     it("will execute callStateMachineNoAwait as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("nested-stepfunctions", "callStateMachineNoAwait");
         const { callStateMachineNoAwait } = require("../resources/nested-stepfunctions");
@@ -18,12 +24,6 @@ describe("when converting nested-stepfunctions", () => {
         const resultFromSfn = await convertDeployExecute("nested-stepfunctions", "callLambdaWithAwait");
         const { callLambdaWithAwait } = require("../resources/nested-stepfunctions");
         const resultFromNode = await callLambdaWithAwait({});
-        expect(resultFromSfn).toEqual(resultFromNode);
-    });
-    it("will execute callLambdaNoAwait as if it were node", async () => {
-        const resultFromSfn = await convertDeployExecute("nested-stepfunctions", "callLambdaNoAwait");
-        const { callLambdaNoAwait } = require("../resources/nested-stepfunctions");
-        const resultFromNode = await callLambdaNoAwait({});
         expect(resultFromSfn).toEqual(resultFromNode);
     });
     it("will execute notAwaitedVoidExpression as if it were node", async () => {

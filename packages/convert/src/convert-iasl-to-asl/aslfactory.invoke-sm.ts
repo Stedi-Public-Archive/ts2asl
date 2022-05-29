@@ -8,19 +8,26 @@ import { AslRhsFactory, PathExpressionOrLiteral } from "./aslfactory.rhs";
 
 export class AslInvokeStateMachineFactory {
   static appendIaslInvoke(expression: iasl.InvokeStateMachineState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
-    const parameters = {...(expression.parameters ?? { properties: {}, _syntaxKind: iasl.SyntaxKind.LiteralObject})}  as iasl.LiteralObjectExpression;
-    parameters.properties["AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID"] = {
-      identifier: "$$.Execution.Id",
-      _syntaxKind: iasl.SyntaxKind.Identifier,
-      type: "string"
-    };
+    
+    const additionalParameters = {
+      properties: {
+        AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID: {
+            identifier: "$$.Execution.Id",
+            _syntaxKind: iasl.SyntaxKind.Identifier,
+            type: "string"
+        }
+      },
+      _syntaxKind: iasl.SyntaxKind.LiteralObject,
+    } as iasl.LiteralObjectExpression;
 
-    const rhs = AslRhsFactory.appendIasl(parameters, scopes, context, true);
+    let rhs = AslRhsFactory.appendIasl(expression.parameters, scopes, context, true);
+    rhs = AslRhsFactory.modifyMergeWith(rhs, additionalParameters, scopes, context);
+
     const task = {
       Resource: expression.integrationPattern === "sync" ? "arn:aws:states:::states:startExecution.sync" : "arn:aws:states:::states:startExecution",
       Parameters: {
         StateMachineArn: expression.stateMachineArn,
-        Input: rhs.value,
+        ...(rhs.path !== undefined ? { "Input.$" : rhs.path } : { Input : rhs.value })
       },
       Comment: expression.source,
       ResultPath: resultPath as any,

@@ -69,6 +69,90 @@ describe("when converting nested-stepfunctions", () => {
       }
     `);
   });
+  it("then callStateMachinePassReference can be converted to asl", async () => {
+    expect(converted.callStateMachinePassReference.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Add AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID": Object {
+            "Comment": undefined,
+            "InputPath": "$$.Execution.Id",
+            "Next": "childStateMachine(args)",
+            "ResultPath": "$.tmp.result.AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID",
+            "Type": "Pass",
+          },
+          "Assign args": Object {
+            "Comment": "source: args = {firstName: \\"Santa\\", lastName: \\"Claus\\" }",
+            "Next": "Create Copy",
+            "Result": Object {
+              "firstName": "Santa",
+              "lastName": "Claus",
+            },
+            "ResultPath": "$.vars.args",
+            "Type": "Pass",
+          },
+          "Convert Result": Object {
+            "InputPath": "$.tmp.eval.value",
+            "Next": "Return name",
+            "ResultPath": "$.vars.name",
+            "Type": "Pass",
+          },
+          "Create Copy": Object {
+            "InputPath": "$.vars.args",
+            "Next": "Add AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID",
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Evaluate StringToJson($.v ...": Object {
+            "Next": "Convert Result",
+            "Parameters": Object {
+              "value.$": "States.StringToJson($.vars.name.Output)",
+            },
+            "ResultPath": "$.tmp.eval",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign args",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return name": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.name",
+            "Type": "Pass",
+          },
+          "childStateMachine(args)": Object {
+            "Comment": "source: childStateMachine(args)",
+            "Next": "Evaluate StringToJson($.v ...",
+            "Parameters": Object {
+              "Input.$": "$.tmp.result",
+              "StateMachineArn": "[!state-machine[childStateMachine]arn]",
+            },
+            "Resource": "arn:aws:states:::states:startExecution.sync",
+            "ResultPath": "$.vars.name",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "Type": "Task",
+          },
+        },
+      }
+    `);
+  });
   it("then callStateMachineNoAwait can be converted to asl", async () => {
     expect(converted.callStateMachineNoAwait.asl).toMatchInlineSnapshot(`
       Object {
@@ -163,7 +247,6 @@ describe("when converting nested-stepfunctions", () => {
       }
     `);
   });
-
   it("then notAwaitedVoidExpression can be converted to asl", async () => {
     expect(converted.notAwaitedVoidExpression.asl).toMatchInlineSnapshot(`
       Object {

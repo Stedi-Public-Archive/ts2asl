@@ -5,10 +5,19 @@ export const callStateMachineWithAwait = asl.deploy.asStateMachine(async () => {
   return name;
 });
 
-export const callStateMachinePassReference = asl.deploy.asStateMachine(async () => {
-  const args = {firstName: "Santa", lastName: "Claus" };
-  const name = await childStateMachine(args);
-  return name;
+export const callStateMachinePassReference = asl.deploy.asStateMachine(async () =>{
+    const args = asl.pass({
+        name: "Assign args",
+        parameters: () => ({ firstName: "Santa", lastName: "Claus" }),
+        comment: "args = {firstName: \"Santa\", lastName: \"Claus\" }"
+    });
+    const name = await asl.typescriptInvoke({
+        name: "childStateMachine(args)",
+        resource: childStateMachine,
+        parameters: () => args,
+        comment: "childStateMachine(args)"
+    });
+    return name;
 });
 
 
@@ -23,13 +32,8 @@ export const callLambdaWithAwait = asl.deploy.asStateMachine(async () => {
 });
 
 
-export const notAwaitedVoidExpression = asl.deploy.asStateMachine(async () =>{
-    asl.typescriptInvoke({
-        name: "childStateMachine({firstN ...",
-        resource: childStateMachine,
-        parameters: () => ({ firstName: "Santa", lastName: "Claus" }),
-        comment: "childStateMachine({firstName: \"Santa\", lastName: \"Claus\" })"
-    });
+export const notAwaitedVoidExpression = asl.deploy.asStateMachine(async () => {
+  void childStateMachine({firstName: "Santa", lastName: "Claus" });
 });
 
 

@@ -66,6 +66,12 @@ const explanations: Record<string, string> = {
   "while/whileWithEarlyReturn": "",
   "while/whileWithContinue": "",
 };
+
+
+const skip: Array<string> = [
+  "nested-stepfunctions/childStateMachine"
+];
+
 const regen = process.env.REGEN == "true";
 const fixtures = enumTests();
 for (const fixture of fixtures) {
@@ -89,6 +95,9 @@ function createExamples(path: string, filename: string, tests: TestCase[]) {
     const title = capitalCase(test.testName).toLowerCase();
     contents += "\n" + "## " + title + "\n";
     const explanationKey = test.fixtureName + "/" + test.testName;
+
+    if (skip.includes(explanationKey)) continue;
+
     const explanation = explanations[explanationKey];
     if (explanation) {
       contents += explanation + "\n";

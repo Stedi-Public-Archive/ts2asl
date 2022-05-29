@@ -5,6 +5,13 @@ export const callStateMachineWithAwait = asl.deploy.asStateMachine(async () => {
   return name;
 });
 
+export const callStateMachinePassReference = asl.deploy.asStateMachine(async () => {
+  const args = {firstName: "Santa", lastName: "Claus" };
+  const name = await childStateMachine(args);
+  return name;
+});
+
+
 export const callStateMachineNoAwait = asl.deploy.asStateMachine(async () => {
   childStateMachine({firstName: "Santa", lastName: "Claus" });
 });
@@ -20,26 +27,6 @@ export const callLambdaWithAwait = asl.deploy.asStateMachine(async () =>{
     return name;
 });
 
-
-// export const callLambdaWithAwaitUsingTask = asl.deploy.asStateMachine(async () => {
-//   let name: any = await asl.sdkSfnStartSyncExecution( { parameters: {} });
-//   switch(result.Status) {
-//     case "SUCCEEDED":
-//       result = asl.states.stringToJson(result.Output);
-//       break;
-//     case "FAILED":
-//       throw new Error("Invoking state machine XXXXX failed");
-//     case "TIMED_OUT":
-//       throw new Error("Invoking state machine XXXXX timed out");
-//   }
-//   return name;
-// });
-
-
-// this is not supported
-// export const callLambdaNoAwait = asl.deploy.asStateMachine(async () => {
-//   childLambda({firstName: "Santa", lastName: "Claus" });
-// });
 
 export const notAwaitedVoidExpression = asl.deploy.asStateMachine(async () => {
   void childStateMachine({firstName: "Santa", lastName: "Claus" });
