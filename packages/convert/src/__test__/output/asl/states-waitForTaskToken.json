@@ -11,6 +11,7 @@
       "Next": "Human Approval"
     },
     "Human Approval": {
+      "Type": "Task",
       "ResultPath": "$.vars.result",
       "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
       "Parameters": {
@@ -20,7 +21,6 @@
           "request.$": "$.vars"
         }
       },
-      "Type": "Task",
       "End": true
     }
   }

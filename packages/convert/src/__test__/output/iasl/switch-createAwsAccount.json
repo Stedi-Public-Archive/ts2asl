@@ -4,7 +4,7 @@
       "name": {
         "identifier": "createAccount",
         "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "unknown"
       },
       "expression": {
         "stateName": "CreateAccount",
@@ -74,7 +74,7 @@
             "name": {
               "identifier": "describeResult",
               "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "unknown"
             },
             "expression": {
               "stateName": "DescribeCreateAccountStatus",
@@ -83,7 +83,7 @@
                 "properties": {
                   "CreateAccountRequestId": {
                     "identifier": "createAccount.CreateAccountStatus.Id",
-                    "type": "string",
+                    "type": "unknown",
                     "_syntaxKind": "identifier"
                   }
                 },

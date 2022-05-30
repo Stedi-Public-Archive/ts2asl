@@ -29,11 +29,13 @@
       "Next": "Parallel"
     },
     "Parallel": {
+      "Type": "Parallel",
       "Branches": [
         {
           "StartAt": "worker(enclosedVar1)",
           "States": {
             "worker(enclosedVar1)": {
+              "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "InputPath": "$.vars.enclosedVar1",
@@ -50,7 +52,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Type": "Task",
               "Next": "Return"
             },
             "Return": {
@@ -64,6 +65,7 @@
           "StartAt": "worker(enclosedVar2)",
           "States": {
             "worker(enclosedVar2)": {
+              "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "InputPath": "$.vars.enclosedVar2",
@@ -80,7 +82,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Type": "Task",
               "Next": "Return_1"
             },
             "Return_1": {
@@ -99,7 +100,6 @@
         }
       },
       "Comment": "source: Promise.all([ worker(enclosedVar1), worker(enc ...",
-      "Type": "Parallel",
       "Next": "Return_2"
     },
     "Return_2": {

@@ -29,13 +29,14 @@ export class AslTaskFactory {
   }
 
   static appendAsl(task: Omit<asl.Task, "Type">, catchConfiguration: iasl.CatchConfiguration | undefined, retryConfiguration: iasl.RetryConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter, nameSuggestion: string) {
-    AslFactory.appendCatchConfiguration([task as asl.Task], catchConfiguration, scopes, context);
     AslFactory.appendRetryConfiguration(task as asl.Task, retryConfiguration);
-
+    const result = AslFactory.appendCatchConfiguration([task as asl.Task], catchConfiguration, scopes, context);
     context.appendNextState(
       {
-        ...task,
         Type: "Task",
+        ...task,
       }, nameSuggestion);
+
+   context.appendTails(result.trailingStates);   
   }
 }

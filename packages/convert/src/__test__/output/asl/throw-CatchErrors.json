@@ -38,9 +38,10 @@
       "InputPath": "$.tmp.eval.value",
       "ResultPath": null,
       "Comment": "source: console.log(`message ${error.Error}`)",
-      "Next": "Parallel"
+      "End": true
     },
     "Parallel": {
+      "Type": "Parallel",
       "Branches": [
         {
           "StartAt": "Throw UnexpectedError",
@@ -74,7 +75,6 @@
           "BackoffRate": 1.5
         }
       ],
-      "Type": "Parallel",
       "End": true
     }
   }

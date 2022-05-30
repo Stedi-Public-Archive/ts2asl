@@ -11,6 +11,7 @@
       "Next": "Parallel"
     },
     "Parallel": {
+      "Type": "Parallel",
       "Branches": [
         {
           "StartAt": "Return \"succeeded\"",
@@ -25,7 +26,6 @@
       ],
       "ResultPath": null,
       "Comment": "source: Promise.all([() => \"succeeded\"])",
-      "Type": "Parallel",
       "Next": "Return \"finally\""
     },
     "Return \"finally\"": {

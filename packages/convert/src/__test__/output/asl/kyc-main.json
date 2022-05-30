@@ -11,11 +11,13 @@
       "Next": "Assign result"
     },
     "Assign result": {
+      "Type": "Parallel",
       "Branches": [
         {
           "StartAt": "performIdentifyCheck()",
           "States": {
             "performIdentifyCheck()": {
+              "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[performIdentifyCheck]arn]",
               "Comment": "source: performIdentifyCheck()",
@@ -31,7 +33,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Type": "Task",
               "Next": "Return"
             },
             "Return": {
@@ -56,10 +57,10 @@
       ],
       "ResultPath": "$.vars.result",
       "Comment": "source: Promise.all([ performIdentifyCheck(), Promise. ...",
-      "Type": "Parallel",
       "Next": "PutEvents"
     },
     "PutEvents": {
+      "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
@@ -72,7 +73,6 @@
           }
         ]
       },
-      "Type": "Task",
       "Next": "Assign checksPassed"
     },
     "Assign checksPassed": {
@@ -97,6 +97,7 @@
       "Default": "PutEvents_2"
     },
     "PutEvents_1": {
+      "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
@@ -109,10 +110,10 @@
           }
         ]
       },
-      "Type": "Task",
       "End": true
     },
     "PutEvents_2": {
+      "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "Parameters": {
@@ -125,7 +126,6 @@
           }
         ]
       },
-      "Type": "Task",
       "End": true
     }
   }

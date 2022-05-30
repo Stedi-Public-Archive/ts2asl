@@ -205,8 +205,9 @@ export class AslFactory {
         ...createParametersForMap(scopes, expression.iterator, expression.iterator.inputArgumentName),
       } as asl.Map;
       context.appendNextState(mapState, nameSuggestion);
-      this.appendCatchConfiguration([mapState], expression.catch, scopes, context);
+      const { trailingStates } = this.appendCatchConfiguration([mapState], expression.catch, scopes, context);
       this.appendRetryConfiguration(mapState, expression.retry);
+      context.appendTails(trailingStates);trailingStates
 
     } else if (iasl.Check.isForEachStatement(expression)) {
       if (expression.iterator.statements.length == 0) return;
@@ -344,7 +345,8 @@ export class AslFactory {
             normalizedTryStatesWithCatchConfiguration.push(casted);
           }
         }
-        const { appendedStates } = this.appendCatchConfiguration(normalizedTryStatesWithCatchConfiguration, expression.catch, scopes, context);
+        const { appendedStates, trailingStates } = this.appendCatchConfiguration(normalizedTryStatesWithCatchConfiguration, expression.catch, scopes, context);
+        context.appendTails(trailingStates);
 
         for (const appendedState of appendedStates) {
           if (["Map", "Parallel", "Task", "Fail"].includes(appendedState.Type)) {
@@ -389,6 +391,7 @@ export class AslFactory {
         const result = this.appendCatchConfiguration(normalizedCatchStatesWithCatchConfiguration, catchConfiguration, scopes, context);
         const finallyStart = result.startStates[0];
         context.joinTrailingStates(finallyStart, ...result.appendedStates);
+        context.appendTails(result.trailingStates);
       }
     } else {
       throw new Error(`syntax type ${expression._syntaxKind} cannot be converted to ASL`);
@@ -409,6 +412,7 @@ export class AslFactory {
 
   public static appendCatchConfiguration(states: Array<asl.Task | asl.Parallel | asl.Map>, catchConfiguration: iasl.CatchConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter) {
     const appendedStates: asl.State[] = [];
+    const trailingStates: asl.State[] = [];
     const startStates: string[] = [];
     for (const _catch of (catchConfiguration || [])) {
       let catchWriterStart: string | undefined;
@@ -437,10 +441,9 @@ export class AslFactory {
         context.states[name] = state;
         appendedStates.push(state);
       }
-
-      context.appendTails(catchWriter.trailingStates);
+      trailingStates.push(...catchWriter.trailingStates);
     }
-    return { startStates, appendedStates };
+    return { startStates, appendedStates, trailingStates };
   }
 }
 

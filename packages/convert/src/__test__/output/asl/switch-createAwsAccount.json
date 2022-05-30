@@ -11,13 +11,13 @@
       "Next": "CreateAccount"
     },
     "CreateAccount": {
+      "Type": "Task",
       "ResultPath": "$.vars.createAccount",
       "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
       "Parameters": {
         "AccountName": "test",
         "Email": "something@email.com"
       },
-      "Type": "Task",
       "Next": "Assign creationStatus"
     },
     "Assign creationStatus": {
@@ -28,12 +28,12 @@
       "Next": "DescribeCreateAccountStatus"
     },
     "DescribeCreateAccountStatus": {
+      "Type": "Task",
       "ResultPath": "$.vars.describeResult",
       "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
       "Parameters": {
         "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id"
       },
-      "Type": "Task",
       "Next": "Eval Conditional"
     },
     "Eval Conditional": {

@@ -11,6 +11,7 @@
       "Next": "childLambda({firstName: \" ..."
     },
     "childLambda({firstName: \" ...": {
+      "Type": "Task",
       "ResultPath": "$.vars.name",
       "Resource": "[!lambda[childLambda]arn]",
       "Parameters": {
@@ -30,7 +31,6 @@
           "BackoffRate": 2
         }
       ],
-      "Type": "Task",
       "Next": "Return name"
     },
     "Return name": {

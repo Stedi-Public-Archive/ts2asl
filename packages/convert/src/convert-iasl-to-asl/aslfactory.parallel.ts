@@ -25,13 +25,15 @@ export class AslParallelFactory {
   }
 
   static appendAsl(parallel: Omit<asl.Parallel, "Type">, catchConfiguration: iasl.CatchConfiguration | undefined, retryConfiguration: iasl.RetryConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter, nameSuggestion: string) {
-    AslFactory.appendCatchConfiguration([parallel as asl.Parallel], catchConfiguration, scopes, context);
+    const { trailingStates } = AslFactory.appendCatchConfiguration([parallel as asl.Parallel], catchConfiguration, scopes, context);
     AslFactory.appendRetryConfiguration(parallel as asl.Parallel, retryConfiguration);
 
     context.appendNextState(
       {
-        ...parallel,
         Type: "Parallel",
+        ...parallel,
       }, nameSuggestion);
+    
+    context.appendTails(trailingStates);
   }
 }

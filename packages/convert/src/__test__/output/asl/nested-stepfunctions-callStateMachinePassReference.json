@@ -33,6 +33,7 @@
       "Next": "childStateMachine(args)"
     },
     "childStateMachine(args)": {
+      "Type": "Task",
       "Resource": "arn:aws:states:::states:startExecution.sync",
       "Parameters": {
         "StateMachineArn": "[!state-machine[childStateMachine]arn]",
@@ -52,7 +53,6 @@
           "BackoffRate": 2
         }
       ],
-      "Type": "Task",
       "Next": "Evaluate StringToJson($.v ..."
     },
     "Evaluate StringToJson($.v ...": {

@@ -57,8 +57,8 @@ export class AslInvokeStateMachineFactory {
     AslFactory.appendRetryConfiguration(task as asl.Task, retryConfiguration);
     context.appendNextState(
       {
-        ...task,
         Type: "Task",
+        ...task,
       }, nameSuggestion);
   }
 }
