@@ -55,7 +55,7 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
 };
 
 function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
-
+  
   if (hasFlag(type, ts.TypeFlags.Object)) {
     const callSignatures = type.getCallSignatures();
     if (callSignatures.length > 0) {

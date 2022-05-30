@@ -2,6 +2,7 @@
 import { readFileSync } from "fs";
 import path from "path";
 import ts from "typescript";
+import * as lib from "../resources/asl-lib"
 
 export const createCompilerHostFromFile = (filePath: string, rootDirectory: string = process.cwd()) => {
   const tsconfigPath = path.join(rootDirectory, "tsconfig.json");
@@ -29,8 +30,7 @@ export const createCompilerHostFromSource = (source: string) => {
   const contents = source;
   const sourceFile = ts.createSourceFile("ad-hoc.ts", contents, ts.ScriptTarget.ES2015);
   const host = ts.createCompilerHost(compilerOptions);
-  const aslLibContents = readFileSync("resources/asl.d.ts").toString("utf-8");
-  const aslLibSource = ts.createSourceFile("asl-lib.ts", aslLibContents, ts.ScriptTarget.Latest)
+  const aslLibSource = ts.createSourceFile("asl-lib.ts", lib.libraryDefinitionAsString, ts.ScriptTarget.Latest)
 
   const oldGetSourceFile = host.getSourceFile;
   host.getSourceFile = (filename: string, languageVersion: ts.ScriptTarget) => {

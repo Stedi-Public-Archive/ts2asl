@@ -46,12 +46,12 @@ export const switchStatementTransformer = (converterOptions: ConverterOptions) =
 
       const getCaseProperties = (x: Case): Array<ts.PropertyAssignment> => {
         const result: Array<ts.PropertyAssignment> = [];
-        if (x.label) {
+        if (x.label !== undefined) {
           result.push(
             TransformUtil.createLiteral("label", x.label)!
           );
         }
-        if (x.block) {
+        if (x.block !== undefined) {
           result.push(
             TransformUtil.createNamedBlock("block", x.block)!
           );

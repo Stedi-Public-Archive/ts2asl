@@ -10,9 +10,11 @@
     "skipLibCheck": true
   },
   "include": [
-    "src"
+    "src",
+    "build/asl-lib-private.ts"
   ],
   "exclude": [
+    "lib",
     "**/__tests__/*"
   ]
 }

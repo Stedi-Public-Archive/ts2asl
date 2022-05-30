@@ -1,12 +1,10 @@
-import { unwatchFile, writeFileSync } from "fs";
-import { createCompilerHostFromFile } from "../compiler-host/node";
+import { unwatchFile, writeFileSync, readFileSync } from "fs";
+import { createCompilerHostFromFile, createCompilerHostFromSource } from "../compiler-host/node";
 import { ConvertedStateMachineWithDiagnostics, Converter } from "../convert";
 import * as asl from "@ts2asl/asl-lib";
+import { createCompilerHostFromSourceForWeb } from "../compiler-host/web";
 export const runConvertForTest = (filename: string): Record<string, ConvertedStateMachineWithDiagnostics> => {
-
-  const host = createCompilerHostFromFile(
-    `src/__test__/resources/${filename}.ts`
-  );
+  const host = createCompilerHostFromFile(`src/__test__/resources/${filename}.ts`);
   const converter = new Converter(host);
   const converted = converter
     .convert({ includeDiagnostics: true, skipVersionComment: true, getParameter: x => x as any })
@@ -70,3 +68,4 @@ export const convertDeployExecute = async (filename: string, name: string, input
   }
 
 };
+
