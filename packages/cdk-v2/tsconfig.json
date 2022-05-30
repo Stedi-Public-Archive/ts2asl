@@ -6,6 +6,7 @@
     "lib": [
       "es2018"
     ],
+    "outDir": "./lib",
     "esModuleInterop": true,
     "declaration": true,
     "strict": true,
@@ -27,6 +28,7 @@
   },
   "exclude": [
     "node_modules",
+    "lib",
     "cdk.out"
   ]
 }

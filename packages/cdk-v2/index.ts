@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import * as fs from "fs";
 import { ensureBundleTsConfig } from "./util";
-import { Converter, ConverterOptions } from "@ts2asl/convert";
+import { Converter, ConverterOptions, createCompilerHostFromSource } from "@ts2asl/convert";
 import { createCompilerHostFromFile } from "@ts2asl/convert";
 import { StateMachine, Task, Map, Parallel } from "asl-types";
 import * as node from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -28,7 +28,8 @@ export class TypescriptStateMachine extends Construct {
     //sourceFile, cwd & diagnostics are converted to a definitionString.
     const { sourceFile, cwd } = props;
 
-    const compilerHost = createCompilerHostFromFile(sourceFile, cwd);
+    const contents = fs.readFileSync(sourceFile, "utf-8");
+    const compilerHost = createCompilerHostFromSource(contents);
     const converter = new Converter(compilerHost);
     const options = props.conversionOptions ?? {};
     const converted = converter.convert(options);
