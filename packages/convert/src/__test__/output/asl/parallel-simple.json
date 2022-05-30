@@ -11,11 +11,13 @@
       "Next": "Parallel"
     },
     "Parallel": {
+      "Type": "Parallel",
       "Branches": [
         {
           "StartAt": "worker()",
           "States": {
             "worker()": {
+              "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "Comment": "source: worker()",
@@ -31,7 +33,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Type": "Task",
               "Next": "Return"
             },
             "Return": {
@@ -45,6 +46,7 @@
           "StartAt": "worker()_1",
           "States": {
             "worker()_1": {
+              "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "Comment": "source: worker()",
@@ -60,7 +62,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Type": "Task",
               "Next": "Return_1"
             },
             "Return_1": {
@@ -73,7 +74,6 @@
       ],
       "ResultPath": "$.tmp.result",
       "Comment": "source: Promise.all([worker(), worker()])",
-      "Type": "Parallel",
       "Next": "Return_2"
     },
     "Return_2": {

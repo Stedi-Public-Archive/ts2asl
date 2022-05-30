@@ -12,9 +12,10 @@
     },
     "Empty Catch": {
       "Type": "Pass",
-      "Next": "PutItem"
+      "End": true
     },
     "PutItem": {
+      "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
       "Parameters": {
@@ -44,7 +45,6 @@
           "Next": "Empty Catch"
         }
       ],
-      "Type": "Task",
       "End": true
     }
   }

@@ -1,12 +1,11 @@
-import { unwatchFile, writeFileSync } from "fs";
-import { createCompilerHostFromFile } from "../compiler-host/node";
+import { unwatchFile, writeFileSync, readFileSync } from "fs";
+import { createCompilerHostFromFile, createCompilerHostFromSource } from "../compiler-host/node";
 import { ConvertedStateMachineWithDiagnostics, Converter } from "../convert";
 import * as asl from "@ts2asl/asl-lib";
-export const runConvertForTest = (filename: string): Record<string, ConvertedStateMachineWithDiagnostics> => {
 
-  const host = createCompilerHostFromFile(
-    `src/__test__/resources/${filename}.ts`
-  );
+export const runConvertForTest = (filename: string): Record<string, ConvertedStateMachineWithDiagnostics> => {
+  const source = readFileSync(`src/__test__/resources/${filename}.ts`).toString("utf-8");
+  const host = createCompilerHostFromSource(source);
   const converter = new Converter(host);
   const converted = converter
     .convert({ includeDiagnostics: true, skipVersionComment: true, getParameter: x => x as any })
@@ -37,10 +36,9 @@ export const runConvertForTest = (filename: string): Record<string, ConvertedSta
 
 export const convertDeployExecute = async (filename: string, name: string, input: {} = {}): Promise<unknown> => {
   asl.clientConfig.region = "us-east-1";
-
-  const host = createCompilerHostFromFile(
-    `src/__test__/resources/${filename}.ts`
-  );
+  const source = readFileSync(`src/__test__/resources/${filename}.ts`).toString("utf-8");
+  const host = createCompilerHostFromSource(source);
+  
   const converter = new Converter(host);
   const converted = converter
     .convert({ includeDiagnostics: true, getParameter: x => x as any })
@@ -70,3 +68,4 @@ export const convertDeployExecute = async (filename: string, name: string, input
   }
 
 };
+

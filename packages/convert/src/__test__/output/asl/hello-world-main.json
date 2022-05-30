@@ -39,6 +39,7 @@
       "Next": "random()"
     },
     "random()": {
+      "Type": "Task",
       "ResultPath": "$.vars.rnd",
       "Resource": "[!lambda[random]arn]",
       "Comment": "source: random()",
@@ -54,7 +55,6 @@
           "BackoffRate": 2
         }
       ],
-      "Type": "Task",
       "Next": "Return { greeting: `H ..."
     },
     "Return { greeting: `H ...": {

@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.base.json",
   "name": "cdk-tests",
   "version": "0.1.0",
   "bin": {

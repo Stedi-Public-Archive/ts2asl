@@ -7,8 +7,9 @@
   "scripts": {
     "test": "npx jest --passWithNoTests",
     "prepublishOnly": "npm run build",
-    "build": "npx tsc",
-    "package": "cp lib/asl.d.ts ../convert/resources/ && npx dts-bundle --name @ts2asl/asl-lib --main ./lib/index.d.ts && mv ./lib/@ts2asl/asl-lib.d.ts ../../../asl-editor-spike/src/asl-lib.d.ts"
+    "bundle-dts": "npx dts-bundle --name @ts2asl/asl-lib --main ./lib/index.d.ts --out ../build/asl-lib-public.d.ts && cat build/asl-lib-private.d.ts build/asl-lib-public.d.ts > build/asl-lib.d.ts && ts-node build/wrapdts build/asl-lib.d.ts",
+    "build": "npx tsc && npm run bundle-dts && cp ./build/asl-lib.ts ../convert/src/resources/",
+    "package" : "ts-node build/wrapdts build/asl-lib-public.d.ts && cp ./build/asl-lib-public.ts ../../../asl-editor-spike/src/"
   },
   "files": [
     "lib/**/*"

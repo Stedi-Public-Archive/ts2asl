@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/convert",
-  "version": "0.1.45",
+  "version": "0.1.46",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -8,7 +8,7 @@
     "test": "npx jest",
     "build": "npx tsc",
     "prepublishOnly": "npm run build",
-    "package": "npx esbuild ./src/convert/web.ts --outdir=../../../asl-editor-spike/lib/ --format=esm --bundle --minify --target=chrome58",
+    "package": "npx esbuild ./src/convert/web.ts --outdir=../../../asl-editor-spike/lib/ --format=esm --bundle --target=chrome58",
     "test:e2e": "npx jest --config ./jest.config.e2e.js"
   },
   "files": [

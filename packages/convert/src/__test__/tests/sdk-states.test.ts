@@ -10,7 +10,7 @@ describe("when converting sdk-states", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Empty Catch": Object {
-            "Next": "PutItem",
+            "End": true,
             "Type": "Pass",
           },
           "Initialize": Object {

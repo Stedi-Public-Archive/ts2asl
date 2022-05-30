@@ -26,7 +26,7 @@ describe("when converting map", () => {
               "StartAt": "PutItem",
               "States": Object {
                 "Empty Catch": Object {
-                  "Next": "PutItem",
+                  "End": true,
                   "Type": "Pass",
                 },
                 "PutItem": Object {
