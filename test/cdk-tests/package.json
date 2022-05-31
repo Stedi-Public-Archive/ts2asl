@@ -25,6 +25,7 @@
     "@aws-sdk/client-lambda": "^3.95.0",
     "@ts2asl/asl-lib": "^0.1.29",
     "@ts2asl/cdk-typescript-statemachine": "^0.2.0",
+    "@ts2asl/convert": "^0.1.47",
     "aws-cdk-lib": "2.24.1",
     "constructs": "^10.0.0",
     "esbuild": "^0.14.39",

@@ -1,11 +1,10 @@
-import { unwatchFile, writeFileSync, readFileSync } from "fs";
+import { writeFileSync, readFileSync } from "fs";
 import { createCompilerHostFromFile, createCompilerHostFromSource } from "../compiler-host/node";
 import { ConvertedStateMachineWithDiagnostics, Converter } from "../convert";
 import * as asl from "@ts2asl/asl-lib";
 
 export const runConvertForTest = (filename: string): Record<string, ConvertedStateMachineWithDiagnostics> => {
-  const source = readFileSync(`src/__test__/resources/${filename}.ts`).toString("utf-8");
-  const host = createCompilerHostFromSource(source);
+  const host = createCompilerHostFromFile(`src/__test__/resources/${filename}.ts`);
   const converter = new Converter(host);
   const converted = converter
     .convert({ includeDiagnostics: true, skipVersionComment: true, getParameter: x => x as any })

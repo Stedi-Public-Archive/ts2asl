@@ -234,7 +234,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
             break;
           default:
             if (!context.converterOptions.skipCheckCallables) {
-              throw new Error("unsure how to typescriptInvoke a " + resource?.type);
+              throw new Error(`resource for target of invocation is expected to be "callable-lambda" or "callable-statemachine", found: ${resource?.type}.`);
             }
             break;
         }
