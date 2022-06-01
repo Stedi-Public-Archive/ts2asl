@@ -28,7 +28,7 @@ export class TypescriptStateMachine extends Construct {
     //sourceFile, cwd & diagnostics are converted to a definitionString.
     const { sourceFile, cwd } = props;
 
-    const compilerHost = createCompilerHostFromFile(sourceFile);
+    const compilerHost = createCompilerHostFromFile(sourceFile, cwd);
     const converter = new Converter(compilerHost);
     const options = props.conversionOptions ?? {};
     const converted = converter.convert(options);
