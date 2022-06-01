@@ -54,31 +54,24 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
   return undefined;
 };
 
-function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
+export function convertType(type: ts.Type, symbol?: ts.Symbol): iasl.Type {
   
-  if (hasFlag(type, ts.TypeFlags.Object)) {
+  if (hasFlag(type, ts.TypeFlags.Object) || type.flags === 1) {
     const callSignatures = type.getCallSignatures();
-    if (callSignatures.length > 0) {
+    if (callSignatures.length > 0 || type.flags === 1) {
       if (symbol?.valueDeclaration && ts.isVariableDeclaration(symbol.valueDeclaration) 
           && symbol.valueDeclaration.initializer && ts.isCallExpression(symbol.valueDeclaration.initializer)) {
-        let async = true;
-        if (ts.isArrowFunction(symbol.valueDeclaration.initializer.arguments[0])) {
-          async = !!symbol.valueDeclaration.initializer.arguments[0].modifiers?.find(x=> x.kind === ts.SyntaxKind.AsyncKeyword);
-        }
         const result = aslStyleCallExpression(symbol.valueDeclaration.initializer);
         
         if (result?.operation === "asLambda") {
-          if (async) {
-            return "callable-lambda-async";  
-          }
-          return "callable-lambda-sync";
+          return "callable-lambda";
         }
         if (result?.operation === "asStateMachine") {
-          if (async) {
-            return "callable-statemachine-async";  
-          }
-          return "callable-statemachine-sync";
+          return "callable-statemachine";
         }
+      }
+      if (type.flags === 1) {
+        return "unknown";
       }
       return "callable";
     }

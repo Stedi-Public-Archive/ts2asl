@@ -217,19 +217,11 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
         const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
 
-        let async = true;
         let invokeType: "lambda" | "statemachine" = "lambda";
         switch (resource?.type) {
-          case "callable-lambda-async":
+          case "callable-lambda":
             break;
-          case "callable-lambda-sync":
-            async = false;
-            break;
-          case "callable-statemachine-sync":
-            async = false;
-            invokeType = "statemachine";
-            break;
-          case "callable-statemachine-async":
+          case "callable-statemachine":
             invokeType = "statemachine";
             break;
           default:
