@@ -1,7 +1,8 @@
+type Handler = ((arg?: any) => Promise<unknown>);
 export namespace deploy {
   const explicitlySetParameters: Record<string, string> = {};
-  export const asStateMachine = <T>(fn: T): T => { return fn; }
-  export const asLambda = <T>(fn: T): T => { return fn; }
+  export const asStateMachine = <T extends Handler>(fn: T): T => { return fn; }
+  export const asLambda = <T extends Handler>(fn: T): T => { return fn; }
   export const getParameter = (parameterName: string): string => {
     if (explicitlySetParameters[parameterName] !== undefined) {
       return explicitlySetParameters[parameterName];

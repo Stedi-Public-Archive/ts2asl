@@ -1824,9 +1824,10 @@ declare module '@ts2asl/asl-lib/sdk-integrations-cloudwatch' {
 }
 
 declare module '@ts2asl/asl-lib/deploy' {
+    type Handler = ((arg?: any) => Promise<unknown>);
     export namespace deploy {
-        const asStateMachine: <T>(fn: T) => T;
-        const asLambda: <T>(fn: T) => T;
+        const asStateMachine: <T extends Handler>(fn: T) => T;
+        const asLambda: <T extends Handler>(fn: T) => T;
         const getParameter: (parameterName: string) => string;
         const setParameter: (parameterName: string, value: string) => void;
         const getLambdaName: (functionName: string | Function) => string;
@@ -1835,6 +1836,7 @@ declare module '@ts2asl/asl-lib/deploy' {
         const getStateMachineArn: (functionName: string | Function) => string;
         const evalConst: <T>(identifier: T) => T;
     }
+    export {};
 }
 
 declare module '@ts2asl/asl-lib/runtime' {
