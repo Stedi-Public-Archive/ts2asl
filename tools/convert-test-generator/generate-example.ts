@@ -4,7 +4,7 @@ import { existsSync, writeFileSync } from "fs";
 import { enumTests, TestCase } from "./enum-tests";
 import { capitalCase } from "change-case";
 import { FunctionDeclaration } from "@ts2asl/convert/src/convert/list-function-declarations";
-
+import prettier from "prettier";
 
 interface ExampleMetadata {
   description?: string;
@@ -146,7 +146,7 @@ function printFunction(decl: FunctionDeclaration, otherDecls: (TestCase | ts.Nod
   code += "\n\n";
   for(const node of otherDecls) {
     if ("fixtureName" in node) { 
-      const dependentNode = createNodeForTestCase(node.testCase, "main");
+      const dependentNode = createNodeForTestCase(node.testCase, node.testName);
       let dependentCode = printer.printNode(ts.EmitHint.Unspecified, dependentNode, sourceFile);
       dependentCode = dependentCode.replace("=> { }", "=> \n" + node.testCase.body!.getFullText() + "");
       code += dependentCode + "\n\n";
@@ -157,7 +157,7 @@ function printFunction(decl: FunctionDeclaration, otherDecls: (TestCase | ts.Nod
     }
   }
 
-  return code.trim();
+  return prettier.format(code.trim(), {parser: "typescript"});
 }
 
 
