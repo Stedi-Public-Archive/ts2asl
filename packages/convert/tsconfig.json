@@ -13,7 +13,6 @@
     "src"
   ],
   "exclude": [
-    "src/__test__/resources",
-    "src/__test__/output"
+    "**/__test__/*"
   ]
 }

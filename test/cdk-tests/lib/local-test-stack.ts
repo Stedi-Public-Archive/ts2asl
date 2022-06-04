@@ -25,6 +25,9 @@ export class LocalTestStack extends Stack {
     const host = new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
       programName: file,
       defaultFunctionProps: {},
+      conversionOptions: {
+        emitStateLanguageFiles: true
+      },
       defaultStepFunctionProps: {
         role: executionRole,
         tracingEnabled: true,

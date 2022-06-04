@@ -1,10 +1,9 @@
 
 ## dynamo db put item if not exists
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICB2b2lkIGFzbC5zZGtEeW5hbW9EQlB1dEl0ZW0oewogICAgY2F0Y2g6IFsKICAgICAgewogICAgICAgIGVycm9yRXF1YWxzOiBbIkR5bmFtb0RiLkNvbmRpdGlvbmFsQ2hlY2tGYWlsZWRFeGNlcHRpb24iXSwKICAgICAgICBibG9jazogKCkgPT4gewogICAgICAgICAgLy9ubyBvcAogICAgICAgIH0sCiAgICAgIH0sCiAgICBdLAogICAgcGFyYW1ldGVyczogewogICAgICBJdGVtOiB7CiAgICAgICAgcGs6IHsgUzogInBrLXZhbHVlIiB9LAogICAgICAgIHNrOiB7IFM6ICJzay12YWx1ZSIgfSwKICAgICAgICBzdHJpbmc6IHsgUzogInZhbHVlIiB9LAogICAgICAgIG51bWJlcjogeyBOOiAiNDIiIH0sCiAgICAgIH0sCiAgICAgIENvbmRpdGlvbkV4cHJlc3Npb246ICJhdHRyaWJ1dGVfbm90X2V4aXN0cyhwaykiLAogICAgICBUYWJsZU5hbWU6IGFzbC5kZXBsb3kuZ2V0UGFyYW1ldGVyKCJhc3NpZ25tZW50c1RhYmxlTmFtZSIpLAogICAgfSwKICB9KTsKfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgdm9pZCBhc2wuc2RrRHluYW1vREJQdXRJdGVtKHsKICAgIGNhdGNoOiBbCiAgICAgIHsKICAgICAgICBlcnJvckVxdWFsczogWyJEeW5hbW9EYi5Db25kaXRpb25hbENoZWNrRmFpbGVkRXhjZXB0aW9uIl0sCiAgICAgICAgYmxvY2s6ICgpID0+IHsKICAgICAgICAgIC8vbm8gb3AKICAgICAgICB9LAogICAgICB9LAogICAgXSwKICAgIHBhcmFtZXRlcnM6IHsKICAgICAgSXRlbTogewogICAgICAgIHBrOiB7IFM6ICJway12YWx1ZSIgfSwKICAgICAgICBzazogeyBTOiAic2stdmFsdWUiIH0sCiAgICAgICAgc3RyaW5nOiB7IFM6ICJ2YWx1ZSIgfSwKICAgICAgICBudW1iZXI6IHsgTjogIjQyIiB9LAogICAgICB9LAogICAgICBDb25kaXRpb25FeHByZXNzaW9uOiAiYXR0cmlidXRlX25vdF9leGlzdHMocGspIiwKICAgICAgVGFibGVOYW1lOiBhc2wuZGVwbG95LmdldFBhcmFtZXRlcigiYXNzaWdubWVudHNUYWJsZU5hbWUiKSwKICAgIH0sCiAgfSk7Cn0pOwo=)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
+export const main = asl.deploy.asStateMachine(async () => {
   void asl.sdkDynamoDBPutItem({
     catch: [
       {
@@ -26,15 +25,15 @@ export const main = asl.deploy.asStateMachine(async () =>
     },
   });
 });
+
 ```
 
 
 ## count dynamo db items
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCByZXN1bHQgPSAoYXdhaXQgYXNsLnNka0R5bmFtb0RCUXVlcnkoewogICAgbmFtZTogIkNPVU5UKHdoZXJlIGdzaTFwayA9PT0gJ3Rlc3QnKSIsCiAgICBwYXJhbWV0ZXJzOiB7CiAgICAgIFRhYmxlTmFtZTogYXNsLmRlcGxveS5nZXRQYXJhbWV0ZXIoInRhYmxlTmFtZSIpLAogICAgICBJbmRleE5hbWU6ICJHU0kxIiwKICAgICAgS2V5Q29uZGl0aW9uRXhwcmVzc2lvbjogIiNwayA9IDp2YWwiLAogICAgICBFeHByZXNzaW9uQXR0cmlidXRlTmFtZXM6IHsgIiNwayI6ICJnc2kxcGsiIH0sCiAgICAgIEV4cHJlc3Npb25BdHRyaWJ1dGVWYWx1ZXM6IHsgIjp2YWwiOiB7IFM6ICJ0ZXN0IiB9IH0sCiAgICAgIFNlbGVjdDogIkNPVU5UIiwKICAgIH0sCiAgfSkpIGFzIHsgQ291bnQ6IG51bWJlciB9OwogIHJldHVybiByZXN1bHQuQ291bnQ7Cn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgY29uc3QgcmVzdWx0ID0gKGF3YWl0IGFzbC5zZGtEeW5hbW9EQlF1ZXJ5KHsKICAgIG5hbWU6ICJDT1VOVCh3aGVyZSBnc2kxcGsgPT09ICd0ZXN0JykiLAogICAgcGFyYW1ldGVyczogewogICAgICBUYWJsZU5hbWU6IGFzbC5kZXBsb3kuZ2V0UGFyYW1ldGVyKCJ0YWJsZU5hbWUiKSwKICAgICAgSW5kZXhOYW1lOiAiR1NJMSIsCiAgICAgIEtleUNvbmRpdGlvbkV4cHJlc3Npb246ICIjcGsgPSA6dmFsIiwKICAgICAgRXhwcmVzc2lvbkF0dHJpYnV0ZU5hbWVzOiB7ICIjcGsiOiAiZ3NpMXBrIiB9LAogICAgICBFeHByZXNzaW9uQXR0cmlidXRlVmFsdWVzOiB7ICI6dmFsIjogeyBTOiAidGVzdCIgfSB9LAogICAgICBTZWxlY3Q6ICJDT1VOVCIsCiAgICB9LAogIH0pKSBhcyB7IENvdW50OiBudW1iZXIgfTsKICByZXR1cm4gcmVzdWx0LkNvdW50Owp9KTsK)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
+export const main = asl.deploy.asStateMachine(async () => {
   const result = (await asl.sdkDynamoDBQuery({
     name: "COUNT(where gsi1pk === 'test')",
     parameters: {
@@ -48,15 +47,15 @@ export const main = asl.deploy.asStateMachine(async () =>
   })) as { Count: number };
   return result.Count;
 });
+
 ```
 
 
 ## cloud watch put metric data
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBjb25zdCB2YWx1ZSA9IDQyOwogIGF3YWl0IGFzbC5zZGtDbG91ZFdhdGNoUHV0TWV0cmljRGF0YSh7CiAgICBuYW1lOiAiUHVibGlzaCBNZXRyaWMgRGF0YSIsCiAgICBwYXJhbWV0ZXJzOiB7CiAgICAgIE1ldHJpY0RhdGE6IFsKICAgICAgICB7CiAgICAgICAgICBNZXRyaWNOYW1lOiAiRXhhbXBsZU1ldHJpYyIsCiAgICAgICAgICBWYWx1ZTogdmFsdWUsCiAgICAgICAgfSwKICAgICAgXSwKICAgICAgTmFtZXNwYWNlOiAiRXhhbXBsZU5hbWVzcGFjZSIsCiAgICB9LAogIH0pOwp9KTs=)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgY29uc3QgdmFsdWUgPSA0MjsKICBhd2FpdCBhc2wuc2RrQ2xvdWRXYXRjaFB1dE1ldHJpY0RhdGEoewogICAgbmFtZTogIlB1Ymxpc2ggTWV0cmljIERhdGEiLAogICAgcGFyYW1ldGVyczogewogICAgICBNZXRyaWNEYXRhOiBbCiAgICAgICAgewogICAgICAgICAgTWV0cmljTmFtZTogIkV4YW1wbGVNZXRyaWMiLAogICAgICAgICAgVmFsdWU6IHZhbHVlLAogICAgICAgIH0sCiAgICAgIF0sCiAgICAgIE5hbWVzcGFjZTogIkV4YW1wbGVOYW1lc3BhY2UiLAogICAgfSwKICB9KTsKfSk7Cg==)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
+export const main = asl.deploy.asStateMachine(async () => {
   const value = 42;
   await asl.sdkCloudWatchPutMetricData({
     name: "Publish Metric Data",
@@ -71,6 +70,7 @@ export const main = asl.deploy.asStateMachine(async () =>
     },
   });
 });
+
 ```
 
 

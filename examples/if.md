@@ -1,10 +1,9 @@
 
 ## just if
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgdmFsID0geyBhOiAiIiwgYjogIiIsIGM6ICIiLCBkOiAiIiwgZTogIiIsIGY6ICIiLCBnOiAiIiB9OwogIHZhbC5hID0gImJlZm9yZSI7CiAgaWYgKHRydWUpIHsKICAgIHZhbC5iID0gInRydWVfMSI7CiAgICB2YWwuYyA9ICJ0cnVlXzIiOwogIH0KICB2YWwuZCA9ICJhZnRlciI7CiAgcmV0dXJuIHZhbDsKfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IHZhbCA9IHsgYTogIiIsIGI6ICIiLCBjOiAiIiwgZDogIiIsIGU6ICIiLCBmOiAiIiwgZzogIiIgfTsKICB2YWwuYSA9ICJiZWZvcmUiOwogIGlmICh0cnVlKSB7CiAgICB2YWwuYiA9ICJ0cnVlXzEiOwogICAgdmFsLmMgPSAidHJ1ZV8yIjsKICB9CiAgdmFsLmQgPSAiYWZ0ZXIiOwogIHJldHVybiB2YWw7Cn0pOwo=)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
+export const main = asl.deploy.asStateMachine(async () => {
   let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
   val.a = "before";
   if (true) {
@@ -14,15 +13,15 @@ export const main = asl.deploy.asStateMachine(async () =>
   val.d = "after";
   return val;
 });
+
 ```
 
 
 ## if else
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgdmFsID0geyBhOiAiIiwgYjogIiIsIGM6ICIiLCBkOiAiIiwgZTogIiIsIGY6ICIiLCBnOiAiIiB9OwogIHZhbC5hID0gImJlZm9yZSI7CiAgaWYgKHRydWUpIHsKICAgIHZhbC5iID0gInRydWVfMSI7CiAgICB2YWwuYyA9ICJ0cnVlXzIiOwogIH0gZWxzZSB7CiAgICB2YWwuYiA9ICJmYWxzZV8xIjsKICAgIHZhbC5jID0gImZhbHNlXzIiOwogIH0KICB2YWwuZCA9ICJhZnRlciI7CiAgcmV0dXJuIHZhbDsKfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IHZhbCA9IHsgYTogIiIsIGI6ICIiLCBjOiAiIiwgZDogIiIsIGU6ICIiLCBmOiAiIiwgZzogIiIgfTsKICB2YWwuYSA9ICJiZWZvcmUiOwogIGlmICh0cnVlKSB7CiAgICB2YWwuYiA9ICJ0cnVlXzEiOwogICAgdmFsLmMgPSAidHJ1ZV8yIjsKICB9IGVsc2UgewogICAgdmFsLmIgPSAiZmFsc2VfMSI7CiAgICB2YWwuYyA9ICJmYWxzZV8yIjsKICB9CiAgdmFsLmQgPSAiYWZ0ZXIiOwogIHJldHVybiB2YWw7Cn0pOwo=)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
+export const main = asl.deploy.asStateMachine(async () => {
   let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
   val.a = "before";
   if (true) {
@@ -35,15 +34,15 @@ export const main = asl.deploy.asStateMachine(async () =>
   val.d = "after";
   return val;
 });
+
 ```
 
 
 ## nested ifs
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgdmFsID0geyBhOiAiIiwgYjogIiIsIGM6ICIiLCBkOiAiIiwgZTogIiIsIGY6ICIiLCBnOiAiIiB9OwogIHZhbC5hID0gImJlZm9yZSI7CiAgaWYgKHRydWUpIHsKICAgIHZhbC5iID0gIm91dGVyXzEiOwogICAgdmFsLmMgPSAib3V0ZXJfMiI7CiAgICBpZiAodHJ1ZSkgewogICAgICB2YWwuZCA9ICJpbm5lcl8xIjsKICAgICAgdmFsLmUgPSAiaW5uZXJfMiI7CiAgICB9IGVsc2UgewogICAgICB2YWwuZSA9ICJpbm5lcl9lbHNlXzIiOwogICAgfQogIH0gZWxzZSB7CiAgICB2YWwuZiA9ICJvdXRlcl9lbHNlXzIiOwogIH0KICB2YWwuZyA9ICJhZnRlciI7CiAgcmV0dXJuIHZhbDsKfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IHZhbCA9IHsgYTogIiIsIGI6ICIiLCBjOiAiIiwgZDogIiIsIGU6ICIiLCBmOiAiIiwgZzogIiIgfTsKICB2YWwuYSA9ICJiZWZvcmUiOwogIGlmICh0cnVlKSB7CiAgICB2YWwuYiA9ICJvdXRlcl8xIjsKICAgIHZhbC5jID0gIm91dGVyXzIiOwogICAgaWYgKHRydWUpIHsKICAgICAgdmFsLmQgPSAiaW5uZXJfMSI7CiAgICAgIHZhbC5lID0gImlubmVyXzIiOwogICAgfSBlbHNlIHsKICAgICAgdmFsLmUgPSAiaW5uZXJfZWxzZV8yIjsKICAgIH0KICB9IGVsc2UgewogICAgdmFsLmYgPSAib3V0ZXJfZWxzZV8yIjsKICB9CiAgdmFsLmcgPSAiYWZ0ZXIiOwogIHJldHVybiB2YWw7Cn0pOwo=)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
+export const main = asl.deploy.asStateMachine(async () => {
   let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
   val.a = "before";
   if (true) {
@@ -61,15 +60,15 @@ export const main = asl.deploy.asStateMachine(async () =>
   val.g = "after";
   return val;
 });
+
 ```
 
 
 ## enclosed vars
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgZW5jbG9zZWRWYXIgPSAiYmVmb3JlIjsKICBpZiAodHJ1ZSkgewogICAgZW5jbG9zZWRWYXIgPSAib3V0ZXIgaWYiOwogICAgaWYgKHRydWUpIHsKICAgICAgZW5jbG9zZWRWYXIgPSAiaW5uZXIgaWYiOwogICAgfSBlbHNlIHsKICAgICAgZW5jbG9zZWRWYXIgPSAiZWxzZSBpZiI7CiAgICB9CiAgfSBlbHNlIHsKICAgIGVuY2xvc2VkVmFyID0gIm91dGVyIGVsc2UgaWYiOwogIH0KICByZXR1cm4gZW5jbG9zZWRWYXI7Cn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IGVuY2xvc2VkVmFyID0gImJlZm9yZSI7CiAgaWYgKHRydWUpIHsKICAgIGVuY2xvc2VkVmFyID0gIm91dGVyIGlmIjsKICAgIGlmICh0cnVlKSB7CiAgICAgIGVuY2xvc2VkVmFyID0gImlubmVyIGlmIjsKICAgIH0gZWxzZSB7CiAgICAgIGVuY2xvc2VkVmFyID0gImVsc2UgaWYiOwogICAgfQogIH0gZWxzZSB7CiAgICBlbmNsb3NlZFZhciA9ICJvdXRlciBlbHNlIGlmIjsKICB9CiAgcmV0dXJuIGVuY2xvc2VkVmFyOwp9KTsK)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
+export const main = asl.deploy.asStateMachine(async () => {
   let enclosedVar = "before";
   if (true) {
     enclosedVar = "outer if";
@@ -83,6 +82,7 @@ export const main = asl.deploy.asStateMachine(async () =>
   }
   return enclosedVar;
 });
+
 ```
 
 

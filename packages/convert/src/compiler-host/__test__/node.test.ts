@@ -29,8 +29,8 @@ const getTypeOfStatement = (host : {sourceFile: ts.SourceFile, typeChecker: ts.T
 describe("when creating host based on string", () => {
   test("then asl-lib resolves in host from file", () => {
     const host = hostFromFile;
-    const types = [getTypeOfStatement(host, 2),getTypeOfStatement(host, 3), getTypeOfStatement(host, 4), getTypeOfStatement(host, 5)];
-    expect(types).toEqual(["numeric", "string", "callable-statemachine", "callable-lambda"]);
+    const types = [getTypeOfStatement(host, 2),getTypeOfStatement(host, 3), getTypeOfStatement(host, 4), getTypeOfStatement(host, 5), getTypeOfStatement(host, 6)];
+    expect(types).toEqual(["numeric", "string", "callable-statemachine", "callable-lambda", "numeric"]);
   });
 
   test("then asl-lib resolves in host from source", () => {

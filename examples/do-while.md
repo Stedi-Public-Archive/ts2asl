@@ -4,34 +4,32 @@ This example demonstrates a simple `do-while` statement. This function will retu
 
 *note: as incrementing/decrementing numbers is not supported in ASL the examples uses a string (and string concatenation) as a counter.* 
 
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgZG8gewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgfQogIHdoaWxlIChjb3VudGVyICE9ICJhYWFhYSIpCiAgcmV0dXJuIGNvdW50ZXI7IC8vcmV0dXJucyAiYWFhYWEiCn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IGNvdW50ZXIgPSAiIjsKICBkbyB7CiAgICBjb3VudGVyID0gYCR7Y291bnRlcn1hYDsKICB9IHdoaWxlIChjb3VudGVyICE9ICJhYWFhYSIpOwogIHJldHVybiBjb3VudGVyOyAvL3JldHVybnMgImFhYWFhIgp9KTsK)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
-  let counter = ""
+export const main = asl.deploy.asStateMachine(async () => {
+  let counter = "";
   do {
     counter = `${counter}a`;
-  }
-  while (counter != "aaaaa")
+  } while (counter != "aaaaa");
   return counter; //returns "aaaaa"
 });
+
 ```
 
 
 ## simple do always false
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgZG8gewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgfQogIHdoaWxlIChmYWxzZSkKICByZXR1cm4gY291bnRlcjsgLy9yZXR1cm5zICIxIgp9KTs=)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IGNvdW50ZXIgPSAiIjsKICBkbyB7CiAgICBjb3VudGVyID0gYCR7Y291bnRlcn1hYDsKICB9IHdoaWxlIChmYWxzZSk7CiAgcmV0dXJuIGNvdW50ZXI7IC8vcmV0dXJucyAiMSIKfSk7Cg==)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
-  let counter = ""
+export const main = asl.deploy.asStateMachine(async () => {
+  let counter = "";
   do {
     counter = `${counter}a`;
-  }
-  while (false)
+  } while (false);
   return counter; //returns "1"
 });
+
 ```
 
 
@@ -40,12 +38,11 @@ This example demonstrates a `do-while` statement with a `break` statement. The d
 
 *note: as incrementing/decrementing numbers is not supported in ASL the examples uses a string (and string concatenation) as a counter.* 
 
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgZG8gewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgICBpZiAoY291bnRlciA9PSAiYWEiKSB7CiAgICAgIGJyZWFrOwogICAgfQogIH0gd2hpbGUgKGNvdW50ZXIgIT0gImFhYWFhIik7CiAgcmV0dXJuIGNvdW50ZXI7IC8vcmV0dXJucyAiYWEiCn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IGNvdW50ZXIgPSAiIjsKICBkbyB7CiAgICBjb3VudGVyID0gYCR7Y291bnRlcn1hYDsKICAgIGlmIChjb3VudGVyID09ICJhYSIpIHsKICAgICAgYnJlYWs7CiAgICB9CiAgfSB3aGlsZSAoY291bnRlciAhPSAiYWFhYWEiKTsKICByZXR1cm4gY291bnRlcjsgLy9yZXR1cm5zICJhYSIKfSk7Cg==)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
-  let counter = ""
+export const main = asl.deploy.asStateMachine(async () => {
+  let counter = "";
   do {
     counter = `${counter}a`;
     if (counter == "aa") {
@@ -54,6 +51,7 @@ export const main = asl.deploy.asStateMachine(async () =>
   } while (counter != "aaaaa");
   return counter; //returns "aa"
 });
+
 ```
 
 
@@ -62,20 +60,20 @@ This example demonstrates a `do-while` statement with an early `return`. The fun
 
 *note: as incrementing/decrementing numbers is not supported in ASL the examples uses a string (and string concatenation) as a counter.* 
 
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgZG8gewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgICBpZiAoY291bnRlciA9PSAiYWEiKSB7CiAgICAgIHJldHVybiBjb3VudGVyOyAvL3JldHVybnMgImFhIgogICAgfQogIH0gd2hpbGUgKGNvdW50ZXIgIT0gImFhYWFhIikKICB0aHJvdyBuZXcgRXJyb3IoInRoaXMgc2hvdWxkIG5vdCBoYXBwZW4iKTsKfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IGNvdW50ZXIgPSAiIjsKICBkbyB7CiAgICBjb3VudGVyID0gYCR7Y291bnRlcn1hYDsKICAgIGlmIChjb3VudGVyID09ICJhYSIpIHsKICAgICAgcmV0dXJuIGNvdW50ZXI7IC8vcmV0dXJucyAiYWEiCiAgICB9CiAgfSB3aGlsZSAoY291bnRlciAhPSAiYWFhYWEiKTsKICB0aHJvdyBuZXcgRXJyb3IoInRoaXMgc2hvdWxkIG5vdCBoYXBwZW4iKTsKfSk7Cg==)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
-  let counter = ""
+export const main = asl.deploy.asStateMachine(async () => {
+  let counter = "";
   do {
     counter = `${counter}a`;
     if (counter == "aa") {
       return counter; //returns "aa"
     }
-  } while (counter != "aaaaa")
+  } while (counter != "aaaaa");
   throw new Error("this should not happen");
 });
+
 ```
 
 
@@ -84,12 +82,11 @@ This example demonstrates a `do-while` statement with a `continue` statement. Th
 
 *note: as incrementing/decrementing numbers is not supported in ASL the examples uses a string (and string concatenation) as a counter.* 
 
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICBsZXQgY291bnRlciA9ICIiCiAgbGV0IHJlc3VsdCA9ICIiOwogIGRvIHsKICAgIGNvdW50ZXIgPSBgJHtjb3VudGVyfWFgOwogICAgaWYgKGNvdW50ZXIgPT0gImFhIikgewogICAgICBjb250aW51ZTsKICAgIH0KICAgIHJlc3VsdCA9IGAke3Jlc3VsdH1iYDsKICB9IHdoaWxlIChjb3VudGVyICE9ICJhYWFhYSIpCiAgcmV0dXJuIHJlc3VsdDsgLy9yZXR1cm5zICJiYmJiIgp9KTs=)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IGNvdW50ZXIgPSAiIjsKICBsZXQgcmVzdWx0ID0gIiI7CiAgZG8gewogICAgY291bnRlciA9IGAke2NvdW50ZXJ9YWA7CiAgICBpZiAoY291bnRlciA9PSAiYWEiKSB7CiAgICAgIGNvbnRpbnVlOwogICAgfQogICAgcmVzdWx0ID0gYCR7cmVzdWx0fWJgOwogIH0gd2hpbGUgKGNvdW50ZXIgIT0gImFhYWFhIik7CiAgcmV0dXJuIHJlc3VsdDsgLy9yZXR1cm5zICJiYmJiIgp9KTsK)
 
 ``` typescript
-export const main = asl.deploy.asStateMachine(async () => 
- {
-  let counter = ""
+export const main = asl.deploy.asStateMachine(async () => {
+  let counter = "";
   let result = "";
   do {
     counter = `${counter}a`;
@@ -97,9 +94,10 @@ export const main = asl.deploy.asStateMachine(async () =>
       continue;
     }
     result = `${result}b`;
-  } while (counter != "aaaaa")
+  } while (counter != "aaaaa");
   return result; //returns "bbbb"
 });
+
 ```
 
 

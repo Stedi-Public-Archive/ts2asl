@@ -4,4 +4,4 @@ const num = asl.deploy.evalConst(23);
 const str = asl.deploy.evalConst("");
 const statemachine = asl.deploy.asStateMachine(async (arg: {}) => "hello");
 const lambda = asl.deploy.asLambda(lambdaImplementation);
-//const lambda1 = asl.deploy.asLambda((async () => {}));
+const result = (await lambda({ num, str })).num;
