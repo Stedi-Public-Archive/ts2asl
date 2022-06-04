@@ -22,12 +22,14 @@ export const enumTests = (): TestFixture[] => {
         const tests: TestCase[] = [];
         const host = createCompilerHostFromFile(filePath, "../convert");
         const fnDecls = listFunctionDeclarations(host.sourceFile, host.typeChecker);
+        const otherDecls = listOtherDecls(host.sourceFile, host.typeChecker);
         for (const decl of fnDecls) {
           if (decl.kind !== "asl") continue;
           const testCase: TestCase = {
             fixtureName,
             testName: decl.name,
-            decl,
+            testCase: decl,
+            otherDecls,
           };
 
           tests.push(testCase);
@@ -53,5 +55,22 @@ interface TestFixture {
 export interface TestCase {
   fixtureName: string;
   testName: string;
-  decl: FunctionDeclaration;
+  testCase: FunctionDeclaration;
+  otherDecls: ts.Node[];
+}
+
+export const listOtherDecls = (sourceFile: ts.SourceFile, typeChecker: ts.TypeChecker) => {
+  const result: ts.Node[] = [];
+  ts.forEachChild(sourceFile, node => {
+    if (ts.isEnumDeclaration(node)) {
+      result.push(node);
+    }
+    if (ts.isInterfaceDeclaration(node)) {
+      result.push(node);
+    }
+    if (ts.isClassDeclaration(node)) {
+      result.push(node);
+    }
+  });
+  return result;
 }

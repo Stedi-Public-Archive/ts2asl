@@ -1,6 +1,6 @@
 
 ## concat strings
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICByZXR1cm4gewogICAgYTogImhlbGxvIiArICIgd29ybGQgIiwKICAgIGI6ICJhIiArICJiIiArICJjIiwKICAgIGM6IGBhJHsiYiJ9Y2AsCiAgICBkOiBgbj0kezQyfTtgCiAgfTsKfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICByZXR1cm4gewogICAgYTogImhlbGxvIiArICIgd29ybGQgIiwKICAgIGI6ICJhIiArICJiIiArICJjIiwKICAgIGM6IGBhJHsiYiJ9Y2AsCiAgICBkOiBgbj0kezQyfTtgCiAgfTsKfSk7Cgo=)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
@@ -12,11 +12,13 @@ export const main = asl.deploy.asStateMachine(async () =>
     d: `n=${42};`
   };
 });
+
+
 ```
 
 
 ## numbers
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICByZXR1cm4gewogICAgYTogMTAgKyAxMCwKICAgIGI6IDMwIC0gMTAsCiAgICBjOiAxMCAqIDIsCiAgICBkOiA0MCAvIDIsCiAgICBlOiAyICogKDQgKyA0ICogNCksCiAgfTsKfSk7)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICByZXR1cm4gewogICAgYTogMTAgKyAxMCwKICAgIGI6IDMwIC0gMTAsCiAgICBjOiAxMCAqIDIsCiAgICBkOiA0MCAvIDIsCiAgICBlOiAyICogKDQgKyA0ICogNCksCiAgfTsKfSk7Cgo=)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
@@ -29,11 +31,13 @@ export const main = asl.deploy.asStateMachine(async () =>
     e: 2 * (4 + 4 * 4),
   };
 });
+
+
 ```
 
 
 ## booleans
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICByZXR1cm4gewogICAgYTogdHJ1ZSwKICAgIGI6IGZhbHNlLAogICAgYzogdHJ1ZSB8fCBmYWxzZSwKICAgIGQ6IHRydWUgJiYgZmFsc2UsCiAgICBlOiB0cnVlICYmIChmYWxzZSB8fCBmYWxzZSksCiAgICBmOiAoKHRydWUgJiYgZmFsc2UpIHx8IGZhbHNlKSB8fCB0cnVlLAogIH07Cn0pOw==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICByZXR1cm4gewogICAgYTogdHJ1ZSwKICAgIGI6IGZhbHNlLAogICAgYzogdHJ1ZSB8fCBmYWxzZSwKICAgIGQ6IHRydWUgJiYgZmFsc2UsCiAgICBlOiB0cnVlICYmIChmYWxzZSB8fCBmYWxzZSksCiAgICBmOiAoKHRydWUgJiYgZmFsc2UpIHx8IGZhbHNlKSB8fCB0cnVlLAogIH07Cn0pOwoK)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
@@ -47,11 +51,13 @@ export const main = asl.deploy.asStateMachine(async () =>
     f: ((true && false) || false) || true,
   };
 });
+
+
 ```
 
 
 ## parameters
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICByZXR1cm4gewogICAgYTogYXNsLmRlcGxveS5nZXRQYXJhbWV0ZXIoImJ1Y2tldE5hbWUiKSwKICAgIGI6ICJzMzo6OmFybjoiICsgYXNsLmRlcGxveS5nZXRQYXJhbWV0ZXIoImJ1Y2tldE5hbWUiKSwKICAgIGM6IGB2YWx1ZSAtPiAke2FzbC5kZXBsb3kuZ2V0UGFyYW1ldGVyKCJidWNrZXROYW1lIil9IDwtIHZhbHVlYCwKICB9Owp9KTs=)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiAKIHsKICByZXR1cm4gewogICAgYTogYXNsLmRlcGxveS5nZXRQYXJhbWV0ZXIoImJ1Y2tldE5hbWUiKSwKICAgIGI6ICJzMzo6OmFybjoiICsgYXNsLmRlcGxveS5nZXRQYXJhbWV0ZXIoImJ1Y2tldE5hbWUiKSwKICAgIGM6IGB2YWx1ZSAtPiAke2FzbC5kZXBsb3kuZ2V0UGFyYW1ldGVyKCJidWNrZXROYW1lIil9IDwtIHZhbHVlYCwKICB9Owp9KTsKCg==)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => 
@@ -62,6 +68,8 @@ export const main = asl.deploy.asStateMachine(async () =>
     c: `value -> ${asl.deploy.getParameter("bucketName")} <- value`,
   };
 });
+
+
 ```
 
 
