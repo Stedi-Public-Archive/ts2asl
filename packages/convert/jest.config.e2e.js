@@ -14,6 +14,14 @@ module.exports = {
     "**/choice.integration.ts",
     "**/in-keyword.integration.ts",
     "**/try-catch.integration.ts",
+    "**/variable-assignments.integration.ts",
+    "**/enums.integration.ts",
+    "**/expressions.integration.ts",
+    "**/if.integration.ts",
+    // "**/variables.integration.ts", FAILS on comparing context.executionId (false negative)
+    // "**/arrays.integration.ts", FAILS
+    // "**/for-each.integration.ts", FAILS
+    // "**/input-validation.integration.ts", FAILS on throwing error in node (false negative)
   ],
   testTimeout: 99999999,
   // setupFiles: ["<rootDir>/test/setupTests.ts"],

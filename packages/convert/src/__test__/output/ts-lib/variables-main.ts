@@ -26,11 +26,12 @@ export const main = asl.deploy.asStateMachine(async (input: IInput, context: Sta
             somethingLiteral: ["one", 2, "three"],
             startTime: context.execution.startTime,
             func: asl.states.jsonToString(x),
+            func2: asl.states.jsonToString({ field: 'val' }),
             fmt: asl.states.format("hello {}", x),
             number: asl.states.stringToJson("123"),
             arr: asl.states.array(1, 2, 3, 4, 5, 6),
         }),
-        comment: "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    fmt: asl.states.format(\"hello {}\", x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }"
+        comment: "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    func2: asl.states.jsonToString({field:'val'}),\n    fmt: asl.states.format(\"hello {}\", x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }"
     });
     return y;
 });

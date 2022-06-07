@@ -24,7 +24,7 @@ export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
 export const unassignedVariable = asl.deploy.asStateMachine(async () => {
   let arr: [];
   let two: string;
-  return two;
+  return "ok"
 });
 
 export const assignmentToUndefined = asl.deploy.asStateMachine(async () =>{
@@ -33,10 +33,12 @@ export const assignmentToUndefined = asl.deploy.asStateMachine(async () =>{
         parameters: () => undefined,
         comment: "_undefined = undefined"
     });
+    return "ok";
 });
 
 export const assignmentToNull = asl.deploy.asStateMachine(async () => {
   let _null = null;
+  return "ok"
 });
 
 export const arrayIndexer = asl.deploy.asStateMachine(async () => {

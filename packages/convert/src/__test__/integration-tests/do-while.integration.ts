@@ -1,3 +1,4 @@
+import * as asl from "@ts2asl/asl-lib";
 import { convertDeployExecute } from "../utility";
 jest.setTimeout(99999999);
 
@@ -5,31 +6,31 @@ describe("when converting do-while", () => {
     it("will execute simpleDoWhile as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("do-while", "simpleDoWhile");
         const { simpleDoWhile } = require("../resources/do-while");
-        const resultFromNode = await simpleDoWhile({});
+        const resultFromNode = await simpleDoWhile({}, asl.testing.createTestContext({}));
         expect(resultFromSfn).toEqual(resultFromNode);
     });
     it("will execute simpleDoAlwaysFalse as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("do-while", "simpleDoAlwaysFalse");
         const { simpleDoAlwaysFalse } = require("../resources/do-while");
-        const resultFromNode = await simpleDoAlwaysFalse({});
+        const resultFromNode = await simpleDoAlwaysFalse({}, asl.testing.createTestContext({}));
         expect(resultFromSfn).toEqual(resultFromNode);
     });
     it("will execute doWhileWithBreak as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("do-while", "doWhileWithBreak");
         const { doWhileWithBreak } = require("../resources/do-while");
-        const resultFromNode = await doWhileWithBreak({});
+        const resultFromNode = await doWhileWithBreak({}, asl.testing.createTestContext({}));
         expect(resultFromSfn).toEqual(resultFromNode);
     });
     it("will execute doWhileWithEarlyReturn as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("do-while", "doWhileWithEarlyReturn");
         const { doWhileWithEarlyReturn } = require("../resources/do-while");
-        const resultFromNode = await doWhileWithEarlyReturn({});
+        const resultFromNode = await doWhileWithEarlyReturn({}, asl.testing.createTestContext({}));
         expect(resultFromSfn).toEqual(resultFromNode);
     });
     it("will execute doWhileWithContinue as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("do-while", "doWhileWithContinue");
         const { doWhileWithContinue } = require("../resources/do-while");
-        const resultFromNode = await doWhileWithContinue({});
+        const resultFromNode = await doWhileWithContinue({}, asl.testing.createTestContext({}));
         expect(resultFromSfn).toEqual(resultFromNode);
     });
 });

@@ -15,6 +15,11 @@
       "InputPath": "$._undefined",
       "ResultPath": "$.vars._undefined",
       "Comment": "source: _undefined = undefined",
+      "Next": "Return \"ok\""
+    },
+    "Return \"ok\"": {
+      "Type": "Pass",
+      "Result": "ok",
       "End": true
     }
   }

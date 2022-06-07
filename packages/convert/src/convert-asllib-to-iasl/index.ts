@@ -672,10 +672,6 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
   } else if (ts.isCallExpression(expr)) {
     const expressionType = isAslCallExpression(expr);
     if (expressionType?.startsWith("states.")) {
-
-      if (expr.arguments.some(x => ts.isObjectLiteralExpression(x))) {
-        throw new ParserError("asl intrinsic function must not take literal objects as arguments (for now), use variables instead", expr);
-      }
       const _arguments = expr.arguments.map(x => convertExpressionToLiteralOrIdentifier(x, {}, context));
       const functionName = convertToIdentifier(expr.expression, context);
 

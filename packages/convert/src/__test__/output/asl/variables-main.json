@@ -46,6 +46,14 @@
       },
       "ResultPath": "$.vars.x",
       "Comment": "source: x = { name: input.name, executionId: context.e ...",
+      "Next": "Pass"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.arg0",
+      "Parameters": {
+        "field": "val"
+      },
       "Next": "Assign y"
     },
     "Assign y": {
@@ -59,6 +67,7 @@
         ],
         "startTime.$": "$$.Execution.StartTime",
         "func.$": "States.JsonToString($.vars.x)",
+        "func2.$": "States.JsonToString($.tmp.arg0)",
         "fmt.$": "States.Format('hello {}', $.vars.x)",
         "number.$": "States.StringToJson('123')",
         "arr.$": "States.Array(1, 2, 3, 4, 5, 6)"

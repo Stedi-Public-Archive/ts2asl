@@ -22,11 +22,11 @@
       "InputPath": "$._undefined",
       "ResultPath": "$.vars.two",
       "Comment": "source: two: string",
-      "Next": "Return two"
+      "Next": "Return \"ok\""
     },
-    "Return two": {
+    "Return \"ok\"": {
       "Type": "Pass",
-      "InputPath": "$.vars.two",
+      "Result": "ok",
       "End": true
     }
   }

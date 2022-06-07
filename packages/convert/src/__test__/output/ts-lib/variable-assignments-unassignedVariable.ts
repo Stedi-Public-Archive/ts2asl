@@ -31,15 +31,17 @@ export const unassignedVariable = asl.deploy.asStateMachine(async () =>{
         name: "Assign two",
         comment: "two: string"
     });
-    return two;
+    return "ok";
 });
 
 export const assignmentToUndefined = asl.deploy.asStateMachine(async () => {
   let _undefined = undefined;
+  return "ok"
 });
 
 export const assignmentToNull = asl.deploy.asStateMachine(async () => {
   let _null = null;
+  return "ok"
 });
 
 export const arrayIndexer = asl.deploy.asStateMachine(async () => {
