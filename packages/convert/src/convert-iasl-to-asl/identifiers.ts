@@ -28,7 +28,7 @@ export const createObjectContextReplacer = (objectContextName: string) => {
         const converted = parts.map(x => x[0].toUpperCase() + x.substring(1)).join(".");
         identifier.identifier = converted;
         identifier.objectContextExpression = true;
-      }
+      } 
     }
   } as IdentifierReplacer;
 };
@@ -39,7 +39,10 @@ export const createReplacer = (inputArgumentName: string, root: string = "$.vars
       if (identifier.identifier === inputArgumentName) {
         identifier.identifier = root;
       } else if (identifier.identifier.startsWith(inputArgumentName + ".")) {
-        identifier.identifier = identifier.identifier.replace(inputArgumentName + ".", "");
+        console.log(identifier.identifier +" --> " + identifier.identifier.replace(inputArgumentName + ".", ""))
+        identifier.identifier = identifier.identifier.replace(inputArgumentName + ".", root + ".");
+      } else {
+        
       }
     }
   } as IdentifierReplacer;
