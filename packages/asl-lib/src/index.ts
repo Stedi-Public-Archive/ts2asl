@@ -18,5 +18,6 @@ export * from "./sdk-integrations-codebuild";
 export * from "./sdk-integrations-cloudwatch";
 export * from "./deploy"
 export * from "./runtime"
+export * from "./testing"
 
 export const clientConfig = {} as ClientConfig;

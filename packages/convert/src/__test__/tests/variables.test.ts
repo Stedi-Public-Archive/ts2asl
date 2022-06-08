@@ -18,7 +18,7 @@ describe("when converting variables", () => {
           },
           "Assign x": Object {
             "Comment": "source: x = { name: input.name, executionId: context.e ...",
-            "Next": "Assign y",
+            "Next": "Pass",
             "Parameters": Object {
               "executionId.$": "$$.Execution.Id",
               "name.$": "$.vars.name",
@@ -33,6 +33,7 @@ describe("when converting variables", () => {
               "arr.$": "States.Array(1, 2, 3, 4, 5, 6)",
               "fmt.$": "States.Format('hello {}', $.vars.x)",
               "func.$": "States.JsonToString($.vars.x)",
+              "func2.$": "States.JsonToString($.tmp.arg0)",
               "number.$": "States.StringToJson('123')",
               "somethingLiteral": Array [
                 "one",
@@ -74,6 +75,14 @@ describe("when converting variables", () => {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Pass": Object {
+            "Next": "Assign y",
+            "Parameters": Object {
+              "field": "val",
+            },
+            "ResultPath": "$.tmp.arg0",
             "Type": "Pass",
           },
           "Return y": Object {

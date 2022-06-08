@@ -32,6 +32,17 @@ function createIntegrationTestFile(path: string, filename: string, tests: string
     factory.createStringLiteral("../utility"),
     undefined
   );
+  const importDecl2 = factory.createImportDeclaration(
+    undefined,
+    undefined,
+    factory.createImportClause(
+      false,
+      undefined,
+      factory.createNamespaceImport(factory.createIdentifier("asl"))
+    ),
+    factory.createStringLiteral("@ts2asl/asl-lib"),
+    undefined
+  )
   const jestTimeout = factory.createExpressionStatement(factory.createCallExpression(
     factory.createPropertyAccessExpression(
       factory.createIdentifier("jest"),
@@ -108,6 +119,20 @@ function createIntegrationTestFile(path: string, filename: string, tests: string
                       factory.createObjectLiteralExpression(
                         [],
                         false
+                      ),
+                      factory.createCallExpression(
+                        factory.createPropertyAccessExpression(
+                          factory.createPropertyAccessExpression(
+                            factory.createIdentifier("asl"),
+                            factory.createIdentifier("testing")
+                          ),
+                          factory.createIdentifier("createTestContext")
+                        ),
+                        undefined,
+                        [factory.createObjectLiteralExpression(
+                          [],
+                          false
+                        )]
                       )
                     ]
                   ))
@@ -161,6 +186,8 @@ function createIntegrationTestFile(path: string, filename: string, tests: string
   const sourceFile = ts.createSourceFile(path, "", ts.ScriptTarget.Latest);
 
   let contents = "";
+  contents += printer.printNode(ts.EmitHint.Unspecified, importDecl2, sourceFile);
+  contents += "\n";
   contents += printer.printNode(ts.EmitHint.Unspecified, importDecl, sourceFile);
   contents += "\n";
   contents += printer.printNode(ts.EmitHint.Unspecified, jestTimeout, sourceFile);

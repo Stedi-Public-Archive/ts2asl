@@ -91,6 +91,7 @@ declare module '@ts2asl/asl-lib' {
     export * from "@ts2asl/asl-lib/sdk-integrations-cloudwatch";
     export * from "@ts2asl/asl-lib/deploy";
     export * from "@ts2asl/asl-lib/runtime";
+    export * from "@ts2asl/asl-lib/testing";
     export const clientConfig: S3ClientConfig;
 }
 
@@ -1843,6 +1844,13 @@ declare module '@ts2asl/asl-lib/runtime' {
         const createError: (error: string, cause: string) => AslError & Error & {
             name: string;
         };
+    }
+}
+
+declare module '@ts2asl/asl-lib/testing' {
+    import { StateMachineContext } from "@ts2asl/asl-lib/asl";
+    export namespace testing {
+        const createTestContext: <TInput>(input: TInput, context?: Partial<StateMachineContext<TInput>>) => StateMachineContext<TInput>;
     }
 }
 

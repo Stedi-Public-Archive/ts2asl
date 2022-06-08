@@ -133,6 +133,22 @@
               "function": "asl.states.jsonToString",
               "_syntaxKind": "asl-intrinsic-function"
             },
+            "func2": {
+              "arguments": [
+                {
+                  "properties": {
+                    "field": {
+                      "value": "val",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    }
+                  },
+                  "_syntaxKind": "literal-object"
+                }
+              ],
+              "function": "asl.states.jsonToString",
+              "_syntaxKind": "asl-intrinsic-function"
+            },
             "fmt": {
               "arguments": [
                 {
@@ -199,7 +215,7 @@
           },
           "_syntaxKind": "literal-object"
         },
-        "source": "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    fmt: asl.states.format(\"hello {}\", x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }",
+        "source": "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    func2: asl.states.jsonToString({field:'val'}),\n    fmt: asl.states.format(\"hello {}\", x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }",
         "_syntaxKind": "asl-pass-state"
       },
       "stateName": "Assign y",

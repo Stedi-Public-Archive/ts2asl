@@ -38,35 +38,37 @@ export const main = asl.deploy.asStateMachine(async () => {
 
 
 ## unassigned variable
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IGFycjogW107CiAgbGV0IHR3bzogc3RyaW5nOwogIHJldHVybiB0d287Cn0pOwo=)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IGFycjogW107CiAgbGV0IHR3bzogc3RyaW5nOwogIHJldHVybiAib2siOwp9KTsK)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => {
   let arr: [];
   let two: string;
-  return two;
+  return "ok";
 });
 
 ```
 
 
 ## assignment to undefined
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IF91bmRlZmluZWQgPSB1bmRlZmluZWQ7Cn0pOwo=)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IF91bmRlZmluZWQgPSB1bmRlZmluZWQ7CiAgcmV0dXJuICJvayI7Cn0pOwo=)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => {
   let _undefined = undefined;
+  return "ok";
 });
 
 ```
 
 
 ## assignment to null
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IF9udWxsID0gbnVsbDsKfSk7Cg==)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IF9udWxsID0gbnVsbDsKICByZXR1cm4gIm9rIjsKfSk7Cg==)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => {
   let _null = null;
+  return "ok";
 });
 
 ```

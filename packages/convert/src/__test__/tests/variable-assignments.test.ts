@@ -194,7 +194,7 @@ describe("when converting variable-assignments", () => {
           "Assign two": Object {
             "Comment": "source: two: string",
             "InputPath": "$._undefined",
-            "Next": "Return two",
+            "Next": "Return \\"ok\\"",
             "ResultPath": "$.vars.two",
             "Type": "Pass",
           },
@@ -207,10 +207,10 @@ describe("when converting variable-assignments", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return two": Object {
+          "Return \\"ok\\"": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.vars.two",
+            "Result": "ok",
             "Type": "Pass",
           },
         },
@@ -224,8 +224,8 @@ describe("when converting variable-assignments", () => {
         "States": Object {
           "Assign _undefined": Object {
             "Comment": "source: _undefined = undefined",
-            "End": true,
             "InputPath": "$._undefined",
+            "Next": "Return \\"ok\\"",
             "ResultPath": "$.vars._undefined",
             "Type": "Pass",
           },
@@ -236,6 +236,12 @@ describe("when converting variable-assignments", () => {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return \\"ok\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "ok",
             "Type": "Pass",
           },
         },
@@ -249,8 +255,8 @@ describe("when converting variable-assignments", () => {
         "States": Object {
           "Assign _null": Object {
             "Comment": "source: _null = null",
-            "End": true,
             "InputPath": "$._undefined",
+            "Next": "Return \\"ok\\"",
             "ResultPath": "$.vars._null",
             "Type": "Pass",
           },
@@ -261,6 +267,12 @@ describe("when converting variable-assignments", () => {
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return \\"ok\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "ok",
             "Type": "Pass",
           },
         },
