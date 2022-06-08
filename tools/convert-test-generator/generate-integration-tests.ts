@@ -52,6 +52,30 @@ function createIntegrationTestFile(path: string, filename: string, tests: string
     [factory.createNumericLiteral("99999999")]
   ));
 
+  const bindingsForRequire = tests.map(test => factory.createBindingElement(
+    undefined,
+    undefined,
+    factory.createIdentifier(test),
+    undefined
+  ));
+
+  const requireStatement = factory.createVariableStatement(
+    undefined,
+    factory.createVariableDeclarationList(
+      [factory.createVariableDeclaration(
+        factory.createObjectBindingPattern(bindingsForRequire),
+        undefined,
+        undefined,
+        factory.createCallExpression(
+          factory.createIdentifier("require"),
+          undefined,
+          [factory.createStringLiteral("../resources/" + filename)]
+        )
+      )],
+      ts.NodeFlags.Const | ts.NodeFlags.AwaitContext | ts.NodeFlags.ContextFlags | ts.NodeFlags.TypeExcludesFlags
+    )
+  );
+  
   const testFunctions = tests.map(test => factory.createExpressionStatement(factory.createCallExpression(
     factory.createIdentifier("it"),
     undefined,
@@ -80,27 +104,6 @@ function createIntegrationTestFile(path: string, filename: string, tests: string
                       factory.createStringLiteral(test)
                     ]
                   ))
-                )],
-                ts.NodeFlags.Const | ts.NodeFlags.AwaitContext | ts.NodeFlags.ContextFlags | ts.NodeFlags.TypeExcludesFlags
-              )
-            ),
-            factory.createVariableStatement(
-              undefined,
-              factory.createVariableDeclarationList(
-                [factory.createVariableDeclaration(
-                  factory.createObjectBindingPattern([factory.createBindingElement(
-                    undefined,
-                    undefined,
-                    factory.createIdentifier(test),
-                    undefined
-                  )]),
-                  undefined,
-                  undefined,
-                  factory.createCallExpression(
-                    factory.createIdentifier("require"),
-                    undefined,
-                    [factory.createStringLiteral("../resources/" + filename)]
-                  )
                 )],
                 ts.NodeFlags.Const | ts.NodeFlags.AwaitContext | ts.NodeFlags.ContextFlags | ts.NodeFlags.TypeExcludesFlags
               )
@@ -189,6 +192,8 @@ function createIntegrationTestFile(path: string, filename: string, tests: string
   contents += printer.printNode(ts.EmitHint.Unspecified, importDecl2, sourceFile);
   contents += "\n";
   contents += printer.printNode(ts.EmitHint.Unspecified, importDecl, sourceFile);
+  contents += "\n";
+  contents += printer.printNode(ts.EmitHint.Unspecified, requireStatement, sourceFile);
   contents += "\n";
   contents += printer.printNode(ts.EmitHint.Unspecified, jestTimeout, sourceFile);
   contents += "\n";
