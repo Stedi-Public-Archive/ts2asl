@@ -221,6 +221,10 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
     if (node.indexExpression) {
       visitNodes(node.indexExpression, visitor);
     }
+  } else if (Check.isLiteralArray(node)) {
+    for(const element of node.elements) {
+      visitNodes(element, visitor);
+    }
   }
 };
 
@@ -327,6 +331,10 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
     }
     if (node.indexExpression) {
       assignScopes(node.indexExpression, scope, visitor);
+    }
+  } else if (Check.isLiteralArray(node)) {
+    for(const element of node.elements) {
+      assignScopes(element, scope, visitor);
     }
   }
 };
