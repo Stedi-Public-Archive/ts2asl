@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/asl-lib",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -9,7 +9,7 @@
     "prepublishOnly": "npm run build",
     "bundle-dts": "npx dts-bundle --name @ts2asl/asl-lib --main ./lib/index.d.ts --out ../build/asl-lib-public.d.ts && cat build/asl-lib-private.d.ts build/asl-lib-public.d.ts > build/asl-lib.d.ts && ts-node build/wrapdts build/asl-lib.d.ts",
     "build": "npx tsc && npm run bundle-dts && cp ./build/asl-lib.ts ../convert/src/resources/",
-    "package" : "ts-node build/wrapdts build/asl-lib-public.d.ts && cp ./build/asl-lib-public.ts ../../../asl-editor-spike/src/"
+    "package": "ts-node build/wrapdts build/asl-lib-public.d.ts && cp ./build/asl-lib-public.ts ../../../asl-editor-spike/src/"
   },
   "files": [
     "lib/**/*"
@@ -24,6 +24,7 @@
     "@aws-sdk/client-dynamodb": "^3.48.0",
     "@aws-sdk/client-ecs": "^3.48.0",
     "@aws-sdk/client-eventbridge": "^3.48.0",
+    "@aws-sdk/client-iam": "^3.112.0",
     "@aws-sdk/client-lambda": "^3.48.0",
     "@aws-sdk/client-organizations": "^3.53.0",
     "@aws-sdk/client-s3": "^3.48.0",
@@ -32,6 +33,7 @@
     "@aws-sdk/client-sns": "^3.48.0",
     "@aws-sdk/client-sqs": "^3.48.0",
     "@aws-sdk/client-ssm": "^3.48.0",
+    "@aws-sdk/client-sts": "^3.112.0",
     "@aws-sdk/client-textract": "^3.48.0"
   },
   "devDependencies": {

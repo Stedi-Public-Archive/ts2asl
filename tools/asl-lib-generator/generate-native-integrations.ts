@@ -28,6 +28,8 @@ const supportedServices = [
   { serviceId: "codebuild", serviceName: "CodeBuild" },
   { serviceId: "cloudwatch", serviceName: "CloudWatch" },
   { serviceId: "athena", serviceName: "Athena" },
+  { serviceId: "sts", serviceName: "STS" },
+  { serviceId: "iam", serviceName: "IAM" },
 ];
 
 // interface NativeIntegrationDefinition {
