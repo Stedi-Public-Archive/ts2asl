@@ -234,7 +234,6 @@ export class AslFactory {
       let iterator = expression.iterator;
       if (expression.iterator.inputArgumentName) {
         const replacer = createReplacer(expression.iterator.inputArgumentName.identifier, `$.${namespace}.currentItem`);
-        console.log("replacer")
         iterator = replaceIdentifiers(expression.iterator, [replacer]);
       }
       appendBlock(iterator, scopes, iteratorWriter);
