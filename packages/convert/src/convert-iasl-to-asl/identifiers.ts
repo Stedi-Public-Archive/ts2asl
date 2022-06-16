@@ -39,7 +39,6 @@ export const createReplacer = (inputArgumentName: string, root: string = "$.vars
       if (identifier.identifier === inputArgumentName) {
         identifier.identifier = root;
       } else if (identifier.identifier.startsWith(inputArgumentName + ".")) {
-        console.log(identifier.identifier +" --> " + identifier.identifier.replace(inputArgumentName + ".", ""))
         identifier.identifier = identifier.identifier.replace(inputArgumentName + ".", root + ".");
       } else {
         
