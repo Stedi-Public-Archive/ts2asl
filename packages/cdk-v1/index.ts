@@ -102,7 +102,7 @@ export class TypescriptStateMachine extends Construct {
       if (props.conversionOptions?.emitStateLanguageFiles) {
         const fnName = underlyingResource.getMetadata("ts2asl:sourceFunctionName");
         const filename = sourceFile.replace(".ts", "." + fnName + ".json");
-        const definitionWithReplacedTokens = underlyingResource.definitionString.replace(/\${Token\[TOKEN.\d+\]}/, "${Token[CDK.REF.REPLACED]}")
+        const definitionWithReplacedTokens = underlyingResource.definitionString.replace(/\${Token\[TOKEN.\d+\]}/g, "${Token[CDK.REF.REPLACED]}")
         fs.writeFileSync(filename, definitionWithReplacedTokens);
       }
     }
