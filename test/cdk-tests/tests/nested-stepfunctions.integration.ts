@@ -4,7 +4,7 @@ jest.setTimeout(99999999);
 describe("when deploying nested-stepfunctions", () => {
     it("lambdas are less than 1 MB in size", async () => {
         const lambdas = await listFunctionResources("nested-stepfunctions");
-        expect(lambdas.filter(x=>(x.CodeSize ?? 0) > 1024 * 1024)).toEqual([])
+        expect(lambdas.filter(x=>(x.CodeSize ?? 0) > 1219629)).toEqual([]);
     });
     it("will execute callStateMachineWithAwait as if it were node", async () => {
         const resultFromSfn = await executeStepFunction("nested-stepfunctions", "callStateMachineWithAwait");

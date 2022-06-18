@@ -16,6 +16,8 @@ export * from "./sdk-integrations-textract";
 export * from "./sdk-integrations-organizations";
 export * from "./sdk-integrations-codebuild";
 export * from "./sdk-integrations-cloudwatch";
+export * from "./sdk-integrations-iam";
+export * from "./sdk-integrations-sts";
 export * from "./deploy"
 export * from "./runtime"
 export * from "./testing"
