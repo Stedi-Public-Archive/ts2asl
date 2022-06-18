@@ -28,21 +28,7 @@ export const executeStepFunction = async (fixture: string, name: string, input: 
   if (!resource) throw new Error(`unable to find ${logicalId} in stack for fixture ${fixture}`)
   
   try {
-    let execution: any | undefined = undefined;
-    let retryCount = 0;
-    do {
-      try{
-        execution = await asl.sdkSfnStartSyncExecution({ parameters: { stateMachineArn: resource.PhysicalResourceId, input: JSON.stringify(input, null, 2) } });
-        if (execution.output === undefined) return undefined;
-      } catch(err) {
-        if ((retryCount++) > 2) throw err;
-        const sdkError = err as {name:string};
-        
-        //retry if sm didnt exist
-        if (sdkError.name !== "StateMachineDoesNotExist") throw err;
-        await sleep(1000);
-      }
-    }while(execution === undefined);
+    const execution = await asl.sdkSfnStartExecution({ parameters: { stateMachineArn: resource.PhysicalResourceId, input: JSON.stringify(input, null, 2) } });
     let status = "RUNNING";
     let output : string | undefined;
     do{ 
