@@ -52,9 +52,24 @@ export const convertDeployExecute = async (filename: string, name: string, input
       const aslString = JSON.stringify(stateMachine.asl);
 
       const response = await asl.sdkSfnCreateStateMachine({ parameters: { name: stateMachineName, type: "EXPRESS", definition: aslString, roleArn: "arn:aws:iam::642712255693:role/ts2asl-test" } });
-      sfnArn = response.stateMachineArn!;
-      const result = await asl.sdkSfnStartSyncExecution({ parameters: { stateMachineArn: response.stateMachineArn, input: JSON.stringify(input, null, 2) } });
-      if (result.output === undefined) return undefined;
+      
+      let result: any | undefined = undefined;
+      let retryCount = 0;
+      do {
+        try{
+          result = await asl.sdkSfnStartSyncExecution({ parameters: { stateMachineArn: response.stateMachineArn, input: JSON.stringify(input, null, 2) } });
+          if (result.output === undefined) return undefined;
+        } catch(err) {
+          if ((retryCount++) > 2) throw err;
+          const sdkError = err as {name:string};
+          
+          //retry if sm didnt exist
+          if (sdkError.name !== "StateMachineDoesNotExist") throw err;
+          await sleep(1000);
+        }
+      }while(result === undefined);
+
+      await asl.sdkSfnDeleteStateMachine({ parameters: {stateMachineArn: response.stateMachineArn}});
       return JSON.parse(result.output as string);
     }
   }
@@ -68,3 +83,9 @@ export const convertDeployExecute = async (filename: string, name: string, input
 
 };
 
+
+const sleep = async (millis: number): Promise<void> => {
+  return new Promise<void>((resolve) => {
+    setTimeout(resolve, millis);
+  });
+};
