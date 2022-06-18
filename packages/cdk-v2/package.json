@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/cdk-typescript-statemachine",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
