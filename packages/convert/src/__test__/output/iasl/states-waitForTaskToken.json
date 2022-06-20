@@ -11,6 +11,7 @@
   },
   "statements": [
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
         "type": "object",
@@ -46,7 +47,6 @@
         },
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     }
   ],

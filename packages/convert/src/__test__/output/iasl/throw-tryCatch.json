@@ -50,13 +50,13 @@
                 "then": {
                   "statements": [
                     {
+                      "stateName": "Return \"Todo\"",
                       "expression": {
                         "value": "Todo",
                         "type": "string",
                         "_syntaxKind": "literal"
                       },
-                      "_syntaxKind": "return",
-                      "stateName": "Return \"Todo\""
+                      "_syntaxKind": "return"
                     }
                   ],
                   "_syntaxKind": "function"

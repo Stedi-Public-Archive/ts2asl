@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign obj",
       "name": {
         "identifier": "obj",
         "type": "object",
@@ -26,10 +27,10 @@
         "source": "obj = { inner: { name: \"jim\" } }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign obj",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return obj?.inner?.name",
       "expression": {
         "condition": {
           "rhs": {
@@ -70,8 +71,7 @@
         },
         "_syntaxKind": "conditional-expression"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return obj?.inner?.name"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

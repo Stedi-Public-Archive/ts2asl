@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign val",
       "name": {
         "identifier": "val",
         "type": "object",
@@ -21,7 +22,6 @@
         "source": "val = { greeting: \"hello\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign val",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -65,13 +65,13 @@
       "then": {
         "statements": [
           {
+            "stateName": "Return \"success\"",
             "expression": {
               "value": "success",
               "type": "string",
               "_syntaxKind": "literal"
             },
-            "_syntaxKind": "return",
-            "stateName": "Return \"success\""
+            "_syntaxKind": "return"
           }
         ],
         "_syntaxKind": "function"
@@ -80,13 +80,13 @@
       "_syntaxKind": "if"
     },
     {
+      "stateName": "Return \"failure\"",
       "expression": {
         "value": "failure",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"failure\""
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

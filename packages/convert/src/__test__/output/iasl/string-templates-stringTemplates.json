@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign variable",
       "name": {
         "identifier": "variable",
         "type": "string",
@@ -16,10 +17,10 @@
         "source": "variable = \"some var\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign variable",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return { hello: `hell ...",
       "expression": {
         "properties": {
           "hello": {
@@ -35,14 +36,14 @@
                 "_syntaxKind": "identifier"
               }
             ],
+            "type": "unknown",
             "function": "asl.states.format",
             "_syntaxKind": "asl-intrinsic-function"
           }
         },
         "_syntaxKind": "literal-object"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return { hello: `hell ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

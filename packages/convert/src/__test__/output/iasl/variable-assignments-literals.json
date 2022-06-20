@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign str",
       "name": {
         "identifier": "str",
         "type": "string",
@@ -16,10 +17,10 @@
         "source": "str = \"string\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign str",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign num",
       "name": {
         "identifier": "num",
         "type": "numeric",
@@ -35,10 +36,10 @@
         "source": "num = 42",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign num",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign bool",
       "name": {
         "identifier": "bool",
         "type": "boolean",
@@ -54,10 +55,10 @@
         "source": "bool = true || false",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign bool",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign object",
       "name": {
         "identifier": "object",
         "type": "object",
@@ -88,10 +89,10 @@
         "source": "object = { str, num, bool }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign object",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign object2",
       "name": {
         "identifier": "object2",
         "type": "object",
@@ -122,10 +123,10 @@
         "source": "object2 = { str: \"string\", num: 33, inner: object }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign object2",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign arrayOfNumbers",
       "name": {
         "identifier": "arrayOfNumbers",
         "type": "object",
@@ -166,10 +167,10 @@
         "source": "arrayOfNumbers = [1, 2, 3, 4, 5]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign arrayOfNumbers",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign arrayOfObjects",
       "name": {
         "identifier": "arrayOfObjects",
         "type": "object",
@@ -230,10 +231,10 @@
         "source": "arrayOfObjects = [{ left: 1, right: 2 }, { left: 3, right: 4 }, { left: 5, right: 6 }]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign arrayOfObjects",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return { arrayOfNumbers, ...",
       "expression": {
         "properties": {
           "arrayOfNumbers": {
@@ -254,8 +255,7 @@
         },
         "_syntaxKind": "literal-object"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return { arrayOfNumbers, ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

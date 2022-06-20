@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign myArray",
       "name": {
         "identifier": "myArray",
         "type": "object",
@@ -59,13 +60,14 @@
             "_syntaxKind": "literal"
           }
         ],
+        "type": "object",
         "function": "asl.states.array",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign myArray",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign mySerializedArray",
       "name": {
         "identifier": "mySerializedArray",
         "type": "string",
@@ -79,10 +81,10 @@
             "_syntaxKind": "identifier"
           }
         ],
+        "type": "string",
         "function": "asl.states.jsonToString",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign mySerializedArray",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -99,6 +101,7 @@
             "_syntaxKind": "identifier"
           }
         ],
+        "type": "unknown",
         "function": "asl.states.stringToJson",
         "_syntaxKind": "asl-intrinsic-function"
       },
@@ -106,13 +109,13 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return myArray",
       "expression": {
         "identifier": "myArray",
         "type": "object",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return myArray"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

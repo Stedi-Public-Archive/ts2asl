@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign value",
       "name": {
         "identifier": "value",
         "type": "numeric",
@@ -16,7 +17,6 @@
         "source": "value = 42",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign value",
       "_syntaxKind": "variable-assignment"
     },
     {

@@ -6,6 +6,7 @@
   },
   "statements": [
     {
+      "stateName": "Assign enclosedVar1",
       "name": {
         "identifier": "enclosedVar1",
         "type": "object",
@@ -26,10 +27,10 @@
         "source": "enclosedVar1 = { something: \"left\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign enclosedVar1",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign enclosedVar2",
       "name": {
         "identifier": "enclosedVar2",
         "type": "object",
@@ -50,15 +51,16 @@
         "source": "enclosedVar2 = { something: \"right\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign enclosedVar2",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return",
       "expression": {
         "branches": [
           {
             "statements": [
               {
+                "stateName": "Assign",
                 "name": {
                   "identifier": "return_var",
                   "type": "unknown",
@@ -87,17 +89,16 @@
                   "source": "worker(enclosedVar1)",
                   "_syntaxKind": "asl-task-state"
                 },
-                "stateName": "Assign",
                 "_syntaxKind": "variable-assignment"
               },
               {
+                "stateName": "Return",
                 "expression": {
                   "identifier": "return_var",
                   "type": "unknown",
                   "_syntaxKind": "identifier"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return"
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"
@@ -105,6 +106,7 @@
           {
             "statements": [
               {
+                "stateName": "Assign",
                 "name": {
                   "identifier": "return_var",
                   "type": "unknown",
@@ -133,17 +135,16 @@
                   "source": "worker(enclosedVar2)",
                   "_syntaxKind": "asl-task-state"
                 },
-                "stateName": "Assign",
                 "_syntaxKind": "variable-assignment"
               },
               {
+                "stateName": "Return",
                 "expression": {
                   "identifier": "return_var",
                   "type": "unknown",
                   "_syntaxKind": "identifier"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return"
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"
@@ -152,8 +153,7 @@
         "source": "Promise.all([\n    worker(enclosedVar1),\n    worker(enclosedVar2),\n  ])",
         "_syntaxKind": "asl-parallel-state"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign enclosedVar",
       "name": {
         "identifier": "enclosedVar",
         "type": "string",
@@ -16,7 +17,6 @@
         "source": "enclosedVar = \"before\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign enclosedVar",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -116,13 +116,13 @@
       "_syntaxKind": "if"
     },
     {
+      "stateName": "Return enclosedVar",
       "expression": {
         "identifier": "enclosedVar",
         "type": "string",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return enclosedVar"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign source",
       "name": {
         "identifier": "source",
         "type": "object",
@@ -36,10 +37,10 @@
         "source": "source = [{ obj: { num: 23, str: \"str\" } }]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign source",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign num",
       "name": {
         "identifier": "num",
         "type": "object",
@@ -51,10 +52,10 @@
         "_syntaxKind": "identifier",
         "mapExpression": "obj.num"
       },
-      "stateName": "Assign num",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign str",
       "name": {
         "identifier": "str",
         "type": "object",
@@ -66,10 +67,10 @@
         "_syntaxKind": "identifier",
         "mapExpression": "obj.str"
       },
-      "stateName": "Assign str",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return { num, str }",
       "expression": {
         "properties": {
           "num": {
@@ -85,8 +86,7 @@
         },
         "_syntaxKind": "literal-object"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return { num, str }"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

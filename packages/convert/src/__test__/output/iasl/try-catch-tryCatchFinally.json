@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
         "type": "string",
@@ -16,7 +17,6 @@
         "source": "result = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -89,13 +89,13 @@
       "_syntaxKind": "try"
     },
     {
+      "stateName": "Return result",
       "expression": {
         "identifier": "result",
         "type": "string",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return result"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

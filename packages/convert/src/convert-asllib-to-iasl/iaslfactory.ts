@@ -108,6 +108,9 @@ import { AslChoiceState, AslFailState, AslIntrinsicFunction, AslMapState, AslSuc
     }
   }
   export class ReturnStatementFactory {
+    static createReturnVoid(): ReturnStatement {
+      return this.create({ expression: LiteralFactory.createFromRuntime(undefined) });
+    }
     static create(args: Omit<ReturnStatement, "_syntaxKind">): ReturnStatement {
       return {...args, _syntaxKind: SyntaxKind.Return};     
     }

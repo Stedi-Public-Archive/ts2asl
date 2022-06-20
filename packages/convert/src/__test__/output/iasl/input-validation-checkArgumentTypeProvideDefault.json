@@ -59,13 +59,13 @@
       "_syntaxKind": "asl-wait-state"
     },
     {
+      "stateName": "Return input.delayInSeconds",
       "expression": {
         "identifier": "input.delayInSeconds",
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return input.delayInSeconds"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

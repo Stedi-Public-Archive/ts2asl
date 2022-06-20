@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign bool",
       "name": {
         "identifier": "bool",
         "type": "boolean",
@@ -14,10 +15,10 @@
             "_syntaxKind": "literal"
           }
         ],
+        "type": "unknown",
         "function": "asl.states.stringToJson",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign bool",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -39,6 +40,7 @@
       "then": {
         "statements": [
           {
+            "stateName": "Assign str",
             "name": {
               "identifier": "str",
               "type": "string",
@@ -57,10 +59,10 @@
                   "_syntaxKind": "identifier"
                 }
               ],
+              "type": "unknown",
               "function": "asl.states.format",
               "_syntaxKind": "asl-intrinsic-function"
             },
-            "stateName": "Assign str",
             "_syntaxKind": "variable-assignment"
           },
           {
@@ -82,13 +84,13 @@
             "then": {
               "statements": [
                 {
+                  "stateName": "Return \"succeeded\"",
                   "expression": {
                     "value": "succeeded",
                     "type": "string",
                     "_syntaxKind": "literal"
                   },
-                  "_syntaxKind": "return",
-                  "stateName": "Return \"succeeded\""
+                  "_syntaxKind": "return"
                 }
               ],
               "_syntaxKind": "function"

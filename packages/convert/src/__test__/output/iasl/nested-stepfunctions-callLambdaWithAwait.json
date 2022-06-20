@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign name",
       "name": {
         "identifier": "name",
         "type": "string",
@@ -39,17 +40,16 @@
         "source": "childLambda({firstName: \"Santa\", lastName: \"Claus\" })",
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign name",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return name",
       "expression": {
         "identifier": "name",
         "type": "string",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return name"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

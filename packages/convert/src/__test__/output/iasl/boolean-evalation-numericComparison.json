@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign condition",
       "name": {
         "identifier": "condition",
         "type": "numeric",
@@ -16,10 +17,10 @@
         "source": "condition = 42",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign condition",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign items",
       "name": {
         "identifier": "items",
         "type": "object",
@@ -50,10 +51,10 @@
         "source": "items = [2, 42, 3]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign items",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign listWithReturned",
       "name": {
         "identifier": "listWithReturned",
         "type": "object",
@@ -92,6 +93,7 @@
               "then": {
                 "statements": [
                   {
+                    "stateName": "Return { returned: item }",
                     "expression": {
                       "properties": {
                         "returned": {
@@ -102,8 +104,7 @@
                       },
                       "_syntaxKind": "literal-object"
                     },
-                    "_syntaxKind": "return",
-                    "stateName": "Return { returned: item }"
+                    "_syntaxKind": "return"
                   }
                 ],
                 "_syntaxKind": "function"
@@ -112,12 +113,12 @@
               "_syntaxKind": "if"
             },
             {
+              "stateName": "Return {}",
               "expression": {
                 "properties": {},
                 "_syntaxKind": "literal-object"
               },
-              "_syntaxKind": "return",
-              "stateName": "Return {}"
+              "_syntaxKind": "return"
             }
           ],
           "_syntaxKind": "function"
@@ -125,10 +126,10 @@
         "source": "items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n    return {};\n  })",
         "_syntaxKind": "asl-map-state"
       },
-      "stateName": "Assign listWithReturned",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign item",
       "name": {
         "identifier": "item",
         "type": "object",
@@ -151,17 +152,16 @@
           }
         }
       },
-      "stateName": "Assign item",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return item",
       "expression": {
         "identifier": "item",
         "type": "object",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return item"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

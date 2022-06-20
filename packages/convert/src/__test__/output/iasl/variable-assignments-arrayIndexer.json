@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign arr",
       "name": {
         "identifier": "arr",
         "type": "object",
@@ -41,10 +42,10 @@
         "source": "arr = [1, 2, 3, 4, 5]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign arr",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign two",
       "name": {
         "identifier": "two",
         "type": "numeric",
@@ -64,13 +65,12 @@
             "type": "object",
             "_syntaxKind": "identifier"
           },
-          "type": "unknown",
+          "type": "numeric",
           "_syntaxKind": "identifier"
         },
         "source": "two = arr[1]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign two",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -86,7 +86,7 @@
           "type": "object",
           "_syntaxKind": "identifier"
         },
-        "type": "unknown",
+        "type": "numeric",
         "_syntaxKind": "identifier"
       },
       "expression": {
@@ -101,7 +101,7 @@
           "type": "object",
           "_syntaxKind": "identifier"
         },
-        "type": "unknown",
+        "type": "numeric",
         "_syntaxKind": "identifier"
       },
       "stateName": "Assign arr[1]",
@@ -120,7 +120,7 @@
           "type": "object",
           "_syntaxKind": "identifier"
         },
-        "type": "unknown",
+        "type": "numeric",
         "_syntaxKind": "identifier"
       },
       "expression": {
@@ -132,13 +132,13 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return arr",
       "expression": {
         "identifier": "arr",
         "type": "object",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return arr"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

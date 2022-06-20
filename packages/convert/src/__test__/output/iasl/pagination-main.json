@@ -6,6 +6,7 @@
   },
   "statements": [
     {
+      "stateName": "Assign marker",
       "name": {
         "identifier": "marker",
         "type": "string",
@@ -16,7 +17,6 @@
         "source": "marker: string | undefined",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign marker",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -33,6 +33,7 @@
       "while": {
         "statements": [
           {
+            "stateName": "Assign response",
             "name": {
               "identifier": "response",
               "type": "object",
@@ -58,7 +59,6 @@
               },
               "_syntaxKind": "asl-task-state"
             },
-            "stateName": "Assign response",
             "_syntaxKind": "variable-assignment"
           },
           {

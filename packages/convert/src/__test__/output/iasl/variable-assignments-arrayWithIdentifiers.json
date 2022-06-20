@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign str",
       "name": {
         "identifier": "str",
         "type": "string",
@@ -16,10 +17,10 @@
         "source": "str = \"string\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign str",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign num",
       "name": {
         "identifier": "num",
         "type": "numeric",
@@ -35,10 +36,10 @@
         "source": "num = 42",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign num",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign bool",
       "name": {
         "identifier": "bool",
         "type": "boolean",
@@ -54,10 +55,10 @@
         "source": "bool = true || false",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign bool",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign object",
       "name": {
         "identifier": "object",
         "type": "object",
@@ -88,10 +89,10 @@
         "source": "object = { str, num, bool }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign object",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign array",
       "name": {
         "identifier": "array",
         "type": "object",
@@ -120,20 +121,20 @@
             "_syntaxKind": "identifier"
           }
         ],
+        "type": "unknown",
         "function": "asl.states.array",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign array",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return array",
       "expression": {
         "identifier": "array",
         "type": "object",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return array"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

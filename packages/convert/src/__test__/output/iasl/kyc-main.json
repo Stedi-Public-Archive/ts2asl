@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
         "type": "object",
@@ -11,6 +12,7 @@
           {
             "statements": [
               {
+                "stateName": "Assign",
                 "name": {
                   "identifier": "return_var",
                   "type": "unknown",
@@ -34,17 +36,16 @@
                   "source": "performIdentifyCheck()",
                   "_syntaxKind": "asl-task-state"
                 },
-                "stateName": "Assign",
                 "_syntaxKind": "variable-assignment"
               },
               {
+                "stateName": "Return",
                 "expression": {
                   "identifier": "return_var",
                   "type": "unknown",
                   "_syntaxKind": "identifier"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return"
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"
@@ -52,6 +53,7 @@
           {
             "statements": [
               {
+                "stateName": "Return { agencyChecked: t ...",
                 "expression": {
                   "properties": {
                     "agencyChecked": {
@@ -62,8 +64,7 @@
                   },
                   "_syntaxKind": "literal-object"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return { agencyChecked: t ..."
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"
@@ -72,7 +73,6 @@
         "source": "Promise.all([\n    performIdentifyCheck(),\n    Promise.resolve({ agencyChecked: true }),\n  ])",
         "_syntaxKind": "asl-parallel-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -92,6 +92,7 @@
                         "_syntaxKind": "identifier"
                       }
                     ],
+                    "type": "string",
                     "function": "asl.states.jsonToString",
                     "_syntaxKind": "asl-intrinsic-function"
                   },
@@ -122,6 +123,7 @@
       "_syntaxKind": "asl-task-state"
     },
     {
+      "stateName": "Assign checksPassed",
       "name": {
         "identifier": "checksPassed",
         "type": "boolean",
@@ -137,7 +139,6 @@
         "source": "checksPassed = true",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign checksPassed",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -170,6 +171,7 @@
                               "_syntaxKind": "identifier"
                             }
                           ],
+                          "type": "string",
                           "function": "asl.states.jsonToString",
                           "_syntaxKind": "asl-intrinsic-function"
                         },
@@ -221,6 +223,7 @@
                               "_syntaxKind": "identifier"
                             }
                           ],
+                          "type": "string",
                           "function": "asl.states.jsonToString",
                           "_syntaxKind": "asl-intrinsic-function"
                         },

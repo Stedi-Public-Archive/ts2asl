@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign numbers",
       "name": {
         "identifier": "numbers",
         "type": "object",
@@ -36,10 +37,10 @@
         "source": "numbers = [0, 1, 2, 3]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign numbers",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign letters",
       "name": {
         "identifier": "letters",
         "type": "object",
@@ -75,10 +76,10 @@
         "source": "letters = [\"a\", \"b\", \"c\", \"d\"]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign letters",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign global",
       "name": {
         "identifier": "global",
         "type": "string",
@@ -94,10 +95,10 @@
         "source": "global = \"prefix\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign global",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign outer",
       "name": {
         "identifier": "outer",
         "type": "object",
@@ -123,7 +124,6 @@
         "source": "outer = { middle: { inner: 3 } }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign outer",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -155,6 +155,7 @@
               },
               "statements": [
                 {
+                  "stateName": "Assign combined",
                   "name": {
                     "identifier": "combined",
                     "type": "object",
@@ -190,7 +191,6 @@
                     "source": "combined = { number, letter, global, inner: outer.middle.inner }",
                     "_syntaxKind": "asl-pass-state"
                   },
-                  "stateName": "Assign combined",
                   "_syntaxKind": "variable-assignment"
                 },
                 {

@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign str",
       "name": {
         "identifier": "str",
         "type": "string",
@@ -19,13 +20,14 @@
             "_syntaxKind": "literal"
           }
         ],
+        "type": "string",
         "function": "asl.states.format",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign str",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign num",
       "name": {
         "identifier": "num",
         "type": "string",
@@ -44,13 +46,14 @@
             "_syntaxKind": "literal"
           }
         ],
+        "type": "string",
         "function": "asl.states.format",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign num",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign combined",
       "name": {
         "identifier": "combined",
         "type": "string",
@@ -74,13 +77,14 @@
             "_syntaxKind": "identifier"
           }
         ],
+        "type": "string",
         "function": "asl.states.format",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign combined",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign arr",
       "name": {
         "identifier": "arr",
         "type": "object",
@@ -104,20 +108,20 @@
             "_syntaxKind": "identifier"
           }
         ],
+        "type": "object",
         "function": "asl.states.array",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign arr",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return arr",
       "expression": {
         "identifier": "arr",
         "type": "object",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return arr"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Return",
       "expression": {
         "properties": {
           "a": {
@@ -26,8 +27,7 @@
         },
         "_syntaxKind": "literal-object"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign obj",
       "name": {
         "identifier": "obj",
         "type": "object",
@@ -21,10 +22,10 @@
         "source": "obj = { name: undefined as string | undefined }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign obj",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
         "type": "object",
@@ -39,7 +40,6 @@
         "source": "result: { a?: string, b?: string; } = {}",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -119,13 +119,13 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return result",
       "expression": {
         "identifier": "result",
         "type": "object",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return result"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

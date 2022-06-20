@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign data",
       "name": {
         "identifier": "data",
         "type": "object",
@@ -41,7 +42,6 @@
         "source": "data = {\n    num: 42,\n    text: \"text\",\n    undefined: undefined,\n    null: null,\n    timestamp: \"2016-03-14T01:59:00Z\"\n  }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign data",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -281,13 +281,13 @@
       "_syntaxKind": "if"
     },
     {
+      "stateName": "Return \"success\"",
       "expression": {
         "value": "success",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"success\""
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

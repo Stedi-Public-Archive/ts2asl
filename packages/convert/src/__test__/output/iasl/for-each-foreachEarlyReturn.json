@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign arr",
       "name": {
         "identifier": "arr",
         "type": "object",
@@ -31,7 +32,6 @@
         "source": "arr = [1, 2, 3]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign arr",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -87,19 +87,20 @@
                         "_syntaxKind": "identifier"
                       }
                     ],
+                    "type": "unknown",
                     "function": "asl.states.format",
                     "_syntaxKind": "asl-intrinsic-function"
                   },
                   "_syntaxKind": "variable-assignment"
                 },
                 {
+                  "stateName": "Return result",
                   "expression": {
                     "identifier": "result",
                     "compilerGenerated": true,
                     "type": "unknown",
                     "_syntaxKind": "identifier"
                   },
-                  "stateName": "Return result",
                   "_syntaxKind": "return"
                 }
               ],

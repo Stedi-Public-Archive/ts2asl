@@ -38,6 +38,8 @@ export class AslFactory {
     } else if (iasl.Check.isAslInvokeStateMachine(expression)) {
       AslInvokeStateMachineFactory.appendIaslInvoke(expression, scopes, context, resultPath, expression.stateName);
     } else if (iasl.Check.isDoWhile(expression)) {
+      //todo: optimize to no-op
+      if (expression.while === undefined) throw new Error("Do while must have at least one statement");
       if (expression.while.statements.length == 0) throw new Error("Do while must have at least one statement");
       const childContext = appendBlock(expression.while, scopes, context.createChildContext());
 
@@ -70,6 +72,7 @@ export class AslFactory {
       }
 
     } else if (iasl.Check.isIf(expression)) {
+      if (expression.then === undefined) throw new Error("If must have then block"); //todo: optimize to no-op
       const choiceState = {
         Type: "Choice",
         Choices: [],
@@ -97,6 +100,7 @@ export class AslFactory {
 
       context.appendNextState(choiceState, expression.stateName ?? "Choice");
       for (const choice of (expression.choices || [])) {
+        if (choice.block === undefined) throw new Error("choice must have block");
         const choiceOperator = createChoiceOperator(choice.condition, scopes, context);
         const branch = context.appendChoiceOperator(choiceOperator);
         appendBlock(choice.block, scopes, branch);
@@ -159,6 +163,7 @@ export class AslFactory {
         }
       }
     } else if (iasl.Check.isWhile(expression)) {
+      if (expression.while === undefined) throw new Error("While must have at least one statement");
       if (expression.while.statements.length == 0) throw new Error("While must have at least one statement");
       const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "While Condition");
       const whileConditionOperator = createChoiceOperator(expression.condition, scopes, context);
@@ -192,6 +197,8 @@ export class AslFactory {
     } else if (iasl.Check.isAslParallelState(expression)) {
       AslParallelFactory.appendIaslParallel(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
+      if (expression.iterator === undefined) throw new Error("Map must have iterator");
+      if (!iasl.Check.isFunction(expression.iterator)) throw new Error("Map must have function");
       const iterator = convertBlock(expression.iterator, scopes, context.createChildContext());
       const items = AslRhsFactory.appendIasl(expression.items, scopes, context);
 
@@ -210,6 +217,9 @@ export class AslFactory {
       context.appendTails(trailingStates);trailingStates
 
     } else if (iasl.Check.isForEach(expression)) {
+      if (expression.iterator === undefined) throw new Error("ForEach must have iterator");
+      if (!iasl.Check.isFunction(expression.iterator)) throw new Error("ForEach must have function");
+      
       if (expression.iterator.statements.length == 0) return;
       const namespace = foreachCounter.value > 0 ? "foreach_" + (foreachCounter.value + 1) : "foreach";
       const namePostFix = foreachCounter.value > 0 ? " " + (foreachCounter.value + 1) : "";

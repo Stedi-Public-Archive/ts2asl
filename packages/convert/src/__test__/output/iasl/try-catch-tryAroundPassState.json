@@ -5,13 +5,13 @@
       "try": {
         "statements": [
           {
+            "stateName": "Return \"this cannot fail\"",
             "expression": {
               "value": "this cannot fail",
               "type": "string",
               "_syntaxKind": "literal"
             },
-            "_syntaxKind": "return",
-            "stateName": "Return \"this cannot fail\""
+            "_syntaxKind": "return"
           }
         ],
         "_syntaxKind": "function"
@@ -24,13 +24,13 @@
           "block": {
             "statements": [
               {
+                "stateName": "Return \"this never happens\"",
                 "expression": {
                   "value": "this never happens",
                   "type": "string",
                   "_syntaxKind": "literal"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return \"this never happens\""
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"

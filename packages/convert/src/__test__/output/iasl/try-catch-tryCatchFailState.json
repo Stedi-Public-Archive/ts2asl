@@ -20,13 +20,13 @@
             "_syntaxKind": "variable-assignment"
           },
           {
+            "stateName": "Return result",
             "expression": {
               "identifier": "result",
               "compilerGenerated": true,
               "type": "unknown",
               "_syntaxKind": "identifier"
             },
-            "stateName": "Return result",
             "_syntaxKind": "return"
           }
         ],
@@ -45,6 +45,7 @@
             },
             "statements": [
               {
+                "stateName": "Assign aslError",
                 "name": {
                   "identifier": "aslError",
                   "type": "object",
@@ -60,7 +61,6 @@
                   "source": "aslError = e as asl.AslError",
                   "_syntaxKind": "asl-pass-state"
                 },
-                "stateName": "Assign aslError",
                 "_syntaxKind": "variable-assignment"
               },
               {
@@ -125,19 +125,20 @@
                             "_syntaxKind": "identifier"
                           }
                         ],
+                        "type": "unknown",
                         "function": "asl.states.format",
                         "_syntaxKind": "asl-intrinsic-function"
                       },
                       "_syntaxKind": "variable-assignment"
                     },
                     {
+                      "stateName": "Return result",
                       "expression": {
                         "identifier": "result",
                         "compilerGenerated": true,
                         "type": "unknown",
                         "_syntaxKind": "identifier"
                       },
-                      "stateName": "Return result",
                       "_syntaxKind": "return"
                     }
                   ],
@@ -154,13 +155,13 @@
       "_syntaxKind": "try"
     },
     {
+      "stateName": "Return \"this should not h ...",
       "expression": {
         "value": "this should not happen",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"this should not h ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

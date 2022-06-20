@@ -6,6 +6,7 @@
   },
   "statements": [
     {
+      "stateName": "Assign val",
       "name": {
         "identifier": "val",
         "type": "object",
@@ -56,7 +57,6 @@
         "source": "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign val",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -148,13 +148,13 @@
       "_syntaxKind": "asl-choice-state"
     },
     {
+      "stateName": "Return val",
       "expression": {
         "identifier": "val",
         "type": "object",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return val"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

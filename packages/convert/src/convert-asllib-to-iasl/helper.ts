@@ -4,13 +4,17 @@ import { aslStyleCallExpression } from "../convert/list-function-declarations";
 import * as iasl from "./ast";
 import { IdentifierFactory } from "./iaslfactory";
 
-export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, context: ConverterContext): iasl.Identifier | undefined => {
+export const inferIaslType = (expression: ts.Expression, context: ConverterContext): iasl.Type => {
   const { typeChecker } = context;
-  if (ts.isIdentifier(expression)) {
+  const type = typeChecker.getTypeAtLocation(expression);
+  const symbol = typeChecker.getSymbolAtLocation(expression);
+  return convertType(type, symbol);
+}
 
-    const type = typeChecker.getTypeAtLocation(expression);
-    const symbol = typeChecker.getSymbolAtLocation(expression);
-    const iaslType = convertType(type, symbol);
+export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, context: ConverterContext): iasl.Identifier | undefined => {
+  
+  if (ts.isIdentifier(expression)) {
+    const iaslType = inferIaslType(expression, context);
     const identifier = IdentifierFactory.create({ identifier: expression.text, type: iaslType });
     return identifier;
   }
@@ -40,16 +44,16 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
   }
   let pathAsString = path.reverse().join(".");
   if (ts.isPropertyAccessExpression(expression)) {
-    const type = typeChecker.getTypeAtLocation(expression);
-    const iaslType = convertType(type);
+    const iaslType = inferIaslType(expression, context);
     return IdentifierFactory.create({ identifier: `${pathAsString}.${expression.name.text}`, type: iaslType});
   } else if (ts.isElementAccessExpression(expression)) {
     const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, {}, context);
+    const iaslType = inferIaslType(expression, context);
     return IdentifierFactory.create({
       identifier: pathAsString,
       indexExpression: convertedIndexExpression,
       lhs: convertToIdentifier(expression.expression, context),
-      type: "unknown" //TODO: fix me
+      type: iaslType
     });
   }
   return undefined;

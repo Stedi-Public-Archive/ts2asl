@@ -6,6 +6,7 @@
   },
   "statements": [
     {
+      "stateName": "Assign obj",
       "name": {
         "identifier": "obj",
         "type": "object",
@@ -26,7 +27,6 @@
         "source": "obj = { name: \"jim\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign obj",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -67,19 +67,20 @@
             "_syntaxKind": "conditional-expression"
           }
         ],
+        "type": "unknown",
         "function": "asl.states.format",
         "_syntaxKind": "asl-intrinsic-function"
       },
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return result",
       "expression": {
         "identifier": "result",
         "compilerGenerated": true,
         "type": "unknown",
         "_syntaxKind": "identifier"
       },
-      "stateName": "Return result",
       "_syntaxKind": "return"
     }
   ],

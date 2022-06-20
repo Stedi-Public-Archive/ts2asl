@@ -163,22 +163,22 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
   } else if (Check.isAslChoiceState(node)) {
     for (const choice of (node.choices || [])) {
       visitNodes(choice.condition, visitor);
-      visitNodes(choice.block, visitor);
+      if (choice.block) visitNodes(choice.block, visitor);
     }
     if (node.default) visitNodes(node.default, visitor);
   } else if (Check.isAslMapState(node)) {
     visitNodes(node.items, visitor);
-    visitNodes(node.iterator, visitor);
+    if (node.iterator) visitNodes(node.iterator, visitor);
   } else if (Check.isForEach(node)) {
     visitNodes(node.items, visitor);
-    visitNodes(node.iterator, visitor);
+    if (node.iterator) visitNodes(node.iterator, visitor);
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
       visitNodes(child, visitor);
     }
   } else if (Check.isIf(node)) {
     visitNodes(node.condition, visitor);
-    visitNodes(node.then, visitor);
+    if (node.then) visitNodes(node.then, visitor);
     if (node.else) visitNodes(node.else, visitor);
   } else if (Check.isSwitch(node)) {
     for (const child of (node.cases || [])) {
@@ -189,7 +189,7 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
     }
   } else if (Check.isDoWhile(node)) {
     visitNodes(node.condition, visitor);
-    visitNodes(node.while, visitor);
+    if (node.while) visitNodes(node.while, visitor);
   } else if (Check.isTry(node)) {
     visitNodes(node.try, visitor);
     for (const child of (node.catch || [])) {
@@ -198,7 +198,7 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
     if (node.finally) visitNodes(node.finally, visitor);
   } else if (Check.isWhile(node)) {
     visitNodes(node.condition, visitor);
-    visitNodes(node.while, visitor);
+    if (node.while) visitNodes(node.while, visitor);
   } else if (Check.isAslPassState(node)) {
     visitNodes(node.parameters, visitor);
   } else if (Check.isLiteralObject(node)) {
@@ -274,22 +274,22 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
   } else if (Check.isAslChoiceState(node)) {
     for (const choice of (node.choices || [])) {
       assignScopes(choice.condition, scope, visitor);
-      assignScopes(choice.block, scope, visitor);
+      if (choice.block) assignScopes(choice.block, scope, visitor);
     }
     if (node.default) assignScopes(node.default, scope, visitor);
   } else if (Check.isAslMapState(node)) {
     assignScopes(node.items, scope, visitor);
-    assignScopes(node.iterator, scope, visitor);
+    if (node.iterator) assignScopes(node.iterator, scope, visitor);
   } else if (Check.isForEach(node)) {
     assignScopes(node.items, scope, visitor);
-    assignScopes(node.iterator, scope, visitor);
+    if (node.iterator) assignScopes(node.iterator, scope, visitor);
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
       assignScopes(child, scope, visitor);
     }
   } else if (Check.isIf(node)) {
     assignScopes(node.condition, scope, visitor);
-    assignScopes(node.then, scope, visitor);
+    if (node.then) assignScopes(node.then, scope, visitor);
     if (node.else) assignScopes(node.else, scope, visitor);
   } else if (Check.isSwitch(node)) {
     for (const child of (node.cases || [])) {
@@ -300,7 +300,7 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
     }
   } else if (Check.isDoWhile(node)) {
     assignScopes(node.condition, scope, visitor);
-    assignScopes(node.while, scope, visitor);
+    if (node.while) assignScopes(node.while, scope, visitor);
   } else if (Check.isTry(node)) {
     assignScopes(node.try, scope, visitor);
     for (const child of (node.catch || [])) {
@@ -309,7 +309,7 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
     if (node.finally) assignScopes(node.finally, scope, visitor);
   } else if (Check.isWhile(node)) {
     assignScopes(node.condition, scope, visitor);
-    assignScopes(node.while, scope, visitor);
+    if (node.while) assignScopes(node.while, scope, visitor);
   } else if (Check.isAslPassState(node)) {
     assignScopes(node.parameters, scope, visitor);
   } else if (Check.isLiteralObject(node)) {
@@ -425,7 +425,7 @@ export interface AslIntrinsicFunction extends Expression {
   _syntaxKind: SyntaxKind.AslIntrinsicFunction;
   function: string;
   type: Type;
-  arguments: Array<Identifier | LiteralExpressionLike>;
+  arguments: Array<Identifier | LiteralExpressionLike | Expression>;
 }
 
 export interface LiteralObjectExpression extends Expression {
@@ -441,7 +441,7 @@ export interface LiteralArrayExpression extends Expression {
 export interface IfStatement extends Statement {
   _syntaxKind: SyntaxKind.If;
   condition: BinaryExpression;
-  then: Block;
+  then?: Block;
   else?: Block;
 }
 export interface TypeOfExpression extends Expression {
@@ -464,7 +464,7 @@ export interface ContinueStatement extends Statement {
 }
 export interface ForEachStatement extends Statement {
   _syntaxKind: SyntaxKind.ForEach;
-  iterator: Function;
+  iterator?: Function;
   items: Identifier;
 }
 export interface SwitchStatement extends Statement {
@@ -473,14 +473,14 @@ export interface SwitchStatement extends Statement {
 }
 export interface DoWhileStatement extends Statement {
   _syntaxKind: SyntaxKind.DoWhile;
-  while: Block;
+  while?: Block;
   condition: BinaryExpression;
 }
 
 export interface WhileStatement extends Statement {
   _syntaxKind: SyntaxKind.While;
   condition: BinaryExpression;
-  while: Block;
+  while?: Block;
 }
 
 export interface VariableAssignmentStatement extends Statement {
@@ -515,8 +515,8 @@ export type CatchConfiguration = Array<{ errorEquals: string[], block: Function;
 
 export interface AslWaitState extends AslState {
   _syntaxKind: SyntaxKind.AslWaitState;
-  seconds: LiteralExpressionLike | Identifier;
-  timestamp: LiteralExpressionLike | Identifier;
+  seconds: Expression | LiteralExpressionLike | Identifier;
+  timestamp: Expression | LiteralExpressionLike | Identifier;
 }
 
 export interface AslParallelState extends AslState {
@@ -532,7 +532,7 @@ export interface AslPassState extends AslState {
   //if identifier, assign to ResultPath
   //if (all) literal, assign to Result
   //otherwise assign to Parameters
-  parameters: LiteralExpressionLike | Identifier;
+  parameters: LiteralExpressionLike | Identifier | Expression;
 }
 
 export interface InvokeStateMachineState extends AslState {
@@ -541,13 +541,13 @@ export interface InvokeStateMachineState extends AslState {
   stateMachineName: string;
   integrationPattern: undefined | "sync" | "waitForTaskToken";
   stateMachineArn: string;
-  parameters: LiteralExpressionLike | Identifier;
+  parameters: LiteralExpressionLike | Identifier | Expression;
 }
 
 export interface TaskState extends AslState {
   _syntaxKind: SyntaxKind.AslTaskState;
   resource: string;
-  parameters: LiteralExpressionLike | Identifier;
+  parameters: LiteralExpressionLike | Identifier | Expression;
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
   timeoutSeconds?: number;
@@ -556,14 +556,14 @@ export interface TaskState extends AslState {
 
 export interface AslChoiceState extends AslState {
   _syntaxKind: SyntaxKind.AslChoiceState;
-  choices?: Array<{ condition: BinaryExpression, block: Block; }>;
+  choices?: Array<{ condition: BinaryExpression, block?: Block; }>;
   default?: Block;
 }
 
 
 export interface AslMapState extends AslState {
   _syntaxKind: SyntaxKind.AslMapState;
-  iterator: Function;
+  iterator?: Block;
   items: Identifier;
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;

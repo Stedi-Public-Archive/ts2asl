@@ -5,6 +5,7 @@
       "try": {
         "statements": [
           {
+            "stateName": "Assign arr",
             "name": {
               "identifier": "arr",
               "type": "object",
@@ -25,10 +26,10 @@
               "source": "arr = [1]",
               "_syntaxKind": "asl-pass-state"
             },
-            "stateName": "Assign arr",
             "_syntaxKind": "variable-assignment"
           },
           {
+            "stateName": "Assign withinTry",
             "name": {
               "identifier": "withinTry",
               "type": "object",
@@ -49,13 +50,13 @@
                 },
                 "statements": [
                   {
+                    "stateName": "Return \"succeeded\"",
                     "expression": {
                       "value": "succeeded",
                       "type": "string",
                       "_syntaxKind": "literal"
                     },
-                    "_syntaxKind": "return",
-                    "stateName": "Return \"succeeded\""
+                    "_syntaxKind": "return"
                   }
                 ],
                 "_syntaxKind": "function"
@@ -63,10 +64,10 @@
               "source": "arr.map(x => \"succeeded\")",
               "_syntaxKind": "asl-map-state"
             },
-            "stateName": "Assign withinTry",
             "_syntaxKind": "variable-assignment"
           },
           {
+            "stateName": "Return withinTry[0]",
             "expression": {
               "identifier": "",
               "indexExpression": {
@@ -79,11 +80,10 @@
                 "type": "object",
                 "_syntaxKind": "identifier"
               },
-              "type": "unknown",
+              "type": "string",
               "_syntaxKind": "identifier"
             },
-            "_syntaxKind": "return",
-            "stateName": "Return withinTry[0]"
+            "_syntaxKind": "return"
           }
         ],
         "_syntaxKind": "function"
@@ -96,13 +96,13 @@
           "block": {
             "statements": [
               {
+                "stateName": "Return \"it failed\"",
                 "expression": {
                   "value": "it failed",
                   "type": "string",
                   "_syntaxKind": "literal"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return \"it failed\""
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"

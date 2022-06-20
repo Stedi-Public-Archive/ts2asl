@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign createAccount",
       "name": {
         "identifier": "createAccount",
         "type": "object",
@@ -26,10 +27,10 @@
         },
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign createAccount",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign creationStatus",
       "name": {
         "identifier": "creationStatus",
         "type": "string",
@@ -45,7 +46,6 @@
         "source": "creationStatus: string | undefined = undefined",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign creationStatus",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -71,6 +71,7 @@
       "while": {
         "statements": [
           {
+            "stateName": "Assign describeResult",
             "name": {
               "identifier": "describeResult",
               "type": "object",
@@ -91,7 +92,6 @@
               },
               "_syntaxKind": "asl-task-state"
             },
-            "stateName": "Assign describeResult",
             "_syntaxKind": "variable-assignment"
           },
           {
@@ -222,6 +222,7 @@
       "_syntaxKind": "asl-pass-state"
     },
     {
+      "stateName": "Return createAccount.Crea ...",
       "expression": {
         "condition": {
           "rhs": {
@@ -244,8 +245,7 @@
         },
         "_syntaxKind": "conditional-expression"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return createAccount.Crea ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

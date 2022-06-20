@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign entries",
       "name": {
         "identifier": "entries",
         "type": "object",
@@ -24,7 +25,6 @@
         "source": "getEntries()",
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign entries",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -72,6 +72,7 @@
                               "_syntaxKind": "identifier"
                             }
                           ],
+                          "type": "unknown",
                           "function": "asl.states.format",
                           "_syntaxKind": "asl-intrinsic-function"
                         }

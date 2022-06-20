@@ -141,6 +141,7 @@ describe("when converting pass statements to iasl", () => {
                       },
                     ],
                     "function": "asl.states.format",
+                    "type": "string",
                   },
                 },
               },

@@ -3,7 +3,7 @@ import { testConvertToIntermediaryAst } from "./test-convert";
 describe("when converting if statement to iasl", () => {
   it("then sdk integrations get converted to map states", () => {
     const code = `
-    import * as asl from 'asl-lib';
+    import * as asl from '@ts2asl/asl-lib';
     asl.map({
       maxConcurrency: 5,
       items: result,
@@ -57,6 +57,7 @@ describe("when converting if statement to iasl", () => {
                           },
                         ],
                         "function": "asl.states.format",
+                        "type": "string",
                       },
                       "StateMachineArn": Object {
                         "_syntaxKind": "literal",

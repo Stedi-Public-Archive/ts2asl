@@ -6,11 +6,13 @@
   },
   "statements": [
     {
+      "stateName": "Return",
       "expression": {
         "branches": [
           {
             "statements": [
               {
+                "stateName": "Assign",
                 "name": {
                   "identifier": "return_var",
                   "type": "unknown",
@@ -34,17 +36,16 @@
                   "source": "worker()",
                   "_syntaxKind": "asl-task-state"
                 },
-                "stateName": "Assign",
                 "_syntaxKind": "variable-assignment"
               },
               {
+                "stateName": "Return",
                 "expression": {
                   "identifier": "return_var",
                   "type": "unknown",
                   "_syntaxKind": "identifier"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return"
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"
@@ -52,6 +53,7 @@
           {
             "statements": [
               {
+                "stateName": "Assign",
                 "name": {
                   "identifier": "return_var",
                   "type": "unknown",
@@ -75,17 +77,16 @@
                   "source": "worker()",
                   "_syntaxKind": "asl-task-state"
                 },
-                "stateName": "Assign",
                 "_syntaxKind": "variable-assignment"
               },
               {
+                "stateName": "Return",
                 "expression": {
                   "identifier": "return_var",
                   "type": "unknown",
                   "_syntaxKind": "identifier"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return"
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"
@@ -94,8 +95,7 @@
         "source": "Promise.all([worker(), worker()])",
         "_syntaxKind": "asl-parallel-state"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

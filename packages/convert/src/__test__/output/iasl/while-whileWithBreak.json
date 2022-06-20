@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign counter",
       "name": {
         "identifier": "counter",
         "type": "string",
@@ -16,7 +17,6 @@
         "source": "counter = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign counter",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -60,6 +60,7 @@
                   "_syntaxKind": "identifier"
                 }
               ],
+              "type": "unknown",
               "function": "asl.states.format",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -100,13 +101,13 @@
       "_syntaxKind": "while"
     },
     {
+      "stateName": "Return counter",
       "expression": {
         "identifier": "counter",
         "type": "unknown",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return counter"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

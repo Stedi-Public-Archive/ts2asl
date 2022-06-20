@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Assign _undefined",
       "name": {
         "identifier": "_undefined",
         "type": "unknown",
@@ -16,17 +17,16 @@
         "source": "_undefined = undefined",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign _undefined",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return \"ok\"",
       "expression": {
         "value": "ok",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"ok\""
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"
