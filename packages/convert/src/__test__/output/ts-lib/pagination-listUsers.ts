@@ -1,7 +1,7 @@
 
 import * as asl from "@ts2asl/asl-lib"
 
-export const main = asl.deploy.asStateMachine(async (input: any) =>{
+export const listUsers = asl.deploy.asStateMachine(async (input: any) =>{
     var marker: string | undefined = asl.pass({
         name: "Assign marker",
         comment: "marker: string | undefined"

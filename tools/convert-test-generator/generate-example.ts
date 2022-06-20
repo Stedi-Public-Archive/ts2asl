@@ -49,6 +49,8 @@ const exampleMetadata: Record<string, ExampleMetadata> = {
   "input-validation/notEquals": { description:  ""},
   "kyc/main": { description:  ""},
   "map/main": { description:  ""},
+  "pagination/doSomething": { skip: true},
+  "pagination/listUsers": { dependentTestCases: ["doSomething"] },
   "nested-stepfunctions/childStateMachine": { skip: true},
   "nested-stepfunctions/callStateMachineNoAwait": {dependentTestCases: ["childStateMachine"]},
   "nested-stepfunctions/callStateMachineWithAwait": {dependentTestCases: ["childStateMachine"]},

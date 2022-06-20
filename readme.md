@@ -97,8 +97,9 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 ```
 
 ## Useful patterns & examples
-- [example project](./cdk-example/) containing a [simple program](./cdk-example/src/program.ts), [CDK for deployment](./cdk-example/lib/cdk-example-stack.ts) and [Jest for testing](./cdk-example/test/program.test.ts)
-- Waiting for completion of SDK state: [organizations.createAccount](./examples/switch.md#create-aws-account).
+- [example project](./cdk-v2-example/) containing a [simple program](./cdk-v2-example/src/program.ts), [CDK for deployment](./cdk-v2-example/lib/cdk-v2-example-stack.ts) and [Jest for testing](./cdk-v2-example/test/cdk-v2-example.test.ts)
+- waiting for completion of SDK state: [organizations.createAccount](./examples/switch.md#create-aws-account).
+- pagination over list: [iam.listUsers](./examples/pagination.md#list-users).
 <!-- 
 - Using sdk integrations to page over data in DynamoDB
 - Using a Lambda to page over data (in memory)

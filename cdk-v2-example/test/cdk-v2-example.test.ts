@@ -1,17 +1,19 @@
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as CdkV2Example from '../lib/cdk-v2-example-stack';
+import { main } from "../src/program";
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/cdk-v2-example-stack.ts
-test('SQS Queue Created', () => {
-//   const app = new cdk.App();
-//     // WHEN
-//   const stack = new CdkV2Example.CdkV2ExampleStack(app, 'MyTestStack');
-//     // THEN
-//   const template = Template.fromStack(stack);
+describe('when invoking program', () => {
+  it("returns proper greeting", async () => {
+    const result = await main({ name: "Fred" });
+    expect(result.greeting).toBe("Hello Fred");
+  })
 
-//   template.hasResourceProperties('AWS::SQS::Queue', {
-//     VisibilityTimeout: 300
-//   });
+  it("greets world when passed empty document", async () => {
+    const result = await main({} as any);
+    expect(result.greeting).toBe("Hello World");
+  })
+
+  it("no lucky number is the name", async () => {
+    const first = await main({} as any);
+    const second = await main({} as any);
+    expect(first.luckyNumber).not.toBe(second.luckyNumber);
+  })
 });
