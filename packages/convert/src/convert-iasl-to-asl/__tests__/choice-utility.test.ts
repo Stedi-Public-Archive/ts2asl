@@ -1,6 +1,6 @@
 import { createChoiceOperator } from "../choice-utility";
 import * as iasl from "../../convert-asllib-to-iasl/ast";
-import { IdentifierFactory } from "../../convert-asllib-to-iasl/iaslfactory";
+import { IdentifierFactory, LiteralFactory } from "../../convert-asllib-to-iasl/iaslfactory";
 
 describe("when transpiling simple statements", () => {
   it("then current type operand is used", () => {
@@ -10,10 +10,7 @@ describe("when transpiling simple statements", () => {
         type: "numeric",
       }),
       operator: "eq",
-      rhs: {
-        value: 23,
-        _syntaxKind: iasl.SyntaxKind.Literal
-      } as iasl.LiteralExpression,
+      rhs: LiteralFactory.createFromRuntime(23),
       _syntaxKind: iasl.SyntaxKind.BinaryExpression
     } as iasl.BinaryExpression;
 
@@ -90,11 +87,7 @@ it("then not typeof is optimized to typeof: false", () => {
         _syntaxKind: iasl.SyntaxKind.TypeOfExpression
       } as iasl.TypeOfExpression,
       operator: "eq",
-      rhs: {
-        value: "number",
-        type: "string",
-        _syntaxKind: iasl.SyntaxKind.Literal
-      } as iasl.LiteralExpression,
+      rhs: LiteralFactory.createFromRuntime("number"),
       _syntaxKind: iasl.SyntaxKind.BinaryExpression
     } as iasl.BinaryExpression,
     _syntaxKind: iasl.SyntaxKind.BinaryExpression

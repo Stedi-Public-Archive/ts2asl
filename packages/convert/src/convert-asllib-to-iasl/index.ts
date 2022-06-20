@@ -8,7 +8,7 @@ import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-u
 import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
-import { IdentifierFactory } from "./iaslfactory";
+import { IdentifierFactory, LiteralArrayFactory, LiteralFactory, LiteralObjectFactory } from "./iaslfactory";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -451,7 +451,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
               when: {
                 lhs: expression,
                 operator: "eq",
-                rhs: { type: typeof unpackedSimple.label, value: unpackedSimple.label, _syntaxKind: iasl.SyntaxKind.Literal } as iasl.LiteralExpression,
+                rhs: LiteralFactory.createFromRuntime(unpackedSimple.label),
                 _syntaxKind: iasl.SyntaxKind.BinaryExpression,
               } as iasl.BinaryExpression,
               then: unpackedSimple.block,
@@ -540,10 +540,9 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       resource += remainder[0].toLowerCase() + remainder.substring(1);
       const caseConvertedArgs = {
         ...convertedArgs,
-        parameters: {
-          properties: {},
-          _syntaxKind: iasl.SyntaxKind.LiteralObject
-        } as iasl.LiteralObjectExpression
+        parameters: LiteralObjectFactory.create({
+          properties: {}
+        })
       };
 
 
@@ -603,53 +602,26 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     expr = expr.expression as ts.Expression;
   }
   if (ts.isIdentifier(expr) && expr.text === "undefined") {
-    return {
-      value: null,
-      type: "null",
-      _syntaxKind: iasl.SyntaxKind.Literal,
-    } as iasl.LiteralExpression;
+    return LiteralFactory.createFromRuntime(undefined);
   } else if (ts.isLiteralExpression(expr)) {
     if (ts.isNumericLiteral(expr)) {
-      return {
-        value: new Number(expr.text).valueOf(),
-        type: "numeric",
-        _syntaxKind: iasl.SyntaxKind.Literal,
-      } as iasl.LiteralExpression;
+      const number = new Number(expr.text).valueOf();
+      return LiteralFactory.createFromRuntime(number);
     } else if (ts.isStringLiteral(expr)) {
-      return {
-        value: expr.text,
-        type: "string",
-        _syntaxKind: iasl.SyntaxKind.Literal,
-      } as iasl.LiteralExpression;
+      return LiteralFactory.createFromRuntime(expr.text);
     }
   } else if (ts.isObjectLiteralExpression(expr)) {
-    return {
-      properties: convertObjectLiteralExpression(expr, context),
-      _syntaxKind: iasl.SyntaxKind.LiteralObject,
-    } as iasl.LiteralObjectExpression;
+    const properties = convertObjectLiteralExpression(expr, context);
+    return LiteralObjectFactory.create({ properties });
   } else if (ts.isArrayLiteralExpression(expr)) {
-    return {
-      elements: expr.elements.map(x => convertExpressionToLiteralOrIdentifier(x, {}, context)),
-      _syntaxKind: iasl.SyntaxKind.LiteralArray,
-    } as iasl.LiteralArrayExpression;
+    const elements = expr.elements.map(x => convertExpressionToLiteralOrIdentifier(x, {}, context)!);
+    return LiteralArrayFactory.create({ elements });
   } else if (expr.kind === ts.SyntaxKind.TrueKeyword) {
-    return {
-      value: true,
-      type: "boolean",
-      _syntaxKind: iasl.SyntaxKind.Literal,
-    } as iasl.LiteralExpression;
+    return LiteralFactory.createFromRuntime(true);
   } else if (expr.kind === ts.SyntaxKind.FalseKeyword) {
-    return {
-      value: false,
-      type: "boolean",
-      _syntaxKind: iasl.SyntaxKind.Literal,
-    } as iasl.LiteralExpression;
+    return LiteralFactory.createFromRuntime(false);
   } else if (expr.kind === ts.SyntaxKind.UndefinedKeyword || expr.kind === ts.SyntaxKind.NullKeyword) {
-    return {
-      value: null,
-      type: "null",
-      _syntaxKind: iasl.SyntaxKind.Literal,
-    } as iasl.LiteralExpression;
+    return LiteralFactory.createFromRuntime(null);
   } else if (ts.isArrowFunction(original) && (hints.block || ts.isBlock(expr))) {
     let block: ts.Node = expr;
     if (!ts.isBlock(expr)) {
@@ -820,7 +792,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
     return {
       condition: { rhs: { ...identifier, type: "object" }, operator: "is-truthy", _syntaxKind: "binary-expression" } as iasl.BinaryExpression,
       whenTrue: convertExpressionToLiteralOrIdentifier(property, {}, context),
-      whenFalse: { value: null, type: "null", _syntaxKind: "literal" } as iasl.LiteralExpression,
+      whenFalse: LiteralFactory.createFromRuntime(null),
       _syntaxKind: iasl.SyntaxKind.ConditionalExpression
     } as iasl.ConditionalExpression;
 

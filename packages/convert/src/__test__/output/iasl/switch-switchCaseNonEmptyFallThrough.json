@@ -79,8 +79,8 @@
                   },
                   "operator": "eq",
                   "rhs": {
-                    "type": "number",
                     "value": 1,
+                    "type": "numeric",
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
@@ -125,8 +125,8 @@
                   },
                   "operator": "eq",
                   "rhs": {
-                    "type": "number",
                     "value": 2,
+                    "type": "numeric",
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"

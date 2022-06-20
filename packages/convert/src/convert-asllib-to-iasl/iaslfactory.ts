@@ -7,6 +7,17 @@ import { AslChoiceState, AslFailState, AslIntrinsicFunction, AslMapState, AslSuc
     }
   }
   export class LiteralFactory {
+    static createFromRuntime(val: string | number | boolean | null | undefined): LiteralExpression {
+    if (val=== null) return this.create({value: val, type: "null"});
+     const nodeType = typeof val;
+     switch(nodeType) {
+      case "number": return this.create({value: val as number, type: "numeric"});
+      case "string": return this.create({value: val as string, type: "string"});
+      case "boolean": return this.create({value: val as boolean, type: "boolean"});
+      case "undefined": return this.create({value: null, type: "null"});
+      default: throw new Error(`unable to convert runtime object ${val} of type ${nodeType} to a literal`)
+     }
+    }
     static create(args: Omit<LiteralExpression, "_syntaxKind">): LiteralExpression {
       return {...args, _syntaxKind: SyntaxKind.Literal};     
     }

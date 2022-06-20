@@ -1,7 +1,7 @@
 
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
-import { IdentifierFactory } from "../convert-asllib-to-iasl/iaslfactory";
+import { IdentifierFactory, LiteralObjectFactory } from "../convert-asllib-to-iasl/iaslfactory";
 import { AslWriter } from "./asl-writer";
 import { AslFactory } from "./aslfactory";
 import { AslPassFactory } from "./aslfactory.pass";
@@ -10,15 +10,14 @@ import { AslRhsFactory, PathExpressionOrLiteral } from "./aslfactory.rhs";
 export class AslInvokeStateMachineFactory {
   static appendIaslInvoke(expression: iasl.InvokeStateMachineState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
     
-    const additionalParameters = {
+    const additionalParameters = LiteralObjectFactory.create({
       properties: {
         AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID: IdentifierFactory.create({
             identifier: "$$.Execution.Id",
             type: "string"
         })
-      },
-      _syntaxKind: iasl.SyntaxKind.LiteralObject,
-    } as iasl.LiteralObjectExpression;
+      }
+    });
 
     let rhs = AslRhsFactory.appendIasl(expression.parameters, scopes, context, true);
     rhs = AslRhsFactory.modifyMergeWith(rhs, additionalParameters, scopes, context);

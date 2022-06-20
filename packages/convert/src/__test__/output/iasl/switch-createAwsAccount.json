@@ -137,8 +137,8 @@
                   },
                   "operator": "eq",
                   "rhs": {
-                    "type": "string",
                     "value": "FAILED",
+                    "type": "string",
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
@@ -165,8 +165,8 @@
                   },
                   "operator": "eq",
                   "rhs": {
-                    "type": "string",
                     "value": "IN_PROGRESS",
+                    "type": "string",
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
