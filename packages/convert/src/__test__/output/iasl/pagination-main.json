@@ -22,12 +22,12 @@
     {
       "stateName": "Do While (marker)",
       "condition": {
-        "operator": "is-truthy",
         "rhs": {
           "identifier": "marker",
           "type": "string",
           "_syntaxKind": "identifier"
         },
+        "operator": "is-truthy",
         "_syntaxKind": "binary-expression"
       },
       "while": {

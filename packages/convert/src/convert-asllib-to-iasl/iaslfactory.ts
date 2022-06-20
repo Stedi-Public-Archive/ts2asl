@@ -1,6 +1,4 @@
-import { AslChoiceState, AslFailState, AslIntrinsicFunction, AslMapState, AslSucceedState, BinaryExpression, Block, BreakStatement, ConditionalExpression, ContinueStatement, DoWhileStatement, ForEachStatement, Function, Identifier, IfStatement, InvokeStateMachineState, LiteralArrayExpression, LiteralExpression, LiteralObjectExpression, AslParallelState, AslPassState, ReturnStatement, StateMachine, SwitchStatement, SyntaxKind, TaskState, TryStatement, TypeOfExpression, VariableAssignmentStatement, AslWaitState, WhileStatement } from "./ast";
-
-
+import { AslChoiceState, AslFailState, AslIntrinsicFunction, AslMapState, AslSucceedState, BinaryExpression, Block, BreakStatement, ConditionalExpression, ContinueStatement, DoWhileStatement, ForEachStatement, Function, Identifier, IfStatement, InvokeStateMachineState, LiteralArrayExpression, LiteralExpression, LiteralObjectExpression, AslParallelState, AslPassState, ReturnStatement, StateMachine, SwitchStatement, SyntaxKind, TaskState, TryStatement, TypeOfExpression, VariableAssignmentStatement, AslWaitState, WhileStatement, LiteralExpressionLike, RightHandSideExpression } from "./ast";
   export class IdentifierFactory {
     static create(args: Omit<Identifier, "_syntaxKind">): Identifier {
       return {...args, _syntaxKind: SyntaxKind.Identifier};     
@@ -43,6 +41,9 @@ import { AslChoiceState, AslFailState, AslIntrinsicFunction, AslMapState, AslSuc
     }
   }
   export class BinaryExpressionFactory {
+    static createIsTruthy(rhs: RightHandSideExpression): BinaryExpression {
+      return this.create({rhs, operator: "is-truthy"}); 
+    }
     static create(args: Omit<BinaryExpression, "_syntaxKind">): BinaryExpression {
       return {...args, _syntaxKind: SyntaxKind.BinaryExpression};     
     }

@@ -8,7 +8,7 @@ import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-u
 import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
-import { AslChoiceStateFactory, AslFailStateFactory, AslIntrinsicFunctionFactory, AslInvokeStateMachineFactory, AslMapStateFactory, AslPassStateFactory, AslSucceedStateFactory, AslTaskStateFactory, AslWaitStateFactory, BreakFactory, ContinueFactory, DoWhileStatementFactory, ForEachFactory, IdentifierFactory, IfFactory, LiteralArrayFactory, LiteralFactory, LiteralObjectFactory, ReturnStatementFactory, SwitchFactory, TryFactory, VariableAssignmentFactory, WhileFactory } from "./iaslfactory";
+import { AslChoiceStateFactory, AslFailStateFactory, AslIntrinsicFunctionFactory, AslInvokeStateMachineFactory, AslMapStateFactory, AslPassStateFactory, AslSucceedStateFactory, AslTaskStateFactory, AslWaitStateFactory, BinaryExpressionFactory, BreakFactory, ConditionalExpressionFactory, ContinueFactory, DoWhileStatementFactory, ForEachFactory, IdentifierFactory, IfFactory, LiteralArrayFactory, LiteralFactory, LiteralObjectFactory, ReturnStatementFactory, SwitchFactory, TryFactory, TypeOfFactory, VariableAssignmentFactory, WhileFactory } from "./iaslfactory";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -47,7 +47,7 @@ export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.So
     _syntaxKind: iasl.SyntaxKind.StateMachine
   };
 };
-export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: ConverterContext): iasl.Expression[] | iasl.Expression | undefined => {
+export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: ConverterContext): iasl.Expression | undefined => {
   let node: ts.Node | undefined = toplevel;
 
   if (ts.isEmptyStatement(node) || node.kind === ts.SyntaxKind.EndOfFileToken) {
@@ -63,41 +63,18 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
   }
 
   if (ts.isReturnStatement(node)) {
-    if (node.expression && ts.isCallExpression(node.expression)) {
-      const callExpression = convertNodeToIntermediaryAst(node.expression, context)!;
-      const callExpressionType = inferIaslType(node.expression, context);
-
-      return [
-        VariableAssignmentFactory.create({
-          stateName: createName(context.converterOptions, node.expression, `%s`, node.expression),
-          name: IdentifierFactory.create({
-            identifier: "result",
-            compilerGenerated: true,
-            type: callExpressionType
-          }),
-          expression: callExpression as iasl.Expression //todo: this could be an array of expressions
-        }),
-        ReturnStatementFactory.create(
-        {
-          stateName: `Return result`,
-          expression: IdentifierFactory.create({
-            identifier: "result",
-            compilerGenerated: true,
-            type: callExpressionType
-          }),
-        }),
-      ];
-    }
-    else {
       const identifier = node.expression ? convertExpressionToLiteralOrIdentifier(node.expression, {}, context) : undefined;
       const expression = identifier == undefined ? convertExpression(node.expression, context) : identifier;
 
+      if (expression === undefined) {
+        return ReturnStatementFactory.createReturnVoid();
+      }
+
       return ReturnStatementFactory.create({
-        stateName: expression ? createName(context.converterOptions, node, `Return %s`, node.expression) : createName(context.converterOptions, node, `Return`),
-        expression: expression as iasl.Expression, //todo: this could be an array of expressions
+        stateName: createName(context.converterOptions, node, `Return %s`, node.expression),
+        expression: expression
       });
     }
-  }
 
   if (ts.isVariableStatement(node)) {
     if (node.declarationList.declarations.length !== 1) throw new ParserError("Variable statement must have declaration list of 1", node);
@@ -113,7 +90,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     return VariableAssignmentFactory.create({
       stateName: createName(context.converterOptions, node, `Assign %s`, decl.name),
       name: identifier,
-      expression: expression as iasl.Expression, //todo: this could be an array of expressions,
+      expression,
     });
   }
 
@@ -128,7 +105,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
 
     return VariableAssignmentFactory.create({
       name: identifier,
-      expression: expression as iasl.Expression, //todo: this could be an array of expressions
+      expression,
       stateName: createName(context.converterOptions, node, `Assign %s`, node.left),
     });
   }
@@ -138,11 +115,17 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
   }
 
   if (ts.isReturnStatement(node)) {
-    return {
+
+    const rhs = convertExpression(node.expression, context);
+
+    if (rhs === undefined) {
+      return ReturnStatementFactory.createReturnVoid();  
+    }
+
+    return ReturnStatementFactory.create({
       stateName: createName(context.converterOptions, node, "Return %s", node.expression),
-      expression: convertExpression(node.expression, context),
-      _syntaxKind: iasl.SyntaxKind.Return
-    } as iasl.ReturnStatement;
+      expression: rhs
+    });
   }
 
   if (ts.isBreakStatement(node)) {
@@ -174,7 +157,7 @@ export const convertSingleExpression = (expression: ts.Expression | undefined, c
   return result[0];
 };
 
-export const convertExpression = (expression: ts.Expression | undefined, context: ConverterContext): iasl.Expression[] | iasl.Expression | undefined => {
+export const convertExpression = (expression: ts.Expression | undefined, context: ConverterContext): iasl.Expression | undefined => {
   if (!expression) return undefined;
   let isAwaited = false;
 
@@ -267,9 +250,12 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       case "typescriptWhile": {
         const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteralString(convertedArgs, "name");
-        const condition = unpackAsBinaryExpression(convertedArgs, "condition") as iasl.BinaryExpression; //todo: fix in unpackAsBinaryExpression, make sure it always returns a binary expression
+        const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const while_ = unpackBlock(convertedArgs, "block");
         const comment = unpackAsLiteralString(convertedArgs, "comment");
+        
+        if (!condition) throw new Error("While statement expected to have condition");
+
         return WhileFactory.create({
           stateName: name,
           condition,
@@ -281,9 +267,12 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       case "typescriptDoWhile": {
         const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteralString(convertedArgs, "name");
-        const condition = unpackAsBinaryExpression(convertedArgs, "condition") as iasl.BinaryExpression; //todo: fix in unpackAsBinaryExpression, make sure it always returns a binary expression
+        const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const while_ = unpackBlock(convertedArgs, "block");
         const comment = unpackAsLiteralString(convertedArgs, "comment");
+        
+        if (!condition) throw new Error("DoWhile statement expected to have condition");
+
         return DoWhileStatementFactory.create({
           stateName: name,
           condition,
@@ -295,10 +284,13 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       case "typescriptIf": {
         const convertedArgs = convertObjectLiteralExpression(argument, context);
         const name = unpackAsLiteralString(convertedArgs, "name");
-        const condition = unpackAsBinaryExpression(convertedArgs, "condition") as iasl.BinaryExpression; //todo: fix in unpackAsBinaryExpression, make sure it always returns a binary expression
+        const condition = unpackAsBinaryExpression(convertedArgs, "condition");
         const then = unpackBlock(convertedArgs, "then");
         const else_ = unpackBlock(convertedArgs, "else");
         const comment = unpackAsLiteralString(convertedArgs, "comment");
+
+        if (!condition) throw new Error("If statement expected to have condition");
+
         return IfFactory.create({
           stateName: name,
           condition,
@@ -371,8 +363,11 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         const choices = unpackArray(convertedArgs, "choices",
           (element) => {
             const x = element as iasl.LiteralObjectExpression;
+            const condition = unpackAsBinaryExpression(x.properties, "condition");
+
+          if (!condition) throw new Error("Choice expected to have condition");
             return {
-              condition: unpackAsBinaryExpression(x.properties, "condition") as iasl.BinaryExpression, //todo: fix in unpackAsBinaryExpression, make sure it always returns a binary expression
+              condition,
               block: unpackBlock(x.properties, "block")
             };
           }
@@ -434,12 +429,11 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           const unpackedSimple = unpackLiteralValue(element) as { label: string | number | undefined, block: iasl.Block; };
           if (unpackedSimple.label !== undefined) {
             return {
-              when: {
+              when: BinaryExpressionFactory.create({
                 lhs: expression,
                 operator: "eq",
                 rhs: LiteralFactory.createFromRuntime(unpackedSimple.label),
-                _syntaxKind: iasl.SyntaxKind.BinaryExpression,
-              } as iasl.BinaryExpression,
+              }),
               then: unpackedSimple.block,
             };
           } else {
@@ -569,7 +563,7 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression,
   return result;
 };
 
-export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, hints: { block?: boolean; }, context: ConverterContext): iasl.Identifier | iasl.LiteralExpressionLike | iasl.AslIntrinsicFunction | iasl.TypeOfExpression | iasl.BinaryExpression | iasl.Expression | undefined => {
+export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, hints: { block?: boolean; }, context: ConverterContext): iasl.RightHandSideExpression | undefined => {
   if (original === undefined) {
     return undefined;
   }
@@ -663,7 +657,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
               ...lhs,
               filterExpression: {
                 argument: convertToIdentifier(expression.parameters[0].name, context)!,
-                expression: convertExpressionToLiteralOrIdentifier(expression, {}, context) as iasl.BinaryExpression //TODO
+                expression: convertExpressionToLiteralOrIdentifier(expression, {}, context) as iasl.BinaryExpression //todo
               }
             });
           }
@@ -728,25 +722,23 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       }
     }
   } else if (ts.isTypeOfExpression(expr)) {
-    let expression = {
-      operand: convertExpressionToLiteralOrIdentifier(expr.expression, {}, context),
-      _syntaxKind: iasl.SyntaxKind.TypeOfExpression
-    } as iasl.TypeOfExpression;
-    return expression;
+    const operand = convertExpressionToLiteralOrIdentifier(expr.expression, {}, context);
+    if (operand === undefined) throw new Error("typeof expression must have operand");
+    return TypeOfFactory.create({
+      operand
+    });
   } else if (ts.isBinaryExpression(expr)) {
     const convertedOperator = convertBinaryOperatorToken(expr.operatorToken);
-    let expression = {
+    let expression = BinaryExpressionFactory.create({
       lhs: convertExpressionToLiteralOrIdentifier(expr.left, {}, context),
       operator: convertedOperator.op,
-      rhs: convertExpressionToLiteralOrIdentifier(expr.right, {}, context),
-      _syntaxKind: iasl.SyntaxKind.BinaryExpression
-    } as iasl.BinaryExpression;
+      rhs: convertExpressionToLiteralOrIdentifier(expr.right, {}, context)!,
+    });
     if (convertedOperator.not) {
-      expression = {
+      expression = BinaryExpressionFactory.create({
         operator: "not",
         rhs: expression,
-        _syntaxKind: iasl.SyntaxKind.BinaryExpression
-      } as iasl.BinaryExpression;
+      });
     }
     return expression;
   } else if (ts.isPrefixUnaryExpression(expr)) {
@@ -758,22 +750,22 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
       } as iasl.BinaryExpression;
     }
   } else if (ts.isConditionalExpression(expr)) {
-    return {
-      condition: { rhs: convertExpressionToLiteralOrIdentifier(expr.condition, {}, context), operator: "is-truthy", _syntaxKind: "binary-expression" } as iasl.BinaryExpression,
-      whenTrue: convertExpressionToLiteralOrIdentifier(expr.whenTrue, {}, context),
-      whenFalse: convertExpressionToLiteralOrIdentifier(expr.whenFalse, {}, context),
-      _syntaxKind: iasl.SyntaxKind.ConditionalExpression
-    } as iasl.ConditionalExpression;
+    const condition = convertExpressionToLiteralOrIdentifier(expr.condition, {}, context);
+    if (condition === undefined) throw new Error("conditional expression must have condition");
+    return ConditionalExpressionFactory.create({
+      condition: BinaryExpressionFactory.createIsTruthy(condition),
+      whenTrue: convertExpressionToLiteralOrIdentifier(expr.whenTrue, {}, context)!,
+      whenFalse: convertExpressionToLiteralOrIdentifier(expr.whenFalse, {}, context)!
+    });
 
   } else if (ts.isPropertyAccessExpression(expr) && expr.questionDotToken?.kind === ts.SyntaxKind.QuestionDotToken) {
     const identifier = convertExpressionToLiteralOrIdentifier(expr.expression, {}, context) as iasl.Identifier;
     const property = factory.createPropertyAccessExpression(expr.expression, expr.name);
-    return {
-      condition: { rhs: { ...identifier, type: "object" }, operator: "is-truthy", _syntaxKind: "binary-expression" } as iasl.BinaryExpression,
-      whenTrue: convertExpressionToLiteralOrIdentifier(property, {}, context),
+    return ConditionalExpressionFactory.create({
+      condition: BinaryExpressionFactory.createIsTruthy(identifier),
+      whenTrue: convertExpressionToLiteralOrIdentifier(property, {}, context)!,
       whenFalse: LiteralFactory.createFromRuntime(null),
-      _syntaxKind: iasl.SyntaxKind.ConditionalExpression
-    } as iasl.ConditionalExpression;
+    });
 
   } else if (ts.isReturnStatement(expr)) {
     return ReturnStatementFactory.createReturnVoid();
@@ -821,23 +813,12 @@ const unpackAsLiteral = (args: Record<string, iasl.Expression | iasl.Identifier>
   return propValue.value;
 };
 
-const unpackAsBinaryExpression = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.BinaryExpression | iasl.LiteralExpression | undefined => {
+const unpackAsBinaryExpression = (args: Record<string, iasl.Expression | iasl.Identifier>, propertyName: string): iasl.BinaryExpression | undefined => {
   const propValue = args[propertyName];
   if (propValue === undefined) return undefined;
 
-  if (iasl.Check.isIdentifier(propValue)) {
-    return {
-      operator: "is-truthy",
-      rhs: propValue,
-      _syntaxKind: iasl.SyntaxKind.BinaryExpression,
-    } as iasl.BinaryExpression;
-  }
-  if (iasl.Check.isLiteral(propValue)) {
-    return {
-      type: "boolean",
-      value: !!(propValue.value),
-      _syntaxKind: iasl.SyntaxKind.Literal
-    } as iasl.LiteralExpression;
+  if (iasl.Check.isIdentifier(propValue) || iasl.Check.isLiteralLike(propValue)) {
+    return BinaryExpressionFactory.createIsTruthy(propValue);
   }
   if (!iasl.Check.isBinaryExpression(propValue)) {
     throw new Error(`property ${propertyName} must be binary expression`);

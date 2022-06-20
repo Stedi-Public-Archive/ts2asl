@@ -8,82 +8,11 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Fail State Wrapper"
+      "Next": "Return asl.fail({ e ..."
     },
-    "Fail State Wrapper": {
-      "Type": "Parallel",
-      "Catch": [
-        {
-          "ErrorEquals": [
-            "States.ALL"
-          ],
-          "ResultPath": "$.vars.e",
-          "Next": "Assign aslError"
-        }
-      ],
-      "End": true,
-      "Branches": [
-        {
-          "StartAt": "asl.fail({ error: \" ...",
-          "States": {
-            "asl.fail({ error: \" ...": {
-              "Type": "Fail",
-              "Error": "InternalFailure",
-              "Cause": "bad luck"
-            }
-          }
-        }
-      ]
-    },
-    "Assign aslError": {
+    "Return asl.fail({ e ...": {
       "Type": "Pass",
-      "InputPath": "$.vars.e",
-      "ResultPath": "$.vars.aslError",
-      "Comment": "source: aslError = e as asl.AslError",
-      "Next": "If (\"Error\" in aslError & ..."
-    },
-    "If (\"Error\" in aslError & ...": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "And": [
-            {
-              "Variable": "$.vars.aslError.Error",
-              "IsPresent": true
-            },
-            {
-              "Variable": "$.vars.aslError.Cause",
-              "IsPresent": true
-            }
-          ],
-          "Next": "Evaluate Format('{} ({})' ..."
-        }
-      ],
-      "Comment": "source: if (\"Error\" in aslError && \"Cause\" in aslError ...",
-      "Default": "Return \"this should not h ..."
-    },
-    "Evaluate Format('{} ({})' ...": {
-      "Type": "Pass",
-      "ResultPath": "$.tmp.eval",
-      "Parameters": {
-        "value.$": "States.Format('{} ({})', $.vars.aslError.Error, $.vars.aslError.Cause)"
-      },
-      "Next": "Assign Result"
-    },
-    "Assign Result": {
-      "Type": "Pass",
-      "InputPath": "$.tmp.eval.value",
-      "ResultPath": "$.tmp.result",
-      "Next": "Return result_1"
-    },
-    "Return result_1": {
-      "Type": "Pass",
-      "InputPath": "$.tmp.result",
-      "End": true
-    },
-    "Return \"this should not h ...": {
-      "Type": "Pass",
-      "Result": "this should not happen",
+      "InputPath": "$._undefined",
       "End": true
     }
   }

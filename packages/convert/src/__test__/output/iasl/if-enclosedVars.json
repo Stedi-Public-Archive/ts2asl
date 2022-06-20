@@ -22,9 +22,13 @@
     {
       "stateName": "If (true)",
       "condition": {
-        "type": "boolean",
-        "value": true,
-        "_syntaxKind": "literal"
+        "rhs": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "operator": "is-truthy",
+        "_syntaxKind": "binary-expression"
       },
       "then": {
         "statements": [
@@ -45,9 +49,13 @@
           {
             "stateName": "If (true)",
             "condition": {
-              "type": "boolean",
-              "value": true,
-              "_syntaxKind": "literal"
+              "rhs": {
+                "value": true,
+                "type": "boolean",
+                "_syntaxKind": "literal"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
             },
             "then": {
               "statements": [

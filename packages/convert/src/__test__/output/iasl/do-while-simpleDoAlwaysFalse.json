@@ -22,9 +22,13 @@
     {
       "stateName": "Do While (false)",
       "condition": {
-        "type": "boolean",
-        "value": false,
-        "_syntaxKind": "literal"
+        "rhs": {
+          "value": false,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "operator": "is-truthy",
+        "_syntaxKind": "binary-expression"
       },
       "while": {
         "statements": [

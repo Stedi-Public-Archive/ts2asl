@@ -144,12 +144,12 @@
     {
       "stateName": "If (checksPassed)",
       "condition": {
-        "operator": "is-truthy",
         "rhs": {
           "identifier": "checksPassed",
           "type": "boolean",
           "_syntaxKind": "identifier"
         },
+        "operator": "is-truthy",
         "_syntaxKind": "binary-expression"
       },
       "then": {

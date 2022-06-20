@@ -1,7 +1,7 @@
 
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
-import { IdentifierFactory, LiteralObjectFactory } from "../convert-asllib-to-iasl/iaslfactory";
+import { AslIntrinsicFunctionFactory, IdentifierFactory, LiteralObjectFactory } from "../convert-asllib-to-iasl/iaslfactory";
 import { AslWriter } from "./asl-writer";
 import { AslFactory } from "./aslfactory";
 import { AslPassFactory } from "./aslfactory.pass";
@@ -35,16 +35,16 @@ export class AslInvokeStateMachineFactory {
     this.appendAsl(task, scopes, expression.retry, context, nameSuggestion ?? "Invoke State Machine");
     if (expression.integrationPattern === "sync" && resultPath !== null) {
 
-      const fn = {
-        "arguments": [
+      const fn = AslIntrinsicFunctionFactory.create({
+        arguments: [
           IdentifierFactory.create({
             identifier: resultPath + ".Output",
-            type: "unknown",
+            type: "unknown"
           })
         ],
-        "function": "asl.states.stringToJson",
-        "_syntaxKind": "asl-intrinsic-function"
-      } as iasl.AslIntrinsicFunction;
+        function: "asl.states.stringToJson",
+        type: "unknown"
+      });
       
       const convert = AslRhsFactory.appendIasl(fn, scopes, context, true);
       AslPassFactory.appendAsl({ResultPath: resultPath}, convert, context, "Convert Result");

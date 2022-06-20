@@ -2,16 +2,16 @@ import * as iasl from "../convert-asllib-to-iasl/ast";
 import { Operator } from 'asl-types/dist/choice';
 import { AslRhsFactory } from "./aslfactory.rhs";
 import { AslWriter } from "./asl-writer";
+import { BinaryExpressionFactory } from "../convert-asllib-to-iasl/iaslfactory";
 
 
 export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.LiteralExpression | iasl.Identifier, scopes: Record<string, iasl.Scope>, context: AslWriter): Operator {
 
   if (iasl.Check.isIdentifier(expression) || iasl.Check.isAslIntrinsicFunction(expression) || iasl.Check.isConditionalExpression(expression)) {
-    expression = {
-      _syntaxKind: iasl.SyntaxKind.BinaryExpression,
+    expression = BinaryExpressionFactory.create({
       operator: "is-truthy",
       rhs: expression,
-    } as iasl.BinaryExpression;
+    });
   }
 
   if (iasl.Check.isBinaryExpression(expression) && expression.operator === "is-truthy") {

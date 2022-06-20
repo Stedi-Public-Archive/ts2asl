@@ -193,12 +193,12 @@
     {
       "stateName": "If (data.undefined)",
       "condition": {
-        "operator": "is-truthy",
         "rhs": {
           "identifier": "data.undefined",
           "type": "unknown",
           "_syntaxKind": "identifier"
         },
+        "operator": "is-truthy",
         "_syntaxKind": "binary-expression"
       },
       "then": {
@@ -219,12 +219,12 @@
     {
       "stateName": "If (data.null)",
       "condition": {
-        "operator": "is-truthy",
         "rhs": {
           "identifier": "data.null",
           "type": "unknown",
           "_syntaxKind": "identifier"
         },
+        "operator": "is-truthy",
         "_syntaxKind": "binary-expression"
       },
       "then": {

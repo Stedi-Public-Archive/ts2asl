@@ -39,6 +39,9 @@ export class Check {
   static isLiteralArray(expr: Identifier | Expression | Statement | undefined): expr is LiteralArrayExpression {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.LiteralArray;
   }
+  static isLiteralLike(expr: Identifier | Expression | Statement | undefined): expr is LiteralExpressionLike {
+    return this.isLiteral(expr) || this.isLiteralArray(expr) || this.isLiteralObject(expr);
+  }
   static isLiteral(expr: Identifier | Expression | Statement | undefined): expr is LiteralExpression {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Literal;
   }
@@ -396,22 +399,24 @@ export interface Scope {
 }
 
 export type BinaryOperator = "exists-in" | "and" | "or" | "not" | "is-truthy" | "matches" | "eq" | "gt" | "gte" | "lt" | "lte";
+export type LiteralExpressionLike = LiteralExpression | LiteralObjectExpression | LiteralArrayExpression;
+export type RightHandSideExpression =  Expression | Identifier | LiteralExpressionLike;
 
 export interface BinaryExpression extends Expression {
   _syntaxKind: SyntaxKind.BinaryExpression;
   lhs?: Identifier | Expression; // unary expression lhs -> undefined
   operator: BinaryOperator;
-  rhs: Identifier | Expression;
+  rhs: RightHandSideExpression;
 }
 
 export interface ConditionalExpression extends Expression {
   _syntaxKind: SyntaxKind.ConditionalExpression;
   condition: BinaryExpression,
-  whenTrue: Identifier | Expression;
-  whenFalse: Identifier | Expression;
+  whenTrue: RightHandSideExpression;
+  whenFalse: RightHandSideExpression;
 }
 
-export type LiteralExpressionLike = LiteralExpression | LiteralObjectExpression | LiteralArrayExpression | StateMachine;
+
 
 export interface LiteralExpression extends Expression {
   _syntaxKind: SyntaxKind.Literal;
@@ -425,7 +430,7 @@ export interface AslIntrinsicFunction extends Expression {
   _syntaxKind: SyntaxKind.AslIntrinsicFunction;
   function: string;
   type: Type;
-  arguments: Array<Identifier | LiteralExpressionLike | Expression>;
+  arguments: Array<RightHandSideExpression>;
 }
 
 export interface LiteralObjectExpression extends Expression {
@@ -446,7 +451,7 @@ export interface IfStatement extends Statement {
 }
 export interface TypeOfExpression extends Expression {
   _syntaxKind: SyntaxKind.TypeOfExpression;
-  operand: Identifier | Expression;
+  operand: RightHandSideExpression;
 }
 
 export interface TryStatement extends Statement {
@@ -491,7 +496,7 @@ export interface VariableAssignmentStatement extends Statement {
 
 export interface ReturnStatement extends Statement {
   _syntaxKind: SyntaxKind.Return;
-  expression: Expression;
+  expression: RightHandSideExpression;
 }
 
 export interface Block extends Expression, DeclaresScope {
@@ -515,8 +520,8 @@ export type CatchConfiguration = Array<{ errorEquals: string[], block: Function;
 
 export interface AslWaitState extends AslState {
   _syntaxKind: SyntaxKind.AslWaitState;
-  seconds: Expression | LiteralExpressionLike | Identifier;
-  timestamp: Expression | LiteralExpressionLike | Identifier;
+  seconds: RightHandSideExpression;
+  timestamp: RightHandSideExpression;
 }
 
 export interface AslParallelState extends AslState {
@@ -532,7 +537,7 @@ export interface AslPassState extends AslState {
   //if identifier, assign to ResultPath
   //if (all) literal, assign to Result
   //otherwise assign to Parameters
-  parameters: LiteralExpressionLike | Identifier | Expression;
+  parameters: RightHandSideExpression;
 }
 
 export interface InvokeStateMachineState extends AslState {
@@ -541,13 +546,13 @@ export interface InvokeStateMachineState extends AslState {
   stateMachineName: string;
   integrationPattern: undefined | "sync" | "waitForTaskToken";
   stateMachineArn: string;
-  parameters: LiteralExpressionLike | Identifier | Expression;
+  parameters: RightHandSideExpression;
 }
 
 export interface TaskState extends AslState {
   _syntaxKind: SyntaxKind.AslTaskState;
   resource: string;
-  parameters: LiteralExpressionLike | Identifier | Expression;
+  parameters: RightHandSideExpression;
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
   timeoutSeconds?: number;

@@ -8,6 +8,7 @@ import { AslParallelFactory } from "./aslfactory.parallel";
 import { AslTaskFactory } from "./aslfactory.task";
 import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
 import { AslPassFactory } from "./aslfactory.pass";
+import { AslMapFactory } from "./aslfactory.map";
 
 export class AslRhsFactory {
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral {
@@ -139,7 +140,15 @@ export class AslRhsFactory {
     } else if (iasl.Check.isAslInvokeStateMachine(expression)) {
       AslInvokeStateMachineFactory.appendIaslInvoke(expression, scopes, context, "$.tmp.result",expression.stateName);
       return { path: "$.tmp.result", type: "unknown" };
+    } else if (iasl.Check.isAslMapState(expression)) {
+      AslMapFactory.appendIaslMap(expression, scopes, context, "$.tmp.result", expression.stateName);
+      return { path: "$.tmp.result", type: "unknown" };
+    } else if (iasl.Check.isAslFailState(expression)) {
+      return { path: "$._undefined", type: "null" };
+    } else if (iasl.Check.isAslSucceedState(expression)) {
+      return { path: "$", type: "object" };
     }
+
 
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);
   }

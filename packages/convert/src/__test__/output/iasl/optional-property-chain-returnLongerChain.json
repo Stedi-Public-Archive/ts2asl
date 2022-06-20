@@ -53,8 +53,7 @@
               "type": "null",
               "_syntaxKind": "literal"
             },
-            "_syntaxKind": "conditional-expression",
-            "type": "object"
+            "_syntaxKind": "conditional-expression"
           },
           "operator": "is-truthy",
           "_syntaxKind": "binary-expression"

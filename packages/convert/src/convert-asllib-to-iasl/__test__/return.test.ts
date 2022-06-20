@@ -18,7 +18,11 @@ describe("when returning", () => {
         "statements": Array [
           Object {
             "_syntaxKind": "return",
-            "stateName": "Return",
+            "expression": Object {
+              "_syntaxKind": "literal",
+              "type": "null",
+              "value": null,
+            },
           },
         ],
       }
@@ -69,7 +73,7 @@ describe("when returning", () => {
         "inputArgumentName": undefined,
         "statements": Array [
           Object {
-            "_syntaxKind": "variable-assignment",
+            "_syntaxKind": "return",
             "expression": Object {
               "_syntaxKind": "asl-task-state",
               "catch": undefined,
@@ -79,23 +83,7 @@ describe("when returning", () => {
               "source": "doSomething()",
               "stateName": "doSomething()",
             },
-            "name": Object {
-              "_syntaxKind": "identifier",
-              "compilerGenerated": true,
-              "identifier": "result",
-              "type": "unknown",
-            },
-            "stateName": "asl.typescriptInvoke({ ...",
-          },
-          Object {
-            "_syntaxKind": "return",
-            "expression": Object {
-              "_syntaxKind": "identifier",
-              "compilerGenerated": true,
-              "identifier": "result",
-              "type": "unknown",
-            },
-            "stateName": "Return result",
+            "stateName": "Return asl.typescriptInvo ...",
           },
         ],
       }

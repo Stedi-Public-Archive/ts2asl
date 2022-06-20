@@ -11,6 +11,7 @@ import { AslPassFactory } from "./aslfactory.pass";
 import { AslParallelFactory } from "./aslfactory.parallel";
 import { AslTaskFactory } from "./aslfactory.task";
 import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
+import { AslMapFactory } from "./aslfactory.map";
 
 export let foreachCounter = { value: 0 };
 
@@ -197,25 +198,7 @@ export class AslFactory {
     } else if (iasl.Check.isAslParallelState(expression)) {
       AslParallelFactory.appendIaslParallel(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
-      if (expression.iterator === undefined) throw new Error("Map must have iterator");
-      if (!iasl.Check.isFunction(expression.iterator)) throw new Error("Map must have function");
-      const iterator = convertBlock(expression.iterator, scopes, context.createChildContext());
-      const items = AslRhsFactory.appendIasl(expression.items, scopes, context);
-
-      const mapState = {
-        Type: "Map",
-        ResultPath: resultPath,
-        Iterator: iterator,
-        ItemsPath: items.path,
-        MaxConcurrency: expression.maxConcurrency,
-        Comment: expression.source,
-        ...createParametersForMap(scopes, expression.iterator, expression.iterator.inputArgumentName),
-      } as asl.Map;
-      context.appendNextState(mapState, nameSuggestion);
-      const { trailingStates } = this.appendCatchConfiguration([mapState], expression.catch, scopes, context);
-      this.appendRetryConfiguration(mapState, expression.retry);
-      context.appendTails(trailingStates);trailingStates
-
+      AslMapFactory.appendIaslMap(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isForEach(expression)) {
       if (expression.iterator === undefined) throw new Error("ForEach must have iterator");
       if (!iasl.Check.isFunction(expression.iterator)) throw new Error("ForEach must have function");

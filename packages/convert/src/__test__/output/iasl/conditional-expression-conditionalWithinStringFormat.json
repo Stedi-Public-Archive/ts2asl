@@ -30,13 +30,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "",
-      "name": {
-        "identifier": "result",
-        "compilerGenerated": true,
-        "type": "unknown",
-        "_syntaxKind": "identifier"
-      },
+      "stateName": "Return",
       "expression": {
         "arguments": [
           {
@@ -70,16 +64,6 @@
         "type": "unknown",
         "function": "asl.states.format",
         "_syntaxKind": "asl-intrinsic-function"
-      },
-      "_syntaxKind": "variable-assignment"
-    },
-    {
-      "stateName": "Return result",
-      "expression": {
-        "identifier": "result",
-        "compilerGenerated": true,
-        "type": "unknown",
-        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return"
     }

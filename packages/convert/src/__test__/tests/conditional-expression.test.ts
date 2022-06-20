@@ -350,13 +350,6 @@ describe("when converting conditional-expression", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
-            "Comment": undefined,
-            "InputPath": "$.tmp.eval.value",
-            "Next": "Return result",
-            "ResultPath": "$.tmp.result",
-            "Type": "Pass",
-          },
           "Assign obj": Object {
             "Comment": "source: obj = { name: \\"jim\\" }",
             "Next": "Eval Conditional",
@@ -401,7 +394,7 @@ describe("when converting conditional-expression", () => {
             "Type": "Choice",
           },
           "Evaluate Format('hello: { ...": Object {
-            "Next": "Assign Result",
+            "Next": "Return",
             "Parameters": Object {
               "value.$": "States.Format('hello: {}', $.tmp.var)",
             },
@@ -417,10 +410,10 @@ describe("when converting conditional-expression", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return result": Object {
+          "Return": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.eval.value",
             "Type": "Pass",
           },
         },
