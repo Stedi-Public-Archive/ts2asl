@@ -1,14 +1,16 @@
 {
   "inputArgumentName": {
     "identifier": "args",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
     {
+      "stateName": "Assign obj",
       "name": {
         "identifier": "obj",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign obj",
@@ -25,10 +27,10 @@
         "source": "obj = { name: \"jim\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign obj",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return null ? \"doesn't ha ...",
       "expression": {
         "condition": {
           "rhs": {
@@ -68,8 +70,7 @@
         },
         "_syntaxKind": "conditional-expression"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return null ? \"doesn't ha ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

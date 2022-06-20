@@ -297,15 +297,8 @@ describe("when converting nested-stepfunctions", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
-            "Comment": undefined,
-            "InputPath": "$.tmp.eval.value",
-            "Next": "Return result",
-            "ResultPath": "$.tmp.result",
-            "Type": "Pass",
-          },
           "Evaluate Format('{} {}', ...": Object {
-            "Next": "Assign Result",
+            "Next": "Return",
             "Parameters": Object {
               "value.$": "States.Format('{} {}', $.vars.firstName, $.vars.lastName)",
             },
@@ -321,10 +314,10 @@ describe("when converting nested-stepfunctions", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return result": Object {
+          "Return": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.eval.value",
             "Type": "Pass",
           },
         },

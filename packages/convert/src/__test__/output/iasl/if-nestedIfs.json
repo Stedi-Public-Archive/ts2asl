@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign val",
       "name": {
         "identifier": "val",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign val",
@@ -51,7 +52,6 @@
         "source": "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign val",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -71,9 +71,13 @@
     {
       "stateName": "If (true)",
       "condition": {
-        "type": "boolean",
-        "value": true,
-        "_syntaxKind": "literal"
+        "rhs": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "operator": "is-truthy",
+        "_syntaxKind": "binary-expression"
       },
       "then": {
         "statements": [
@@ -108,9 +112,13 @@
           {
             "stateName": "If (true)",
             "condition": {
-              "type": "boolean",
-              "value": true,
-              "_syntaxKind": "literal"
+              "rhs": {
+                "value": true,
+                "type": "boolean",
+                "_syntaxKind": "literal"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
             },
             "then": {
               "statements": [
@@ -207,13 +215,13 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return val",
       "expression": {
         "identifier": "val",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return val"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

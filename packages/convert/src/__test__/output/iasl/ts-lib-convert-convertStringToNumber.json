@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign num",
       "name": {
         "identifier": "num",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -14,10 +15,10 @@
             "_syntaxKind": "literal"
           }
         ],
+        "type": "unknown",
         "function": "asl.states.stringToJson",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign num",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -25,8 +26,8 @@
       "condition": {
         "lhs": {
           "identifier": "num",
-          "_syntaxKind": "identifier",
-          "type": "numeric"
+          "type": "numeric",
+          "_syntaxKind": "identifier"
         },
         "operator": "eq",
         "rhs": {
@@ -39,10 +40,11 @@
       "then": {
         "statements": [
           {
+            "stateName": "Assign str",
             "name": {
               "identifier": "str",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "arguments": [
@@ -53,14 +55,14 @@
                 },
                 {
                   "identifier": "num",
-                  "_syntaxKind": "identifier",
-                  "type": "numeric"
+                  "type": "numeric",
+                  "_syntaxKind": "identifier"
                 }
               ],
+              "type": "unknown",
               "function": "asl.states.format",
               "_syntaxKind": "asl-intrinsic-function"
             },
-            "stateName": "Assign str",
             "_syntaxKind": "variable-assignment"
           },
           {
@@ -68,8 +70,8 @@
             "condition": {
               "lhs": {
                 "identifier": "str",
-                "_syntaxKind": "identifier",
-                "type": "string"
+                "type": "string",
+                "_syntaxKind": "identifier"
               },
               "operator": "eq",
               "rhs": {
@@ -82,13 +84,13 @@
             "then": {
               "statements": [
                 {
+                  "stateName": "Return \"succeeded\"",
                   "expression": {
                     "value": "succeeded",
                     "type": "string",
                     "_syntaxKind": "literal"
                   },
-                  "_syntaxKind": "return",
-                  "stateName": "Return \"succeeded\""
+                  "_syntaxKind": "return"
                 }
               ],
               "_syntaxKind": "function"

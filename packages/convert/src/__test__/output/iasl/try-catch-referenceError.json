@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign result",
@@ -16,7 +17,6 @@
         "source": "result = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -26,8 +26,8 @@
           {
             "name": {
               "identifier": "result",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "value": "succeeded",
@@ -55,14 +55,15 @@
           "block": {
             "inputArgumentName": {
               "identifier": "err",
+              "type": "object",
               "_syntaxKind": "identifier"
             },
             "statements": [
               {
                 "name": {
                   "identifier": "result",
-                  "_syntaxKind": "identifier",
-                  "type": "string"
+                  "type": "string",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "arguments": [
@@ -82,6 +83,7 @@
                       "_syntaxKind": "identifier"
                     }
                   ],
+                  "type": "unknown",
                   "function": "asl.states.format",
                   "_syntaxKind": "asl-intrinsic-function"
                 },
@@ -97,13 +99,13 @@
       "_syntaxKind": "try"
     },
     {
+      "stateName": "Return result",
       "expression": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return result"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

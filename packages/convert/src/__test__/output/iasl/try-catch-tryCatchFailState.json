@@ -5,28 +5,12 @@
       "try": {
         "statements": [
           {
-            "stateName": "asl.fail({ error: \" ...",
-            "name": {
-              "identifier": "result",
-              "compilerGenerated": true,
-              "_syntaxKind": "identifier",
-              "type": "unknown"
-            },
+            "stateName": "Return asl.fail({ e ...",
             "expression": {
               "cause": "bad luck",
               "error": "InternalFailure",
               "_syntaxKind": "asl-fail-state"
             },
-            "_syntaxKind": "variable-assignment"
-          },
-          {
-            "expression": {
-              "identifier": "result",
-              "compilerGenerated": true,
-              "_syntaxKind": "identifier",
-              "type": "unknown"
-            },
-            "stateName": "Return result",
             "_syntaxKind": "return"
           }
         ],
@@ -40,26 +24,27 @@
           "block": {
             "inputArgumentName": {
               "identifier": "e",
+              "type": "object",
               "_syntaxKind": "identifier"
             },
             "statements": [
               {
+                "stateName": "Assign aslError",
                 "name": {
                   "identifier": "aslError",
-                  "_syntaxKind": "identifier",
-                  "type": "object"
+                  "type": "object",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "stateName": "Assign aslError",
                   "parameters": {
                     "identifier": "e",
-                    "_syntaxKind": "identifier",
-                    "type": "unknown"
+                    "type": "unknown",
+                    "_syntaxKind": "identifier"
                   },
                   "source": "aslError = e as asl.AslError",
                   "_syntaxKind": "asl-pass-state"
                 },
-                "stateName": "Assign aslError",
                 "_syntaxKind": "variable-assignment"
               },
               {
@@ -74,8 +59,8 @@
                     "operator": "exists-in",
                     "rhs": {
                       "identifier": "aslError",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "_syntaxKind": "binary-expression"
                   },
@@ -89,8 +74,8 @@
                     "operator": "exists-in",
                     "rhs": {
                       "identifier": "aslError",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "_syntaxKind": "binary-expression"
                   },
@@ -99,13 +84,7 @@
                 "then": {
                   "statements": [
                     {
-                      "stateName": "",
-                      "name": {
-                        "identifier": "result",
-                        "compilerGenerated": true,
-                        "_syntaxKind": "identifier",
-                        "type": "unknown"
-                      },
+                      "stateName": "Return",
                       "expression": {
                         "arguments": [
                           {
@@ -124,19 +103,10 @@
                             "_syntaxKind": "identifier"
                           }
                         ],
+                        "type": "unknown",
                         "function": "asl.states.format",
                         "_syntaxKind": "asl-intrinsic-function"
                       },
-                      "_syntaxKind": "variable-assignment"
-                    },
-                    {
-                      "expression": {
-                        "identifier": "result",
-                        "compilerGenerated": true,
-                        "_syntaxKind": "identifier",
-                        "type": "unknown"
-                      },
-                      "stateName": "Return result",
                       "_syntaxKind": "return"
                     }
                   ],
@@ -153,13 +123,13 @@
       "_syntaxKind": "try"
     },
     {
+      "stateName": "Return \"this should not h ...",
       "expression": {
         "value": "this should not happen",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"this should not h ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

@@ -1,6 +1,7 @@
 
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
+import { AslIntrinsicFunctionFactory, IdentifierFactory, LiteralObjectFactory } from "../convert-asllib-to-iasl/iaslfactory";
 import { AslWriter } from "./asl-writer";
 import { AslFactory } from "./aslfactory";
 import { AslPassFactory } from "./aslfactory.pass";
@@ -9,16 +10,14 @@ import { AslRhsFactory, PathExpressionOrLiteral } from "./aslfactory.rhs";
 export class AslInvokeStateMachineFactory {
   static appendIaslInvoke(expression: iasl.InvokeStateMachineState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
     
-    const additionalParameters = {
+    const additionalParameters = LiteralObjectFactory.create({
       properties: {
-        AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID: {
+        AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID: IdentifierFactory.create({
             identifier: "$$.Execution.Id",
-            _syntaxKind: iasl.SyntaxKind.Identifier,
             type: "string"
-        }
-      },
-      _syntaxKind: iasl.SyntaxKind.LiteralObject,
-    } as iasl.LiteralObjectExpression;
+        })
+      }
+    });
 
     let rhs = AslRhsFactory.appendIasl(expression.parameters, scopes, context, true);
     rhs = AslRhsFactory.modifyMergeWith(rhs, additionalParameters, scopes, context);
@@ -36,24 +35,23 @@ export class AslInvokeStateMachineFactory {
     this.appendAsl(task, scopes, expression.retry, context, nameSuggestion ?? "Invoke State Machine");
     if (expression.integrationPattern === "sync" && resultPath !== null) {
 
-      const fn = {
-        "arguments": [
-          {
-            "identifier": resultPath + ".Output",
-            "type": "unknown",
-            "_syntaxKind": "identifier"
-          }
+      const fn = AslIntrinsicFunctionFactory.create({
+        arguments: [
+          IdentifierFactory.create({
+            identifier: resultPath + ".Output",
+            type: "unknown"
+          })
         ],
-        "function": "asl.states.stringToJson",
-        "_syntaxKind": "asl-intrinsic-function"
-      } as iasl.AslIntrinsicFunction;
+        function: "asl.states.stringToJson",
+        type: "unknown"
+      });
       
       const convert = AslRhsFactory.appendIasl(fn, scopes, context, true);
       AslPassFactory.appendAsl({ResultPath: resultPath}, convert, context, "Convert Result");
     }
   }
 
-  static appendAsl(task: Omit<asl.Task, "Type">,  scopes: Record<string, iasl.Scope>, retryConfiguration: iasl.RetryConfiguration | undefined, context: AslWriter, nameSuggestion: string) {
+  static appendAsl(task: Omit<asl.Task, "Type">, scopes: Record<string, iasl.Scope>, retryConfiguration: iasl.RetryConfiguration | undefined, context: AslWriter, nameSuggestion: string) {
     AslFactory.appendRetryConfiguration(task as asl.Task, retryConfiguration);
     context.appendNextState(
       {

@@ -23,6 +23,7 @@
           "block": {
             "inputArgumentName": {
               "identifier": "error",
+              "type": "object",
               "_syntaxKind": "identifier"
             },
             "statements": [
@@ -41,6 +42,7 @@
                       "_syntaxKind": "identifier"
                     }
                   ],
+                  "type": "unknown",
                   "function": "asl.states.format",
                   "_syntaxKind": "asl-intrinsic-function"
                 },
@@ -62,6 +64,7 @@
                       "_syntaxKind": "identifier"
                     }
                   ],
+                  "type": "unknown",
                   "function": "asl.states.format",
                   "_syntaxKind": "asl-intrinsic-function"
                 },

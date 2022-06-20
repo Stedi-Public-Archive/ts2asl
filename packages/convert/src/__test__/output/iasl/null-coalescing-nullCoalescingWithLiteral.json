@@ -1,6 +1,7 @@
 {
   "statements": [
     {
+      "stateName": "Return",
       "expression": {
         "condition": {
           "rhs": {
@@ -23,8 +24,7 @@
         },
         "_syntaxKind": "conditional-expression"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

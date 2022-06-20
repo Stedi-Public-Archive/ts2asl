@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign myArray",
       "name": {
         "identifier": "myArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -59,46 +60,48 @@
             "_syntaxKind": "literal"
           }
         ],
+        "type": "object",
         "function": "asl.states.array",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign myArray",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign mySerializedArray",
       "name": {
         "identifier": "mySerializedArray",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
           {
             "identifier": "myArray",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           }
         ],
+        "type": "string",
         "function": "asl.states.jsonToString",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "stateName": "Assign mySerializedArray",
       "_syntaxKind": "variable-assignment"
     },
     {
       "name": {
         "identifier": "myArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
           {
             "identifier": "mySerializedArray",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           }
         ],
+        "type": "unknown",
         "function": "asl.states.stringToJson",
         "_syntaxKind": "asl-intrinsic-function"
       },
@@ -106,13 +109,13 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return myArray",
       "expression": {
         "identifier": "myArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return myArray"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

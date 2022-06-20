@@ -26,6 +26,7 @@ describe("when converting choice statement to iasl", () => {
         "inputArgumentName": Object {
           "_syntaxKind": "identifier",
           "identifier": "input",
+          "type": "object",
         },
         "statements": Array [
           Object {

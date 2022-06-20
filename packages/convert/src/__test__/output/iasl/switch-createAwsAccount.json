@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign createAccount",
       "name": {
         "identifier": "createAccount",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "CreateAccount",
@@ -26,14 +27,14 @@
         },
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign createAccount",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign creationStatus",
       "name": {
         "identifier": "creationStatus",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign creationStatus",
@@ -45,7 +46,6 @@
         "source": "creationStatus: string | undefined = undefined",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign creationStatus",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -55,8 +55,8 @@
         "rhs": {
           "lhs": {
             "identifier": "creationStatus",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
           "operator": "eq",
           "rhs": {
@@ -71,10 +71,11 @@
       "while": {
         "statements": [
           {
+            "stateName": "Assign describeResult",
             "name": {
               "identifier": "describeResult",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "stateName": "DescribeCreateAccountStatus",
@@ -91,14 +92,13 @@
               },
               "_syntaxKind": "asl-task-state"
             },
-            "stateName": "Assign describeResult",
             "_syntaxKind": "variable-assignment"
           },
           {
             "name": {
               "identifier": "creationStatus",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "condition": {
@@ -132,13 +132,13 @@
                 "when": {
                   "lhs": {
                     "identifier": "creationStatus",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "operator": "eq",
                   "rhs": {
-                    "type": "string",
                     "value": "FAILED",
+                    "type": "string",
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
@@ -160,13 +160,13 @@
                 "when": {
                   "lhs": {
                     "identifier": "creationStatus",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "operator": "eq",
                   "rhs": {
-                    "type": "string",
                     "value": "IN_PROGRESS",
+                    "type": "string",
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
@@ -222,6 +222,7 @@
       "_syntaxKind": "asl-pass-state"
     },
     {
+      "stateName": "Return createAccount.Crea ...",
       "expression": {
         "condition": {
           "rhs": {
@@ -244,8 +245,7 @@
         },
         "_syntaxKind": "conditional-expression"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return createAccount.Crea ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

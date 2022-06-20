@@ -11,6 +11,9 @@ import { AslPassFactory } from "./aslfactory.pass";
 import { AslParallelFactory } from "./aslfactory.parallel";
 import { AslTaskFactory } from "./aslfactory.task";
 import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
+import { AslMapFactory } from "./aslfactory.map";
+import { AslFailFactory } from "./aslfactory.fail";
+import { AslSucceedFactory } from "./aslfactory.succeed";
 
 export let foreachCounter = { value: 0 };
 
@@ -25,7 +28,7 @@ export class AslFactory {
       if (!iasl.Check.isConditionalExpression(expression.expression) && !iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isAslIntrinsicFunction(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
-        expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
+        expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.AslPassState;
       }
     } else {
       resultPath = null;
@@ -37,7 +40,9 @@ export class AslFactory {
       AslTaskFactory.appendIaslTask(expression, scopes, context, resultPath, expression.stateName);
     } else if (iasl.Check.isAslInvokeStateMachine(expression)) {
       AslInvokeStateMachineFactory.appendIaslInvoke(expression, scopes, context, resultPath, expression.stateName);
-    } else if (iasl.Check.isDoWhileStatement(expression)) {
+    } else if (iasl.Check.isDoWhile(expression)) {
+      //todo: optimize to no-op
+      if (expression.while === undefined) throw new Error("Do while must have at least one statement");
       if (expression.while.statements.length == 0) throw new Error("Do while must have at least one statement");
       const childContext = appendBlock(expression.while, scopes, context.createChildContext());
 
@@ -69,7 +74,8 @@ export class AslFactory {
         context.appendTails(breakStates);
       }
 
-    } else if (iasl.Check.isIfExpression(expression)) {
+    } else if (iasl.Check.isIf(expression)) {
+      if (expression.then === undefined) throw new Error("If must have then block"); //todo: optimize to no-op
       const choiceState = {
         Type: "Choice",
         Choices: [],
@@ -97,6 +103,7 @@ export class AslFactory {
 
       context.appendNextState(choiceState, expression.stateName ?? "Choice");
       for (const choice of (expression.choices || [])) {
+        if (choice.block === undefined) throw new Error("choice must have block");
         const choiceOperator = createChoiceOperator(choice.condition, scopes, context);
         const branch = context.appendChoiceOperator(choiceOperator);
         appendBlock(choice.block, scopes, branch);
@@ -158,7 +165,8 @@ export class AslFactory {
           throw new Error(`${state.brand} statement is not supported inside switch`);
         }
       }
-    } else if (iasl.Check.isWhileStatement(expression)) {
+    } else if (iasl.Check.isWhile(expression)) {
+      if (expression.while === undefined) throw new Error("While must have at least one statement");
       if (expression.while.statements.length == 0) throw new Error("While must have at least one statement");
       const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "While Condition");
       const whileConditionOperator = createChoiceOperator(expression.condition, scopes, context);
@@ -192,24 +200,11 @@ export class AslFactory {
     } else if (iasl.Check.isAslParallelState(expression)) {
       AslParallelFactory.appendIaslParallel(expression, scopes, context, resultPath, nameSuggestion);
     } else if (iasl.Check.isAslMapState(expression)) {
-      const iterator = convertBlock(expression.iterator, scopes, context.createChildContext());
-      const items = AslRhsFactory.appendIasl(expression.items, scopes, context);
-
-      const mapState = {
-        Type: "Map",
-        ResultPath: resultPath,
-        Iterator: iterator,
-        ItemsPath: items.path,
-        MaxConcurrency: expression.maxConcurrency,
-        Comment: expression.source,
-        ...createParametersForMap(scopes, expression.iterator, expression.iterator.inputArgumentName),
-      } as asl.Map;
-      context.appendNextState(mapState, nameSuggestion);
-      const { trailingStates } = this.appendCatchConfiguration([mapState], expression.catch, scopes, context);
-      this.appendRetryConfiguration(mapState, expression.retry);
-      context.appendTails(trailingStates);trailingStates
-
-    } else if (iasl.Check.isForEachStatement(expression)) {
+      AslMapFactory.appendIaslMap(expression, scopes, context, resultPath, nameSuggestion);
+    } else if (iasl.Check.isForEach(expression)) {
+      if (expression.iterator === undefined) throw new Error("ForEach must have iterator");
+      if (!iasl.Check.isFunction(expression.iterator)) throw new Error("ForEach must have function");
+      
       if (expression.iterator.statements.length == 0) return;
       const namespace = foreachCounter.value > 0 ? "foreach_" + (foreachCounter.value + 1) : "foreach";
       const namePostFix = foreachCounter.value > 0 ? " " + (foreachCounter.value + 1) : "";
@@ -277,27 +272,19 @@ export class AslFactory {
       context.appendTails(foreachExitState);
 
     } else if (iasl.Check.isAslFailState(expression)) {
-      context.appendNextState({
-        Type: "Fail",
-        Error: expression.error,
-        Cause: expression.cause,
-        Comment: expression.source
-      } as asl.Fail, nameSuggestion);
+      AslFailFactory.appendIaslFail(expression, context, nameSuggestion);
     } else if (iasl.Check.isAslSucceedState(expression)) {
-      context.appendNextState({
-        Type: "Succeed",
-        Comment: expression.source
-      } as asl.Succeed, nameSuggestion);
-    } else if (iasl.Check.isReturnStatement(expression)) {
+      AslSucceedFactory.appendIaslSucceed(expression, context, nameSuggestion);
+    } else if (iasl.Check.isReturn(expression)) {
       AslPassFactory.appendIaslReturn(expression, scopes, context);
-    } else if (iasl.Check.isBreakStatement(expression)) {
+    } else if (iasl.Check.isBreak(expression)) {
       context.appendNextState({
         brand: "break",
         ResultPath: null,
         Type: "Pass",
         Comment: expression.source,
       }, expression.stateName ?? "Break");
-    } else if (iasl.Check.isContinueStatement(expression)) {
+    } else if (iasl.Check.isContinue(expression)) {
       context.appendNextState({
         brand: "continue",
         ResultPath: null,
@@ -305,7 +292,7 @@ export class AslFactory {
         Comment: expression.source,
       }, expression.stateName ?? "Continue");
 
-    } else if (iasl.Check.isTryExpression(expression)) {
+    } else if (iasl.Check.isTry(expression)) {
       const tryWriter = context.createChildContext();
       appendBlock(expression.try, scopes, tryWriter);
       const tryStatesWithCatchConfiguration: Array<(asl.Map | asl.Parallel | asl.Task | asl.Fail)> = [];

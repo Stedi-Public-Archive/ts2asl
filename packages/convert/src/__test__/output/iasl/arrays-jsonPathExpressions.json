@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign filterArray",
       "name": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign filterArray",
@@ -166,44 +167,44 @@
         "source": "filterArray = {\n    cats: {\n      young: [{ age: 2, species: \"cat\" }, { age: 4, species: \"cat\" }],\n      old: [{ age: 12, species: \"cat\" }, { age: 14, species: \"cat\" }],\n    },\n    dogs: {\n      young: [{ age: 1, species: \"dog\" }, { age: 3, species: \"dog\" }],\n      old: [{ age: 11, species: \"dog\" }, { age: 13, species: \"dog\" }]\n    }\n  }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign filterArray",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign ages",
       "name": {
         "identifier": "ages",
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "jsonPathExpression": "..age"
       },
-      "stateName": "Assign ages",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign flattenedPets",
       "name": {
         "identifier": "flattenedPets",
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "jsonPathExpression": "[*][*][*]"
       },
-      "stateName": "Assign flattenedPets",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign slicedArr",
       "name": {
         "identifier": "slicedArr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "filterArray.cats.young",
@@ -214,32 +215,31 @@
           "end": 1
         }
       },
-      "stateName": "Assign slicedArr",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return { ages, fl ...",
       "expression": {
         "properties": {
           "ages": {
             "identifier": "ages",
-            "_syntaxKind": "identifier",
-            "type": "unknown"
+            "type": "unknown",
+            "_syntaxKind": "identifier"
           },
           "flattenedPets": {
             "identifier": "flattenedPets",
-            "_syntaxKind": "identifier",
-            "type": "unknown"
+            "type": "unknown",
+            "_syntaxKind": "identifier"
           },
           "slicedArr": {
             "identifier": "slicedArr",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           }
         },
         "_syntaxKind": "literal-object"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return { ages, fl ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

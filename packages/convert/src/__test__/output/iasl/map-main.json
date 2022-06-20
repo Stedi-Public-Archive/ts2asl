@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign entries",
       "name": {
         "identifier": "entries",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "getEntries()",
@@ -24,18 +25,18 @@
         "source": "getEntries()",
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign entries",
       "_syntaxKind": "variable-assignment"
     },
     {
       "items": {
         "identifier": "entries",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "iterator": {
         "inputArgumentName": {
           "identifier": "entry",
+          "type": "object",
           "_syntaxKind": "identifier"
         },
         "statements": [
@@ -67,10 +68,11 @@
                             },
                             {
                               "identifier": "entry",
-                              "_syntaxKind": "identifier",
-                              "type": "string"
+                              "type": "string",
+                              "_syntaxKind": "identifier"
                             }
                           ],
+                          "type": "unknown",
                           "function": "asl.states.format",
                           "_syntaxKind": "asl-intrinsic-function"
                         }

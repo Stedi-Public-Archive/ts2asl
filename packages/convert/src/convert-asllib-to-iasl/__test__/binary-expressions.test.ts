@@ -263,6 +263,7 @@ describe("when converting binary expressions to iasl", () => {
                 "inputArgumentName": Object {
                   "_syntaxKind": "identifier",
                   "identifier": "item",
+                  "type": "object",
                 },
                 "statements": Array [
                   Object {

@@ -26,9 +26,9 @@
       ],
       "ResultPath": "$.vars.myArray",
       "Comment": "source: myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
-      "Next": "Assign Result"
+      "Next": "myArray.map => x"
     },
-    "Assign Result": {
+    "myArray.map => x": {
       "Type": "Map",
       "ResultPath": "$.tmp.result",
       "Iterator": {
@@ -91,9 +91,9 @@
           "x.$": "$$.Map.Item.Value"
         }
       },
-      "Next": "Return result"
+      "Next": "Return"
     },
-    "Return result": {
+    "Return": {
       "Type": "Pass",
       "InputPath": "$.tmp.result",
       "End": true

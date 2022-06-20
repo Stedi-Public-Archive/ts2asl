@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign counter",
       "name": {
         "identifier": "counter",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign counter",
@@ -16,14 +17,14 @@
         "source": "counter = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign counter",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign result",
@@ -35,7 +36,6 @@
         "source": "result = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -45,8 +45,8 @@
         "rhs": {
           "lhs": {
             "identifier": "counter",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
           "operator": "eq",
           "rhs": {
@@ -63,8 +63,8 @@
           {
             "name": {
               "identifier": "counter",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "arguments": [
@@ -75,10 +75,11 @@
                 },
                 {
                   "identifier": "counter",
-                  "_syntaxKind": "identifier",
-                  "type": "string"
+                  "type": "string",
+                  "_syntaxKind": "identifier"
                 }
               ],
+              "type": "unknown",
               "function": "asl.states.format",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -90,8 +91,8 @@
             "condition": {
               "lhs": {
                 "identifier": "counter",
-                "_syntaxKind": "identifier",
-                "type": "string"
+                "type": "string",
+                "_syntaxKind": "identifier"
               },
               "operator": "eq",
               "rhs": {
@@ -116,8 +117,8 @@
           {
             "name": {
               "identifier": "result",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "arguments": [
@@ -128,10 +129,11 @@
                 },
                 {
                   "identifier": "result",
-                  "_syntaxKind": "identifier",
-                  "type": "string"
+                  "type": "string",
+                  "_syntaxKind": "identifier"
                 }
               ],
+              "type": "unknown",
               "function": "asl.states.format",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -144,13 +146,13 @@
       "_syntaxKind": "do-while"
     },
     {
+      "stateName": "Return result",
       "expression": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return result"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

@@ -1,17 +1,12 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
     {
-      "stateName": "",
-      "name": {
-        "identifier": "result",
-        "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
-      },
+      "stateName": "Return",
       "expression": {
         "arguments": [
           {
@@ -30,19 +25,10 @@
             "_syntaxKind": "identifier"
           }
         ],
+        "type": "unknown",
         "function": "asl.states.format",
         "_syntaxKind": "asl-intrinsic-function"
       },
-      "_syntaxKind": "variable-assignment"
-    },
-    {
-      "expression": {
-        "identifier": "result",
-        "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
-      },
-      "stateName": "Return result",
       "_syntaxKind": "return"
     }
   ],

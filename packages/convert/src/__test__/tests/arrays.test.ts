@@ -78,7 +78,40 @@ describe("when converting arrays", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
+          "Assign myArray": Object {
+            "Comment": "source: myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+            "Next": "myArray.map => x",
+            "Result": Array [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+            ],
+            "ResultPath": "$.vars.myArray",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign myArray",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "myArray.map => x": Object {
             "Comment": "source: myArray.map(x => { if (x === 1 || x === 3 || x ...",
             "ItemsPath": "$.vars.myArray",
             "Iterator": Object {
@@ -137,7 +170,7 @@ describe("when converting arrays", () => {
               },
             },
             "MaxConcurrency": undefined,
-            "Next": "Return result",
+            "Next": "Return",
             "Parameters": Object {
               "vars": Object {
                 "x.$": "$$.Map.Item.Value",
@@ -145,39 +178,6 @@ describe("when converting arrays", () => {
             },
             "ResultPath": "$.tmp.result",
             "Type": "Map",
-          },
-          "Assign myArray": Object {
-            "Comment": "source: myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
-            "Next": "Assign Result",
-            "Result": Array [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10,
-            ],
-            "ResultPath": "$.vars.myArray",
-            "Type": "Pass",
-          },
-          "Initialize": Object {
-            "Next": "Assign myArray",
-            "Parameters": Object {
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Return result": Object {
-            "Comment": undefined,
-            "End": true,
-            "InputPath": "$.tmp.result",
-            "Type": "Pass",
           },
         },
       }

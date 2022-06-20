@@ -1,41 +1,41 @@
 {
   "statements": [
     {
+      "stateName": "Assign arr",
       "name": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign arr",
         "source": "arr: []",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign arr",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign two",
       "name": {
         "identifier": "two",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign two",
         "source": "two: string",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign two",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return \"ok\"",
       "expression": {
         "value": "ok",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"ok\""
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

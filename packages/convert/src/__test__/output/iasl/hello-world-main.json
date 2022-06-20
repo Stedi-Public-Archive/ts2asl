@@ -1,6 +1,7 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
@@ -50,10 +51,11 @@
       "_syntaxKind": "if"
     },
     {
+      "stateName": "Assign rnd",
       "name": {
         "identifier": "rnd",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "random()",
@@ -73,10 +75,10 @@
         "source": "random()",
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign rnd",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return { greeting: `H ...",
       "expression": {
         "properties": {
           "greeting": {
@@ -92,19 +94,19 @@
                 "_syntaxKind": "identifier"
               }
             ],
+            "type": "unknown",
             "function": "asl.states.format",
             "_syntaxKind": "asl-intrinsic-function"
           },
           "luckyNumber": {
             "identifier": "rnd",
-            "_syntaxKind": "identifier",
-            "type": "numeric"
+            "type": "numeric",
+            "_syntaxKind": "identifier"
           }
         },
         "_syntaxKind": "literal-object"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return { greeting: `H ..."
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

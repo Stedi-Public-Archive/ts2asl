@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign myArray",
       "name": {
         "identifier": "myArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign myArray",
@@ -66,27 +67,21 @@
         "source": "myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign myArray",
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "",
-      "name": {
-        "identifier": "result",
-        "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
-      },
+      "stateName": "Return",
       "expression": {
         "stateName": "myArray.map => x",
         "items": {
           "identifier": "myArray",
-          "_syntaxKind": "identifier",
-          "type": "object"
+          "type": "object",
+          "_syntaxKind": "identifier"
         },
         "iterator": {
           "inputArgumentName": {
             "identifier": "x",
+            "type": "object",
             "_syntaxKind": "identifier"
           },
           "statements": [
@@ -99,8 +94,8 @@
                       "lhs": {
                         "lhs": {
                           "identifier": "x",
-                          "_syntaxKind": "identifier",
-                          "type": "numeric"
+                          "type": "numeric",
+                          "_syntaxKind": "identifier"
                         },
                         "operator": "eq",
                         "rhs": {
@@ -114,8 +109,8 @@
                       "rhs": {
                         "lhs": {
                           "identifier": "x",
-                          "_syntaxKind": "identifier",
-                          "type": "numeric"
+                          "type": "numeric",
+                          "_syntaxKind": "identifier"
                         },
                         "operator": "eq",
                         "rhs": {
@@ -131,8 +126,8 @@
                     "rhs": {
                       "lhs": {
                         "identifier": "x",
-                        "_syntaxKind": "identifier",
-                        "type": "numeric"
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
                       },
                       "operator": "eq",
                       "rhs": {
@@ -148,8 +143,8 @@
                   "rhs": {
                     "lhs": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "numeric"
+                      "type": "numeric",
+                      "_syntaxKind": "identifier"
                     },
                     "operator": "eq",
                     "rhs": {
@@ -165,8 +160,8 @@
                 "rhs": {
                   "lhs": {
                     "identifier": "x",
-                    "_syntaxKind": "identifier",
-                    "type": "numeric"
+                    "type": "numeric",
+                    "_syntaxKind": "identifier"
                   },
                   "operator": "eq",
                   "rhs": {
@@ -181,12 +176,13 @@
               "then": {
                 "statements": [
                   {
+                    "stateName": "Return { age: x, ...",
                     "expression": {
                       "properties": {
                         "age": {
                           "identifier": "x",
-                          "_syntaxKind": "identifier",
-                          "type": "unknown"
+                          "type": "unknown",
+                          "_syntaxKind": "identifier"
                         },
                         "species": {
                           "value": "dog",
@@ -196,8 +192,7 @@
                       },
                       "_syntaxKind": "literal-object"
                     },
-                    "_syntaxKind": "return",
-                    "stateName": "Return { age: x, ..."
+                    "_syntaxKind": "return"
                   }
                 ],
                 "_syntaxKind": "function"
@@ -205,12 +200,13 @@
               "else": {
                 "statements": [
                   {
+                    "stateName": "Return { age: x, ...",
                     "expression": {
                       "properties": {
                         "age": {
                           "identifier": "x",
-                          "_syntaxKind": "identifier",
-                          "type": "numeric"
+                          "type": "numeric",
+                          "_syntaxKind": "identifier"
                         },
                         "species": {
                           "value": "cat",
@@ -220,8 +216,7 @@
                       },
                       "_syntaxKind": "literal-object"
                     },
-                    "_syntaxKind": "return",
-                    "stateName": "Return { age: x, ..."
+                    "_syntaxKind": "return"
                   }
                 ],
                 "_syntaxKind": "function"
@@ -235,16 +230,6 @@
         "source": "myArray.map(x => {\n    if (x === 1 || x === 3 || x === 5 || x === 7 || x == 9) {\n      return {\n        age: x,\n        species: \"dog\",\n      }\n    } else {\n      return {\n        age: x,\n        species: \"cat\",\n      }\n    }\n  })",
         "_syntaxKind": "asl-map-state"
       },
-      "_syntaxKind": "variable-assignment"
-    },
-    {
-      "expression": {
-        "identifier": "result",
-        "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
-      },
-      "stateName": "Return result",
       "_syntaxKind": "return"
     }
   ],

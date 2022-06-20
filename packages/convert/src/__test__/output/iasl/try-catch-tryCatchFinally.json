@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign result",
@@ -16,7 +17,6 @@
         "source": "result = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -26,8 +26,8 @@
           {
             "name": {
               "identifier": "result",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "value": "try",
@@ -45,8 +45,8 @@
           {
             "name": {
               "identifier": "result",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "value": "finally",
@@ -69,8 +69,8 @@
               {
                 "name": {
                   "identifier": "result",
-                  "_syntaxKind": "identifier",
-                  "type": "string"
+                  "type": "string",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "value": "catch",
@@ -89,13 +89,13 @@
       "_syntaxKind": "try"
     },
     {
+      "stateName": "Return result",
       "expression": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return result"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

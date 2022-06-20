@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign _null",
       "name": {
         "identifier": "_null",
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign _null",
@@ -16,17 +17,16 @@
         "source": "_null = null",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign _null",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return \"ok\"",
       "expression": {
         "value": "ok",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"ok\""
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

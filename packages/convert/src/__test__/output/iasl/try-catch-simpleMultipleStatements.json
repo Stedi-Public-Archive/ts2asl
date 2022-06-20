@@ -5,10 +5,11 @@
       "try": {
         "statements": [
           {
+            "stateName": "Assign arr",
             "name": {
               "identifier": "arr",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "stateName": "Assign arr",
@@ -25,36 +26,37 @@
               "source": "arr = [1]",
               "_syntaxKind": "asl-pass-state"
             },
-            "stateName": "Assign arr",
             "_syntaxKind": "variable-assignment"
           },
           {
+            "stateName": "Assign withinTry",
             "name": {
               "identifier": "withinTry",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "stateName": "arr.map => x",
               "items": {
                 "identifier": "arr",
-                "_syntaxKind": "identifier",
-                "type": "object"
+                "type": "object",
+                "_syntaxKind": "identifier"
               },
               "iterator": {
                 "inputArgumentName": {
                   "identifier": "x",
+                  "type": "object",
                   "_syntaxKind": "identifier"
                 },
                 "statements": [
                   {
+                    "stateName": "Return \"succeeded\"",
                     "expression": {
                       "value": "succeeded",
                       "type": "string",
                       "_syntaxKind": "literal"
                     },
-                    "_syntaxKind": "return",
-                    "stateName": "Return \"succeeded\""
+                    "_syntaxKind": "return"
                   }
                 ],
                 "_syntaxKind": "function"
@@ -62,10 +64,10 @@
               "source": "arr.map(x => \"succeeded\")",
               "_syntaxKind": "asl-map-state"
             },
-            "stateName": "Assign withinTry",
             "_syntaxKind": "variable-assignment"
           },
           {
+            "stateName": "Return withinTry[0]",
             "expression": {
               "identifier": "",
               "indexExpression": {
@@ -75,13 +77,13 @@
               },
               "lhs": {
                 "identifier": "withinTry",
-                "_syntaxKind": "identifier",
-                "type": "object"
+                "type": "object",
+                "_syntaxKind": "identifier"
               },
+              "type": "string",
               "_syntaxKind": "identifier"
             },
-            "_syntaxKind": "return",
-            "stateName": "Return withinTry[0]"
+            "_syntaxKind": "return"
           }
         ],
         "_syntaxKind": "function"
@@ -94,13 +96,13 @@
           "block": {
             "statements": [
               {
+                "stateName": "Return \"it failed\"",
                 "expression": {
                   "value": "it failed",
                   "type": "string",
                   "_syntaxKind": "literal"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return \"it failed\""
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"

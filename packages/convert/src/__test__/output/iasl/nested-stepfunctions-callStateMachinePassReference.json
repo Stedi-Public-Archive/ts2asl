@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign args",
       "name": {
         "identifier": "args",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign args",
@@ -26,14 +27,14 @@
         "source": "args = {firstName: \"Santa\", lastName: \"Claus\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign args",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign name",
       "name": {
         "identifier": "name",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "childStateMachine(args)",
@@ -42,8 +43,8 @@
         "stateMachineArn": "[!state-machine[childStateMachine]arn]",
         "parameters": {
           "identifier": "args",
-          "_syntaxKind": "identifier",
-          "type": "object"
+          "type": "object",
+          "_syntaxKind": "identifier"
         },
         "retry": [
           {
@@ -60,17 +61,16 @@
         "source": "childStateMachine(args)",
         "_syntaxKind": "asl-invoke-state-machine"
       },
-      "stateName": "Assign name",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return name",
       "expression": {
         "identifier": "name",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return name"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

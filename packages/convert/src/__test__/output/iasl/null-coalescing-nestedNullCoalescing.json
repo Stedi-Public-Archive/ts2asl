@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign obj",
       "name": {
         "identifier": "obj",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign obj",
@@ -21,10 +22,10 @@
         "source": "obj = { name: undefined }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign obj",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return",
       "expression": {
         "condition": {
           "rhs": {
@@ -81,8 +82,7 @@
         },
         "_syntaxKind": "conditional-expression"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

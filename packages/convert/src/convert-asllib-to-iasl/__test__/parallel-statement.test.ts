@@ -26,7 +26,11 @@ describe("when converting choice statement to iasl", () => {
                 "statements": Array [
                   Object {
                     "_syntaxKind": "return",
-                    "stateName": "Return",
+                    "expression": Object {
+                      "_syntaxKind": "literal",
+                      "type": "null",
+                      "value": null,
+                    },
                   },
                 ],
               },

@@ -1,18 +1,21 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "contextArgumentName": {
     "identifier": "context",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Human Approval",
@@ -33,8 +36,8 @@
                 },
                 "request": {
                   "identifier": "input",
-                  "_syntaxKind": "identifier",
-                  "type": "object"
+                  "type": "object",
+                  "_syntaxKind": "identifier"
                 }
               },
               "_syntaxKind": "literal-object"
@@ -44,7 +47,6 @@
         },
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     }
   ],

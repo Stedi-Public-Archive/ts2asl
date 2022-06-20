@@ -4,7 +4,7 @@ import { AslWriter } from "./asl-writer";
 import { AslRhsFactory, PathExpressionOrLiteral } from "./aslfactory.rhs";
 
 export class AslPassFactory {
-  static appendIaslPass(expression: iasl.PassState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
+  static appendIaslPass(expression: iasl.AslPassState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
     const rhs = AslRhsFactory.appendIasl(expression.parameters, scopes, context, true);
 
     this.appendAsl(

@@ -24,9 +24,9 @@
       "End": true,
       "Branches": [
         {
-          "StartAt": "asl.fail({ error: \" ...",
+          "StartAt": "Fail",
           "States": {
-            "asl.fail({ error: \" ...": {
+            "Fail": {
               "Type": "Fail",
               "Error": "InternalFailure",
               "Cause": "bad luck"
@@ -68,17 +68,11 @@
       "Parameters": {
         "value.$": "States.Format('{} ({})', $.vars.aslError.Error, $.vars.aslError.Cause)"
       },
-      "Next": "Assign Result"
+      "Next": "Return"
     },
-    "Assign Result": {
+    "Return": {
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
-      "ResultPath": "$.tmp.result",
-      "Next": "Return result_1"
-    },
-    "Return result_1": {
-      "Type": "Pass",
-      "InputPath": "$.tmp.result",
       "End": true
     },
     "Return \"this should not h ...": {

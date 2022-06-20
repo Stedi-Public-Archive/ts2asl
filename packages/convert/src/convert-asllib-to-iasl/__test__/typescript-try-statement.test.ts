@@ -31,6 +31,7 @@ describe("when converting try statement to iasl", () => {
                   "inputArgumentName": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "arg",
+                    "type": "object",
                   },
                   "statements": Array [
                     Object {

@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign obj",
       "name": {
         "identifier": "obj",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign obj",
@@ -26,18 +27,18 @@
         "source": "obj = { inner: { name: \"jim\" } }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign obj",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return obj?.inner?.name",
       "expression": {
         "condition": {
           "rhs": {
             "condition": {
               "rhs": {
                 "identifier": "obj",
-                "_syntaxKind": "identifier",
-                "type": "object"
+                "type": "object",
+                "_syntaxKind": "identifier"
               },
               "operator": "is-truthy",
               "_syntaxKind": "binary-expression"
@@ -52,8 +53,7 @@
               "type": "null",
               "_syntaxKind": "literal"
             },
-            "_syntaxKind": "conditional-expression",
-            "type": "object"
+            "_syntaxKind": "conditional-expression"
           },
           "operator": "is-truthy",
           "_syntaxKind": "binary-expression"
@@ -70,8 +70,7 @@
         },
         "_syntaxKind": "conditional-expression"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return obj?.inner?.name"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

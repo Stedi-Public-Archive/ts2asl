@@ -2,15 +2,20 @@ import * as ts from "typescript";
 import { ConverterContext, convertExpressionToLiteralOrIdentifier } from ".";
 import { aslStyleCallExpression } from "../convert/list-function-declarations";
 import * as iasl from "./ast";
+import { IdentifierFactory } from "./iaslfactory";
+
+export const inferIaslType = (expression: ts.Expression, context: ConverterContext): iasl.Type => {
+  const { typeChecker } = context;
+  const type = typeChecker.getTypeAtLocation(expression);
+  const symbol = typeChecker.getSymbolAtLocation(expression);
+  return convertType(type, symbol);
+}
 
 export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, context: ConverterContext): iasl.Identifier | undefined => {
-  const { typeChecker } = context;
+  
   if (ts.isIdentifier(expression)) {
-
-    const type = typeChecker.getTypeAtLocation(expression);
-    const symbol = typeChecker.getSymbolAtLocation(expression);
-    const iaslType = convertType(type, symbol);
-    const identifier = { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, type: iaslType } as iasl.Identifier;
+    const iaslType = inferIaslType(expression, context);
+    const identifier = IdentifierFactory.create({ identifier: expression.text, type: iaslType });
     return identifier;
   }
 
@@ -39,17 +44,17 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
   }
   let pathAsString = path.reverse().join(".");
   if (ts.isPropertyAccessExpression(expression)) {
-    const type = typeChecker.getTypeAtLocation(expression);
-    const iaslType = convertType(type);
-    return { identifier: `${pathAsString}.${expression.name.text}`, type: iaslType, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier;
+    const iaslType = inferIaslType(expression, context);
+    return IdentifierFactory.create({ identifier: `${pathAsString}.${expression.name.text}`, type: iaslType});
   } else if (ts.isElementAccessExpression(expression)) {
     const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, {}, context);
-    return {
+    const iaslType = inferIaslType(expression, context);
+    return IdentifierFactory.create({
       identifier: pathAsString,
       indexExpression: convertedIndexExpression,
       lhs: convertToIdentifier(expression.expression, context),
-      _syntaxKind: iasl.SyntaxKind.Identifier,
-    } as iasl.Identifier;
+      type: iaslType
+    });
   }
   return undefined;
 };

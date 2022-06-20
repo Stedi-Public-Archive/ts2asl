@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign counter",
       "name": {
         "identifier": "counter",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign counter",
@@ -16,23 +17,26 @@
         "source": "counter = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign counter",
       "_syntaxKind": "variable-assignment"
     },
     {
       "stateName": "Do While (false)",
       "condition": {
-        "type": "boolean",
-        "value": false,
-        "_syntaxKind": "literal"
+        "rhs": {
+          "value": false,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "operator": "is-truthy",
+        "_syntaxKind": "binary-expression"
       },
       "while": {
         "statements": [
           {
             "name": {
               "identifier": "counter",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "arguments": [
@@ -43,10 +47,11 @@
                 },
                 {
                   "identifier": "counter",
-                  "_syntaxKind": "identifier",
-                  "type": "string"
+                  "type": "string",
+                  "_syntaxKind": "identifier"
                 }
               ],
+              "type": "unknown",
               "function": "asl.states.format",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -60,13 +65,13 @@
       "_syntaxKind": "do-while"
     },
     {
+      "stateName": "Return counter",
       "expression": {
         "identifier": "counter",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return counter"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

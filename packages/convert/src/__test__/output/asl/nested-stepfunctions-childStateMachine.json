@@ -16,17 +16,11 @@
       "Parameters": {
         "value.$": "States.Format('{} {}', $.vars.firstName, $.vars.lastName)"
       },
-      "Next": "Assign Result"
+      "Next": "Return"
     },
-    "Assign Result": {
+    "Return": {
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
-      "ResultPath": "$.tmp.result",
-      "Next": "Return result"
-    },
-    "Return result": {
-      "Type": "Pass",
-      "InputPath": "$.tmp.result",
       "End": true
     }
   }

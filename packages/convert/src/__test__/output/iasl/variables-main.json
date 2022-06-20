@@ -1,10 +1,12 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "contextArgumentName": {
     "identifier": "context",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
@@ -54,10 +56,11 @@
       "_syntaxKind": "if"
     },
     {
+      "stateName": "Assign x",
       "name": {
         "identifier": "x",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign x",
@@ -79,14 +82,14 @@
         "source": "x = {\n    name: input.name,\n    executionId: context.execution.id\n  }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign x",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign y",
       "name": {
         "identifier": "y",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign y",
@@ -94,8 +97,8 @@
           "properties": {
             "x": {
               "identifier": "x",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "somethingLiteral": {
               "elements": [
@@ -126,10 +129,11 @@
               "arguments": [
                 {
                   "identifier": "x",
-                  "_syntaxKind": "identifier",
-                  "type": "object"
+                  "type": "object",
+                  "_syntaxKind": "identifier"
                 }
               ],
+              "type": "string",
               "function": "asl.states.jsonToString",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -146,6 +150,7 @@
                   "_syntaxKind": "literal-object"
                 }
               ],
+              "type": "string",
               "function": "asl.states.jsonToString",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -158,10 +163,11 @@
                 },
                 {
                   "identifier": "x",
-                  "_syntaxKind": "identifier",
-                  "type": "object"
+                  "type": "object",
+                  "_syntaxKind": "identifier"
                 }
               ],
+              "type": "string",
               "function": "asl.states.format",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -173,6 +179,7 @@
                   "_syntaxKind": "literal"
                 }
               ],
+              "type": "unknown",
               "function": "asl.states.stringToJson",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -209,6 +216,7 @@
                   "_syntaxKind": "literal"
                 }
               ],
+              "type": "object",
               "function": "asl.states.array",
               "_syntaxKind": "asl-intrinsic-function"
             }
@@ -218,17 +226,16 @@
         "source": "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    func2: asl.states.jsonToString({field:'val'}),\n    fmt: asl.states.format(\"hello {}\", x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign y",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return y",
       "expression": {
         "identifier": "y",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return y"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

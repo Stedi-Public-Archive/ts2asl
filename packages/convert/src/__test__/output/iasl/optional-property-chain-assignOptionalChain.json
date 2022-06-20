@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign obj",
       "name": {
         "identifier": "obj",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign obj",
@@ -21,14 +22,14 @@
         "source": "obj = { name: \"jim\" }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign obj",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign name",
       "name": {
         "identifier": "name",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign name",
@@ -36,8 +37,8 @@
           "condition": {
             "rhs": {
               "identifier": "obj",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "operator": "is-truthy",
             "_syntaxKind": "binary-expression"
@@ -57,17 +58,16 @@
         "source": "name = obj?.name",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign name",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return name",
       "expression": {
         "identifier": "name",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return name"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

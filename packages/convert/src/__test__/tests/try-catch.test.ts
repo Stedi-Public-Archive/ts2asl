@@ -343,13 +343,6 @@ describe("when converting try-catch", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
-            "Comment": undefined,
-            "InputPath": "$.tmp.eval.value",
-            "Next": "Return result_1",
-            "ResultPath": "$.tmp.result",
-            "Type": "Pass",
-          },
           "Assign aslError": Object {
             "Comment": "source: aslError = e as asl.AslError",
             "InputPath": "$.vars.e",
@@ -358,7 +351,7 @@ describe("when converting try-catch", () => {
             "Type": "Pass",
           },
           "Evaluate Format('{} ({})' ...": Object {
-            "Next": "Assign Result",
+            "Next": "Return",
             "Parameters": Object {
               "value.$": "States.Format('{} ({})', $.vars.aslError.Error, $.vars.aslError.Cause)",
             },
@@ -368,9 +361,9 @@ describe("when converting try-catch", () => {
           "Fail State Wrapper": Object {
             "Branches": Array [
               Object {
-                "StartAt": "asl.fail({ error: \\" ...",
+                "StartAt": "Fail",
                 "States": Object {
-                  "asl.fail({ error: \\" ...": Object {
+                  "Fail": Object {
                     "Cause": "bad luck",
                     "Comment": undefined,
                     "Error": "InternalFailure",
@@ -420,16 +413,16 @@ describe("when converting try-catch", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
+          "Return": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.tmp.eval.value",
+            "Type": "Pass",
+          },
           "Return \\"this should not h ...": Object {
             "Comment": undefined,
             "End": true,
             "Result": "this should not happen",
-            "Type": "Pass",
-          },
-          "Return result_1": Object {
-            "Comment": undefined,
-            "End": true,
-            "InputPath": "$.tmp.result",
             "Type": "Pass",
           },
         },

@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign x",
       "name": {
         "identifier": "x",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign x",
@@ -16,7 +17,6 @@
         "source": "x = ExampleEnum.A",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign x",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -24,8 +24,8 @@
       "condition": {
         "lhs": {
           "identifier": "x",
-          "_syntaxKind": "identifier",
-          "type": "numeric"
+          "type": "numeric",
+          "_syntaxKind": "identifier"
         },
         "operator": "eq",
         "rhs": {
@@ -38,13 +38,13 @@
       "then": {
         "statements": [
           {
+            "stateName": "Return \"success\"",
             "expression": {
               "value": "success",
               "type": "string",
               "_syntaxKind": "literal"
             },
-            "_syntaxKind": "return",
-            "stateName": "Return \"success\""
+            "_syntaxKind": "return"
           }
         ],
         "_syntaxKind": "function"
@@ -53,13 +53,13 @@
       "_syntaxKind": "if"
     },
     {
+      "stateName": "Return \"fail\"",
       "expression": {
         "value": "fail",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"fail\""
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

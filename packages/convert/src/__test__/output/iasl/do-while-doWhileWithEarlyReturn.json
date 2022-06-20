@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign counter",
       "name": {
         "identifier": "counter",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign counter",
@@ -16,7 +17,6 @@
         "source": "counter = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign counter",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -26,8 +26,8 @@
         "rhs": {
           "lhs": {
             "identifier": "counter",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
           "operator": "eq",
           "rhs": {
@@ -44,8 +44,8 @@
           {
             "name": {
               "identifier": "counter",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "arguments": [
@@ -56,10 +56,11 @@
                 },
                 {
                   "identifier": "counter",
-                  "_syntaxKind": "identifier",
-                  "type": "string"
+                  "type": "string",
+                  "_syntaxKind": "identifier"
                 }
               ],
+              "type": "unknown",
               "function": "asl.states.format",
               "_syntaxKind": "asl-intrinsic-function"
             },
@@ -71,8 +72,8 @@
             "condition": {
               "lhs": {
                 "identifier": "counter",
-                "_syntaxKind": "identifier",
-                "type": "string"
+                "type": "string",
+                "_syntaxKind": "identifier"
               },
               "operator": "eq",
               "rhs": {
@@ -85,13 +86,13 @@
             "then": {
               "statements": [
                 {
+                  "stateName": "Return counter",
                   "expression": {
                     "identifier": "counter",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
-                  "_syntaxKind": "return",
-                  "stateName": "Return counter"
+                  "_syntaxKind": "return"
                 }
               ],
               "_syntaxKind": "function"

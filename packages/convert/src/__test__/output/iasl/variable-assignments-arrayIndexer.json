@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign arr",
       "name": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign arr",
@@ -41,14 +42,14 @@
         "source": "arr = [1, 2, 3, 4, 5]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign arr",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign two",
       "name": {
         "identifier": "two",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign two",
@@ -61,15 +62,15 @@
           },
           "lhs": {
             "identifier": "arr",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           },
+          "type": "numeric",
           "_syntaxKind": "identifier"
         },
         "source": "two = arr[1]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign two",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -82,9 +83,10 @@
         },
         "lhs": {
           "identifier": "arr",
-          "_syntaxKind": "identifier",
-          "type": "object"
+          "type": "object",
+          "_syntaxKind": "identifier"
         },
+        "type": "numeric",
         "_syntaxKind": "identifier"
       },
       "expression": {
@@ -96,9 +98,10 @@
         },
         "lhs": {
           "identifier": "arr",
-          "_syntaxKind": "identifier",
-          "type": "object"
+          "type": "object",
+          "_syntaxKind": "identifier"
         },
+        "type": "numeric",
         "_syntaxKind": "identifier"
       },
       "stateName": "Assign arr[1]",
@@ -114,27 +117,28 @@
         },
         "lhs": {
           "identifier": "arr",
-          "_syntaxKind": "identifier",
-          "type": "object"
+          "type": "object",
+          "_syntaxKind": "identifier"
         },
+        "type": "numeric",
         "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "two",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "stateName": "Assign arr[3]",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return arr",
       "expression": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return arr"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

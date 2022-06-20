@@ -1,6 +1,7 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
@@ -26,6 +27,7 @@
           "block": {
             "inputArgumentName": {
               "identifier": "err",
+              "type": "object",
               "_syntaxKind": "identifier"
             },
             "statements": [
@@ -48,13 +50,13 @@
                 "then": {
                   "statements": [
                     {
+                      "stateName": "Return \"Todo\"",
                       "expression": {
                         "value": "Todo",
                         "type": "string",
                         "_syntaxKind": "literal"
                       },
-                      "_syntaxKind": "return",
-                      "stateName": "Return \"Todo\""
+                      "_syntaxKind": "return"
                     }
                   ],
                   "_syntaxKind": "function"

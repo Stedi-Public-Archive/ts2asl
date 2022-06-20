@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign mappedArray",
       "name": {
         "identifier": "mappedArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign mappedArray",
@@ -136,14 +137,14 @@
         "source": "mappedArray = [{ age: 1, species: \"dog\" }, { age: 2, species: \"cat\" }, { age: 3, species: \"dog\" }, { age: 4, species: \"cat\" }, { age: 11, species: \"dog\" }, { age: 12, species: \"car\" }, { age: 13, species: \"dog\" }, { age: 14, species: \"cat\" }]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign mappedArray",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign filterArray",
       "name": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign filterArray",
@@ -153,13 +154,13 @@
               "properties": {
                 "young": {
                   "identifier": "mappedArray",
-                  "_syntaxKind": "identifier",
                   "type": "object",
+                  "_syntaxKind": "identifier",
                   "filterExpression": {
                     "argument": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "expression": {
                       "lhs": {
@@ -197,13 +198,13 @@
                 },
                 "old": {
                   "identifier": "mappedArray",
-                  "_syntaxKind": "identifier",
                   "type": "object",
+                  "_syntaxKind": "identifier",
                   "filterExpression": {
                     "argument": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "expression": {
                       "lhs": {
@@ -246,13 +247,13 @@
               "properties": {
                 "young": {
                   "identifier": "mappedArray",
-                  "_syntaxKind": "identifier",
                   "type": "object",
+                  "_syntaxKind": "identifier",
                   "filterExpression": {
                     "argument": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "expression": {
                       "lhs": {
@@ -290,13 +291,13 @@
                 },
                 "old": {
                   "identifier": "mappedArray",
-                  "_syntaxKind": "identifier",
                   "type": "object",
+                  "_syntaxKind": "identifier",
                   "filterExpression": {
                     "argument": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "expression": {
                       "lhs": {
@@ -341,17 +342,16 @@
         "source": "filterArray = {\n    cats: {\n      young: mappedArray.filter(x => x.species === \"cat\" && x.age < 5),\n      old: mappedArray.filter(x => x.species === \"cat\" && x.age >= 5),\n    },\n    dogs: {\n      young: mappedArray.filter(x => x.species === \"dog\" && x.age < 5),\n      old: mappedArray.filter(x => x.species === \"dog\" && x.age >= 5),\n    }\n  }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign filterArray",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return filterArray",
       "expression": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return filterArray"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

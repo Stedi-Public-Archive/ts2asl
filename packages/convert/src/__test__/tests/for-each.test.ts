@@ -402,13 +402,6 @@ describe("when converting for-each", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Assign Result": Object {
-            "Comment": undefined,
-            "InputPath": "$.tmp.eval.value",
-            "Next": "Return result",
-            "ResultPath": "$.tmp.result",
-            "Type": "Pass",
-          },
           "Assign arr": Object {
             "Comment": "source: arr = [1, 2, 3]",
             "Next": "Foreach Initialize",
@@ -421,7 +414,7 @@ describe("when converting for-each", () => {
             "Type": "Pass",
           },
           "Evaluate Format('found {} ...": Object {
-            "Next": "Assign Result",
+            "Next": "Return",
             "Parameters": Object {
               "value.$": "States.Format('found {}!', $.foreach.currentItem)",
             },
@@ -484,10 +477,10 @@ describe("when converting for-each", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return result": Object {
+          "Return": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.eval.value",
             "Type": "Pass",
           },
           "Throw Error": Object {

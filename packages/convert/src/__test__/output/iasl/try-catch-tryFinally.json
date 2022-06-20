@@ -9,13 +9,13 @@
               {
                 "statements": [
                   {
+                    "stateName": "Return \"succeeded\"",
                     "expression": {
                       "value": "succeeded",
                       "type": "string",
                       "_syntaxKind": "literal"
                     },
-                    "_syntaxKind": "return",
-                    "stateName": "Return \"succeeded\""
+                    "_syntaxKind": "return"
                   }
                 ],
                 "_syntaxKind": "function"
@@ -30,13 +30,13 @@
       "finally": {
         "statements": [
           {
+            "stateName": "Return \"finally\"",
             "expression": {
               "value": "finally",
               "type": "string",
               "_syntaxKind": "literal"
             },
-            "_syntaxKind": "return",
-            "stateName": "Return \"finally\""
+            "_syntaxKind": "return"
           }
         ],
         "_syntaxKind": "function"

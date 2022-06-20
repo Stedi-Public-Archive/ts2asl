@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign value",
       "name": {
         "identifier": "value",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign value",
@@ -16,7 +17,6 @@
         "source": "value = 42",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign value",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -35,8 +35,8 @@
                   },
                   "Value": {
                     "identifier": "value",
-                    "_syntaxKind": "identifier",
-                    "type": "numeric"
+                    "type": "numeric",
+                    "_syntaxKind": "identifier"
                   }
                 },
                 "_syntaxKind": "literal-object"

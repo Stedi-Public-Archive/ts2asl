@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign data",
       "name": {
         "identifier": "data",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign data",
@@ -41,7 +42,6 @@
         "source": "data = {\n    num: 42,\n    text: \"text\",\n    undefined: undefined,\n    null: null,\n    timestamp: \"2016-03-14T01:59:00Z\"\n  }",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign data",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -193,12 +193,12 @@
     {
       "stateName": "If (data.undefined)",
       "condition": {
-        "operator": "is-truthy",
         "rhs": {
           "identifier": "data.undefined",
           "type": "unknown",
           "_syntaxKind": "identifier"
         },
+        "operator": "is-truthy",
         "_syntaxKind": "binary-expression"
       },
       "then": {
@@ -219,12 +219,12 @@
     {
       "stateName": "If (data.null)",
       "condition": {
-        "operator": "is-truthy",
         "rhs": {
           "identifier": "data.null",
           "type": "unknown",
           "_syntaxKind": "identifier"
         },
+        "operator": "is-truthy",
         "_syntaxKind": "binary-expression"
       },
       "then": {
@@ -281,13 +281,13 @@
       "_syntaxKind": "if"
     },
     {
+      "stateName": "Return \"success\"",
       "expression": {
         "value": "success",
         "type": "string",
         "_syntaxKind": "literal"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return \"success\""
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

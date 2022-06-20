@@ -8,6 +8,9 @@ import { AslParallelFactory } from "./aslfactory.parallel";
 import { AslTaskFactory } from "./aslfactory.task";
 import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
 import { AslPassFactory } from "./aslfactory.pass";
+import { AslMapFactory } from "./aslfactory.map";
+import { AslFailFactory } from "./aslfactory.fail";
+import { AslSucceedFactory } from "./aslfactory.succeed";
 
 export class AslRhsFactory {
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral {
@@ -139,7 +142,17 @@ export class AslRhsFactory {
     } else if (iasl.Check.isAslInvokeStateMachine(expression)) {
       AslInvokeStateMachineFactory.appendIaslInvoke(expression, scopes, context, "$.tmp.result",expression.stateName);
       return { path: "$.tmp.result", type: "unknown" };
+    } else if (iasl.Check.isAslMapState(expression)) {
+      AslMapFactory.appendIaslMap(expression, scopes, context, "$.tmp.result", expression.stateName);
+      return { path: "$.tmp.result", type: "unknown" };
+    } else if (iasl.Check.isAslFailState(expression)) {
+      AslFailFactory.appendIaslFail(expression, context, expression.stateName);
+      return { path: "$._undefined", type: "null" };
+    } else if (iasl.Check.isAslSucceedState(expression)) {
+      AslSucceedFactory.appendIaslSucceed(expression, context, expression.stateName);
+      return { path: "$.vars", type: "object" };
     }
+
 
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);
   }

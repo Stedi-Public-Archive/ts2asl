@@ -61,8 +61,6 @@ export const foreachEarlyReturn = asl.deploy.asStateMachine(async () => {
   throw new Error("should not get here");
 });
 
-
-
 export const nestedForeach = asl.deploy.asStateMachine(async () =>{
     const numbers = asl.pass({
         name: "Assign numbers",

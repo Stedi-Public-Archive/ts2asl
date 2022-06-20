@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign enclosedVar",
       "name": {
         "identifier": "enclosedVar",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign enclosedVar",
@@ -16,23 +17,26 @@
         "source": "enclosedVar = \"before\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign enclosedVar",
       "_syntaxKind": "variable-assignment"
     },
     {
       "stateName": "If (true)",
       "condition": {
-        "type": "boolean",
-        "value": true,
-        "_syntaxKind": "literal"
+        "rhs": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "operator": "is-truthy",
+        "_syntaxKind": "binary-expression"
       },
       "then": {
         "statements": [
           {
             "name": {
               "identifier": "enclosedVar",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "value": "outer if",
@@ -45,17 +49,21 @@
           {
             "stateName": "If (true)",
             "condition": {
-              "type": "boolean",
-              "value": true,
-              "_syntaxKind": "literal"
+              "rhs": {
+                "value": true,
+                "type": "boolean",
+                "_syntaxKind": "literal"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
             },
             "then": {
               "statements": [
                 {
                   "name": {
                     "identifier": "enclosedVar",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "expression": {
                     "value": "inner if",
@@ -73,8 +81,8 @@
                 {
                   "name": {
                     "identifier": "enclosedVar",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "expression": {
                     "value": "else if",
@@ -98,8 +106,8 @@
           {
             "name": {
               "identifier": "enclosedVar",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "value": "outer else if",
@@ -116,13 +124,13 @@
       "_syntaxKind": "if"
     },
     {
+      "stateName": "Return enclosedVar",
       "expression": {
         "identifier": "enclosedVar",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return enclosedVar"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

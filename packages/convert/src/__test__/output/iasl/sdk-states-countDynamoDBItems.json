@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "COUNT(where gsi1pk === 'test')",
@@ -61,17 +62,16 @@
         },
         "_syntaxKind": "asl-task-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Return result.Count",
       "expression": {
         "identifier": "result.Count",
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return result.Count"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

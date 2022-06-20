@@ -1,20 +1,22 @@
 {
   "statements": [
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "branches": [
           {
             "statements": [
               {
+                "stateName": "Assign",
                 "name": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "stateName": "performIdentifyCheck()",
@@ -34,17 +36,16 @@
                   "source": "performIdentifyCheck()",
                   "_syntaxKind": "asl-task-state"
                 },
-                "stateName": "Assign",
                 "_syntaxKind": "variable-assignment"
               },
               {
+                "stateName": "Return",
                 "expression": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return"
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"
@@ -52,6 +53,7 @@
           {
             "statements": [
               {
+                "stateName": "Return { agencyChecked: t ...",
                 "expression": {
                   "properties": {
                     "agencyChecked": {
@@ -62,8 +64,7 @@
                   },
                   "_syntaxKind": "literal-object"
                 },
-                "_syntaxKind": "return",
-                "stateName": "Return { agencyChecked: t ..."
+                "_syntaxKind": "return"
               }
             ],
             "_syntaxKind": "function"
@@ -72,7 +73,6 @@
         "source": "Promise.all([\n    performIdentifyCheck(),\n    Promise.resolve({ agencyChecked: true }),\n  ])",
         "_syntaxKind": "asl-parallel-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
@@ -88,10 +88,11 @@
                     "arguments": [
                       {
                         "identifier": "result",
-                        "_syntaxKind": "identifier",
-                        "type": "object"
+                        "type": "object",
+                        "_syntaxKind": "identifier"
                       }
                     ],
+                    "type": "string",
                     "function": "asl.states.jsonToString",
                     "_syntaxKind": "asl-intrinsic-function"
                   },
@@ -122,10 +123,11 @@
       "_syntaxKind": "asl-task-state"
     },
     {
+      "stateName": "Assign checksPassed",
       "name": {
         "identifier": "checksPassed",
-        "_syntaxKind": "identifier",
-        "type": "boolean"
+        "type": "boolean",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign checksPassed",
@@ -137,18 +139,17 @@
         "source": "checksPassed = true",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign checksPassed",
       "_syntaxKind": "variable-assignment"
     },
     {
       "stateName": "If (checksPassed)",
       "condition": {
-        "operator": "is-truthy",
         "rhs": {
           "identifier": "checksPassed",
-          "_syntaxKind": "identifier",
-          "type": "boolean"
+          "type": "boolean",
+          "_syntaxKind": "identifier"
         },
+        "operator": "is-truthy",
         "_syntaxKind": "binary-expression"
       },
       "then": {
@@ -166,10 +167,11 @@
                           "arguments": [
                             {
                               "identifier": "result",
-                              "_syntaxKind": "identifier",
-                              "type": "object"
+                              "type": "object",
+                              "_syntaxKind": "identifier"
                             }
                           ],
+                          "type": "string",
                           "function": "asl.states.jsonToString",
                           "_syntaxKind": "asl-intrinsic-function"
                         },
@@ -217,10 +219,11 @@
                           "arguments": [
                             {
                               "identifier": "result",
-                              "_syntaxKind": "identifier",
-                              "type": "object"
+                              "type": "object",
+                              "_syntaxKind": "identifier"
                             }
                           ],
+                          "type": "string",
                           "function": "asl.states.jsonToString",
                           "_syntaxKind": "asl-intrinsic-function"
                         },

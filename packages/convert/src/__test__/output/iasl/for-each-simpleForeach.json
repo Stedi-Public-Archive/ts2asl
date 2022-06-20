@@ -1,10 +1,11 @@
 {
   "statements": [
     {
+      "stateName": "Assign arr",
       "name": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign arr",
@@ -31,14 +32,14 @@
         "source": "arr = [1, 2, 3]",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign arr",
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign result",
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign result",
@@ -50,19 +51,19 @@
         "source": "result = \"\"",
         "_syntaxKind": "asl-pass-state"
       },
-      "stateName": "Assign result",
       "_syntaxKind": "variable-assignment"
     },
     {
       "stateName": "For item Of arr",
       "items": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "iterator": {
         "inputArgumentName": {
           "identifier": "item",
+          "type": "object",
           "_syntaxKind": "identifier"
         },
         "statements": [
@@ -71,8 +72,8 @@
             "condition": {
               "lhs": {
                 "identifier": "result",
-                "_syntaxKind": "identifier",
-                "type": "string"
+                "type": "string",
+                "_syntaxKind": "identifier"
               },
               "operator": "eq",
               "rhs": {
@@ -87,8 +88,8 @@
                 {
                   "name": {
                     "identifier": "result",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "expression": {
                     "arguments": [
@@ -99,10 +100,11 @@
                       },
                       {
                         "identifier": "item",
-                        "_syntaxKind": "identifier",
-                        "type": "numeric"
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
                       }
                     ],
+                    "type": "unknown",
                     "function": "asl.states.format",
                     "_syntaxKind": "asl-intrinsic-function"
                   },
@@ -117,8 +119,8 @@
                 {
                   "name": {
                     "identifier": "result",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "expression": {
                     "arguments": [
@@ -129,15 +131,16 @@
                       },
                       {
                         "identifier": "result",
-                        "_syntaxKind": "identifier",
-                        "type": "string"
+                        "type": "string",
+                        "_syntaxKind": "identifier"
                       },
                       {
                         "identifier": "item",
-                        "_syntaxKind": "identifier",
-                        "type": "numeric"
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
                       }
                     ],
+                    "type": "unknown",
                     "function": "asl.states.format",
                     "_syntaxKind": "asl-intrinsic-function"
                   },
@@ -156,13 +159,13 @@
       "_syntaxKind": "for-each"
     },
     {
+      "stateName": "Return result",
       "expression": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
-      "_syntaxKind": "return",
-      "stateName": "Return result"
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"
