@@ -9,8 +9,8 @@
             "name": {
               "identifier": "result",
               "compilerGenerated": true,
-              "_syntaxKind": "identifier",
-              "type": "unknown"
+              "type": "unknown",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "cause": "bad luck",
@@ -23,8 +23,8 @@
             "expression": {
               "identifier": "result",
               "compilerGenerated": true,
-              "_syntaxKind": "identifier",
-              "type": "unknown"
+              "type": "unknown",
+              "_syntaxKind": "identifier"
             },
             "stateName": "Return result",
             "_syntaxKind": "return"
@@ -40,21 +40,22 @@
           "block": {
             "inputArgumentName": {
               "identifier": "e",
+              "type": "object",
               "_syntaxKind": "identifier"
             },
             "statements": [
               {
                 "name": {
                   "identifier": "aslError",
-                  "_syntaxKind": "identifier",
-                  "type": "object"
+                  "type": "object",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "stateName": "Assign aslError",
                   "parameters": {
                     "identifier": "e",
-                    "_syntaxKind": "identifier",
-                    "type": "unknown"
+                    "type": "unknown",
+                    "_syntaxKind": "identifier"
                   },
                   "source": "aslError = e as asl.AslError",
                   "_syntaxKind": "asl-pass-state"
@@ -74,8 +75,8 @@
                     "operator": "exists-in",
                     "rhs": {
                       "identifier": "aslError",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "_syntaxKind": "binary-expression"
                   },
@@ -89,8 +90,8 @@
                     "operator": "exists-in",
                     "rhs": {
                       "identifier": "aslError",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "_syntaxKind": "binary-expression"
                   },
@@ -103,8 +104,8 @@
                       "name": {
                         "identifier": "result",
                         "compilerGenerated": true,
-                        "_syntaxKind": "identifier",
-                        "type": "unknown"
+                        "type": "unknown",
+                        "_syntaxKind": "identifier"
                       },
                       "expression": {
                         "arguments": [
@@ -133,8 +134,8 @@
                       "expression": {
                         "identifier": "result",
                         "compilerGenerated": true,
-                        "_syntaxKind": "identifier",
-                        "type": "unknown"
+                        "type": "unknown",
+                        "_syntaxKind": "identifier"
                       },
                       "stateName": "Return result",
                       "_syntaxKind": "return"

@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "_null",
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign _null",

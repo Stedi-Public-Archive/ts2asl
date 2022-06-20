@@ -79,8 +79,6 @@ export const foreachEarlyReturn = asl.deploy.asStateMachine(async () =>{
     })
 });
 
-
-
 export const nestedForeach = asl.deploy.asStateMachine(async () => {
   const numbers = [0, 1, 2, 3];
   const letters = ["a", "b", "c", "d"];

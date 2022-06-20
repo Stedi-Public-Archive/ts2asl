@@ -1,6 +1,7 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
@@ -9,8 +10,8 @@
       "name": {
         "identifier": "result",
         "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -39,8 +40,8 @@
       "expression": {
         "identifier": "result",
         "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "stateName": "Return result",
       "_syntaxKind": "return"

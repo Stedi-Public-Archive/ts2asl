@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "numbers",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign numbers",
@@ -43,12 +43,13 @@
       "stateName": "For _number Of numbers",
       "items": {
         "identifier": "numbers",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "iterator": {
         "inputArgumentName": {
           "identifier": "_number",
+          "type": "object",
           "_syntaxKind": "identifier"
         },
         "statements": [],

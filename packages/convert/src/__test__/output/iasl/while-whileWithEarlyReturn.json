@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "counter",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign counter",
@@ -26,8 +26,8 @@
         "rhs": {
           "lhs": {
             "identifier": "counter",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
           "operator": "eq",
           "rhs": {
@@ -44,8 +44,8 @@
           {
             "name": {
               "identifier": "counter",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "arguments": [
@@ -56,8 +56,8 @@
                 },
                 {
                   "identifier": "counter",
-                  "_syntaxKind": "identifier",
-                  "type": "string"
+                  "type": "string",
+                  "_syntaxKind": "identifier"
                 }
               ],
               "function": "asl.states.format",
@@ -71,8 +71,8 @@
             "condition": {
               "lhs": {
                 "identifier": "counter",
-                "_syntaxKind": "identifier",
-                "type": "string"
+                "type": "string",
+                "_syntaxKind": "identifier"
               },
               "operator": "eq",
               "rhs": {
@@ -87,8 +87,8 @@
                 {
                   "expression": {
                     "identifier": "counter",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "_syntaxKind": "return",
                   "stateName": "Return counter"

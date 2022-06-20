@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "branches": [
@@ -13,8 +13,8 @@
               {
                 "name": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "stateName": "performIdentifyCheck()",
@@ -40,8 +40,8 @@
               {
                 "expression": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "_syntaxKind": "return",
                 "stateName": "Return"
@@ -88,8 +88,8 @@
                     "arguments": [
                       {
                         "identifier": "result",
-                        "_syntaxKind": "identifier",
-                        "type": "object"
+                        "type": "object",
+                        "_syntaxKind": "identifier"
                       }
                     ],
                     "function": "asl.states.jsonToString",
@@ -124,8 +124,8 @@
     {
       "name": {
         "identifier": "checksPassed",
-        "_syntaxKind": "identifier",
-        "type": "boolean"
+        "type": "boolean",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign checksPassed",
@@ -146,8 +146,8 @@
         "operator": "is-truthy",
         "rhs": {
           "identifier": "checksPassed",
-          "_syntaxKind": "identifier",
-          "type": "boolean"
+          "type": "boolean",
+          "_syntaxKind": "identifier"
         },
         "_syntaxKind": "binary-expression"
       },
@@ -166,8 +166,8 @@
                           "arguments": [
                             {
                               "identifier": "result",
-                              "_syntaxKind": "identifier",
-                              "type": "object"
+                              "type": "object",
+                              "_syntaxKind": "identifier"
                             }
                           ],
                           "function": "asl.states.jsonToString",
@@ -217,8 +217,8 @@
                           "arguments": [
                             {
                               "identifier": "result",
-                              "_syntaxKind": "identifier",
-                              "type": "object"
+                              "type": "object",
+                              "_syntaxKind": "identifier"
                             }
                           ],
                           "function": "asl.states.jsonToString",

@@ -23,6 +23,7 @@
           "block": {
             "inputArgumentName": {
               "identifier": "error",
+              "type": "object",
               "_syntaxKind": "identifier"
             },
             "statements": [

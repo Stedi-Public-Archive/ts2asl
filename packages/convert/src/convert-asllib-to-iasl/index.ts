@@ -8,6 +8,7 @@ import { isAslCallExpression } from "../convert-ts-to-asllib/transformers/node-u
 import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
+import { IdentifierFactory } from "./iaslfactory";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -40,8 +41,8 @@ export const convertToIntermediaryAsl = (body: ts.Block | ts.ConciseBody | ts.So
   }
 
   return {
-    inputArgumentName: context.inputArgumentName ? { identifier: context.inputArgumentName, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier : undefined,
-    contextArgumentName: context.contextArgumentName ? { identifier: context.contextArgumentName, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier : undefined,
+    inputArgumentName: context.inputArgumentName ? IdentifierFactory.create({ identifier: context.inputArgumentName, type: "object" }) : undefined,
+    contextArgumentName: context.contextArgumentName ? IdentifierFactory.create({ identifier: context.contextArgumentName, type: "object" })  : undefined,
     statements: result,
     _syntaxKind: iasl.SyntaxKind.StateMachine
   };
@@ -68,22 +69,20 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
       return [
         {
           stateName: createName(context.converterOptions, node.expression, `%s`, node.expression),
-          name: {
+          name: IdentifierFactory.create({
             identifier: "result",
             compilerGenerated: true,
-            _syntaxKind: iasl.SyntaxKind.Identifier,
-            type: "unknown"
-          },
+            type: "unknown" // TODO: type
+          }),
           expression: callExpression,
           _syntaxKind: iasl.SyntaxKind.VariableAssignment
         } as iasl.VariableAssignmentStatement,
         {
-          expression: {
+          expression: IdentifierFactory.create({
             identifier: "result",
             compilerGenerated: true,
-            _syntaxKind: iasl.SyntaxKind.Identifier,
-            type: "unknown"
-          },
+            type: "unknown" // TODO: type
+          }),
           stateName: `Return result`,
           _syntaxKind: iasl.SyntaxKind.Return,
         } as iasl.ReturnStatement,
@@ -938,22 +937,20 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
       return {
         statements: [
           {
-            name: {
+            name: IdentifierFactory.create({
               identifier: "result",
               compilerGenerated: true,
-              _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"
-            },
+            }),
             expression: propValue,
             _syntaxKind: iasl.SyntaxKind.VariableAssignment
           } as iasl.VariableAssignmentStatement,
           {
-            expression: {
+            expression: IdentifierFactory.create({
               identifier: "result",
               compilerGenerated: true,
-              _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"
-            },
+            }),
             _syntaxKind: iasl.SyntaxKind.Return,
           } as iasl.ReturnStatement,
         ],

@@ -1,0 +1,20 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "type": "object",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "Log (input)",
+      "parameters": {
+        "identifier": "input",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "console.log(input)",
+      "_syntaxKind": "asl-pass-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

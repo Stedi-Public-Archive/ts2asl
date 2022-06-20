@@ -1,0 +1,145 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "type": "object",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "name": {
+        "identifier": "marker",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "stateName": "Assign marker",
+        "source": "marker: string | undefined",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "stateName": "Assign marker",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Do While (marker)",
+      "condition": {
+        "operator": "is-truthy",
+        "rhs": {
+          "identifier": "marker",
+          "type": "string",
+          "_syntaxKind": "identifier"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "while": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "response",
+              "type": "object",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "stateName": "List Users",
+              "resource": "arn:aws:states:::aws-sdk:iam:listUsers",
+              "parameters": {
+                "properties": {
+                  "PathPrefix": {
+                    "value": "/path",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "Marker": {
+                    "identifier": "marker",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              },
+              "_syntaxKind": "asl-task-state"
+            },
+            "stateName": "Assign response",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "stateName": "For user Of response.Users",
+            "items": {
+              "identifier": "response.Users",
+              "type": "object",
+              "_syntaxKind": "identifier"
+            },
+            "iterator": {
+              "inputArgumentName": {
+                "identifier": "user",
+                "type": "object",
+                "_syntaxKind": "identifier"
+              },
+              "statements": [
+                {
+                  "stateName": "doSomething(user)",
+                  "stateMachineName": "[!state-machine[doSomething]name]",
+                  "stateMachineArn": "[!state-machine[doSomething]arn]",
+                  "parameters": {
+                    "identifier": "user",
+                    "type": "object",
+                    "_syntaxKind": "identifier"
+                  },
+                  "retry": [
+                    {
+                      "errorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "intervalSeconds": 2,
+                      "maxAttempts": 6,
+                      "backoffRate": 2
+                    }
+                  ],
+                  "source": "doSomething(user)",
+                  "_syntaxKind": "asl-invoke-state-machine"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "_syntaxKind": "for-each"
+          },
+          {
+            "name": {
+              "identifier": "marker",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "condition": {
+                "rhs": {
+                  "identifier": "response.IsTruncated",
+                  "type": "boolean",
+                  "_syntaxKind": "identifier"
+                },
+                "operator": "is-truthy",
+                "_syntaxKind": "binary-expression"
+              },
+              "whenTrue": {
+                "identifier": "response.Marker",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              },
+              "whenFalse": {
+                "value": null,
+                "type": "null",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "conditional-expression"
+            },
+            "stateName": "Assign marker",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "do-while"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

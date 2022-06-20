@@ -1,14 +1,15 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
     {
       "name": {
         "identifier": "enclosedVar1",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign enclosedVar1",
@@ -31,8 +32,8 @@
     {
       "name": {
         "identifier": "enclosedVar2",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign enclosedVar2",
@@ -60,8 +61,8 @@
               {
                 "name": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "stateName": "worker(enclosedVar1)",
@@ -80,8 +81,8 @@
                   ],
                   "parameters": {
                     "identifier": "enclosedVar1",
-                    "_syntaxKind": "identifier",
-                    "type": "object"
+                    "type": "object",
+                    "_syntaxKind": "identifier"
                   },
                   "source": "worker(enclosedVar1)",
                   "_syntaxKind": "asl-task-state"
@@ -92,8 +93,8 @@
               {
                 "expression": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "_syntaxKind": "return",
                 "stateName": "Return"
@@ -106,8 +107,8 @@
               {
                 "name": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "stateName": "worker(enclosedVar2)",
@@ -126,8 +127,8 @@
                   ],
                   "parameters": {
                     "identifier": "enclosedVar2",
-                    "_syntaxKind": "identifier",
-                    "type": "object"
+                    "type": "object",
+                    "_syntaxKind": "identifier"
                   },
                   "source": "worker(enclosedVar2)",
                   "_syntaxKind": "asl-task-state"
@@ -138,8 +139,8 @@
               {
                 "expression": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "_syntaxKind": "return",
                 "stateName": "Return"

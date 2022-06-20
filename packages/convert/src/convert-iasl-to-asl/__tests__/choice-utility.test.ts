@@ -1,14 +1,14 @@
 import { createChoiceOperator } from "../choice-utility";
 import * as iasl from "../../convert-asllib-to-iasl/ast";
+import { IdentifierFactory } from "../../convert-asllib-to-iasl/iaslfactory";
 
 describe("when transpiling simple statements", () => {
   it("then current type operand is used", () => {
     const binaryExpression = {
-      lhs: {
+      lhs: IdentifierFactory.create({
         identifier: "something",
         type: "numeric",
-        _syntaxKind: iasl.SyntaxKind.Identifier
-      } as iasl.Identifier,
+      }),
       operator: "eq",
       rhs: {
         value: 23,
@@ -31,11 +31,10 @@ describe("when transpiling simple statements", () => {
       operator: "not",
       rhs: {
         operator: "is-truthy",
-        rhs: {
+        rhs: IdentifierFactory.create({
           identifier: "something",
           type: "numeric",
-          _syntaxKind: iasl.SyntaxKind.Identifier
-        },
+        }),
         _syntaxKind: iasl.SyntaxKind.BinaryExpression
       } as iasl.BinaryExpression,
       _syntaxKind: iasl.SyntaxKind.BinaryExpression
@@ -84,11 +83,10 @@ it("then not typeof is optimized to typeof: false", () => {
     operator: "not",
     rhs: {
       lhs: {
-        operand: {
+        operand:  IdentifierFactory.create({
           identifier: "number",
           type: "unknown",
-          _syntaxKind: iasl.SyntaxKind.Identifier
-        } as iasl.Identifier,
+        }),
         _syntaxKind: iasl.SyntaxKind.TypeOfExpression
       } as iasl.TypeOfExpression,
       operator: "eq",

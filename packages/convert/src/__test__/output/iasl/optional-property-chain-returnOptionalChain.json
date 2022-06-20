@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "obj",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign obj",
@@ -29,8 +29,8 @@
         "condition": {
           "rhs": {
             "identifier": "obj",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           },
           "operator": "is-truthy",
           "_syntaxKind": "binary-expression"

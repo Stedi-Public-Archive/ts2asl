@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign arr",
@@ -38,12 +38,13 @@
       "stateName": "For item Of arr",
       "items": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "iterator": {
         "inputArgumentName": {
           "identifier": "item",
+          "type": "object",
           "_syntaxKind": "identifier"
         },
         "statements": [
@@ -52,8 +53,8 @@
             "condition": {
               "lhs": {
                 "identifier": "item",
-                "_syntaxKind": "identifier",
-                "type": "numeric"
+                "type": "numeric",
+                "_syntaxKind": "identifier"
               },
               "operator": "eq",
               "rhs": {
@@ -70,8 +71,8 @@
                   "name": {
                     "identifier": "result",
                     "compilerGenerated": true,
-                    "_syntaxKind": "identifier",
-                    "type": "unknown"
+                    "type": "unknown",
+                    "_syntaxKind": "identifier"
                   },
                   "expression": {
                     "arguments": [
@@ -82,8 +83,8 @@
                       },
                       {
                         "identifier": "item",
-                        "_syntaxKind": "identifier",
-                        "type": "numeric"
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
                       }
                     ],
                     "function": "asl.states.format",
@@ -95,8 +96,8 @@
                   "expression": {
                     "identifier": "result",
                     "compilerGenerated": true,
-                    "_syntaxKind": "identifier",
-                    "type": "unknown"
+                    "type": "unknown",
+                    "_syntaxKind": "identifier"
                   },
                   "stateName": "Return result",
                   "_syntaxKind": "return"

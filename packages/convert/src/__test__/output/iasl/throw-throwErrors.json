@@ -1,6 +1,7 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [

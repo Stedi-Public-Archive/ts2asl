@@ -124,6 +124,7 @@ describe("when converting pass statements to iasl", () => {
                       "identifier": "xxx.elements",
                       "type": "unknown",
                     },
+                    "type": "unknown",
                   },
                   "fn": Object {
                     "_syntaxKind": "asl-intrinsic-function",

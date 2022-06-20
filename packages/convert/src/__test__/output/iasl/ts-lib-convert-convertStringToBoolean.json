@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "bool",
-        "_syntaxKind": "identifier",
-        "type": "boolean"
+        "type": "boolean",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -25,8 +25,8 @@
       "condition": {
         "lhs": {
           "identifier": "bool",
-          "_syntaxKind": "identifier",
-          "type": "boolean"
+          "type": "boolean",
+          "_syntaxKind": "identifier"
         },
         "operator": "eq",
         "rhs": {
@@ -41,8 +41,8 @@
           {
             "name": {
               "identifier": "str",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "arguments": [
@@ -53,8 +53,8 @@
                 },
                 {
                   "identifier": "bool",
-                  "_syntaxKind": "identifier",
-                  "type": "boolean"
+                  "type": "boolean",
+                  "_syntaxKind": "identifier"
                 }
               ],
               "function": "asl.states.format",
@@ -68,8 +68,8 @@
             "condition": {
               "lhs": {
                 "identifier": "str",
-                "_syntaxKind": "identifier",
-                "type": "string"
+                "type": "string",
+                "_syntaxKind": "identifier"
               },
               "operator": "eq",
               "rhs": {

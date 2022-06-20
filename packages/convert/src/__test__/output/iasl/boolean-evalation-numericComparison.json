@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "condition",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign condition",
@@ -22,8 +22,8 @@
     {
       "name": {
         "identifier": "items",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign items",
@@ -56,19 +56,20 @@
     {
       "name": {
         "identifier": "listWithReturned",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "items.map => item",
         "items": {
           "identifier": "items",
-          "_syntaxKind": "identifier",
-          "type": "object"
+          "type": "object",
+          "_syntaxKind": "identifier"
         },
         "iterator": {
           "inputArgumentName": {
             "identifier": "item",
+            "type": "object",
             "_syntaxKind": "identifier"
           },
           "statements": [
@@ -77,14 +78,14 @@
               "condition": {
                 "lhs": {
                   "identifier": "item",
-                  "_syntaxKind": "identifier",
-                  "type": "numeric"
+                  "type": "numeric",
+                  "_syntaxKind": "identifier"
                 },
                 "operator": "eq",
                 "rhs": {
                   "identifier": "condition",
-                  "_syntaxKind": "identifier",
-                  "type": "numeric"
+                  "type": "numeric",
+                  "_syntaxKind": "identifier"
                 },
                 "_syntaxKind": "binary-expression"
               },
@@ -95,8 +96,8 @@
                       "properties": {
                         "returned": {
                           "identifier": "item",
-                          "_syntaxKind": "identifier",
-                          "type": "numeric"
+                          "type": "numeric",
+                          "_syntaxKind": "identifier"
                         }
                       },
                       "_syntaxKind": "literal-object"
@@ -130,18 +131,18 @@
     {
       "name": {
         "identifier": "item",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "listWithReturned",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "filterExpression": {
           "argument": {
             "identifier": "x",
-            "_syntaxKind": "identifier",
-            "type": "unknown"
+            "type": "unknown",
+            "_syntaxKind": "identifier"
           },
           "expression": {
             "identifier": "x.returned",
@@ -156,8 +157,8 @@
     {
       "expression": {
         "identifier": "item",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return item"

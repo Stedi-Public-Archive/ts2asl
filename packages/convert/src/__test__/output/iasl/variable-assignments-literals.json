@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "str",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign str",
@@ -22,8 +22,8 @@
     {
       "name": {
         "identifier": "num",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign num",
@@ -41,8 +41,8 @@
     {
       "name": {
         "identifier": "bool",
-        "_syntaxKind": "identifier",
-        "type": "boolean"
+        "type": "boolean",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign bool",
@@ -60,8 +60,8 @@
     {
       "name": {
         "identifier": "object",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign object",
@@ -69,18 +69,18 @@
           "properties": {
             "str": {
               "identifier": "str",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "num": {
               "identifier": "num",
-              "_syntaxKind": "identifier",
-              "type": "numeric"
+              "type": "numeric",
+              "_syntaxKind": "identifier"
             },
             "bool": {
               "identifier": "bool",
-              "_syntaxKind": "identifier",
-              "type": "boolean"
+              "type": "boolean",
+              "_syntaxKind": "identifier"
             }
           },
           "_syntaxKind": "literal-object"
@@ -94,8 +94,8 @@
     {
       "name": {
         "identifier": "object2",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign object2",
@@ -113,8 +113,8 @@
             },
             "inner": {
               "identifier": "object",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             }
           },
           "_syntaxKind": "literal-object"
@@ -128,8 +128,8 @@
     {
       "name": {
         "identifier": "arrayOfNumbers",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign arrayOfNumbers",
@@ -172,8 +172,8 @@
     {
       "name": {
         "identifier": "arrayOfObjects",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign arrayOfObjects",
@@ -238,18 +238,18 @@
         "properties": {
           "arrayOfNumbers": {
             "identifier": "arrayOfNumbers",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           },
           "arrayOfObjects": {
             "identifier": "arrayOfObjects",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           },
           "object2": {
             "identifier": "object2",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           }
         },
         "_syntaxKind": "literal-object"

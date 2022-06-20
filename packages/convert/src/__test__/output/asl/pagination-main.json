@@ -1,0 +1,178 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Assign marker"
+    },
+    "Assign marker": {
+      "Type": "Pass",
+      "InputPath": "$._undefined",
+      "ResultPath": "$.vars.marker",
+      "Comment": "source: marker: string | undefined",
+      "Next": "List Users"
+    },
+    "List Users": {
+      "Type": "Task",
+      "ResultPath": "$.vars.response",
+      "Resource": "arn:aws:states:::aws-sdk:iam:listUsers",
+      "Parameters": {
+        "PathPrefix": "/path",
+        "Marker.$": "$.vars.marker"
+      },
+      "Next": "Foreach Initialize"
+    },
+    "Foreach Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.vars.response.Users",
+        "currentItem.$": "$.vars.response.Users[0]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Foreach CheckDone": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.items[0]",
+          "IsPresent": true,
+          "Next": "Create Copy"
+        }
+      ],
+      "Default": "Foreach Exit"
+    },
+    "Create Copy": {
+      "Type": "Pass",
+      "InputPath": "$.foreach.currentItem",
+      "ResultPath": "$.tmp.result",
+      "Next": "Add AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID"
+    },
+    "Add AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID": {
+      "Type": "Pass",
+      "InputPath": "$$.Execution.Id",
+      "ResultPath": "$.tmp.result.AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID",
+      "Next": "doSomething(user)"
+    },
+    "doSomething(user)": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::states:startExecution",
+      "Parameters": {
+        "StateMachineArn": "[!state-machine[doSomething]arn]",
+        "Input.$": "$.tmp.result"
+      },
+      "Comment": "source: doSomething(user)",
+      "ResultPath": null,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Foreach Next"
+    },
+    "Foreach Exit": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Result": {},
+      "Next": "Eval Conditional"
+    },
+    "Foreach Next": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.foreach.items[1:]",
+        "currentItem.$": "$.foreach.items[1]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.response.IsTruncated",
+            "BooleanEquals": false
+          },
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$.vars.response.Marker",
+      "Next": "Assign marker_1"
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.var",
+      "InputPath": "$._undefined",
+      "Next": "Assign marker_1"
+    },
+    "Assign marker_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "ResultPath": "$.vars.marker",
+      "Next": "Do While Condition"
+    },
+    "Do While Condition": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.marker",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.marker",
+                "IsNull": true
+              },
+              {
+                "Variable": "$.vars.marker",
+                "BooleanEquals": false
+              },
+              {
+                "Variable": "$.vars.marker",
+                "StringEquals": ""
+              },
+              {
+                "Variable": "$.vars.marker",
+                "StringEquals": "false"
+              },
+              {
+                "Variable": "$.vars.marker",
+                "StringEquals": "0"
+              },
+              {
+                "Variable": "$.vars.marker",
+                "NumericEquals": 0
+              }
+            ]
+          },
+          "Next": "List Users"
+        }
+      ],
+      "Default": "Empty Default Choice"
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "End": true
+    }
+  }
+}

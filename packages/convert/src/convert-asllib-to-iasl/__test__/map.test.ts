@@ -34,6 +34,7 @@ describe("when converting if statement to iasl", () => {
               "inputArgumentName": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "prefix",
+                "type": "object",
               },
               "statements": Array [
                 Object {

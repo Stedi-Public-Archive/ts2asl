@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "x",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign x",
@@ -24,8 +24,8 @@
       "condition": {
         "lhs": {
           "identifier": "x",
-          "_syntaxKind": "identifier",
-          "type": "numeric"
+          "type": "numeric",
+          "_syntaxKind": "identifier"
         },
         "operator": "eq",
         "rhs": {

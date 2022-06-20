@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "source",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign source",
@@ -42,13 +42,13 @@
     {
       "name": {
         "identifier": "num",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "source",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "mapExpression": "obj.num"
       },
       "stateName": "Assign num",
@@ -57,13 +57,13 @@
     {
       "name": {
         "identifier": "str",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "source",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "mapExpression": "obj.str"
       },
       "stateName": "Assign str",
@@ -74,13 +74,13 @@
         "properties": {
           "num": {
             "identifier": "num",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           },
           "str": {
             "identifier": "str",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           }
         },
         "_syntaxKind": "literal-object"

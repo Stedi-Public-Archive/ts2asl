@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "str",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -28,8 +28,8 @@
     {
       "name": {
         "identifier": "num",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -53,8 +53,8 @@
     {
       "name": {
         "identifier": "combined",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -65,13 +65,13 @@
           },
           {
             "identifier": "str",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
           {
             "identifier": "num",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           }
         ],
         "function": "asl.states.format",
@@ -83,25 +83,25 @@
     {
       "name": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
           {
             "identifier": "str",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
           {
             "identifier": "num",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
           {
             "identifier": "combined",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           }
         ],
         "function": "asl.states.array",
@@ -113,8 +113,8 @@
     {
       "expression": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return arr"

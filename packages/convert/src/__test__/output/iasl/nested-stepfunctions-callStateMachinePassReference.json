@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "args",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign args",
@@ -32,8 +32,8 @@
     {
       "name": {
         "identifier": "name",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "childStateMachine(args)",
@@ -42,8 +42,8 @@
         "stateMachineArn": "[!state-machine[childStateMachine]arn]",
         "parameters": {
           "identifier": "args",
-          "_syntaxKind": "identifier",
-          "type": "object"
+          "type": "object",
+          "_syntaxKind": "identifier"
         },
         "retry": [
           {
@@ -66,8 +66,8 @@
     {
       "expression": {
         "identifier": "name",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return name"

@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign arr",
@@ -17,8 +17,8 @@
     {
       "name": {
         "identifier": "two",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign two",

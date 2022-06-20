@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "name",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "childLambda({firstName: \" ...",
@@ -45,8 +45,8 @@
     {
       "expression": {
         "identifier": "name",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return name"

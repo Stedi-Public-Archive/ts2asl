@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign arr",
@@ -37,8 +37,8 @@
     {
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign result",
@@ -57,12 +57,13 @@
       "stateName": "For item Of arr",
       "items": {
         "identifier": "arr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "iterator": {
         "inputArgumentName": {
           "identifier": "item",
+          "type": "object",
           "_syntaxKind": "identifier"
         },
         "statements": [
@@ -73,8 +74,8 @@
                 "when": {
                   "lhs": {
                     "identifier": "item",
-                    "_syntaxKind": "identifier",
-                    "type": "numeric"
+                    "type": "numeric",
+                    "_syntaxKind": "identifier"
                   },
                   "operator": "eq",
                   "rhs": {
@@ -89,8 +90,8 @@
                     {
                       "name": {
                         "identifier": "result",
-                        "_syntaxKind": "identifier",
-                        "type": "string"
+                        "type": "string",
+                        "_syntaxKind": "identifier"
                       },
                       "expression": {
                         "arguments": [
@@ -101,8 +102,8 @@
                           },
                           {
                             "identifier": "result",
-                            "_syntaxKind": "identifier",
-                            "type": "string"
+                            "type": "string",
+                            "_syntaxKind": "identifier"
                           }
                         ],
                         "function": "asl.states.format",
@@ -119,8 +120,8 @@
                 "when": {
                   "lhs": {
                     "identifier": "item",
-                    "_syntaxKind": "identifier",
-                    "type": "numeric"
+                    "type": "numeric",
+                    "_syntaxKind": "identifier"
                   },
                   "operator": "eq",
                   "rhs": {
@@ -135,8 +136,8 @@
                     {
                       "name": {
                         "identifier": "result",
-                        "_syntaxKind": "identifier",
-                        "type": "string"
+                        "type": "string",
+                        "_syntaxKind": "identifier"
                       },
                       "expression": {
                         "arguments": [
@@ -147,8 +148,8 @@
                           },
                           {
                             "identifier": "result",
-                            "_syntaxKind": "identifier",
-                            "type": "string"
+                            "type": "string",
+                            "_syntaxKind": "identifier"
                           }
                         ],
                         "function": "asl.states.format",
@@ -167,8 +168,8 @@
                     {
                       "name": {
                         "identifier": "result",
-                        "_syntaxKind": "identifier",
-                        "type": "string"
+                        "type": "string",
+                        "_syntaxKind": "identifier"
                       },
                       "expression": {
                         "arguments": [
@@ -179,8 +180,8 @@
                           },
                           {
                             "identifier": "result",
-                            "_syntaxKind": "identifier",
-                            "type": "string"
+                            "type": "string",
+                            "_syntaxKind": "identifier"
                           }
                         ],
                         "function": "asl.states.format",
@@ -200,8 +201,8 @@
           {
             "name": {
               "identifier": "result",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "arguments": [
@@ -212,8 +213,8 @@
                 },
                 {
                   "identifier": "result",
-                  "_syntaxKind": "identifier",
-                  "type": "string"
+                  "type": "string",
+                  "_syntaxKind": "identifier"
                 }
               ],
               "function": "asl.states.format",
@@ -230,8 +231,8 @@
     {
       "expression": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return result"

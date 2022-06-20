@@ -49,6 +49,7 @@ describe("when converting typescript invoke to iasl", () => {
         "inputArgumentName": Object {
           "_syntaxKind": "identifier",
           "identifier": "input",
+          "type": "object",
         },
         "statements": Array [
           Object {
@@ -85,6 +86,7 @@ describe("when converting typescript invoke to iasl", () => {
         "inputArgumentName": Object {
           "_syntaxKind": "identifier",
           "identifier": "input",
+          "type": "object",
         },
         "statements": Array [
           Object {
@@ -99,6 +101,7 @@ describe("when converting typescript invoke to iasl", () => {
               "inputArgumentName": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "prefix",
+                "type": "object",
               },
               "statements": Array [
                 Object {

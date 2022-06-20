@@ -1,14 +1,15 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
     {
       "name": {
         "identifier": "val",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign val",
@@ -149,8 +150,8 @@
     {
       "expression": {
         "identifier": "val",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return val"

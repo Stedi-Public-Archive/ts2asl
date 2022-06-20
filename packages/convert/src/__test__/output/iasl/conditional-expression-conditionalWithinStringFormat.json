@@ -1,14 +1,15 @@
 {
   "inputArgumentName": {
     "identifier": "args",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
     {
       "name": {
         "identifier": "obj",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign obj",
@@ -33,8 +34,8 @@
       "name": {
         "identifier": "result",
         "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -47,8 +48,8 @@
             "condition": {
               "rhs": {
                 "identifier": "obj",
-                "_syntaxKind": "identifier",
-                "type": "object"
+                "type": "object",
+                "_syntaxKind": "identifier"
               },
               "operator": "is-truthy",
               "_syntaxKind": "binary-expression"
@@ -75,8 +76,8 @@
       "expression": {
         "identifier": "result",
         "compilerGenerated": true,
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "stateName": "Return result",
       "_syntaxKind": "return"

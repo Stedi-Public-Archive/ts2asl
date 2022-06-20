@@ -1,0 +1,21 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null
+      },
+      "Next": "Log (input)"
+    },
+    "Log (input)": {
+      "Type": "Pass",
+      "InputPath": "$.vars",
+      "ResultPath": null,
+      "Comment": "source: console.log(input)",
+      "End": true
+    }
+  }
+}

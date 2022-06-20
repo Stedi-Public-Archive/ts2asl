@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "entries",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "getEntries()",
@@ -30,12 +30,13 @@
     {
       "items": {
         "identifier": "entries",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "iterator": {
         "inputArgumentName": {
           "identifier": "entry",
+          "type": "object",
           "_syntaxKind": "identifier"
         },
         "statements": [
@@ -67,8 +68,8 @@
                             },
                             {
                               "identifier": "entry",
-                              "_syntaxKind": "identifier",
-                              "type": "string"
+                              "type": "string",
+                              "_syntaxKind": "identifier"
                             }
                           ],
                           "function": "asl.states.format",

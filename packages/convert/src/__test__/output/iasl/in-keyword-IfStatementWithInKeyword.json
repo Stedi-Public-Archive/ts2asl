@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "val",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign val",
@@ -36,8 +36,8 @@
           "operator": "exists-in",
           "rhs": {
             "identifier": "val",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           },
           "_syntaxKind": "binary-expression"
         },
@@ -53,8 +53,8 @@
             "operator": "exists-in",
             "rhs": {
               "identifier": "val",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "_syntaxKind": "binary-expression"
           },

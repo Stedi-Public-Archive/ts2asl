@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign filterArray",
@@ -172,13 +172,13 @@
     {
       "name": {
         "identifier": "ages",
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "jsonPathExpression": "..age"
       },
       "stateName": "Assign ages",
@@ -187,13 +187,13 @@
     {
       "name": {
         "identifier": "flattenedPets",
-        "_syntaxKind": "identifier",
-        "type": "unknown"
+        "type": "unknown",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "jsonPathExpression": "[*][*][*]"
       },
       "stateName": "Assign flattenedPets",
@@ -202,8 +202,8 @@
     {
       "name": {
         "identifier": "slicedArr",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "filterArray.cats.young",
@@ -222,18 +222,18 @@
         "properties": {
           "ages": {
             "identifier": "ages",
-            "_syntaxKind": "identifier",
-            "type": "unknown"
+            "type": "unknown",
+            "_syntaxKind": "identifier"
           },
           "flattenedPets": {
             "identifier": "flattenedPets",
-            "_syntaxKind": "identifier",
-            "type": "unknown"
+            "type": "unknown",
+            "_syntaxKind": "identifier"
           },
           "slicedArr": {
             "identifier": "slicedArr",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           }
         },
         "_syntaxKind": "literal-object"

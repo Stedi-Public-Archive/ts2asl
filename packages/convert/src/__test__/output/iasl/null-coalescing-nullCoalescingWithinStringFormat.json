@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "obj",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign obj",
@@ -27,8 +27,8 @@
     {
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign result",
@@ -143,8 +143,8 @@
     {
       "expression": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return result"

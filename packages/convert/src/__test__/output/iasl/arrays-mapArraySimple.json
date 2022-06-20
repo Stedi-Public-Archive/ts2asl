@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "mappedArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign mappedArray",
@@ -142,13 +142,13 @@
     {
       "name": {
         "identifier": "ages",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "mappedArray",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "mapExpression": "age"
       },
       "stateName": "Assign ages",
@@ -157,13 +157,13 @@
     {
       "name": {
         "identifier": "species",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "identifier": "mappedArray",
-        "_syntaxKind": "identifier",
         "type": "object",
+        "_syntaxKind": "identifier",
         "mapExpression": "species"
       },
       "stateName": "Assign species",
@@ -174,13 +174,13 @@
         "properties": {
           "ages": {
             "identifier": "ages",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           },
           "species": {
             "identifier": "species",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           }
         },
         "_syntaxKind": "literal-object"

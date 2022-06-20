@@ -2,6 +2,7 @@ import * as ts from "typescript";
 import { ConverterContext, convertExpressionToLiteralOrIdentifier } from ".";
 import { aslStyleCallExpression } from "../convert/list-function-declarations";
 import * as iasl from "./ast";
+import { IdentifierFactory } from "./iaslfactory";
 
 export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, context: ConverterContext): iasl.Identifier | undefined => {
   const { typeChecker } = context;
@@ -10,7 +11,7 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
     const type = typeChecker.getTypeAtLocation(expression);
     const symbol = typeChecker.getSymbolAtLocation(expression);
     const iaslType = convertType(type, symbol);
-    const identifier = { identifier: expression.text, _syntaxKind: iasl.SyntaxKind.Identifier, type: iaslType } as iasl.Identifier;
+    const identifier = IdentifierFactory.create({ identifier: expression.text, type: iaslType });
     return identifier;
   }
 
@@ -41,15 +42,15 @@ export const convertToIdentifier = (expression: ts.Expression | ts.BindingName, 
   if (ts.isPropertyAccessExpression(expression)) {
     const type = typeChecker.getTypeAtLocation(expression);
     const iaslType = convertType(type);
-    return { identifier: `${pathAsString}.${expression.name.text}`, type: iaslType, _syntaxKind: iasl.SyntaxKind.Identifier } as iasl.Identifier;
+    return IdentifierFactory.create({ identifier: `${pathAsString}.${expression.name.text}`, type: iaslType});
   } else if (ts.isElementAccessExpression(expression)) {
     const convertedIndexExpression = convertExpressionToLiteralOrIdentifier(expression.argumentExpression, {}, context);
-    return {
+    return IdentifierFactory.create({
       identifier: pathAsString,
       indexExpression: convertedIndexExpression,
       lhs: convertToIdentifier(expression.expression, context),
-      _syntaxKind: iasl.SyntaxKind.Identifier,
-    } as iasl.Identifier;
+      type: "unknown" //TODO: fix me
+    });
   }
   return undefined;
 };

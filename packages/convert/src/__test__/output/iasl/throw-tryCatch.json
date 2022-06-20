@@ -1,6 +1,7 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
@@ -26,6 +27,7 @@
           "block": {
             "inputArgumentName": {
               "identifier": "err",
+              "type": "object",
               "_syntaxKind": "identifier"
             },
             "statements": [

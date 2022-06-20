@@ -1,6 +1,7 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
@@ -52,8 +53,8 @@
     {
       "name": {
         "identifier": "rnd",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "random()",
@@ -97,8 +98,8 @@
           },
           "luckyNumber": {
             "identifier": "rnd",
-            "_syntaxKind": "identifier",
-            "type": "numeric"
+            "type": "numeric",
+            "_syntaxKind": "identifier"
           }
         },
         "_syntaxKind": "literal-object"

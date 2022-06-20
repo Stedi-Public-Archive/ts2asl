@@ -7,8 +7,8 @@
           {
             "name": {
               "identifier": "arr",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "stateName": "Assign arr",
@@ -31,19 +31,20 @@
           {
             "name": {
               "identifier": "withinTry",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "stateName": "arr.map => x",
               "items": {
                 "identifier": "arr",
-                "_syntaxKind": "identifier",
-                "type": "object"
+                "type": "object",
+                "_syntaxKind": "identifier"
               },
               "iterator": {
                 "inputArgumentName": {
                   "identifier": "x",
+                  "type": "object",
                   "_syntaxKind": "identifier"
                 },
                 "statements": [
@@ -75,9 +76,10 @@
               },
               "lhs": {
                 "identifier": "withinTry",
-                "_syntaxKind": "identifier",
-                "type": "object"
+                "type": "object",
+                "_syntaxKind": "identifier"
               },
+              "type": "unknown",
               "_syntaxKind": "identifier"
             },
             "_syntaxKind": "return",

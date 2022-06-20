@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "numbers",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign numbers",
@@ -42,8 +42,8 @@
     {
       "name": {
         "identifier": "letters",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign letters",
@@ -81,8 +81,8 @@
     {
       "name": {
         "identifier": "global",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign global",
@@ -100,8 +100,8 @@
     {
       "name": {
         "identifier": "outer",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign outer",
@@ -130,12 +130,13 @@
       "stateName": "numbers.map => number",
       "items": {
         "identifier": "numbers",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "iterator": {
         "inputArgumentName": {
           "identifier": "number",
+          "type": "object",
           "_syntaxKind": "identifier"
         },
         "statements": [
@@ -143,20 +144,21 @@
             "stateName": "letters.map => letter",
             "items": {
               "identifier": "letters",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "iterator": {
               "inputArgumentName": {
                 "identifier": "letter",
+                "type": "object",
                 "_syntaxKind": "identifier"
               },
               "statements": [
                 {
                   "name": {
                     "identifier": "combined",
-                    "_syntaxKind": "identifier",
-                    "type": "object"
+                    "type": "object",
+                    "_syntaxKind": "identifier"
                   },
                   "expression": {
                     "stateName": "Assign combined",
@@ -164,18 +166,18 @@
                       "properties": {
                         "number": {
                           "identifier": "number",
-                          "_syntaxKind": "identifier",
-                          "type": "numeric"
+                          "type": "numeric",
+                          "_syntaxKind": "identifier"
                         },
                         "letter": {
                           "identifier": "letter",
-                          "_syntaxKind": "identifier",
-                          "type": "string"
+                          "type": "string",
+                          "_syntaxKind": "identifier"
                         },
                         "global": {
                           "identifier": "global",
-                          "_syntaxKind": "identifier",
-                          "type": "string"
+                          "type": "string",
+                          "_syntaxKind": "identifier"
                         },
                         "inner": {
                           "identifier": "outer.middle.inner",
@@ -208,8 +210,8 @@
                   ],
                   "parameters": {
                     "identifier": "combined",
-                    "_syntaxKind": "identifier",
-                    "type": "object"
+                    "type": "object",
+                    "_syntaxKind": "identifier"
                   },
                   "source": "doSomething(combined)",
                   "_syntaxKind": "asl-task-state"

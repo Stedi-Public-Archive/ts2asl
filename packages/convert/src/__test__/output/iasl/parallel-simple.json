@@ -1,6 +1,7 @@
 {
   "inputArgumentName": {
     "identifier": "input",
+    "type": "object",
     "_syntaxKind": "identifier"
   },
   "statements": [
@@ -12,8 +13,8 @@
               {
                 "name": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "stateName": "worker()",
@@ -39,8 +40,8 @@
               {
                 "expression": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "_syntaxKind": "return",
                 "stateName": "Return"
@@ -53,8 +54,8 @@
               {
                 "name": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "expression": {
                   "stateName": "worker()",
@@ -80,8 +81,8 @@
               {
                 "expression": {
                   "identifier": "return_var",
-                  "_syntaxKind": "identifier",
-                  "type": "unknown"
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "_syntaxKind": "return",
                 "stateName": "Return"

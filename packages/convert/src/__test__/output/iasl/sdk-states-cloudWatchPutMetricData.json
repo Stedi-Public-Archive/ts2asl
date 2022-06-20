@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "value",
-        "_syntaxKind": "identifier",
-        "type": "numeric"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign value",
@@ -35,8 +35,8 @@
                   },
                   "Value": {
                     "identifier": "value",
-                    "_syntaxKind": "identifier",
-                    "type": "numeric"
+                    "type": "numeric",
+                    "_syntaxKind": "identifier"
                   }
                 },
                 "_syntaxKind": "literal-object"

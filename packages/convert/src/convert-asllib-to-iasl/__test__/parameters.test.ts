@@ -12,6 +12,7 @@ describe("when converting input parameter reference to iasl", () => {
         "inputArgumentName": Object {
           "_syntaxKind": "identifier",
           "identifier": "input",
+          "type": "object",
         },
         "statements": Array [
           Object {

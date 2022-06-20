@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "createAccount",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "CreateAccount",
@@ -32,8 +32,8 @@
     {
       "name": {
         "identifier": "creationStatus",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign creationStatus",
@@ -55,8 +55,8 @@
         "rhs": {
           "lhs": {
             "identifier": "creationStatus",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
           "operator": "eq",
           "rhs": {
@@ -73,8 +73,8 @@
           {
             "name": {
               "identifier": "describeResult",
-              "_syntaxKind": "identifier",
-              "type": "object"
+              "type": "object",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "stateName": "DescribeCreateAccountStatus",
@@ -97,8 +97,8 @@
           {
             "name": {
               "identifier": "creationStatus",
-              "_syntaxKind": "identifier",
-              "type": "string"
+              "type": "string",
+              "_syntaxKind": "identifier"
             },
             "expression": {
               "condition": {
@@ -132,8 +132,8 @@
                 "when": {
                   "lhs": {
                     "identifier": "creationStatus",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "operator": "eq",
                   "rhs": {
@@ -160,8 +160,8 @@
                 "when": {
                   "lhs": {
                     "identifier": "creationStatus",
-                    "_syntaxKind": "identifier",
-                    "type": "string"
+                    "type": "string",
+                    "_syntaxKind": "identifier"
                   },
                   "operator": "eq",
                   "rhs": {

@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "myArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
@@ -68,15 +68,15 @@
     {
       "name": {
         "identifier": "mySerializedArray",
-        "_syntaxKind": "identifier",
-        "type": "string"
+        "type": "string",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
           {
             "identifier": "myArray",
-            "_syntaxKind": "identifier",
-            "type": "object"
+            "type": "object",
+            "_syntaxKind": "identifier"
           }
         ],
         "function": "asl.states.jsonToString",
@@ -88,15 +88,15 @@
     {
       "name": {
         "identifier": "myArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "arguments": [
           {
             "identifier": "mySerializedArray",
-            "_syntaxKind": "identifier",
-            "type": "string"
+            "type": "string",
+            "_syntaxKind": "identifier"
           }
         ],
         "function": "asl.states.stringToJson",
@@ -108,8 +108,8 @@
     {
       "expression": {
         "identifier": "myArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return myArray"

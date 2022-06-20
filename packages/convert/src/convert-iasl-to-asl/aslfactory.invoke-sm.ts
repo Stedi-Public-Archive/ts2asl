@@ -1,6 +1,7 @@
 
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
+import { IdentifierFactory } from "../convert-asllib-to-iasl/iaslfactory";
 import { AslWriter } from "./asl-writer";
 import { AslFactory } from "./aslfactory";
 import { AslPassFactory } from "./aslfactory.pass";
@@ -11,11 +12,10 @@ export class AslInvokeStateMachineFactory {
     
     const additionalParameters = {
       properties: {
-        AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID: {
+        AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID: IdentifierFactory.create({
             identifier: "$$.Execution.Id",
-            _syntaxKind: iasl.SyntaxKind.Identifier,
             type: "string"
-        }
+        })
       },
       _syntaxKind: iasl.SyntaxKind.LiteralObject,
     } as iasl.LiteralObjectExpression;
@@ -38,11 +38,10 @@ export class AslInvokeStateMachineFactory {
 
       const fn = {
         "arguments": [
-          {
-            "identifier": resultPath + ".Output",
-            "type": "unknown",
-            "_syntaxKind": "identifier"
-          }
+          IdentifierFactory.create({
+            identifier: resultPath + ".Output",
+            type: "unknown",
+          })
         ],
         "function": "asl.states.stringToJson",
         "_syntaxKind": "asl-intrinsic-function"

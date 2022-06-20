@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "result",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "COUNT(where gsi1pk === 'test')",

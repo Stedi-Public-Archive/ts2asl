@@ -3,8 +3,8 @@
     {
       "name": {
         "identifier": "mappedArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign mappedArray",
@@ -142,8 +142,8 @@
     {
       "name": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "expression": {
         "stateName": "Assign filterArray",
@@ -153,13 +153,13 @@
               "properties": {
                 "young": {
                   "identifier": "mappedArray",
-                  "_syntaxKind": "identifier",
                   "type": "object",
+                  "_syntaxKind": "identifier",
                   "filterExpression": {
                     "argument": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "expression": {
                       "lhs": {
@@ -197,13 +197,13 @@
                 },
                 "old": {
                   "identifier": "mappedArray",
-                  "_syntaxKind": "identifier",
                   "type": "object",
+                  "_syntaxKind": "identifier",
                   "filterExpression": {
                     "argument": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "expression": {
                       "lhs": {
@@ -246,13 +246,13 @@
               "properties": {
                 "young": {
                   "identifier": "mappedArray",
-                  "_syntaxKind": "identifier",
                   "type": "object",
+                  "_syntaxKind": "identifier",
                   "filterExpression": {
                     "argument": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "expression": {
                       "lhs": {
@@ -290,13 +290,13 @@
                 },
                 "old": {
                   "identifier": "mappedArray",
-                  "_syntaxKind": "identifier",
                   "type": "object",
+                  "_syntaxKind": "identifier",
                   "filterExpression": {
                     "argument": {
                       "identifier": "x",
-                      "_syntaxKind": "identifier",
-                      "type": "object"
+                      "type": "object",
+                      "_syntaxKind": "identifier"
                     },
                     "expression": {
                       "lhs": {
@@ -347,8 +347,8 @@
     {
       "expression": {
         "identifier": "filterArray",
-        "_syntaxKind": "identifier",
-        "type": "object"
+        "type": "object",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "return",
       "stateName": "Return filterArray"
