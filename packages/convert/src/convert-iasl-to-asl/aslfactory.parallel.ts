@@ -7,7 +7,7 @@ import { AslFactory } from "./aslfactory";
 import { createParameters } from "./parameters";
 
 export class AslParallelFactory {
-  static appendIaslParallel(expression: iasl.ParallelState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
+  static appendIaslParallel(expression: iasl.AslParallelState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
     
     const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext())!);
     this.appendAsl(

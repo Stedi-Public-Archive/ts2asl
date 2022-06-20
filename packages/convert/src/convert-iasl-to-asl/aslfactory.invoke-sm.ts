@@ -53,7 +53,7 @@ export class AslInvokeStateMachineFactory {
     }
   }
 
-  static appendAsl(task: Omit<asl.Task, "Type">,  scopes: Record<string, iasl.Scope>, retryConfiguration: iasl.RetryConfiguration | undefined, context: AslWriter, nameSuggestion: string) {
+  static appendAsl(task: Omit<asl.Task, "Type">, scopes: Record<string, iasl.Scope>, retryConfiguration: iasl.RetryConfiguration | undefined, context: AslWriter, nameSuggestion: string) {
     AslFactory.appendRetryConfiguration(task as asl.Task, retryConfiguration);
     context.appendNextState(
       {

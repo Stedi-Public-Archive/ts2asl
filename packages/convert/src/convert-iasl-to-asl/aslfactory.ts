@@ -25,7 +25,7 @@ export class AslFactory {
       if (!iasl.Check.isConditionalExpression(expression.expression) && !iasl.Check.isIdentifier(expression.expression) && !iasl.Check.isAslIntrinsicFunction(expression.expression) && !iasl.Check.isLiteral(expression.expression) && !iasl.Check.isLiteralObject(expression.expression) && !iasl.Check.isLiteralArray(expression.expression)) {
         expression = expression.expression;
       } else {
-        expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.PassState;
+        expression = { parameters: expression.expression, source: expression.source, _syntaxKind: iasl.SyntaxKind.AslPassState } as iasl.AslPassState;
       }
     } else {
       resultPath = null;
@@ -37,7 +37,7 @@ export class AslFactory {
       AslTaskFactory.appendIaslTask(expression, scopes, context, resultPath, expression.stateName);
     } else if (iasl.Check.isAslInvokeStateMachine(expression)) {
       AslInvokeStateMachineFactory.appendIaslInvoke(expression, scopes, context, resultPath, expression.stateName);
-    } else if (iasl.Check.isDoWhileStatement(expression)) {
+    } else if (iasl.Check.isDoWhile(expression)) {
       if (expression.while.statements.length == 0) throw new Error("Do while must have at least one statement");
       const childContext = appendBlock(expression.while, scopes, context.createChildContext());
 
@@ -69,7 +69,7 @@ export class AslFactory {
         context.appendTails(breakStates);
       }
 
-    } else if (iasl.Check.isIfExpression(expression)) {
+    } else if (iasl.Check.isIf(expression)) {
       const choiceState = {
         Type: "Choice",
         Choices: [],
@@ -158,7 +158,7 @@ export class AslFactory {
           throw new Error(`${state.brand} statement is not supported inside switch`);
         }
       }
-    } else if (iasl.Check.isWhileStatement(expression)) {
+    } else if (iasl.Check.isWhile(expression)) {
       if (expression.while.statements.length == 0) throw new Error("While must have at least one statement");
       const whileConditionName = context.appendNextState({ Type: "Choice", Choices: [] }, "While Condition");
       const whileConditionOperator = createChoiceOperator(expression.condition, scopes, context);
@@ -209,7 +209,7 @@ export class AslFactory {
       this.appendRetryConfiguration(mapState, expression.retry);
       context.appendTails(trailingStates);trailingStates
 
-    } else if (iasl.Check.isForEachStatement(expression)) {
+    } else if (iasl.Check.isForEach(expression)) {
       if (expression.iterator.statements.length == 0) return;
       const namespace = foreachCounter.value > 0 ? "foreach_" + (foreachCounter.value + 1) : "foreach";
       const namePostFix = foreachCounter.value > 0 ? " " + (foreachCounter.value + 1) : "";
@@ -288,16 +288,16 @@ export class AslFactory {
         Type: "Succeed",
         Comment: expression.source
       } as asl.Succeed, nameSuggestion);
-    } else if (iasl.Check.isReturnStatement(expression)) {
+    } else if (iasl.Check.isReturn(expression)) {
       AslPassFactory.appendIaslReturn(expression, scopes, context);
-    } else if (iasl.Check.isBreakStatement(expression)) {
+    } else if (iasl.Check.isBreak(expression)) {
       context.appendNextState({
         brand: "break",
         ResultPath: null,
         Type: "Pass",
         Comment: expression.source,
       }, expression.stateName ?? "Break");
-    } else if (iasl.Check.isContinueStatement(expression)) {
+    } else if (iasl.Check.isContinue(expression)) {
       context.appendNextState({
         brand: "continue",
         ResultPath: null,
@@ -305,7 +305,7 @@ export class AslFactory {
         Comment: expression.source,
       }, expression.stateName ?? "Continue");
 
-    } else if (iasl.Check.isTryExpression(expression)) {
+    } else if (iasl.Check.isTry(expression)) {
       const tryWriter = context.createChildContext();
       appendBlock(expression.try, scopes, tryWriter);
       const tryStatesWithCatchConfiguration: Array<(asl.Map | asl.Parallel | asl.Task | asl.Fail)> = [];

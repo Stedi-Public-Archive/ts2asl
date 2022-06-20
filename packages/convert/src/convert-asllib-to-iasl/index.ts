@@ -75,7 +75,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
             type: "unknown"
           },
           expression: callExpression,
-          _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+          _syntaxKind: iasl.SyntaxKind.VariableAssignment
         } as iasl.VariableAssignmentStatement,
         {
           expression: {
@@ -85,7 +85,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
             type: "unknown"
           },
           stateName: `Return result`,
-          _syntaxKind: iasl.SyntaxKind.ReturnStatement,
+          _syntaxKind: iasl.SyntaxKind.Return,
         } as iasl.ReturnStatement,
       ];
     }
@@ -116,7 +116,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
       name: identifier,
       expression: expression,
       stateName: createName(context.converterOptions, node, `Assign %s`, decl.name),
-      _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+      _syntaxKind: iasl.SyntaxKind.VariableAssignment
     } as iasl.VariableAssignmentStatement;
   }
 
@@ -133,7 +133,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
       name: identifier,
       expression: expression,
       stateName: createName(context.converterOptions, node, `Assign %s`, node.left),
-      _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+      _syntaxKind: iasl.SyntaxKind.VariableAssignment
     } as iasl.VariableAssignmentStatement;
   }
 
@@ -145,7 +145,7 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     return {
       stateName: createName(context.converterOptions, node, "Return %s", node.expression!),
       expression: convertExpression(node.expression, context),
-      _syntaxKind: iasl.SyntaxKind.ReturnStatement
+      _syntaxKind: iasl.SyntaxKind.Return
     } as iasl.ReturnStatement;
   }
 
@@ -272,7 +272,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           catch: catchConfiguration,
           retry: retryConfiguration,
           source: comment,
-          _syntaxKind: iasl.SyntaxKind.TryStatement
+          _syntaxKind: iasl.SyntaxKind.Try
         } as iasl.TryStatement;
       };
 
@@ -287,7 +287,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           condition,
           while: while_,
           source: comment,
-          _syntaxKind: iasl.SyntaxKind.WhileStatement
+          _syntaxKind: iasl.SyntaxKind.While
         } as iasl.WhileStatement;
       }
 
@@ -302,7 +302,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           condition,
           while: while_,
           source: comment,
-          _syntaxKind: iasl.SyntaxKind.DoWhileStatement
+          _syntaxKind: iasl.SyntaxKind.DoWhile
         } as iasl.DoWhileStatement;
       }
 
@@ -319,7 +319,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           then,
           else: else_,
           source: comment,
-          _syntaxKind: iasl.SyntaxKind.IfStatement
+          _syntaxKind: iasl.SyntaxKind.If
         } as iasl.IfStatement;
       };
 
@@ -359,7 +359,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           timestamp,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslWaitState
-        } as iasl.WaitState;
+        } as iasl.AslWaitState;
       };
 
       case "parallel": {
@@ -377,7 +377,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           retry: retryConfiguration,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslParallelState
-        } as iasl.ParallelState;
+        } as iasl.AslParallelState;
       };
 
       case "choice": {
@@ -401,7 +401,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           default: _default,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslChoiceState
-        } as iasl.ChoiceState;
+        } as iasl.AslChoiceState;
       };
 
       case "map": {
@@ -423,7 +423,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           source: comment,
           maxConcurrency,
           _syntaxKind: iasl.SyntaxKind.AslMapState
-        } as iasl.MapState;
+        } as iasl.AslMapState;
       };
 
       case "typescriptForeach": {
@@ -438,7 +438,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           items,
           iterator,
           source: comment,
-          _syntaxKind: iasl.SyntaxKind.ForEachStatement
+          _syntaxKind: iasl.SyntaxKind.ForEach
         } as iasl.ForEachStatement;
       };
       case "typescriptSwitch": {
@@ -483,7 +483,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           parameters,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslPassState
-        } as iasl.PassState;
+        } as iasl.AslPassState;
       };
 
       case "succeed": {
@@ -495,7 +495,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           stateName: name,
           source: comment,
           _syntaxKind: "asl-succeed-state"
-        } as iasl.SucceedState;
+        } as iasl.AslSucceedState;
       };
 
       case "fail": {
@@ -511,7 +511,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           error,
           source: comment,
           _syntaxKind: iasl.SyntaxKind.AslFailState
-        } as iasl.FailState;
+        } as iasl.AslFailState;
       };
 
     }
@@ -827,7 +827,7 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
 
   } else if (ts.isReturnStatement(expr)) {
     return {
-      _syntaxKind: iasl.SyntaxKind.ReturnStatement
+      _syntaxKind: iasl.SyntaxKind.Return
     } as iasl.ReturnStatement;
   } else if (ts.isContinueStatement(expr)) {
     return {
@@ -929,7 +929,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
         statements: [
           {
             expression: propValue,
-            _syntaxKind: iasl.SyntaxKind.ReturnStatement,
+            _syntaxKind: iasl.SyntaxKind.Return,
           } as iasl.ReturnStatement
         ],
         _syntaxKind: iasl.SyntaxKind.Block,
@@ -945,7 +945,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
               type: "unknown"
             },
             expression: propValue,
-            _syntaxKind: iasl.SyntaxKind.VariableAssignmentStatement
+            _syntaxKind: iasl.SyntaxKind.VariableAssignment
           } as iasl.VariableAssignmentStatement,
           {
             expression: {
@@ -954,7 +954,7 @@ const unpackBlock = (args: Record<string, iasl.Expression | iasl.Identifier>, pr
               _syntaxKind: iasl.SyntaxKind.Identifier,
               type: "unknown"
             },
-            _syntaxKind: iasl.SyntaxKind.ReturnStatement,
+            _syntaxKind: iasl.SyntaxKind.Return,
           } as iasl.ReturnStatement,
         ],
         _syntaxKind: iasl.SyntaxKind.Block,

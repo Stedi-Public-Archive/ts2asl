@@ -8,19 +8,19 @@ export enum SyntaxKind {
   Function = "function",
   BinaryExpression = "binary-expression",
   ConditionalExpression = "conditional-expression",
+  TypeOfExpression = "type-of-expression",
   AslIntrinsicFunction = "asl-intrinsic-function",
-  VariableAssignmentStatement = "variable-assignment",
+  VariableAssignment = "variable-assignment",
   Block = "block",
-  IfStatement = "if",
-  TryStatement = "try",
-  CaseStatement = "case",
+  If = "if",
+  Try = "try",
   Break = "break",
   Continue = "continue",
   Switch = "switch",
-  WhileStatement = "while",
-  ForEachStatement = "for-each",
-  DoWhileStatement = "do-while",
-  ReturnStatement = "return",
+  While = "while",
+  ForEach = "for-each",
+  DoWhile = "do-while",
+  Return = "return",
   AslWaitState = "asl-wait-state",
   AslParallelState = "asl-parallel-state",
   AslPassState = "asl-pass-state",
@@ -30,7 +30,6 @@ export enum SyntaxKind {
   AslMapState = "asl-map-state",
   AslFailState = "asl-fail-state",
   AslSucceedState = "asl-succeed-state",
-  TypeOfExpression = "type-of-expression",
 }
 
 export class Check {
@@ -62,57 +61,57 @@ export class Check {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.BinaryExpression;
   }
   static isVariableAssignment(expr: Identifier | Expression | Statement | undefined): expr is VariableAssignmentStatement {
-    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.VariableAssignmentStatement;
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.VariableAssignment;
   }
   static isTypeOfExpression(expr: Identifier | Expression | Statement | undefined): expr is TypeOfExpression {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.TypeOfExpression;
   }
-  static isIfExpression(expr: Identifier | Expression | Statement | undefined): expr is IfStatement {
-    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.IfStatement;
+  static isIf(expr: Identifier | Expression | Statement | undefined): expr is IfStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.If;
   }
-  static isTryExpression(expr: Identifier | Expression | Statement | undefined): expr is TryStatement {
-    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.TryStatement;
+  static isTry(expr: Identifier | Expression | Statement | undefined): expr is TryStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Try;
   }
-  static isWhileStatement(expr: Identifier | Expression | Statement | undefined): expr is WhileStatement {
-    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.WhileStatement;
+  static isWhile(expr: Identifier | Expression | Statement | undefined): expr is WhileStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.While;
   }
-  static isBreakStatement(expr: Identifier | Expression | Statement | undefined): expr is BreakStatement {
+  static isBreak(expr: Identifier | Expression | Statement | undefined): expr is BreakStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Break;
   }
-  static isContinueStatement(expr: Identifier | Expression | Statement | undefined): expr is ContinueStatement {
+  static isContinue(expr: Identifier | Expression | Statement | undefined): expr is ContinueStatement {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Continue;
   }
-  static isForEachStatement(expr: Identifier | Expression | Statement | undefined): expr is ForEachStatement {
-    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ForEachStatement;
+  static isForEach(expr: Identifier | Expression | Statement | undefined): expr is ForEachStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ForEach;
   }
-  static isDoWhileStatement(expr: Identifier | Expression | Statement | undefined): expr is DoWhileStatement {
-    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.DoWhileStatement;
+  static isDoWhile(expr: Identifier | Expression | Statement | undefined): expr is DoWhileStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.DoWhile;
   }
-  static isReturnStatement(expr: Identifier | Expression | Statement | undefined): expr is ReturnStatement {
-    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.ReturnStatement;
+  static isReturn(expr: Identifier | Expression | Statement | undefined): expr is ReturnStatement {
+    return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.Return;
   }
-  static isAslWaitState(expr: Identifier | Expression | Statement | undefined): expr is WaitState {
+  static isAslWaitState(expr: Identifier | Expression | Statement | undefined): expr is AslWaitState {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslWaitState;
   }
-  static isAslParallelState(expr: Identifier | Expression | Statement | undefined): expr is ParallelState {
+  static isAslParallelState(expr: Identifier | Expression | Statement | undefined): expr is AslParallelState {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslParallelState;
   }
-  static isAslPassState(expr: Identifier | Expression | Statement | undefined): expr is PassState {
+  static isAslPassState(expr: Identifier | Expression | Statement | undefined): expr is AslPassState {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslPassState;
   }
   static isAslTaskState(expr: Identifier | Expression | Statement | undefined): expr is TaskState {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslTaskState;
   }
-  static isAslChoiceState(expr: Identifier | Expression | Statement | undefined): expr is ChoiceState {
+  static isAslChoiceState(expr: Identifier | Expression | Statement | undefined): expr is AslChoiceState {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslChoiceState;
   }
-  static isAslMapState(expr: Identifier | Expression | Statement | undefined): expr is MapState {
+  static isAslMapState(expr: Identifier | Expression | Statement | undefined): expr is AslMapState {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslMapState;
   }
-  static isAslFailState(expr: Identifier | Expression | Statement | undefined): expr is FailState {
+  static isAslFailState(expr: Identifier | Expression | Statement | undefined): expr is AslFailState {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslFailState;
   }
-  static isAslSucceedState(expr: Identifier | Expression | Statement | undefined): expr is SucceedState {
+  static isAslSucceedState(expr: Identifier | Expression | Statement | undefined): expr is AslSucceedState {
     return expr !== undefined && "_syntaxKind" in expr && expr._syntaxKind === SyntaxKind.AslSucceedState;
   }
   static isAslIntrinsicFunction(expr: Identifier | Expression | Statement | undefined): expr is AslIntrinsicFunction {
@@ -140,7 +139,7 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
     visitNodes(node.parameters, visitor);
   } else if (Check.isAslInvokeStateMachine(node)) {
     visitNodes(node.parameters, visitor);
-  } else if (Check.isReturnStatement(node)) {
+  } else if (Check.isReturn(node)) {
     visitNodes(node.expression, visitor);
   }
   else if (Check.isTypeOfExpression(node)) {
@@ -170,14 +169,14 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
   } else if (Check.isAslMapState(node)) {
     visitNodes(node.items, visitor);
     visitNodes(node.iterator, visitor);
-  } else if (Check.isForEachStatement(node)) {
+  } else if (Check.isForEach(node)) {
     visitNodes(node.items, visitor);
     visitNodes(node.iterator, visitor);
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
       visitNodes(child, visitor);
     }
-  } else if (Check.isIfExpression(node)) {
+  } else if (Check.isIf(node)) {
     visitNodes(node.condition, visitor);
     visitNodes(node.then, visitor);
     if (node.else) visitNodes(node.else, visitor);
@@ -188,16 +187,16 @@ export const visitNodes = (node: Expression, visitor: (node: Expression) => void
       }
       visitNodes(child.then, visitor);
     }
-  } else if (Check.isDoWhileStatement(node)) {
+  } else if (Check.isDoWhile(node)) {
     visitNodes(node.condition, visitor);
     visitNodes(node.while, visitor);
-  } else if (Check.isTryExpression(node)) {
+  } else if (Check.isTry(node)) {
     visitNodes(node.try, visitor);
     for (const child of (node.catch || [])) {
       visitNodes(child.block, visitor);
     }
     if (node.finally) visitNodes(node.finally, visitor);
-  } else if (Check.isWhileStatement(node)) {
+  } else if (Check.isWhile(node)) {
     visitNodes(node.condition, visitor);
     visitNodes(node.while, visitor);
   } else if (Check.isAslPassState(node)) {
@@ -242,7 +241,7 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
     assignScopes(node.parameters, scope, visitor);
   } else if (Check.isAslInvokeStateMachine(node)) {
     assignScopes(node.parameters, scope, visitor);
-  }else if (Check.isReturnStatement(node)) {
+  }else if (Check.isReturn(node)) {
     assignScopes(node.expression, scope, visitor);
   }
   else if (Check.isTypeOfExpression(node)) {
@@ -281,14 +280,14 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
   } else if (Check.isAslMapState(node)) {
     assignScopes(node.items, scope, visitor);
     assignScopes(node.iterator, scope, visitor);
-  } else if (Check.isForEachStatement(node)) {
+  } else if (Check.isForEach(node)) {
     assignScopes(node.items, scope, visitor);
     assignScopes(node.iterator, scope, visitor);
   } else if (Check.isAslParallelState(node)) {
     for (const child of node.branches) {
       assignScopes(child, scope, visitor);
     }
-  } else if (Check.isIfExpression(node)) {
+  } else if (Check.isIf(node)) {
     assignScopes(node.condition, scope, visitor);
     assignScopes(node.then, scope, visitor);
     if (node.else) assignScopes(node.else, scope, visitor);
@@ -299,16 +298,16 @@ export const assignScopes = (node: Expression, scope: Scope, visitor: (node: Exp
       }
       assignScopes(child.then, scope, visitor);
     }
-  } else if (Check.isDoWhileStatement(node)) {
+  } else if (Check.isDoWhile(node)) {
     assignScopes(node.condition, scope, visitor);
     assignScopes(node.while, scope, visitor);
-  } else if (Check.isTryExpression(node)) {
+  } else if (Check.isTry(node)) {
     assignScopes(node.try, scope, visitor);
     for (const child of (node.catch || [])) {
       assignScopes(child.block, scope, visitor);
     }
     if (node.finally) assignScopes(node.finally, scope, visitor);
-  } else if (Check.isWhileStatement(node)) {
+  } else if (Check.isWhile(node)) {
     assignScopes(node.condition, scope, visitor);
     assignScopes(node.while, scope, visitor);
   } else if (Check.isAslPassState(node)) {
@@ -440,7 +439,7 @@ export interface LiteralArrayExpression extends Expression {
 }
 
 export interface IfStatement extends Statement {
-  _syntaxKind: SyntaxKind.IfStatement;
+  _syntaxKind: SyntaxKind.If;
   condition: BinaryExpression;
   then: Block;
   else?: Block;
@@ -451,7 +450,7 @@ export interface TypeOfExpression extends Expression {
 }
 
 export interface TryStatement extends Statement {
-  _syntaxKind: SyntaxKind.TryStatement;
+  _syntaxKind: SyntaxKind.Try;
   try: Block;
   catch?: CatchConfiguration;
   finally?: Block;
@@ -464,7 +463,7 @@ export interface ContinueStatement extends Statement {
   _syntaxKind: SyntaxKind.Continue;
 }
 export interface ForEachStatement extends Statement {
-  _syntaxKind: SyntaxKind.ForEachStatement;
+  _syntaxKind: SyntaxKind.ForEach;
   iterator: Function;
   items: Identifier;
 }
@@ -473,25 +472,25 @@ export interface SwitchStatement extends Statement {
   cases?: Array<{ when?: BinaryExpression, then: Block; }>;
 }
 export interface DoWhileStatement extends Statement {
-  _syntaxKind: SyntaxKind.DoWhileStatement;
+  _syntaxKind: SyntaxKind.DoWhile;
   while: Block;
   condition: BinaryExpression;
 }
 
 export interface WhileStatement extends Statement {
-  _syntaxKind: SyntaxKind.WhileStatement;
+  _syntaxKind: SyntaxKind.While;
   condition: BinaryExpression;
   while: Block;
 }
 
 export interface VariableAssignmentStatement extends Statement {
-  _syntaxKind: SyntaxKind.VariableAssignmentStatement;
+  _syntaxKind: SyntaxKind.VariableAssignment;
   name: Identifier;
   expression: Expression;
 }
 
 export interface ReturnStatement extends Statement {
-  _syntaxKind: SyntaxKind.ReturnStatement;
+  _syntaxKind: SyntaxKind.Return;
   expression: Expression;
 }
 
@@ -514,20 +513,20 @@ export declare type RetryConfiguration = Array<{
 
 export type CatchConfiguration = Array<{ errorEquals: string[], block: Function; }>;
 
-export interface WaitState extends AslState {
+export interface AslWaitState extends AslState {
   _syntaxKind: SyntaxKind.AslWaitState;
   seconds: LiteralExpressionLike | Identifier;
   timestamp: LiteralExpressionLike | Identifier;
 }
 
-export interface ParallelState extends AslState {
+export interface AslParallelState extends AslState {
   _syntaxKind: SyntaxKind.AslParallelState;
   branches: (Function)[];
   catch?: CatchConfiguration;
   retry?: RetryConfiguration;
 }
 
-export interface PassState extends AslState {
+export interface AslPassState extends AslState {
   _syntaxKind: SyntaxKind.AslPassState;
 
   //if identifier, assign to ResultPath
@@ -555,14 +554,14 @@ export interface TaskState extends AslState {
   heartbeatSeconds?: number;
 }
 
-export interface ChoiceState extends AslState {
+export interface AslChoiceState extends AslState {
   _syntaxKind: SyntaxKind.AslChoiceState;
   choices?: Array<{ condition: BinaryExpression, block: Block; }>;
   default?: Block;
 }
 
 
-export interface MapState extends AslState {
+export interface AslMapState extends AslState {
   _syntaxKind: SyntaxKind.AslMapState;
   iterator: Function;
   items: Identifier;
@@ -571,13 +570,13 @@ export interface MapState extends AslState {
   maxConcurrency?: number;
 }
 
-export interface FailState extends AslState {
+export interface AslFailState extends AslState {
   _syntaxKind: SyntaxKind.AslFailState;
   cause?: string;
   error?: string;
 }
 
-export interface SucceedState extends AslState {
+export interface AslSucceedState extends AslState {
   _syntaxKind: SyntaxKind.AslSucceedState;
 }
 
