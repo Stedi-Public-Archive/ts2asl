@@ -28,7 +28,7 @@ export class AslMapFactory {
       expression.retry,
       scopes,
       context,
-      nameSuggestion ?? "Parallel");
+      nameSuggestion ?? "Map");
   }
 
   static appendAsl(map: Omit<asl.Map, "Type">, catchConfiguration: iasl.CatchConfiguration | undefined, retryConfiguration: iasl.RetryConfiguration | undefined, scopes: Record<string, iasl.Scope>, context: AslWriter, nameSuggestion: string) {

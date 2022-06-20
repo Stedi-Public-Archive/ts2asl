@@ -12,6 +12,8 @@ import { AslParallelFactory } from "./aslfactory.parallel";
 import { AslTaskFactory } from "./aslfactory.task";
 import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
 import { AslMapFactory } from "./aslfactory.map";
+import { AslFailFactory } from "./aslfactory.fail";
+import { AslSucceedFactory } from "./aslfactory.succeed";
 
 export let foreachCounter = { value: 0 };
 
@@ -270,17 +272,9 @@ export class AslFactory {
       context.appendTails(foreachExitState);
 
     } else if (iasl.Check.isAslFailState(expression)) {
-      context.appendNextState({
-        Type: "Fail",
-        Error: expression.error,
-        Cause: expression.cause,
-        Comment: expression.source
-      } as asl.Fail, nameSuggestion);
+      AslFailFactory.appendIaslFail(expression, context, nameSuggestion);
     } else if (iasl.Check.isAslSucceedState(expression)) {
-      context.appendNextState({
-        Type: "Succeed",
-        Comment: expression.source
-      } as asl.Succeed, nameSuggestion);
+      AslSucceedFactory.appendIaslSucceed(expression, context, nameSuggestion);
     } else if (iasl.Check.isReturn(expression)) {
       AslPassFactory.appendIaslReturn(expression, scopes, context);
     } else if (iasl.Check.isBreak(expression)) {

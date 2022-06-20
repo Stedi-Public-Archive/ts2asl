@@ -21,7 +21,7 @@ describe("when transpiling simple statements", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Parallel",
+            "Next": "Map",
             "Parameters": Object {
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
@@ -29,7 +29,7 @@ describe("when transpiling simple statements", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Parallel": Object {
+          "Map": Object {
             "Comment": undefined,
             "End": true,
             "ItemsPath": "$.vars.array",
@@ -80,7 +80,7 @@ describe("when transpiling simple statements", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Parallel",
+            "Next": "Map",
             "Parameters": Object {
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
@@ -88,7 +88,7 @@ describe("when transpiling simple statements", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Parallel": Object {
+          "Map": Object {
             "Comment": undefined,
             "End": true,
             "ItemsPath": "$.vars.array",

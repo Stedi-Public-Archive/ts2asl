@@ -20,7 +20,7 @@ describe("when enclosing input", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Initialize": Object {
-            "Next": "Parallel",
+            "Next": "Map",
             "Parameters": Object {
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
@@ -28,7 +28,7 @@ describe("when enclosing input", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Parallel": Object {
+          "Map": Object {
             "Comment": undefined,
             "End": true,
             "ItemsPath": "$.vars.result",

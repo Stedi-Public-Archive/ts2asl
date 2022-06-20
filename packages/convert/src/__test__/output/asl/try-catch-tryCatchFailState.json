@@ -8,11 +8,76 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Return asl.fail({ e ..."
+      "Next": "Fail State Wrapper"
     },
-    "Return asl.fail({ e ...": {
+    "Fail State Wrapper": {
+      "Type": "Parallel",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.vars.e",
+          "Next": "Assign aslError"
+        }
+      ],
+      "End": true,
+      "Branches": [
+        {
+          "StartAt": "Fail",
+          "States": {
+            "Fail": {
+              "Type": "Fail",
+              "Error": "InternalFailure",
+              "Cause": "bad luck"
+            }
+          }
+        }
+      ]
+    },
+    "Assign aslError": {
       "Type": "Pass",
-      "InputPath": "$._undefined",
+      "InputPath": "$.vars.e",
+      "ResultPath": "$.vars.aslError",
+      "Comment": "source: aslError = e as asl.AslError",
+      "Next": "If (\"Error\" in aslError & ..."
+    },
+    "If (\"Error\" in aslError & ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "And": [
+            {
+              "Variable": "$.vars.aslError.Error",
+              "IsPresent": true
+            },
+            {
+              "Variable": "$.vars.aslError.Cause",
+              "IsPresent": true
+            }
+          ],
+          "Next": "Evaluate Format('{} ({})' ..."
+        }
+      ],
+      "Comment": "source: if (\"Error\" in aslError && \"Cause\" in aslError ...",
+      "Default": "Return \"this should not h ..."
+    },
+    "Evaluate Format('{} ({})' ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{} ({})', $.vars.aslError.Error, $.vars.aslError.Cause)"
+      },
+      "Next": "Return"
+    },
+    "Return": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "End": true
+    },
+    "Return \"this should not h ...": {
+      "Type": "Pass",
+      "Result": "this should not happen",
       "End": true
     }
   }

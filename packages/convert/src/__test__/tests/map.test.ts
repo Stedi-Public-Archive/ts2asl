@@ -18,7 +18,7 @@ describe("when converting map", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Parallel": Object {
+          "Map": Object {
             "Comment": undefined,
             "End": true,
             "ItemsPath": "$.vars.entries",
@@ -76,7 +76,7 @@ describe("when converting map", () => {
           "getEntries()": Object {
             "Comment": "source: getEntries()",
             "HeartbeatSeconds": undefined,
-            "Next": "Parallel",
+            "Next": "Map",
             "Resource": "[!lambda[getEntries]arn]",
             "ResultPath": "$.vars.entries",
             "Retry": Array [

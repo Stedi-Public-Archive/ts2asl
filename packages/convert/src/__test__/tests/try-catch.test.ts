@@ -343,8 +343,69 @@ describe("when converting try-catch", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign aslError": Object {
+            "Comment": "source: aslError = e as asl.AslError",
+            "InputPath": "$.vars.e",
+            "Next": "If (\\"Error\\" in aslError & ...",
+            "ResultPath": "$.vars.aslError",
+            "Type": "Pass",
+          },
+          "Evaluate Format('{} ({})' ...": Object {
+            "Next": "Return",
+            "Parameters": Object {
+              "value.$": "States.Format('{} ({})', $.vars.aslError.Error, $.vars.aslError.Cause)",
+            },
+            "ResultPath": "$.tmp.eval",
+            "Type": "Pass",
+          },
+          "Fail State Wrapper": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "Fail",
+                "States": Object {
+                  "Fail": Object {
+                    "Cause": "bad luck",
+                    "Comment": undefined,
+                    "Error": "InternalFailure",
+                    "Type": "Fail",
+                  },
+                },
+              },
+            ],
+            "Catch": Array [
+              Object {
+                "ErrorEquals": Array [
+                  "States.ALL",
+                ],
+                "Next": "Assign aslError",
+                "ResultPath": "$.vars.e",
+              },
+            ],
+            "End": true,
+            "Type": "Parallel",
+          },
+          "If (\\"Error\\" in aslError & ...": Object {
+            "Choices": Array [
+              Object {
+                "And": Array [
+                  Object {
+                    "IsPresent": true,
+                    "Variable": "$.vars.aslError.Error",
+                  },
+                  Object {
+                    "IsPresent": true,
+                    "Variable": "$.vars.aslError.Cause",
+                  },
+                ],
+                "Next": "Evaluate Format('{} ({})' ...",
+              },
+            ],
+            "Comment": "source: if (\\"Error\\" in aslError && \\"Cause\\" in aslError ...",
+            "Default": "Return \\"this should not h ...",
+            "Type": "Choice",
+          },
           "Initialize": Object {
-            "Next": "Return asl.fail({ e ...",
+            "Next": "Fail State Wrapper",
             "Parameters": Object {
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
@@ -352,10 +413,16 @@ describe("when converting try-catch", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return asl.fail({ e ...": Object {
+          "Return": Object {
             "Comment": undefined,
             "End": true,
-            "InputPath": "$._undefined",
+            "InputPath": "$.tmp.eval.value",
+            "Type": "Pass",
+          },
+          "Return \\"this should not h ...": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "this should not happen",
             "Type": "Pass",
           },
         },

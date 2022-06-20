@@ -27,9 +27,9 @@
           "BackoffRate": 2
         }
       ],
-      "Next": "Parallel"
+      "Next": "Map"
     },
-    "Parallel": {
+    "Map": {
       "Type": "Map",
       "ResultPath": null,
       "Iterator": {

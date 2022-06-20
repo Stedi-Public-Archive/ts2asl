@@ -9,6 +9,8 @@ import { AslTaskFactory } from "./aslfactory.task";
 import { AslInvokeStateMachineFactory } from "./aslfactory.invoke-sm";
 import { AslPassFactory } from "./aslfactory.pass";
 import { AslMapFactory } from "./aslfactory.map";
+import { AslFailFactory } from "./aslfactory.fail";
+import { AslSucceedFactory } from "./aslfactory.succeed";
 
 export class AslRhsFactory {
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral {
@@ -144,9 +146,11 @@ export class AslRhsFactory {
       AslMapFactory.appendIaslMap(expression, scopes, context, "$.tmp.result", expression.stateName);
       return { path: "$.tmp.result", type: "unknown" };
     } else if (iasl.Check.isAslFailState(expression)) {
+      AslFailFactory.appendIaslFail(expression, context, expression.stateName);
       return { path: "$._undefined", type: "null" };
     } else if (iasl.Check.isAslSucceedState(expression)) {
-      return { path: "$", type: "object" };
+      AslSucceedFactory.appendIaslSucceed(expression, context, expression.stateName);
+      return { path: "$.vars", type: "object" };
     }
 
 
