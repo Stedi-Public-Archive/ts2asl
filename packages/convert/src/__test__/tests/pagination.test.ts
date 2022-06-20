@@ -4,8 +4,8 @@ describe("when converting pagination", () => {
   beforeAll(() => {
     converted = runConvertForTest("pagination");
   });
-  it("then main can be converted to asl", async () => {
-    expect(converted.main.asl).toMatchInlineSnapshot(`
+  it("then listUsers can be converted to asl", async () => {
+    expect(converted.listUsers.asl).toMatchInlineSnapshot(`
       Object {
         "StartAt": "Initialize",
         "States": Object {
