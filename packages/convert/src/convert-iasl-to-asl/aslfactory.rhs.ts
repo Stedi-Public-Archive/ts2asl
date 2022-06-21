@@ -15,7 +15,7 @@ import { AslSucceedFactory } from "./aslfactory.succeed";
 export class AslRhsFactory {
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral {
     if (expression === undefined || iasl.Check.isLiteral(expression) && (expression.value === undefined || expression.value === null)) {
-      return { path: "$._undefined", type: "object" };
+      return { path: "$._undefined", type: "null" };
     } else if (iasl.Check.isConditionalExpression(expression)) {
       const whenTrueRhs = AslRhsFactory.appendIasl(expression.whenTrue, scopes, context, true);
       const whenFalseRhs = AslRhsFactory.appendIasl(expression.whenFalse, scopes, context, true);

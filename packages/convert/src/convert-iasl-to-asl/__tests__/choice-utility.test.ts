@@ -1,13 +1,16 @@
 import { createChoiceOperator } from "../choice-utility";
 import * as iasl from "../../convert-asllib-to-iasl/ast";
-import { IdentifierFactory, LiteralFactory } from "../../convert-asllib-to-iasl/iaslfactory";
+import {
+  IdentifierFactory,
+  LiteralFactory
+} from "../../convert-asllib-to-iasl/iaslfactory";
 
 describe("when transpiling simple statements", () => {
   it("then current type operand is used", () => {
     const binaryExpression = {
       lhs: IdentifierFactory.create({
         identifier: "something",
-        type: "numeric",
+        type: "numeric"
       }),
       operator: "eq",
       rhs: LiteralFactory.createFromRuntime(23),
@@ -30,7 +33,7 @@ describe("when transpiling simple statements", () => {
         operator: "is-truthy",
         rhs: IdentifierFactory.create({
           identifier: "something",
-          type: "numeric",
+          type: "numeric"
         }),
         _syntaxKind: iasl.SyntaxKind.BinaryExpression
       } as iasl.BinaryExpression,
@@ -50,22 +53,6 @@ describe("when transpiling simple statements", () => {
             "Variable": "$.vars.something",
           },
           Object {
-            "BooleanEquals": false,
-            "Variable": "$.vars.something",
-          },
-          Object {
-            "StringEquals": "",
-            "Variable": "$.vars.something",
-          },
-          Object {
-            "StringEquals": "false",
-            "Variable": "$.vars.something",
-          },
-          Object {
-            "StringEquals": "0",
-            "Variable": "$.vars.something",
-          },
-          Object {
             "NumericEquals": 0,
             "Variable": "$.vars.something",
           },
@@ -80,9 +67,9 @@ it("then not typeof is optimized to typeof: false", () => {
     operator: "not",
     rhs: {
       lhs: {
-        operand:  IdentifierFactory.create({
+        operand: IdentifierFactory.create({
           identifier: "number",
-          type: "unknown",
+          type: "unknown"
         }),
         _syntaxKind: iasl.SyntaxKind.TypeOfExpression
       } as iasl.TypeOfExpression,
