@@ -66,7 +66,8 @@
       "Choices": [
         {
           "Variable": "$.foreach.items[0]",
-          "IsPresent": true
+          "IsPresent": true,
+          "Next": "Foreach Initialize 2"
         }
       ],
       "Default": "Foreach Exit"
