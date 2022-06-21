@@ -13,3 +13,7 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 30
+    ignore:
+      - dependency-name: "@aws-sdk/*"
+        versions:
+          - ">= 0"
