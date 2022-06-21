@@ -556,7 +556,7 @@ describe("when converting for-each", () => {
             "Choices": Array [
               Object {
                 "IsPresent": true,
-                "Next": undefined,
+                "Next": "Foreach Initialize 2",
                 "Variable": "$.foreach.items[0]",
               },
             ],

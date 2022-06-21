@@ -202,6 +202,7 @@ export class AslWriter {
   }
 
   joinTrailingStates(nextStateName: string, ...except: asl.State[]) {
+    if (this.startAt === undefined) this.startAt = nextStateName;
     for (const trailingState of this.trailingStates) {
       if (except.includes(trailingState)) continue;
       if (trailingState.Type === "Choice") {
