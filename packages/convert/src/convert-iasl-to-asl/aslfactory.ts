@@ -1,8 +1,7 @@
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
-import { appendBlock, convertBlock } from ".";
+import { appendBlock } from ".";
 import { createChoiceOperator } from "./choice-utility";
-import { createParametersForMap } from "./parameters";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createReplacer, replaceIdentifiers } from "./identifiers";
 import { Operator } from "asl-types/dist/choice";

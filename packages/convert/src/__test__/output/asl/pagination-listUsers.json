@@ -144,10 +144,6 @@
               },
               {
                 "Variable": "$.vars.marker",
-                "BooleanEquals": false
-              },
-              {
-                "Variable": "$.vars.marker",
                 "StringEquals": ""
               },
               {
@@ -157,10 +153,6 @@
               {
                 "Variable": "$.vars.marker",
                 "StringEquals": "0"
-              },
-              {
-                "Variable": "$.vars.marker",
-                "NumericEquals": 0
               }
             ]
           },

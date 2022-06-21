@@ -85,10 +85,6 @@ describe("when converting null-coalescing", () => {
                       "Variable": "$.vars.obj.name",
                     },
                     Object {
-                      "BooleanEquals": false,
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
                       "StringEquals": "",
                       "Variable": "$.vars.obj.name",
                     },
@@ -98,10 +94,6 @@ describe("when converting null-coalescing", () => {
                     },
                     Object {
                       "StringEquals": "0",
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
-                      "NumericEquals": 0,
                       "Variable": "$.vars.obj.name",
                     },
                   ],
@@ -127,10 +119,6 @@ describe("when converting null-coalescing", () => {
                       "Variable": "$.vars.obj.name",
                     },
                     Object {
-                      "BooleanEquals": false,
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
                       "StringEquals": "",
                       "Variable": "$.vars.obj.name",
                     },
@@ -140,10 +128,6 @@ describe("when converting null-coalescing", () => {
                     },
                     Object {
                       "StringEquals": "0",
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
-                      "NumericEquals": 0,
                       "Variable": "$.vars.obj.name",
                     },
                   ],
@@ -541,10 +525,6 @@ describe("when converting null-coalescing", () => {
                       "Variable": "$.vars.obj.name",
                     },
                     Object {
-                      "BooleanEquals": false,
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
                       "StringEquals": "",
                       "Variable": "$.vars.obj.name",
                     },
@@ -554,10 +534,6 @@ describe("when converting null-coalescing", () => {
                     },
                     Object {
                       "StringEquals": "0",
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
-                      "NumericEquals": 0,
                       "Variable": "$.vars.obj.name",
                     },
                   ],
@@ -583,10 +559,6 @@ describe("when converting null-coalescing", () => {
                       "Variable": "$.vars.obj.name",
                     },
                     Object {
-                      "BooleanEquals": false,
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
                       "StringEquals": "",
                       "Variable": "$.vars.obj.name",
                     },
@@ -596,10 +568,6 @@ describe("when converting null-coalescing", () => {
                     },
                     Object {
                       "StringEquals": "0",
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
-                      "NumericEquals": 0,
                       "Variable": "$.vars.obj.name",
                     },
                   ],

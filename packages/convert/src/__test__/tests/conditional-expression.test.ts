@@ -287,10 +287,6 @@ describe("when converting conditional-expression", () => {
                       "Variable": "$.vars.obj.name",
                     },
                     Object {
-                      "BooleanEquals": false,
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
                       "StringEquals": "",
                       "Variable": "$.vars.obj.name",
                     },
@@ -300,10 +296,6 @@ describe("when converting conditional-expression", () => {
                     },
                     Object {
                       "StringEquals": "0",
-                      "Variable": "$.vars.obj.name",
-                    },
-                    Object {
-                      "NumericEquals": 0,
                       "Variable": "$.vars.obj.name",
                     },
                   ],

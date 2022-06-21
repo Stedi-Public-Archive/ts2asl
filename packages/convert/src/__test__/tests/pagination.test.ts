@@ -63,10 +63,6 @@ describe("when converting pagination", () => {
                       "Variable": "$.vars.marker",
                     },
                     Object {
-                      "BooleanEquals": false,
-                      "Variable": "$.vars.marker",
-                    },
-                    Object {
                       "StringEquals": "",
                       "Variable": "$.vars.marker",
                     },
@@ -76,10 +72,6 @@ describe("when converting pagination", () => {
                     },
                     Object {
                       "StringEquals": "0",
-                      "Variable": "$.vars.marker",
-                    },
-                    Object {
-                      "NumericEquals": 0,
                       "Variable": "$.vars.marker",
                     },
                   ],

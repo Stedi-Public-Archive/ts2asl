@@ -73,6 +73,54 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
         }
       };
     }
+    if (expr.type === "string") {
+      return {
+        Not: {
+          Or: [
+            {
+              Variable: expr.path,
+              IsPresent: false
+            },
+            {
+              Variable: expr.path,
+              IsNull: true
+            },
+            {
+              Variable: expr.path,
+              StringEquals: ""
+            },
+            {
+              Variable: expr.path,
+              StringEquals: "false"
+            },
+            {
+              Variable: expr.path,
+              StringEquals: "0"
+            },
+          ]
+        }
+      };
+    }
+    if (expr.type === "numeric") {
+      return {
+        Not: {
+          Or: [
+            {
+              Variable: expr.path,
+              IsPresent: false
+            },
+            {
+              Variable: expr.path,
+              IsNull: true
+            },
+            {
+              Variable: expr.path,
+              NumericEquals: 0
+            }
+          ]
+        }
+      };
+    }
 
     //otherwise we do "truthy" check 
     const notTruthy = {

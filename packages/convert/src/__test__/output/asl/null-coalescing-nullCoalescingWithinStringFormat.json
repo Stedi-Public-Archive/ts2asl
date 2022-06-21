@@ -42,10 +42,6 @@
               },
               {
                 "Variable": "$.vars.obj.name",
-                "BooleanEquals": false
-              },
-              {
-                "Variable": "$.vars.obj.name",
                 "StringEquals": ""
               },
               {
@@ -55,10 +51,6 @@
               {
                 "Variable": "$.vars.obj.name",
                 "StringEquals": "0"
-              },
-              {
-                "Variable": "$.vars.obj.name",
-                "NumericEquals": 0
               }
             ]
           },
@@ -115,10 +107,6 @@
               },
               {
                 "Variable": "$.vars.obj.name",
-                "BooleanEquals": false
-              },
-              {
-                "Variable": "$.vars.obj.name",
                 "StringEquals": ""
               },
               {
@@ -128,10 +116,6 @@
               {
                 "Variable": "$.vars.obj.name",
                 "StringEquals": "0"
-              },
-              {
-                "Variable": "$.vars.obj.name",
-                "NumericEquals": 0
               }
             ]
           },
