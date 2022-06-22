@@ -11,7 +11,7 @@ describe('when invoking program', () => {
     expect(result.greeting).toBe("Hello World");
   })
 
-  it("no lucky number is the name", async () => {
+  it("no lucky number is the same", async () => {
     const first = await main({} as any);
     const second = await main({} as any);
     expect(first.luckyNumber).not.toBe(second.luckyNumber);
