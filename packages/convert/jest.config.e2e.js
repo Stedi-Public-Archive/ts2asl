@@ -18,9 +18,9 @@ module.exports = {
     "**/enums.integration.ts",
     "**/expressions.integration.ts",
     "**/if.integration.ts",
-    // "**/variables.integration.ts", FAILS on comparing context.executionId (false negative)
+    "**/for-each.integration.ts",
     // "**/arrays.integration.ts", FAILS
-    // "**/for-each.integration.ts", FAILS
+    // "**/variables.integration.ts", FAILS on comparing context.executionId (false negative)
     // "**/input-validation.integration.ts", FAILS on throwing error in node (false negative)
   ],
   testTimeout: 99999999,
