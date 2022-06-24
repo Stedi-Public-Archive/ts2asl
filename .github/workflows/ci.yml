@@ -14,7 +14,7 @@ on:
       - main
       
 jobs:
-  test:
+  run-unit-tests:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3
@@ -29,6 +29,40 @@ jobs:
         run: npx turbo run test
         env:
           NODE_OPTIONS: --max-old-space-size=4096
+
+  run-convert-e2e-tests:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Dependencies with NPM
+        id: installation
+        run: npm ci
+      - name: Configure creds
+        id: configcreds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::642712255693:role/github-actions
+          role-duration-seconds: 3600
+          aws-region: us-east-1
+      - name: Clean up previous run
+        run: cd tools/delete-stepfunctions && npm ci && npx ts-node delete-all.ts
+      - name: Run e2e Tests
+        id: e2etest
+        run: npx turbo run test:e2e --filter=@ts2asl/convert
+
+  run-cdk-e2e-tests:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Dependencies with NPM
+        id: installation
+        run: npm ci
       - name: Configure creds
         id: configcreds
         uses: aws-actions/configure-aws-credentials@v1
@@ -38,4 +72,4 @@ jobs:
           aws-region: us-east-1
       - name: Run e2e Tests
         id: e2etest
-        run: npx turbo run test:e2e
+        run: npx turbo run test:e2e --filter=cdk-tests
