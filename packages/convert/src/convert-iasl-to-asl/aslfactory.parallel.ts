@@ -10,11 +10,13 @@ export class AslParallelFactory {
   static appendIaslParallel(expression: iasl.AslParallelState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
     
     const branches = expression.branches.map(x => convertBlock(x, scopes, context.createChildContext())!);
+    const parameters = createParameters(scopes, expression.branches);
+    
     this.appendAsl(
       {
         Branches: branches,
         ResultPath: resultPath as any,
-        ...createParameters(scopes, expression.branches),
+        ...parameters,
         Comment: expression.source,
       },
       expression.catch,
