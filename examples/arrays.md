@@ -65,7 +65,7 @@ export const main = asl.deploy.asStateMachine(async () => {
 
 
 ## map array nested property access
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgY29uc3Qgc291cmNlID0gW3sgb2JqOiB7IG51bTogMjMsIHN0cjogInN0ciIgfSB9XTsKICBjb25zdCBudW0gPSBzb3VyY2UubWFwKCh4KSA9PiB4Lm9iai5udW0pOwogIGNvbnN0IHN0ciA9IHNvdXJjZS5tYXAoKHgpID0+IHgub2JqLnN0cik7CiAgcmV0dXJuIHsKICAgIG51bSwKICAgIHN0ciwKICB9Owp9KTsK)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgY29uc3Qgc291cmNlID0gW3sgb2JqOiB7IG51bTogMjMsIHN0cjogInN0ciIgfSB9XTsKICBjb25zdCBudW0gPSBzb3VyY2UubWFwKCh4KSA9PiB4Lm9iai5udW0pOwogIGNvbnN0IHN0ciA9IHNvdXJjZS5tYXAoKHgpID0+IHgub2JqLnN0cik7CiAgcmV0dXJuIHsKICAgIG51bTogbnVtWzBdLAogICAgc3RyOiBzdHJbMF0sCiAgfTsKfSk7Cg==)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => {
@@ -73,8 +73,8 @@ export const main = asl.deploy.asStateMachine(async () => {
   const num = source.map((x) => x.obj.num);
   const str = source.map((x) => x.obj.str);
   return {
-    num,
-    str,
+    num: num[0],
+    str: str[0],
   };
 });
 

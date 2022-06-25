@@ -220,7 +220,7 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier, scopes:
     const expression = createFilterExpression(expr.filterExpression.argument.identifier, expr.filterExpression.expression);
     trailing = `[?(${expression})]`;
   } else if (expr.mapExpression) {
-    trailing = `.${expr.mapExpression}`;
+    trailing = `..${expr.mapExpression}`;
   }
 
   if (expr.identifier) {

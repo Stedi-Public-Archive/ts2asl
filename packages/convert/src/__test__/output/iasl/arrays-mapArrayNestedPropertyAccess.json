@@ -50,7 +50,7 @@
         "identifier": "source",
         "type": "object",
         "_syntaxKind": "identifier",
-        "mapExpression": "obj.num"
+        "mapExpression": ".obj.num"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -65,22 +65,42 @@
         "identifier": "source",
         "type": "object",
         "_syntaxKind": "identifier",
-        "mapExpression": "obj.str"
+        "mapExpression": ".obj.str"
       },
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "Return { num, str }",
+      "stateName": "Return { num: num[0], ...",
       "expression": {
         "properties": {
           "num": {
-            "identifier": "num",
-            "type": "object",
+            "identifier": "",
+            "indexExpression": {
+              "value": 0,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            "lhs": {
+              "identifier": "num",
+              "type": "object",
+              "_syntaxKind": "identifier"
+            },
+            "type": "numeric",
             "_syntaxKind": "identifier"
           },
           "str": {
-            "identifier": "str",
-            "type": "object",
+            "identifier": "",
+            "indexExpression": {
+              "value": 0,
+              "type": "numeric",
+              "_syntaxKind": "literal"
+            },
+            "lhs": {
+              "identifier": "str",
+              "type": "object",
+              "_syntaxKind": "identifier"
+            },
+            "type": "string",
             "_syntaxKind": "identifier"
           }
         },

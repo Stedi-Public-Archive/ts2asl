@@ -1,6 +1,6 @@
 import * as asl from "@ts2asl/asl-lib";
 import { convertDeployExecute } from "../utility";
-const { serializeArray, mapArray, mapArraySimple, mapArrayNestedPropertyAccess, filterArray, jsonPathExpressions } = require("../resources/arrays");
+const { serializeArray, mapArray, mapArraySimple, mapArrayNestedPropertyAccess, filterArray } = require("../resources/arrays");
 jest.setTimeout(99999999);
 
 describe("when converting arrays", () => {
@@ -27,11 +27,6 @@ describe("when converting arrays", () => {
     it("will execute filterArray as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("arrays", "filterArray");
         const resultFromNode = await filterArray({}, asl.testing.createTestContext({}));
-        expect(resultFromSfn).toEqual(resultFromNode);
-    });
-    it("will execute jsonPathExpressions as if it were node", async () => {
-        const resultFromSfn = await convertDeployExecute("arrays", "jsonPathExpressions");
-        const resultFromNode = await jsonPathExpressions({}, asl.testing.createTestContext({}));
         expect(resultFromSfn).toEqual(resultFromNode);
     });
 });

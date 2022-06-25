@@ -43,7 +43,8 @@ export const mapArrayNestedPropertyAccess = asl.deploy.asStateMachine(async () =
     const num = asl.jsonPathMap(source, "obj.num");
     const str = asl.jsonPathMap(source, "obj.str");
     return {
-        num, str
+        num: num[0],
+        str: str[0]
     };
 });
 export const filterArray = asl.deploy.asStateMachine(async () => {

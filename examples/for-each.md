@@ -95,7 +95,7 @@ export const main = asl.deploy.asStateMachine(async () => {
 
 
 ## nested foreach
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgY29uc3QgbnVtYmVycyA9IFswLCAxLCAyLCAzXTsKICBjb25zdCBsZXR0ZXJzID0gWyJhIiwgImIiLCAiYyIsICJkIl07CiAgY29uc3QgZ2xvYmFsID0gInByZWZpeCI7CiAgY29uc3Qgb3V0ZXIgPSB7IG1pZGRsZTogeyBpbm5lcjogMyB9IH07CiAgZm9yIChjb25zdCBudW1iZXIgb2YgbnVtYmVycykgewogICAgZm9yIChjb25zdCBsZXR0ZXIgb2YgbGV0dGVycykgewogICAgICBjb25zdCBjb21iaW5lZCA9IHsgbnVtYmVyLCBsZXR0ZXIsIGdsb2JhbCwgaW5uZXI6IG91dGVyLm1pZGRsZS5pbm5lciB9OwogICAgICBjb25zb2xlLmxvZyhjb21iaW5lZCk7CiAgICB9CiAgfQp9KTsK)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgY29uc3QgbnVtYmVycyA9IFswLCAxLCAyLCAzXTsKICBjb25zdCBsZXR0ZXJzID0gWyJhIiwgImIiLCAiYyIsICJkIl07CiAgY29uc3QgZ2xvYmFsID0gInByZWZpeCI7CiAgY29uc3Qgb3V0ZXIgPSB7IG1pZGRsZTogeyBpbm5lcjogMyB9IH07CiAgbGV0IHJlc3VsdCA9IGBgOwogIGZvciAoY29uc3QgbnVtYmVyIG9mIG51bWJlcnMpIHsKICAgIGZvciAoY29uc3QgbGV0dGVyIG9mIGxldHRlcnMpIHsKICAgICAgY29uc3QgY29tYmluZWQgPSB7IG51bWJlciwgbGV0dGVyLCBnbG9iYWwsIGlubmVyOiBvdXRlci5taWRkbGUuaW5uZXIgfTsKICAgICAgcmVzdWx0ID0gYCR7cmVzdWx0fSwgJHthc2wuc3RhdGVzLmpzb25Ub1N0cmluZyhjb21iaW5lZCl9YDsKICAgIH0KICB9CiAgcmV0dXJuIHJlc3VsdDsKfSk7Cg==)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => {
@@ -103,12 +103,14 @@ export const main = asl.deploy.asStateMachine(async () => {
   const letters = ["a", "b", "c", "d"];
   const global = "prefix";
   const outer = { middle: { inner: 3 } };
+  let result = ``;
   for (const number of numbers) {
     for (const letter of letters) {
       const combined = { number, letter, global, inner: outer.middle.inner };
-      console.log(combined);
+      result = `${result}, ${asl.states.jsonToString(combined)}`;
     }
   }
+  return result;
 });
 
 ```

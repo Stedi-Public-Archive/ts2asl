@@ -66,12 +66,14 @@ export const nestedForeach = asl.deploy.asStateMachine(async () => {
   const letters = ["a", "b", "c", "d"];
   const global = "prefix";
   const outer = { middle: { inner: 3 } }
+  let result = ``;
   for (const number of numbers) {
     for (const letter of letters) {
       const combined = { number, letter, global, inner: outer.middle.inner };
-      console.log(combined);
+      result = `${result}, ${asl.states.jsonToString(combined)}`;
     };
   };
+  return result;
 });
 
 export const emptyForeach = asl.deploy.asStateMachine(async () =>{

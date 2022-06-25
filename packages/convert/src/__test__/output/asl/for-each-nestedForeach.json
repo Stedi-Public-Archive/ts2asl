@@ -50,6 +50,13 @@
       },
       "ResultPath": "$.vars.outer",
       "Comment": "source: outer = { middle: { inner: 3 } }",
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "Result": "",
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result = ``",
       "Next": "Foreach Initialize"
     },
     "Foreach Initialize": {
@@ -102,13 +109,20 @@
       },
       "ResultPath": "$.vars.combined",
       "Comment": "source: combined = { number, letter, global, inner: ou ...",
-      "Next": "Log (combined)"
+      "Next": "Evaluate Format('{}, {}', ..."
     },
-    "Log (combined)": {
+    "Evaluate Format('{}, {}', ...": {
       "Type": "Pass",
-      "InputPath": "$.vars.combined",
-      "ResultPath": null,
-      "Comment": "source: console.log(combined)",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}, {}', $.vars.result, States.JsonToString($.vars.combined))"
+      },
+      "Next": "Assign result_1"
+    },
+    "Assign result_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
       "Next": "Foreach Next 2"
     },
     "Foreach Exit 2": {
@@ -130,7 +144,7 @@
       "Type": "Pass",
       "ResultPath": "$.foreach",
       "Result": {},
-      "End": true
+      "Next": "Return result"
     },
     "Foreach Next": {
       "Type": "Pass",
@@ -140,6 +154,11 @@
         "currentItem.$": "$.foreach.items[1]"
       },
       "Next": "Foreach CheckDone"
+    },
+    "Return result": {
+      "Type": "Pass",
+      "InputPath": "$.vars.result",
+      "End": true
     }
   }
 }
