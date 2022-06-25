@@ -7,4 +7,6 @@ import { LocalTestStack } from '../lib/local-test-stack';
 const app = new cdk.App();
 new CdkV2TestStack(app, "parallel");
 new CdkV2TestStack(app, "nested-stepfunctions");
+new CdkV2TestStack(app, "closures");
+new CdkV2TestStack(app, "hello-world");
 new LocalTestStack(app, "program");

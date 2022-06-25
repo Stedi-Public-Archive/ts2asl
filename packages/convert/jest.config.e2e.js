@@ -3,26 +3,22 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   passWithNoTests: true,
-  testMatch: [
-    "**/optional-property-chain.integration.ts",
-    "**/while.integration.ts",
-    "**/do-while.integration.ts",
-    "**/null-coalescing.integration.ts",
-    "**/boolean-evalation.integration.ts",
-    "**/conditional-expression.integration.ts",
-    "**/do-while.integration.ts",
-    "**/choice.integration.ts",
-    "**/in-keyword.integration.ts",
-    "**/try-catch.integration.ts",
-    "**/variable-assignments.integration.ts",
-    "**/enums.integration.ts",
-    "**/expressions.integration.ts",
-    "**/if.integration.ts",
-    "**/for-each.integration.ts",
-    // "**/arrays.integration.ts", FAILS
-    // "**/variables.integration.ts", FAILS on comparing context.executionId (false negative)
-    // "**/input-validation.integration.ts", FAILS on throwing error in node (false negative)
+  testPathIgnorePatterns: [
+    "node_modules",
+    "closures.integration.ts", //tested in CDk-stacks, depends on a lambda deployment, copy of another test in for-each
+    "hello-world.integration.ts",//tested in CDk-stacks, depends on a lambda deployment
+    "parallel.integration.ts",//tested in CDk-stacks, depends on a lambda deployment
+    "input-validation.integration.ts", //FAILS on throwing error in node (false negative)
+    "map.integration.ts", //TODO, depends on a service integration
+    "switch.integration.ts", //TODO, depends on a service integration
+    "throw.integration.ts", //FAILS on throwing error in node (false negative)
+    "variables.integration.ts", //TODO, depends on comparing context.executionId (false negative)
+    "pagination.integration.ts", //TODO, depends on a service integration
+    "states.integration.ts", //TODO, depends on a service integration
+    "kyc.integration.ts", //TODO, depends on a service integration
+    "sdk-states.integration.ts", //TODO, depends on a service integration
+    "nested-stepfunctions.integration.ts" //tested in CDk-stacks depends on a 2nd step func deployment
   ],
+  testMatch: ["**/*.integration.ts"],
   testTimeout: 99999999,
-  // setupFiles: ["<rootDir>/test/setupTests.ts"],
 };

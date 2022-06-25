@@ -52,13 +52,13 @@
     },
     "Assign ages": {
       "Type": "Pass",
-      "InputPath": "$.vars.mappedArray.age",
+      "InputPath": "$.vars.mappedArray..age",
       "ResultPath": "$.vars.ages",
       "Next": "Assign species"
     },
     "Assign species": {
       "Type": "Pass",
-      "InputPath": "$.vars.mappedArray.species",
+      "InputPath": "$.vars.mappedArray..species",
       "ResultPath": "$.vars.species",
       "Next": "Return { ages, specie ..."
     },

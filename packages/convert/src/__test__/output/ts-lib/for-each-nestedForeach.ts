@@ -82,6 +82,11 @@ export const nestedForeach = asl.deploy.asStateMachine(async () =>{
         parameters: () => ({ middle: { inner: 3 } }),
         comment: "outer = { middle: { inner: 3 } }"
     });
+    let result = asl.pass({
+        name: "Assign result",
+        parameters: () => "",
+        comment: "result = ``"
+    });
     asl.typescriptForeach({
         name: "For number Of numbers",
         items: () => numbers,
@@ -95,17 +100,14 @@ export const nestedForeach = asl.deploy.asStateMachine(async () =>{
                         parameters: () => ({ number, letter, global, inner: outer.middle.inner }),
                         comment: "combined = { number, letter, global, inner: outer.middle.inner }"
                     });
-                    asl.pass({
-                        name: "Log (combined)",
-                        parameters: () => combined,
-                        comment: "console.log(combined)"
-                    });
+                    result = asl.states.format("{}, {}", result, asl.states.jsonToString(combined));
                 }
             })
             ;
         }
     })
     ;
+    return result;
 });
 
 export const emptyForeach = asl.deploy.asStateMachine(async () => {

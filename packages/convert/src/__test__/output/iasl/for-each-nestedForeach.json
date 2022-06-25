@@ -127,6 +127,25 @@
       "_syntaxKind": "variable-assignment"
     },
     {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "stateName": "Assign result",
+        "parameters": {
+          "value": "",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "source": "result = ``",
+        "_syntaxKind": "asl-pass-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
       "stateName": "For number Of numbers",
       "items": {
         "identifier": "numbers",
@@ -194,14 +213,42 @@
                   "_syntaxKind": "variable-assignment"
                 },
                 {
-                  "stateName": "Log (combined)",
-                  "parameters": {
-                    "identifier": "combined",
-                    "type": "object",
+                  "name": {
+                    "identifier": "result",
+                    "type": "string",
                     "_syntaxKind": "identifier"
                   },
-                  "source": "console.log(combined)",
-                  "_syntaxKind": "asl-pass-state"
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "{}, {}",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "result",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "identifier": "combined",
+                            "type": "object",
+                            "_syntaxKind": "identifier"
+                          }
+                        ],
+                        "type": "string",
+                        "function": "asl.states.jsonToString",
+                        "_syntaxKind": "asl-intrinsic-function"
+                      }
+                    ],
+                    "type": "unknown",
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "stateName": "Assign result",
+                  "_syntaxKind": "variable-assignment"
                 }
               ],
               "_syntaxKind": "function"
@@ -212,6 +259,15 @@
         "_syntaxKind": "function"
       },
       "_syntaxKind": "for-each"
+    },
+    {
+      "stateName": "Return result",
+      "expression": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

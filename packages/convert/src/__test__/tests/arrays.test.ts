@@ -190,7 +190,7 @@ describe("when converting arrays", () => {
         "States": Object {
           "Assign ages": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.mappedArray.age",
+            "InputPath": "$.vars.mappedArray..age",
             "Next": "Assign species",
             "ResultPath": "$.vars.ages",
             "Type": "Pass",
@@ -237,7 +237,7 @@ describe("when converting arrays", () => {
           },
           "Assign species": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.mappedArray.species",
+            "InputPath": "$.vars.mappedArray..species",
             "Next": "Return { ages, specie ...",
             "ResultPath": "$.vars.species",
             "Type": "Pass",
@@ -271,7 +271,7 @@ describe("when converting arrays", () => {
         "States": Object {
           "Assign num": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.source.obj.num",
+            "InputPath": "$.vars.source..obj.num",
             "Next": "Assign str",
             "ResultPath": "$.vars.num",
             "Type": "Pass",
@@ -292,8 +292,8 @@ describe("when converting arrays", () => {
           },
           "Assign str": Object {
             "Comment": undefined,
-            "InputPath": "$.vars.source.obj.str",
-            "Next": "Return { num, str }",
+            "InputPath": "$.vars.source..obj.str",
+            "Next": "Return { num: num[0], ...",
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
@@ -306,12 +306,12 @@ describe("when converting arrays", () => {
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Return { num, str }": Object {
+          "Return { num: num[0], ...": Object {
             "Comment": undefined,
             "End": true,
             "Parameters": Object {
-              "num.$": "$.vars.num",
-              "str.$": "$.vars.str",
+              "num.$": "$.vars.num[0]",
+              "str.$": "$.vars.str[0]",
             },
             "Type": "Pass",
           },
