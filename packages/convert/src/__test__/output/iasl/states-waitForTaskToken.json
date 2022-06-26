@@ -17,6 +17,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "result: { action: \"approve\" | \"reject\" } = await asl.task({\n    name: \"Human Approval\",\n    resource: \"arn:aws:states:::lambda:invoke.waitForTaskToken\",\n    parameters: {\n      FunctionName: \"sendApprovalEmail\", // or asl.deploy.getLambdaName(sendApprovalEmail)\n      Payload: {\n        taskToken: context.task.token,\n        request: input,\n      },\n    },\n  })",
       "expression": {
         "stateName": "Human Approval",
         "resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",

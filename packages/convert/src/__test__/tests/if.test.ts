@@ -67,6 +67,7 @@ describe("when converting if", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -160,6 +161,7 @@ describe("when converting if", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -279,6 +281,7 @@ describe("when converting if", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -362,6 +365,7 @@ describe("when converting if", () => {
           "Initialize": Object {
             "Next": "Assign enclosedVar",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

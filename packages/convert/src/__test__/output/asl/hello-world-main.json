@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "If (typeof input.name !== ..."
     },
@@ -30,15 +31,15 @@
         }
       ],
       "Comment": "source: if (typeof input.name !== \"string\") { input.na ...",
-      "Default": "random()"
+      "Default": "Assign rnd"
     },
     "Assign input.name": {
       "Type": "Pass",
       "Result": "World",
       "ResultPath": "$.vars.name",
-      "Next": "random()"
+      "Next": "Assign rnd"
     },
-    "random()": {
+    "Assign rnd": {
       "Type": "Task",
       "ResultPath": "$.vars.rnd",
       "Resource": "[!lambda[random]arn]",

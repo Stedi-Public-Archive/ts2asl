@@ -19,7 +19,7 @@ describe("when converting optional-property-chain", () => {
             "Type": "Pass",
           },
           "Conditional False": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Return obj?.name",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
@@ -55,6 +55,7 @@ describe("when converting optional-property-chain", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -88,13 +89,13 @@ describe("when converting optional-property-chain", () => {
             "Type": "Pass",
           },
           "Conditional False": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Eval Conditional_1",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
           "Conditional False_1": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Return obj?.inner?.name",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
@@ -178,6 +179,7 @@ describe("when converting optional-property-chain", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -216,7 +218,7 @@ describe("when converting optional-property-chain", () => {
             "Type": "Pass",
           },
           "Conditional False": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Assign name",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
@@ -252,6 +254,7 @@ describe("when converting optional-property-chain", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "childStateMachine({firstN ..."
     },
@@ -22,7 +23,7 @@
         }
       },
       "Comment": "source: childStateMachine({firstName: \"Santa\", lastNam ...",
-      "ResultPath": "$.vars.name",
+      "ResultPath": "$.tmp.result",
       "Retry": [
         {
           "ErrorEquals": [
@@ -35,20 +36,27 @@
           "BackoffRate": 2
         }
       ],
-      "Next": "Evaluate StringToJson($.v ..."
+      "Next": "Evaluate StringToJson($.t ..."
     },
-    "Evaluate StringToJson($.v ...": {
+    "Evaluate StringToJson($.t ...": {
       "Type": "Pass",
       "ResultPath": "$.tmp.eval",
       "Parameters": {
-        "value.$": "States.StringToJson($.vars.name.Output)"
+        "value.$": "States.StringToJson($.tmp.result.Output)"
       },
       "Next": "Convert Result"
     },
     "Convert Result": {
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.tmp.result",
+      "Next": "Assign name"
+    },
+    "Assign name": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
       "ResultPath": "$.vars.name",
+      "Comment": "source: name = await childStateMachine({firstName: \"Sa ...",
       "Next": "Return name"
     },
     "Return name": {

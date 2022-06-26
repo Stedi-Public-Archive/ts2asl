@@ -14,6 +14,7 @@ describe("when converting input parameter reference to asl", () => {
           "Initialize": Object {
             "Next": "Pass",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

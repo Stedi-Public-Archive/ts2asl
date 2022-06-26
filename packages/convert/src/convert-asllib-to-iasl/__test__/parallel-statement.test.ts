@@ -29,7 +29,7 @@ describe("when converting choice statement to iasl", () => {
                     "expression": Object {
                       "_syntaxKind": "literal",
                       "type": "null",
-                      "value": null,
+                      "value": undefined,
                     },
                   },
                 ],

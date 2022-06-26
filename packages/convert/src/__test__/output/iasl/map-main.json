@@ -7,6 +7,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "entries = await getEntries()",
       "expression": {
         "stateName": "getEntries()",
         "resource": "[!lambda[getEntries]arn]",

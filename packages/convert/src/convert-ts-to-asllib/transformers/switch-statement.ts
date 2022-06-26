@@ -65,7 +65,7 @@ export const switchStatementTransformer = (converterOptions: ConverterOptions) =
 
       const caseProperties = _switch.cases.map(x => getCaseProperties(x));
       const cases_ = TransformUtil.createArrayOfObjects("cases", caseProperties);
-      const comment = TransformUtil.createComment(node);
+      const comment = TransformUtil.createCommentPropertyAssignment(node);
       const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "Switch (%s)", node.expression);
 
       const assignments: ts.PropertyAssignment[] = []

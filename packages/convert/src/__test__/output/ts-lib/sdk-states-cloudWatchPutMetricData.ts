@@ -39,11 +39,7 @@ export const countDynamoDBItems = asl.deploy.asStateMachine(async () => {
 });
 
 export const cloudWatchPutMetricData = asl.deploy.asStateMachine(async () =>{
-    const value = asl.pass({
-        name: "Assign value",
-        parameters: () => 42,
-        comment: "value = 42"
-    });
+    const value = 42;
     await asl.sdkCloudWatchPutMetricData({
         name: "Publish Metric Data",
         parameters: {

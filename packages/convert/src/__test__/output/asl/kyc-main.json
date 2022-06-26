@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign result"
     },
@@ -14,9 +15,9 @@
       "Type": "Parallel",
       "Branches": [
         {
-          "StartAt": "performIdentifyCheck()",
+          "StartAt": "Assign",
           "States": {
-            "performIdentifyCheck()": {
+            "Assign": {
               "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[performIdentifyCheck]arn]",

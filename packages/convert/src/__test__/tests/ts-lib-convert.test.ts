@@ -10,14 +10,14 @@ describe("when converting ts-lib-convert", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign num": Object {
-            "Comment": undefined,
+            "Comment": "source: num = asl.convert.stringToNumber(\\"42\\")",
             "InputPath": "$.tmp.eval.value",
             "Next": "If (num === 42)",
             "ResultPath": "$.vars.num",
             "Type": "Pass",
           },
           "Assign str": Object {
-            "Comment": undefined,
+            "Comment": "source: str = asl.convert.numberToString(num)",
             "InputPath": "$.tmp.eval.value",
             "Next": "If (str === \\"42\\")",
             "ResultPath": "$.vars.str",
@@ -66,6 +66,7 @@ describe("when converting ts-lib-convert", () => {
           "Initialize": Object {
             "Next": "Evaluate StringToJson('42')",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -94,14 +95,14 @@ describe("when converting ts-lib-convert", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign bool": Object {
-            "Comment": undefined,
+            "Comment": "source: bool = asl.convert.stringToBoolean(\\"true\\")",
             "InputPath": "$.tmp.eval.value",
             "Next": "If (bool === true)",
             "ResultPath": "$.vars.bool",
             "Type": "Pass",
           },
           "Assign str": Object {
-            "Comment": undefined,
+            "Comment": "source: str = asl.convert.booleanToString(bool)",
             "InputPath": "$.tmp.eval.value",
             "Next": "If (str === \\"true\\")",
             "ResultPath": "$.vars.str",
@@ -150,6 +151,7 @@ describe("when converting ts-lib-convert", () => {
           "Initialize": Object {
             "Next": "Evaluate StringToJson('true')",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

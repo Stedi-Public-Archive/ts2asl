@@ -10,7 +10,7 @@ describe("when converting arrays", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign myArray": Object {
-            "Comment": undefined,
+            "Comment": "source: myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7 ...",
             "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate JsonToString($.v ...",
             "ResultPath": "$.vars.myArray",
@@ -24,7 +24,7 @@ describe("when converting arrays", () => {
             "Type": "Pass",
           },
           "Assign mySerializedArray": Object {
-            "Comment": undefined,
+            "Comment": "source: mySerializedArray = asl.states.jsonToString(my ...",
             "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate StringToJson($.v ...",
             "ResultPath": "$.vars.mySerializedArray",
@@ -57,6 +57,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Evaluate Array(1, 2, 3, 4 ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -99,6 +100,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign myArray",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -189,7 +191,7 @@ describe("when converting arrays", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign ages": Object {
-            "Comment": undefined,
+            "Comment": "source: ages = mappedArray.map(x => x.age)",
             "InputPath": "$.vars.mappedArray..age",
             "Next": "Assign species",
             "ResultPath": "$.vars.ages",
@@ -236,7 +238,7 @@ describe("when converting arrays", () => {
             "Type": "Pass",
           },
           "Assign species": Object {
-            "Comment": undefined,
+            "Comment": "source: species = mappedArray.map(x => x.species)",
             "InputPath": "$.vars.mappedArray..species",
             "Next": "Return { ages, specie ...",
             "ResultPath": "$.vars.species",
@@ -245,6 +247,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign mappedArray",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -270,7 +273,7 @@ describe("when converting arrays", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign num": Object {
-            "Comment": undefined,
+            "Comment": "source: num = source.map(x => x.obj.num)",
             "InputPath": "$.vars.source..obj.num",
             "Next": "Assign str",
             "ResultPath": "$.vars.num",
@@ -291,7 +294,7 @@ describe("when converting arrays", () => {
             "Type": "Pass",
           },
           "Assign str": Object {
-            "Comment": undefined,
+            "Comment": "source: str = source.map(x => x.obj.str)",
             "InputPath": "$.vars.source..obj.str",
             "Next": "Return { num: num[0], ...",
             "ResultPath": "$.vars.str",
@@ -300,6 +303,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign source",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -383,6 +387,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign mappedArray",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -405,7 +410,7 @@ describe("when converting arrays", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign ages": Object {
-            "Comment": undefined,
+            "Comment": "source: ages = asl.jsonPathExpression(filterArray, \\".. ...",
             "InputPath": "$.vars.filterArray..age",
             "Next": "Assign flattenedPets",
             "ResultPath": "$.vars.ages",
@@ -464,14 +469,14 @@ describe("when converting arrays", () => {
             "Type": "Pass",
           },
           "Assign flattenedPets": Object {
-            "Comment": undefined,
+            "Comment": "source: flattenedPets = asl.jsonPathExpression(filterA ...",
             "InputPath": "$.vars.filterArray[*][*][*]",
             "Next": "Assign slicedArr",
             "ResultPath": "$.vars.flattenedPets",
             "Type": "Pass",
           },
           "Assign slicedArr": Object {
-            "Comment": undefined,
+            "Comment": "source: slicedArr = asl.jsonPathSlice(filterArray.cats ...",
             "InputPath": "$.vars.filterArray.cats.young[1:1]",
             "Next": "Return { ages, fl ...",
             "ResultPath": "$.vars.slicedArr",
@@ -480,6 +485,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign filterArray",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

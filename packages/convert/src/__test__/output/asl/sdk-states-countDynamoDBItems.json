@@ -6,11 +6,12 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
-      "Next": "COUNT(where gsi1pk === 'test')"
+      "Next": "Assign result"
     },
-    "COUNT(where gsi1pk === 'test')": {
+    "Assign result": {
       "Type": "Task",
       "ResultPath": "$.vars.result",
       "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",

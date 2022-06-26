@@ -9,11 +9,7 @@ export const simpleWhile = asl.deploy.asStateMachine(async () => {
 });
 
 export const whileWithBreak = asl.deploy.asStateMachine(async () =>{
-    let counter = asl.pass({
-        name: "Assign counter",
-        parameters: () => "",
-        comment: "counter = \"\""
-    });
+    let counter = "";
     asl.typescriptWhile({
         name: "While (counter != \"aaaaa\")",
         condition: () => counter != "aaaaa",
@@ -27,7 +23,8 @@ export const whileWithBreak = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (counter == \"aa\") {\n      break;\n    }"
             })
-        }
+        },
+        comment: "while (counter != \"aaaaa\") {\n    counter = `${counter}a`;\n    if (counter == \"aa\") {\n      break;\n    }\n  }"
     })
     return counter;
     ; //returns "aa"

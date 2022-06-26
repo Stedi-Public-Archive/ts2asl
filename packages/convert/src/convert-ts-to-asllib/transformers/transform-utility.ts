@@ -72,7 +72,6 @@ export class TransformUtil {
     );
   }
 
-
   static createArrayOfObjects(propertyName: string, objectsWithAssignments: Array<Array<ts.PropertyAssignment | undefined>>) {
     const objects: Array<ts.ObjectLiteralExpression> = [];
     for (const propertyAssignments of objectsWithAssignments) {
@@ -176,21 +175,30 @@ export class TransformUtil {
     );
   }
 
-  static createComment(node: ts.Node) {
-    let comment: string | undefined = undefined;
-    const original = (node as any).original as ts.Node;
-    if (original) {
-      try {
-        comment = original.getText();
-      } catch { }
-    }
-    if (comment === undefined) {
-      try {
-        comment = node.getText();
-      } catch { }
-    }
-    if (!comment) return undefined;
+  
+static createComment(node: ts.Node) {
+  let comment: string | undefined = undefined;
+  let original = node;
+  while((original as any).original) {original = (original as any).original as ts.Node};
+  if (original && original.pos !== -1) {
+    try {
+      comment = original.getText();
+    } catch { }
+  }
+  if (comment === undefined  && node.pos !== -1) {
+    try {
+      comment = node.getText();
+    } catch { }
+  }
+  if (!comment) return undefined;
+  return comment;
+}
 
+  static createCommentPropertyAssignment(node: ts.Node) {
+    let comment = TransformUtil.createComment(node);
+    if (comment === undefined) {
+      return undefined;
+    }
     return factory.createPropertyAssignment(
       factory.createIdentifier("comment"),
       factory.createStringLiteral(comment)

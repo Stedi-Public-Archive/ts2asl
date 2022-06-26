@@ -7,20 +7,15 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "obj = { name: undefined as string | undefined }",
       "expression": {
-        "stateName": "Assign obj",
-        "parameters": {
-          "properties": {
-            "name": {
-              "value": null,
-              "type": "null",
-              "_syntaxKind": "literal"
-            }
-          },
-          "_syntaxKind": "literal-object"
+        "properties": {
+          "name": {
+            "type": "null",
+            "_syntaxKind": "literal"
+          }
         },
-        "source": "obj = { name: undefined as string | undefined }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -31,14 +26,10 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "result: { a?: string, b?: string; } = {}",
       "expression": {
-        "stateName": "Assign result",
-        "parameters": {
-          "properties": {},
-          "_syntaxKind": "literal-object"
-        },
-        "source": "result: { a?: string, b?: string; } = {}",
-        "_syntaxKind": "asl-pass-state"
+        "properties": {},
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },

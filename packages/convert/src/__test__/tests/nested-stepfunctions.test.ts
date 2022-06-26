@@ -9,16 +9,23 @@ describe("when converting nested-stepfunctions", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Convert Result": Object {
-            "InputPath": "$.tmp.eval.value",
+          "Assign name": Object {
+            "Comment": "source: name = await childStateMachine({firstName: \\"Sa ...",
+            "InputPath": "$.tmp.result",
             "Next": "Return name",
             "ResultPath": "$.vars.name",
             "Type": "Pass",
           },
-          "Evaluate StringToJson($.v ...": Object {
+          "Convert Result": Object {
+            "InputPath": "$.tmp.eval.value",
+            "Next": "Assign name",
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Evaluate StringToJson($.t ...": Object {
             "Next": "Convert Result",
             "Parameters": Object {
-              "value.$": "States.StringToJson($.vars.name.Output)",
+              "value.$": "States.StringToJson($.tmp.result.Output)",
             },
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
@@ -26,6 +33,7 @@ describe("when converting nested-stepfunctions", () => {
           "Initialize": Object {
             "Next": "childStateMachine({firstN ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -40,7 +48,7 @@ describe("when converting nested-stepfunctions", () => {
           },
           "childStateMachine({firstN ...": Object {
             "Comment": "source: childStateMachine({firstName: \\"Santa\\", lastNam ...",
-            "Next": "Evaluate StringToJson($.v ...",
+            "Next": "Evaluate StringToJson($.t ...",
             "Parameters": Object {
               "Input": Object {
                 "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID.$": "$$.Execution.Id",
@@ -50,7 +58,7 @@ describe("when converting nested-stepfunctions", () => {
               "StateMachineArn": "[!state-machine[childStateMachine]arn]",
             },
             "Resource": "arn:aws:states:::states:startExecution.sync",
-            "ResultPath": "$.vars.name",
+            "ResultPath": "$.tmp.result",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -91,10 +99,17 @@ describe("when converting nested-stepfunctions", () => {
             "ResultPath": "$.vars.args",
             "Type": "Pass",
           },
-          "Convert Result": Object {
-            "InputPath": "$.tmp.eval.value",
+          "Assign name": Object {
+            "Comment": "source: name = await childStateMachine(args)",
+            "InputPath": "$.tmp.result",
             "Next": "Return name",
             "ResultPath": "$.vars.name",
+            "Type": "Pass",
+          },
+          "Convert Result": Object {
+            "InputPath": "$.tmp.eval.value",
+            "Next": "Assign name",
+            "ResultPath": "$.tmp.result",
             "Type": "Pass",
           },
           "Create Copy": Object {
@@ -103,10 +118,10 @@ describe("when converting nested-stepfunctions", () => {
             "ResultPath": "$.tmp.result",
             "Type": "Pass",
           },
-          "Evaluate StringToJson($.v ...": Object {
+          "Evaluate StringToJson($.t ...": Object {
             "Next": "Convert Result",
             "Parameters": Object {
-              "value.$": "States.StringToJson($.vars.name.Output)",
+              "value.$": "States.StringToJson($.tmp.result.Output)",
             },
             "ResultPath": "$.tmp.eval",
             "Type": "Pass",
@@ -114,6 +129,7 @@ describe("when converting nested-stepfunctions", () => {
           "Initialize": Object {
             "Next": "Assign args",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -128,13 +144,13 @@ describe("when converting nested-stepfunctions", () => {
           },
           "childStateMachine(args)": Object {
             "Comment": "source: childStateMachine(args)",
-            "Next": "Evaluate StringToJson($.v ...",
+            "Next": "Evaluate StringToJson($.t ...",
             "Parameters": Object {
               "Input.$": "$.tmp.result",
               "StateMachineArn": "[!state-machine[childStateMachine]arn]",
             },
             "Resource": "arn:aws:states:::states:startExecution.sync",
-            "ResultPath": "$.vars.name",
+            "ResultPath": "$.tmp.result",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,
@@ -161,6 +177,7 @@ describe("when converting nested-stepfunctions", () => {
           "Initialize": Object {
             "Next": "childStateMachine({firstN ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -203,22 +220,7 @@ describe("when converting nested-stepfunctions", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Initialize": Object {
-            "Next": "childLambda({firstName: \\" ...",
-            "Parameters": Object {
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Return name": Object {
-            "Comment": undefined,
-            "End": true,
-            "InputPath": "$.vars.name",
-            "Type": "Pass",
-          },
-          "childLambda({firstName: \\" ...": Object {
+          "Assign name": Object {
             "Comment": "source: childLambda({firstName: \\"Santa\\", lastName: \\"Cl ...",
             "HeartbeatSeconds": undefined,
             "Next": "Return name",
@@ -243,6 +245,22 @@ describe("when converting nested-stepfunctions", () => {
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
+          "Initialize": Object {
+            "Next": "Assign name",
+            "Parameters": Object {
+              "_null": null,
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return name": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.name",
+            "Type": "Pass",
+          },
         },
       }
     `);
@@ -255,6 +273,7 @@ describe("when converting nested-stepfunctions", () => {
           "Initialize": Object {
             "Next": "childStateMachine({firstN ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -308,6 +327,7 @@ describe("when converting nested-stepfunctions", () => {
           "Initialize": Object {
             "Next": "Evaluate Format('{} {}', ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

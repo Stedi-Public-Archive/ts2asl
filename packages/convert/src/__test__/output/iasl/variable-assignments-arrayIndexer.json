@@ -7,40 +7,36 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "arr = [1, 2, 3, 4, 5]",
       "expression": {
-        "stateName": "Assign arr",
-        "parameters": {
-          "elements": [
-            {
-              "value": 1,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 2,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 3,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 4,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 5,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "arr = [1, 2, 3, 4, 5]",
-        "_syntaxKind": "asl-pass-state"
+        "elements": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 4,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 5,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -51,25 +47,21 @@
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
+      "source": "two = arr[1]",
       "expression": {
-        "stateName": "Assign two",
-        "parameters": {
-          "identifier": "",
-          "indexExpression": {
-            "value": 1,
-            "type": "numeric",
-            "_syntaxKind": "literal"
-          },
-          "lhs": {
-            "identifier": "arr",
-            "type": "object",
-            "_syntaxKind": "identifier"
-          },
+        "identifier": "",
+        "indexExpression": {
+          "value": 1,
           "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "lhs": {
+          "identifier": "arr",
+          "type": "object",
           "_syntaxKind": "identifier"
         },
-        "source": "two = arr[1]",
-        "_syntaxKind": "asl-pass-state"
+        "type": "numeric",
+        "_syntaxKind": "identifier"
       },
       "_syntaxKind": "variable-assignment"
     },

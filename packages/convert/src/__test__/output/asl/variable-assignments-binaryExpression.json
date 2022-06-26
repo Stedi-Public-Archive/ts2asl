@@ -1,0 +1,143 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "Result": "abcdef",
+      "ResultPath": "$.vars.str",
+      "Comment": "source: str = \"abcdef\"",
+      "Next": "Assign num"
+    },
+    "Assign num": {
+      "Type": "Pass",
+      "Result": 123,
+      "ResultPath": "$.vars.num",
+      "Comment": "source: num = 123",
+      "Next": "Choice"
+    },
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.str",
+          "StringEquals": "123",
+          "Next": "Pass"
+        }
+      ],
+      "Default": "Pass_1"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Result": true,
+      "ResultPath": "$.tmp.result",
+      "Next": "Assign expr1"
+    },
+    "Pass_1": {
+      "Type": "Pass",
+      "Result": false,
+      "ResultPath": "$.tmp.result",
+      "Next": "Assign expr1"
+    },
+    "Assign expr1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result[0]",
+      "ResultPath": "$.vars.expr1",
+      "Comment": "source: expr1 = str === \"123\"",
+      "Next": "Choice_1"
+    },
+    "Choice_1": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.num",
+          "NumericEquals": 456,
+          "Next": "Pass_2"
+        }
+      ],
+      "Default": "Pass_3"
+    },
+    "Pass_2": {
+      "Type": "Pass",
+      "Result": true,
+      "ResultPath": "$.tmp.result",
+      "Next": "Assign expr2"
+    },
+    "Pass_3": {
+      "Type": "Pass",
+      "Result": false,
+      "ResultPath": "$.tmp.result",
+      "Next": "Assign expr2"
+    },
+    "Assign expr2": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result[0]",
+      "ResultPath": "$.vars.expr2",
+      "Comment": "source: expr2 = num === 456",
+      "Next": "Choice_2"
+    },
+    "Choice_2": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.expr1",
+          "BooleanEqualsPath": "$.vars.expr2",
+          "Next": "Pass_4"
+        }
+      ],
+      "Default": "Pass_5"
+    },
+    "Pass_4": {
+      "Type": "Pass",
+      "Result": true,
+      "ResultPath": "$.tmp.result",
+      "Next": "Assign expr3"
+    },
+    "Pass_5": {
+      "Type": "Pass",
+      "Result": false,
+      "ResultPath": "$.tmp.result",
+      "Next": "Assign expr3"
+    },
+    "Assign expr3": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result[0]",
+      "ResultPath": "$.vars.expr3",
+      "Comment": "source: expr3 = expr1 === expr2",
+      "Next": "If (expr3)"
+    },
+    "If (expr3)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.expr3",
+            "BooleanEquals": false
+          },
+          "Next": "Return \"ok\""
+        }
+      ],
+      "Comment": "source: if (expr3) { return \"ok\" }",
+      "Default": "Return \"not ok\""
+    },
+    "Return \"ok\"": {
+      "Type": "Pass",
+      "Result": "ok",
+      "End": true
+    },
+    "Return \"not ok\"": {
+      "Type": "Pass",
+      "Result": "not ok",
+      "End": true
+    }
+  }
+}

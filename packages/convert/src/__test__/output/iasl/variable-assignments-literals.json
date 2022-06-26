@@ -7,15 +7,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "str = \"string\"",
       "expression": {
-        "stateName": "Assign str",
-        "parameters": {
-          "value": "string",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "str = \"string\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "string",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -26,15 +22,11 @@
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
+      "source": "num = 42",
       "expression": {
-        "stateName": "Assign num",
-        "parameters": {
-          "value": 42,
-          "type": "numeric",
-          "_syntaxKind": "literal"
-        },
-        "source": "num = 42",
-        "_syntaxKind": "asl-pass-state"
+        "value": 42,
+        "type": "numeric",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -45,15 +37,11 @@
         "type": "boolean",
         "_syntaxKind": "identifier"
       },
+      "source": "bool = true || false",
       "expression": {
-        "stateName": "Assign bool",
-        "parameters": {
-          "value": true,
-          "type": "boolean",
-          "_syntaxKind": "literal"
-        },
-        "source": "bool = true || false",
-        "_syntaxKind": "asl-pass-state"
+        "value": true,
+        "type": "boolean",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -64,30 +52,26 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "object = { str, num, bool }",
       "expression": {
-        "stateName": "Assign object",
-        "parameters": {
-          "properties": {
-            "str": {
-              "identifier": "str",
-              "type": "string",
-              "_syntaxKind": "identifier"
-            },
-            "num": {
-              "identifier": "num",
-              "type": "numeric",
-              "_syntaxKind": "identifier"
-            },
-            "bool": {
-              "identifier": "bool",
-              "type": "boolean",
-              "_syntaxKind": "identifier"
-            }
+        "properties": {
+          "str": {
+            "identifier": "str",
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
-          "_syntaxKind": "literal-object"
+          "num": {
+            "identifier": "num",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          },
+          "bool": {
+            "identifier": "bool",
+            "type": "boolean",
+            "_syntaxKind": "identifier"
+          }
         },
-        "source": "object = { str, num, bool }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -98,30 +82,26 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "object2 = { str: \"string\", num: 33, inner: object }",
       "expression": {
-        "stateName": "Assign object2",
-        "parameters": {
-          "properties": {
-            "str": {
-              "value": "string",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "num": {
-              "value": 33,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            "inner": {
-              "identifier": "object",
-              "type": "object",
-              "_syntaxKind": "identifier"
-            }
+        "properties": {
+          "str": {
+            "value": "string",
+            "type": "string",
+            "_syntaxKind": "literal"
           },
-          "_syntaxKind": "literal-object"
+          "num": {
+            "value": 33,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          "inner": {
+            "identifier": "object",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          }
         },
-        "source": "object2 = { str: \"string\", num: 33, inner: object }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -132,40 +112,36 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "arrayOfNumbers = [1, 2, 3, 4, 5]",
       "expression": {
-        "stateName": "Assign arrayOfNumbers",
-        "parameters": {
-          "elements": [
-            {
-              "value": 1,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 2,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 3,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 4,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 5,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "arrayOfNumbers = [1, 2, 3, 4, 5]",
-        "_syntaxKind": "asl-pass-state"
+        "elements": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 4,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 5,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -176,60 +152,56 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "arrayOfObjects = [{ left: 1, right: 2 }, { left: 3, right: 4 }, { left: 5, right: 6 }]",
       "expression": {
-        "stateName": "Assign arrayOfObjects",
-        "parameters": {
-          "elements": [
-            {
-              "properties": {
-                "left": {
-                  "value": 1,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "right": {
-                  "value": 2,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                }
+        "elements": [
+          {
+            "properties": {
+              "left": {
+                "value": 1,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "right": {
+                "value": 2,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "left": {
-                  "value": 3,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "right": {
-                  "value": 4,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "left": {
+                "value": 3,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "right": {
+                "value": 4,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "left": {
-                  "value": 5,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "right": {
-                  "value": 6,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "left": {
+                "value": 5,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "arrayOfObjects = [{ left: 1, right: 2 }, { left: 3, right: 4 }, { left: 5, right: 6 }]",
-        "_syntaxKind": "asl-pass-state"
+              "right": {
+                "value": 6,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },

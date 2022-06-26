@@ -1,11 +1,7 @@
 import * as asl from "@ts2asl/asl-lib"
 
 export const simpleDoWhile = asl.deploy.asStateMachine(async () =>{
-    let counter = asl.pass({
-        name: "Assign counter",
-        parameters: () => "",
-        comment: "counter = \"\""
-    });
+    let counter = "";
     asl.typescriptDoWhile({
         name: "Do While (counter != \"aaaaa\")",
         condition: () => counter != "aaaaa",

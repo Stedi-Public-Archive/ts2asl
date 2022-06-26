@@ -15,11 +15,7 @@ export const simpleTry = asl.deploy.asStateMachine(async () => {
 });
 
 export const referenceError = asl.deploy.asStateMachine(async () =>{
-    let result = asl.pass({
-        name: "Assign result",
-        parameters: () => "",
-        comment: "result = \"\""
-    });
+    let result = "";
     asl.typescriptTry({
         name: "Try Catch",
         try: async () => {

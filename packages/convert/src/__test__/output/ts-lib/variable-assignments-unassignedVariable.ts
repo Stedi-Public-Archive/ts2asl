@@ -12,6 +12,41 @@ export const literals = asl.deploy.asStateMachine(async () => {
   return { arrayOfNumbers, arrayOfObjects, object2 };
 });
 
+export const typeOfExpressions = asl.deploy.asStateMachine(async () => {
+  let str = typeof "abcdef";
+  let num = typeof 123;
+  let bool = typeof true;
+  let object = typeof { str, num, bool };
+  let undef = typeof undefined;
+  let _null = typeof null;
+  
+  if (str === "string" && 
+      num === "number" && 
+      bool === "boolean" && 
+      object === "object" && 
+      undef === "undefined" && 
+      _null === "object") {
+        return "ok"
+      }
+
+  return "not ok";
+});
+
+export const binaryExpression = asl.deploy.asStateMachine(async () => {
+  let str = "abcdef";
+  let num = 123;
+  let expr1 = str === "123";
+  let expr2 = num === 456;
+  let expr3 = expr1 === expr2;
+  
+  if (expr3) {
+    return "ok"
+  }
+  return "not ok";
+});
+
+
+
 export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
   let str = "string";
   let num = 42;
@@ -23,14 +58,8 @@ export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
 
 export const unassignedVariable = asl.deploy.asStateMachine(async () =>{
     let arr: [
-    ] = asl.pass({
-        name: "Assign arr",
-        comment: "arr: []"
-    });
-    let two: string = asl.pass({
-        name: "Assign two",
-        comment: "two: string"
-    });
+    ];
+    let two: string;
     return "ok";
 });
 
@@ -59,4 +88,3 @@ export const functions = asl.deploy.asStateMachine(async () => {
   let arr = asl.states.array(str, num, combined);
   return arr;
 });
-

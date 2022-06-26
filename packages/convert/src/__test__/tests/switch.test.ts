@@ -110,6 +110,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -234,6 +235,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -388,6 +390,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -513,6 +516,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -637,6 +641,7 @@ describe("when converting switch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -675,10 +680,23 @@ describe("when converting switch", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign createAccount": Object {
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "Assign creationStatus",
+            "Parameters": Object {
+              "AccountName": "test",
+              "Email": "something@email.com",
+            },
+            "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
+            "ResultPath": "$.vars.createAccount",
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
           "Assign creationStatus": Object {
             "Comment": "source: creationStatus: string | undefined = undefined",
             "InputPath": "$._undefined",
-            "Next": "DescribeCreateAccountStatus",
+            "Next": "Assign describeResult",
             "ResultPath": "$.vars.creationStatus",
             "Type": "Pass",
           },
@@ -689,20 +707,32 @@ describe("when converting switch", () => {
             "ResultPath": "$.vars.creationStatus",
             "Type": "Pass",
           },
+          "Assign describeResult": Object {
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "Eval Conditional",
+            "Parameters": Object {
+              "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id",
+            },
+            "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
+            "ResultPath": "$.vars.describeResult",
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
           "Conditional False": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Assign creationStatus_1",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
           "Conditional False_1": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Log (createAccount.Create ...",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
           "Conditional False_2": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Return createAccount.Crea ...",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
@@ -725,35 +755,10 @@ describe("when converting switch", () => {
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
-          "CreateAccount": Object {
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "Assign creationStatus",
-            "Parameters": Object {
-              "AccountName": "test",
-              "Email": "something@email.com",
-            },
-            "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
-            "ResultPath": "$.vars.createAccount",
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          "DescribeCreateAccountStatus": Object {
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "Eval Conditional",
-            "Parameters": Object {
-              "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id",
-            },
-            "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
-            "ResultPath": "$.vars.describeResult",
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
           "Do While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "DescribeCreateAccountStatus",
+                "Next": "Assign describeResult",
                 "Not": Object {
                   "StringEquals": "SUCCEEDED",
                   "Variable": "$.vars.creationStatus",
@@ -830,8 +835,9 @@ describe("when converting switch", () => {
             "Type": "Choice",
           },
           "Initialize": Object {
-            "Next": "CreateAccount",
+            "Next": "Assign createAccount",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

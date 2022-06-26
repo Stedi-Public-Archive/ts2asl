@@ -77,11 +77,7 @@ export const nestedForeach = asl.deploy.asStateMachine(async () => {
 });
 
 export const emptyForeach = asl.deploy.asStateMachine(async () =>{
-    const numbers = asl.pass({
-        name: "Assign numbers",
-        parameters: () => [0, 1, 2, 3],
-        comment: "numbers = [0, 1, 2, 3]"
-    });
+    const numbers = [0, 1, 2, 3];
     asl.typescriptForeach({
         name: "For _number Of numbers",
         items: () => numbers,

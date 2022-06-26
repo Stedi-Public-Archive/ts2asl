@@ -12,6 +12,7 @@ describe("when converting parallel", () => {
           "Initialize": Object {
             "Next": "Parallel",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -21,15 +22,9 @@ describe("when converting parallel", () => {
           "Parallel": Object {
             "Branches": Array [
               Object {
-                "StartAt": "worker()",
+                "StartAt": "Assign",
                 "States": Object {
-                  "Return": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "InputPath": "$.vars.return_var",
-                    "Type": "Pass",
-                  },
-                  "worker()": Object {
+                  "Assign": Object {
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Return",
@@ -50,18 +45,18 @@ describe("when converting parallel", () => {
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
-                },
-              },
-              Object {
-                "StartAt": "worker()_1",
-                "States": Object {
-                  "Return_1": Object {
+                  "Return": Object {
                     "Comment": undefined,
                     "End": true,
                     "InputPath": "$.vars.return_var",
                     "Type": "Pass",
                   },
-                  "worker()_1": Object {
+                },
+              },
+              Object {
+                "StartAt": "Assign_1",
+                "States": Object {
+                  "Assign_1": Object {
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Return_1",
@@ -81,6 +76,12 @@ describe("when converting parallel", () => {
                     ],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
+                  },
+                  "Return_1": Object {
+                    "Comment": undefined,
+                    "End": true,
+                    "InputPath": "$.vars.return_var",
+                    "Type": "Pass",
                   },
                 },
               },
@@ -126,6 +127,7 @@ describe("when converting parallel", () => {
           "Initialize": Object {
             "Next": "Assign enclosedVar1",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -135,15 +137,9 @@ describe("when converting parallel", () => {
           "Parallel": Object {
             "Branches": Array [
               Object {
-                "StartAt": "worker(enclosedVar1)",
+                "StartAt": "Assign",
                 "States": Object {
-                  "Return": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "InputPath": "$.vars.return_var",
-                    "Type": "Pass",
-                  },
-                  "worker(enclosedVar1)": Object {
+                  "Assign": Object {
                     "Comment": "source: worker(enclosedVar1)",
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar1",
@@ -165,18 +161,18 @@ describe("when converting parallel", () => {
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
                   },
-                },
-              },
-              Object {
-                "StartAt": "worker(enclosedVar2)",
-                "States": Object {
-                  "Return_1": Object {
+                  "Return": Object {
                     "Comment": undefined,
                     "End": true,
                     "InputPath": "$.vars.return_var",
                     "Type": "Pass",
                   },
-                  "worker(enclosedVar2)": Object {
+                },
+              },
+              Object {
+                "StartAt": "Assign_1",
+                "States": Object {
+                  "Assign_1": Object {
                     "Comment": "source: worker(enclosedVar2)",
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar2",
@@ -197,6 +193,12 @@ describe("when converting parallel", () => {
                     ],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
+                  },
+                  "Return_1": Object {
+                    "Comment": undefined,
+                    "End": true,
+                    "InputPath": "$.vars.return_var",
+                    "Type": "Pass",
                   },
                 },
               },

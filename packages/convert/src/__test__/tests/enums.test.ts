@@ -31,6 +31,7 @@ describe("when converting enums", () => {
           "Initialize": Object {
             "Next": "Assign x",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -80,6 +81,7 @@ describe("when converting enums", () => {
           "Initialize": Object {
             "Next": "Assign x",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

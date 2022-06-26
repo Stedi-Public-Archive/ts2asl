@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign data"
     },
@@ -16,7 +17,7 @@
         "num": 42,
         "text": "text",
         "undefined.$": "$._undefined",
-        "null.$": "$._undefined",
+        "null.$": "$._null",
         "timestamp": "2016-03-14T01:59:00Z"
       },
       "ResultPath": "$.vars.data",

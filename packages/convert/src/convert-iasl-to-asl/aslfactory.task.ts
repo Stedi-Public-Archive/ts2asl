@@ -3,7 +3,7 @@ import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
 import { AslWriter } from "./asl-writer";
 import { AslFactory } from "./aslfactory";
-import { AslRhsFactory } from "./aslfactory.rhs";
+import { AslRhsFactory, PathExpressionOrLiteral } from "./aslfactory.rhs";
 
 export class AslTaskFactory {
   static appendIaslTask(expression: iasl.TaskState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
@@ -13,7 +13,7 @@ export class AslTaskFactory {
     const task = {
       ResultPath: resultPath,
       Resource: expression.resource,
-      ...(parameters && parameters.path !== undefined ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value as { [k: string]: any; } } : {}),
+      ...AslTaskFactory.convertPathOrLiteralToParameters(parameters),
       TimeoutSeconds: expression.timeoutSeconds,
       HeartbeatSeconds: expression.heartbeatSeconds,
       Comment: expression.source,
@@ -39,4 +39,8 @@ export class AslTaskFactory {
 
    context.appendTails(result.trailingStates);   
   }
+
+  static convertPathOrLiteralToParameters(parameters: PathExpressionOrLiteral | undefined): {} | { InputPath: string } | { Parameters: { [k: string]: any; } }  {
+    return parameters && "path" in parameters ? { InputPath: parameters.path } : parameters ? { Parameters: parameters.value as { [k: string]: any; } } : {};
+}
 }

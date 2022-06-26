@@ -19,6 +19,7 @@ describe("when converting string-templates", () => {
           "Initialize": Object {
             "Next": "Assign variable",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -52,6 +53,7 @@ describe("when converting string-templates", () => {
           "Initialize": Object {
             "Next": "Assign variable",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

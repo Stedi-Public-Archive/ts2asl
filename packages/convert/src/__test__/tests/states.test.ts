@@ -9,7 +9,7 @@ describe("when converting states", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Human Approval": Object {
+          "Assign result": Object {
             "Comment": undefined,
             "End": true,
             "HeartbeatSeconds": undefined,
@@ -26,8 +26,9 @@ describe("when converting states", () => {
             "Type": "Task",
           },
           "Initialize": Object {
-            "Next": "Human Approval",
+            "Next": "Assign result",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

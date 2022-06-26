@@ -42,16 +42,8 @@ export const doWhileWithEarlyReturn = asl.deploy.asStateMachine(async () => {
 
 
 export const doWhileWithContinue = asl.deploy.asStateMachine(async () =>{
-    let counter = asl.pass({
-        name: "Assign counter",
-        parameters: () => "",
-        comment: "counter = \"\""
-    });
-    let result = asl.pass({
-        name: "Assign result",
-        parameters: () => "",
-        comment: "result = \"\""
-    });
+    let counter = "";
+    let result = "";
     asl.typescriptDoWhile({
         name: "Do While (counter != \"aaaaa\")",
         condition: () => counter != "aaaaa",
@@ -66,7 +58,8 @@ export const doWhileWithContinue = asl.deploy.asStateMachine(async () =>{
                 comment: "if (counter == \"aa\") {\n      continue;\n    }"
             })
             result = asl.states.format("{}b", result);
-        }
+        },
+        comment: "do {\n    counter = `${counter}a`;\n    if (counter == \"aa\") {\n      continue;\n    }\n    result = `${result}b`;\n  } while (counter != \"aaaaa\")"
     })
     return result; //returns "bbbb"
 });

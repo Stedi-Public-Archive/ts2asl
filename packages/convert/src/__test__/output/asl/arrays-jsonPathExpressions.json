@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign filterArray"
     },
@@ -66,18 +67,21 @@
       "Type": "Pass",
       "InputPath": "$.vars.filterArray..age",
       "ResultPath": "$.vars.ages",
+      "Comment": "source: ages = asl.jsonPathExpression(filterArray, \".. ...",
       "Next": "Assign flattenedPets"
     },
     "Assign flattenedPets": {
       "Type": "Pass",
       "InputPath": "$.vars.filterArray[*][*][*]",
       "ResultPath": "$.vars.flattenedPets",
+      "Comment": "source: flattenedPets = asl.jsonPathExpression(filterA ...",
       "Next": "Assign slicedArr"
     },
     "Assign slicedArr": {
       "Type": "Pass",
       "InputPath": "$.vars.filterArray.cats.young[1:1]",
       "ResultPath": "$.vars.slicedArr",
+      "Comment": "source: slicedArr = asl.jsonPathSlice(filterArray.cats ...",
       "Next": "Return { ages, fl ..."
     },
     "Return { ages, fl ...": {

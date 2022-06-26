@@ -57,6 +57,7 @@
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
+      "source": "rnd = await random()",
       "expression": {
         "stateName": "random()",
         "resource": "[!lambda[random]arn]",

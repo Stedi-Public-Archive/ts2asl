@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Evaluate Format('hello {} ..."
     },
@@ -22,6 +23,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.str",
+      "Comment": "source: str = asl.states.format(\"hello {}\", \"world\")",
       "Next": "Evaluate Format('answer i ..."
     },
     "Evaluate Format('answer i ...": {
@@ -36,6 +38,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.num",
+      "Comment": "source: num = asl.states.format(\"answer is {}\", 42)",
       "Next": "Evaluate Format('1: {} 2 ..."
     },
     "Evaluate Format('1: {} 2 ...": {
@@ -50,6 +53,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.combined",
+      "Comment": "source: combined = asl.states.format(\"1: {}\\n 2: {}\",  ...",
       "Next": "Evaluate Array($.vars.str ..."
     },
     "Evaluate Array($.vars.str ...": {
@@ -64,6 +68,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.arr",
+      "Comment": "source: arr = asl.states.array(str, num, combined)",
       "Next": "Return arr"
     },
     "Return arr": {

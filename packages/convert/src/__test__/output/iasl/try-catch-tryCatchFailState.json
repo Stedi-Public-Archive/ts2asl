@@ -35,15 +35,11 @@
                   "type": "object",
                   "_syntaxKind": "identifier"
                 },
+                "source": "aslError = e as asl.AslError",
                 "expression": {
-                  "stateName": "Assign aslError",
-                  "parameters": {
-                    "identifier": "e",
-                    "type": "unknown",
-                    "_syntaxKind": "identifier"
-                  },
-                  "source": "aslError = e as asl.AslError",
-                  "_syntaxKind": "asl-pass-state"
+                  "identifier": "e",
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
                 },
                 "_syntaxKind": "variable-assignment"
               },
@@ -120,6 +116,7 @@
           }
         }
       ],
+      "source": "try {\n    return asl.fail({\n      error: \"InternalFailure\",\n      cause: \"bad luck\"\n    });\n  } catch(e) {\n    const aslError = e as asl.AslError\n    if (\"Error\" in aslError && \"Cause\" in aslError) {\n      return `${aslError.Error} (${aslError.Cause})`;\n    }\n  }",
       "_syntaxKind": "try"
     },
     {

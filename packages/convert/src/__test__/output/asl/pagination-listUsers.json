@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign marker"
     },
@@ -15,9 +16,9 @@
       "InputPath": "$._undefined",
       "ResultPath": "$.vars.marker",
       "Comment": "source: marker: string | undefined",
-      "Next": "List Users"
+      "Next": "Assign response"
     },
-    "List Users": {
+    "Assign response": {
       "Type": "Task",
       "ResultPath": "$.vars.response",
       "Resource": "arn:aws:states:::aws-sdk:iam:listUsers",
@@ -112,14 +113,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.response.Marker",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign marker_1"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign marker_1"
     },
     "Assign marker_1": {
@@ -156,7 +157,7 @@
               }
             ]
           },
-          "Next": "List Users"
+          "Next": "Assign response"
         }
       ],
       "Default": "Empty Default Choice"

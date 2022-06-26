@@ -12,7 +12,7 @@ import { AslChoiceState, AslFailState, AslIntrinsicFunction, AslMapState, AslSuc
       case "number": return this.create({value: val as number, type: "numeric"});
       case "string": return this.create({value: val as string, type: "string"});
       case "boolean": return this.create({value: val as boolean, type: "boolean"});
-      case "undefined": return this.create({value: null, type: "null"});
+      case "undefined": return this.create({value: undefined, type: "null"});
       default: throw new Error(`unable to convert runtime object ${val} of type ${nodeType} to a literal`)
      }
     }
@@ -110,7 +110,10 @@ import { AslChoiceState, AslFailState, AslIntrinsicFunction, AslMapState, AslSuc
   }
   export class ReturnStatementFactory {
     static createReturnVoid(): ReturnStatement {
-      return this.create({ expression: LiteralFactory.createFromRuntime(undefined) });
+      return this.createReturnLiteral(undefined);
+    }
+    static createReturnLiteral(val: string | number | boolean | null | undefined, stateName?: string): ReturnStatement {
+      return this.create({ expression: LiteralFactory.createFromRuntime(val), stateName });
     }
     static create(args: Omit<ReturnStatement, "_syntaxKind">): ReturnStatement {
       return {...args, _syntaxKind: SyntaxKind.Return};     

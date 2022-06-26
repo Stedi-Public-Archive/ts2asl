@@ -7,10 +7,10 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "arr: []",
       "expression": {
-        "stateName": "Assign arr",
-        "source": "arr: []",
-        "_syntaxKind": "asl-pass-state"
+        "type": "null",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -21,10 +21,10 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "two: string",
       "expression": {
-        "stateName": "Assign two",
-        "source": "two: string",
-        "_syntaxKind": "asl-pass-state"
+        "type": "null",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

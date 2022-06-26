@@ -7,6 +7,7 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "str = asl.states.format(\"hello {}\", \"world\")",
       "expression": {
         "arguments": [
           {
@@ -33,6 +34,7 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "num = asl.states.format(\"answer is {}\", 42)",
       "expression": {
         "arguments": [
           {
@@ -59,6 +61,7 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "combined = asl.states.format(\"1: {}\\n 2: {}\", str, num)",
       "expression": {
         "arguments": [
           {
@@ -90,6 +93,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "arr = asl.states.array(str, num, combined)",
       "expression": {
         "arguments": [
           {

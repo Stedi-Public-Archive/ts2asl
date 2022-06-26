@@ -44,25 +44,17 @@ export const mapArrayNestedPropertyAccess = asl.deploy.asStateMachine(async () =
   }
 });
 export const filterArray = asl.deploy.asStateMachine(async () =>{
-    const mappedArray = asl.pass({
-        name: "Assign mappedArray",
-        parameters: () => [{ age: 1, species: "dog" }, { age: 2, species: "cat" }, { age: 3, species: "dog" }, { age: 4, species: "cat" }, { age: 11, species: "dog" }, { age: 12, species: "car" }, { age: 13, species: "dog" }, { age: 14, species: "cat" }],
-        comment: "mappedArray = [{ age: 1, species: \"dog\" }, { age: 2, species: \"cat\" }, { age: 3, species: \"dog\" }, { age: 4, species: \"cat\" }, { age: 11, species: \"dog\" }, { age: 12, species: \"car\" }, { age: 13, species: \"dog\" }, { age: 14, species: \"cat\" }]"
-    });
-    const filterArray = asl.pass({
-        name: "Assign filterArray",
-        parameters: () => ({
-            cats: {
-                young: asl.jsonPathFilter(mappedArray, (x) => x.species === "cat" && x.age < 5),
-                old: asl.jsonPathFilter(mappedArray, (x) => x.species === "cat" && x.age >= 5),
-            },
-            dogs: {
-                young: asl.jsonPathFilter(mappedArray, (x) => x.species === "dog" && x.age < 5),
-                old: asl.jsonPathFilter(mappedArray, (x) => x.species === "dog" && x.age >= 5),
-            }
-        }),
-        comment: "filterArray = {\n    cats: {\n      young: mappedArray.filter(x => x.species === \"cat\" && x.age < 5),\n      old: mappedArray.filter(x => x.species === \"cat\" && x.age >= 5),\n    },\n    dogs: {\n      young: mappedArray.filter(x => x.species === \"dog\" && x.age < 5),\n      old: mappedArray.filter(x => x.species === \"dog\" && x.age >= 5),\n    }\n  }"
-    });
+    const mappedArray = [{ age: 1, species: "dog" }, { age: 2, species: "cat" }, { age: 3, species: "dog" }, { age: 4, species: "cat" }, { age: 11, species: "dog" }, { age: 12, species: "car" }, { age: 13, species: "dog" }, { age: 14, species: "cat" }];
+    const filterArray = {
+        cats: {
+            young: asl.jsonPathFilter(mappedArray, (x) => x.species === "cat" && x.age < 5),
+            old: asl.jsonPathFilter(mappedArray, (x) => x.species === "cat" && x.age >= 5),
+        },
+        dogs: {
+            young: asl.jsonPathFilter(mappedArray, (x) => x.species === "dog" && x.age < 5),
+            old: asl.jsonPathFilter(mappedArray, (x) => x.species === "dog" && x.age >= 5),
+        }
+    };
     return filterArray;
 });
 

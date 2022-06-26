@@ -50,6 +50,7 @@ describe("when transpiling binary expressions", () => {
           "Initialize": Object {
             "Next": "If (x == 1 || x === 2 || ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -131,6 +132,7 @@ describe("when transpiling binary expressions", () => {
           "Initialize": Object {
             "Next": "If (!!x)",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -182,6 +184,7 @@ describe("when transpiling binary expressions", () => {
           "Initialize": Object {
             "Next": "If (null)",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -249,6 +252,7 @@ describe("when transpiling binary expressions", () => {
           "Initialize": Object {
             "Next": "If (x == 1 && x === 2 && ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

@@ -17,7 +17,7 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": undefined,
+            "Comment": "source: result = asl.states.stringToJson(\\"0\\")",
             "End": true,
             "InputPath": "$.tmp.eval.value",
             "ResultPath": "$.vars.result",
@@ -34,6 +34,7 @@ describe("when transpiling function", () => {
           "Initialize": Object {
             "Next": "Evaluate StringToJson('0')",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -58,7 +59,7 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": undefined,
+            "Comment": "source: result = asl.states.stringToJson(\\"s\\")",
             "End": true,
             "InputPath": "$.tmp.eval.value",
             "ResultPath": "$.vars.result",
@@ -75,6 +76,7 @@ describe("when transpiling function", () => {
           "Initialize": Object {
             "Next": "Evaluate StringToJson('s')",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -103,7 +105,7 @@ describe("when transpiling function", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": undefined,
+            "Comment": "source: result = asl.states.jsonToString(tmp)",
             "End": true,
             "InputPath": "$.tmp.eval.value",
             "ResultPath": "$.vars.result",
@@ -130,6 +132,7 @@ describe("when transpiling function", () => {
           "Initialize": Object {
             "Next": "Assign tmp",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

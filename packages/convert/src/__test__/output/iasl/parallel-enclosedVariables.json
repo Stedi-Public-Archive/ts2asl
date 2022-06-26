@@ -12,20 +12,16 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "enclosedVar1 = { something: \"left\" }",
       "expression": {
-        "stateName": "Assign enclosedVar1",
-        "parameters": {
-          "properties": {
-            "something": {
-              "value": "left",
-              "type": "string",
-              "_syntaxKind": "literal"
-            }
-          },
-          "_syntaxKind": "literal-object"
+        "properties": {
+          "something": {
+            "value": "left",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
         },
-        "source": "enclosedVar1 = { something: \"left\" }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -36,20 +32,16 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "enclosedVar2 = { something: \"right\" }",
       "expression": {
-        "stateName": "Assign enclosedVar2",
-        "parameters": {
-          "properties": {
-            "something": {
-              "value": "right",
-              "type": "string",
-              "_syntaxKind": "literal"
-            }
-          },
-          "_syntaxKind": "literal-object"
+        "properties": {
+          "something": {
+            "value": "right",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
         },
-        "source": "enclosedVar2 = { something: \"right\" }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },

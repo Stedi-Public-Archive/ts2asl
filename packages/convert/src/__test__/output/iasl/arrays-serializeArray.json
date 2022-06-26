@@ -7,6 +7,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) as number[]",
       "expression": {
         "arguments": [
           {
@@ -73,6 +74,7 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "mySerializedArray = asl.states.jsonToString(myArray)",
       "expression": {
         "arguments": [
           {

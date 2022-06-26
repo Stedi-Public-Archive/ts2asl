@@ -107,6 +107,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -244,6 +245,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -381,6 +383,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -471,6 +474,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -647,6 +651,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign numbers",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -683,6 +688,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign numbers",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

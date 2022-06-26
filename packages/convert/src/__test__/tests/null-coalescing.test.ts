@@ -141,6 +141,7 @@ describe("when converting null-coalescing", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -169,7 +170,7 @@ describe("when converting null-coalescing", () => {
             "Type": "Pass",
           },
           "Conditional True": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Return",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
@@ -189,6 +190,7 @@ describe("when converting null-coalescing", () => {
           "Initialize": Object {
             "Next": "Eval Conditional",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -292,6 +294,7 @@ describe("when converting null-coalescing", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -341,13 +344,13 @@ describe("when converting null-coalescing", () => {
             "Type": "Pass",
           },
           "Conditional True": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Eval Conditional_1",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
           },
           "Conditional True_1": Object {
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Eval Conditional_2",
             "ResultPath": "$.tmp.var",
             "Type": "Pass",
@@ -427,6 +430,7 @@ describe("when converting null-coalescing", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -597,6 +601,7 @@ describe("when converting null-coalescing", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

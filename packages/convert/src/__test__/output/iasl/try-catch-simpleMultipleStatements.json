@@ -11,20 +11,16 @@
               "type": "object",
               "_syntaxKind": "identifier"
             },
+            "source": "arr = [1]",
             "expression": {
-              "stateName": "Assign arr",
-              "parameters": {
-                "elements": [
-                  {
-                    "value": 1,
-                    "type": "numeric",
-                    "_syntaxKind": "literal"
-                  }
-                ],
-                "_syntaxKind": "literal-array"
-              },
-              "source": "arr = [1]",
-              "_syntaxKind": "asl-pass-state"
+              "elements": [
+                {
+                  "value": 1,
+                  "type": "numeric",
+                  "_syntaxKind": "literal"
+                }
+              ],
+              "_syntaxKind": "literal-array"
             },
             "_syntaxKind": "variable-assignment"
           },
@@ -35,6 +31,7 @@
               "type": "object",
               "_syntaxKind": "identifier"
             },
+            "source": "withinTry = arr.map(x => \"succeeded\")",
             "expression": {
               "stateName": "arr.map => x",
               "items": {

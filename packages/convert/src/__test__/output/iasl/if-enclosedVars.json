@@ -7,15 +7,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "enclosedVar = \"before\"",
       "expression": {
-        "stateName": "Assign enclosedVar",
-        "parameters": {
-          "value": "before",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "enclosedVar = \"before\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "before",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

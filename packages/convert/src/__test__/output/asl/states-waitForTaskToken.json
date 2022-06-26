@@ -6,11 +6,12 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
-      "Next": "Human Approval"
+      "Next": "Assign result"
     },
-    "Human Approval": {
+    "Assign result": {
       "Type": "Task",
       "ResultPath": "$.vars.result",
       "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",

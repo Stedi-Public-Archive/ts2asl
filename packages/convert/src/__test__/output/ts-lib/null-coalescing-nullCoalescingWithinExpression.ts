@@ -17,11 +17,7 @@ export const nullCoalescingWithLiteral = asl.deploy.asStateMachine(async () => {
 });
 
 export const nullCoalescingWithinExpression = asl.deploy.asStateMachine(async () =>{
-    const obj = asl.pass({
-        name: "Assign obj",
-        parameters: () => ({ name: "world" }),
-        comment: "obj = { name: \"world\" }"
-    });
+    const obj = { name: "world" };
     return asl.states.format("hello {}", obj.name) ? asl.states.format("hello {}", obj.name) : "you";
 });
 

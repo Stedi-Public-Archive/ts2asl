@@ -6,11 +6,12 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
-      "Next": "getEntries()"
+      "Next": "Assign entries"
     },
-    "getEntries()": {
+    "Assign entries": {
       "Type": "Task",
       "ResultPath": "$.vars.entries",
       "Resource": "[!lambda[getEntries]arn]",

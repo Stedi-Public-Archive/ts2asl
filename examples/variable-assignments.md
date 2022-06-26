@@ -21,6 +21,35 @@ export const main = asl.deploy.asStateMachine(async () => {
 ```
 
 
+## type of expressions
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IHN0ciA9IHR5cGVvZiAiYWJjZGVmIjsKICBsZXQgbnVtID0gdHlwZW9mIDEyMzsKICBsZXQgYm9vbCA9IHR5cGVvZiB0cnVlOwogIGxldCBvYmplY3QgPSB0eXBlb2YgeyBzdHIsIG51bSwgYm9vbCB9OwogIGxldCB1bmRlZiA9IHR5cGVvZiB1bmRlZmluZWQ7CiAgbGV0IF9udWxsID0gdHlwZW9mIG51bGw7CgogIGlmICgKICAgIHN0ciA9PT0gInN0cmluZyIgJiYKICAgIG51bSA9PT0gIm51bWJlciIgJiYKICAgIGJvb2wgPT09ICJib29sZWFuIiAmJgogICAgb2JqZWN0ID09PSAib2JqZWN0IiAmJgogICAgdW5kZWYgPT09ICJ1bmRlZmluZWQiICYmCiAgICBfbnVsbCA9PT0gInVuZGVmaW5lZCIKICApIHsKICAgIHJldHVybiAib2siOwogIH0KCiAgcmV0dXJuICJub3Qgb2siOwp9KTsK)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => {
+  let str = typeof "abcdef";
+  let num = typeof 123;
+  let bool = typeof true;
+  let object = typeof { str, num, bool };
+  let undef = typeof undefined;
+  let _null = typeof null;
+
+  if (
+    str === "string" &&
+    num === "number" &&
+    bool === "boolean" &&
+    object === "object" &&
+    undef === "undefined" &&
+    _null === "undefined"
+  ) {
+    return "ok";
+  }
+
+  return "not ok";
+});
+
+```
+
+
 ## array with identifiers
 [Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IHN0ciA9ICJzdHJpbmciOwogIGxldCBudW0gPSA0MjsKICBsZXQgYm9vbCA9IHRydWUgfHwgZmFsc2U7CiAgbGV0IG9iamVjdCA9IHsgc3RyLCBudW0sIGJvb2wgfTsKICBsZXQgYXJyYXkgPSBbc3RyLCBudW0sIGJvb2wsIG9iamVjdF07CiAgcmV0dXJuIGFycmF5Owp9KTsK)
 

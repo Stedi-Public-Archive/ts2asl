@@ -6,11 +6,12 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
-      "Next": "childLambda({firstName: \" ..."
+      "Next": "Assign name"
     },
-    "childLambda({firstName: \" ...": {
+    "Assign name": {
       "Type": "Task",
       "ResultPath": "$.vars.name",
       "Resource": "[!lambda[childLambda]arn]",

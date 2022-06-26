@@ -16,16 +16,8 @@ export const simpleForeach = asl.deploy.asStateMachine(async () => {
 });
 
 export const foreachWithBreak = asl.deploy.asStateMachine(async () =>{
-    const arr = asl.pass({
-        name: "Assign arr",
-        parameters: () => [1, 2, 3],
-        comment: "arr = [1, 2, 3]"
-    });
-    let result = asl.pass({
-        name: "Assign result",
-        parameters: () => "",
-        comment: "result = \"\""
-    });
+    const arr = [1, 2, 3];
+    let result = "";
     asl.typescriptForeach({
         name: "For item Of arr",
         items: () => arr,
@@ -49,7 +41,8 @@ export const foreachWithBreak = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (item === 2) {\n      break; // this break will prevent 3 from being added to the string\n    }"
             })
-        }
+        },
+        comment: "for (const item of arr) {\n    if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }\n    if (item === 2) {\n      break; // this break will prevent 3 from being added to the string\n    }\n  }"
     })
     return result;
 });

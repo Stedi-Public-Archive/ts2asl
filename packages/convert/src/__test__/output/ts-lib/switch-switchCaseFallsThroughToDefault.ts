@@ -57,16 +57,8 @@ export const switchCaseNonEmptyFallThrough = asl.deploy.asStateMachine(async () 
   return result;
 });
 export const switchCaseFallsThroughToDefault = asl.deploy.asStateMachine(async () =>{
-    const arr = asl.pass({
-        name: "Assign arr",
-        parameters: () => [1, 2, 3],
-        comment: "arr = [1, 2, 3]"
-    });
-    let result = asl.pass({
-        name: "Assign result",
-        parameters: () => "",
-        comment: "result = \"\""
-    });
+    const arr = [1, 2, 3];
+    let result = "";
     asl.typescriptForeach({
         name: "For item Of arr",
         items: () => arr,
@@ -94,7 +86,8 @@ export const switchCaseFallsThroughToDefault = asl.deploy.asStateMachine(async (
                 ],
                 comment: "switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n      default:\n        result = `${result}not-one`;\n        break;\n    }"
             })
-        }
+        },
+        comment: "for (const item of arr) {\n    switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n      default:\n        result = `${result}not-one`;\n        break;\n    }\n  }"
     })
     return result;
 });

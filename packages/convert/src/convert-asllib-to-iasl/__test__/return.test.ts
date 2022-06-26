@@ -21,7 +21,7 @@ describe("when returning", () => {
             "expression": Object {
               "_syntaxKind": "literal",
               "type": "null",
-              "value": null,
+              "value": undefined,
             },
           },
         ],
