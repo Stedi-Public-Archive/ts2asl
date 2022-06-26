@@ -81,11 +81,7 @@ export const tryCatchFailState = asl.deploy.asStateMachine(async () =>{
                     "States.ALL"
                 ],
                 block: e => {
-                    const aslError = asl.pass({
-                        name: "Assign aslError",
-                        parameters: () => e,
-                        comment: "aslError = e as asl.AslError"
-                    });
+                    const aslError = e;
                     asl.typescriptIf({
                         name: "If (\"Error\" in aslError & ...",
                         condition: () => "Error" in aslError && "Cause" in aslError,
@@ -96,7 +92,8 @@ export const tryCatchFailState = asl.deploy.asStateMachine(async () =>{
                     })
                 }
             }
-        ]
+        ],
+        comment: "try {\n    return asl.fail({\n      error: \"InternalFailure\",\n      cause: \"bad luck\"\n    });\n  } catch(e) {\n    const aslError = e as asl.AslError\n    if (\"Error\" in aslError && \"Cause\" in aslError) {\n      return `${aslError.Error} (${aslError.Cause})`;\n    }\n  }"
     })
     return "this should not happen";
 });

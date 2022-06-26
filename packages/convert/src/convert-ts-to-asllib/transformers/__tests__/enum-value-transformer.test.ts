@@ -20,11 +20,7 @@ const x = ExampleEnum.A;
           \\"A\\",
           \\"B\\"
       }
-      const x = asl.pass({
-          name: \\"Assign x\\",
-          parameters: () => 0,
-          comment: \\"x = ExampleEnum.A\\"
-      });"
+      const x = 0;"
     `);
   });
 
@@ -47,11 +43,7 @@ const x = ExampleEnum.A;
           b,
           \\"
       }
-      const x = asl.pass({
-          name: \\"Assign x\\",
-          parameters: () => \\"real a\\",
-          comment: \\"x = ExampleEnum.A\\"
-      });"
+      const x = \\"real a\\";"
     `);
   });
   it("enum is returned by property access expression", () => {
@@ -70,11 +62,7 @@ const x = (Something.Leaf as {A: ExampleEnum}).A;
           \\"A\\",
           \\"B\\"
       }
-      const x = asl.pass({
-          name: \\"Assign x\\",
-          parameters: () => Something.Leaf.A,
-          comment: \\"x = (Something.Leaf as {A: ExampleEnum}).A\\"
-      });"
+      const x = Something.Leaf.A;"
     `);
   });
 });

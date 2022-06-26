@@ -7,6 +7,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "result = await Promise.all([\n    performIdentifyCheck(),\n    Promise.resolve({ agencyChecked: true }),\n  ])",
       "expression": {
         "branches": [
           {
@@ -129,15 +130,11 @@
         "type": "boolean",
         "_syntaxKind": "identifier"
       },
+      "source": "checksPassed = true",
       "expression": {
-        "stateName": "Assign checksPassed",
-        "parameters": {
-          "value": true,
-          "type": "boolean",
-          "_syntaxKind": "literal"
-        },
-        "source": "checksPassed = true",
-        "_syntaxKind": "asl-pass-state"
+        "value": true,
+        "type": "boolean",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

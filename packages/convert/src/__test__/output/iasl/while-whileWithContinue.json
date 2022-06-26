@@ -7,15 +7,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "counter = \"\"",
       "expression": {
-        "stateName": "Assign counter",
-        "parameters": {
-          "value": "",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "counter = \"\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -26,15 +22,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "result = \"\"",
       "expression": {
-        "stateName": "Assign result",
-        "parameters": {
-          "value": "",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "result = \"\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -143,6 +135,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "while (counter != \"aaaaa\") {\n    counter = `${counter}a`;\n    if (counter == \"aa\") {\n      continue;\n    }\n    result = `${result}b`;\n  }",
       "_syntaxKind": "while"
     },
     {

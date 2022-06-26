@@ -7,15 +7,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "counter = \"\"",
       "expression": {
-        "stateName": "Assign counter",
-        "parameters": {
-          "value": "",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "counter = \"\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -98,6 +94,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "do {\n    counter = `${counter}a`;\n    if (counter == \"aa\") {\n      break;\n    }\n  } while (counter != \"aaaaa\");",
       "_syntaxKind": "do-while"
     },
     {

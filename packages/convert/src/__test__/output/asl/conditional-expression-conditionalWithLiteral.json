@@ -23,14 +23,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "jim",
+      "ResultPath": "$.tmp.var",
       "Next": "Return false ? \"jim\" : \"j ..."
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "james",
+      "ResultPath": "$.tmp.var",
       "Next": "Return false ? \"jim\" : \"j ..."
     },
     "Return false ? \"jim\" : \"j ...": {

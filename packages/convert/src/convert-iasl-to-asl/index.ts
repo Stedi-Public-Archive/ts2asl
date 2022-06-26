@@ -1,10 +1,11 @@
 import * as iasl from "../convert-asllib-to-iasl/ast"
 import * as asl from "asl-types";
-import { AslFactory, foreachCounter } from "./aslfactory";
+import { AslFactory } from "./aslfactory";
 import { AslWriter, StateWithBrand } from "./asl-writer";
 import { createObjectContextReplacer, createReplacer, IdentifierReplacer, replaceIdentifiers } from "./identifiers";
 import { assignScopes } from "./scopes";
 import { ConverterOptions } from "../convert";
+import { foreachCounter } from "./aslfactory.foreach";
 
 export const convert = (stateMachine: iasl.StateMachine, options: ConverterOptions, context: AslWriter = new AslWriter()): asl.StateMachine | undefined => {
   const replacers: IdentifierReplacer[] = [];

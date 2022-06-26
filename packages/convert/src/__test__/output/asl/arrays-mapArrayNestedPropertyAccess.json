@@ -28,6 +28,7 @@
       "Type": "Pass",
       "InputPath": "$.vars.source..obj.num",
       "ResultPath": "$.vars.num",
+      "Comment": "source: num = source.map(x => x.obj.num)",
       "Next": "Assign str"
     },
     "Assign str": {

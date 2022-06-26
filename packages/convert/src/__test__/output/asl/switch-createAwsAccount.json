@@ -12,12 +12,19 @@
     },
     "CreateAccount": {
       "Type": "Task",
-      "ResultPath": "$.vars.createAccount",
+      "ResultPath": "$.tmp.result",
       "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
       "Parameters": {
         "AccountName": "test",
         "Email": "something@email.com"
       },
+      "Next": "Assign createAccount"
+    },
+    "Assign createAccount": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.createAccount",
+      "Comment": "source: createAccount = await asl.sdkOrganizationsCrea ...",
       "Next": "Assign creationStatus"
     },
     "Assign creationStatus": {
@@ -29,11 +36,18 @@
     },
     "DescribeCreateAccountStatus": {
       "Type": "Task",
-      "ResultPath": "$.vars.describeResult",
+      "ResultPath": "$.tmp.result",
       "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
       "Parameters": {
         "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id"
       },
+      "Next": "Assign describeResult"
+    },
+    "Assign describeResult": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.describeResult",
+      "Comment": "source: describeResult = await asl.sdkOrganizationsDes ...",
       "Next": "Eval Conditional"
     },
     "Eval Conditional": {
@@ -59,14 +73,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.describeResult.CreateAccountStatus.State",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign creationStatus_1"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign creationStatus_1"
     },
     "Assign creationStatus_1": {
@@ -139,14 +153,14 @@
     },
     "Conditional True_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+      "ResultPath": "$.tmp.var",
       "Next": "Log (createAccount.Create ..."
     },
     "Conditional False_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Log (createAccount.Create ..."
     },
     "Log (createAccount.Create ...": {
@@ -179,14 +193,14 @@
     },
     "Conditional True_2": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+      "ResultPath": "$.tmp.var",
       "Next": "Return createAccount.Crea ..."
     },
     "Conditional False_2": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Return createAccount.Crea ..."
     },
     "Return createAccount.Crea ...": {

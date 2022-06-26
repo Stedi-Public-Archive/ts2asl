@@ -12,7 +12,7 @@
     },
     "COUNT(where gsi1pk === 'test')": {
       "Type": "Task",
-      "ResultPath": "$.vars.result",
+      "ResultPath": "$.tmp.result",
       "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
       "Parameters": {
         "TableName": "[!parameter[tableName]]",
@@ -28,6 +28,13 @@
         },
         "Select": "COUNT"
       },
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result = (await asl.sdkDynamoDBQuery({ name: \" ...",
       "Next": "Return result.Count"
     },
     "Return result.Count": {

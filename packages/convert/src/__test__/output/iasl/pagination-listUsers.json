@@ -12,10 +12,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "marker: string | undefined",
       "expression": {
-        "stateName": "Assign marker",
-        "source": "marker: string | undefined",
-        "_syntaxKind": "asl-pass-state"
+        "value": null,
+        "type": "null",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -39,6 +40,7 @@
               "type": "object",
               "_syntaxKind": "identifier"
             },
+            "source": "response = await asl.sdkIAMListUsers({\n      name: \"List Users\",\n      parameters : {\n        PathPrefix: \"/path\",\n        Marker: marker\n      }\n    })",
             "expression": {
               "stateName": "List Users",
               "resource": "arn:aws:states:::aws-sdk:iam:listUsers",
@@ -102,6 +104,7 @@
               ],
               "_syntaxKind": "function"
             },
+            "source": "for(const user of (response.Users || [])) {\n    //put your logic here\n    await doSomething(user);\n  }",
             "_syntaxKind": "for-each"
           },
           {
@@ -138,6 +141,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "do{\n    var response = await asl.sdkIAMListUsers({\n      name: \"List Users\",\n      parameters : {\n        PathPrefix: \"/path\",\n        Marker: marker\n      }\n    });\n\n  for(const user of (response.Users || [])) {\n    //put your logic here\n    await doSomething(user);\n  }\n    marker = response.IsTruncated ? response.Marker : undefined;\n  }while(marker)",
       "_syntaxKind": "do-while"
     }
   ],

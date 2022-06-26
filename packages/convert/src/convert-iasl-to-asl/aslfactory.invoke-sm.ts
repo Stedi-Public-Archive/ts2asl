@@ -26,7 +26,7 @@ export class AslInvokeStateMachineFactory {
       Resource: expression.integrationPattern === "sync" ? "arn:aws:states:::states:startExecution.sync" : "arn:aws:states:::states:startExecution",
       Parameters: {
         StateMachineArn: expression.stateMachineArn,
-        ...(rhs.path !== undefined ? { "Input.$" : rhs.path } : { Input : rhs.value })
+        ...("path" in rhs ? { "Input.$" : rhs.path } : { Input : rhs.value })
       },
       Comment: expression.source,
       ResultPath: resultPath as any,

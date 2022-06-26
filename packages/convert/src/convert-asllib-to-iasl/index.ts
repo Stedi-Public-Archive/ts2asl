@@ -9,6 +9,7 @@ import { ensureNamedPropertiesTransformer } from "./ensure-named-properties";
 import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
 import { AslChoiceStateFactory, AslFailStateFactory, AslIntrinsicFunctionFactory, AslInvokeStateMachineFactory, AslMapStateFactory, AslPassStateFactory, AslSucceedStateFactory, AslTaskStateFactory, AslWaitStateFactory, BinaryExpressionFactory, BreakFactory, ConditionalExpressionFactory, ContinueFactory, DoWhileStatementFactory, ForEachFactory, IdentifierFactory, IfFactory, LiteralArrayFactory, LiteralFactory, LiteralObjectFactory, ReturnStatementFactory, SwitchFactory, TryFactory, TypeOfFactory, VariableAssignmentFactory, WhileFactory } from "./iaslfactory";
+import { TransformUtil } from "../convert-ts-to-asllib/transformers/transform-utility";
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -84,12 +85,13 @@ export const convertNodeToIntermediaryAst = (toplevel: ts.Node, context: Convert
     const identifier = convertToIdentifier(decl.name, context);
     if (!identifier) throw new ParserError("unable to convert declaration name to identifier string", node);
 
-    let expression = convertExpression(decl.initializer, context);
-    if (expression === undefined) expression = convertExpressionToLiteralOrIdentifier(decl.initializer, {}, context);
+    const expression = convertExpressionToLiteralOrIdentifier(decl.initializer, {}, context); 
+    const comment = TransformUtil.createComment(decl);
     if (!expression) throw new ParserError("unable to convert declaration initializer to expression", node);
     return VariableAssignmentFactory.create({
       stateName: createName(context.converterOptions, node, `Assign %s`, decl.name),
       name: identifier,
+      source: comment,
       expression,
     });
   }
@@ -564,10 +566,11 @@ export const convertObjectLiteralExpression = (expr: ts.ObjectLiteralExpression,
 };
 
 export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression | undefined, hints: { block?: boolean; }, context: ConverterContext): iasl.RightHandSideExpression | undefined => {
-  if (original === undefined) {
-    return undefined;
+  if (original === undefined || original.kind === ts.SyntaxKind.FirstStatement) {
+    return LiteralFactory.createFromRuntime(undefined);
   }
   let expr = original;
+    
   if (ts.isArrowFunction(original)) {
     expr = original.body as ts.Expression;
   }

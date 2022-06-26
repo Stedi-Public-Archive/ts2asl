@@ -7,6 +7,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "createAccount = await asl.sdkOrganizationsCreateAccount({ parameters: { AccountName: \"test\", Email: \"something@email.com\" } })",
       "expression": {
         "stateName": "CreateAccount",
         "resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
@@ -36,15 +37,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "creationStatus: string | undefined = undefined",
       "expression": {
-        "stateName": "Assign creationStatus",
-        "parameters": {
-          "value": null,
-          "type": "null",
-          "_syntaxKind": "literal"
-        },
-        "source": "creationStatus: string | undefined = undefined",
-        "_syntaxKind": "asl-pass-state"
+        "value": null,
+        "type": "null",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -77,6 +74,7 @@
               "type": "object",
               "_syntaxKind": "identifier"
             },
+            "source": "describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } })",
             "expression": {
               "stateName": "DescribeCreateAccountStatus",
               "resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
@@ -192,6 +190,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "do {\n    const describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } });\n    creationStatus = describeResult.CreateAccountStatus?.State;\n    switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }\n  } while (creationStatus !== \"SUCCEEDED\");",
       "_syntaxKind": "do-while"
     },
     {

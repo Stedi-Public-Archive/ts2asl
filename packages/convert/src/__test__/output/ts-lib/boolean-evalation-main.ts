@@ -1,17 +1,13 @@
 import * as asl from "@ts2asl/asl-lib";
 
 export const main = asl.deploy.asStateMachine(async () =>{
-    const data = asl.pass({
-        name: "Assign data",
-        parameters: () => ({
-            num: 42,
-            text: "text",
-            undefined: undefined,
-            null: null,
-            timestamp: "2016-03-14T01:59:00Z"
-        }),
-        comment: "data = {\n    num: 42,\n    text: \"text\",\n    undefined: undefined,\n    null: null,\n    timestamp: \"2016-03-14T01:59:00Z\"\n  }"
-    });
+    const data = {
+        num: 42,
+        text: "text",
+        undefined: undefined,
+        null: null,
+        timestamp: "2016-03-14T01:59:00Z"
+    };
     asl.typescriptIf({
         name: "If (typeof data.num !== \" ...",
         condition: () => typeof data.num !== "number",

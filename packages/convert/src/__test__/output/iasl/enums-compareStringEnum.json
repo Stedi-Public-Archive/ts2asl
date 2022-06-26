@@ -7,15 +7,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "x = ExampleEnumString.A",
       "expression": {
-        "stateName": "Assign x",
-        "parameters": {
-          "value": "a",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "x = ExampleEnumString.A",
-        "_syntaxKind": "asl-pass-state"
+        "value": "a",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

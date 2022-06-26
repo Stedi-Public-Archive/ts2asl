@@ -22,11 +22,7 @@ export const nullCoalescingWithinExpression = asl.deploy.asStateMachine(async ()
 });
 
 export const nestedNullCoalescing = asl.deploy.asStateMachine(async () =>{
-    const obj = asl.pass({
-        name: "Assign obj",
-        parameters: () => ({ name: undefined }),
-        comment: "obj = { name: undefined }"
-    });
+    const obj = { name: undefined };
     return (null ? null : obj.name) ? null ? null : obj.name : "world";
 });
 

@@ -77,16 +77,8 @@ describe("when converting constant expressions", () => {
           'const b = { attrib : `a${asl.deploy.getParameter("param")} c` };'
       )
     ).toMatchInlineSnapshot(`
-      "const a = asl.pass({
-          name: \\"Assign a\\",
-          parameters: () => ({ attrib: \\"abc[!parameter[param]]\\" }),
-          comment: \\"a = { attrib : \\\\\\"abc\\\\\\" + asl.deploy.getParameter(\\\\\\"param\\\\\\") }\\"
-      });
-      const b = asl.pass({
-          name: \\"Assign b\\",
-          parameters: () => ({ attrib: \\"a[!parameter[param]] c\\" }),
-          comment: \\"b = { attrib : \`a\${asl.deploy.getParameter(\\\\\\"param\\\\\\")} c\` }\\"
-      });"
+      "const a = { attrib: \\"abc[!parameter[param]]\\" };
+      const b = { attrib: \\"a[!parameter[param]] c\\" };"
     `);
   });
 });

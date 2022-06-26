@@ -7,6 +7,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "result = (await asl.sdkDynamoDBQuery({\n    name: \"COUNT(where gsi1pk === 'test')\",\n    parameters: {\n      TableName: asl.deploy.getParameter(\"tableName\"),\n      IndexName: \"GSI1\",\n      KeyConditionExpression: \"#pk = :val\",\n      ExpressionAttributeNames: { \"#pk\": \"gsi1pk\" },\n      ExpressionAttributeValues: { \":val\": { S: \"test\" } },\n      Select: \"COUNT\",\n    },\n  })) as { Count: number }",
       "expression": {
         "stateName": "COUNT(where gsi1pk === 'test')",
         "resource": "arn:aws:states:::aws-sdk:dynamodb:query",

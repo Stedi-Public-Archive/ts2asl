@@ -7,15 +7,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "variable = \"some var\"",
       "expression": {
-        "stateName": "Assign variable",
-        "parameters": {
-          "value": "some var",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "variable = \"some var\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "some var",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

@@ -67,10 +67,17 @@ describe("when converting sdk-states", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign result": Object {
+            "Comment": "source: result = (await asl.sdkDynamoDBQuery({ name: \\" ...",
+            "InputPath": "$.tmp.result",
+            "Next": "Return result.Count",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
           "COUNT(where gsi1pk === 'test')": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "Return result.Count",
+            "Next": "Assign result",
             "Parameters": Object {
               "ExpressionAttributeNames": Object {
                 "#pk": "gsi1pk",
@@ -86,7 +93,7 @@ describe("when converting sdk-states", () => {
               "TableName": "[!parameter[tableName]]",
             },
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
-            "ResultPath": "$.vars.result",
+            "ResultPath": "$.tmp.result",
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },

@@ -19,11 +19,7 @@ enum ExampleEnumString {
 }
 
 export const compareStringEnum = asl.deploy.asStateMachine(async () =>{
-    const x = asl.pass({
-        name: "Assign x",
-        parameters: () => "a",
-        comment: "x = ExampleEnumString.A"
-    });
+    const x = "a";
     asl.typescriptIf({
         name: "If (x === ExampleEnumStri ...",
         condition: () => x === "a",

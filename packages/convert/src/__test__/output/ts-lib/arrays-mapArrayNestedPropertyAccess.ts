@@ -35,11 +35,7 @@ export const mapArraySimple = asl.deploy.asStateMachine(async () => {
 });
 
 export const mapArrayNestedPropertyAccess = asl.deploy.asStateMachine(async () =>{
-    const source = asl.pass({
-        name: "Assign source",
-        parameters: () => [{ obj: { num: 23, str: "str" } }],
-        comment: "source = [{ obj: { num: 23, str: \"str\" } }]"
-    });
+    const source = [{ obj: { num: 23, str: "str" } }];
     const num = asl.jsonPathMap(source, "obj.num");
     const str = asl.jsonPathMap(source, "obj.str");
     return {

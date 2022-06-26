@@ -12,20 +12,16 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "obj = { name: undefined }",
       "expression": {
-        "stateName": "Assign obj",
-        "parameters": {
-          "properties": {
-            "name": {
-              "value": null,
-              "type": "null",
-              "_syntaxKind": "literal"
-            }
-          },
-          "_syntaxKind": "literal-object"
+        "properties": {
+          "name": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          }
         },
-        "source": "obj = { name: undefined }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },

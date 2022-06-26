@@ -7,15 +7,11 @@
         "type": "unknown",
         "_syntaxKind": "identifier"
       },
+      "source": "_undefined = undefined",
       "expression": {
-        "stateName": "Assign _undefined",
-        "parameters": {
-          "value": null,
-          "type": "null",
-          "_syntaxKind": "literal"
-        },
-        "source": "_undefined = undefined",
-        "_syntaxKind": "asl-pass-state"
+        "value": null,
+        "type": "null",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

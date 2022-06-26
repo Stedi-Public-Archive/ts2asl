@@ -9,6 +9,13 @@ describe("when converting map", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign entries": Object {
+            "Comment": "source: entries = await getEntries()",
+            "InputPath": "$.tmp.result",
+            "Next": "Map",
+            "ResultPath": "$.vars.entries",
+            "Type": "Pass",
+          },
           "Initialize": Object {
             "Next": "getEntries()",
             "Parameters": Object {
@@ -76,9 +83,9 @@ describe("when converting map", () => {
           "getEntries()": Object {
             "Comment": "source: getEntries()",
             "HeartbeatSeconds": undefined,
-            "Next": "Map",
+            "Next": "Assign entries",
             "Resource": "[!lambda[getEntries]arn]",
-            "ResultPath": "$.vars.entries",
+            "ResultPath": "$.tmp.result",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,

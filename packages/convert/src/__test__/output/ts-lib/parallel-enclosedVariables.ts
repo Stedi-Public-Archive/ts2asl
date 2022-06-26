@@ -9,16 +9,8 @@ export const simple = asl.deploy.asStateMachine(async (input: {}) => {
 });
 
 export const enclosedVariables = asl.deploy.asStateMachine(async (input: {}) =>{
-    const enclosedVar1 = asl.pass({
-        name: "Assign enclosedVar1",
-        parameters: () => ({ something: "left" }),
-        comment: "enclosedVar1 = { something: \"left\" }"
-    });
-    const enclosedVar2 = asl.pass({
-        name: "Assign enclosedVar2",
-        parameters: () => ({ something: "right" }),
-        comment: "enclosedVar2 = { something: \"right\" }"
-    });
+    const enclosedVar1 = { something: "left" };
+    const enclosedVar2 = { something: "right" };
     return await asl.parallel({
         branches: [
             () => { let return_var = asl.typescriptInvoke({

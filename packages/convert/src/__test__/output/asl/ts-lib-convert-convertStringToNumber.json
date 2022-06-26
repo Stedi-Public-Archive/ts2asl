@@ -22,6 +22,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.num",
+      "Comment": "source: num = asl.convert.stringToNumber(\"42\")",
       "Next": "If (num === 42)"
     },
     "If (num === 42)": {
@@ -48,6 +49,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.str",
+      "Comment": "source: str = asl.convert.numberToString(num)",
       "Next": "If (str === \"42\")"
     },
     "If (str === \"42\")": {

@@ -61,14 +61,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Evaluate Format('hello: { ..."
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "jim",
+      "ResultPath": "$.tmp.var",
       "Next": "Evaluate Format('hello: { ..."
     },
     "Evaluate Format('hello: { ...": {
@@ -126,14 +126,14 @@
     },
     "Conditional True_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Evaluate Format('hello: { ..._1"
     },
     "Conditional False_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "jim",
+      "ResultPath": "$.tmp.var",
       "Next": "Evaluate Format('hello: { ..._1"
     },
     "Evaluate Format('hello: { ..._1": {

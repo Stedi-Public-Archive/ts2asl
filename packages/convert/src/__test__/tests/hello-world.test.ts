@@ -16,6 +16,13 @@ describe("when converting hello-world", () => {
             "ResultPath": "$.vars.name",
             "Type": "Pass",
           },
+          "Assign rnd": Object {
+            "Comment": "source: rnd = await random()",
+            "InputPath": "$.tmp.result",
+            "Next": "Return { greeting: \`H ...",
+            "ResultPath": "$.vars.rnd",
+            "Type": "Pass",
+          },
           "If (typeof input.name !== ...": Object {
             "Choices": Array [
               Object {
@@ -59,9 +66,9 @@ describe("when converting hello-world", () => {
           "random()": Object {
             "Comment": "source: random()",
             "HeartbeatSeconds": undefined,
-            "Next": "Return { greeting: \`H ...",
+            "Next": "Assign rnd",
             "Resource": "[!lambda[random]arn]",
-            "ResultPath": "$.vars.rnd",
+            "ResultPath": "$.tmp.result",
             "Retry": Array [
               Object {
                 "BackoffRate": 2,

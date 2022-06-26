@@ -2,11 +2,7 @@
 import * as asl from "@ts2asl/asl-lib";
 
 export const choice = asl.deploy.asStateMachine(async (input: { condition?: any } = {}) =>{
-    let val = asl.pass({
-        name: "Assign val",
-        parameters: () => ({ a: "", b: "", c: "", d: "", e: "", f: "", g: "" }),
-        comment: "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }"
-    });
+    let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
     val.a = "before choice";
     asl.choice({
         choices: [

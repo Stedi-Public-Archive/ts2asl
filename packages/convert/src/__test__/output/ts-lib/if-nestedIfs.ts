@@ -27,11 +27,7 @@ export const ifElse = asl.deploy.asStateMachine(async () => {
 });
 
 export const nestedIfs = asl.deploy.asStateMachine(async () =>{
-    let val = asl.pass({
-        name: "Assign val",
-        parameters: () => ({ a: "", b: "", c: "", d: "", e: "", f: "", g: "" }),
-        comment: "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }"
-    });
+    let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
     val.a = "before";
     asl.typescriptIf({
         name: "If (true)",

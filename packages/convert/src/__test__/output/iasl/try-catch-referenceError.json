@@ -7,15 +7,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "result = \"\"",
       "expression": {
-        "stateName": "Assign result",
-        "parameters": {
-          "value": "",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "result = \"\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

@@ -7,30 +7,26 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "arr = [1, 2, 3]",
       "expression": {
-        "stateName": "Assign arr",
-        "parameters": {
-          "elements": [
-            {
-              "value": 1,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 2,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 3,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "arr = [1, 2, 3]",
-        "_syntaxKind": "asl-pass-state"
+        "elements": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -41,15 +37,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "result = \"\"",
       "expression": {
-        "stateName": "Assign result",
-        "parameters": {
-          "value": "",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "result = \"\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -181,6 +173,7 @@
         ],
         "_syntaxKind": "function"
       },
+      "source": "for (const item of arr) {\n    switch (item) {\n      case 1:\n        result = `${result}one`;\n        break;\n      case 2:\n      default:\n        result = `${result}not-one`;\n        break;\n    }\n  }",
       "_syntaxKind": "for-each"
     },
     {

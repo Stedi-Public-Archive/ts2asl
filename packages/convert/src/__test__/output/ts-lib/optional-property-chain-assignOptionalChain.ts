@@ -12,15 +12,7 @@ export const returnLongerChain = asl.deploy.asStateMachine(async () => {
 });
 
 export const assignOptionalChain = asl.deploy.asStateMachine(async () =>{
-    const obj = asl.pass({
-        name: "Assign obj",
-        parameters: () => ({ name: "jim" }),
-        comment: "obj = { name: \"jim\" }"
-    });
-    const name = asl.pass({
-        name: "Assign name",
-        parameters: () => obj?.name,
-        comment: "name = obj?.name"
-    });
+    const obj = { name: "jim" };
+    const name = obj?.name;
     return name;
 });

@@ -61,14 +61,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign result.a"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "jim",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign result.a"
     },
     "Assign result.a": {
@@ -118,14 +118,14 @@
     },
     "Conditional True_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign result.b"
     },
     "Conditional False_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "jim",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign result.b"
     },
     "Assign result.b": {

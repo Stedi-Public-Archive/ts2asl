@@ -27,6 +27,13 @@ describe("when transpiling simple statements", () => {
             "ResultPath": "$.vars.result",
             "Type": "Pass",
           },
+          "Assign result_1": Object {
+            "Comment": undefined,
+            "InputPath": "$.tmp.result",
+            "Next": "While Condition",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
           "Initialize": Object {
             "Next": "Assign result",
             "Parameters": Object {
@@ -61,9 +68,9 @@ describe("when transpiling simple statements", () => {
           "isDone()": Object {
             "Comment": "source: isDone()",
             "HeartbeatSeconds": undefined,
-            "Next": "While Condition",
+            "Next": "Assign result_1",
             "Resource": "[!lambda[isDone]arn]",
-            "ResultPath": "$.vars.result",
+            "ResultPath": "$.tmp.result",
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },

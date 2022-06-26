@@ -22,6 +22,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.bool",
+      "Comment": "source: bool = asl.convert.stringToBoolean(\"true\")",
       "Next": "If (bool === true)"
     },
     "If (bool === true)": {
@@ -48,6 +49,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.str",
+      "Comment": "source: str = asl.convert.booleanToString(bool)",
       "Next": "If (str === \"true\")"
     },
     "If (str === \"true\")": {

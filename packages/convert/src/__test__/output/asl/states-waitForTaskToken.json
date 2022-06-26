@@ -12,7 +12,7 @@
     },
     "Human Approval": {
       "Type": "Task",
-      "ResultPath": "$.vars.result",
+      "ResultPath": "$.tmp.result",
       "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
       "Parameters": {
         "FunctionName": "sendApprovalEmail",
@@ -21,6 +21,13 @@
           "request.$": "$.vars"
         }
       },
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result: { action: \"approve\" | \"reject\" } = awa ...",
       "End": true
     }
   }

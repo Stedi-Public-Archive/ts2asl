@@ -21,10 +21,6 @@ export const nestedConditional = asl.deploy.asStateMachine(async (args: { name?:
 });
 
 export const conditionalWithinStringFormat = asl.deploy.asStateMachine(async (args: { name?: string; }) =>{
-    const obj = asl.pass({
-        name: "Assign obj",
-        parameters: () => ({ name: "jim" }),
-        comment: "obj = { name: \"jim\" }"
-    });
+    const obj = { name: "jim" };
     return asl.states.format("hello: {}", obj ? obj.name : "jim");
 });

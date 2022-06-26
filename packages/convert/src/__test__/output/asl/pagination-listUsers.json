@@ -19,12 +19,19 @@
     },
     "List Users": {
       "Type": "Task",
-      "ResultPath": "$.vars.response",
+      "ResultPath": "$.tmp.result",
       "Resource": "arn:aws:states:::aws-sdk:iam:listUsers",
       "Parameters": {
         "PathPrefix": "/path",
         "Marker.$": "$.vars.marker"
       },
+      "Next": "Assign response"
+    },
+    "Assign response": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.response",
+      "Comment": "source: response = await asl.sdkIAMListUsers({ name: \" ...",
       "Next": "Foreach Initialize"
     },
     "Foreach Initialize": {
@@ -112,14 +119,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.response.Marker",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign marker_1"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign marker_1"
     },
     "Assign marker_1": {

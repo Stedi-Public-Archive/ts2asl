@@ -108,6 +108,572 @@ describe("when converting variable-assignments", () => {
       }
     `);
   });
+  it("then typeOfExpressions can be converted to asl", async () => {
+    expect(converted.typeOfExpressions.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign _null": Object {
+            "Comment": "source: _null = typeof null",
+            "InputPath": "$.tmp.result",
+            "Next": "If (str === \\"string\\" && ...",
+            "ResultPath": "$.vars._null",
+            "Type": "Pass",
+          },
+          "Assign bool": Object {
+            "Comment": "source: bool = typeof true",
+            "InputPath": "$.tmp.result",
+            "Next": "Pass_3",
+            "ResultPath": "$.vars.bool",
+            "Type": "Pass",
+          },
+          "Assign num": Object {
+            "Comment": "source: num = typeof 123",
+            "InputPath": "$.tmp.result",
+            "Next": "Pass_2",
+            "ResultPath": "$.vars.num",
+            "Type": "Pass",
+          },
+          "Assign object": Object {
+            "Comment": "source: object = typeof { str, num, bool }",
+            "InputPath": "$.tmp.result",
+            "Next": "Parallel_4",
+            "ResultPath": "$.vars.object",
+            "Type": "Pass",
+          },
+          "Assign str": Object {
+            "Comment": "source: str = typeof \\"abcdef\\"",
+            "InputPath": "$.tmp.result",
+            "Next": "Pass_1",
+            "ResultPath": "$.vars.str",
+            "Type": "Pass",
+          },
+          "Assign undef": Object {
+            "Comment": "source: undef = typeof undefined",
+            "InputPath": "$.tmp.result",
+            "Next": "Parallel_5",
+            "ResultPath": "$.vars.undef",
+            "Type": "Pass",
+          },
+          "If (str === \\"string\\" && ...": Object {
+            "Choices": Array [
+              Object {
+                "And": Array [
+                  Object {
+                    "And": Array [
+                      Object {
+                        "And": Array [
+                          Object {
+                            "And": Array [
+                              Object {
+                                "And": Array [
+                                  Object {
+                                    "StringEquals": "string",
+                                    "Variable": "$.vars.str",
+                                  },
+                                  Object {
+                                    "StringEquals": "number",
+                                    "Variable": "$.vars.num",
+                                  },
+                                ],
+                              },
+                              Object {
+                                "StringEquals": "boolean",
+                                "Variable": "$.vars.bool",
+                              },
+                            ],
+                          },
+                          Object {
+                            "StringEquals": "object",
+                            "Variable": "$.vars.object",
+                          },
+                        ],
+                      },
+                      Object {
+                        "StringEquals": "undefined",
+                        "Variable": "$.vars.undef",
+                      },
+                    ],
+                  },
+                  Object {
+                    "StringEquals": "object",
+                    "Variable": "$.vars._null",
+                  },
+                ],
+                "Next": "Return \\"ok\\"",
+              },
+            ],
+            "Comment": "source: if (str === \\"string\\" && num === \\"number\\" && bo ...",
+            "Default": "Return \\"not ok\\"",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "Pass",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Parallel": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "Typeof rhs",
+                "States": Object {
+                  "Evaluate to \\"boolean\\"": Object {
+                    "End": true,
+                    "Result": "boolean",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"number\\"": Object {
+                    "End": true,
+                    "Result": "number",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"object\\"": Object {
+                    "End": true,
+                    "Result": "object",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"string\\"": Object {
+                    "End": true,
+                    "Result": "string",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"undefined\\"": Object {
+                    "End": true,
+                    "Result": "undefined",
+                    "Type": "Pass",
+                  },
+                  "Typeof rhs": Object {
+                    "Choices": Array [
+                      Object {
+                        "IsPresent": false,
+                        "Next": "Evaluate to \\"undefined\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsNull": true,
+                        "Next": "Evaluate to \\"object\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsNumeric": true,
+                        "Next": "Evaluate to \\"number\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsString": true,
+                        "Next": "Evaluate to \\"string\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsBoolean": true,
+                        "Next": "Evaluate to \\"boolean\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                    ],
+                    "Default": "Evaluate to \\"object\\"",
+                    "Type": "Choice",
+                  },
+                },
+              },
+            ],
+            "InputPath": "$",
+            "Next": "Assign str",
+            "ResultPath": "$.tmp.result",
+            "Type": "Parallel",
+          },
+          "Parallel_1": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "Typeof rhs",
+                "States": Object {
+                  "Evaluate to \\"boolean\\"": Object {
+                    "End": true,
+                    "Result": "boolean",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"number\\"": Object {
+                    "End": true,
+                    "Result": "number",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"object\\"": Object {
+                    "End": true,
+                    "Result": "object",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"string\\"": Object {
+                    "End": true,
+                    "Result": "string",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"undefined\\"": Object {
+                    "End": true,
+                    "Result": "undefined",
+                    "Type": "Pass",
+                  },
+                  "Typeof rhs": Object {
+                    "Choices": Array [
+                      Object {
+                        "IsPresent": false,
+                        "Next": "Evaluate to \\"undefined\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsNull": true,
+                        "Next": "Evaluate to \\"object\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsNumeric": true,
+                        "Next": "Evaluate to \\"number\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsString": true,
+                        "Next": "Evaluate to \\"string\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsBoolean": true,
+                        "Next": "Evaluate to \\"boolean\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                    ],
+                    "Default": "Evaluate to \\"object\\"",
+                    "Type": "Choice",
+                  },
+                },
+              },
+            ],
+            "InputPath": "$",
+            "Next": "Assign num",
+            "ResultPath": "$.tmp.result",
+            "Type": "Parallel",
+          },
+          "Parallel_2": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "Typeof rhs",
+                "States": Object {
+                  "Evaluate to \\"boolean\\"": Object {
+                    "End": true,
+                    "Result": "boolean",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"number\\"": Object {
+                    "End": true,
+                    "Result": "number",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"object\\"": Object {
+                    "End": true,
+                    "Result": "object",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"string\\"": Object {
+                    "End": true,
+                    "Result": "string",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"undefined\\"": Object {
+                    "End": true,
+                    "Result": "undefined",
+                    "Type": "Pass",
+                  },
+                  "Typeof rhs": Object {
+                    "Choices": Array [
+                      Object {
+                        "IsPresent": false,
+                        "Next": "Evaluate to \\"undefined\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsNull": true,
+                        "Next": "Evaluate to \\"object\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsNumeric": true,
+                        "Next": "Evaluate to \\"number\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsString": true,
+                        "Next": "Evaluate to \\"string\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsBoolean": true,
+                        "Next": "Evaluate to \\"boolean\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                    ],
+                    "Default": "Evaluate to \\"object\\"",
+                    "Type": "Choice",
+                  },
+                },
+              },
+            ],
+            "InputPath": "$",
+            "Next": "Assign bool",
+            "ResultPath": "$.tmp.result",
+            "Type": "Parallel",
+          },
+          "Parallel_3": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "Typeof rhs",
+                "States": Object {
+                  "Evaluate to \\"boolean\\"": Object {
+                    "End": true,
+                    "Result": "boolean",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"number\\"": Object {
+                    "End": true,
+                    "Result": "number",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"object\\"": Object {
+                    "End": true,
+                    "Result": "object",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"string\\"": Object {
+                    "End": true,
+                    "Result": "string",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"undefined\\"": Object {
+                    "End": true,
+                    "Result": "undefined",
+                    "Type": "Pass",
+                  },
+                  "Typeof rhs": Object {
+                    "Choices": Array [
+                      Object {
+                        "IsPresent": false,
+                        "Next": "Evaluate to \\"undefined\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsNull": true,
+                        "Next": "Evaluate to \\"object\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsNumeric": true,
+                        "Next": "Evaluate to \\"number\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsString": true,
+                        "Next": "Evaluate to \\"string\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                      Object {
+                        "IsBoolean": true,
+                        "Next": "Evaluate to \\"boolean\\"",
+                        "Variable": "$.tmp.var",
+                      },
+                    ],
+                    "Default": "Evaluate to \\"object\\"",
+                    "Type": "Choice",
+                  },
+                },
+              },
+            ],
+            "InputPath": "$",
+            "Next": "Assign object",
+            "ResultPath": "$.tmp.result",
+            "Type": "Parallel",
+          },
+          "Parallel_4": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "Typeof rhs",
+                "States": Object {
+                  "Evaluate to \\"boolean\\"": Object {
+                    "End": true,
+                    "Result": "boolean",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"number\\"": Object {
+                    "End": true,
+                    "Result": "number",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"object\\"": Object {
+                    "End": true,
+                    "Result": "object",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"string\\"": Object {
+                    "End": true,
+                    "Result": "string",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"undefined\\"": Object {
+                    "End": true,
+                    "Result": "undefined",
+                    "Type": "Pass",
+                  },
+                  "Typeof rhs": Object {
+                    "Choices": Array [
+                      Object {
+                        "IsPresent": false,
+                        "Next": "Evaluate to \\"undefined\\"",
+                        "Variable": "$._undefined",
+                      },
+                      Object {
+                        "IsNull": true,
+                        "Next": "Evaluate to \\"object\\"",
+                        "Variable": "$._undefined",
+                      },
+                      Object {
+                        "IsNumeric": true,
+                        "Next": "Evaluate to \\"number\\"",
+                        "Variable": "$._undefined",
+                      },
+                      Object {
+                        "IsString": true,
+                        "Next": "Evaluate to \\"string\\"",
+                        "Variable": "$._undefined",
+                      },
+                      Object {
+                        "IsBoolean": true,
+                        "Next": "Evaluate to \\"boolean\\"",
+                        "Variable": "$._undefined",
+                      },
+                    ],
+                    "Default": "Evaluate to \\"object\\"",
+                    "Type": "Choice",
+                  },
+                },
+              },
+            ],
+            "InputPath": "$",
+            "Next": "Assign undef",
+            "ResultPath": "$.tmp.result",
+            "Type": "Parallel",
+          },
+          "Parallel_5": Object {
+            "Branches": Array [
+              Object {
+                "StartAt": "Typeof rhs",
+                "States": Object {
+                  "Evaluate to \\"boolean\\"": Object {
+                    "End": true,
+                    "Result": "boolean",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"number\\"": Object {
+                    "End": true,
+                    "Result": "number",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"object\\"": Object {
+                    "End": true,
+                    "Result": "object",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"string\\"": Object {
+                    "End": true,
+                    "Result": "string",
+                    "Type": "Pass",
+                  },
+                  "Evaluate to \\"undefined\\"": Object {
+                    "End": true,
+                    "Result": "undefined",
+                    "Type": "Pass",
+                  },
+                  "Typeof rhs": Object {
+                    "Choices": Array [
+                      Object {
+                        "IsPresent": false,
+                        "Next": "Evaluate to \\"undefined\\"",
+                        "Variable": "$._undefined",
+                      },
+                      Object {
+                        "IsNull": true,
+                        "Next": "Evaluate to \\"object\\"",
+                        "Variable": "$._undefined",
+                      },
+                      Object {
+                        "IsNumeric": true,
+                        "Next": "Evaluate to \\"number\\"",
+                        "Variable": "$._undefined",
+                      },
+                      Object {
+                        "IsString": true,
+                        "Next": "Evaluate to \\"string\\"",
+                        "Variable": "$._undefined",
+                      },
+                      Object {
+                        "IsBoolean": true,
+                        "Next": "Evaluate to \\"boolean\\"",
+                        "Variable": "$._undefined",
+                      },
+                    ],
+                    "Default": "Evaluate to \\"object\\"",
+                    "Type": "Choice",
+                  },
+                },
+              },
+            ],
+            "InputPath": "$",
+            "Next": "Assign _null",
+            "ResultPath": "$.tmp.result",
+            "Type": "Parallel",
+          },
+          "Pass": Object {
+            "Next": "Parallel",
+            "Result": "abcdef",
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Pass_1": Object {
+            "Next": "Parallel_1",
+            "Result": 123,
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Pass_2": Object {
+            "Next": "Parallel_2",
+            "Result": true,
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Pass_3": Object {
+            "Next": "Parallel_3",
+            "Parameters": Object {
+              "bool.$": "$.vars.bool",
+              "num.$": "$.vars.num",
+              "str.$": "$.vars.str",
+            },
+            "ResultPath": "$.tmp.var",
+            "Type": "Pass",
+          },
+          "Return \\"not ok\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "not ok",
+            "Type": "Pass",
+          },
+          "Return \\"ok\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "ok",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
   it("then arrayWithIdentifiers can be converted to asl", async () => {
     expect(converted.arrayWithIdentifiers.asl).toMatchInlineSnapshot(`
       Object {
@@ -343,28 +909,28 @@ describe("when converting variable-assignments", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign arr": Object {
-            "Comment": undefined,
+            "Comment": "source: arr = asl.states.array(str, num, combined)",
             "InputPath": "$.tmp.eval.value",
             "Next": "Return arr",
             "ResultPath": "$.vars.arr",
             "Type": "Pass",
           },
           "Assign combined": Object {
-            "Comment": undefined,
+            "Comment": "source: combined = asl.states.format(\\"1: {}\\\\n 2: {}\\",  ...",
             "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate Array($.vars.str ...",
             "ResultPath": "$.vars.combined",
             "Type": "Pass",
           },
           "Assign num": Object {
-            "Comment": undefined,
+            "Comment": "source: num = asl.states.format(\\"answer is {}\\", 42)",
             "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate Format('1: {} 2 ...",
             "ResultPath": "$.vars.num",
             "Type": "Pass",
           },
           "Assign str": Object {
-            "Comment": undefined,
+            "Comment": "source: str = asl.states.format(\\"hello {}\\", \\"world\\")",
             "InputPath": "$.tmp.eval.value",
             "Next": "Evaluate Format('answer i ...",
             "ResultPath": "$.vars.str",

@@ -7,6 +7,7 @@
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
+      "source": "num = asl.convert.stringToNumber(\"42\")",
       "expression": {
         "arguments": [
           {
@@ -46,6 +47,7 @@
               "type": "string",
               "_syntaxKind": "identifier"
             },
+            "source": "str = asl.convert.numberToString(num)",
             "expression": {
               "arguments": [
                 {

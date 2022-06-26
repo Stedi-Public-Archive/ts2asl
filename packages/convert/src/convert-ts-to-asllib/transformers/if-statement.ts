@@ -15,7 +15,7 @@ export const ifStatementTransformer = (converterOptions: ConverterOptions) => <T
       const condition = TransformUtil.createWrappedExpression("condition", ensureBooleanExpression(node.expression))
       const then = TransformUtil.createNamedBlock("then", convertToBlock(node.thenStatement));
       const else_ = TransformUtil.createNamedBlock("else", node.elseStatement ? convertToBlock(node.elseStatement) : undefined);
-      const comment = TransformUtil.createComment(node);
+      const comment = TransformUtil.createCommentPropertyAssignment(node);
       const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "If (%s)", node.expression);
 
       const assignments: ts.PropertyAssignment[] = []

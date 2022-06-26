@@ -7,40 +7,36 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "data = {\n    num: 42,\n    text: \"text\",\n    undefined: undefined,\n    null: null,\n    timestamp: \"2016-03-14T01:59:00Z\"\n  }",
       "expression": {
-        "stateName": "Assign data",
-        "parameters": {
-          "properties": {
-            "num": {
-              "value": 42,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            "text": {
-              "value": "text",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "undefined": {
-              "value": null,
-              "type": "null",
-              "_syntaxKind": "literal"
-            },
-            "null": {
-              "value": null,
-              "type": "null",
-              "_syntaxKind": "literal"
-            },
-            "timestamp": {
-              "value": "2016-03-14T01:59:00Z",
-              "type": "string",
-              "_syntaxKind": "literal"
-            }
+        "properties": {
+          "num": {
+            "value": 42,
+            "type": "numeric",
+            "_syntaxKind": "literal"
           },
-          "_syntaxKind": "literal-object"
+          "text": {
+            "value": "text",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "undefined": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          },
+          "null": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          },
+          "timestamp": {
+            "value": "2016-03-14T01:59:00Z",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
         },
-        "source": "data = {\n    num: 42,\n    text: \"text\",\n    undefined: undefined,\n    null: null,\n    timestamp: \"2016-03-14T01:59:00Z\"\n  }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },

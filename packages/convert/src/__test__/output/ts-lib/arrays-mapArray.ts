@@ -9,11 +9,7 @@ export const serializeArray = asl.deploy.asStateMachine(async () => {
 });
 
 export const mapArray = asl.deploy.asStateMachine(async () =>{
-    let myArray = asl.pass({
-        name: "Assign myArray",
-        parameters: () => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        comment: "myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-    });
+    let myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return asl.map({
         name: "myArray.map => x",
         items: () => myArray,

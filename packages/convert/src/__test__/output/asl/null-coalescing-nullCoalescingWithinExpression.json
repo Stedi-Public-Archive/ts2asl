@@ -78,14 +78,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.tmp.var",
       "Next": "Return"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "you",
+      "ResultPath": "$.tmp.var",
       "Next": "Return"
     },
     "Return": {

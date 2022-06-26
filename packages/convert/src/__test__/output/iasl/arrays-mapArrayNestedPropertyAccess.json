@@ -7,35 +7,31 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "source = [{ obj: { num: 23, str: \"str\" } }]",
       "expression": {
-        "stateName": "Assign source",
-        "parameters": {
-          "elements": [
-            {
-              "properties": {
-                "obj": {
-                  "properties": {
-                    "num": {
-                      "value": 23,
-                      "type": "numeric",
-                      "_syntaxKind": "literal"
-                    },
-                    "str": {
-                      "value": "str",
-                      "type": "string",
-                      "_syntaxKind": "literal"
-                    }
+        "elements": [
+          {
+            "properties": {
+              "obj": {
+                "properties": {
+                  "num": {
+                    "value": 23,
+                    "type": "numeric",
+                    "_syntaxKind": "literal"
                   },
-                  "_syntaxKind": "literal-object"
-                }
-              },
-              "_syntaxKind": "literal-object"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "source = [{ obj: { num: 23, str: \"str\" } }]",
-        "_syntaxKind": "asl-pass-state"
+                  "str": {
+                    "value": "str",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -46,6 +42,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "num = source.map(x => x.obj.num)",
       "expression": {
         "identifier": "source",
         "type": "object",
@@ -61,6 +58,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "str = source.map(x => x.obj.str)",
       "expression": {
         "identifier": "source",
         "type": "object",

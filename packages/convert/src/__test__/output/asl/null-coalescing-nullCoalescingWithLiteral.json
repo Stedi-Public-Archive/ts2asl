@@ -23,14 +23,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Return"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "jim",
+      "ResultPath": "$.tmp.var",
       "Next": "Return"
     },
     "Return": {

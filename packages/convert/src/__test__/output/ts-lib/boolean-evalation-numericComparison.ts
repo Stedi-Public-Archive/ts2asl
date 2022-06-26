@@ -40,16 +40,8 @@ export const main = asl.deploy.asStateMachine(async () => {
 });
 
 export const numericComparison = asl.deploy.asStateMachine(async () =>{
-    const condition = asl.pass({
-        name: "Assign condition",
-        parameters: () => 42,
-        comment: "condition = 42"
-    });
-    const items = asl.pass({
-        name: "Assign items",
-        parameters: () => [2, 42, 3],
-        comment: "items = [2, 42, 3]"
-    });
+    const condition = 42;
+    const items = [2, 42, 3];
     const listWithReturned = asl.map({
         name: "items.map => item",
         items: () => items,

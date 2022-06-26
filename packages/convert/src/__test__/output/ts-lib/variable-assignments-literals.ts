@@ -2,43 +2,36 @@
 import * as asl from "@ts2asl/asl-lib"
 
 export const literals = asl.deploy.asStateMachine(async () =>{
-    let str = asl.pass({
-        name: "Assign str",
-        parameters: () => "string",
-        comment: "str = \"string\""
-    });
-    let num = asl.pass({
-        name: "Assign num",
-        parameters: () => 42,
-        comment: "num = 42"
-    });
-    let bool = asl.pass({
-        name: "Assign bool",
-        parameters: () => true,
-        comment: "bool = true || false"
-    });
-    let object = asl.pass({
-        name: "Assign object",
-        parameters: () => ({ str, num, bool }),
-        comment: "object = { str, num, bool }"
-    });
-    let object2 = asl.pass({
-        name: "Assign object2",
-        parameters: () => ({ str: "string", num: 33, inner: object }),
-        comment: "object2 = { str: \"string\", num: 33, inner: object }"
-    });
-    let arrayOfNumbers = asl.pass({
-        name: "Assign arrayOfNumbers",
-        parameters: () => [1, 2, 3, 4, 5],
-        comment: "arrayOfNumbers = [1, 2, 3, 4, 5]"
-    });
-    let arrayOfObjects = asl.pass({
-        name: "Assign arrayOfObjects",
-        parameters: () => [{ left: 1, right: 2 }, { left: 3, right: 4 }, { left: 5, right: 6 }],
-        comment: "arrayOfObjects = [{ left: 1, right: 2 }, { left: 3, right: 4 }, { left: 5, right: 6 }]"
-    });
+    let str = "string";
+    let num = 42;
+    let bool = true;
+    let object = { str, num, bool };
+    let object2 = { str: "string", num: 33, inner: object };
+    let arrayOfNumbers = [1, 2, 3, 4, 5];
+    let arrayOfObjects = [{ left: 1, right: 2 }, { left: 3, right: 4 }, { left: 5, right: 6 }];
     return { arrayOfNumbers, arrayOfObjects, object2 };
 });
+
+export const typeOfExpressions = asl.deploy.asStateMachine(async () => {
+  let str = typeof "abcdef";
+  let num = typeof 123;
+  let bool = typeof true;
+  let object = typeof { str, num, bool };
+  let undef = typeof undefined;
+  let _null = typeof null;
+  
+  if (str === "string" && 
+      num === "number" && 
+      bool === "boolean" && 
+      object === "object" && 
+      undef === "undefined" && 
+      _null === "object") {
+        return "ok"
+      }
+
+  return "not ok";
+});
+
 
 export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
   let str = "string";
@@ -80,4 +73,3 @@ export const functions = asl.deploy.asStateMachine(async () => {
   let arr = asl.states.array(str, num, combined);
   return arr;
 });
-

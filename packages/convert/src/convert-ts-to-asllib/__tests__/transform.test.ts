@@ -20,16 +20,8 @@ describe("when converting source files", () => {
     const output = testTransform(code);
 
     expect(output).toMatchInlineSnapshot(`
-      "let completedActions: string[] = asl.pass({
-          name: \\"Assign completedActions\\",
-          parameters: () => [],
-          comment: \\"completedActions: string[] = []\\"
-      });
-      let getActionsArgs = asl.pass({
-          name: \\"Assign getActionsArgs\\",
-          parameters: () => ({ targetState: desiredStateTemplate, completedActions }),
-          comment: \\"getActionsArgs = { targetState: desiredStateTemplate, completedActions }\\"
-      });
+      "let completedActions: string[] = [];
+      let getActionsArgs = { targetState: desiredStateTemplate, completedActions };
       let remainingActions = await asl.typescriptInvoke({
           name: \\"getNextActions(getNextAct ...\\",
           resource: getNextActions,
@@ -72,7 +64,8 @@ describe("when converting source files", () => {
                   },
                   comment: \\"if (results[0].status !== \\\\\\"failed\\\\\\") {\\\\n      remainingActions = await getNextActions(getActionsArgs);\\\\n    }\\"
               })
-          }
+          },
+          comment: \\"while (remainingActions.length !== 0) {\\\\n    const results = await performAction(getActionsArgs);\\\\n    if (results[0].status === \\\\\\"failed\\\\\\") {\\\\n      throw new Error(\\\\\\"task failed\\\\\\")\\\\n    }\\\\n    if (results[0].status !== \\\\\\"failed\\\\\\") {\\\\n      remainingActions = await getNextActions(getActionsArgs);\\\\n    }\\\\n  }\\"
       })"
     `);
   });

@@ -12,50 +12,46 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }",
       "expression": {
-        "stateName": "Assign val",
-        "parameters": {
-          "properties": {
-            "a": {
-              "value": "",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "b": {
-              "value": "",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "c": {
-              "value": "",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "d": {
-              "value": "",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "e": {
-              "value": "",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "f": {
-              "value": "",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "g": {
-              "value": "",
-              "type": "string",
-              "_syntaxKind": "literal"
-            }
+        "properties": {
+          "a": {
+            "value": "",
+            "type": "string",
+            "_syntaxKind": "literal"
           },
-          "_syntaxKind": "literal-object"
+          "b": {
+            "value": "",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "c": {
+            "value": "",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "d": {
+            "value": "",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "e": {
+            "value": "",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "f": {
+            "value": "",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "g": {
+            "value": "",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
         },
-        "source": "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },

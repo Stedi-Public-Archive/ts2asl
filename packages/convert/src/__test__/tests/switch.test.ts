@@ -675,6 +675,13 @@ describe("when converting switch", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign createAccount": Object {
+            "Comment": "source: createAccount = await asl.sdkOrganizationsCrea ...",
+            "InputPath": "$.tmp.result",
+            "Next": "Assign creationStatus",
+            "ResultPath": "$.vars.createAccount",
+            "Type": "Pass",
+          },
           "Assign creationStatus": Object {
             "Comment": "source: creationStatus: string | undefined = undefined",
             "InputPath": "$._undefined",
@@ -687,6 +694,13 @@ describe("when converting switch", () => {
             "InputPath": "$.tmp.var",
             "Next": "Switch (creationStatus)",
             "ResultPath": "$.vars.creationStatus",
+            "Type": "Pass",
+          },
+          "Assign describeResult": Object {
+            "Comment": "source: describeResult = await asl.sdkOrganizationsDes ...",
+            "InputPath": "$.tmp.result",
+            "Next": "Eval Conditional",
+            "ResultPath": "$.vars.describeResult",
             "Type": "Pass",
           },
           "Conditional False": Object {
@@ -728,25 +742,25 @@ describe("when converting switch", () => {
           "CreateAccount": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "Assign creationStatus",
+            "Next": "Assign createAccount",
             "Parameters": Object {
               "AccountName": "test",
               "Email": "something@email.com",
             },
             "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
-            "ResultPath": "$.vars.createAccount",
+            "ResultPath": "$.tmp.result",
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
           "DescribeCreateAccountStatus": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "Eval Conditional",
+            "Next": "Assign describeResult",
             "Parameters": Object {
               "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id",
             },
             "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
-            "ResultPath": "$.vars.describeResult",
+            "ResultPath": "$.tmp.result",
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },

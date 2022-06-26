@@ -42,14 +42,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign name"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Assign name"
     },
     "Assign name": {

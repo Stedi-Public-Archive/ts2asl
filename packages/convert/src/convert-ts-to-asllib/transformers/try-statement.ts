@@ -12,7 +12,7 @@ export const tryStatementTransformer = (converterOptions: ConverterOptions) => <
       const try_ = TransformUtil.createNamedBlock("try", node.tryBlock);
       const catch_ = TransformUtil.createCatchAllBlock(node.tryBlock, node.catchClause?.block, node.catchClause?.variableDeclaration?.name as ts.Identifier);
       const finally_ = TransformUtil.createNamedBlock("finally", node.finallyBlock);
-      const comment = TransformUtil.createComment(node);
+      const comment = TransformUtil.createCommentPropertyAssignment(node);
       let nameTemplate = "Try" + (catch_ ? " Catch" : "") + (finally_ ? " Finally" : "");
       const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, nameTemplate);
 

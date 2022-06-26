@@ -12,7 +12,7 @@
     },
     "getEntries()": {
       "Type": "Task",
-      "ResultPath": "$.vars.entries",
+      "ResultPath": "$.tmp.result",
       "Resource": "[!lambda[getEntries]arn]",
       "Comment": "source: getEntries()",
       "Retry": [
@@ -27,6 +27,13 @@
           "BackoffRate": 2
         }
       ],
+      "Next": "Assign entries"
+    },
+    "Assign entries": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.entries",
+      "Comment": "source: entries = await getEntries()",
       "Next": "Map"
     },
     "Map": {

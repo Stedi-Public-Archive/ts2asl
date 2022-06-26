@@ -1,5 +1,4 @@
 import { testTransform } from "../../__tests__/test-transform";
-import { variableStatementTransformer } from "../variable-statement";
 import { whileStatementTransformer } from "../while-statement";
 
 describe("when converting while statements", () => {

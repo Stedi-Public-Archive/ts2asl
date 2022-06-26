@@ -23,6 +23,13 @@ describe("when converting parallel", () => {
               Object {
                 "StartAt": "worker()",
                 "States": Object {
+                  "Assign": Object {
+                    "Comment": undefined,
+                    "InputPath": "$.tmp.result",
+                    "Next": "Return",
+                    "ResultPath": "$.vars.return_var",
+                    "Type": "Pass",
+                  },
                   "Return": Object {
                     "Comment": undefined,
                     "End": true,
@@ -32,9 +39,9 @@ describe("when converting parallel", () => {
                   "worker()": Object {
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
-                    "Next": "Return",
+                    "Next": "Assign",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.vars.return_var",
+                    "ResultPath": "$.tmp.result",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -55,6 +62,13 @@ describe("when converting parallel", () => {
               Object {
                 "StartAt": "worker()_1",
                 "States": Object {
+                  "Assign_1": Object {
+                    "Comment": undefined,
+                    "InputPath": "$.tmp.result",
+                    "Next": "Return_1",
+                    "ResultPath": "$.vars.return_var",
+                    "Type": "Pass",
+                  },
                   "Return_1": Object {
                     "Comment": undefined,
                     "End": true,
@@ -64,9 +78,9 @@ describe("when converting parallel", () => {
                   "worker()_1": Object {
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
-                    "Next": "Return_1",
+                    "Next": "Assign_1",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.vars.return_var",
+                    "ResultPath": "$.tmp.result",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -137,6 +151,13 @@ describe("when converting parallel", () => {
               Object {
                 "StartAt": "worker(enclosedVar1)",
                 "States": Object {
+                  "Assign": Object {
+                    "Comment": undefined,
+                    "InputPath": "$.tmp.result",
+                    "Next": "Return",
+                    "ResultPath": "$.vars.return_var",
+                    "Type": "Pass",
+                  },
                   "Return": Object {
                     "Comment": undefined,
                     "End": true,
@@ -147,9 +168,9 @@ describe("when converting parallel", () => {
                     "Comment": "source: worker(enclosedVar1)",
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar1",
-                    "Next": "Return",
+                    "Next": "Assign",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.vars.return_var",
+                    "ResultPath": "$.tmp.result",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -170,6 +191,13 @@ describe("when converting parallel", () => {
               Object {
                 "StartAt": "worker(enclosedVar2)",
                 "States": Object {
+                  "Assign_1": Object {
+                    "Comment": undefined,
+                    "InputPath": "$.tmp.result",
+                    "Next": "Return_1",
+                    "ResultPath": "$.vars.return_var",
+                    "Type": "Pass",
+                  },
                   "Return_1": Object {
                     "Comment": undefined,
                     "End": true,
@@ -180,9 +208,9 @@ describe("when converting parallel", () => {
                     "Comment": "source: worker(enclosedVar2)",
                     "HeartbeatSeconds": undefined,
                     "InputPath": "$.vars.enclosedVar2",
-                    "Next": "Return_1",
+                    "Next": "Assign_1",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.vars.return_var",
+                    "ResultPath": "$.tmp.result",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,

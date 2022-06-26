@@ -18,7 +18,7 @@
           "States": {
             "worker()": {
               "Type": "Task",
-              "ResultPath": "$.vars.return_var",
+              "ResultPath": "$.tmp.result",
               "Resource": "[!lambda[worker]arn]",
               "Comment": "source: worker()",
               "Retry": [
@@ -33,6 +33,12 @@
                   "BackoffRate": 2
                 }
               ],
+              "Next": "Assign"
+            },
+            "Assign": {
+              "Type": "Pass",
+              "InputPath": "$.tmp.result",
+              "ResultPath": "$.vars.return_var",
               "Next": "Return"
             },
             "Return": {
@@ -47,7 +53,7 @@
           "States": {
             "worker()_1": {
               "Type": "Task",
-              "ResultPath": "$.vars.return_var",
+              "ResultPath": "$.tmp.result",
               "Resource": "[!lambda[worker]arn]",
               "Comment": "source: worker()",
               "Retry": [
@@ -62,6 +68,12 @@
                   "BackoffRate": 2
                 }
               ],
+              "Next": "Assign_1"
+            },
+            "Assign_1": {
+              "Type": "Pass",
+              "InputPath": "$.tmp.result",
+              "ResultPath": "$.vars.return_var",
               "Next": "Return_1"
             },
             "Return_1": {

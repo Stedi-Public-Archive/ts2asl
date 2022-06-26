@@ -30,6 +30,13 @@ describe("when converting pagination", () => {
             "ResultPath": "$.vars.marker",
             "Type": "Pass",
           },
+          "Assign response": Object {
+            "Comment": "source: response = await asl.sdkIAMListUsers({ name: \\" ...",
+            "InputPath": "$.tmp.result",
+            "Next": "Foreach Initialize",
+            "ResultPath": "$.vars.response",
+            "Type": "Pass",
+          },
           "Conditional False": Object {
             "InputPath": "$._undefined",
             "Next": "Assign marker_1",
@@ -147,13 +154,13 @@ describe("when converting pagination", () => {
           "List Users": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "Foreach Initialize",
+            "Next": "Assign response",
             "Parameters": Object {
               "Marker.$": "$.vars.marker",
               "PathPrefix": "/path",
             },
             "Resource": "arn:aws:states:::aws-sdk:iam:listUsers",
-            "ResultPath": "$.vars.response",
+            "ResultPath": "$.tmp.result",
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },

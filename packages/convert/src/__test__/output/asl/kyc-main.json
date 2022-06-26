@@ -8,9 +8,9 @@
         "vars.$": "$$.Execution.Input",
         "_undefined": null
       },
-      "Next": "Assign result"
+      "Next": "Parallel"
     },
-    "Assign result": {
+    "Parallel": {
       "Type": "Parallel",
       "Branches": [
         {
@@ -18,7 +18,7 @@
           "States": {
             "performIdentifyCheck()": {
               "Type": "Task",
-              "ResultPath": "$.vars.return_var",
+              "ResultPath": "$.tmp.result",
               "Resource": "[!lambda[performIdentifyCheck]arn]",
               "Comment": "source: performIdentifyCheck()",
               "Retry": [
@@ -33,6 +33,12 @@
                   "BackoffRate": 2
                 }
               ],
+              "Next": "Assign"
+            },
+            "Assign": {
+              "Type": "Pass",
+              "InputPath": "$.tmp.result",
+              "ResultPath": "$.vars.return_var",
               "Next": "Return"
             },
             "Return": {
@@ -55,8 +61,15 @@
           }
         }
       ],
-      "ResultPath": "$.vars.result",
+      "ResultPath": "$.tmp.result",
       "Comment": "source: Promise.all([ performIdentifyCheck(), Promise. ...",
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result = await Promise.all([ performIdentifyCh ...",
       "Next": "PutEvents"
     },
     "PutEvents": {

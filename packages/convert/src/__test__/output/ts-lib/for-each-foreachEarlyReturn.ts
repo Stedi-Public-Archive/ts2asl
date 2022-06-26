@@ -52,11 +52,7 @@ export const foreachWithContinue = asl.deploy.asStateMachine(async () => {
 
 
 export const foreachEarlyReturn = asl.deploy.asStateMachine(async () =>{
-    const arr = asl.pass({
-        name: "Assign arr",
-        parameters: () => [1, 2, 3],
-        comment: "arr = [1, 2, 3]"
-    });
+    const arr = [1, 2, 3];
     asl.typescriptForeach({
         name: "For item Of arr",
         items: () => arr,
@@ -69,7 +65,8 @@ export const foreachEarlyReturn = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (item === 2) {\n      return `found ${item}!`; //returns \"found 2!\"\n    }"
             })
-        }
+        },
+        comment: "for (const item of arr) {\n    if (item === 2) {\n      return `found ${item}!`; //returns \"found 2!\"\n    }\n  }"
     })
     asl.fail({
         name: "Throw Error",

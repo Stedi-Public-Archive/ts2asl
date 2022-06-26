@@ -7,20 +7,16 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "val = { greeting: \"hello\" }",
       "expression": {
-        "stateName": "Assign val",
-        "parameters": {
-          "properties": {
-            "greeting": {
-              "value": "hello",
-              "type": "string",
-              "_syntaxKind": "literal"
-            }
-          },
-          "_syntaxKind": "literal-object"
+        "properties": {
+          "greeting": {
+            "value": "hello",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
         },
-        "source": "val = { greeting: \"hello\" }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },

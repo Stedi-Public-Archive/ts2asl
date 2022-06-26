@@ -10,11 +10,7 @@ export const simpleDoWhile = asl.deploy.asStateMachine(async () => {
 });
 
 export const simpleDoAlwaysFalse = asl.deploy.asStateMachine(async () =>{
-    let counter = asl.pass({
-        name: "Assign counter",
-        parameters: () => "",
-        comment: "counter = \"\""
-    });
+    let counter = "";
     asl.typescriptDoWhile({
         name: "Do While (false)",
         condition: () => false,

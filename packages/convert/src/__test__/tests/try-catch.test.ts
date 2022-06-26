@@ -161,7 +161,7 @@ describe("when converting try-catch", () => {
         "States": Object {
           "Assign arr": Object {
             "Comment": "source: arr = [1]",
-            "Next": "Assign withinTry",
+            "Next": "arr.map => x",
             "Result": Array [
               1,
             ],
@@ -169,6 +169,34 @@ describe("when converting try-catch", () => {
             "Type": "Pass",
           },
           "Assign withinTry": Object {
+            "Comment": "source: withinTry = arr.map(x => \\"succeeded\\")",
+            "InputPath": "$.tmp.result",
+            "Next": "Return withinTry[0]",
+            "ResultPath": "$.vars.withinTry",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign arr",
+            "Parameters": Object {
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return \\"it failed\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "it failed",
+            "Type": "Pass",
+          },
+          "Return withinTry[0]": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.withinTry[0]",
+            "Type": "Pass",
+          },
+          "arr.map => x": Object {
             "Catch": Array [
               Object {
                 "ErrorEquals": Array [
@@ -192,35 +220,14 @@ describe("when converting try-catch", () => {
               },
             },
             "MaxConcurrency": undefined,
-            "Next": "Return withinTry[0]",
+            "Next": "Assign withinTry",
             "Parameters": Object {
               "vars": Object {
                 "x.$": "$$.Map.Item.Value",
               },
             },
-            "ResultPath": "$.vars.withinTry",
+            "ResultPath": "$.tmp.result",
             "Type": "Map",
-          },
-          "Initialize": Object {
-            "Next": "Assign arr",
-            "Parameters": Object {
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Return \\"it failed\\"": Object {
-            "Comment": undefined,
-            "End": true,
-            "Result": "it failed",
-            "Type": "Pass",
-          },
-          "Return withinTry[0]": Object {
-            "Comment": undefined,
-            "End": true,
-            "InputPath": "$.vars.withinTry[0]",
-            "Type": "Pass",
           },
         },
       }

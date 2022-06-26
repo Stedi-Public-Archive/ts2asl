@@ -32,14 +32,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Eval Conditional_1"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Eval Conditional_1"
     },
     "Eval Conditional_1": {
@@ -55,14 +55,14 @@
     },
     "Conditional True_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$._undefined",
+      "ResultPath": "$.tmp.var",
       "Next": "Eval Conditional_2"
     },
     "Conditional False_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Eval Conditional_2"
     },
     "Eval Conditional_2": {
@@ -108,14 +108,14 @@
     },
     "Conditional True_2": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.tmp.var",
+      "ResultPath": "$.tmp.var",
       "Next": "Return"
     },
     "Conditional False_2": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "world",
+      "ResultPath": "$.tmp.var",
       "Next": "Return"
     },
     "Return": {

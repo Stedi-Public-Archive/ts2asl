@@ -70,14 +70,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Return \"hello\" + obj.name ..."
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "world",
+      "ResultPath": "$.tmp.var",
       "Next": "Return \"hello\" + obj.name ..."
     },
     "Return \"hello\" + obj.name ...": {

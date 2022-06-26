@@ -55,11 +55,7 @@ export const tryFinally = asl.deploy.asStateMachine(async () => {
 });
 
 export const tryCatchFinally = asl.deploy.asStateMachine(async () =>{
-    let result = asl.pass({
-        name: "Assign result",
-        parameters: () => "",
-        comment: "result = \"\""
-    });
+    let result = "";
     asl.typescriptTry({
         name: "Try Catch Finally",
         try: async () => {

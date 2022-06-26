@@ -7,35 +7,31 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "numbers = [0, 1, 2, 3]",
       "expression": {
-        "stateName": "Assign numbers",
-        "parameters": {
-          "elements": [
-            {
-              "value": 0,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 1,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 2,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 3,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "numbers = [0, 1, 2, 3]",
-        "_syntaxKind": "asl-pass-state"
+        "elements": [
+          {
+            "value": 0,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },

@@ -7,65 +7,61 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
       "expression": {
-        "stateName": "Assign myArray",
-        "parameters": {
-          "elements": [
-            {
-              "value": 1,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 2,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 3,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 4,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 5,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 6,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 7,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 8,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 9,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 10,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
-        "_syntaxKind": "asl-pass-state"
+        "elements": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 4,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 5,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 6,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 7,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 8,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 9,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 10,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },

@@ -1,12 +1,17 @@
 import * as asl from "@ts2asl/asl-lib";
 import { convertDeployExecute } from "../utility";
-const { literals, arrayWithIdentifiers, unassignedVariable, assignmentToUndefined, assignmentToNull, arrayIndexer, functions } = require("../resources/variable-assignments");
+const { literals, typeOfExpressions, arrayWithIdentifiers, unassignedVariable, assignmentToUndefined, assignmentToNull, arrayIndexer, functions } = require("../resources/variable-assignments");
 jest.setTimeout(99999999);
 
 describe("when converting variable-assignments", () => {
     it("will execute literals as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("variable-assignments", "literals");
         const resultFromNode = await literals({}, asl.testing.createTestContext({}));
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
+    it("will execute typeOfExpressions as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("variable-assignments", "typeOfExpressions");
+        const resultFromNode = await typeOfExpressions({}, asl.testing.createTestContext({}));
         expect(resultFromSfn).toEqual(resultFromNode);
     });
     it("will execute arrayWithIdentifiers as if it were node", async () => {

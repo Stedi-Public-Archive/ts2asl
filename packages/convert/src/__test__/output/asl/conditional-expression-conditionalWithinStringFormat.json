@@ -42,14 +42,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Evaluate Format('hello: { ..."
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "jim",
+      "ResultPath": "$.tmp.var",
       "Next": "Evaluate Format('hello: { ..."
     },
     "Evaluate Format('hello: { ...": {

@@ -40,7 +40,7 @@
     },
     "random()": {
       "Type": "Task",
-      "ResultPath": "$.vars.rnd",
+      "ResultPath": "$.tmp.result",
       "Resource": "[!lambda[random]arn]",
       "Comment": "source: random()",
       "Retry": [
@@ -55,6 +55,13 @@
           "BackoffRate": 2
         }
       ],
+      "Next": "Assign rnd"
+    },
+    "Assign rnd": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.rnd",
+      "Comment": "source: rnd = await random()",
       "Next": "Return { greeting: `H ..."
     },
     "Return { greeting: `H ...": {
