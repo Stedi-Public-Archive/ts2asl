@@ -6,13 +6,14 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
-      "Next": "getEntries()"
+      "Next": "Assign entries"
     },
-    "getEntries()": {
+    "Assign entries": {
       "Type": "Task",
-      "ResultPath": "$.tmp.result",
+      "ResultPath": "$.vars.entries",
       "Resource": "[!lambda[getEntries]arn]",
       "Comment": "source: getEntries()",
       "Retry": [
@@ -27,13 +28,6 @@
           "BackoffRate": 2
         }
       ],
-      "Next": "Assign entries"
-    },
-    "Assign entries": {
-      "Type": "Pass",
-      "InputPath": "$.tmp.result",
-      "ResultPath": "$.vars.entries",
-      "Comment": "source: entries = await getEntries()",
       "Next": "Map"
     },
     "Map": {

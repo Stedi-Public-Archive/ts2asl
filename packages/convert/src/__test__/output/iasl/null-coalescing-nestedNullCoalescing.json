@@ -11,7 +11,6 @@
       "expression": {
         "properties": {
           "name": {
-            "value": null,
             "type": "null",
             "_syntaxKind": "literal"
           }

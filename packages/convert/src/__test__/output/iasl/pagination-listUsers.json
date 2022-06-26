@@ -14,7 +14,6 @@
       },
       "source": "marker: string | undefined",
       "expression": {
-        "value": null,
         "type": "null",
         "_syntaxKind": "literal"
       },
@@ -129,7 +128,6 @@
                 "_syntaxKind": "identifier"
               },
               "whenFalse": {
-                "value": null,
                 "type": "null",
                 "_syntaxKind": "literal"
               },

@@ -11,17 +11,31 @@ describe("when converting hello-world", () => {
         "States": Object {
           "Assign input.name": Object {
             "Comment": undefined,
-            "Next": "random()",
+            "Next": "Assign rnd",
             "Result": "World",
             "ResultPath": "$.vars.name",
             "Type": "Pass",
           },
           "Assign rnd": Object {
-            "Comment": "source: rnd = await random()",
-            "InputPath": "$.tmp.result",
+            "Comment": "source: random()",
+            "HeartbeatSeconds": undefined,
             "Next": "Return { greeting: \`H ...",
+            "Resource": "[!lambda[random]arn]",
             "ResultPath": "$.vars.rnd",
-            "Type": "Pass",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
           "If (typeof input.name !== ...": Object {
             "Choices": Array [
@@ -42,12 +56,13 @@ describe("when converting hello-world", () => {
               },
             ],
             "Comment": "source: if (typeof input.name !== \\"string\\") { input.na ...",
-            "Default": "random()",
+            "Default": "Assign rnd",
             "Type": "Choice",
           },
           "Initialize": Object {
             "Next": "If (typeof input.name !== ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -62,27 +77,6 @@ describe("when converting hello-world", () => {
               "luckyNumber.$": "$.vars.rnd",
             },
             "Type": "Pass",
-          },
-          "random()": Object {
-            "Comment": "source: random()",
-            "HeartbeatSeconds": undefined,
-            "Next": "Assign rnd",
-            "Resource": "[!lambda[random]arn]",
-            "ResultPath": "$.tmp.result",
-            "Retry": Array [
-              Object {
-                "BackoffRate": 2,
-                "ErrorEquals": Array [
-                  "Lambda.ServiceException",
-                  "Lambda.AWSLambdaException",
-                  "Lambda.SdkClientException",
-                ],
-                "IntervalSeconds": 2,
-                "MaxAttempts": 6,
-              },
-            ],
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
           },
         },
       }

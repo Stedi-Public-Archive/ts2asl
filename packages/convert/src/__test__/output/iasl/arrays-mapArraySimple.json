@@ -147,7 +147,7 @@
         "identifier": "mappedArray",
         "type": "object",
         "_syntaxKind": "identifier",
-        "mapExpression": ".age"
+        "mapExpression": "age"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -163,7 +163,7 @@
         "identifier": "mappedArray",
         "type": "object",
         "_syntaxKind": "identifier",
-        "mapExpression": ".species"
+        "mapExpression": "species"
       },
       "_syntaxKind": "variable-assignment"
     },

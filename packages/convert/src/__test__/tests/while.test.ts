@@ -34,6 +34,7 @@ describe("when converting while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -116,6 +117,7 @@ describe("when converting while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -192,6 +194,7 @@ describe("when converting while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -302,6 +305,7 @@ describe("when converting while", () => {
           "Initialize": Object {
             "Next": "Assign counter",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

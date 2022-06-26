@@ -10,16 +10,9 @@ describe("when converting states", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": "source: result: { action: \\"approve\\" | \\"reject\\" } = awa ...",
-            "End": true,
-            "InputPath": "$.tmp.result",
-            "ResultPath": "$.vars.result",
-            "Type": "Pass",
-          },
-          "Human Approval": Object {
             "Comment": undefined,
+            "End": true,
             "HeartbeatSeconds": undefined,
-            "Next": "Assign result",
             "Parameters": Object {
               "FunctionName": "sendApprovalEmail",
               "Payload": Object {
@@ -28,13 +21,14 @@ describe("when converting states", () => {
               },
             },
             "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
-            "ResultPath": "$.tmp.result",
+            "ResultPath": "$.vars.result",
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
           "Initialize": Object {
-            "Next": "Human Approval",
+            "Next": "Assign result",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

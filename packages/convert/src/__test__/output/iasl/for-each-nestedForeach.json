@@ -126,25 +126,6 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "Assign result",
-      "name": {
-        "identifier": "result",
-        "type": "string",
-        "_syntaxKind": "identifier"
-      },
-      "expression": {
-        "stateName": "Assign result",
-        "parameters": {
-          "value": "",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "result = ``",
-        "_syntaxKind": "asl-pass-state"
-      },
-      "_syntaxKind": "variable-assignment"
-    },
-    {
       "stateName": "For number Of numbers",
       "items": {
         "identifier": "numbers",

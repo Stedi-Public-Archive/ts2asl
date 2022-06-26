@@ -57,6 +57,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Evaluate Array(1, 2, 3, 4 ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -99,6 +100,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign myArray",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -190,7 +192,7 @@ describe("when converting arrays", () => {
         "States": Object {
           "Assign ages": Object {
             "Comment": "source: ages = mappedArray.map(x => x.age)",
-            "InputPath": "$.vars.mappedArray.age",
+            "InputPath": "$.vars.mappedArray..age",
             "Next": "Assign species",
             "ResultPath": "$.vars.ages",
             "Type": "Pass",
@@ -237,7 +239,7 @@ describe("when converting arrays", () => {
           },
           "Assign species": Object {
             "Comment": "source: species = mappedArray.map(x => x.species)",
-            "InputPath": "$.vars.mappedArray.species",
+            "InputPath": "$.vars.mappedArray..species",
             "Next": "Return { ages, specie ...",
             "ResultPath": "$.vars.species",
             "Type": "Pass",
@@ -245,6 +247,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign mappedArray",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -271,7 +274,7 @@ describe("when converting arrays", () => {
         "States": Object {
           "Assign num": Object {
             "Comment": "source: num = source.map(x => x.obj.num)",
-            "InputPath": "$.vars.source.obj.num",
+            "InputPath": "$.vars.source..obj.num",
             "Next": "Assign str",
             "ResultPath": "$.vars.num",
             "Type": "Pass",
@@ -292,14 +295,15 @@ describe("when converting arrays", () => {
           },
           "Assign str": Object {
             "Comment": "source: str = source.map(x => x.obj.str)",
-            "InputPath": "$.vars.source.obj.str",
-            "Next": "Return { num, str }",
+            "InputPath": "$.vars.source..obj.str",
+            "Next": "Return { num: num[0], ...",
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
           "Initialize": Object {
             "Next": "Assign source",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -383,6 +387,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign mappedArray",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -480,6 +485,7 @@ describe("when converting arrays", () => {
           "Initialize": Object {
             "Next": "Assign filterArray",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

@@ -59,6 +59,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Assign result",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -138,6 +139,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Assign result",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -178,6 +180,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -241,6 +244,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Return \\"this cannot fail\\"",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -265,6 +269,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Parallel",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -329,6 +334,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Assign result",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -414,6 +420,7 @@ describe("when converting try-catch", () => {
           "Initialize": Object {
             "Next": "Fail State Wrapper",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

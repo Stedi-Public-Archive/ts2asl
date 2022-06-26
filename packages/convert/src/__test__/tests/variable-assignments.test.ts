@@ -88,6 +88,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign str",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -115,42 +116,42 @@ describe("when converting variable-assignments", () => {
         "States": Object {
           "Assign _null": Object {
             "Comment": "source: _null = typeof null",
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.result[0]",
             "Next": "If (str === \\"string\\" && ...",
             "ResultPath": "$.vars._null",
             "Type": "Pass",
           },
           "Assign bool": Object {
             "Comment": "source: bool = typeof true",
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.result[0]",
             "Next": "Pass_3",
             "ResultPath": "$.vars.bool",
             "Type": "Pass",
           },
           "Assign num": Object {
             "Comment": "source: num = typeof 123",
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.result[0]",
             "Next": "Pass_2",
             "ResultPath": "$.vars.num",
             "Type": "Pass",
           },
           "Assign object": Object {
             "Comment": "source: object = typeof { str, num, bool }",
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.result[0]",
             "Next": "Typeof_4",
             "ResultPath": "$.vars.object",
             "Type": "Pass",
           },
           "Assign str": Object {
             "Comment": "source: str = typeof \\"abcdef\\"",
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.result[0]",
             "Next": "Pass_1",
             "ResultPath": "$.vars.str",
             "Type": "Pass",
           },
           "Assign undef": Object {
             "Comment": "source: undef = typeof undefined",
-            "InputPath": "$.tmp.result",
+            "InputPath": "$.tmp.result[0]",
             "Next": "Typeof_5",
             "ResultPath": "$.vars.undef",
             "Type": "Pass",
@@ -210,6 +211,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Pass",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -326,7 +328,7 @@ describe("when converting variable-assignments", () => {
                   "Evaluate to \\"undefined\\"": Object {
                     "Comment": undefined,
                     "End": true,
-                    "InputPath": "$._undefined",
+                    "Result": "undefined",
                     "Type": "Pass",
                   },
                 },
@@ -408,7 +410,7 @@ describe("when converting variable-assignments", () => {
                   "Evaluate to \\"undefined\\"_1": Object {
                     "Comment": undefined,
                     "End": true,
-                    "InputPath": "$._undefined",
+                    "Result": "undefined",
                     "Type": "Pass",
                   },
                 },
@@ -490,7 +492,7 @@ describe("when converting variable-assignments", () => {
                   "Evaluate to \\"undefined\\"_2": Object {
                     "Comment": undefined,
                     "End": true,
-                    "InputPath": "$._undefined",
+                    "Result": "undefined",
                     "Type": "Pass",
                   },
                 },
@@ -572,7 +574,7 @@ describe("when converting variable-assignments", () => {
                   "Evaluate to \\"undefined\\"_3": Object {
                     "Comment": undefined,
                     "End": true,
-                    "InputPath": "$._undefined",
+                    "Result": "undefined",
                     "Type": "Pass",
                   },
                 },
@@ -594,27 +596,27 @@ describe("when converting variable-assignments", () => {
                       Object {
                         "IsPresent": false,
                         "Next": "Evaluate to \\"undefined\\"_4",
-                        "Variable": "$._undefined",
+                        "Variable": "$._doesntexist",
                       },
                       Object {
                         "IsNull": true,
                         "Next": "Evaluate to \\"object\\"_8",
-                        "Variable": "$._undefined",
+                        "Variable": "$._doesntexist",
                       },
                       Object {
                         "IsNumeric": true,
                         "Next": "Evaluate to \\"number\\"_4",
-                        "Variable": "$._undefined",
+                        "Variable": "$._doesntexist",
                       },
                       Object {
                         "IsString": true,
                         "Next": "Evaluate to \\"string\\"_4",
-                        "Variable": "$._undefined",
+                        "Variable": "$._doesntexist",
                       },
                       Object {
                         "IsBoolean": true,
                         "Next": "Evaluate to \\"boolean\\"_4",
-                        "Variable": "$._undefined",
+                        "Variable": "$._doesntexist",
                       },
                     ],
                     "Comment": undefined,
@@ -654,7 +656,7 @@ describe("when converting variable-assignments", () => {
                   "Evaluate to \\"undefined\\"_4": Object {
                     "Comment": undefined,
                     "End": true,
-                    "InputPath": "$._undefined",
+                    "Result": "undefined",
                     "Type": "Pass",
                   },
                 },
@@ -676,27 +678,27 @@ describe("when converting variable-assignments", () => {
                       Object {
                         "IsPresent": false,
                         "Next": "Evaluate to \\"undefined\\"_5",
-                        "Variable": "$._undefined",
+                        "Variable": "$._null",
                       },
                       Object {
                         "IsNull": true,
                         "Next": "Evaluate to \\"object\\"_10",
-                        "Variable": "$._undefined",
+                        "Variable": "$._null",
                       },
                       Object {
                         "IsNumeric": true,
                         "Next": "Evaluate to \\"number\\"_5",
-                        "Variable": "$._undefined",
+                        "Variable": "$._null",
                       },
                       Object {
                         "IsString": true,
                         "Next": "Evaluate to \\"string\\"_5",
-                        "Variable": "$._undefined",
+                        "Variable": "$._null",
                       },
                       Object {
                         "IsBoolean": true,
                         "Next": "Evaluate to \\"boolean\\"_5",
-                        "Variable": "$._undefined",
+                        "Variable": "$._null",
                       },
                     ],
                     "Comment": undefined,
@@ -736,7 +738,7 @@ describe("when converting variable-assignments", () => {
                   "Evaluate to \\"undefined\\"_5": Object {
                     "Comment": undefined,
                     "End": true,
-                    "InputPath": "$._undefined",
+                    "Result": "undefined",
                     "Type": "Pass",
                   },
                 },
@@ -807,6 +809,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign str",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -845,6 +848,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -876,6 +880,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign _undefined",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -899,7 +904,7 @@ describe("when converting variable-assignments", () => {
         "States": Object {
           "Assign _null": Object {
             "Comment": "source: _null = null",
-            "InputPath": "$._undefined",
+            "InputPath": "$._null",
             "Next": "Return \\"ok\\"",
             "ResultPath": "$.vars._null",
             "Type": "Pass",
@@ -907,6 +912,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign _null",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -965,6 +971,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -1050,6 +1057,7 @@ describe("when converting variable-assignments", () => {
           "Initialize": Object {
             "Next": "Evaluate Format('hello {} ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

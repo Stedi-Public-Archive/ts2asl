@@ -43,6 +43,7 @@ describe("when converting in-keyword", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

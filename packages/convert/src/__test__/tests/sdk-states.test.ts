@@ -16,6 +16,7 @@ describe("when converting sdk-states", () => {
           "Initialize": Object {
             "Next": "PutItem",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -68,16 +69,9 @@ describe("when converting sdk-states", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": "source: result = (await asl.sdkDynamoDBQuery({ name: \\" ...",
-            "InputPath": "$.tmp.result",
-            "Next": "Return result.Count",
-            "ResultPath": "$.vars.result",
-            "Type": "Pass",
-          },
-          "COUNT(where gsi1pk === 'test')": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "Assign result",
+            "Next": "Return result.Count",
             "Parameters": Object {
               "ExpressionAttributeNames": Object {
                 "#pk": "gsi1pk",
@@ -93,13 +87,14 @@ describe("when converting sdk-states", () => {
               "TableName": "[!parameter[tableName]]",
             },
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
-            "ResultPath": "$.tmp.result",
+            "ResultPath": "$.vars.result",
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
           "Initialize": Object {
-            "Next": "COUNT(where gsi1pk === 'test')",
+            "Next": "Assign result",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -131,6 +126,7 @@ describe("when converting sdk-states", () => {
           "Initialize": Object {
             "Next": "Assign value",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

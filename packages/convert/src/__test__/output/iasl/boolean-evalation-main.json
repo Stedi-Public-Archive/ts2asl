@@ -21,7 +21,6 @@
             "_syntaxKind": "literal"
           },
           "undefined": {
-            "value": null,
             "type": "null",
             "_syntaxKind": "literal"
           },

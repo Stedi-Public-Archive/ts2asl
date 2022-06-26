@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign source"
     },
@@ -35,6 +36,7 @@
       "Type": "Pass",
       "InputPath": "$.vars.source..obj.str",
       "ResultPath": "$.vars.str",
+      "Comment": "source: str = source.map(x => x.obj.str)",
       "Next": "Return { num: num[0], ..."
     },
     "Return { num: num[0], ...": {

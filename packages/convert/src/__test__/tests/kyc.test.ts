@@ -17,59 +17,16 @@ describe("when converting kyc", () => {
             "Type": "Pass",
           },
           "Assign result": Object {
-            "Comment": "source: result = await Promise.all([ performIdentifyCh ...",
-            "InputPath": "$.tmp.result",
-            "Next": "PutEvents",
-            "ResultPath": "$.vars.result",
-            "Type": "Pass",
-          },
-          "If (checksPassed)": Object {
-            "Choices": Array [
-              Object {
-                "Next": "PutEvents_1",
-                "Not": Object {
-                  "BooleanEquals": false,
-                  "Variable": "$.vars.checksPassed",
-                },
-              },
-            ],
-            "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
-            "Default": "PutEvents_2",
-            "Type": "Choice",
-          },
-          "Initialize": Object {
-            "Next": "Parallel",
-            "Parameters": Object {
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Parallel": Object {
             "Branches": Array [
               Object {
-                "StartAt": "performIdentifyCheck()",
+                "StartAt": "Assign",
                 "States": Object {
                   "Assign": Object {
-                    "Comment": undefined,
-                    "InputPath": "$.tmp.result",
-                    "Next": "Return",
-                    "ResultPath": "$.vars.return_var",
-                    "Type": "Pass",
-                  },
-                  "Return": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "InputPath": "$.vars.return_var",
-                    "Type": "Pass",
-                  },
-                  "performIdentifyCheck()": Object {
                     "Comment": "source: performIdentifyCheck()",
                     "HeartbeatSeconds": undefined,
-                    "Next": "Assign",
+                    "Next": "Return",
                     "Resource": "[!lambda[performIdentifyCheck]arn]",
-                    "ResultPath": "$.tmp.result",
+                    "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -84,6 +41,12 @@ describe("when converting kyc", () => {
                     ],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
+                  },
+                  "Return": Object {
+                    "Comment": undefined,
+                    "End": true,
+                    "InputPath": "$.vars.return_var",
+                    "Type": "Pass",
                   },
                 },
               },
@@ -102,9 +65,33 @@ describe("when converting kyc", () => {
               },
             ],
             "Comment": "source: Promise.all([ performIdentifyCheck(), Promise. ...",
-            "Next": "Assign result",
-            "ResultPath": "$.tmp.result",
+            "Next": "PutEvents",
+            "ResultPath": "$.vars.result",
             "Type": "Parallel",
+          },
+          "If (checksPassed)": Object {
+            "Choices": Array [
+              Object {
+                "Next": "PutEvents_1",
+                "Not": Object {
+                  "BooleanEquals": false,
+                  "Variable": "$.vars.checksPassed",
+                },
+              },
+            ],
+            "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
+            "Default": "PutEvents_2",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "Assign result",
+            "Parameters": Object {
+              "_null": null,
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
           },
           "PutEvents": Object {
             "Comment": undefined,

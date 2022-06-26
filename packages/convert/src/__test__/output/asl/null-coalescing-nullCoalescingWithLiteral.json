@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Eval Conditional"
     },
@@ -23,7 +24,7 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "InputPath": "$._undefined",
+      "InputPath": "$._null",
       "ResultPath": "$.tmp.var",
       "Next": "Return"
     },

@@ -13,7 +13,7 @@ describe("when converting boolean-evalation", () => {
             "Comment": "source: data = { num: 42, text: \\"text\\", undefined: und ...",
             "Next": "If (typeof data.num !== \\" ...",
             "Parameters": Object {
-              "null.$": "$._undefined",
+              "null.$": "$._null",
               "num": 42,
               "text": "text",
               "timestamp": "2016-03-14T01:59:00Z",
@@ -203,6 +203,7 @@ describe("when converting boolean-evalation", () => {
           "Initialize": Object {
             "Next": "Assign data",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -301,6 +302,7 @@ describe("when converting boolean-evalation", () => {
           "Initialize": Object {
             "Next": "Assign condition",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

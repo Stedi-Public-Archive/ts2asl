@@ -66,6 +66,7 @@ describe("when converting ts-lib-convert", () => {
           "Initialize": Object {
             "Next": "Evaluate StringToJson('42')",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -150,6 +151,7 @@ describe("when converting ts-lib-convert", () => {
           "Initialize": Object {
             "Next": "Evaluate StringToJson('true')",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

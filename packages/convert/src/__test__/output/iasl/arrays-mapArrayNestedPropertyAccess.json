@@ -47,7 +47,7 @@
         "identifier": "source",
         "type": "object",
         "_syntaxKind": "identifier",
-        "mapExpression": ".obj.num"
+        "mapExpression": "obj.num"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -63,7 +63,7 @@
         "identifier": "source",
         "type": "object",
         "_syntaxKind": "identifier",
-        "mapExpression": ".obj.str"
+        "mapExpression": "obj.str"
       },
       "_syntaxKind": "variable-assignment"
     },

@@ -34,6 +34,7 @@ describe("when transpiling function", () => {
           "Initialize": Object {
             "Next": "Evaluate StringToJson('0')",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -75,6 +76,7 @@ describe("when transpiling function", () => {
           "Initialize": Object {
             "Next": "Evaluate StringToJson('s')",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -130,6 +132,7 @@ describe("when transpiling function", () => {
           "Initialize": Object {
             "Next": "Assign tmp",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Parallel"
     },
@@ -14,11 +15,11 @@
       "Type": "Parallel",
       "Branches": [
         {
-          "StartAt": "worker()",
+          "StartAt": "Assign",
           "States": {
-            "worker()": {
+            "Assign": {
               "Type": "Task",
-              "ResultPath": "$.tmp.result",
+              "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "Comment": "source: worker()",
               "Retry": [
@@ -33,12 +34,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Next": "Assign"
-            },
-            "Assign": {
-              "Type": "Pass",
-              "InputPath": "$.tmp.result",
-              "ResultPath": "$.vars.return_var",
               "Next": "Return"
             },
             "Return": {
@@ -49,11 +44,11 @@
           }
         },
         {
-          "StartAt": "worker()_1",
+          "StartAt": "Assign_1",
           "States": {
-            "worker()_1": {
+            "Assign_1": {
               "Type": "Task",
-              "ResultPath": "$.tmp.result",
+              "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "Comment": "source: worker()",
               "Retry": [
@@ -68,12 +63,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Next": "Assign_1"
-            },
-            "Assign_1": {
-              "Type": "Pass",
-              "InputPath": "$.tmp.result",
-              "ResultPath": "$.vars.return_var",
               "Next": "Return_1"
             },
             "Return_1": {

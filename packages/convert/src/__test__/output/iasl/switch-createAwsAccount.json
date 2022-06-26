@@ -39,7 +39,6 @@
       },
       "source": "creationStatus: string | undefined = undefined",
       "expression": {
-        "value": null,
         "type": "null",
         "_syntaxKind": "literal"
       },

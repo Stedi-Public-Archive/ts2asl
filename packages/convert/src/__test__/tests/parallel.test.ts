@@ -12,6 +12,7 @@ describe("when converting parallel", () => {
           "Initialize": Object {
             "Next": "Parallel",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -21,14 +22,28 @@ describe("when converting parallel", () => {
           "Parallel": Object {
             "Branches": Array [
               Object {
-                "StartAt": "worker()",
+                "StartAt": "Assign",
                 "States": Object {
                   "Assign": Object {
-                    "Comment": undefined,
-                    "InputPath": "$.tmp.result",
+                    "Comment": "source: worker()",
+                    "HeartbeatSeconds": undefined,
                     "Next": "Return",
+                    "Resource": "[!lambda[worker]arn]",
                     "ResultPath": "$.vars.return_var",
-                    "Type": "Pass",
+                    "Retry": Array [
+                      Object {
+                        "BackoffRate": 2,
+                        "ErrorEquals": Array [
+                          "Lambda.ServiceException",
+                          "Lambda.AWSLambdaException",
+                          "Lambda.SdkClientException",
+                        ],
+                        "IntervalSeconds": 2,
+                        "MaxAttempts": 6,
+                      },
+                    ],
+                    "TimeoutSeconds": undefined,
+                    "Type": "Task",
                   },
                   "Return": Object {
                     "Comment": undefined,
@@ -36,12 +51,17 @@ describe("when converting parallel", () => {
                     "InputPath": "$.vars.return_var",
                     "Type": "Pass",
                   },
-                  "worker()": Object {
+                },
+              },
+              Object {
+                "StartAt": "Assign_1",
+                "States": Object {
+                  "Assign_1": Object {
                     "Comment": "source: worker()",
                     "HeartbeatSeconds": undefined,
-                    "Next": "Assign",
+                    "Next": "Return_1",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.tmp.result",
+                    "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -56,45 +76,12 @@ describe("when converting parallel", () => {
                     ],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
-                  },
-                },
-              },
-              Object {
-                "StartAt": "worker()_1",
-                "States": Object {
-                  "Assign_1": Object {
-                    "Comment": undefined,
-                    "InputPath": "$.tmp.result",
-                    "Next": "Return_1",
-                    "ResultPath": "$.vars.return_var",
-                    "Type": "Pass",
                   },
                   "Return_1": Object {
                     "Comment": undefined,
                     "End": true,
                     "InputPath": "$.vars.return_var",
                     "Type": "Pass",
-                  },
-                  "worker()_1": Object {
-                    "Comment": "source: worker()",
-                    "HeartbeatSeconds": undefined,
-                    "Next": "Assign_1",
-                    "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.tmp.result",
-                    "Retry": Array [
-                      Object {
-                        "BackoffRate": 2,
-                        "ErrorEquals": Array [
-                          "Lambda.ServiceException",
-                          "Lambda.AWSLambdaException",
-                          "Lambda.SdkClientException",
-                        ],
-                        "IntervalSeconds": 2,
-                        "MaxAttempts": 6,
-                      },
-                    ],
-                    "TimeoutSeconds": undefined,
-                    "Type": "Task",
                   },
                 },
               },
@@ -140,6 +127,7 @@ describe("when converting parallel", () => {
           "Initialize": Object {
             "Next": "Assign enclosedVar1",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -149,14 +137,29 @@ describe("when converting parallel", () => {
           "Parallel": Object {
             "Branches": Array [
               Object {
-                "StartAt": "worker(enclosedVar1)",
+                "StartAt": "Assign",
                 "States": Object {
                   "Assign": Object {
-                    "Comment": undefined,
-                    "InputPath": "$.tmp.result",
+                    "Comment": "source: worker(enclosedVar1)",
+                    "HeartbeatSeconds": undefined,
+                    "InputPath": "$.vars.enclosedVar1",
                     "Next": "Return",
+                    "Resource": "[!lambda[worker]arn]",
                     "ResultPath": "$.vars.return_var",
-                    "Type": "Pass",
+                    "Retry": Array [
+                      Object {
+                        "BackoffRate": 2,
+                        "ErrorEquals": Array [
+                          "Lambda.ServiceException",
+                          "Lambda.AWSLambdaException",
+                          "Lambda.SdkClientException",
+                        ],
+                        "IntervalSeconds": 2,
+                        "MaxAttempts": 6,
+                      },
+                    ],
+                    "TimeoutSeconds": undefined,
+                    "Type": "Task",
                   },
                   "Return": Object {
                     "Comment": undefined,
@@ -164,13 +167,18 @@ describe("when converting parallel", () => {
                     "InputPath": "$.vars.return_var",
                     "Type": "Pass",
                   },
-                  "worker(enclosedVar1)": Object {
-                    "Comment": "source: worker(enclosedVar1)",
+                },
+              },
+              Object {
+                "StartAt": "Assign_1",
+                "States": Object {
+                  "Assign_1": Object {
+                    "Comment": "source: worker(enclosedVar2)",
                     "HeartbeatSeconds": undefined,
-                    "InputPath": "$.vars.enclosedVar1",
-                    "Next": "Assign",
+                    "InputPath": "$.vars.enclosedVar2",
+                    "Next": "Return_1",
                     "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.tmp.result",
+                    "ResultPath": "$.vars.return_var",
                     "Retry": Array [
                       Object {
                         "BackoffRate": 2,
@@ -185,46 +193,12 @@ describe("when converting parallel", () => {
                     ],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
-                  },
-                },
-              },
-              Object {
-                "StartAt": "worker(enclosedVar2)",
-                "States": Object {
-                  "Assign_1": Object {
-                    "Comment": undefined,
-                    "InputPath": "$.tmp.result",
-                    "Next": "Return_1",
-                    "ResultPath": "$.vars.return_var",
-                    "Type": "Pass",
                   },
                   "Return_1": Object {
                     "Comment": undefined,
                     "End": true,
                     "InputPath": "$.vars.return_var",
                     "Type": "Pass",
-                  },
-                  "worker(enclosedVar2)": Object {
-                    "Comment": "source: worker(enclosedVar2)",
-                    "HeartbeatSeconds": undefined,
-                    "InputPath": "$.vars.enclosedVar2",
-                    "Next": "Assign_1",
-                    "Resource": "[!lambda[worker]arn]",
-                    "ResultPath": "$.tmp.result",
-                    "Retry": Array [
-                      Object {
-                        "BackoffRate": 2,
-                        "ErrorEquals": Array [
-                          "Lambda.ServiceException",
-                          "Lambda.AWSLambdaException",
-                          "Lambda.SdkClientException",
-                        ],
-                        "IntervalSeconds": 2,
-                        "MaxAttempts": 6,
-                      },
-                    ],
-                    "TimeoutSeconds": undefined,
-                    "Type": "Task",
                   },
                 },
               },

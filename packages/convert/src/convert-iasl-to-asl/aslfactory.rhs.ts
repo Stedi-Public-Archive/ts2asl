@@ -154,7 +154,7 @@ export class AslRhsFactory {
       AslSucceedFactory.appendIaslSucceed(expression, context, expression.stateName);
       return { path: "$.vars", type: "object" };
     } else if (iasl.Check.isTypeOfExpression(expression)) {
-      AslTypeofFactory.appendIaslTypeof(expression, scopes, context,  "$.tmp.result", expression.stateName);
+      AslTypeofFactory.appendIaslTypeof(expression, scopes, context, "$.tmp.result", expression.stateName);
       return { path: "$.tmp.result[0]", type: "string" };
     }
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);

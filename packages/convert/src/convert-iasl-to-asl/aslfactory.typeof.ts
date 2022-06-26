@@ -1,6 +1,6 @@
 import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
-import { AslPassStateFactory, LiteralFactory, ReturnStatementFactory } from "../convert-asllib-to-iasl/iaslfactory";
+import { ReturnStatementFactory } from "../convert-asllib-to-iasl/iaslfactory";
 import { AslWriter } from "./asl-writer";
 import { AslParallelFactory } from "./aslfactory.parallel";
 import { AslPassFactory } from "./aslfactory.pass";

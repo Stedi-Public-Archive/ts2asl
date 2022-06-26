@@ -55,6 +55,7 @@ describe("when converting throw", () => {
           "Initialize": Object {
             "Next": "Fail State Wrapper",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -99,6 +100,7 @@ describe("when converting throw", () => {
           "Initialize": Object {
             "Next": "If (input.delayInSeconds ...",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -129,6 +131,7 @@ describe("when converting throw", () => {
           "Initialize": Object {
             "Next": "Parallel",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -192,6 +195,7 @@ describe("when converting throw", () => {
           "Initialize": Object {
             "Next": "Parallel",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

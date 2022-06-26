@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign obj"
     },
@@ -48,7 +49,7 @@
     },
     "Conditional False": {
       "Type": "Pass",
-      "InputPath": "$._undefined",
+      "InputPath": "$._null",
       "ResultPath": "$.tmp.var",
       "Next": "Return obj?.name"
     },

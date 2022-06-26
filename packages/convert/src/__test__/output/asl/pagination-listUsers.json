@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign marker"
     },
@@ -15,23 +16,16 @@
       "InputPath": "$._undefined",
       "ResultPath": "$.vars.marker",
       "Comment": "source: marker: string | undefined",
-      "Next": "List Users"
+      "Next": "Assign response"
     },
-    "List Users": {
+    "Assign response": {
       "Type": "Task",
-      "ResultPath": "$.tmp.result",
+      "ResultPath": "$.vars.response",
       "Resource": "arn:aws:states:::aws-sdk:iam:listUsers",
       "Parameters": {
         "PathPrefix": "/path",
         "Marker.$": "$.vars.marker"
       },
-      "Next": "Assign response"
-    },
-    "Assign response": {
-      "Type": "Pass",
-      "InputPath": "$.tmp.result",
-      "ResultPath": "$.vars.response",
-      "Comment": "source: response = await asl.sdkIAMListUsers({ name: \" ...",
       "Next": "Foreach Initialize"
     },
     "Foreach Initialize": {
@@ -163,7 +157,7 @@
               }
             ]
           },
-          "Next": "List Users"
+          "Next": "Assign response"
         }
       ],
       "Default": "Empty Default Choice"

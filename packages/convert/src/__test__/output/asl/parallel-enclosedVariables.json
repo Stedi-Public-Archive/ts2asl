@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign enclosedVar1"
     },
@@ -32,11 +33,11 @@
       "Type": "Parallel",
       "Branches": [
         {
-          "StartAt": "worker(enclosedVar1)",
+          "StartAt": "Assign",
           "States": {
-            "worker(enclosedVar1)": {
+            "Assign": {
               "Type": "Task",
-              "ResultPath": "$.tmp.result",
+              "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "InputPath": "$.vars.enclosedVar1",
               "Comment": "source: worker(enclosedVar1)",
@@ -52,12 +53,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Next": "Assign"
-            },
-            "Assign": {
-              "Type": "Pass",
-              "InputPath": "$.tmp.result",
-              "ResultPath": "$.vars.return_var",
               "Next": "Return"
             },
             "Return": {
@@ -68,11 +63,11 @@
           }
         },
         {
-          "StartAt": "worker(enclosedVar2)",
+          "StartAt": "Assign_1",
           "States": {
-            "worker(enclosedVar2)": {
+            "Assign_1": {
               "Type": "Task",
-              "ResultPath": "$.tmp.result",
+              "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
               "InputPath": "$.vars.enclosedVar2",
               "Comment": "source: worker(enclosedVar2)",
@@ -88,12 +83,6 @@
                   "BackoffRate": 2
                 }
               ],
-              "Next": "Assign_1"
-            },
-            "Assign_1": {
-              "Type": "Pass",
-              "InputPath": "$.tmp.result",
-              "ResultPath": "$.vars.return_var",
               "Next": "Return_1"
             },
             "Return_1": {
