@@ -32,6 +32,20 @@ export const typeOfExpressions = asl.deploy.asStateMachine(async () => {
   return "not ok";
 });
 
+export const binaryExpression = asl.deploy.asStateMachine(async () => {
+  let str = "abcdef";
+  let num = 123;
+  let expr1 = str === "123";
+  let expr2 = num === 456;
+  let expr3 = expr1 === expr2;
+  
+  if (expr3) {
+    return "ok"
+  }
+  return "not ok";
+});
+
+
 
 export const arrayWithIdentifiers = asl.deploy.asStateMachine(async () => {
   let str = "string";

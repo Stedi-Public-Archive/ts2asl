@@ -1,0 +1,144 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign str",
+      "name": {
+        "identifier": "str",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "str = \"abcdef\"",
+      "expression": {
+        "value": "abcdef",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign num",
+      "name": {
+        "identifier": "num",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "source": "num = 123",
+      "expression": {
+        "value": 123,
+        "type": "numeric",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign expr1",
+      "name": {
+        "identifier": "expr1",
+        "type": "boolean",
+        "_syntaxKind": "identifier"
+      },
+      "source": "expr1 = str === \"123\"",
+      "expression": {
+        "lhs": {
+          "identifier": "str",
+          "type": "string",
+          "_syntaxKind": "identifier"
+        },
+        "operator": "eq",
+        "rhs": {
+          "value": "123",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign expr2",
+      "name": {
+        "identifier": "expr2",
+        "type": "boolean",
+        "_syntaxKind": "identifier"
+      },
+      "source": "expr2 = num === 456",
+      "expression": {
+        "lhs": {
+          "identifier": "num",
+          "type": "numeric",
+          "_syntaxKind": "identifier"
+        },
+        "operator": "eq",
+        "rhs": {
+          "value": 456,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign expr3",
+      "name": {
+        "identifier": "expr3",
+        "type": "boolean",
+        "_syntaxKind": "identifier"
+      },
+      "source": "expr3 = expr1 === expr2",
+      "expression": {
+        "lhs": {
+          "identifier": "expr1",
+          "type": "boolean",
+          "_syntaxKind": "identifier"
+        },
+        "operator": "eq",
+        "rhs": {
+          "identifier": "expr2",
+          "type": "boolean",
+          "_syntaxKind": "identifier"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (expr3)",
+      "condition": {
+        "rhs": {
+          "identifier": "expr3",
+          "type": "boolean",
+          "_syntaxKind": "identifier"
+        },
+        "operator": "is-truthy",
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Return \"ok\"",
+            "expression": {
+              "value": "ok",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (expr3) {\n    return \"ok\"\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "Return \"not ok\"",
+      "expression": {
+        "value": "not ok",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

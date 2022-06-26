@@ -6,7 +6,7 @@ import { AslRhsFactory, convertIdentifierToPathExpression, PathExpression, PathE
 import { AslTaskFactory } from "./aslfactory.task";
 
 export class AslPassFactory {
-  static appendIaslVariableAssignment(expression: iasl.VariableAssignmentStatement, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
+  static appendIaslVariableAssignment(expression: iasl.VariableAssignmentStatement, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion?: string) {
     resultPath = convertIdentifierToPathExpression(expression.name, scopes, context);
     if (iasl.Check.isAslPassState(expression.expression)) {
         AslPassFactory.appendIaslPass(expression.expression, scopes, context, resultPath, nameSuggestion);
@@ -26,7 +26,7 @@ export class AslPassFactory {
         nameSuggestion ?? "Pass");
     }
   }
-  static appendIaslPass(expression: iasl.AslPassState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {
+  static appendIaslPass(expression: iasl.AslPassState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion?: string) {
     const rhs = AslRhsFactory.appendIasl(expression.parameters, scopes, context, true);
 
     this.appendAsl(

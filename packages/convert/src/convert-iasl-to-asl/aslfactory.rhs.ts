@@ -12,6 +12,7 @@ import { AslMapFactory } from "./aslfactory.map";
 import { AslFailFactory } from "./aslfactory.fail";
 import { AslSucceedFactory } from "./aslfactory.succeed";
 import { AslTypeofFactory } from "./aslfactory.typeof";
+import { BinaryExpressionFactory } from "./aslfactory.binary";
 
 export class AslRhsFactory {
   static appendIasl(expression: iasl.Identifier, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpression;
@@ -155,6 +156,9 @@ export class AslRhsFactory {
       return { path: "$.vars", type: "object" };
     } else if (iasl.Check.isTypeOfExpression(expression)) {
       AslTypeofFactory.appendIaslTypeof(expression, scopes, context, "$.tmp.result", expression.stateName);
+      return { path: "$.tmp.result[0]", type: "string" };
+    } else if (iasl.Check.isBinaryExpression(expression)) {
+      BinaryExpressionFactory.appendBinaryExpression(expression, scopes, context, "$.tmp.result", expression.stateName);
       return { path: "$.tmp.result[0]", type: "string" };
     }
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);
