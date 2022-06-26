@@ -1,5 +1,9 @@
+import * as asl from "asl-types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
+import { AslPassStateFactory, LiteralFactory, ReturnStatementFactory } from "../convert-asllib-to-iasl/iaslfactory";
 import { AslWriter } from "./asl-writer";
+import { AslParallelFactory } from "./aslfactory.parallel";
+import { AslPassFactory } from "./aslfactory.pass";
 import { AslRhsFactory } from "./aslfactory.rhs";
 
 export class AslTypeofFactory {
@@ -12,78 +16,40 @@ export class AslTypeofFactory {
   ) {
     let rhs = AslRhsFactory.appendIasl(expression.operand, scopes, context, true);
     rhs = AslRhsFactory.convertToPath(rhs, context);
+
     
-    context.appendNextState(
+    const childContext = context.createChildContext();
+    const choiceState = {
+      Type: "Choice",
+      Choices: [],
+      Comment: expression.source
+    } as asl.Choice;
+    childContext.appendNextState(choiceState, nameSuggestion);
+    
+    const pathForComparison = (rhs.path === "$._undefined") ? "$._doesntexist" : rhs.path;
+    const undefinedBlock = childContext.appendChoiceOperator({Variable: pathForComparison, IsPresent: false});
+    AslPassFactory.appendIaslReturn(ReturnStatementFactory.createReturnLiteral("undefined", 'Evaluate to "undefined"'), scopes, undefinedBlock)
+    const nullBlock = childContext.appendChoiceOperator({Variable: pathForComparison, IsNull: true});
+    AslPassFactory.appendIaslReturn(ReturnStatementFactory.createReturnLiteral("object", 'Evaluate to "object"'), scopes, nullBlock)
+    const numberBlock = childContext.appendChoiceOperator({Variable: pathForComparison, IsNumeric: true});
+    AslPassFactory.appendIaslReturn(ReturnStatementFactory.createReturnLiteral("number", 'Evaluate to "number"'), scopes, numberBlock)
+    const stringBlock = childContext.appendChoiceOperator({Variable: pathForComparison, IsString: true});
+    AslPassFactory.appendIaslReturn(ReturnStatementFactory.createReturnLiteral("string", 'Evaluate to "string"'), scopes, stringBlock)
+    const booleanBlock = childContext.appendChoiceOperator({Variable: pathForComparison, IsBoolean: true});
+    AslPassFactory.appendIaslReturn(ReturnStatementFactory.createReturnLiteral("boolean", 'Evaluate to "boolean"'), scopes, booleanBlock)
+    const deafultBlock = childContext.appendChoiceDefault();
+    AslPassFactory.appendIaslReturn(ReturnStatementFactory.createReturnLiteral("object", 'Evaluate to "object"'), scopes, deafultBlock)
+    childContext.finalizeChoiceState();
+    const branch = childContext.finalize()!;
+
+    AslParallelFactory.appendAsl(
       {
-        Type: "Parallel",
-        InputPath: "$",
-        Branches: [
-          {
-            StartAt: "Typeof rhs",
-            States: {
-              "Typeof rhs": {
-                Type: "Choice",
-                Choices: [
-                  {
-                    Variable: rhs.path,
-                    IsPresent: false,
-                    Next: 'Evaluate to "undefined"',
-                  },
-                  {
-                    Variable: rhs.path,
-                    IsNull: true,
-                    Next: 'Evaluate to "object"',
-                  },
-                  {
-                    Variable: rhs.path,
-                    IsNumeric: true,
-                    Next: 'Evaluate to "number"',
-                  },
-                  {
-                    Variable: rhs.path,
-                    IsString: true,
-                    Next: 'Evaluate to "string"',
-                  },
-                  {
-                    Variable: rhs.path,
-                    IsBoolean: true,
-                    Next: 'Evaluate to "boolean"',
-                  },
-                ],
-                Default: 'Evaluate to "object"',
-              },
-              'Evaluate to "string"': {
-                Type: "Pass",
-                Result: "string",
-                End: true,
-              },
-              'Evaluate to "number"': {
-                Type: "Pass",
-                Result: "number",
-                End: true,
-              },
-              'Evaluate to "boolean"': {
-                Type: "Pass",
-                Result: "boolean",
-                End: true,
-              },
-              'Evaluate to "undefined"': {
-                Type: "Pass",
-                Result: "undefined",
-                End: true,
-              },
-              'Evaluate to "object"': {
-                Type: "Pass",
-                Result: "object",
-                End: true,
-              },
-            },
-          },
-        ],
+        Branches: [branch],
         ResultPath: resultPath as any,
-      },
-      nameSuggestion,
-    );
+        InputPath: "$",
+        Comment: expression.source,
+    }, undefined, undefined, scopes, context, "Typeof");
+
   }
   
 }

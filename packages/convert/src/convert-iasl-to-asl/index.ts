@@ -27,7 +27,8 @@ export const convert = (stateMachine: iasl.StateMachine, options: ConverterOptio
     ResultPath: "$",
     Parameters: {
       "vars.$": "$$.Execution.Input",
-      "_undefined": null
+      "_undefined": null,
+      "_null": null,
     }
   }, "Initialize");
 

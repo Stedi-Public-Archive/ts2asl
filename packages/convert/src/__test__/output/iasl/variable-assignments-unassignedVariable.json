@@ -9,7 +9,6 @@
       },
       "source": "arr: []",
       "expression": {
-        "value": null,
         "type": "null",
         "_syntaxKind": "literal"
       },
@@ -24,7 +23,6 @@
       },
       "source": "two: string",
       "expression": {
-        "value": null,
         "type": "null",
         "_syntaxKind": "literal"
       },

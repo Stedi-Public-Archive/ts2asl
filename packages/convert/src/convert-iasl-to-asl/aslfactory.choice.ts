@@ -1,12 +1,9 @@
-
 import * as asl from "asl-types";
 import { Operator } from "asl-types/dist/choice";
 import { appendBlock, convertBlock } from ".";
 import * as iasl from "../convert-asllib-to-iasl/ast";
 import { AslWriter } from "./asl-writer";
-import { AslFactory } from "./aslfactory";
 import { createChoiceOperator } from "./choice-utility";
-import { createParameters } from "./parameters";
 
 export class AslChoiceFactory {
   static appendIaslChoice(expression: iasl.AslChoiceState, scopes: Record<string, iasl.Scope>, context: AslWriter, resultPath: string | null, nameSuggestion: string | undefined) {

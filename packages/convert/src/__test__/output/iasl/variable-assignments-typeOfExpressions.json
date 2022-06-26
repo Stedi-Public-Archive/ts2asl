@@ -97,7 +97,6 @@
       "source": "undef = typeof undefined",
       "expression": {
         "operand": {
-          "value": null,
           "type": "null",
           "_syntaxKind": "literal"
         },

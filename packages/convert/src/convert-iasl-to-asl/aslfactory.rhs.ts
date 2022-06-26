@@ -17,9 +17,11 @@ export class AslRhsFactory {
   static appendIasl(expression: iasl.Identifier, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpression;
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral;
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral {
-    if (expression === undefined || iasl.Check.isLiteral(expression) && (expression.value === undefined || expression.value === null)) {
+    if (expression === undefined || iasl.Check.isLiteral(expression) && expression.value === undefined) {
       return { path: "$._undefined", type: "null" };
-    } else if (iasl.Check.isConditionalExpression(expression)) {
+    } else if (expression === undefined || iasl.Check.isLiteral(expression) && expression.value === null) {
+      return { path: "$._null", type: "null" };
+    } else  if (iasl.Check.isConditionalExpression(expression)) {
       const whenTrueRhs = AslRhsFactory.appendIasl(expression.whenTrue, scopes, context, true);
       const whenFalseRhs = AslRhsFactory.appendIasl(expression.whenFalse, scopes, context, true);
 
@@ -153,7 +155,7 @@ export class AslRhsFactory {
       return { path: "$.vars", type: "object" };
     } else if (iasl.Check.isTypeOfExpression(expression)) {
       AslTypeofFactory.appendIaslTypeof(expression, scopes, context,  "$.tmp.result", expression.stateName);
-      return { path: "$.tmp.result", type: "string" };
+      return { path: "$.tmp.result[0]", type: "string" };
     }
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);
   }

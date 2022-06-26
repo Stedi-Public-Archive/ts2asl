@@ -6,13 +6,14 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign _null"
     },
     "Assign _null": {
       "Type": "Pass",
-      "InputPath": "$._undefined",
+      "InputPath": "$._null",
       "ResultPath": "$.vars._null",
       "Comment": "source: _null = null",
       "Next": "Return \"ok\""

@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Pass"
     },
@@ -14,16 +15,15 @@
       "Type": "Pass",
       "Result": "abcdef",
       "ResultPath": "$.tmp.var",
-      "Next": "Parallel"
+      "Next": "Typeof"
     },
-    "Parallel": {
+    "Typeof": {
       "Type": "Parallel",
-      "InputPath": "$",
       "Branches": [
         {
-          "StartAt": "Typeof rhs",
+          "StartAt": "Choice",
           "States": {
-            "Typeof rhs": {
+            "Choice": {
               "Type": "Choice",
               "Choices": [
                 {
@@ -52,22 +52,7 @@
                   "Next": "Evaluate to \"boolean\""
                 }
               ],
-              "Default": "Evaluate to \"object\""
-            },
-            "Evaluate to \"string\"": {
-              "Type": "Pass",
-              "Result": "string",
-              "End": true
-            },
-            "Evaluate to \"number\"": {
-              "Type": "Pass",
-              "Result": "number",
-              "End": true
-            },
-            "Evaluate to \"boolean\"": {
-              "Type": "Pass",
-              "Result": "boolean",
-              "End": true
+              "Default": "Evaluate to \"object\"_1"
             },
             "Evaluate to \"undefined\"": {
               "Type": "Pass",
@@ -78,16 +63,37 @@
               "Type": "Pass",
               "Result": "object",
               "End": true
+            },
+            "Evaluate to \"number\"": {
+              "Type": "Pass",
+              "Result": "number",
+              "End": true
+            },
+            "Evaluate to \"string\"": {
+              "Type": "Pass",
+              "Result": "string",
+              "End": true
+            },
+            "Evaluate to \"boolean\"": {
+              "Type": "Pass",
+              "Result": "boolean",
+              "End": true
+            },
+            "Evaluate to \"object\"_1": {
+              "Type": "Pass",
+              "Result": "object",
+              "End": true
             }
           }
         }
       ],
       "ResultPath": "$.tmp.result",
+      "InputPath": "$",
       "Next": "Assign str"
     },
     "Assign str": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result",
+      "InputPath": "$.tmp.result[0]",
       "ResultPath": "$.vars.str",
       "Comment": "source: str = typeof \"abcdef\"",
       "Next": "Pass_1"
@@ -96,67 +102,71 @@
       "Type": "Pass",
       "Result": 123,
       "ResultPath": "$.tmp.var",
-      "Next": "Parallel_1"
+      "Next": "Typeof_1"
     },
-    "Parallel_1": {
+    "Typeof_1": {
       "Type": "Parallel",
-      "InputPath": "$",
       "Branches": [
         {
-          "StartAt": "Typeof rhs",
+          "StartAt": "Choice_1",
           "States": {
-            "Typeof rhs": {
+            "Choice_1": {
               "Type": "Choice",
               "Choices": [
                 {
                   "Variable": "$.tmp.var",
                   "IsPresent": false,
-                  "Next": "Evaluate to \"undefined\""
+                  "Next": "Evaluate to \"undefined\"_1"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsNull": true,
-                  "Next": "Evaluate to \"object\""
+                  "Next": "Evaluate to \"object\"_2"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsNumeric": true,
-                  "Next": "Evaluate to \"number\""
+                  "Next": "Evaluate to \"number\"_1"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsString": true,
-                  "Next": "Evaluate to \"string\""
+                  "Next": "Evaluate to \"string\"_1"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsBoolean": true,
-                  "Next": "Evaluate to \"boolean\""
+                  "Next": "Evaluate to \"boolean\"_1"
                 }
               ],
-              "Default": "Evaluate to \"object\""
+              "Default": "Evaluate to \"object\"_3"
             },
-            "Evaluate to \"string\"": {
-              "Type": "Pass",
-              "Result": "string",
-              "End": true
-            },
-            "Evaluate to \"number\"": {
-              "Type": "Pass",
-              "Result": "number",
-              "End": true
-            },
-            "Evaluate to \"boolean\"": {
-              "Type": "Pass",
-              "Result": "boolean",
-              "End": true
-            },
-            "Evaluate to \"undefined\"": {
+            "Evaluate to \"undefined\"_1": {
               "Type": "Pass",
               "Result": "undefined",
               "End": true
             },
-            "Evaluate to \"object\"": {
+            "Evaluate to \"object\"_2": {
+              "Type": "Pass",
+              "Result": "object",
+              "End": true
+            },
+            "Evaluate to \"number\"_1": {
+              "Type": "Pass",
+              "Result": "number",
+              "End": true
+            },
+            "Evaluate to \"string\"_1": {
+              "Type": "Pass",
+              "Result": "string",
+              "End": true
+            },
+            "Evaluate to \"boolean\"_1": {
+              "Type": "Pass",
+              "Result": "boolean",
+              "End": true
+            },
+            "Evaluate to \"object\"_3": {
               "Type": "Pass",
               "Result": "object",
               "End": true
@@ -165,11 +175,12 @@
         }
       ],
       "ResultPath": "$.tmp.result",
+      "InputPath": "$",
       "Next": "Assign num"
     },
     "Assign num": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result",
+      "InputPath": "$.tmp.result[0]",
       "ResultPath": "$.vars.num",
       "Comment": "source: num = typeof 123",
       "Next": "Pass_2"
@@ -178,67 +189,71 @@
       "Type": "Pass",
       "Result": true,
       "ResultPath": "$.tmp.var",
-      "Next": "Parallel_2"
+      "Next": "Typeof_2"
     },
-    "Parallel_2": {
+    "Typeof_2": {
       "Type": "Parallel",
-      "InputPath": "$",
       "Branches": [
         {
-          "StartAt": "Typeof rhs",
+          "StartAt": "Choice_2",
           "States": {
-            "Typeof rhs": {
+            "Choice_2": {
               "Type": "Choice",
               "Choices": [
                 {
                   "Variable": "$.tmp.var",
                   "IsPresent": false,
-                  "Next": "Evaluate to \"undefined\""
+                  "Next": "Evaluate to \"undefined\"_2"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsNull": true,
-                  "Next": "Evaluate to \"object\""
+                  "Next": "Evaluate to \"object\"_4"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsNumeric": true,
-                  "Next": "Evaluate to \"number\""
+                  "Next": "Evaluate to \"number\"_2"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsString": true,
-                  "Next": "Evaluate to \"string\""
+                  "Next": "Evaluate to \"string\"_2"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsBoolean": true,
-                  "Next": "Evaluate to \"boolean\""
+                  "Next": "Evaluate to \"boolean\"_2"
                 }
               ],
-              "Default": "Evaluate to \"object\""
+              "Default": "Evaluate to \"object\"_5"
             },
-            "Evaluate to \"string\"": {
-              "Type": "Pass",
-              "Result": "string",
-              "End": true
-            },
-            "Evaluate to \"number\"": {
-              "Type": "Pass",
-              "Result": "number",
-              "End": true
-            },
-            "Evaluate to \"boolean\"": {
-              "Type": "Pass",
-              "Result": "boolean",
-              "End": true
-            },
-            "Evaluate to \"undefined\"": {
+            "Evaluate to \"undefined\"_2": {
               "Type": "Pass",
               "Result": "undefined",
               "End": true
             },
-            "Evaluate to \"object\"": {
+            "Evaluate to \"object\"_4": {
+              "Type": "Pass",
+              "Result": "object",
+              "End": true
+            },
+            "Evaluate to \"number\"_2": {
+              "Type": "Pass",
+              "Result": "number",
+              "End": true
+            },
+            "Evaluate to \"string\"_2": {
+              "Type": "Pass",
+              "Result": "string",
+              "End": true
+            },
+            "Evaluate to \"boolean\"_2": {
+              "Type": "Pass",
+              "Result": "boolean",
+              "End": true
+            },
+            "Evaluate to \"object\"_5": {
               "Type": "Pass",
               "Result": "object",
               "End": true
@@ -247,11 +262,12 @@
         }
       ],
       "ResultPath": "$.tmp.result",
+      "InputPath": "$",
       "Next": "Assign bool"
     },
     "Assign bool": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result",
+      "InputPath": "$.tmp.result[0]",
       "ResultPath": "$.vars.bool",
       "Comment": "source: bool = typeof true",
       "Next": "Pass_3"
@@ -264,67 +280,71 @@
         "bool.$": "$.vars.bool"
       },
       "ResultPath": "$.tmp.var",
-      "Next": "Parallel_3"
+      "Next": "Typeof_3"
     },
-    "Parallel_3": {
+    "Typeof_3": {
       "Type": "Parallel",
-      "InputPath": "$",
       "Branches": [
         {
-          "StartAt": "Typeof rhs",
+          "StartAt": "Choice_3",
           "States": {
-            "Typeof rhs": {
+            "Choice_3": {
               "Type": "Choice",
               "Choices": [
                 {
                   "Variable": "$.tmp.var",
                   "IsPresent": false,
-                  "Next": "Evaluate to \"undefined\""
+                  "Next": "Evaluate to \"undefined\"_3"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsNull": true,
-                  "Next": "Evaluate to \"object\""
+                  "Next": "Evaluate to \"object\"_6"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsNumeric": true,
-                  "Next": "Evaluate to \"number\""
+                  "Next": "Evaluate to \"number\"_3"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsString": true,
-                  "Next": "Evaluate to \"string\""
+                  "Next": "Evaluate to \"string\"_3"
                 },
                 {
                   "Variable": "$.tmp.var",
                   "IsBoolean": true,
-                  "Next": "Evaluate to \"boolean\""
+                  "Next": "Evaluate to \"boolean\"_3"
                 }
               ],
-              "Default": "Evaluate to \"object\""
+              "Default": "Evaluate to \"object\"_7"
             },
-            "Evaluate to \"string\"": {
-              "Type": "Pass",
-              "Result": "string",
-              "End": true
-            },
-            "Evaluate to \"number\"": {
-              "Type": "Pass",
-              "Result": "number",
-              "End": true
-            },
-            "Evaluate to \"boolean\"": {
-              "Type": "Pass",
-              "Result": "boolean",
-              "End": true
-            },
-            "Evaluate to \"undefined\"": {
+            "Evaluate to \"undefined\"_3": {
               "Type": "Pass",
               "Result": "undefined",
               "End": true
             },
-            "Evaluate to \"object\"": {
+            "Evaluate to \"object\"_6": {
+              "Type": "Pass",
+              "Result": "object",
+              "End": true
+            },
+            "Evaluate to \"number\"_3": {
+              "Type": "Pass",
+              "Result": "number",
+              "End": true
+            },
+            "Evaluate to \"string\"_3": {
+              "Type": "Pass",
+              "Result": "string",
+              "End": true
+            },
+            "Evaluate to \"boolean\"_3": {
+              "Type": "Pass",
+              "Result": "boolean",
+              "End": true
+            },
+            "Evaluate to \"object\"_7": {
               "Type": "Pass",
               "Result": "object",
               "End": true
@@ -333,74 +353,79 @@
         }
       ],
       "ResultPath": "$.tmp.result",
+      "InputPath": "$",
       "Next": "Assign object"
     },
     "Assign object": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result",
+      "InputPath": "$.tmp.result[0]",
       "ResultPath": "$.vars.object",
       "Comment": "source: object = typeof { str, num, bool }",
-      "Next": "Parallel_4"
+      "Next": "Typeof_4"
     },
-    "Parallel_4": {
+    "Typeof_4": {
       "Type": "Parallel",
-      "InputPath": "$",
       "Branches": [
         {
-          "StartAt": "Typeof rhs",
+          "StartAt": "Choice_4",
           "States": {
-            "Typeof rhs": {
+            "Choice_4": {
               "Type": "Choice",
               "Choices": [
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._doesntexist",
                   "IsPresent": false,
-                  "Next": "Evaluate to \"undefined\""
+                  "Next": "Evaluate to \"undefined\"_4"
                 },
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._doesntexist",
                   "IsNull": true,
-                  "Next": "Evaluate to \"object\""
+                  "Next": "Evaluate to \"object\"_8"
                 },
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._doesntexist",
                   "IsNumeric": true,
-                  "Next": "Evaluate to \"number\""
+                  "Next": "Evaluate to \"number\"_4"
                 },
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._doesntexist",
                   "IsString": true,
-                  "Next": "Evaluate to \"string\""
+                  "Next": "Evaluate to \"string\"_4"
                 },
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._doesntexist",
                   "IsBoolean": true,
-                  "Next": "Evaluate to \"boolean\""
+                  "Next": "Evaluate to \"boolean\"_4"
                 }
               ],
-              "Default": "Evaluate to \"object\""
+              "Default": "Evaluate to \"object\"_9"
             },
-            "Evaluate to \"string\"": {
-              "Type": "Pass",
-              "Result": "string",
-              "End": true
-            },
-            "Evaluate to \"number\"": {
-              "Type": "Pass",
-              "Result": "number",
-              "End": true
-            },
-            "Evaluate to \"boolean\"": {
-              "Type": "Pass",
-              "Result": "boolean",
-              "End": true
-            },
-            "Evaluate to \"undefined\"": {
+            "Evaluate to \"undefined\"_4": {
               "Type": "Pass",
               "Result": "undefined",
               "End": true
             },
-            "Evaluate to \"object\"": {
+            "Evaluate to \"object\"_8": {
+              "Type": "Pass",
+              "Result": "object",
+              "End": true
+            },
+            "Evaluate to \"number\"_4": {
+              "Type": "Pass",
+              "Result": "number",
+              "End": true
+            },
+            "Evaluate to \"string\"_4": {
+              "Type": "Pass",
+              "Result": "string",
+              "End": true
+            },
+            "Evaluate to \"boolean\"_4": {
+              "Type": "Pass",
+              "Result": "boolean",
+              "End": true
+            },
+            "Evaluate to \"object\"_9": {
               "Type": "Pass",
               "Result": "object",
               "End": true
@@ -409,74 +434,79 @@
         }
       ],
       "ResultPath": "$.tmp.result",
+      "InputPath": "$",
       "Next": "Assign undef"
     },
     "Assign undef": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result",
+      "InputPath": "$.tmp.result[0]",
       "ResultPath": "$.vars.undef",
       "Comment": "source: undef = typeof undefined",
-      "Next": "Parallel_5"
+      "Next": "Typeof_5"
     },
-    "Parallel_5": {
+    "Typeof_5": {
       "Type": "Parallel",
-      "InputPath": "$",
       "Branches": [
         {
-          "StartAt": "Typeof rhs",
+          "StartAt": "Choice_5",
           "States": {
-            "Typeof rhs": {
+            "Choice_5": {
               "Type": "Choice",
               "Choices": [
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._null",
                   "IsPresent": false,
-                  "Next": "Evaluate to \"undefined\""
+                  "Next": "Evaluate to \"undefined\"_5"
                 },
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._null",
                   "IsNull": true,
-                  "Next": "Evaluate to \"object\""
+                  "Next": "Evaluate to \"object\"_10"
                 },
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._null",
                   "IsNumeric": true,
-                  "Next": "Evaluate to \"number\""
+                  "Next": "Evaluate to \"number\"_5"
                 },
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._null",
                   "IsString": true,
-                  "Next": "Evaluate to \"string\""
+                  "Next": "Evaluate to \"string\"_5"
                 },
                 {
-                  "Variable": "$._undefined",
+                  "Variable": "$._null",
                   "IsBoolean": true,
-                  "Next": "Evaluate to \"boolean\""
+                  "Next": "Evaluate to \"boolean\"_5"
                 }
               ],
-              "Default": "Evaluate to \"object\""
+              "Default": "Evaluate to \"object\"_11"
             },
-            "Evaluate to \"string\"": {
-              "Type": "Pass",
-              "Result": "string",
-              "End": true
-            },
-            "Evaluate to \"number\"": {
-              "Type": "Pass",
-              "Result": "number",
-              "End": true
-            },
-            "Evaluate to \"boolean\"": {
-              "Type": "Pass",
-              "Result": "boolean",
-              "End": true
-            },
-            "Evaluate to \"undefined\"": {
+            "Evaluate to \"undefined\"_5": {
               "Type": "Pass",
               "Result": "undefined",
               "End": true
             },
-            "Evaluate to \"object\"": {
+            "Evaluate to \"object\"_10": {
+              "Type": "Pass",
+              "Result": "object",
+              "End": true
+            },
+            "Evaluate to \"number\"_5": {
+              "Type": "Pass",
+              "Result": "number",
+              "End": true
+            },
+            "Evaluate to \"string\"_5": {
+              "Type": "Pass",
+              "Result": "string",
+              "End": true
+            },
+            "Evaluate to \"boolean\"_5": {
+              "Type": "Pass",
+              "Result": "boolean",
+              "End": true
+            },
+            "Evaluate to \"object\"_11": {
               "Type": "Pass",
               "Result": "object",
               "End": true
@@ -485,11 +515,12 @@
         }
       ],
       "ResultPath": "$.tmp.result",
+      "InputPath": "$",
       "Next": "Assign _null"
     },
     "Assign _null": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result",
+      "InputPath": "$.tmp.result[0]",
       "ResultPath": "$.vars._null",
       "Comment": "source: _null = typeof null",
       "Next": "If (str === \"string\" && ..."

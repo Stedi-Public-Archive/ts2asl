@@ -420,7 +420,7 @@ export interface ConditionalExpression extends Expression {
 
 export interface LiteralExpression extends Expression {
   _syntaxKind: SyntaxKind.Literal;
-  value: string | boolean | number | null;
+  value: string | boolean | number | null | undefined;
   type: Type;
 }
 
