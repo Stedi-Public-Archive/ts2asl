@@ -1,23 +1,31 @@
 import {Command} from '@oclif/core'
+import {Converter, createCompilerHostFromFile} from '@ts2asl/convert'
+import { StateMachine } from "asl-types";
 
-export default class Hello extends Command {
+export default class Compile extends Command {
   static description = 'Compile TypeScript to AWS ASL'
 
-  static examples = [
-    `$ oex hello friend --from oclif
-hello friend from oclif! (./src/commands/hello/index.ts)
-`,
+  static args = [
+    {
+      name: 'file',
+      required: true,
+      description: 'input file',
+    },
   ]
 
-  // static flags = {
-  //   from: Flags.string({char: 'f', description: 'Whom is saying hello', required: true}),
-  // }
-
-  //static args = [{name: 'person', description: 'Person to say hello to', required: true}]
-
   async run(): Promise<void> {
-    const {args, flags} = await this.parse(Hello)
+    const {args} = await this.parse(Compile)
+    const compilerHost = createCompilerHostFromFile(args.file)
+    const converter = new Converter(compilerHost)
+    const converted = converter.convert({})
+    const result: Record<string, StateMachine> = {}
+    for (const sm of converted.stateMachines) {
+      if (sm.asl) {
+        result[sm.name] = sm.asl
+      }
+    }
 
-    this.log(`hello ${args.person} from ${flags.from}! (./src/commands/hello/index.ts)`)
+    this.log(JSON.stringify(result, null, 2))
   }
 }
+
