@@ -9,9 +9,31 @@ describe("when converting map", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
+          "Assign entries": Object {
+            "Comment": "source: getEntries()",
+            "HeartbeatSeconds": undefined,
+            "Next": "Map",
+            "Resource": "[!lambda[getEntries]arn]",
+            "ResultPath": "$.vars.entries",
+            "Retry": Array [
+              Object {
+                "BackoffRate": 2,
+                "ErrorEquals": Array [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+              },
+            ],
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
           "Initialize": Object {
-            "Next": "getEntries()",
+            "Next": "Assign entries",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -72,27 +94,6 @@ describe("when converting map", () => {
             },
             "ResultPath": null,
             "Type": "Map",
-          },
-          "getEntries()": Object {
-            "Comment": "source: getEntries()",
-            "HeartbeatSeconds": undefined,
-            "Next": "Map",
-            "Resource": "[!lambda[getEntries]arn]",
-            "ResultPath": "$.vars.entries",
-            "Retry": Array [
-              Object {
-                "BackoffRate": 2,
-                "ErrorEquals": Array [
-                  "Lambda.ServiceException",
-                  "Lambda.AWSLambdaException",
-                  "Lambda.SdkClientException",
-                ],
-                "IntervalSeconds": 2,
-                "MaxAttempts": 6,
-              },
-            ],
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
           },
         },
       }

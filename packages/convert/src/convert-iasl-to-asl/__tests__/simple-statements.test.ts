@@ -10,7 +10,7 @@ describe("when transpiling simple statements", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign result": Object {
-            "Comment": undefined,
+            "Comment": "source: result = 'hello'",
             "End": true,
             "Result": "hello",
             "ResultPath": "$.vars.result",
@@ -19,6 +19,7 @@ describe("when transpiling simple statements", () => {
           "Initialize": Object {
             "Next": "Assign result",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -49,7 +50,7 @@ describe("when transpiling simple statements", () => {
         "StartAt": "Initialize",
         "States": Object {
           "Assign array": Object {
-            "Comment": undefined,
+            "Comment": "source: array = anotherVar.path[pointer]",
             "InputPath": "$.vars.anotherVar.path[$.vars.pointer]",
             "Next": "Assign complexVariableAss ...",
             "ResultPath": "$.vars.array",
@@ -77,7 +78,7 @@ describe("when transpiling simple statements", () => {
             "Type": "Pass",
           },
           "Assign literalString": Object {
-            "Comment": undefined,
+            "Comment": "source: literalString = 'hello'",
             "Next": "Assign literalNum",
             "Result": "hello",
             "ResultPath": "$.vars.literalString",
@@ -113,6 +114,7 @@ describe("when transpiling simple statements", () => {
           "Initialize": Object {
             "Next": "Assign literalString",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

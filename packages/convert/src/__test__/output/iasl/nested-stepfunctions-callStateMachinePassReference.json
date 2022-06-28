@@ -7,25 +7,21 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "args = {firstName: \"Santa\", lastName: \"Claus\" }",
       "expression": {
-        "stateName": "Assign args",
-        "parameters": {
-          "properties": {
-            "firstName": {
-              "value": "Santa",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            "lastName": {
-              "value": "Claus",
-              "type": "string",
-              "_syntaxKind": "literal"
-            }
+        "properties": {
+          "firstName": {
+            "value": "Santa",
+            "type": "string",
+            "_syntaxKind": "literal"
           },
-          "_syntaxKind": "literal-object"
+          "lastName": {
+            "value": "Claus",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
         },
-        "source": "args = {firstName: \"Santa\", lastName: \"Claus\" }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -36,6 +32,7 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "name = await childStateMachine(args)",
       "expression": {
         "stateName": "childStateMachine(args)",
         "integrationPattern": "sync",

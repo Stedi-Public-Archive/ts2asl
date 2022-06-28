@@ -7,135 +7,131 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "mappedArray = [{ age: 1, species: \"dog\" }, { age: 2, species: \"cat\" }, { age: 3, species: \"dog\" }, { age: 4, species: \"cat\" }, { age: 11, species: \"dog\" }, { age: 12, species: \"car\" }, { age: 13, species: \"dog\" }, { age: 14, species: \"cat\" }]",
       "expression": {
-        "stateName": "Assign mappedArray",
-        "parameters": {
-          "elements": [
-            {
-              "properties": {
-                "age": {
-                  "value": 1,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "species": {
-                  "value": "dog",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
+        "elements": [
+          {
+            "properties": {
+              "age": {
+                "value": 1,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "species": {
+                "value": "dog",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "age": {
-                  "value": 2,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "species": {
-                  "value": "cat",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "age": {
+                "value": 2,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "species": {
+                "value": "cat",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "age": {
-                  "value": 3,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "species": {
-                  "value": "dog",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "age": {
+                "value": 3,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "species": {
+                "value": "dog",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "age": {
-                  "value": 4,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "species": {
-                  "value": "cat",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "age": {
+                "value": 4,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "species": {
+                "value": "cat",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "age": {
-                  "value": 11,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "species": {
-                  "value": "dog",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "age": {
+                "value": 11,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "species": {
+                "value": "dog",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "age": {
-                  "value": 12,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "species": {
-                  "value": "car",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "age": {
+                "value": 12,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "species": {
+                "value": "car",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "age": {
-                  "value": 13,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "species": {
-                  "value": "dog",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "age": {
+                "value": 13,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
+              "species": {
+                "value": "dog",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
             },
-            {
-              "properties": {
-                "age": {
-                  "value": 14,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                "species": {
-                  "value": "cat",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
+            "_syntaxKind": "literal-object"
+          },
+          {
+            "properties": {
+              "age": {
+                "value": 14,
+                "type": "numeric",
+                "_syntaxKind": "literal"
               },
-              "_syntaxKind": "literal-object"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "mappedArray = [{ age: 1, species: \"dog\" }, { age: 2, species: \"cat\" }, { age: 3, species: \"dog\" }, { age: 4, species: \"cat\" }, { age: 11, species: \"dog\" }, { age: 12, species: \"car\" }, { age: 13, species: \"dog\" }, { age: 14, species: \"cat\" }]",
-        "_syntaxKind": "asl-pass-state"
+              "species": {
+                "value": "cat",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -146,6 +142,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "ages = mappedArray.map(x => x.age)",
       "expression": {
         "identifier": "mappedArray",
         "type": "object",
@@ -161,6 +158,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "species = mappedArray.map(x => x.species)",
       "expression": {
         "identifier": "mappedArray",
         "type": "object",

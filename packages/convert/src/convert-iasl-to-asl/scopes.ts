@@ -3,18 +3,25 @@ import * as iasl from "../convert-asllib-to-iasl/ast"
 
 export type Scopes = Record<string, Scope>
 
+const getVariableName = (identifier: iasl.Identifier)  => {
+  if (identifier.lhs) {
+    return getVariableName(identifier.lhs)
+  }
+  const parts = identifier.identifier.split('.');
+  return parts[0]
+}
 
 export const assignScopes = (statemachine: iasl.StateMachine) => {
   const scope = { accessed: [], enclosed: [], childScopes: [], parentScope: undefined, id: "root" };
   iasl.assignScopes(statemachine, scope, (expression, scope) => {
+
     if (iasl.Check.isIdentifier(expression)) {
-      const parts = expression.identifier.split('.');
-      if (!scope.accessed.includes(parts[0])) {
-        scope.accessed.push(parts[0]);
+    const variableName = getVariableName(expression);
+      if (!scope.accessed.includes(variableName)) {
+        scope.accessed.push(variableName);
       }
     }
   });
-
 
   let scopes: Scopes = {};
   visitScopes(scope, scope => {

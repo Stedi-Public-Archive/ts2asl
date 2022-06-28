@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Evaluate Array(1, 2, 3, 4 ..."
     },
@@ -22,6 +23,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.myArray",
+      "Comment": "source: myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7 ...",
       "Next": "Evaluate JsonToString($.v ..."
     },
     "Evaluate JsonToString($.v ...": {
@@ -36,6 +38,7 @@
       "Type": "Pass",
       "InputPath": "$.tmp.eval.value",
       "ResultPath": "$.vars.mySerializedArray",
+      "Comment": "source: mySerializedArray = asl.states.jsonToString(my ...",
       "Next": "Evaluate StringToJson($.v ..."
     },
     "Evaluate StringToJson($.v ...": {

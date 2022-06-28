@@ -107,6 +107,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -244,6 +245,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -381,6 +383,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -471,6 +474,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign arr",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -500,7 +504,7 @@ describe("when converting for-each", () => {
         "States": Object {
           "Assign combined": Object {
             "Comment": "source: combined = { number, letter, global, inner: ou ...",
-            "Next": "Log (combined)",
+            "Next": "Evaluate Format('{}, {}', ...",
             "Parameters": Object {
               "global.$": "$.vars.global",
               "inner.$": "$.vars.outer.middle.inner",
@@ -543,13 +547,35 @@ describe("when converting for-each", () => {
           },
           "Assign outer": Object {
             "Comment": "source: outer = { middle: { inner: 3 } }",
-            "Next": "Foreach Initialize",
+            "Next": "Assign result",
             "Result": Object {
               "middle": Object {
                 "inner": 3,
               },
             },
             "ResultPath": "$.vars.outer",
+            "Type": "Pass",
+          },
+          "Assign result": Object {
+            "Comment": "source: result = \`\`",
+            "Next": "Foreach Initialize",
+            "Result": "",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
+          "Assign result_1": Object {
+            "Comment": undefined,
+            "InputPath": "$.tmp.eval.value",
+            "Next": "Foreach Next 2",
+            "ResultPath": "$.vars.result",
+            "Type": "Pass",
+          },
+          "Evaluate Format('{}, {}', ...": Object {
+            "Next": "Assign result_1",
+            "Parameters": Object {
+              "value.$": "States.Format('{}, {}', $.vars.result, States.JsonToString($.vars.combined))",
+            },
+            "ResultPath": "$.tmp.eval",
             "Type": "Pass",
           },
           "Foreach CheckDone": Object {
@@ -575,7 +601,7 @@ describe("when converting for-each", () => {
             "Type": "Choice",
           },
           "Foreach Exit": Object {
-            "End": true,
+            "Next": "Return result",
             "Result": Object {},
             "ResultPath": "$.foreach",
             "Type": "Pass",
@@ -625,17 +651,17 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign numbers",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
           },
-          "Log (combined)": Object {
-            "Comment": "source: console.log(combined)",
-            "InputPath": "$.vars.combined",
-            "Next": "Foreach Next 2",
-            "ResultPath": null,
+          "Return result": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.result",
             "Type": "Pass",
           },
         },
@@ -662,6 +688,7 @@ describe("when converting for-each", () => {
           "Initialize": Object {
             "Next": "Assign numbers",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

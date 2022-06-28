@@ -23,7 +23,7 @@ export const callStatementTransformer = (converterOptions: ConverterOptions) => 
 
       const resource = TransformUtil.createIdentifier("resource", node.expression);
       const parameters = TransformUtil.createWrappedExpression("parameters", node.arguments.length === 1 ? node.arguments[0] : undefined);
-      const comment = TransformUtil.createComment(node);
+      const comment = TransformUtil.createCommentPropertyAssignment(node);
       const name = TransformUtil.createNamePropertyAssignment(converterOptions, node, "%s", node);
 
       const assignments: ts.PropertyAssignment[] = []

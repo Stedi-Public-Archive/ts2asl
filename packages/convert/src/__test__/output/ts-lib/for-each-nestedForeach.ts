@@ -62,26 +62,11 @@ export const foreachEarlyReturn = asl.deploy.asStateMachine(async () => {
 });
 
 export const nestedForeach = asl.deploy.asStateMachine(async () =>{
-    const numbers = asl.pass({
-        name: "Assign numbers",
-        parameters: () => [0, 1, 2, 3],
-        comment: "numbers = [0, 1, 2, 3]"
-    });
-    const letters = asl.pass({
-        name: "Assign letters",
-        parameters: () => ["a", "b", "c", "d"],
-        comment: "letters = [\"a\", \"b\", \"c\", \"d\"]"
-    });
-    const global = asl.pass({
-        name: "Assign global",
-        parameters: () => "prefix",
-        comment: "global = \"prefix\""
-    });
-    const outer = asl.pass({
-        name: "Assign outer",
-        parameters: () => ({ middle: { inner: 3 } }),
-        comment: "outer = { middle: { inner: 3 } }"
-    });
+    const numbers = [0, 1, 2, 3];
+    const letters = ["a", "b", "c", "d"];
+    const global = "prefix";
+    const outer = { middle: { inner: 3 } };
+    let result = "";
     asl.typescriptForeach({
         name: "For number Of numbers",
         items: () => numbers,
@@ -90,22 +75,17 @@ export const nestedForeach = asl.deploy.asStateMachine(async () =>{
                 name: "For letter Of letters",
                 items: () => letters,
                 iterator: letter => {
-                    const combined = asl.pass({
-                        name: "Assign combined",
-                        parameters: () => ({ number, letter, global, inner: outer.middle.inner }),
-                        comment: "combined = { number, letter, global, inner: outer.middle.inner }"
-                    });
-                    asl.pass({
-                        name: "Log (combined)",
-                        parameters: () => combined,
-                        comment: "console.log(combined)"
-                    });
-                }
+                    const combined = { number, letter, global, inner: outer.middle.inner };
+                    result = asl.states.format("{}, {}", result, asl.states.jsonToString(combined));
+                },
+                comment: "for (const letter of letters) {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      result = `${result}, ${asl.states.jsonToString(combined)}`;\n    }"
             })
             ;
-        }
+        },
+        comment: "for (const number of numbers) {\n    for (const letter of letters) {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      result = `${result}, ${asl.states.jsonToString(combined)}`;\n    };\n  }"
     })
     ;
+    return result;
 });
 
 export const emptyForeach = asl.deploy.asStateMachine(async () => {

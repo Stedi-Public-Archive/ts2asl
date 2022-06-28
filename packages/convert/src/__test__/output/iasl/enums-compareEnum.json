@@ -7,15 +7,11 @@
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
+      "source": "x = ExampleEnum.A",
       "expression": {
-        "stateName": "Assign x",
-        "parameters": {
-          "value": 0,
-          "type": "numeric",
-          "_syntaxKind": "literal"
-        },
-        "source": "x = ExampleEnum.A",
-        "_syntaxKind": "asl-pass-state"
+        "value": 0,
+        "type": "numeric",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

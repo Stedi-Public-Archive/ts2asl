@@ -7,15 +7,11 @@
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
+      "source": "condition = 42",
       "expression": {
-        "stateName": "Assign condition",
-        "parameters": {
-          "value": 42,
-          "type": "numeric",
-          "_syntaxKind": "literal"
-        },
-        "source": "condition = 42",
-        "_syntaxKind": "asl-pass-state"
+        "value": 42,
+        "type": "numeric",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -26,30 +22,26 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "items = [2, 42, 3]",
       "expression": {
-        "stateName": "Assign items",
-        "parameters": {
-          "elements": [
-            {
-              "value": 2,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 42,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 3,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "items = [2, 42, 3]",
-        "_syntaxKind": "asl-pass-state"
+        "elements": [
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 42,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -60,6 +52,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "listWithReturned = items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n    return {};\n  })",
       "expression": {
         "stateName": "items.map => item",
         "items": {
@@ -135,6 +128,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "item = listWithReturned.filter(x => x.returned)",
       "expression": {
         "identifier": "listWithReturned",
         "type": "object",

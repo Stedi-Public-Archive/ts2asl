@@ -7,15 +7,11 @@
         "type": "numeric",
         "_syntaxKind": "identifier"
       },
+      "source": "value = 42",
       "expression": {
-        "stateName": "Assign value",
-        "parameters": {
-          "value": 42,
-          "type": "numeric",
-          "_syntaxKind": "literal"
-        },
-        "source": "value = 42",
-        "_syntaxKind": "asl-pass-state"
+        "value": 42,
+        "type": "numeric",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

@@ -8,7 +8,6 @@ import { switchStatementTransformer } from "./switch-statement";
 import { throwStatementTransformer } from "./throw-statement";
 import { tryStatementTransformer } from "./try-statement";
 import { unsupportedStatementTransformer } from "./unsupported";
-import { variableStatementTransformer } from "./variable-statement";
 import { whileStatementTransformer } from "./while-statement";
 import { consoleLogStatementTransformer } from "./log-statement";
 import { arrayFilterTransformer } from "./array-filter-statement";
@@ -38,7 +37,7 @@ export const createTransformers = (converterOptions: ConverterOptions = {}, host
     switchStatementTransformer(converterOptions),
     tryStatementTransformer(converterOptions),
     resolveExpressionsTransformer(converterOptions),
-    variableStatementTransformer(converterOptions),
+    //variableStatementTransformer(converterOptions),
     promiseAllStatementTransformer(converterOptions),
     consoleLogStatementTransformer(converterOptions),
     callStatementTransformer(converterOptions),

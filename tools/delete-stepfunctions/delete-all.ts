@@ -12,6 +12,10 @@ const deleteAll = async () => {
         console.log("statemachine does not belong to expected account");
         return;
       }
+
+      if (!stateMachine.name?.startsWith("ts2asl")) {
+        continue;
+      }
       const deleteCommand = new DeleteStateMachineCommand({ stateMachineArn: stateMachine.stateMachineArn });
       await sfn.send(deleteCommand);
       console.log(`deleted ${stateMachine.name}`);

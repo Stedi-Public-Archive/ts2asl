@@ -18,7 +18,7 @@ export const throwStatementTransformer = (converterOptions: ConverterOptions) =>
 
       const errorName = node.expression.expression.escapedText.toString();
       const error = TransformUtil.createLiteral("error", errorName);
-      const comment = TransformUtil.createComment(node);
+      const comment = TransformUtil.createCommentPropertyAssignment(node);
       let cause: ts.PropertyAssignment | undefined;
       const assignments: ts.PropertyAssignment[] = []
 

@@ -13,7 +13,7 @@ describe("when converting boolean-evalation", () => {
             "Comment": "source: data = { num: 42, text: \\"text\\", undefined: und ...",
             "Next": "If (typeof data.num !== \\" ...",
             "Parameters": Object {
-              "null.$": "$._undefined",
+              "null.$": "$._null",
               "num": 42,
               "text": "text",
               "timestamp": "2016-03-14T01:59:00Z",
@@ -203,6 +203,7 @@ describe("when converting boolean-evalation", () => {
           "Initialize": Object {
             "Next": "Assign data",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -274,7 +275,7 @@ describe("when converting boolean-evalation", () => {
             "Type": "Pass",
           },
           "Assign item": Object {
-            "Comment": undefined,
+            "Comment": "source: item = listWithReturned.filter(x => x.returned)",
             "InputPath": "$.vars.listWithReturned[?(@.returned)]",
             "Next": "Return item",
             "ResultPath": "$.vars.item",
@@ -282,7 +283,7 @@ describe("when converting boolean-evalation", () => {
           },
           "Assign items": Object {
             "Comment": "source: items = [2, 42, 3]",
-            "Next": "Assign listWithReturned",
+            "Next": "items.map => item",
             "Result": Array [
               2,
               42,
@@ -292,6 +293,29 @@ describe("when converting boolean-evalation", () => {
             "Type": "Pass",
           },
           "Assign listWithReturned": Object {
+            "Comment": "source: listWithReturned = items.map(item => { if (ite ...",
+            "InputPath": "$.tmp.result",
+            "Next": "Assign item",
+            "ResultPath": "$.vars.listWithReturned",
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "Assign condition",
+            "Parameters": Object {
+              "_null": null,
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Return item": Object {
+            "Comment": undefined,
+            "End": true,
+            "InputPath": "$.vars.item",
+            "Type": "Pass",
+          },
+          "items.map => item": Object {
             "Comment": "source: items.map(item => { if (item === condition) {  ...",
             "ItemsPath": "$.vars.items",
             "Iterator": Object {
@@ -326,30 +350,15 @@ describe("when converting boolean-evalation", () => {
               },
             },
             "MaxConcurrency": undefined,
-            "Next": "Assign item",
+            "Next": "Assign listWithReturned",
             "Parameters": Object {
               "vars": Object {
                 "condition.$": "$.vars.condition",
                 "item.$": "$$.Map.Item.Value",
               },
             },
-            "ResultPath": "$.vars.listWithReturned",
+            "ResultPath": "$.tmp.result",
             "Type": "Map",
-          },
-          "Initialize": Object {
-            "Next": "Assign condition",
-            "Parameters": Object {
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "Return item": Object {
-            "Comment": undefined,
-            "End": true,
-            "InputPath": "$.vars.item",
-            "Type": "Pass",
           },
         },
       }

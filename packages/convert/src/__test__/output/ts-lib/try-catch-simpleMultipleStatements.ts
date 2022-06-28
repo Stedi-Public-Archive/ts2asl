@@ -32,11 +32,7 @@ export const simpleMultipleStatements = asl.deploy.asStateMachine(async () =>{
     asl.typescriptTry({
         name: "Try Catch",
         try: async () => {
-            const arr = asl.pass({
-                name: "Assign arr",
-                parameters: () => [1],
-                comment: "arr = [1]"
-            });
+            const arr = [1];
             const withinTry = asl.map({
                 name: "arr.map => x",
                 items: () => arr,

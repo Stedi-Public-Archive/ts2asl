@@ -1,11 +1,7 @@
 import * as asl from "@ts2asl/asl-lib"
 
 export const stringTemplates = asl.deploy.asStateMachine(async () =>{
-    let variable = asl.pass({
-        name: "Assign variable",
-        parameters: () => "some var",
-        comment: "variable = \"some var\""
-    });
+    let variable = "some var";
     return {
         hello: asl.states.format("hello {}", variable),
     };

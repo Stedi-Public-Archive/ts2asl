@@ -7,15 +7,11 @@
         "type": "unknown",
         "_syntaxKind": "identifier"
       },
+      "source": "_null = null",
       "expression": {
-        "stateName": "Assign _null",
-        "parameters": {
-          "value": null,
-          "type": "null",
-          "_syntaxKind": "literal"
-        },
-        "source": "_null = null",
-        "_syntaxKind": "asl-pass-state"
+        "value": null,
+        "type": "null",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },

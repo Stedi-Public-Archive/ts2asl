@@ -26,11 +26,7 @@ export const mapArray = asl.deploy.asStateMachine(async () => {
 });
 
 export const mapArraySimple = asl.deploy.asStateMachine(async () =>{
-    const mappedArray = asl.pass({
-        name: "Assign mappedArray",
-        parameters: () => [{ age: 1, species: "dog" }, { age: 2, species: "cat" }, { age: 3, species: "dog" }, { age: 4, species: "cat" }, { age: 11, species: "dog" }, { age: 12, species: "car" }, { age: 13, species: "dog" }, { age: 14, species: "cat" }],
-        comment: "mappedArray = [{ age: 1, species: \"dog\" }, { age: 2, species: \"cat\" }, { age: 3, species: \"dog\" }, { age: 4, species: \"cat\" }, { age: 11, species: \"dog\" }, { age: 12, species: \"car\" }, { age: 13, species: \"dog\" }, { age: 14, species: \"cat\" }]"
-    });
+    const mappedArray = [{ age: 1, species: "dog" }, { age: 2, species: "cat" }, { age: 3, species: "dog" }, { age: 4, species: "cat" }, { age: 11, species: "dog" }, { age: 12, species: "car" }, { age: 13, species: "dog" }, { age: 14, species: "cat" }];
     const ages = asl.jsonPathMap(mappedArray, "age");
     const species = asl.jsonPathMap(mappedArray, "species");
     return {
@@ -43,7 +39,8 @@ export const mapArrayNestedPropertyAccess = asl.deploy.asStateMachine(async () =
   const num = source.map(x => x.obj.num);
   const str = source.map(x => x.obj.str);
   return {
-    num, str
+    num: num[0], 
+    str: str[0]
   }
 });
 export const filterArray = asl.deploy.asStateMachine(async () => {

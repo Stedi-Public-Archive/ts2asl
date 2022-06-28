@@ -54,6 +54,7 @@ describe("when converting closures", () => {
           "Initialize": Object {
             "Next": "Assign numbers",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

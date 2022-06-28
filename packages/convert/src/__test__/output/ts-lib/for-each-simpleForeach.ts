@@ -1,16 +1,8 @@
 import * as asl from "@ts2asl/asl-lib"
 
 export const simpleForeach = asl.deploy.asStateMachine(async () =>{
-    const arr = asl.pass({
-        name: "Assign arr",
-        parameters: () => [1, 2, 3],
-        comment: "arr = [1, 2, 3]"
-    });
-    let result = asl.pass({
-        name: "Assign result",
-        parameters: () => "",
-        comment: "result = \"\""
-    });
+    const arr = [1, 2, 3];
+    let result = "";
     asl.typescriptForeach({
         name: "For item Of arr",
         items: () => arr,
@@ -26,7 +18,8 @@ export const simpleForeach = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }"
             })
-        }
+        },
+        comment: "for (const item of arr) {\n    if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }\n  }"
     })
     return result;
 });
@@ -82,12 +75,14 @@ export const nestedForeach = asl.deploy.asStateMachine(async () => {
   const letters = ["a", "b", "c", "d"];
   const global = "prefix";
   const outer = { middle: { inner: 3 } }
+  let result = ``;
   for (const number of numbers) {
     for (const letter of letters) {
       const combined = { number, letter, global, inner: outer.middle.inner };
-      console.log(combined);
+      result = `${result}, ${asl.states.jsonToString(combined)}`;
     };
   };
+  return result;
 });
 
 export const emptyForeach = asl.deploy.asStateMachine(async () => {

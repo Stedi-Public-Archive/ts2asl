@@ -51,7 +51,7 @@ describe("when converting map statement to iasl", () => {
                     "expression": Object {
                       "_syntaxKind": "literal",
                       "type": "null",
-                      "value": null,
+                      "value": undefined,
                     },
                   },
                 ],
@@ -66,6 +66,12 @@ describe("when converting map statement to iasl", () => {
               "identifier": "aaaa",
               "type": "unknown",
             },
+            "source": "aaaa = asl.map({ 
+              items: something.list[0].here,
+              iterator: (localName) => {
+                return;
+              };
+          })",
             "stateName": "Assign aaaa",
           },
         ],

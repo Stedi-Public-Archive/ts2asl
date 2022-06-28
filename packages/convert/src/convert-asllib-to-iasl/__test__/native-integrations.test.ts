@@ -35,6 +35,10 @@ describe("when converting sdk integration statements to iasl", () => {
               "identifier": "aaaa",
               "type": "unknown",
             },
+            "source": "aaaa = asl.sdkDynamoDBGetItem({ 
+              TableName: \\"mytable\\", 
+              Key: { \\"pk\\": { S: \\"something\\"}, \\"sk\\": { S: \\"something\\"} } 
+          })",
             "stateName": "Assign aaaa",
           },
         ],

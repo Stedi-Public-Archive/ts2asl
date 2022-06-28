@@ -32,6 +32,7 @@ describe("when converting pass statements to iasl", () => {
               "identifier": "aaaa",
               "type": "string",
             },
+            "source": "aaaa = asl.pass({ parameters: 'hello', comment: 'some random comment' })",
             "stateName": "Assign aaaa",
           },
           Object {
@@ -102,6 +103,7 @@ describe("when converting pass statements to iasl", () => {
               "identifier": "aaaa",
               "type": "object",
             },
+            "source": "aaaa = asl.pass({ parameters: { field: xxx, another: 'literal', third: 23 }})",
             "stateName": "Assign aaaa",
           },
           Object {
@@ -189,6 +191,7 @@ const aaaa = asl.pass({ parameters: arg }); `;
               "identifier": "aaaa",
               "type": "unknown",
             },
+            "source": "aaaa = asl.pass({ parameters: arg })",
             "stateName": "Assign aaaa",
           },
         ],

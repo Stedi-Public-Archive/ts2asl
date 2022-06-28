@@ -2,11 +2,7 @@
 import * as asl from "@ts2asl/asl-lib";
 
 export const returnOptionalChain = asl.deploy.asStateMachine(async () =>{
-    const obj = asl.pass({
-        name: "Assign obj",
-        parameters: () => ({ name: "jim" }),
-        comment: "obj = { name: \"jim\" }"
-    });
+    const obj = { name: "jim" };
     return obj?.name;
 });
 

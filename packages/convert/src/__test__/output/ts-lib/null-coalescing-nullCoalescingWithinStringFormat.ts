@@ -28,19 +28,11 @@ export const nestedNullCoalescing = asl.deploy.asStateMachine(async () => {
 });
 
 export const nullCoalescingWithinStringFormat = asl.deploy.asStateMachine(async () =>{
-    const obj = asl.pass({
-        name: "Assign obj",
-        parameters: () => ({ name: undefined }),
-        comment: "obj = { name: undefined as string | undefined }"
-    });
+    const obj = { name: undefined };
     let result: {
         a?: string;
         b?: string;
-    } = asl.pass({
-        name: "Assign result",
-        parameters: () => ({}),
-        comment: "result: { a?: string, b?: string; } = {}"
-    });
+    } = {};
     result.a = asl.states.format("hello: {}", obj.name ? obj.name : "jim");
     obj.name = "jack";
     result.b = asl.states.format("hello: {}", obj.name ? obj.name : "jim");

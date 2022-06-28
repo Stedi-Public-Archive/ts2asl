@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign val"
     },

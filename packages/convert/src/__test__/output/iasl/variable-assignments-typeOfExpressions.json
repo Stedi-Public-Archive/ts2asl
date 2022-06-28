@@ -1,0 +1,259 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign str",
+      "name": {
+        "identifier": "str",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "str = typeof \"abcdef\"",
+      "expression": {
+        "operand": {
+          "value": "abcdef",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "type-of-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign num",
+      "name": {
+        "identifier": "num",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "num = typeof 123",
+      "expression": {
+        "operand": {
+          "value": 123,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "type-of-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign bool",
+      "name": {
+        "identifier": "bool",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "bool = typeof true",
+      "expression": {
+        "operand": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "type-of-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign object",
+      "name": {
+        "identifier": "object",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "object = typeof { str, num, bool }",
+      "expression": {
+        "operand": {
+          "properties": {
+            "str": {
+              "identifier": "str",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "num": {
+              "identifier": "num",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "bool": {
+              "identifier": "bool",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "type-of-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign undef",
+      "name": {
+        "identifier": "undef",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "undef = typeof undefined",
+      "expression": {
+        "operand": {
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "type-of-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign _null",
+      "name": {
+        "identifier": "_null",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "_null = typeof null",
+      "expression": {
+        "operand": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "type-of-expression"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (str === \"string\" && ...",
+      "condition": {
+        "lhs": {
+          "lhs": {
+            "lhs": {
+              "lhs": {
+                "lhs": {
+                  "lhs": {
+                    "identifier": "str",
+                    "type": "unknown",
+                    "_syntaxKind": "identifier"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": "string",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "operator": "and",
+                "rhs": {
+                  "lhs": {
+                    "identifier": "num",
+                    "type": "unknown",
+                    "_syntaxKind": "identifier"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": "number",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "_syntaxKind": "binary-expression"
+              },
+              "operator": "and",
+              "rhs": {
+                "lhs": {
+                  "identifier": "bool",
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
+                },
+                "operator": "eq",
+                "rhs": {
+                  "value": "boolean",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "_syntaxKind": "binary-expression"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "operator": "and",
+            "rhs": {
+              "lhs": {
+                "identifier": "object",
+                "type": "unknown",
+                "_syntaxKind": "identifier"
+              },
+              "operator": "eq",
+              "rhs": {
+                "value": "object",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "operator": "and",
+          "rhs": {
+            "lhs": {
+              "identifier": "undef",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "operator": "eq",
+            "rhs": {
+              "value": "undefined",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "binary-expression"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "operator": "and",
+        "rhs": {
+          "lhs": {
+            "identifier": "_null",
+            "type": "unknown",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "object",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Return \"ok\"",
+            "expression": {
+              "value": "ok",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (str === \"string\" && \n      num === \"number\" && \n      bool === \"boolean\" && \n      object === \"object\" && \n      undef === \"undefined\" && \n      _null === \"object\") {\n        return \"ok\"\n      }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "Return \"not ok\"",
+      "expression": {
+        "value": "not ok",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

@@ -75,6 +75,7 @@ describe("when converting conditional-expression", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -123,6 +124,7 @@ describe("when converting conditional-expression", () => {
           "Initialize": Object {
             "Next": "Eval Conditional",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -218,6 +220,7 @@ describe("when converting conditional-expression", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -321,6 +324,7 @@ describe("when converting conditional-expression", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -396,6 +400,7 @@ describe("when converting conditional-expression", () => {
           "Initialize": Object {
             "Next": "Assign obj",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

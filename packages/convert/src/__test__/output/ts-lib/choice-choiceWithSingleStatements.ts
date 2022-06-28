@@ -30,11 +30,7 @@ export const choice = asl.deploy.asStateMachine(async (input: { condition?: any 
 });
 
 export const choiceWithSingleStatements = asl.deploy.asStateMachine(async (input: { condition?: any } = {}) =>{
-    let val = asl.pass({
-        name: "Assign val",
-        parameters: () => ({ a: "", b: "", c: "", d: "", e: "", f: "", g: "" }),
-        comment: "val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f: \"\", g: \"\" }"
-    });
+    let val = { a: "", b: "", c: "", d: "", e: "", f: "", g: "" };
     asl.choice({
         choices: [
             {

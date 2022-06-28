@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign enclosedVar1"
     },
@@ -32,9 +33,9 @@
       "Type": "Parallel",
       "Branches": [
         {
-          "StartAt": "worker(enclosedVar1)",
+          "StartAt": "Assign",
           "States": {
-            "worker(enclosedVar1)": {
+            "Assign": {
               "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",
@@ -62,9 +63,9 @@
           }
         },
         {
-          "StartAt": "worker(enclosedVar2)",
+          "StartAt": "Assign_1",
           "States": {
-            "worker(enclosedVar2)": {
+            "Assign_1": {
               "Type": "Task",
               "ResultPath": "$.vars.return_var",
               "Resource": "[!lambda[worker]arn]",

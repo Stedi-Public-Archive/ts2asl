@@ -2,11 +2,7 @@
 import * as asl from "@ts2asl/asl-lib";
 
 export const conditional = asl.deploy.asStateMachine(async (args: { name?: string; }) =>{
-    const obj = asl.pass({
-        name: "Assign obj",
-        parameters: () => ({ name: undefined }),
-        comment: "obj = { name: undefined }"
-    });
+    const obj = { name: undefined };
     return obj.name ? obj.name : "jim";
 });
 

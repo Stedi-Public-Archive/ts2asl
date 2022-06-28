@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign obj"
     },
@@ -54,14 +55,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.vars.obj.name",
+      "ResultPath": "$.tmp.var",
       "Next": "Eval Conditional_1"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "world",
+      "ResultPath": "$.tmp.var",
       "Next": "Eval Conditional_1"
     },
     "Eval Conditional_1": {
@@ -77,14 +78,14 @@
     },
     "Conditional True_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "doesn't happen",
+      "ResultPath": "$.tmp.var",
       "Next": "Return null ? \"doesn't ha ..."
     },
     "Conditional False_1": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.tmp.var",
+      "ResultPath": "$.tmp.var",
       "Next": "Return null ? \"doesn't ha ..."
     },
     "Return null ? \"doesn't ha ...": {

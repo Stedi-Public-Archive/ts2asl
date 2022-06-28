@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign obj"
     },
@@ -78,14 +79,14 @@
     },
     "Conditional True": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.tmp.var",
       "Next": "Return"
     },
     "Conditional False": {
       "Type": "Pass",
-      "ResultPath": "$.tmp.var",
       "Result": "you",
+      "ResultPath": "$.tmp.var",
       "Next": "Return"
     },
     "Return": {

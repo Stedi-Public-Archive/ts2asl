@@ -62,25 +62,21 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "x = {\n    name: input.name,\n    executionId: context.execution.id\n  }",
       "expression": {
-        "stateName": "Assign x",
-        "parameters": {
-          "properties": {
-            "name": {
-              "identifier": "input.name",
-              "type": "string",
-              "_syntaxKind": "identifier"
-            },
-            "executionId": {
-              "identifier": "context.execution.id",
-              "type": "string",
-              "_syntaxKind": "identifier"
-            }
+        "properties": {
+          "name": {
+            "identifier": "input.name",
+            "type": "string",
+            "_syntaxKind": "identifier"
           },
-          "_syntaxKind": "literal-object"
+          "executionId": {
+            "identifier": "context.execution.id",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          }
         },
-        "source": "x = {\n    name: input.name,\n    executionId: context.execution.id\n  }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -91,140 +87,136 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    func2: asl.states.jsonToString({field:'val'}),\n    fmt: asl.states.format(\"hello {}\", x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }",
       "expression": {
-        "stateName": "Assign y",
-        "parameters": {
-          "properties": {
-            "x": {
-              "identifier": "x",
-              "type": "object",
-              "_syntaxKind": "identifier"
-            },
-            "somethingLiteral": {
-              "elements": [
-                {
-                  "value": "one",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                },
-                {
-                  "value": 2,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                {
-                  "value": "three",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
-              ],
-              "_syntaxKind": "literal-array"
-            },
-            "startTime": {
-              "identifier": "context.execution.startTime",
-              "type": "string",
-              "_syntaxKind": "identifier"
-            },
-            "func": {
-              "arguments": [
-                {
-                  "identifier": "x",
-                  "type": "object",
-                  "_syntaxKind": "identifier"
-                }
-              ],
-              "type": "string",
-              "function": "asl.states.jsonToString",
-              "_syntaxKind": "asl-intrinsic-function"
-            },
-            "func2": {
-              "arguments": [
-                {
-                  "properties": {
-                    "field": {
-                      "value": "val",
-                      "type": "string",
-                      "_syntaxKind": "literal"
-                    }
-                  },
-                  "_syntaxKind": "literal-object"
-                }
-              ],
-              "type": "string",
-              "function": "asl.states.jsonToString",
-              "_syntaxKind": "asl-intrinsic-function"
-            },
-            "fmt": {
-              "arguments": [
-                {
-                  "value": "hello {}",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                },
-                {
-                  "identifier": "x",
-                  "type": "object",
-                  "_syntaxKind": "identifier"
-                }
-              ],
-              "type": "string",
-              "function": "asl.states.format",
-              "_syntaxKind": "asl-intrinsic-function"
-            },
-            "number": {
-              "arguments": [
-                {
-                  "value": "123",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
-              ],
-              "type": "unknown",
-              "function": "asl.states.stringToJson",
-              "_syntaxKind": "asl-intrinsic-function"
-            },
-            "arr": {
-              "arguments": [
-                {
-                  "value": 1,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                {
-                  "value": 2,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                {
-                  "value": 3,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                {
-                  "value": 4,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                {
-                  "value": 5,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                },
-                {
-                  "value": 6,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                }
-              ],
-              "type": "object",
-              "function": "asl.states.array",
-              "_syntaxKind": "asl-intrinsic-function"
-            }
+        "properties": {
+          "x": {
+            "identifier": "x",
+            "type": "object",
+            "_syntaxKind": "identifier"
           },
-          "_syntaxKind": "literal-object"
+          "somethingLiteral": {
+            "elements": [
+              {
+                "value": "one",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "value": 2,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              {
+                "value": "three",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
+            ],
+            "_syntaxKind": "literal-array"
+          },
+          "startTime": {
+            "identifier": "context.execution.startTime",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          "func": {
+            "arguments": [
+              {
+                "identifier": "x",
+                "type": "object",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "string",
+            "function": "asl.states.jsonToString",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "func2": {
+            "arguments": [
+              {
+                "properties": {
+                  "field": {
+                    "value": "val",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              }
+            ],
+            "type": "string",
+            "function": "asl.states.jsonToString",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "fmt": {
+            "arguments": [
+              {
+                "value": "hello {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "x",
+                "type": "object",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "string",
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "number": {
+            "arguments": [
+              {
+                "value": "123",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
+            ],
+            "type": "unknown",
+            "function": "asl.states.stringToJson",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "arr": {
+            "arguments": [
+              {
+                "value": 1,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              {
+                "value": 2,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              {
+                "value": 3,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              {
+                "value": 4,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              {
+                "value": 5,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              {
+                "value": 6,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
+            ],
+            "type": "object",
+            "function": "asl.states.array",
+            "_syntaxKind": "asl-intrinsic-function"
+          }
         },
-        "source": "y = {\n    x,\n    somethingLiteral: [\"one\", 2, \"three\"],\n    startTime: context.execution.startTime,\n    func: asl.states.jsonToString(x),\n    func2: asl.states.jsonToString({field:'val'}),\n    fmt: asl.states.format(\"hello {}\", x),\n    number: asl.states.stringToJson(\"123\") as number,\n    arr: asl.states.array(1, 2, 3, 4, 5, 6),\n  }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },

@@ -7,25 +7,21 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "obj = { inner: { name: \"jim\" } }",
       "expression": {
-        "stateName": "Assign obj",
-        "parameters": {
-          "properties": {
-            "inner": {
-              "properties": {
-                "name": {
-                  "value": "jim",
-                  "type": "string",
-                  "_syntaxKind": "literal"
-                }
-              },
-              "_syntaxKind": "literal-object"
-            }
-          },
-          "_syntaxKind": "literal-object"
+        "properties": {
+          "inner": {
+            "properties": {
+              "name": {
+                "value": "jim",
+                "type": "string",
+                "_syntaxKind": "literal"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
         },
-        "source": "obj = { inner: { name: \"jim\" } }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
       },
       "_syntaxKind": "variable-assignment"
     },

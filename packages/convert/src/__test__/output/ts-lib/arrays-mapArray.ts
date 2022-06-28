@@ -9,11 +9,7 @@ export const serializeArray = asl.deploy.asStateMachine(async () => {
 });
 
 export const mapArray = asl.deploy.asStateMachine(async () =>{
-    let myArray = asl.pass({
-        name: "Assign myArray",
-        parameters: () => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        comment: "myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-    });
+    let myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return asl.map({
         name: "myArray.map => x",
         items: () => myArray,
@@ -54,7 +50,8 @@ export const mapArrayNestedPropertyAccess = asl.deploy.asStateMachine(async () =
   const num = source.map(x => x.obj.num);
   const str = source.map(x => x.obj.str);
   return {
-    num, str
+    num: num[0], 
+    str: str[0]
   }
 });
 export const filterArray = asl.deploy.asStateMachine(async () => {

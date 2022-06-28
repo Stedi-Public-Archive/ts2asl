@@ -3,6 +3,7 @@ import { Operator } from 'asl-types/dist/choice';
 import { AslRhsFactory } from "./aslfactory.rhs";
 import { AslWriter } from "./asl-writer";
 import { BinaryExpressionFactory } from "../convert-asllib-to-iasl/iaslfactory";
+import exp from "constants";
 
 
 export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.LiteralExpression | iasl.Identifier, scopes: Record<string, iasl.Scope>, context: AslWriter): Operator {
@@ -37,7 +38,7 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
   if (expression.operator === "exists-in") {
     if (!iasl.Check.isLiteral(expression.lhs) || expression.lhs.type !== "string" || (expression.lhs.value as string).length === 0) throw new Error("binary expression with 'exists-in' operand must have string literal as lhs");
     const expr = AslRhsFactory.appendIasl(expression.rhs, scopes, context);
-
+    if (!("path" in expr)) throw new Error("exists in must apply to reference");
     return {
       Variable: expr.path + `.${expression.lhs.value}`,
       IsPresent: true
@@ -46,8 +47,8 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
 
   if (expression.operator === "is-truthy") {
     if (expression.lhs) throw new Error("binary expression with 'is-truthy' operand should not have lhs");
-    const expr = AslRhsFactory.appendIasl(expression.rhs, scopes, context, true);
-
+    let expr = AslRhsFactory.appendIasl(expression.rhs, scopes, context, true);
+    expr = AslRhsFactory.convertToPath(expr, context);
     //if type of boolean we use a simple 'BooleanEquals' check
     if (expr.type === "boolean") {
       return {
@@ -271,8 +272,8 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
   const lhs = expression.lhs ? AslRhsFactory.appendIasl(expression.lhs, scopes, context) : undefined;
   const rhs = AslRhsFactory.appendIasl(expression.rhs, scopes, context);
   if (!lhs) throw new Error("expected lhs on binary expression");
-  if (lhs.path === undefined) { //lhs will be bound to variable, must not be literal
-    if (rhs.path === undefined) {
+  if ("value" in lhs) { //lhs will be bound to variable, must not be literal
+    if ("value" in rhs) {
       throw new Error("expected either rhs or lhs to be path");
     }
     const reversedExpression = reverseBinaryExpression(expression);
@@ -314,12 +315,12 @@ export function createChoiceOperator(expression: iasl.BinaryExpression | iasl.Li
       break;
   }
 
-  let operand = rhs.value;
-  if (rhs.path) {
+  let operand = "value" in rhs ? rhs.value : undefined;
+  if ("path" in rhs) {
     operatorField += 'Path';
     operand = rhs.path;
   }
-
+  
   return {
     Variable: lhs.path,
     [operatorField]: operand

@@ -96,11 +96,7 @@ export const switchDefaultFallsThrough = asl.deploy.asStateMachine(async () => {
 
 export const createAwsAccount = asl.deploy.asStateMachine(async () =>{
     const createAccount = await asl.sdkOrganizationsCreateAccount({ parameters: { AccountName: "test", Email: "something@email.com" } });
-    let creationStatus: string | undefined = asl.pass({
-        name: "Assign creationStatus",
-        parameters: () => undefined,
-        comment: "creationStatus: string | undefined = undefined"
-    });
+    let creationStatus: string | undefined = undefined;
     asl.typescriptDoWhile({
         name: "Do While (creationStatus ...",
         condition: () => creationStatus !== "SUCCEEDED",
@@ -131,7 +127,8 @@ export const createAwsAccount = asl.deploy.asStateMachine(async () =>{
                 ],
                 comment: "switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }"
             })
-        }
+        },
+        comment: "do {\n    const describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } });\n    creationStatus = describeResult.CreateAccountStatus?.State;\n    switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }\n  } while (creationStatus !== \"SUCCEEDED\");"
     })
     asl.pass({
         name: "Log (createAccount.Create ...",

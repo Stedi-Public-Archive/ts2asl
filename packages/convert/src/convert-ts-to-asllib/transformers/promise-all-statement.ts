@@ -35,7 +35,7 @@ export const promiseAllStatementTransformer = (converterOptions: ConverterOption
 
         const blocks_ = arg.elements.map(x => convertToBlock(x, true));
         const branches = TransformUtil.createNamedBlockArray("branches", blocks_)
-        const comment = TransformUtil.createComment(node);
+        const comment = TransformUtil.createCommentPropertyAssignment(node);
 
         const assignments: ts.PropertyAssignment[] = []
         for (const assignment of [branches, comment]) {

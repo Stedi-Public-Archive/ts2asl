@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign mappedArray"
     },
@@ -52,14 +53,16 @@
     },
     "Assign ages": {
       "Type": "Pass",
-      "InputPath": "$.vars.mappedArray.age",
+      "InputPath": "$.vars.mappedArray..age",
       "ResultPath": "$.vars.ages",
+      "Comment": "source: ages = mappedArray.map(x => x.age)",
       "Next": "Assign species"
     },
     "Assign species": {
       "Type": "Pass",
-      "InputPath": "$.vars.mappedArray.species",
+      "InputPath": "$.vars.mappedArray..species",
       "ResultPath": "$.vars.species",
+      "Comment": "source: species = mappedArray.map(x => x.species)",
       "Next": "Return { ages, specie ..."
     },
     "Return { ages, specie ...": {

@@ -7,35 +7,31 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "numbers = [0, 1, 2, 3]",
       "expression": {
-        "stateName": "Assign numbers",
-        "parameters": {
-          "elements": [
-            {
-              "value": 0,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 1,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 2,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": 3,
-              "type": "numeric",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "numbers = [0, 1, 2, 3]",
-        "_syntaxKind": "asl-pass-state"
+        "elements": [
+          {
+            "value": 0,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -46,35 +42,31 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "letters = [\"a\", \"b\", \"c\", \"d\"]",
       "expression": {
-        "stateName": "Assign letters",
-        "parameters": {
-          "elements": [
-            {
-              "value": "a",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": "b",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": "c",
-              "type": "string",
-              "_syntaxKind": "literal"
-            },
-            {
-              "value": "d",
-              "type": "string",
-              "_syntaxKind": "literal"
-            }
-          ],
-          "_syntaxKind": "literal-array"
-        },
-        "source": "letters = [\"a\", \"b\", \"c\", \"d\"]",
-        "_syntaxKind": "asl-pass-state"
+        "elements": [
+          {
+            "value": "a",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "b",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "c",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "d",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -85,15 +77,11 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "global = \"prefix\"",
       "expression": {
-        "stateName": "Assign global",
-        "parameters": {
-          "value": "prefix",
-          "type": "string",
-          "_syntaxKind": "literal"
-        },
-        "source": "global = \"prefix\"",
-        "_syntaxKind": "asl-pass-state"
+        "value": "prefix",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -104,25 +92,36 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
+      "source": "outer = { middle: { inner: 3 } }",
       "expression": {
-        "stateName": "Assign outer",
-        "parameters": {
-          "properties": {
-            "middle": {
-              "properties": {
-                "inner": {
-                  "value": 3,
-                  "type": "numeric",
-                  "_syntaxKind": "literal"
-                }
-              },
-              "_syntaxKind": "literal-object"
-            }
-          },
-          "_syntaxKind": "literal-object"
+        "properties": {
+          "middle": {
+            "properties": {
+              "inner": {
+                "value": 3,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
         },
-        "source": "outer = { middle: { inner: 3 } }",
-        "_syntaxKind": "asl-pass-state"
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result = ``",
+      "expression": {
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
       },
       "_syntaxKind": "variable-assignment"
     },
@@ -161,57 +160,92 @@
                     "type": "object",
                     "_syntaxKind": "identifier"
                   },
+                  "source": "combined = { number, letter, global, inner: outer.middle.inner }",
                   "expression": {
-                    "stateName": "Assign combined",
-                    "parameters": {
-                      "properties": {
-                        "number": {
-                          "identifier": "number",
-                          "type": "numeric",
-                          "_syntaxKind": "identifier"
-                        },
-                        "letter": {
-                          "identifier": "letter",
-                          "type": "string",
-                          "_syntaxKind": "identifier"
-                        },
-                        "global": {
-                          "identifier": "global",
-                          "type": "string",
-                          "_syntaxKind": "identifier"
-                        },
-                        "inner": {
-                          "identifier": "outer.middle.inner",
-                          "type": "numeric",
-                          "_syntaxKind": "identifier"
-                        }
+                    "properties": {
+                      "number": {
+                        "identifier": "number",
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
                       },
-                      "_syntaxKind": "literal-object"
+                      "letter": {
+                        "identifier": "letter",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      "global": {
+                        "identifier": "global",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      "inner": {
+                        "identifier": "outer.middle.inner",
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
+                      }
                     },
-                    "source": "combined = { number, letter, global, inner: outer.middle.inner }",
-                    "_syntaxKind": "asl-pass-state"
+                    "_syntaxKind": "literal-object"
                   },
                   "_syntaxKind": "variable-assignment"
                 },
                 {
-                  "stateName": "Log (combined)",
-                  "parameters": {
-                    "identifier": "combined",
-                    "type": "object",
+                  "name": {
+                    "identifier": "result",
+                    "type": "string",
                     "_syntaxKind": "identifier"
                   },
-                  "source": "console.log(combined)",
-                  "_syntaxKind": "asl-pass-state"
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "{}, {}",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "result",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "identifier": "combined",
+                            "type": "object",
+                            "_syntaxKind": "identifier"
+                          }
+                        ],
+                        "type": "string",
+                        "function": "asl.states.jsonToString",
+                        "_syntaxKind": "asl-intrinsic-function"
+                      }
+                    ],
+                    "type": "unknown",
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "stateName": "Assign result",
+                  "_syntaxKind": "variable-assignment"
                 }
               ],
               "_syntaxKind": "function"
             },
+            "source": "for (const letter of letters) {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      result = `${result}, ${asl.states.jsonToString(combined)}`;\n    }",
             "_syntaxKind": "for-each"
           }
         ],
         "_syntaxKind": "function"
       },
+      "source": "for (const number of numbers) {\n    for (const letter of letters) {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      result = `${result}, ${asl.states.jsonToString(combined)}`;\n    };\n  }",
       "_syntaxKind": "for-each"
+    },
+    {
+      "stateName": "Return result",
+      "expression": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
     }
   ],
   "_syntaxKind": "statemachine"

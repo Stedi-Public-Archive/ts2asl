@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign arr"
     },
@@ -17,11 +18,11 @@
       ],
       "ResultPath": "$.vars.arr",
       "Comment": "source: arr = [1]",
-      "Next": "Assign withinTry"
+      "Next": "arr.map => x"
     },
-    "Assign withinTry": {
+    "arr.map => x": {
       "Type": "Map",
-      "ResultPath": "$.vars.withinTry",
+      "ResultPath": "$.tmp.result",
       "Iterator": {
         "StartAt": "Return \"succeeded\"",
         "States": {
@@ -39,7 +40,7 @@
           "x.$": "$$.Map.Item.Value"
         }
       },
-      "Next": "Return withinTry[0]",
+      "Next": "Assign withinTry",
       "Catch": [
         {
           "ErrorEquals": [
@@ -49,6 +50,13 @@
           "Next": "Return \"it failed\""
         }
       ]
+    },
+    "Assign withinTry": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.withinTry",
+      "Comment": "source: withinTry = arr.map(x => \"succeeded\")",
+      "Next": "Return withinTry[0]"
     },
     "Return withinTry[0]": {
       "Type": "Pass",

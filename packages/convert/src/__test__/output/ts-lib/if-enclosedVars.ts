@@ -46,11 +46,7 @@ export const nestedIfs = asl.deploy.asStateMachine(async () => {
 });
 
 export const enclosedVars = asl.deploy.asStateMachine(async () =>{
-    let enclosedVar = asl.pass({
-        name: "Assign enclosedVar",
-        parameters: () => "before",
-        comment: "enclosedVar = \"before\""
-    });
+    let enclosedVar = "before";
     asl.typescriptIf({
         name: "If (true)",
         condition: () => true,

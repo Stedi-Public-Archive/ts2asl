@@ -19,7 +19,7 @@ describe("when converting pagination", () => {
           "Assign marker": Object {
             "Comment": "source: marker: string | undefined",
             "InputPath": "$._undefined",
-            "Next": "List Users",
+            "Next": "Assign response",
             "ResultPath": "$.vars.marker",
             "Type": "Pass",
           },
@@ -29,6 +29,19 @@ describe("when converting pagination", () => {
             "Next": "Do While Condition",
             "ResultPath": "$.vars.marker",
             "Type": "Pass",
+          },
+          "Assign response": Object {
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "Foreach Initialize",
+            "Parameters": Object {
+              "Marker.$": "$.vars.marker",
+              "PathPrefix": "/path",
+            },
+            "Resource": "arn:aws:states:::aws-sdk:iam:listUsers",
+            "ResultPath": "$.vars.response",
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
           "Conditional False": Object {
             "InputPath": "$._undefined",
@@ -51,7 +64,7 @@ describe("when converting pagination", () => {
           "Do While Condition": Object {
             "Choices": Array [
               Object {
-                "Next": "List Users",
+                "Next": "Assign response",
                 "Not": Object {
                   "Or": Array [
                     Object {
@@ -138,24 +151,12 @@ describe("when converting pagination", () => {
           "Initialize": Object {
             "Next": "Assign marker",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
             "ResultPath": "$",
             "Type": "Pass",
-          },
-          "List Users": Object {
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "Foreach Initialize",
-            "Parameters": Object {
-              "Marker.$": "$.vars.marker",
-              "PathPrefix": "/path",
-            },
-            "Resource": "arn:aws:states:::aws-sdk:iam:listUsers",
-            "ResultPath": "$.vars.response",
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
           },
           "doSomething(user)": Object {
             "Comment": "source: doSomething(user)",
@@ -192,6 +193,7 @@ describe("when converting pagination", () => {
           "Initialize": Object {
             "Next": "Log (input)",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

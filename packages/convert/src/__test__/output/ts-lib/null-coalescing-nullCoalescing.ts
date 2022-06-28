@@ -2,19 +2,11 @@
 import * as asl from "@ts2asl/asl-lib";
 
 export const nullCoalescing = asl.deploy.asStateMachine(async () =>{
-    const obj = asl.pass({
-        name: "Assign obj",
-        parameters: () => ({ name: undefined }),
-        comment: "obj = { name: undefined as string | undefined }"
-    });
+    const obj = { name: undefined };
     let result: {
         a?: string;
         b?: string;
-    } = asl.pass({
-        name: "Assign result",
-        parameters: () => ({}),
-        comment: "result: { a?: string, b?: string; } = {}"
-    });
+    } = {};
     result.a = obj.name ? obj.name : "jim";
     obj.name = "jack";
     result.b = obj.name ? obj.name : "jim";

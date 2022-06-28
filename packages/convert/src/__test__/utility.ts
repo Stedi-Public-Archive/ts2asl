@@ -42,7 +42,7 @@ export const convertDeployExecute = async (filename: string, name: string, input
   const converted = converter
     .convert({ includeDiagnostics: true, getParameter: x => x as any })
     .stateMachines.map(x => x as ConvertedStateMachineWithDiagnostics);
-  const stateMachineName = `ts2asl` + Math.floor(Math.random() * 10000);
+  const stateMachineName = `ts2asl` + Math.floor(Math.random() * 99999999);
   let sfnArn: string = "";
   try {
 

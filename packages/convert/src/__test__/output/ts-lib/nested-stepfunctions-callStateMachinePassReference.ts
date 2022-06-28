@@ -6,11 +6,7 @@ export const callStateMachineWithAwait = asl.deploy.asStateMachine(async () => {
 });
 
 export const callStateMachinePassReference = asl.deploy.asStateMachine(async () =>{
-    const args = asl.pass({
-        name: "Assign args",
-        parameters: () => ({ firstName: "Santa", lastName: "Claus" }),
-        comment: "args = {firstName: \"Santa\", lastName: \"Claus\" }"
-    });
+    const args = { firstName: "Santa", lastName: "Claus" };
     const name = await asl.typescriptInvoke({
         name: "childStateMachine(args)",
         resource: childStateMachine,

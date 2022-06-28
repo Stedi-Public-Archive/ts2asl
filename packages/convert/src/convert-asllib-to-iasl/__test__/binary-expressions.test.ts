@@ -198,54 +198,46 @@ describe("when converting binary expressions to iasl", () => {
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
-              "_syntaxKind": "asl-pass-state",
-              "parameters": Object {
-                "_syntaxKind": "literal",
-                "type": "numeric",
-                "value": 42,
-              },
-              "source": "condition = 42",
-              "stateName": "Assign condition",
+              "_syntaxKind": "literal",
+              "type": "numeric",
+              "value": 42,
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "condition",
-              "type": "unknown",
+              "type": "numeric",
             },
+            "source": "condition = 42",
             "stateName": "Assign condition",
           },
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
-              "_syntaxKind": "asl-pass-state",
-              "parameters": Object {
-                "_syntaxKind": "literal-array",
-                "elements": Array [
-                  Object {
-                    "_syntaxKind": "literal",
-                    "type": "numeric",
-                    "value": 2,
-                  },
-                  Object {
-                    "_syntaxKind": "literal",
-                    "type": "numeric",
-                    "value": 42,
-                  },
-                  Object {
-                    "_syntaxKind": "literal",
-                    "type": "numeric",
-                    "value": 3,
-                  },
-                ],
-              },
-              "source": "items = [2, 42, 3]",
-              "stateName": "Assign items",
+              "_syntaxKind": "literal-array",
+              "elements": Array [
+                Object {
+                  "_syntaxKind": "literal",
+                  "type": "numeric",
+                  "value": 2,
+                },
+                Object {
+                  "_syntaxKind": "literal",
+                  "type": "numeric",
+                  "value": 42,
+                },
+                Object {
+                  "_syntaxKind": "literal",
+                  "type": "numeric",
+                  "value": 3,
+                },
+              ],
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "items",
-              "type": "unknown",
+              "type": "object",
             },
+            "source": "items = [2, 42, 3]",
             "stateName": "Assign items",
           },
           Object {
@@ -256,7 +248,7 @@ describe("when converting binary expressions to iasl", () => {
               "items": Object {
                 "_syntaxKind": "identifier",
                 "identifier": "items",
-                "type": "unknown",
+                "type": "object",
               },
               "iterator": Object {
                 "_syntaxKind": "function",
@@ -279,7 +271,7 @@ describe("when converting binary expressions to iasl", () => {
                       "rhs": Object {
                         "_syntaxKind": "identifier",
                         "identifier": "condition",
-                        "type": "unknown",
+                        "type": "numeric",
                       },
                     },
                     "source": "if (item === condition) {
@@ -322,6 +314,21 @@ describe("when converting binary expressions to iasl", () => {
               "identifier": "listWithRetunrned",
               "type": "unknown",
             },
+            "source": "listWithRetunrned = asl.map({
+          name: \\"items.map => item\\",
+          items: () => items,
+          iterator: item => {
+              asl.typescriptIf({
+                  name: \\"If (item === condition)\\",
+                  condition: () => item === condition,
+                  then: async () => {
+                      return { returned: item };
+                  },
+                  comment: \\"if (item === condition) {\\\\n          return { returned : item };\\\\n        }\\"
+              })
+          },
+          comment: \\"items.map(item => {\\\\n        if (item === condition) {\\\\n          return { returned : item };\\\\n        }\\\\n      })\\"
+      })",
             "stateName": "Assign listWithRetunrned",
           },
           Object {
@@ -348,6 +355,7 @@ describe("when converting binary expressions to iasl", () => {
               "identifier": "item",
               "type": "unknown",
             },
+            "source": "item = asl.jsonPathFilter(listWithRetunrned, (x) => x.returned)",
             "stateName": "Assign item",
           },
           Object {

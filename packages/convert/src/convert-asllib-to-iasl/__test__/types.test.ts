@@ -32,20 +32,16 @@ describe("when converting choice statement to iasl", () => {
           Object {
             "_syntaxKind": "variable-assignment",
             "expression": Object {
-              "_syntaxKind": "asl-pass-state",
-              "parameters": Object {
-                "_syntaxKind": "literal",
-                "type": "string",
-                "value": "hello",
-              },
-              "source": "xxx = \\"hello\\"",
-              "stateName": "Assign xxx",
+              "_syntaxKind": "literal",
+              "type": "string",
+              "value": "hello",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "xxx",
               "type": "string",
             },
+            "source": "xxx = \\"hello\\"",
             "stateName": "2: Assign xxx",
           },
           Object {
@@ -77,21 +73,17 @@ describe("when converting choice statement to iasl", () => {
                 Object {
                   "_syntaxKind": "variable-assignment",
                   "expression": Object {
-                    "_syntaxKind": "asl-pass-state",
-                    "parameters": Object {
-                      "_syntaxKind": "literal",
-                      "type": "numeric",
-                      "value": 42,
-                    },
-                    "source": "num = 42",
-                    "stateName": "Assign num",
+                    "_syntaxKind": "literal",
+                    "type": "numeric",
+                    "value": 42,
                   },
                   "name": Object {
                     "_syntaxKind": "identifier",
                     "identifier": "num",
                     "type": "numeric",
                   },
-                  "stateName": "11: Assign num",
+                  "source": "num = 42",
+                  "stateName": "7: Assign num",
                 },
                 Object {
                   "_syntaxKind": "if",

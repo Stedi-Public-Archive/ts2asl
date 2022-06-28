@@ -34,16 +34,8 @@ export const foreachWithBreak = asl.deploy.asStateMachine(async () => {
 });
 
 export const foreachWithContinue = asl.deploy.asStateMachine(async () =>{
-    const arr = asl.pass({
-        name: "Assign arr",
-        parameters: () => [1, 2, 3],
-        comment: "arr = [1, 2, 3]"
-    });
-    let result = asl.pass({
-        name: "Assign result",
-        parameters: () => "",
-        comment: "result = \"\""
-    });
+    const arr = [1, 2, 3];
+    let result = "";
     asl.typescriptForeach({
         name: "For item Of arr",
         items: () => arr,
@@ -67,7 +59,8 @@ export const foreachWithContinue = asl.deploy.asStateMachine(async () =>{
                 },
                 comment: "if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }"
             })
-        }
+        },
+        comment: "for (const item of arr) {\n    if (item === 2) {\n      continue; // this break will prevent 2 from being added to the string\n    }\n    if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }\n  }"
     })
     return result; //returns "1, 3"
 });
@@ -88,12 +81,14 @@ export const nestedForeach = asl.deploy.asStateMachine(async () => {
   const letters = ["a", "b", "c", "d"];
   const global = "prefix";
   const outer = { middle: { inner: 3 } }
+  let result = ``;
   for (const number of numbers) {
     for (const letter of letters) {
       const combined = { number, letter, global, inner: outer.middle.inner };
-      console.log(combined);
+      result = `${result}, ${asl.states.jsonToString(combined)}`;
     };
   };
+  return result;
 });
 
 export const emptyForeach = asl.deploy.asStateMachine(async () => {

@@ -6,7 +6,8 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
       "Next": "Assign condition"
     },
@@ -26,11 +27,11 @@
       ],
       "ResultPath": "$.vars.items",
       "Comment": "source: items = [2, 42, 3]",
-      "Next": "Assign listWithReturned"
+      "Next": "items.map => item"
     },
-    "Assign listWithReturned": {
+    "items.map => item": {
       "Type": "Map",
-      "ResultPath": "$.vars.listWithReturned",
+      "ResultPath": "$.tmp.result",
       "Iterator": {
         "StartAt": "If (item === condition)",
         "States": {
@@ -68,12 +69,20 @@
           "condition.$": "$.vars.condition"
         }
       },
+      "Next": "Assign listWithReturned"
+    },
+    "Assign listWithReturned": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "ResultPath": "$.vars.listWithReturned",
+      "Comment": "source: listWithReturned = items.map(item => { if (ite ...",
       "Next": "Assign item"
     },
     "Assign item": {
       "Type": "Pass",
       "InputPath": "$.vars.listWithReturned[?(@.returned)]",
       "ResultPath": "$.vars.item",
+      "Comment": "source: item = listWithReturned.filter(x => x.returned)",
       "Next": "Return item"
     },
     "Return item": {

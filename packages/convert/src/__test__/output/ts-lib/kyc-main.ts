@@ -27,11 +27,7 @@ export const main = asl.deploy.asStateMachine(async () =>{
             ]
         }
     });
-    const checksPassed = asl.pass({
-        name: "Assign checksPassed",
-        parameters: () => true,
-        comment: "checksPassed = true"
-    });
+    const checksPassed = true;
     asl.typescriptIf({
         name: "If (checksPassed)",
         condition: () => checksPassed,

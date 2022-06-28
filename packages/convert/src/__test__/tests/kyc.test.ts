@@ -19,15 +19,9 @@ describe("when converting kyc", () => {
           "Assign result": Object {
             "Branches": Array [
               Object {
-                "StartAt": "performIdentifyCheck()",
+                "StartAt": "Assign",
                 "States": Object {
-                  "Return": Object {
-                    "Comment": undefined,
-                    "End": true,
-                    "InputPath": "$.vars.return_var",
-                    "Type": "Pass",
-                  },
-                  "performIdentifyCheck()": Object {
+                  "Assign": Object {
                     "Comment": "source: performIdentifyCheck()",
                     "HeartbeatSeconds": undefined,
                     "Next": "Return",
@@ -47,6 +41,12 @@ describe("when converting kyc", () => {
                     ],
                     "TimeoutSeconds": undefined,
                     "Type": "Task",
+                  },
+                  "Return": Object {
+                    "Comment": undefined,
+                    "End": true,
+                    "InputPath": "$.vars.return_var",
+                    "Type": "Pass",
                   },
                 },
               },
@@ -86,6 +86,7 @@ describe("when converting kyc", () => {
           "Initialize": Object {
             "Next": "Assign result",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

@@ -151,6 +151,7 @@ describe("when converting choice", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -286,6 +287,7 @@ describe("when converting choice", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },
@@ -421,6 +423,7 @@ describe("when converting choice", () => {
           "Initialize": Object {
             "Next": "Assign val",
             "Parameters": Object {
+              "_null": null,
               "_undefined": null,
               "vars.$": "$$.Execution.Input",
             },

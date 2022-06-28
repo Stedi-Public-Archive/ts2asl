@@ -11,18 +11,24 @@ import { AslPassFactory } from "./aslfactory.pass";
 import { AslMapFactory } from "./aslfactory.map";
 import { AslFailFactory } from "./aslfactory.fail";
 import { AslSucceedFactory } from "./aslfactory.succeed";
+import { AslTypeofFactory } from "./aslfactory.typeof";
+import { BinaryExpressionFactory } from "./aslfactory.binary";
 
 export class AslRhsFactory {
+  static appendIasl(expression: iasl.Identifier, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpression;
+  static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral;
   static appendIasl(expression: iasl.Expression, scopes: Record<string, iasl.Scope>, context: AslWriter, extractFunctionFromPath?: true): PathExpressionOrLiteral {
-    if (expression === undefined || iasl.Check.isLiteral(expression) && (expression.value === undefined || expression.value === null)) {
+    if (expression === undefined || iasl.Check.isLiteral(expression) && expression.value === undefined) {
       return { path: "$._undefined", type: "null" };
-    } else if (iasl.Check.isConditionalExpression(expression)) {
+    } else if (expression === undefined || iasl.Check.isLiteral(expression) && expression.value === null) {
+      return { path: "$._null", type: "null" };
+    } else  if (iasl.Check.isConditionalExpression(expression)) {
       const whenTrueRhs = AslRhsFactory.appendIasl(expression.whenTrue, scopes, context, true);
       const whenFalseRhs = AslRhsFactory.appendIasl(expression.whenFalse, scopes, context, true);
 
       const path = {
         path: "$.tmp.var"
-      } as PathExpressionOrLiteral;
+      } as PathExpression;
 
       const choiceOperator = createChoiceOperator(expression.condition, scopes, context);
 
@@ -33,20 +39,17 @@ export class AslRhsFactory {
       } as asl.Choice;
       context.appendNextState(choiceState, expression.stateName ?? "Eval Conditional");
 
-      const whenTrue = context.appendChoiceOperator(choiceOperator);
-      whenTrue.appendNextState({
-        Type: "Pass",
-        ResultPath: path.path,
-        ...(whenTrueRhs.path !== undefined ? { InputPath: whenTrueRhs.path } : whenTrueRhs.valueContainsReplacements ? { Parameters: whenTrueRhs.value } : { Result: whenTrueRhs.value }),
-      } as asl.Pass, "Conditional True");
+      const whenTrueContext = context.appendChoiceOperator(choiceOperator);
+      AslPassFactory.append(path,
+        whenTrueRhs,
+        whenTrueContext,
+        "Conditional True");
 
-      const defaultWriter = context.appendChoiceDefault();
-      defaultWriter.appendNextState({
-        Type: "Pass",
-        ResultPath: path.path,
-        ...(whenFalseRhs.path !== undefined ? { InputPath: whenFalseRhs.path } : whenFalseRhs.valueContainsReplacements ? { Parameters: whenFalseRhs.value } : { Result: whenFalseRhs.value }),
-      } as asl.Pass, "Conditional False");
-
+      const whenFalseContext = context.appendChoiceDefault();
+      AslPassFactory.append(path,
+        whenFalseRhs,
+        whenFalseContext,
+        "Conditional False");
 
       context.finalizeChoiceState();
       return path;
@@ -55,9 +58,9 @@ export class AslRhsFactory {
       let argCount = 0;
       for (const arg of expression.arguments) {
         const convertedArg = AslRhsFactory.appendIasl(arg, scopes, context);
-        const convertedArgAsArray = convertedArg.type === "array" ? convertedArg.value as [] : [convertedArg];
+        const convertedArgAsArray = convertedArg.type === "array" && "value" in convertedArg ? convertedArg.value as [] : [convertedArg];
         for (const argFromArray of convertedArgAsArray) {
-          if (argFromArray.path) {
+          if ("path" in argFromArray) {
             args.push(argFromArray.path);
           } else if (typeof argFromArray.value === "string") {
             args.push(`'${argFromArray.value}'`);
@@ -105,20 +108,20 @@ export class AslRhsFactory {
       };
     } else if (iasl.Check.isLiteralArray(expression)) {
       const convertedElements = expression.elements.map(x => AslRhsFactory.appendIasl(x, scopes, context));
-      if (convertedElements.some(x => x.path)) {
+      if (convertedElements.some(x => "path" in x)) {
         throw new Error("initializing an array with an identifier as one of the elements is not supported yet");
       }
       return {
-        value: convertedElements.map(x => x.value),
+        value: convertedElements.map(x=>x as Literal).map(x => x.value),
         type: "array",
-        valueContainsReplacements: convertedElements.findIndex(x => x.path || x.valueContainsReplacements === true) !== -1
+        valueContainsReplacements: convertedElements.map(x=>x as Literal).findIndex(x => x.valueContainsReplacements === true) !== -1
       };
     } else if (iasl.Check.isLiteralObject(expression)) {
       const value: Record<string, unknown> = {};
       let valueContainsReplacements: boolean = false;
       for (const [propName, propValue] of Object.entries(expression.properties)) {
         const result = AslRhsFactory.appendIasl(propValue, scopes, context);
-        if (result.path) {
+        if ("path" in result) {
           valueContainsReplacements = true;
           value[propName + ".$"] = result.path;
         } else {
@@ -151,18 +154,34 @@ export class AslRhsFactory {
     } else if (iasl.Check.isAslSucceedState(expression)) {
       AslSucceedFactory.appendIaslSucceed(expression, context, expression.stateName);
       return { path: "$.vars", type: "object" };
+    } else if (iasl.Check.isTypeOfExpression(expression)) {
+      AslTypeofFactory.appendIaslTypeof(expression, scopes, context, "$.tmp.result", expression.stateName);
+      return { path: "$.tmp.result[0]", type: "string" };
+    } else if (iasl.Check.isBinaryExpression(expression)) {
+      BinaryExpressionFactory.appendBinaryExpression(expression, scopes, context, "$.tmp.result", expression.stateName);
+      return { path: "$.tmp.result[0]", type: "string" };
     }
-
-
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);
   }
 
-  static modifyMergeWith(expression: PathExpressionOrLiteral, mergeWith: iasl.LiteralObjectExpression, scopes: Record<string, iasl.Scope>, context: AslWriter): PathExpressionOrLiteral {
-    
+  static convertToPath(pathOrLiteral: PathExpressionOrLiteral, context: AslWriter): PathExpression {
+    if ("path" in pathOrLiteral) {
+      return pathOrLiteral;
+    }
+
+    const path = {
+      path: "$.tmp.var"
+    } as PathExpression;
+
+    AslPassFactory.append(path, pathOrLiteral, context, "Pass");
+    return path;
+  }
+
+  static modifyMergeWith(expression: PathExpressionOrLiteral, mergeWith: iasl.LiteralObjectExpression, scopes: Record<string, iasl.Scope>, context: AslWriter): PathExpressionOrLiteral { 
     // merge with literal
-    if (expression.path === undefined) {
+    if (!("path" in expression)) {
       const additional = AslRhsFactory.appendIasl(mergeWith, scopes, context, true);
-      if (!additional.value || additional.path !== undefined || additional.type !== "object") throw new Error("modifyMergeWith only takes object literal expression");  
+      if ("path" in additional || additional.type !== "object") throw new Error("modifyMergeWith only takes object literal expression");  
       const value = expression.value as {} ?? {};
       return {
         type: "object",
@@ -186,13 +205,18 @@ export class AslRhsFactory {
   }
 }
 
-export interface PathExpressionOrLiteral {
-  path?: string;
-  value?: unknown;
+export interface Literal {
+  value: unknown;
   type: iasl.Type;
   valueContainsReplacements?: boolean;
-};
+}
 
+export interface PathExpression {
+  path: string;
+  type: iasl.Type;
+}
+
+export type PathExpressionOrLiteral = Literal | PathExpression;
 
 export const convertIdentifierToPathExpression = (expr: iasl.Identifier, scopes: Record<string, iasl.Scope>, context: AslWriter): string => {
   let lhs = "";
@@ -201,7 +225,7 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier, scopes:
   }
   if (expr.indexExpression) {
     const indexExpr = AslRhsFactory.appendIasl(expr.indexExpression, scopes, context);
-    if (indexExpr.path) {
+    if ("path" in indexExpr) {
       return lhs + "[" + indexExpr.path + "]" + expr.identifier;
     } else {
       return lhs + "[" + indexExpr.value + "]" + expr.identifier;
@@ -220,7 +244,7 @@ export const convertIdentifierToPathExpression = (expr: iasl.Identifier, scopes:
     const expression = createFilterExpression(expr.filterExpression.argument.identifier, expr.filterExpression.expression);
     trailing = `[?(${expression})]`;
   } else if (expr.mapExpression) {
-    trailing = `.${expr.mapExpression}`;
+    trailing = `..${expr.mapExpression}`;
   }
 
   if (expr.identifier) {

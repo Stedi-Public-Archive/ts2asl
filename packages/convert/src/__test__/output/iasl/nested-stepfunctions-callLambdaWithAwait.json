@@ -7,6 +7,7 @@
         "type": "string",
         "_syntaxKind": "identifier"
       },
+      "source": "name = await childLambda({firstName: \"Santa\", lastName: \"Claus\" })",
       "expression": {
         "stateName": "childLambda({firstName: \" ...",
         "resource": "[!lambda[childLambda]arn]",
