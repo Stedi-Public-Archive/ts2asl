@@ -96,6 +96,21 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 });
 ```
 
+## Using the CLI
+`ts2asl` also features a CLI that can be used to transpile TypeScript code to ASL.
+
+use the following example to get started:
+``` bash
+echo "import * as asl from '@ts2asl/asl-lib'
+
+export const main = asl.deploy.asStateMachine(async (input: unknown) => {
+  console.log(input);
+  return 'hello world'
+});" > test.ts
+
+npx ts2asl compile test.ts
+```
+
 ## Useful patterns & examples
 - [example project](./cdk-v2-example/) containing a [simple program](./cdk-v2-example/src/program.ts), [CDK for deployment](./cdk-v2-example/lib/cdk-v2-example-stack.ts) and [Jest for testing](./cdk-v2-example/test/cdk-v2-example.test.ts)
 - waiting for completion of SDK state: [organizations.createAccount](./examples/switch.md#create-aws-account).
