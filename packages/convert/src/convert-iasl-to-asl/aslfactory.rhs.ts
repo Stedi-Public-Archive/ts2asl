@@ -159,7 +159,7 @@ export class AslRhsFactory {
       return { path: "$.tmp.result[0]", type: "string" };
     } else if (iasl.Check.isBinaryExpression(expression)) {
       BinaryExpressionFactory.appendBinaryExpression(expression, scopes, context, "$.tmp.result", expression.stateName);
-      return { path: "$.tmp.result[0]", type: "string" };
+      return { path: "$.tmp.result", type: "boolean" };
     }
     throw new Error(`unable to convert iasl expression to asl SyntaxKind: ${expression._syntaxKind}`);
   }

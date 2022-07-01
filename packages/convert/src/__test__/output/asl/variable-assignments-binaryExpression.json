@@ -50,7 +50,7 @@
     },
     "Assign expr1": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result[0]",
+      "InputPath": "$.tmp.result",
       "ResultPath": "$.vars.expr1",
       "Comment": "source: expr1 = str === \"123\"",
       "Next": "Choice_1"
@@ -80,7 +80,7 @@
     },
     "Assign expr2": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result[0]",
+      "InputPath": "$.tmp.result",
       "ResultPath": "$.vars.expr2",
       "Comment": "source: expr2 = num === 456",
       "Next": "Choice_2"
@@ -110,7 +110,7 @@
     },
     "Assign expr3": {
       "Type": "Pass",
-      "InputPath": "$.tmp.result[0]",
+      "InputPath": "$.tmp.result",
       "ResultPath": "$.vars.expr3",
       "Comment": "source: expr3 = expr1 === expr2",
       "Next": "If (expr3)"

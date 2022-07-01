@@ -754,6 +754,164 @@ describe("when converting variable-assignments", () => {
       }
     `);
   });
+  it("then binaryExpression can be converted to asl", async () => {
+    expect(converted.binaryExpression.asl).toMatchInlineSnapshot(`
+      Object {
+        "StartAt": "Initialize",
+        "States": Object {
+          "Assign expr1": Object {
+            "Comment": "source: expr1 = str === \\"123\\"",
+            "InputPath": "$.tmp.result",
+            "Next": "Choice_1",
+            "ResultPath": "$.vars.expr1",
+            "Type": "Pass",
+          },
+          "Assign expr2": Object {
+            "Comment": "source: expr2 = num === 456",
+            "InputPath": "$.tmp.result",
+            "Next": "Choice_2",
+            "ResultPath": "$.vars.expr2",
+            "Type": "Pass",
+          },
+          "Assign expr3": Object {
+            "Comment": "source: expr3 = expr1 === expr2",
+            "InputPath": "$.tmp.result",
+            "Next": "If (expr3)",
+            "ResultPath": "$.vars.expr3",
+            "Type": "Pass",
+          },
+          "Assign num": Object {
+            "Comment": "source: num = 123",
+            "Next": "Choice",
+            "Result": 123,
+            "ResultPath": "$.vars.num",
+            "Type": "Pass",
+          },
+          "Assign str": Object {
+            "Comment": "source: str = \\"abcdef\\"",
+            "Next": "Assign num",
+            "Result": "abcdef",
+            "ResultPath": "$.vars.str",
+            "Type": "Pass",
+          },
+          "Choice": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Pass",
+                "StringEquals": "123",
+                "Variable": "$.vars.str",
+              },
+            ],
+            "Comment": undefined,
+            "Default": "Pass_1",
+            "Type": "Choice",
+          },
+          "Choice_1": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Pass_2",
+                "NumericEquals": 456,
+                "Variable": "$.vars.num",
+              },
+            ],
+            "Comment": undefined,
+            "Default": "Pass_3",
+            "Type": "Choice",
+          },
+          "Choice_2": Object {
+            "Choices": Array [
+              Object {
+                "BooleanEqualsPath": "$.vars.expr2",
+                "Next": "Pass_4",
+                "Variable": "$.vars.expr1",
+              },
+            ],
+            "Comment": undefined,
+            "Default": "Pass_5",
+            "Type": "Choice",
+          },
+          "If (expr3)": Object {
+            "Choices": Array [
+              Object {
+                "Next": "Return \\"ok\\"",
+                "Not": Object {
+                  "BooleanEquals": false,
+                  "Variable": "$.vars.expr3",
+                },
+              },
+            ],
+            "Comment": "source: if (expr3) { return \\"ok\\" }",
+            "Default": "Return \\"not ok\\"",
+            "Type": "Choice",
+          },
+          "Initialize": Object {
+            "Next": "Assign str",
+            "Parameters": Object {
+              "_null": null,
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
+          },
+          "Pass": Object {
+            "Comment": undefined,
+            "Next": "Assign expr1",
+            "Result": true,
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Pass_1": Object {
+            "Comment": undefined,
+            "Next": "Assign expr1",
+            "Result": false,
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Pass_2": Object {
+            "Comment": undefined,
+            "Next": "Assign expr2",
+            "Result": true,
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Pass_3": Object {
+            "Comment": undefined,
+            "Next": "Assign expr2",
+            "Result": false,
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Pass_4": Object {
+            "Comment": undefined,
+            "Next": "Assign expr3",
+            "Result": true,
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Pass_5": Object {
+            "Comment": undefined,
+            "Next": "Assign expr3",
+            "Result": false,
+            "ResultPath": "$.tmp.result",
+            "Type": "Pass",
+          },
+          "Return \\"not ok\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "not ok",
+            "Type": "Pass",
+          },
+          "Return \\"ok\\"": Object {
+            "Comment": undefined,
+            "End": true,
+            "Result": "ok",
+            "Type": "Pass",
+          },
+        },
+      }
+    `);
+  });
   it("then arrayWithIdentifiers can be converted to asl", async () => {
     expect(converted.arrayWithIdentifiers.asl).toMatchInlineSnapshot(`
       Object {

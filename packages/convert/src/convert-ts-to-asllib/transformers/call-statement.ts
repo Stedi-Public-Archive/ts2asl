@@ -14,7 +14,6 @@ export const callStatementTransformer = (converterOptions: ConverterOptions) => 
 
       if (1 < node.arguments.length) throw new ParserError(`call expression must have 0 or 1 arguments`, node);
       if (!ts.isIdentifier(node.expression)) {
-
         throw new ParserError(`call expression must be on identifier`, node);
       }
       if (node.arguments.length === 1) {

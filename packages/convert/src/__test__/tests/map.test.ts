@@ -45,13 +45,9 @@ describe("when converting map", () => {
             "End": true,
             "ItemsPath": "$.vars.entries",
             "Iterator": Object {
-              "StartAt": "PutItem",
+              "StartAt": "DynamoDBPutItem",
               "States": Object {
-                "Empty Catch": Object {
-                  "End": true,
-                  "Type": "Pass",
-                },
-                "PutItem": Object {
+                "DynamoDBPutItem": Object {
                   "Catch": Array [
                     Object {
                       "ErrorEquals": Array [
@@ -83,6 +79,10 @@ describe("when converting map", () => {
                   "ResultPath": null,
                   "TimeoutSeconds": undefined,
                   "Type": "Task",
+                },
+                "Empty Catch": Object {
+                  "End": true,
+                  "Type": "Pass",
                 },
               },
             },

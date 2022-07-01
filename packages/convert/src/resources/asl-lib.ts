@@ -76,6 +76,7 @@ declare module '@ts2asl/asl-lib' {
     import { S3ClientConfig } from "@aws-sdk/client-s3";
     export type ClientConfig = S3ClientConfig;
     export * from "@ts2asl/asl-lib/asl";
+    export * from "@ts2asl/asl-lib/sdk";
     export * from "@ts2asl/asl-lib/sdk-integrations-athena";
     export * from "@ts2asl/asl-lib/sdk-integrations-ecs";
     export * from "@ts2asl/asl-lib/sdk-integrations-dynamodb";
@@ -243,6 +244,26 @@ declare module '@ts2asl/asl-lib/asl' {
         function jsonToString(arg: unknown): string;
         function array(...args: unknown[]): unknown[];
     }
+}
+
+declare module '@ts2asl/asl-lib/sdk' {
+    import { CatchConfiguration, RetryConfiguration } from '@ts2asl/asl-lib/asl';
+    type ClassType<T> = {
+        prototype: T;
+    };
+    type SdkIntegration<T> = {
+        parameters: T;
+        name?: string;
+        catch?: CatchConfiguration;
+        retry?: RetryConfiguration;
+        timeoutSeconds?: number;
+        heartbeatSeconds?: number;
+    };
+    type SdkIntegrationClient<T> = {
+        [K in keyof T]: T[K] extends (input: infer Input, options: any, cb: (err: any, data?: infer TOutput) => void) => Promise<infer _X> ? (input: SdkIntegration<Input>) => Promise<TOutput> : never;
+    };
+    export const sdk: <TClient>(client: ClassType<TClient> & (new (config: {}) => TClient)) => SdkIntegrationClient<TClient>;
+    export {};
 }
 
 declare module '@ts2asl/asl-lib/sdk-integrations-athena' {

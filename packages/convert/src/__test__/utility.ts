@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync } from "fs";
 import { createCompilerHostFromFile, createCompilerHostFromSource } from "../compiler-host/node";
 import { ConvertedStateMachineWithDiagnostics, Converter } from "../convert";
+import {SFN} from "@aws-sdk/client-sfn";
 import * as asl from "@ts2asl/asl-lib";
 
 export const runConvertForTest = (filename: string): Record<string, ConvertedStateMachineWithDiagnostics> => {
@@ -51,13 +52,13 @@ export const convertDeployExecute = async (filename: string, name: string, input
       if (stateMachine.name !== name) continue;
       const aslString = JSON.stringify(stateMachine.asl);
 
-      const response = await asl.sdkSfnCreateStateMachine({ parameters: { name: stateMachineName, type: "EXPRESS", definition: aslString, roleArn: "arn:aws:iam::642712255693:role/ts2asl-test" } });
+      const response = await asl.sdk(SFN).createStateMachine({ parameters: { name: stateMachineName, type: "EXPRESS", definition: aslString, roleArn: "arn:aws:iam::642712255693:role/ts2asl-test" } });
       
       let result: any | undefined = undefined;
       let retryCount = 0;
       do {
         try{
-          result = await asl.sdkSfnStartSyncExecution({ parameters: { stateMachineArn: response.stateMachineArn, input: JSON.stringify(input, null, 2) } });
+          result = await asl.sdk(SFN).startSyncExecution({ parameters: { stateMachineArn: response.stateMachineArn, input: JSON.stringify(input, null, 2) } });
           if (result.output === undefined) return undefined;
         } catch(err) {
           if ((retryCount++) > 2) throw err;
@@ -69,7 +70,7 @@ export const convertDeployExecute = async (filename: string, name: string, input
         }
       }while(result === undefined);
 
-      await asl.sdkSfnDeleteStateMachine({ parameters: {stateMachineArn: response.stateMachineArn}});
+      await asl.sdk(SFN).deleteStateMachine({ parameters: {stateMachineArn: response.stateMachineArn}});
       return JSON.parse(result.output as string);
     }
   }
@@ -78,9 +79,8 @@ export const convertDeployExecute = async (filename: string, name: string, input
     throw err;
   }
   finally {
-    if (sfnArn) await asl.sdkSfnDeleteStateMachine({ parameters: { stateMachineArn: sfnArn } });
+    if (sfnArn) await asl.sdk(SFN).deleteStateMachine({ parameters: { stateMachineArn: sfnArn } });
   }
-
 };
 
 

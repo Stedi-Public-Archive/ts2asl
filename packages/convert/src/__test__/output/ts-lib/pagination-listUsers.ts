@@ -1,5 +1,6 @@
 
 import * as asl from "@ts2asl/asl-lib"
+import { IAM } from "@aws-sdk/client-iam";
 
 export const listUsers = asl.deploy.asStateMachine(async (input: any) =>{
     var marker: string | undefined;
@@ -7,7 +8,7 @@ export const listUsers = asl.deploy.asStateMachine(async (input: any) =>{
         name: "Do While (marker)",
         condition: () => marker,
         block: async () => {
-            var response = await asl.sdkIAMListUsers({
+            var response = await asl.sdk(IAM).listUsers({
                 name: "List Users",
                 parameters: {
                     PathPrefix: "/path",
@@ -30,7 +31,7 @@ export const listUsers = asl.deploy.asStateMachine(async (input: any) =>{
             })
             marker = response.IsTruncated ? response.Marker : undefined;
         },
-        comment: "do{\n    var response = await asl.sdkIAMListUsers({\n      name: \"List Users\",\n      parameters : {\n        PathPrefix: \"/path\",\n        Marker: marker\n      }\n    });\n\n  for(const user of (response.Users || [])) {\n    //put your logic here\n    await doSomething(user);\n  }\n    marker = response.IsTruncated ? response.Marker : undefined;\n  }while(marker)"
+        comment: "do{\n    var response = await asl.sdk(IAM).listUsers({\n      name: \"List Users\",\n      parameters : {\n        PathPrefix: \"/path\",\n        Marker: marker\n      }\n    });\n\n  for(const user of (response.Users || [])) {\n    //put your logic here\n    await doSomething(user);\n  }\n    marker = response.IsTruncated ? response.Marker : undefined;\n  }while(marker)"
     })
 });
 

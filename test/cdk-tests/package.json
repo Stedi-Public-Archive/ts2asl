@@ -11,6 +11,7 @@
     "test:e2e": "npx cdk deploy --all --require-approval never && npx jest && npx cdk destroy --all --require-approval never"
   },
   "devDependencies": {
+    "@aws-sdk/client-sfn": "^3.118.1",
     "@types/jest": "^27.5.1",
     "@types/node": "10.17.27",
     "@types/prettier": "2.6.0",

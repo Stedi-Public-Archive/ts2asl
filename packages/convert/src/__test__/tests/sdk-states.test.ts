@@ -9,21 +9,7 @@ describe("when converting sdk-states", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "Empty Catch": Object {
-            "End": true,
-            "Type": "Pass",
-          },
-          "Initialize": Object {
-            "Next": "PutItem",
-            "Parameters": Object {
-              "_null": null,
-              "_undefined": null,
-              "vars.$": "$$.Execution.Input",
-            },
-            "ResultPath": "$",
-            "Type": "Pass",
-          },
-          "PutItem": Object {
+          "DynamoDBPutItem": Object {
             "Catch": Array [
               Object {
                 "ErrorEquals": Array [
@@ -58,6 +44,20 @@ describe("when converting sdk-states", () => {
             "ResultPath": null,
             "TimeoutSeconds": undefined,
             "Type": "Task",
+          },
+          "Empty Catch": Object {
+            "End": true,
+            "Type": "Pass",
+          },
+          "Initialize": Object {
+            "Next": "DynamoDBPutItem",
+            "Parameters": Object {
+              "_null": null,
+              "_undefined": null,
+              "vars.$": "$$.Execution.Input",
+            },
+            "ResultPath": "$",
+            "Type": "Pass",
           },
         },
       }

@@ -1,4 +1,5 @@
 import * as asl from "@ts2asl/asl-lib"
+import { Organizations } from "@aws-sdk/client-organizations"
 
 export const simpleSwitch = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
@@ -95,13 +96,13 @@ export const switchDefaultFallsThrough = asl.deploy.asStateMachine(async () => {
 
 
 export const createAwsAccount = asl.deploy.asStateMachine(async () =>{
-    const createAccount = await asl.sdkOrganizationsCreateAccount({ parameters: { AccountName: "test", Email: "something@email.com" } });
+    const createAccount = await asl.sdk(Organizations).createAccount({ parameters: { AccountName: "test", Email: "something@email.com" } });
     let creationStatus: string | undefined = undefined;
     asl.typescriptDoWhile({
         name: "Do While (creationStatus ...",
         condition: () => creationStatus !== "SUCCEEDED",
         block: async () => {
-            const describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus.Id } });
+            const describeResult = await asl.sdk(Organizations).describeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus.Id } });
             creationStatus = describeResult.CreateAccountStatus?.State;
             asl.typescriptSwitch({
                 name: "Switch (creationStatus)",
@@ -128,7 +129,7 @@ export const createAwsAccount = asl.deploy.asStateMachine(async () =>{
                 comment: "switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }"
             })
         },
-        comment: "do {\n    const describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } });\n    creationStatus = describeResult.CreateAccountStatus?.State;\n    switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }\n  } while (creationStatus !== \"SUCCEEDED\");"
+        comment: "do {\n    const describeResult = await asl.sdk(Organizations).describeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } });\n    creationStatus = describeResult.CreateAccountStatus?.State;\n    switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }\n  } while (creationStatus !== \"SUCCEEDED\");"
     })
     asl.pass({
         name: "Log (createAccount.Create ...",
