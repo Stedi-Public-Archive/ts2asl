@@ -96,6 +96,7 @@ declare module '@ts2asl/asl-lib' {
     export * from "@ts2asl/asl-lib/sdk-integrations-sts";
     export * from "@ts2asl/asl-lib/deploy";
     export * from "@ts2asl/asl-lib/runtime";
+    export * from "@ts2asl/asl-lib/optimized";
     export * from "@ts2asl/asl-lib/testing";
     export const clientConfig: S3ClientConfig;
 }
@@ -2204,6 +2205,39 @@ declare module '@ts2asl/asl-lib/runtime' {
             name: string;
         };
     }
+}
+
+declare module '@ts2asl/asl-lib/optimized' {
+    import { CatchConfiguration, RetryConfiguration } from "@ts2asl/asl-lib/asl";
+    export namespace optimized {
+        const apiGatewayInvoke: (_input: OptimizedIntegration<ApiGatewayInvokeInput>) => Promise<ApiGatewayInvokeOutput>;
+    }
+    interface ApiGatewayInvokeInput {
+        apiEndpoint: string;
+        method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTION";
+        headers?: Record<string, string>;
+        queryParameters?: Record<string, string>;
+        requestBody?: {} | string;
+        stage?: string;
+        path?: string;
+        allowNullValues?: boolean;
+        authType?: "NO_AUTH" | "IAM_ROLE" | "RESOURCE_POLICY";
+    }
+    interface ApiGatewayInvokeOutput {
+        responseBody: {};
+        headers: Record<string, string>;
+        statusCode: number;
+        statusText: string;
+    }
+    type OptimizedIntegration<T> = {
+        parameters: T;
+        name?: string;
+        catch?: CatchConfiguration;
+        retry?: RetryConfiguration;
+        timeoutSeconds?: number;
+        heartbeatSeconds?: number;
+    };
+    export {};
 }
 
 declare module '@ts2asl/asl-lib/testing' {

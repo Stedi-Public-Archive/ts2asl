@@ -9,7 +9,7 @@
       },
       "source": "createAccount = await asl.sdk(Organizations).createAccount({ parameters: { AccountName: \"test\", Email: \"something@email.com\" } })",
       "expression": {
-        "stateName": ".(Organizations).createAccount",
+        "stateName": "Organizations createAccount",
         "resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
         "parameters": {
           "properties": {
@@ -75,7 +75,7 @@
             },
             "source": "describeResult = await asl.sdk(Organizations).describeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } })",
             "expression": {
-              "stateName": ".(Organizations).describeCreateAccountStatus",
+              "stateName": "Organizations describeCreateAccountStatus",
               "resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
               "parameters": {
                 "properties": {

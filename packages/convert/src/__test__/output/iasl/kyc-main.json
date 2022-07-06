@@ -77,7 +77,7 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": ".(EventBridge).putEvents",
+      "stateName": "EventBridge putEvents",
       "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
       "parameters": {
         "properties": {
@@ -152,7 +152,7 @@
       "then": {
         "statements": [
           {
-            "stateName": ".(EventBridge).putEvents",
+            "stateName": "EventBridge putEvents",
             "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
             "parameters": {
               "properties": {
@@ -204,7 +204,7 @@
       "else": {
         "statements": [
           {
-            "stateName": ".(EventBridge).putEvents",
+            "stateName": "EventBridge putEvents",
             "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
             "parameters": {
               "properties": {

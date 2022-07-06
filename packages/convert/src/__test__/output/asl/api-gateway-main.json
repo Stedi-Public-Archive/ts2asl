@@ -1,0 +1,47 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign response"
+    },
+    "Assign response": {
+      "Type": "Task",
+      "ResultPath": "$.vars.response",
+      "Resource": "arn:aws:states:::apigateway:invoke",
+      "Parameters": {
+        "ApiEndpoint": "aabbccddee.execute-api.us-east-1.amazonaws.com",
+        "Method": "GET"
+      },
+      "Next": "If (response.statusCode = ..."
+    },
+    "If (response.statusCode = ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.response.statusCode",
+          "NumericEquals": 200,
+          "Next": "Return \"ok\""
+        }
+      ],
+      "Comment": "source: if (response.statusCode === 200) { return \"ok\" }",
+      "Default": "Return \"not-ok\""
+    },
+    "Return \"ok\"": {
+      "Type": "Pass",
+      "Result": "ok",
+      "End": true
+    },
+    "Return \"not-ok\"": {
+      "Type": "Pass",
+      "Result": "not-ok",
+      "End": true
+    }
+  }
+}

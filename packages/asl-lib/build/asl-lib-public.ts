@@ -41,6 +41,7 @@ declare module '@ts2asl/asl-lib' {
     export * from "@ts2asl/asl-lib/sdk-integrations-sts";
     export * from "@ts2asl/asl-lib/deploy";
     export * from "@ts2asl/asl-lib/runtime";
+    export * from "@ts2asl/asl-lib/optimized";
     export * from "@ts2asl/asl-lib/testing";
     export const clientConfig: S3ClientConfig;
 }
@@ -2129,6 +2130,30 @@ declare module '@ts2asl/asl-lib/runtime' {
             name: string;
         };
     }
+}
+
+declare module '@ts2asl/asl-lib/optimized' {
+    export namespace optimized {
+        const apiGatewayInvoke: (input: ApiGatewayInvokeInput) => Promise<ApiGatewayInvokeOutput>;
+    }
+    interface ApiGatewayInvokeInput {
+        ApiEndpoint: string;
+        Method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTION";
+        Headers?: Record<string, string>;
+        QueryParameters?: Record<string, string>;
+        RequestBody?: {} | string;
+        Stage?: string;
+        Path?: string;
+        AllowNullValues?: boolean;
+        AuthType?: "NO_AUTH" | "IAM_ROLE" | "RESOURCE_POLICY";
+    }
+    interface ApiGatewayInvokeOutput {
+        ResponseBody: {};
+        Headers: Record<string, string>;
+        StatusCode: number;
+        StatusText: string;
+    }
+    export {};
 }
 
 declare module '@ts2asl/asl-lib/testing' {

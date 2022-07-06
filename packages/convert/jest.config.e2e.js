@@ -5,6 +5,7 @@ module.exports = {
   passWithNoTests: true,
   testPathIgnorePatterns: [
     "node_modules",
+    "api-gateway.integration.ts", //tested in CDk-stacks, depends on a lambda deployment, copy of another test in for-each
     "closures.integration.ts", //tested in CDk-stacks, depends on a lambda deployment, copy of another test in for-each
     "hello-world.integration.ts",//tested in CDk-stacks, depends on a lambda deployment
     "parallel.integration.ts",//tested in CDk-stacks, depends on a lambda deployment
