@@ -1,4 +1,5 @@
 import * as asl from "@ts2asl/asl-lib"
+import { Organizations } from "@aws-sdk/client-organizations"
 
 export const simpleSwitch = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
@@ -111,10 +112,10 @@ export const switchDefaultFallsThrough = asl.deploy.asStateMachine(async () =>{
 
 
 export const createAwsAccount = asl.deploy.asStateMachine(async () => {
-  const createAccount = await asl.sdkOrganizationsCreateAccount({ parameters: { AccountName: "test", Email: "something@email.com" } });
+  const createAccount = await asl.sdk(Organizations).createAccount({ parameters: { AccountName: "test", Email: "something@email.com" } });
   let creationStatus: string | undefined = undefined;
   do {
-    const describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } });
+    const describeResult = await asl.sdk(Organizations).describeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } });
     creationStatus = describeResult.CreateAccountStatus?.State;
     switch (creationStatus) {
       case "FAILED": throw new Error("account creation failed");

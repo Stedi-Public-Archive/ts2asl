@@ -28,7 +28,7 @@ describe("when converting sdk integration statements to iasl", () => {
               "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
               "retry": undefined,
               "source": undefined,
-              "stateName": "GetItem",
+              "stateName": "DynamoDBGetItem",
             },
             "name": Object {
               "_syntaxKind": "identifier",

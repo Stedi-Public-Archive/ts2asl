@@ -67,7 +67,7 @@ describe("when converting if statement to iasl", () => {
                     },
                   },
                   "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
-                  "stateName": "StartExecution",
+                  "stateName": "SfnStartExecution",
                 },
               ],
             },

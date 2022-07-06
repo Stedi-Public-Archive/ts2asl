@@ -501,20 +501,36 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       let remainder = type.substring(3);
       let resource = 'arn:aws:states:::aws-sdk:'; //dynamodb:getItem'
       let foundService = false;
-      const servicesNames = ["Athena", "DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations", "CodeBuild", "CloudWatch", "STS", "IAM"];
-      for (const serviceName of servicesNames) {
-        if (remainder.startsWith(serviceName)) {
-          resource += serviceName.toLowerCase() + ':';
-          remainder = remainder.substring(serviceName.length);
+      let serviceName: string | undefined;
+      let operationName: string | undefined;
+      const supportedServiceNames = ["Athena", "DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations", "CodeBuild", "CloudWatch", "STS", "IAM"];
+      for (const supportedServiceName of supportedServiceNames) {
+        if (remainder.startsWith(supportedServiceName)) {
+          serviceName = supportedServiceName;
+          //resource += supportedServiceName.toLowerCase() + ':';
+          const operationNameWrongCasing = remainder.substring(supportedServiceName.length);
+          operationName = operationNameWrongCasing[0].toLowerCase() + operationNameWrongCasing.substring(1);
           foundService = true;
           break;
         }
       }
       if (!foundService) {
+        const matches = type.match(/^sdk\.\((?<service>[a-zA-Z]+)\)\.(?<operation>[a-zA-Z]+)$/);
+        if (matches?.groups) {
+          serviceName = matches?.groups["service"]
+          operationName = matches?.groups["operation"]
+          if (!supportedServiceNames.includes(serviceName)) {
+            throw new Error(`sdk integration for service ${serviceName} is not supported. the following services are supported ${supportedServiceNames.join()} `);  
+          }
+          foundService = true;
+        }
+
+      }
+      if (!foundService || serviceName === undefined) {
         throw new Error(`unable to find service of sdk integration ${type} `);
       }
 
-      resource += remainder[0].toLowerCase() + remainder.substring(1);
+      resource = 'arn:aws:states:::aws-sdk:' + serviceName.toLowerCase() + ":" + operationName;
       const caseConvertedArgs = {
         ...convertedArgs,
         parameters: LiteralObjectFactory.create({

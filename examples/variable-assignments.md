@@ -22,7 +22,7 @@ export const main = asl.deploy.asStateMachine(async () => {
 
 
 ## type of expressions
-[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IHN0ciA9IHR5cGVvZiAiYWJjZGVmIjsKICBsZXQgbnVtID0gdHlwZW9mIDEyMzsKICBsZXQgYm9vbCA9IHR5cGVvZiB0cnVlOwogIGxldCBvYmplY3QgPSB0eXBlb2YgeyBzdHIsIG51bSwgYm9vbCB9OwogIGxldCB1bmRlZiA9IHR5cGVvZiB1bmRlZmluZWQ7CiAgbGV0IF9udWxsID0gdHlwZW9mIG51bGw7CgogIGlmICgKICAgIHN0ciA9PT0gInN0cmluZyIgJiYKICAgIG51bSA9PT0gIm51bWJlciIgJiYKICAgIGJvb2wgPT09ICJib29sZWFuIiAmJgogICAgb2JqZWN0ID09PSAib2JqZWN0IiAmJgogICAgdW5kZWYgPT09ICJ1bmRlZmluZWQiICYmCiAgICBfbnVsbCA9PT0gInVuZGVmaW5lZCIKICApIHsKICAgIHJldHVybiAib2siOwogIH0KCiAgcmV0dXJuICJub3Qgb2siOwp9KTsK)
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IHN0ciA9IHR5cGVvZiAiYWJjZGVmIjsKICBsZXQgbnVtID0gdHlwZW9mIDEyMzsKICBsZXQgYm9vbCA9IHR5cGVvZiB0cnVlOwogIGxldCBvYmplY3QgPSB0eXBlb2YgeyBzdHIsIG51bSwgYm9vbCB9OwogIGxldCB1bmRlZiA9IHR5cGVvZiB1bmRlZmluZWQ7CiAgbGV0IF9udWxsID0gdHlwZW9mIG51bGw7CgogIGlmICgKICAgIHN0ciA9PT0gInN0cmluZyIgJiYKICAgIG51bSA9PT0gIm51bWJlciIgJiYKICAgIGJvb2wgPT09ICJib29sZWFuIiAmJgogICAgb2JqZWN0ID09PSAib2JqZWN0IiAmJgogICAgdW5kZWYgPT09ICJ1bmRlZmluZWQiICYmCiAgICBfbnVsbCA9PT0gIm9iamVjdCIKICApIHsKICAgIHJldHVybiAib2siOwogIH0KCiAgcmV0dXJuICJub3Qgb2siOwp9KTsK)
 
 ``` typescript
 export const main = asl.deploy.asStateMachine(async () => {
@@ -39,11 +39,31 @@ export const main = asl.deploy.asStateMachine(async () => {
     bool === "boolean" &&
     object === "object" &&
     undef === "undefined" &&
-    _null === "undefined"
+    _null === "object"
   ) {
     return "ok";
   }
 
+  return "not ok";
+});
+
+```
+
+
+## binary expression
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgbGV0IHN0ciA9ICJhYmNkZWYiOwogIGxldCBudW0gPSAxMjM7CiAgbGV0IGV4cHIxID0gc3RyID09PSAiMTIzIjsKICBsZXQgZXhwcjIgPSBudW0gPT09IDQ1NjsKICBsZXQgZXhwcjMgPSBleHByMSA9PT0gZXhwcjI7CgogIGlmIChleHByMykgewogICAgcmV0dXJuICJvayI7CiAgfQogIHJldHVybiAibm90IG9rIjsKfSk7Cg==)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => {
+  let str = "abcdef";
+  let num = 123;
+  let expr1 = str === "123";
+  let expr2 = num === 456;
+  let expr3 = expr1 === expr2;
+
+  if (expr3) {
+    return "ok";
+  }
   return "not ok";
 });
 

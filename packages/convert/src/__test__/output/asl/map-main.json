@@ -34,13 +34,13 @@
       "Type": "Map",
       "ResultPath": null,
       "Iterator": {
-        "StartAt": "PutItem",
+        "StartAt": "DynamoDBPutItem",
         "States": {
           "Empty Catch": {
             "Type": "Pass",
             "End": true
           },
-          "PutItem": {
+          "DynamoDBPutItem": {
             "Type": "Task",
             "ResultPath": null,
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",

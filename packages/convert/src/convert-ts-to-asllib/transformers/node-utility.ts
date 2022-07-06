@@ -23,9 +23,21 @@ export const isAslCallExpression = (node: ts.CallExpression) => {
   let parts: string[] = [];
   let context = node.expression;
 
-  while (ts.isPropertyAccessExpression(context)) {
-    parts.push(context.name.text);
-    context = context.expression;
+  while (ts.isPropertyAccessExpression(context) || ts.isCallExpression(context)) {
+    if (ts.isPropertyAccessExpression(context)) {
+      parts.push(context.name.text);
+      context = context.expression;
+    } else {
+      const args: string[] = [];
+      context.arguments.forEach(x=> {
+        if (ts.isIdentifier(x)) {
+          //todo: use typechecker to look up symbolic link
+          args.push(x.escapedText.toString());
+        }
+      })
+      parts.push(`(${args.join()})`);
+      context = context.expression;
+    }
   }
   if (ts.isIdentifier(context) && context.text.toLowerCase() === "asl") {
     return parts.reverse().join(".");

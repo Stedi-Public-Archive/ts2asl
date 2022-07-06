@@ -6,11 +6,12 @@
       "ResultPath": "$",
       "Parameters": {
         "vars.$": "$$.Execution.Input",
-        "_undefined": null
+        "_undefined": null,
+        "_null": null
       },
-      "Next": "lambda({num: 42, str: \"he ..."
+      "Next": "Assign result"
     },
-    "lambda({num: 42, str: \"he ...": {
+    "Assign result": {
       "Type": "Task",
       "ResultPath": "$.vars.result",
       "Resource": "${Token[CDK.REF.REPLACED]}",
@@ -31,9 +32,9 @@
           "BackoffRate": 2
         }
       ],
-      "Next": "lambda({num: 42, str: \"he ..._1"
+      "Next": "Assign result2"
     },
-    "lambda({num: 42, str: \"he ..._1": {
+    "Assign result2": {
       "Type": "Task",
       "ResultPath": "$.vars.result2",
       "Resource": "${Token[CDK.REF.REPLACED]}",
@@ -79,5 +80,5 @@
       "End": true
     }
   },
-  "Comment": "ASL Generated using ts2asl version 0.1.51."
+  "Comment": "ASL Generated using ts2asl version 0.1.55."
 }

@@ -1,10 +1,11 @@
 
 import * as asl from "@ts2asl/asl-lib"
+import { IAM } from "@aws-sdk/client-iam";
 
 export const listUsers = asl.deploy.asStateMachine(async (input: any) => {
   var marker: string | undefined;
   do{
-    var response = await asl.sdkIAMListUsers({
+    var response = await asl.sdk(IAM).listUsers({
       name: "List Users",
       parameters : {
         PathPrefix: "/path",
