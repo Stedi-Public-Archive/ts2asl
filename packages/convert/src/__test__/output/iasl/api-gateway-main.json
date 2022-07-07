@@ -1,0 +1,77 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign response",
+      "name": {
+        "identifier": "response",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "response = await asl.optimized.apiGatewayInvoke({\n    parameters: {\n      apiEndpoint: \"aabbccddee.execute-api.us-east-1.amazonaws.com\",\n      method: \"GET\",\n  }})",
+      "expression": {
+        "stateName": "optimized.apiGatewayInvoke",
+        "resource": "arn:aws:states:::apigateway:invoke",
+        "parameters": {
+          "properties": {
+            "ApiEndpoint": {
+              "value": "aabbccddee.execute-api.us-east-1.amazonaws.com",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "Method": {
+              "value": "GET",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "asl-task-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (response.statusCode = ...",
+      "condition": {
+        "lhs": {
+          "identifier": "response.statusCode",
+          "type": "numeric",
+          "_syntaxKind": "identifier"
+        },
+        "operator": "eq",
+        "rhs": {
+          "value": 200,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Return \"ok\"",
+            "expression": {
+              "value": "ok",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (response.statusCode === 200) {\n    return \"ok\"\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "Return \"not-ok\"",
+      "expression": {
+        "value": "not-ok",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

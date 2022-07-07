@@ -58,9 +58,9 @@
       ],
       "ResultPath": "$.vars.result",
       "Comment": "source: Promise.all([ performIdentifyCheck(), Promise. ...",
-      "Next": ".(EventBridge).putEvents"
+      "Next": "EventBridge putEvents"
     },
-    ".(EventBridge).putEvents": {
+    "EventBridge putEvents": {
       "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
@@ -91,13 +91,13 @@
             "Variable": "$.vars.checksPassed",
             "BooleanEquals": false
           },
-          "Next": ".(EventBridge).putEvents_1"
+          "Next": "EventBridge putEvents_1"
         }
       ],
       "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
-      "Default": ".(EventBridge).putEvents_2"
+      "Default": "EventBridge putEvents_2"
     },
-    ".(EventBridge).putEvents_1": {
+    "EventBridge putEvents_1": {
       "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
@@ -113,7 +113,7 @@
       },
       "End": true
     },
-    ".(EventBridge).putEvents_2": {
+    "EventBridge putEvents_2": {
       "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",

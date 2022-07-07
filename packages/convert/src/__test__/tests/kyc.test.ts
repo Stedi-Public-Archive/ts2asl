@@ -9,63 +9,6 @@ describe("when converting kyc", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          ".(EventBridge).putEvents": Object {
-            "Comment": undefined,
-            "HeartbeatSeconds": undefined,
-            "Next": "Assign checksPassed",
-            "Parameters": Object {
-              "Entries": Array [
-                Object {
-                  "Detail.$": "States.JsonToString($.vars.result)",
-                  "DetailType": "Identity check completed",
-                  "EventBusName": "eventbusname",
-                  "Source": "com.aws.kyc",
-                },
-              ],
-            },
-            "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-            "ResultPath": null,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          ".(EventBridge).putEvents_1": Object {
-            "Comment": undefined,
-            "End": true,
-            "HeartbeatSeconds": undefined,
-            "Parameters": Object {
-              "Entries": Array [
-                Object {
-                  "Detail.$": "States.JsonToString($.vars.result)",
-                  "DetailType": "AccountApproved",
-                  "EventBusName": "eventbusname",
-                  "Source": "com.aws.kyc",
-                },
-              ],
-            },
-            "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-            "ResultPath": null,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
-          ".(EventBridge).putEvents_2": Object {
-            "Comment": undefined,
-            "End": true,
-            "HeartbeatSeconds": undefined,
-            "Parameters": Object {
-              "Entries": Array [
-                Object {
-                  "Detail.$": "States.JsonToString($.vars.result)",
-                  "DetailType": "AccountDeclined",
-                  "EventBusName": "eventbusname",
-                  "Source": "com.aws.kyc",
-                },
-              ],
-            },
-            "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
-            "ResultPath": null,
-            "TimeoutSeconds": undefined,
-            "Type": "Task",
-          },
           "Assign checksPassed": Object {
             "Comment": "source: checksPassed = true",
             "Next": "If (checksPassed)",
@@ -122,14 +65,71 @@ describe("when converting kyc", () => {
               },
             ],
             "Comment": "source: Promise.all([ performIdentifyCheck(), Promise. ...",
-            "Next": ".(EventBridge).putEvents",
+            "Next": "EventBridge putEvents",
             "ResultPath": "$.vars.result",
             "Type": "Parallel",
+          },
+          "EventBridge putEvents": Object {
+            "Comment": undefined,
+            "HeartbeatSeconds": undefined,
+            "Next": "Assign checksPassed",
+            "Parameters": Object {
+              "Entries": Array [
+                Object {
+                  "Detail.$": "States.JsonToString($.vars.result)",
+                  "DetailType": "Identity check completed",
+                  "EventBusName": "eventbusname",
+                  "Source": "com.aws.kyc",
+                },
+              ],
+            },
+            "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+            "ResultPath": null,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+          "EventBridge putEvents_1": Object {
+            "Comment": undefined,
+            "End": true,
+            "HeartbeatSeconds": undefined,
+            "Parameters": Object {
+              "Entries": Array [
+                Object {
+                  "Detail.$": "States.JsonToString($.vars.result)",
+                  "DetailType": "AccountApproved",
+                  "EventBusName": "eventbusname",
+                  "Source": "com.aws.kyc",
+                },
+              ],
+            },
+            "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+            "ResultPath": null,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
+          },
+          "EventBridge putEvents_2": Object {
+            "Comment": undefined,
+            "End": true,
+            "HeartbeatSeconds": undefined,
+            "Parameters": Object {
+              "Entries": Array [
+                Object {
+                  "Detail.$": "States.JsonToString($.vars.result)",
+                  "DetailType": "AccountDeclined",
+                  "EventBusName": "eventbusname",
+                  "Source": "com.aws.kyc",
+                },
+              ],
+            },
+            "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+            "ResultPath": null,
+            "TimeoutSeconds": undefined,
+            "Type": "Task",
           },
           "If (checksPassed)": Object {
             "Choices": Array [
               Object {
-                "Next": ".(EventBridge).putEvents_1",
+                "Next": "EventBridge putEvents_1",
                 "Not": Object {
                   "BooleanEquals": false,
                   "Variable": "$.vars.checksPassed",
@@ -137,7 +137,7 @@ describe("when converting kyc", () => {
               },
             ],
             "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
-            "Default": ".(EventBridge).putEvents_2",
+            "Default": "EventBridge putEvents_2",
             "Type": "Choice",
           },
           "Initialize": Object {

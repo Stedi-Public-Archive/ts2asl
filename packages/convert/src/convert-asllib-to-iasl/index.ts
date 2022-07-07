@@ -522,6 +522,7 @@ export const convertExpression = (expression: ts.Expression | undefined, context
           if (!supportedServiceNames.includes(serviceName)) {
             throw new Error(`sdk integration for service ${serviceName} is not supported. the following services are supported ${supportedServiceNames.join()} `);  
           }
+          remainder = `${serviceName} ${operationName}`
           foundService = true;
         }
 
@@ -553,7 +554,40 @@ export const convertExpression = (expression: ts.Expression | undefined, context
         parameters: caseConvertedArgs.parameters,
         catch: catchConfiguration,
         retry: retryConfiguration,
-        source: undefined});
+        source: undefined
+      });
+    }
+    
+    if (type === "optimized.apiGatewayInvoke") {
+      const convertedArgs = convertObjectLiteralExpression(argument, context);
+      const name = unpackAsLiteralString(convertedArgs, "name");
+      const retryConfiguration = unpackArray(convertedArgs, "retry", element => unpackLiteralValue(element));
+      const catchConfiguration = unpackArray(convertedArgs, "catch", element => unpackLiteralValue(element));
+
+      const caseConvertedArgs = {
+        ...convertedArgs,
+        parameters: LiteralObjectFactory.create({
+          properties: {}
+        })
+      };
+
+
+      const parameters = convertedArgs.parameters as iasl.LiteralObjectExpression;
+      if (parameters) {
+        for (const [key, val] of Object.entries(parameters.properties ?? {})) {
+          const keyCaseConverted = key[0].toUpperCase() + key.substring(1);
+          caseConvertedArgs.parameters.properties[keyCaseConverted] = val;
+        }
+      }
+
+      return AslTaskStateFactory.create({
+        stateName: name ?? type,
+        resource: "arn:aws:states:::apigateway:invoke",
+        parameters: caseConvertedArgs.parameters,
+        catch: catchConfiguration,
+        retry: retryConfiguration,
+        source: undefined
+      });
     }
 
     else {
