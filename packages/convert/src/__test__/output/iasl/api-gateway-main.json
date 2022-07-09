@@ -7,7 +7,7 @@
         "type": "object",
         "_syntaxKind": "identifier"
       },
-      "source": "response = await asl.optimized.apiGatewayInvoke({\n    parameters: {\n      apiEndpoint: \"aabbccddee.execute-api.us-east-1.amazonaws.com\",\n      method: \"GET\",\n  }})",
+      "source": "response = await asl.optimized.apiGatewayInvoke({\n    parameters: {\n      ApiEndpoint: \"aabbccddee.execute-api.us-east-1.amazonaws.com\",\n      Method: \"GET\",\n  }})",
       "expression": {
         "stateName": "optimized.apiGatewayInvoke",
         "resource": "arn:aws:states:::apigateway:invoke",
@@ -31,10 +31,10 @@
       "_syntaxKind": "variable-assignment"
     },
     {
-      "stateName": "If (response.statusCode = ...",
+      "stateName": "If (response.StatusCode = ...",
       "condition": {
         "lhs": {
-          "identifier": "response.statusCode",
+          "identifier": "response.StatusCode",
           "type": "numeric",
           "_syntaxKind": "identifier"
         },
@@ -60,7 +60,7 @@
         ],
         "_syntaxKind": "function"
       },
-      "source": "if (response.statusCode === 200) {\n    return \"ok\"\n  }",
+      "source": "if (response.StatusCode === 200) {\n    return \"ok\"\n  }",
       "_syntaxKind": "if"
     },
     {
