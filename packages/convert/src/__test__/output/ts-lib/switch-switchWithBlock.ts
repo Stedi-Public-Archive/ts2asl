@@ -21,41 +21,23 @@ export const simpleSwitch = asl.deploy.asStateMachine(async () => {
   }
   return result;
 });
-export const switchCaseFallsThrough = asl.deploy.asStateMachine(async () =>{
-    const arr = [1, 2, 3];
-    let result = "";
-    asl.typescriptForeach({
-        name: "For item Of arr",
-        items: () => arr,
-        iterator: item => {
-            asl.typescriptSwitch({
-                name: "Switch (item)",
-                expression: () => item,
-                cases: [
-                    {
-                        label: 1,
-                        block: async () => { }
-                    },
-                    {
-                        label: 2,
-                        block: async () => {
-                            result = asl.states.format("{}not-three", result);
-                            break;
-                        }
-                    },
-                    {
-                        block: async () => {
-                            result = asl.states.format("{}three", result);
-                            break;
-                        }
-                    }
-                ],
-                comment: "switch (item) {\n      case 1:\n      case 2:\n        result = `${result}not-three`;\n        break;\n      default:\n        result = `${result}three`;\n        break;\n    }"
-            })
-        },
-        comment: "for (const item of arr) {\n    switch (item) {\n      case 1:\n      case 2:\n        result = `${result}not-three`;\n        break;\n      default:\n        result = `${result}three`;\n        break;\n    }\n  }"
-    })
-    return result;
+export const switchCaseFallsThrough = asl.deploy.asStateMachine(async () => {
+  const arr = [1, 2, 3];
+  let result = "";
+
+  // use a for loop to append all numbers to a single string
+  for (const item of arr) {
+    switch (item) {
+      case 1:
+      case 2:
+        result = `${result}not-three`;
+        break;
+      default:
+        result = `${result}three`;
+        break;
+    }
+  }
+  return result;
 });
 export const switchCaseNonEmptyFallThrough = asl.deploy.asStateMachine(async () => {
   const arr = [1, 2, 3];
@@ -113,27 +95,51 @@ export const switchDefaultFallsThrough = asl.deploy.asStateMachine(async () => {
 });
 
 
-export const switchWithBlock = asl.deploy.asStateMachine(async () => {
-  const arr = [1, 2, 3];
-  let result = "";
-
-  // use a for loop to append all numbers to a single string
-  for (const item of arr) {
-    switch (item) {
-      default:
-      case 1: {
-        result = `${result}not-three`;
-        console.log(result);
-        break;
-      }
-      case 3: {
-        result = `${result}three`;
-        console.log(result);
-        break;
-      }
-    }
-  }
-  return result;
+export const switchWithBlock = asl.deploy.asStateMachine(async () =>{
+    const arr = [1, 2, 3];
+    let result = "";
+    asl.typescriptForeach({
+        name: "For item Of arr",
+        items: () => arr,
+        iterator: item => {
+            asl.typescriptSwitch({
+                name: "Switch (item)",
+                expression: () => item,
+                cases: [
+                    {
+                        block: async () => { }
+                    },
+                    {
+                        label: 1,
+                        block: async () => {
+                            result = asl.states.format("{}not-three", result);
+                            asl.pass({
+                                name: "Log (result)",
+                                parameters: () => result,
+                                comment: "console.log(result)"
+                            });
+                            break;
+                        }
+                    },
+                    {
+                        label: 3,
+                        block: async () => {
+                            result = asl.states.format("{}three", result);
+                            asl.pass({
+                                name: "Log (result)",
+                                parameters: () => result,
+                                comment: "console.log(result)"
+                            });
+                            break;
+                        }
+                    }
+                ],
+                comment: "switch (item) {\n      default:\n      case 1: {\n        result = `${result}not-three`;\n        console.log(result);\n        break;\n      }\n      case 3: {\n        result = `${result}three`;\n        console.log(result);\n        break;\n      }\n    }"
+            })
+        },
+        comment: "for (const item of arr) {\n    switch (item) {\n      default:\n      case 1: {\n        result = `${result}not-three`;\n        console.log(result);\n        break;\n      }\n      case 3: {\n        result = `${result}three`;\n        console.log(result);\n        break;\n      }\n    }\n  }"
+    })
+    return result;
 });
 
 export const createAwsAccount = asl.deploy.asStateMachine(async () => {

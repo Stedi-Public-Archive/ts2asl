@@ -1,6 +1,6 @@
 import * as asl from "@ts2asl/asl-lib";
 import { convertDeployExecute } from "../utility";
-const { simpleSwitch, switchCaseFallsThrough, switchCaseNonEmptyFallThrough, switchCaseFallsThroughToDefault, switchDefaultFallsThrough, createAwsAccount } = require("../resources/switch");
+const { simpleSwitch, switchCaseFallsThrough, switchCaseNonEmptyFallThrough, switchCaseFallsThroughToDefault, switchDefaultFallsThrough, switchWithBlock, createAwsAccount } = require("../resources/switch");
 jest.setTimeout(99999999);
 
 describe("when converting switch", () => {
@@ -27,6 +27,11 @@ describe("when converting switch", () => {
     it("will execute switchDefaultFallsThrough as if it were node", async () => {
         const resultFromSfn = await convertDeployExecute("switch", "switchDefaultFallsThrough");
         const resultFromNode = await switchDefaultFallsThrough({}, asl.testing.createTestContext({}));
+        expect(resultFromSfn).toEqual(resultFromNode);
+    });
+    it("will execute switchWithBlock as if it were node", async () => {
+        const resultFromSfn = await convertDeployExecute("switch", "switchWithBlock");
+        const resultFromNode = await switchWithBlock({}, asl.testing.createTestContext({}));
         expect(resultFromSfn).toEqual(resultFromNode);
     });
     it("will execute createAwsAccount as if it were node", async () => {

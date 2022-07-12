@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import { ConverterOptions } from '../../convert';
 import { ParserError } from '../../ParserError';
+import { convertToBlock } from './block-utility';
 import { TransformUtil } from './transform-utility';
 import factory = ts.factory;
 
@@ -38,7 +39,7 @@ export const switchStatementTransformer = (converterOptions: ConverterOptions) =
         }
         const caseClause = {
           label,
-          block: clause.statements !== undefined && clause.statements.length > 0 ? factory.createBlock(clause.statements, true) : undefined,
+          block: clause.statements ? convertToBlock(clause) : undefined,
         };
         _switch.cases.push(caseClause);
       }
