@@ -2213,21 +2213,21 @@ declare module '@ts2asl/asl-lib/optimized' {
         const apiGatewayInvoke: (_input: OptimizedIntegration<ApiGatewayInvokeInput>) => Promise<ApiGatewayInvokeOutput>;
     }
     interface ApiGatewayInvokeInput {
-        apiEndpoint: string;
-        method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTION";
-        headers?: Record<string, string>;
-        queryParameters?: Record<string, string>;
-        requestBody?: {} | string;
-        stage?: string;
-        path?: string;
-        allowNullValues?: boolean;
-        authType?: "NO_AUTH" | "IAM_ROLE" | "RESOURCE_POLICY";
+        ApiEndpoint: string;
+        Method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTION";
+        Headers?: Record<string, string>;
+        QueryParameters?: Record<string, string>;
+        RequestBody?: {} | string;
+        Stage?: string;
+        Path?: string;
+        AllowNullValues?: boolean;
+        AuthType?: "NO_AUTH" | "IAM_ROLE" | "RESOURCE_POLICY";
     }
     interface ApiGatewayInvokeOutput {
-        responseBody: {};
-        headers: Record<string, string>;
-        statusCode: number;
-        statusText: string;
+        ResponseBody: {};
+        Headers: Record<string, string>;
+        StatusCode: number;
+        StatusText: string;
     }
     type OptimizedIntegration<T> = {
         parameters: T;

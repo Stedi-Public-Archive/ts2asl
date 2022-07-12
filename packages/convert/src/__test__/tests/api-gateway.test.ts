@@ -12,7 +12,7 @@ describe("when converting api-gateway", () => {
           "Assign response": Object {
             "Comment": undefined,
             "HeartbeatSeconds": undefined,
-            "Next": "If (response.statusCode = ...",
+            "Next": "If (response.StatusCode = ...",
             "Parameters": Object {
               "ApiEndpoint": "aabbccddee.execute-api.us-east-1.amazonaws.com",
               "Method": "GET",
@@ -22,15 +22,15 @@ describe("when converting api-gateway", () => {
             "TimeoutSeconds": undefined,
             "Type": "Task",
           },
-          "If (response.statusCode = ...": Object {
+          "If (response.StatusCode = ...": Object {
             "Choices": Array [
               Object {
                 "Next": "Return \\"ok\\"",
                 "NumericEquals": 200,
-                "Variable": "$.vars.response.statusCode",
+                "Variable": "$.vars.response.StatusCode",
               },
             ],
-            "Comment": "source: if (response.statusCode === 200) { return \\"ok\\" }",
+            "Comment": "source: if (response.StatusCode === 200) { return \\"ok\\" }",
             "Default": "Return \\"not-ok\\"",
             "Type": "Choice",
           },

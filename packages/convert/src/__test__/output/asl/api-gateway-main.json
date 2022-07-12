@@ -19,18 +19,18 @@
         "ApiEndpoint": "aabbccddee.execute-api.us-east-1.amazonaws.com",
         "Method": "GET"
       },
-      "Next": "If (response.statusCode = ..."
+      "Next": "If (response.StatusCode = ..."
     },
-    "If (response.statusCode = ...": {
+    "If (response.StatusCode = ...": {
       "Type": "Choice",
       "Choices": [
         {
-          "Variable": "$.vars.response.statusCode",
+          "Variable": "$.vars.response.StatusCode",
           "NumericEquals": 200,
           "Next": "Return \"ok\""
         }
       ],
-      "Comment": "source: if (response.statusCode === 200) { return \"ok\" }",
+      "Comment": "source: if (response.StatusCode === 200) { return \"ok\" }",
       "Default": "Return \"not-ok\""
     },
     "Return \"ok\"": {

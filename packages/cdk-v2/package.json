@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@ts2asl/asl-lib": "^0.1.29",
-    "@ts2asl/convert": "^0.1.41"
+    "@ts2asl/convert": "^0.1.41",
+    "iamfast": "github:OlafConijn/iamfast"
   }
 }
