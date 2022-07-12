@@ -62,7 +62,12 @@
           {
             "stateName": "Switch (item)",
             "cases": [
-              {},
+              {
+                "then": {
+                  "statements": [],
+                  "_syntaxKind": "function"
+                }
+              },
               {
                 "when": {
                   "lhs": {

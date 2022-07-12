@@ -76,7 +76,8 @@ export const switchCaseFallsThroughToDefault = asl.deploy.asStateMachine(async (
                         }
                     },
                     {
-                        label: 2
+                        label: 2,
+                        block: async () => { }
                     },
                     {
                         block: async () => {
@@ -111,6 +112,29 @@ export const switchDefaultFallsThrough = asl.deploy.asStateMachine(async () => {
   return result;
 });
 
+
+export const switchWithBlock = asl.deploy.asStateMachine(async () => {
+  const arr = [1, 2, 3];
+  let result = "";
+
+  // use a for loop to append all numbers to a single string
+  for (const item of arr) {
+    switch (item) {
+      default:
+      case 1: {
+        result = `${result}not-three`;
+        console.log(result);
+        break;
+      }
+      case 3: {
+        result = `${result}three`;
+        console.log(result);
+        break;
+      }
+    }
+  }
+  return result;
+});
 
 export const createAwsAccount = asl.deploy.asStateMachine(async () => {
   const createAccount = await asl.sdk(Organizations).createAccount({ parameters: { AccountName: "test", Email: "something@email.com" } });

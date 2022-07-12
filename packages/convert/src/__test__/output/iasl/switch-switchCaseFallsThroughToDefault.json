@@ -127,6 +127,10 @@
                     "_syntaxKind": "literal"
                   },
                   "_syntaxKind": "binary-expression"
+                },
+                "then": {
+                  "statements": [],
+                  "_syntaxKind": "function"
                 }
               },
               {

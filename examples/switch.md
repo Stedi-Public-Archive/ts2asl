@@ -131,6 +131,36 @@ export const main = asl.deploy.asStateMachine(async () => {
 ```
 
 
+## switch with block
+[Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgY29uc3QgYXJyID0gWzEsIDIsIDNdOwogIGxldCByZXN1bHQgPSAiIjsKCiAgLy8gdXNlIGEgZm9yIGxvb3AgdG8gYXBwZW5kIGFsbCBudW1iZXJzIHRvIGEgc2luZ2xlIHN0cmluZwogIGZvciAoY29uc3QgaXRlbSBvZiBhcnIpIHsKICAgIHN3aXRjaCAoaXRlbSkgewogICAgICBkZWZhdWx0OgogICAgICBjYXNlIDE6IHsKICAgICAgICByZXN1bHQgPSBgJHtyZXN1bHR9bm90LXRocmVlYDsKICAgICAgICBjb25zb2xlLmxvZyhyZXN1bHQpOwogICAgICAgIGJyZWFrOwogICAgICB9CiAgICAgIGNhc2UgMzogewogICAgICAgIHJlc3VsdCA9IGAke3Jlc3VsdH10aHJlZWA7CiAgICAgICAgY29uc29sZS5sb2cocmVzdWx0KTsKICAgICAgICBicmVhazsKICAgICAgfQogICAgfQogIH0KICByZXR1cm4gcmVzdWx0Owp9KTsK)
+
+``` typescript
+export const main = asl.deploy.asStateMachine(async () => {
+  const arr = [1, 2, 3];
+  let result = "";
+
+  // use a for loop to append all numbers to a single string
+  for (const item of arr) {
+    switch (item) {
+      default:
+      case 1: {
+        result = `${result}not-three`;
+        console.log(result);
+        break;
+      }
+      case 3: {
+        result = `${result}three`;
+        console.log(result);
+        break;
+      }
+    }
+  }
+  return result;
+});
+
+```
+
+
 ## create aws account
 [Open in playground](https://asl-editor-spike-ts-stedi.vercel.app/?aW1wb3J0ICogYXMgYXNsIGZyb20gIkB0czJhc2wvYXNsLWxpYiIKCmV4cG9ydCBjb25zdCBtYWluID0gYXNsLmRlcGxveS5hc1N0YXRlTWFjaGluZShhc3luYyAoKSA9PiB7CiAgY29uc3QgY3JlYXRlQWNjb3VudCA9IGF3YWl0IGFzbAogICAgLnNkayhPcmdhbml6YXRpb25zKQogICAgLmNyZWF0ZUFjY291bnQoewogICAgICBwYXJhbWV0ZXJzOiB7IEFjY291bnROYW1lOiAidGVzdCIsIEVtYWlsOiAic29tZXRoaW5nQGVtYWlsLmNvbSIgfSwKICAgIH0pOwogIGxldCBjcmVhdGlvblN0YXR1czogc3RyaW5nIHwgdW5kZWZpbmVkID0gdW5kZWZpbmVkOwogIGRvIHsKICAgIGNvbnN0IGRlc2NyaWJlUmVzdWx0ID0gYXdhaXQgYXNsCiAgICAgIC5zZGsoT3JnYW5pemF0aW9ucykKICAgICAgLmRlc2NyaWJlQ3JlYXRlQWNjb3VudFN0YXR1cyh7CiAgICAgICAgcGFyYW1ldGVyczogewogICAgICAgICAgQ3JlYXRlQWNjb3VudFJlcXVlc3RJZDogY3JlYXRlQWNjb3VudC5DcmVhdGVBY2NvdW50U3RhdHVzIS5JZCwKICAgICAgICB9LAogICAgICB9KTsKICAgIGNyZWF0aW9uU3RhdHVzID0gZGVzY3JpYmVSZXN1bHQuQ3JlYXRlQWNjb3VudFN0YXR1cz8uU3RhdGU7CiAgICBzd2l0Y2ggKGNyZWF0aW9uU3RhdHVzKSB7CiAgICAgIGNhc2UgIkZBSUxFRCI6CiAgICAgICAgdGhyb3cgbmV3IEVycm9yKCJhY2NvdW50IGNyZWF0aW9uIGZhaWxlZCIpOwogICAgICBjYXNlICJJTl9QUk9HUkVTUyI6CiAgICAgICAgYXdhaXQgYXNsLndhaXQoeyBzZWNvbmRzOiAxIH0pOwogICAgfQogIH0gd2hpbGUgKGNyZWF0aW9uU3RhdHVzICE9PSAiU1VDQ0VFREVEIik7CgogIGNvbnNvbGUubG9nKGNyZWF0ZUFjY291bnQuQ3JlYXRlQWNjb3VudFN0YXR1cz8uQWNjb3VudElkKTsKICByZXR1cm4gY3JlYXRlQWNjb3VudC5DcmVhdGVBY2NvdW50U3RhdHVzPy5BY2NvdW50SWQ7Cn0pOwo=)
 

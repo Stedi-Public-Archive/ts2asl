@@ -101,7 +101,8 @@ describe("when converting switch statements", () => {
           expression: () => color,
           cases: [
               {
-                  label: \\"orange\\"
+                  label: \\"orange\\",
+                  block: async () => { }
               },
               {
                   block: async () => {
@@ -133,7 +134,9 @@ describe("when converting switch statements", () => {
           name: \\"Switch (color)\\",
           expression: () => color,
           cases: [
-              {},
+              {
+                  block: async () => { }
+              },
               {
                   label: \\"orange\\",
                   block: async () => {
