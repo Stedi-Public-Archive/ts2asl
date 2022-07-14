@@ -9,6 +9,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import { resolvePermissionsIamFast } from './iamfast/resolve-permissions';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import * as path from 'path';
 
 
 export type StateMachineConversationOptions = { autoGenerateIamPolicy?: true; emitStateLanguageFiles?: true; emitIamPolicies?: true;}
@@ -110,7 +111,16 @@ export class TypescriptStateMachine extends Construct {
 
 
       const conversionOptions = conversionOptionsByName[fnName];
-
+      const getPath = (prefix: string) => {
+        const p = path.dirname(sourceFile);
+        const pout =path.join(p, "ts2asl.out");
+        if (!fs.existsSync(pout)) fs.mkdirSync(pout);
+        const f = path.basename(sourceFile, ".ts");
+        return path.join(pout, `${f}.${prefix}.json`);
+      }
+      const removeCdktokens = (input: string) => {
+        return input.replace(/\${Token\[(TOKEN|AWS.AccountId|AWS.Region).\d+\]}/g, "${Token[CDK.REF.REPLACED]}");
+      }
       if (conversionOptions.autoGenerateIamPolicy === true) {
         const policyDocument = resolvePermissionsIamFast(scope, stringified, postProcess);
         for(const statement of policyDocument.Statement) {
@@ -118,15 +128,16 @@ export class TypescriptStateMachine extends Construct {
           sm.role.addToPrincipalPolicy(cdkStatement);
         }
         if (conversionOptions.emitIamPolicies) {
-          const filename = sourceFile.replace(".ts", "." + fnName + ".iam.json");
-          const policyDocumentAsString = JSON.stringify(policyDocument, null, 2);
-          const policyDocumentWithReplacedTokens = policyDocumentAsString.replace(/\${Token\[(TOKEN|AWS.AccountId|AWS.Region).\d+\]}/g, "${Token[CDK.REF.REPLACED]}")
+          const filename = getPath("iam");
+          const banner = `generated using IAMFast (https://github.com/iann0036/iamfast) and @ts2asl/cdk-typescript-statemachine, version: ${require("../package.json").version}}`;
+          const policyDocumentAsString = JSON.stringify({"//": banner, ...policyDocument}, null, 2);
+          const policyDocumentWithReplacedTokens = removeCdktokens(policyDocumentAsString);
           fs.writeFileSync(filename, policyDocumentWithReplacedTokens);
         }
       }
       if (conversionOptions.emitStateLanguageFiles) {
-        const filename = sourceFile.replace(".ts", "." + fnName + ".json");
-        const definitionWithReplacedTokens = underlyingResource.definitionString.replace(/\${Token\[(TOKEN|AWS.AccountId|AWS.Region).\d+\]}/g, "${Token[CDK.REF.REPLACED]}")
+        const filename = getPath("asl");
+        const definitionWithReplacedTokens = removeCdktokens(underlyingResource.definitionString);;
         fs.writeFileSync(filename, definitionWithReplacedTokens);
       }
     }

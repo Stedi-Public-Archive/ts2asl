@@ -14,7 +14,6 @@ interface PolicyDocument {
 export const resolvePermissionsIamFast = (parent: Construct, aslDefinitionAsString: string, postProcess : (input: string) => string): PolicyDocument => {
   const policyDoc = ResolvePermissions(cdk.Stack.of(parent).account, cdk.Stack.of(parent).region, aslDefinitionAsString) as string;
   const postProcessedDoc = postProcess(policyDoc);
-  
   return JSON.parse(postProcessedDoc);  
 }
   
