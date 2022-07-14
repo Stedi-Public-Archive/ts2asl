@@ -1,22 +1,28 @@
 import { Construct } from 'constructs';
 import * as fs from "fs";
 import { ensureBundleTsConfig } from "./util";
-import { Converter, ConverterOptions, createCompilerHostFromSource } from "@ts2asl/convert";
+import { Converter, ConverterOptions } from "@ts2asl/convert";
 import { createCompilerHostFromFile } from "@ts2asl/convert";
 import { StateMachine, Task, Map, Parallel } from "asl-types";
 import * as node from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
+import { resolvePermissionsIamFast } from './iamfast/resolve-permissions';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
+
+export type StateMachineConversationOptions = { autoGenerateIamPolicy?: true; emitStateLanguageFiles?: true; emitIamPolicies?: true;}
+export type StateMachineProps = Omit<sfn.StateMachineProps, "stateMachineName" | "definition"> & { conversionOptions? : StateMachineConversationOptions };
+export type NodejsFunctionProps = Omit<node.NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
 
 export interface TypescriptStateMachineProps {
-  defaultStepFunctionProps: Omit<sfn.StateMachineProps, "stateMachineName" | "definition">;
-  stepFunctionProps?: Record<string, Omit<sfn.StateMachineProps, "stateMachineName" | "definition">>;
-  defaultFunctionProps?: Omit<node.NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">;
-  functionProps?: Record<string, Omit<node.NodejsFunctionProps, "functionName" | "entry" | "handler" | "runtime">>;
-  programName: string;
+  defaultStepFunctionProps: StateMachineProps;
+  stepFunctionProps?: Record<string, StateMachineProps>;
+  defaultFunctionProps?: NodejsFunctionProps;
+  functionProps?: Record<string, NodejsFunctionProps>;
+  programName?: string;
   sourceFile: string;
-  conversionOptions?: ConverterOptions & { emitStateLanguageFiles?: true; };
+  conversionOptions?: ConverterOptions;
   cwd?: string; // current working directory, used to resolve dependencies and tsconfig.json. default is process.cwd();
   parameters?: Record<string, string>;
 }
@@ -69,6 +75,7 @@ export class TypescriptStateMachine extends Construct {
 
     this.stateMachines = {};
     const foundStateMachineNames: string[] = [];
+    const conversionOptionsByName : Record<string, StateMachineConversationOptions> = {};
     for (const step of converted.stateMachines) {
       const logicalId = `${id}${step.name.substring(0, 1).toUpperCase()}${step.name.substring(1)}`;
       const sfnProps = props.stepFunctionProps?.[step.name] ?? {};
@@ -83,6 +90,7 @@ export class TypescriptStateMachine extends Construct {
       arnDict["statemachine:" + step.name] = sm.stateMachineArn;
       stateMachines.push(sm);
       this.stateMachines[step.name] = sm;
+      conversionOptionsByName[step.name] = { ... (props.defaultStepFunctionProps?.conversionOptions || {}), ...(sfnProps.conversionOptions || {})};
       foundStateMachineNames.push(step.name);
     }
     const expectedStateMachineNames = Object.keys(props.stepFunctionProps ?? {});
@@ -91,18 +99,34 @@ export class TypescriptStateMachine extends Construct {
       throw new Error(`CDK Configuration expected to find the following state machines that weren't part of the source: ${missingStateMachines.join(", ")}`);
     }
 
+    const postProcess = (input: string) => replaceExpressions(input, props.parameters ?? {}, this.stateMachines as any, this.functions);;
     for (const sm of stateMachines) {
       const underlyingResource = sm.node.findChild("Resource") as sfn.CfnStateMachine;
       const replaced = replaceArns(underlyingResource.definition as StateMachine, arnDict);
       const stringified = JSON.stringify(replaced, null, 2);
       underlyingResource.definitionString = replaceExpressions(stringified, props.parameters ?? {}, this.stateMachines as any, this.functions);
       delete underlyingResource.definition;
-      sm.node.findChild("Resource");
+      const fnName = underlyingResource.getMetadata("ts2asl:sourceFunctionName");
 
-      if (props.conversionOptions?.emitStateLanguageFiles) {
-        const fnName = underlyingResource.getMetadata("ts2asl:sourceFunctionName");
+
+      const conversionOptions = conversionOptionsByName[fnName];
+
+      if (conversionOptions.autoGenerateIamPolicy === true) {
+        const policyDocument = resolvePermissionsIamFast(scope, stringified, postProcess);
+        for(const statement of policyDocument.Statement) {
+          const cdkStatement = PolicyStatement.fromJson(statement);
+          sm.role.addToPrincipalPolicy(cdkStatement);
+        }
+        if (conversionOptions.emitIamPolicies) {
+          const filename = sourceFile.replace(".ts", "." + fnName + ".iam.json");
+          const policyDocumentAsString = JSON.stringify(policyDocument, null, 2);
+          const policyDocumentWithReplacedTokens = policyDocumentAsString.replace(/\${Token\[(TOKEN|AWS.AccountId|AWS.Region).\d+\]}/g, "${Token[CDK.REF.REPLACED]}")
+          fs.writeFileSync(filename, policyDocumentWithReplacedTokens);
+        }
+      }
+      if (conversionOptions.emitStateLanguageFiles) {
         const filename = sourceFile.replace(".ts", "." + fnName + ".json");
-        const definitionWithReplacedTokens = underlyingResource.definitionString.replace(/\${Token\[TOKEN.\d+\]}/g, "${Token[CDK.REF.REPLACED]}")
+        const definitionWithReplacedTokens = underlyingResource.definitionString.replace(/\${Token\[(TOKEN|AWS.AccountId|AWS.Region).\d+\]}/g, "${Token[CDK.REF.REPLACED]}")
         fs.writeFileSync(filename, definitionWithReplacedTokens);
       }
     }
@@ -153,6 +177,7 @@ const replaceExpressions = (input: string, parameters: Record<string, string>, s
   return replaced2;
 };
 
+//todo: can this go?
 const replaceArns = (statemachine: StateMachine, arnDict: Record<string, string>) => {
   for (const state of Object.values(statemachine.States)) {
 

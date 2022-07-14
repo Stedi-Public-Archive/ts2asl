@@ -1,0 +1,87 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Assign",
+          "States": {
+            "Assign": {
+              "Type": "Task",
+              "ResultPath": "$.vars.return_var",
+              "Resource": "${Token[CDK.REF.REPLACED]}",
+              "Comment": "source: worker()",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "Next": "Return"
+            },
+            "Return": {
+              "Type": "Pass",
+              "InputPath": "$.vars.return_var",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "Assign_1",
+          "States": {
+            "Assign_1": {
+              "Type": "Task",
+              "ResultPath": "$.vars.return_var",
+              "Resource": "${Token[CDK.REF.REPLACED]}",
+              "Comment": "source: worker()",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "Next": "Return_1"
+            },
+            "Return_1": {
+              "Type": "Pass",
+              "InputPath": "$.vars.return_var",
+              "End": true
+            }
+          }
+        }
+      ],
+      "ResultPath": "$.tmp.result",
+      "Comment": "source: Promise.all([worker(), worker()])",
+      "Next": "Return_2"
+    },
+    "Return_2": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.result",
+      "End": true
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.58."
+}
