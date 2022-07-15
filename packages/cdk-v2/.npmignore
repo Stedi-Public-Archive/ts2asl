@@ -1,6 +1,7 @@
 *.ts
 !*.d.ts
 iamfast
+!lib/iamfast
 # CDK asset staging directory
 .cdk.staging
 cdk.out
