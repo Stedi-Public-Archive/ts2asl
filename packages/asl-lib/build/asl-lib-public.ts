@@ -22,6 +22,7 @@ declare module '@ts2asl/asl-lib' {
     import { S3ClientConfig } from "@aws-sdk/client-s3";
     export type ClientConfig = S3ClientConfig;
     export * from "@ts2asl/asl-lib/asl";
+    export * from "@ts2asl/asl-lib/sdk";
     export * from "@ts2asl/asl-lib/sdk-integrations-athena";
     export * from "@ts2asl/asl-lib/sdk-integrations-ecs";
     export * from "@ts2asl/asl-lib/sdk-integrations-dynamodb";
@@ -190,6 +191,26 @@ declare module '@ts2asl/asl-lib/asl' {
         function jsonToString(arg: unknown): string;
         function array(...args: unknown[]): unknown[];
     }
+}
+
+declare module '@ts2asl/asl-lib/sdk' {
+    import { CatchConfiguration, RetryConfiguration } from '@ts2asl/asl-lib/asl';
+    type ClassType<T> = {
+        prototype: T;
+    };
+    type SdkIntegration<T> = {
+        parameters: T;
+        name?: string;
+        catch?: CatchConfiguration;
+        retry?: RetryConfiguration;
+        timeoutSeconds?: number;
+        heartbeatSeconds?: number;
+    };
+    type SdkIntegrationClient<T> = {
+        [K in keyof T]: T[K] extends (input: infer Input, options: any, cb: (err: any, data?: infer TOutput) => void) => Promise<infer _X> ? (input: SdkIntegration<Input>) => Promise<TOutput> : never;
+    };
+    export const sdk: <TClient>(client: ClassType<TClient> & (new (config: {}) => TClient)) => SdkIntegrationClient<TClient>;
+    export {};
 }
 
 declare module '@ts2asl/asl-lib/sdk-integrations-athena' {
@@ -2133,26 +2154,35 @@ declare module '@ts2asl/asl-lib/runtime' {
 }
 
 declare module '@ts2asl/asl-lib/optimized' {
+    import { CatchConfiguration, RetryConfiguration } from "@ts2asl/asl-lib/asl";
     export namespace optimized {
-        const apiGatewayInvoke: (input: ApiGatewayInvokeInput) => Promise<ApiGatewayInvokeOutput>;
+        const apiGatewayInvoke: (_input: OptimizedIntegration<ApiGatewayInvokeInput>) => Promise<ApiGatewayInvokeOutput>;
     }
     interface ApiGatewayInvokeInput {
-        ApiEndpoint: string;
-        Method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTION";
-        Headers?: Record<string, string>;
-        QueryParameters?: Record<string, string>;
-        RequestBody?: {} | string;
-        Stage?: string;
-        Path?: string;
-        AllowNullValues?: boolean;
-        AuthType?: "NO_AUTH" | "IAM_ROLE" | "RESOURCE_POLICY";
+        apiEndpoint: string;
+        method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTION";
+        headers?: Record<string, string>;
+        queryParameters?: Record<string, string>;
+        requestBody?: {} | string;
+        stage?: string;
+        path?: string;
+        allowNullValues?: boolean;
+        authType?: "NO_AUTH" | "IAM_ROLE" | "RESOURCE_POLICY";
     }
     interface ApiGatewayInvokeOutput {
-        ResponseBody: {};
-        Headers: Record<string, string>;
-        StatusCode: number;
-        StatusText: string;
+        responseBody: {};
+        headers: Record<string, string>;
+        statusCode: number;
+        statusText: string;
     }
+    type OptimizedIntegration<T> = {
+        parameters: T;
+        name?: string;
+        catch?: CatchConfiguration;
+        retry?: RetryConfiguration;
+        timeoutSeconds?: number;
+        heartbeatSeconds?: number;
+    };
     export {};
 }
 

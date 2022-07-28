@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/cdk-typescript-statemachine",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -11,19 +11,18 @@
     "@types/jest": "^27.5.0",
     "@types/node": "10.17.27",
     "@types/prettier": "2.6.0",
-    "aws-cdk-lib": "2.24.1",
+    "aws-cdk-lib": "^2.31.2",
     "constructs": "^10.0.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "typescript": "~3.9.7"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "2.24.1",
+    "aws-cdk-lib": "^2.31.2",
     "constructs": "^10.0.0"
   },
   "dependencies": {
     "@ts2asl/asl-lib": "^0.1.29",
-    "@ts2asl/convert": "^0.1.41",
-    "iamfast": "github:OlafConijn/iamfast"
+    "@ts2asl/convert": "^0.1.41"
   }
 }
