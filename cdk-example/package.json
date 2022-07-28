@@ -1,8 +1,8 @@
 {
-  "name": "cdk-v2-example",
+  "name": "cdk-example",
   "version": "0.1.0",
   "bin": {
-    "cdk-v2-example": "bin/cdk-v2-example.js"
+    "cdk-example": "bin/cdk-example.js"
   },
   "scripts": {
     "build": "tsc",
