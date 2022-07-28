@@ -9,7 +9,7 @@ describe("when converting sdk-states", () => {
       Object {
         "StartAt": "Initialize",
         "States": Object {
-          "DynamoDBPutItem": Object {
+          "DynamoDB putItem": Object {
             "Catch": Array [
               Object {
                 "ErrorEquals": Array [
@@ -50,7 +50,7 @@ describe("when converting sdk-states", () => {
             "Type": "Pass",
           },
           "Initialize": Object {
-            "Next": "DynamoDBPutItem",
+            "Next": "DynamoDB putItem",
             "Parameters": Object {
               "_null": null,
               "_undefined": null,

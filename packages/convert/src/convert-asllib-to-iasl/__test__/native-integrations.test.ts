@@ -4,8 +4,9 @@ describe("when converting sdk integration statements to iasl", () => {
   it("then sdk integrations get converted to task states", () => {
     const code = `
     import * as asl from 'asl-lib';
+    import { DynamoDB } from "@aws-sdk/client-dynamodb"
 
-    const aaaa = asl.sdkDynamoDBGetItem({ 
+    const aaaa = asl.sdk(DynamoDB).getItem({ 
         TableName: "mytable", 
         Key: { "pk": { S: "something"}, "sk": { S: "something"} } 
     });`;
@@ -28,14 +29,14 @@ describe("when converting sdk integration statements to iasl", () => {
               "resource": "arn:aws:states:::aws-sdk:dynamodb:getItem",
               "retry": undefined,
               "source": undefined,
-              "stateName": "DynamoDBGetItem",
+              "stateName": "DynamoDB getItem",
             },
             "name": Object {
               "_syntaxKind": "identifier",
               "identifier": "aaaa",
               "type": "unknown",
             },
-            "source": "aaaa = asl.sdkDynamoDBGetItem({ 
+            "source": "aaaa = asl.sdk(DynamoDB).getItem({ 
               TableName: \\"mytable\\", 
               Key: { \\"pk\\": { S: \\"something\\"}, \\"sk\\": { S: \\"something\\"} } 
           })",

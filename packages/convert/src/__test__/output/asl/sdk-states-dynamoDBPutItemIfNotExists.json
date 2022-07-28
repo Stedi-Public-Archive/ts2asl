@@ -9,13 +9,13 @@
         "_undefined": null,
         "_null": null
       },
-      "Next": "DynamoDBPutItem"
+      "Next": "DynamoDB putItem"
     },
     "Empty Catch": {
       "Type": "Pass",
       "End": true
     },
-    "DynamoDBPutItem": {
+    "DynamoDB putItem": {
       "Type": "Task",
       "ResultPath": null,
       "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",

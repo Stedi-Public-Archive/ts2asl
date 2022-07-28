@@ -27,5 +27,3 @@ export namespace deploy {
     return identifier;
   }
 }
-
-const parameters: Record<string, unknown> = {};

@@ -45,9 +45,9 @@ describe("when converting map", () => {
             "End": true,
             "ItemsPath": "$.vars.entries",
             "Iterator": Object {
-              "StartAt": "DynamoDBPutItem",
+              "StartAt": "DynamoDB putItem",
               "States": Object {
-                "DynamoDBPutItem": Object {
+                "DynamoDB putItem": Object {
                   "Catch": Array [
                     Object {
                       "ErrorEquals": Array [

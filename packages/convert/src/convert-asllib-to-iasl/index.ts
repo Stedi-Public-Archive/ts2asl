@@ -10,6 +10,7 @@ import { createName } from "../create-name";
 import { ConverterOptions } from "../convert";
 import { AslChoiceStateFactory, AslFailStateFactory, AslIntrinsicFunctionFactory, AslInvokeStateMachineFactory, AslMapStateFactory, AslPassStateFactory, AslSucceedStateFactory, AslTaskStateFactory, AslWaitStateFactory, BinaryExpressionFactory, BreakFactory, ConditionalExpressionFactory, ContinueFactory, DoWhileStatementFactory, ForEachFactory, IdentifierFactory, IfFactory, LiteralArrayFactory, LiteralFactory, LiteralObjectFactory, ReturnStatementFactory, SwitchFactory, TryFactory, TypeOfFactory, VariableAssignmentFactory, WhileFactory } from "./iaslfactory";
 import { TransformUtil } from "../convert-ts-to-asllib/transformers/transform-utility";
+import * as sdkClientNames from "../resources/client-names.json"
 const factory = ts.factory;
 
 export interface ConverterContext {
@@ -503,30 +504,19 @@ export const convertExpression = (expression: ts.Expression | undefined, context
       let foundService = false;
       let serviceName: string | undefined;
       let operationName: string | undefined;
-      const supportedServiceNames = ["Athena", "DynamoDB", "EventBridge", "ECS", "Lambda", "Sfn", "S3", "SES", "SQS", "SNS", "SSM", "Textract", "APIGateway", "Organizations", "CodeBuild", "CloudWatch", "STS", "IAM"];
-      for (const supportedServiceName of supportedServiceNames) {
-        if (remainder.startsWith(supportedServiceName)) {
-          serviceName = supportedServiceName;
-          //resource += supportedServiceName.toLowerCase() + ':';
-          const operationNameWrongCasing = remainder.substring(supportedServiceName.length);
-          operationName = operationNameWrongCasing[0].toLowerCase() + operationNameWrongCasing.substring(1);
-          foundService = true;
-          break;
-        }
-      }
-      if (!foundService) {
-        const matches = type.match(/^sdk\.\((?<service>[a-zA-Z]+)\)\.(?<operation>[a-zA-Z]+)$/);
-        if (matches?.groups) {
-          serviceName = matches?.groups["service"]
-          operationName = matches?.groups["operation"]
-          if (!supportedServiceNames.includes(serviceName)) {
-            throw new Error(`sdk integration for service ${serviceName} is not supported. the following services are supported ${supportedServiceNames.join()} `);  
-          }
-          remainder = `${serviceName} ${operationName}`
-          foundService = true;
-        }
+      const supportedServiceNames = Object.values(sdkClientNames).flat() as string[];
 
+      const matches = type.match(/^sdk\.\((?<service>[a-zA-Z]+)\)\.(?<operation>[a-zA-Z]+)$/);
+      if (matches?.groups) {
+        serviceName = matches?.groups["service"]
+        operationName = matches?.groups["operation"]
+        if (!supportedServiceNames.includes(serviceName)) {
+          throw new Error(`sdk integration for service ${serviceName} is not supported. the following services are supported ${supportedServiceNames.join()} `);  
+        }
+        remainder = `${serviceName} ${operationName}`
+        foundService = true;
       }
+
       if (!foundService || serviceName === undefined) {
         throw new Error(`unable to find service of sdk integration ${type} `);
       }

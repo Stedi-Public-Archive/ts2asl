@@ -8,7 +8,7 @@ describe("when converting if statement to iasl", () => {
       maxConcurrency: 5,
       items: result,
       iterator: (prefix) =>
-          asl.sdkSfnStartExecution({
+          asl.sdk(SFN).startExecution({
               parameters: {
                   input: asl.states.format("{}", prefix),
                   stateMachineArn: "arn:something,
@@ -67,7 +67,7 @@ describe("when converting if statement to iasl", () => {
                     },
                   },
                   "resource": "arn:aws:states:::aws-sdk:sfn:startExecution",
-                  "stateName": "SfnStartExecution",
+                  "stateName": "SFN startExecution",
                 },
               ],
             },

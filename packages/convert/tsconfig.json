@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowJs": true,
     "noImplicitAny": false,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "outDir": "./lib",
     "strict": true,

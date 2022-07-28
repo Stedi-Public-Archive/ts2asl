@@ -1,6 +1,5 @@
 import { Construct } from 'constructs';
 import * as fs from "fs";
-import { ensureBundleTsConfig } from "./util";
 import { Converter, ConverterOptions, createCompilerHostFromSource } from "@ts2asl/convert";
 import { createCompilerHostFromFile } from "@ts2asl/convert";
 import { StateMachine, Task, Map, Parallel } from "asl-types";
@@ -48,11 +47,9 @@ export class TypescriptStateMachine extends Construct {
         ...props.defaultFunctionProps,
         ...fnProps,
       };
-      const bundling = { ... (userProps.bundling ?? {}), tsconfig: ensureBundleTsConfig() };
       const fn = new node.NodejsFunction(scope, logicalId, {
         runtime: lambda.Runtime.NODEJS_14_X,
         ...userProps,
-        bundling,
         entry,
         handler,
       });
