@@ -9,29 +9,6 @@ export class CdkV2TestStack extends Stack {
   constructor(scope: Construct, fixture: string ) {
     super(scope, fixture + '-test-stack', {});
 
-    // The code that defines your stack goes here
-    const executionRole = new iam.Role(this, "executionRole", {
-      assumedBy: new iam.ServicePrincipal("states.amazonaws.com")
-    });
-    executionRole.addManagedPolicy(iam.ManagedPolicy.fromManagedPolicyArn(this, "executionRolePolicy", "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"));
-    
-    executionRole.addToPolicy(
-      new iam.PolicyStatement({
-      //because of the nested stepfunction
-      effect: iam.Effect.ALLOW,
-      actions: ["events:PutTargets", "events:PutRule", "events:DescribeRule"],
-      resources: [`arn:${this.partition}:events:${this.region}:${this.account}:rule/StepFunctionsGetEventsForStepFunctionsExecutionRule`],
-    })
-    ); 
-
-    executionRole.addToPolicy(
-      new iam.PolicyStatement({
-        //because of the nested stepfunction
-        effect: iam.Effect.ALLOW,
-        actions: ["states:StartExecution"],
-        resources: [`*`],
-      })
-    );
 
     const logGroup = new logs.LogGroup(this, "TypescriptStateMachineLogs", {
       logGroupName: "/aws/vendedlogs/states/typescript-" + fixture,
@@ -44,7 +21,11 @@ export class CdkV2TestStack extends Stack {
       programName: fixture,
       defaultFunctionProps: {},
       defaultStepFunctionProps: {
-        role: executionRole,
+        conversionOptions: { 
+          autoGenerateIamPolicy: true,
+          emitStateLanguageFiles: true,
+          emitIamPolicies: true,
+        },
         tracingEnabled: true,
         logs: { level: sfn.LogLevel.ALL, destination: logGroup, includeExecutionData: true },
       },

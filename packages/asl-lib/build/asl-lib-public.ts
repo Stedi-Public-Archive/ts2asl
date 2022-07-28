@@ -211,21 +211,21 @@ declare module '@ts2asl/asl-lib/optimized' {
         const sqsSend: (_input: OptimizedIntegration<SQSSendInput, IntegrationType>) => Promise<SQSSendOutput>;
     }
     interface ApiGatewayInvokeInput {
-        ApiEndpoint: string;
-        Method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTION";
-        Headers?: Record<string, string>;
-        QueryParameters?: Record<string, string>;
-        RequestBody?: {} | string;
-        Stage?: string;
-        Path?: string;
-        AllowNullValues?: boolean;
-        AuthType?: "NO_AUTH" | "IAM_ROLE" | "RESOURCE_POLICY";
+        apiEndpoint: string;
+        method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTION";
+        headers?: Record<string, string>;
+        queryParameters?: Record<string, string>;
+        requestBody?: {} | string;
+        stage?: string;
+        path?: string;
+        allowNullValues?: boolean;
+        authType?: "NO_AUTH" | "IAM_ROLE" | "RESOURCE_POLICY";
     }
     interface ApiGatewayInvokeOutput {
-        ResponseBody: {};
-        Headers: Record<string, string>;
-        StatusCode: number;
-        StatusText: string;
+        responseBody: {};
+        headers: Record<string, string>;
+        statusCode: number;
+        statusText: string;
     }
     interface LambdaInvokeInput {
         ClientContext?: string;

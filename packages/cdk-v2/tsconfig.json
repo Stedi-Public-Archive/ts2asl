@@ -7,6 +7,7 @@
       "es2018"
     ],
     "outDir": "./lib",
+    "allowJs": true,
     "esModuleInterop": true,
     "declaration": true,
     "strict": true,
@@ -27,6 +28,7 @@
     ]
   },
   "exclude": [
+    "jest.config.js",
     "node_modules",
     "lib",
     "cdk.out"
