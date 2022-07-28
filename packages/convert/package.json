@@ -27,6 +27,7 @@
     "@aws-sdk/client-iam": "^3.118.1",
     "@aws-sdk/client-organizations": "^3.118.1",
     "@aws-sdk/client-sfn": "^3.118.1",
+    "@aws-sdk/client-sns": "^3.137.0",
     "@types/jest": "^27.4.0",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.8",
