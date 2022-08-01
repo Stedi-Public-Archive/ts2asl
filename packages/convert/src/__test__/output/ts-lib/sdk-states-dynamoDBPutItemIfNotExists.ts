@@ -1,7 +1,10 @@
 import * as asl from "@ts2asl/asl-lib";
+import { DynamoDB } from "@aws-sdk/client-dynamodb"
+import { CloudWatch } from "@aws-sdk/client-cloudwatch"
+import { EventBridge } from "@aws-sdk/client-eventbridge"
 
 export const dynamoDBPutItemIfNotExists = asl.deploy.asStateMachine(async () =>{
-    asl.sdkDynamoDBPutItem({
+    asl.sdk(DynamoDB).putItem({
         catch: [
             {
                 errorEquals: ["DynamoDb.ConditionalCheckFailedException"],
@@ -24,7 +27,7 @@ export const dynamoDBPutItemIfNotExists = asl.deploy.asStateMachine(async () =>{
 });
 
 export const countDynamoDBItems = asl.deploy.asStateMachine(async () => {
-  const result = (await asl.sdkDynamoDBQuery({
+  const result = (await asl.sdk(DynamoDB).query({
     name: "COUNT(where gsi1pk === 'test')",
     parameters: {
       TableName: asl.deploy.getParameter("tableName"),
@@ -40,7 +43,7 @@ export const countDynamoDBItems = asl.deploy.asStateMachine(async () => {
 
 export const cloudWatchPutMetricData = asl.deploy.asStateMachine(async () => {
   const value = 42;
-  await asl.sdkCloudWatchPutMetricData({
+  await asl.sdk(CloudWatch).putMetricData({
     name: "Publish Metric Data",
     parameters: {
       MetricData: [

@@ -1,7 +1,7 @@
 {
   "statements": [
     {
-      "stateName": "DynamoDBPutItem",
+      "stateName": "DynamoDB putItem",
       "resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
       "parameters": {
         "properties": {

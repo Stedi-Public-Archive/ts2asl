@@ -1,0 +1,27 @@
+{
+  "name": "asl-lib-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "download-aws-sdk-clients": "npm search @aws-sdk/client --json --searchlimit 5000 > npm/data/aws-sdk-clients.json && ts-node create-package-json && cd npm && npm install --verbose",
+    "bundle": "npx ts-node bundle-clients",
+    "package-client-names": "cp npm/data/client-names.json ../../packages/convert/src/resources",
+    "package-client-bundles": "rm -rf ../../../asl-editor-spike/public/sdk-clients/* && cp npm/dts/@aws-sdk/* ../../../asl-editor-spike/public/sdk-clients",
+    "package": "npm run package-client-names && npm run package-client-bundles "
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^17.0.21"
+  },
+  "devDependencies": {
+    "@types/dts-bundle": "^0.0.32",
+    "dts-bundle": "^0.7.3"
+  }
+}

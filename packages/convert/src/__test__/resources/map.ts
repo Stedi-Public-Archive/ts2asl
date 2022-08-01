@@ -1,11 +1,12 @@
 import * as asl from "@ts2asl/asl-lib"
-
+import { DynamoDB } from "@aws-sdk/client-dynamodb"
+ 
 export const main = asl.deploy.asStateMachine(async () => {
   const entries = await getEntries();
   await asl.map({
     items: entries,
     iterator: (entry: string) =>
-      void asl.sdkDynamoDBPutItem({
+      void asl.sdk(DynamoDB).putItem({
         catch: [
           {
             errorEquals: ["DynamoDb.ConditionalCheckFailedException"],

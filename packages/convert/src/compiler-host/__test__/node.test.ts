@@ -8,7 +8,7 @@ const filePath = "./src/compiler-host/__test__/resources/lib-test.ts";
 const source = readFileSync(filePath).toString("utf-8");
 const hostFromFile = createCompilerHostFromFile("./src/compiler-host/__test__/resources/lib-test.ts");
 const hostFromSource = createCompilerHostFromSource(source);
-const hostForWeb = createCompilerHostFromSourceForWeb(source);
+const hostForWeb = createCompilerHostFromSourceForWeb(source, {"client-sns": readFileSync("./src/compiler-host/__test__/resources/client-sns.d.ts").toString("utf-8") as string });
 
 
 const getTypeOfStatement = (host : {sourceFile: ts.SourceFile, typeChecker: ts.TypeChecker}, line: number) => {
@@ -26,24 +26,61 @@ const getTypeOfStatement = (host : {sourceFile: ts.SourceFile, typeChecker: ts.T
   }
 }
 
+
+const getStatementTypes = (host : {sourceFile: ts.SourceFile, typeChecker: ts.TypeChecker}) => {
+  return {
+    evalConstNum: getTypeOfStatement(host, 4),
+    evalConstString: getTypeOfStatement(host, 5),
+    deployAsStatemachine: getTypeOfStatement(host, 6),
+    deployAsLambda: getTypeOfStatement(host, 7),
+    statusCodeFromPromise: getTypeOfStatement( host, 8),
+    messageIdFromPromise: getTypeOfStatement(host, 9),
+    resultFromLambda: getTypeOfStatement(host, 10),
+    asliasedImport: getTypeOfStatement(host, 11),
+  }
+}
+
 describe("when creating host based on string", () => {
-  test("then asl-lib resolves in host from file", () => {
+  test.only("then asl-lib resolves in host from file", () => {
     const host = hostFromFile;
-    const types = [getTypeOfStatement(host, 2),getTypeOfStatement(host, 3), getTypeOfStatement(host, 4), getTypeOfStatement(host, 5), getTypeOfStatement(host, 6)];
-    expect(types).toEqual(["numeric", "string", "callable-statemachine", "callable-lambda", "numeric"]);
+    const types = getStatementTypes(host);
+    expect(types).toMatchObject({ 
+      evalConstNum: "numeric",
+      evalConstString: "string",
+      deployAsStatemachine: "callable-statemachine",
+      deployAsLambda: "callable-lambda",
+      statusCodeFromPromise: "numeric",
+      messageIdFromPromise: "string",
+      resultFromLambda: "numeric",
+      asliasedImport: "object"
+    });
   });
 
   test("then asl-lib resolves in host from source", () => {
     const host = hostFromSource;
     expect(host.sourceFile).toBeDefined();
-    const types = [getTypeOfStatement(host, 2),getTypeOfStatement(host, 3), getTypeOfStatement(host, 4), getTypeOfStatement(host, 5)];
-    expect(types).toEqual(["numeric", "string", "callable-statemachine", "callable-lambda"]);
+    const types = getStatementTypes(host);
+    expect(types).toMatchObject({ 
+      evalConstNum: "numeric",
+      evalConstString: "string",
+      deployAsStatemachine: "callable-statemachine",
+      deployAsLambda: "callable-lambda",
+      //statusCodeFromPromise: "numeric", //does not have Libs
+      //messageIdFromPromise: "string", //does not have Libs
+    });
   });
 
   test("then asl-lib resolves in host from source for web", () => {
     const host = hostForWeb;
     expect(host.sourceFile).toBeDefined();
-    const types = [getTypeOfStatement(host, 2),getTypeOfStatement(host, 3), getTypeOfStatement(host, 4), getTypeOfStatement(host, 5)];
-    expect(types).toEqual(["numeric", "string", "callable-statemachine", "callable-lambda"]);
+    const types = getStatementTypes(host);
+    expect(types).toMatchObject({ 
+      evalConstNum: "numeric",
+      evalConstString: "string",
+      deployAsStatemachine: "callable-statemachine",
+      deployAsLambda: "callable-lambda",
+      statusCodeFromPromise: "numeric",
+      messageIdFromPromise: "string",
+    });
   });
 });

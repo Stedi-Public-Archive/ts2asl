@@ -37,7 +37,7 @@ export const createCompilerHostFromFile = (filePath: string, rootDirectory: stri
 export const createCompilerHostFromSource = (source: string) => {
   let compilerOptions = { strict: false, target: ts.ScriptTarget.Latest, allowJs: true, module: ts.ModuleKind.Node12 } as ts.CompilerOptions;
   const contents = source;
-  const sourceFile = ts.createSourceFile("ad-hoc.ts", contents, ts.ScriptTarget.ES2015);
+  const sourceFile = ts.createSourceFile("ad-hoc.ts", contents, ts.ScriptTarget.Latest);
   const host = ts.createCompilerHost(compilerOptions);
   const aslLibSource = ts.createSourceFile("asl-lib.ts", lib.libraryDefinitionAsString, ts.ScriptTarget.Latest)
 

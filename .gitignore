@@ -2,3 +2,5 @@ node_modules
 .turbo
 packages/asl-lib/build/asl-lib-public.d.ts
 packages/asl-lib/build/asl-lib.ts
+tools/sdk-bundler/npm/dts/
+tools/sdk-bundler/npm/package-lock.json
