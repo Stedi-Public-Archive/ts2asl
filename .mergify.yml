@@ -1,0 +1,29 @@
+# We have authorized the GitHub application mergify. Read more about it at https://docs.mergify.com/examples/#dependabot.
+pull_request_rules:
+  - name: Auto-approve dependency upgrades
+    conditions:
+      - author=dependabot[bot]
+      # This regex allows patch and minor version upgrades, but not major upgrades
+      - title~=bump [^\s]+ from ([\d]+)\..+ to \1\.
+    actions:
+      review:
+        type: APPROVE
+        message: Automatically approving dependabot
+  - name: Auto-merge dependency upgrades
+    conditions:
+      - author=dependabot[bot]
+      # This regex allows patch and minor version upgrades, but not major upgrades
+      - title~=bump [^\s]+ from ([\d]+)\..+ to \1\.
+      # Branch protection rules still apply as configured in GitHub
+    actions:
+      merge:
+        method: merge
+  - name: Auto-merge Snyk update
+    conditions:
+      - author=stedi-engineering
+      # This regex allows patch and minor version upgrades, but not major upgrades
+      - title~=[Snyk] Upgrade [^\s]+ from ([\d]+)\..+ to \1\.
+      # Branch protection rules still apply as configured in GitHub
+    actions:
+      merge:
+        method: merge
