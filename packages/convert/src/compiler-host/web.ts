@@ -5,7 +5,7 @@ import * as lib from "../resources/asl-lib"
 
 
 export const createCompilerHostFromSourceForWeb = (source: string, sdkClients: Record<string, string>) => {
-  let compilerOptions = { strict: false, target: ts.ScriptTarget.Latest, allowJs: true, module: ts.ModuleKind.Node12 } as ts.CompilerOptions;
+  let compilerOptions = { strict: false, target: ts.ScriptTarget.Latest, allowJs: true, module: ts.ModuleKind.Node16 } as ts.CompilerOptions;
   const contents = source;
   const sourceFile = ts.createSourceFile("ad-hoc.ts", contents, ts.ScriptTarget.Latest);
   const aslLibSource = ts.createSourceFile("asl-lib.ts", lib.libraryDefinitionAsString, ts.ScriptTarget.Latest);

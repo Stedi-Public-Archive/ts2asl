@@ -5,7 +5,7 @@ import ts from "typescript";
 import * as lib from "../resources/asl-lib"
 
 export const createCompilerHostFromFile = (filePath: string, rootDirectory: string = process.cwd()) => {
-  let compilerOptions = { strict: false, target: ts.ScriptTarget.Latest, allowJs: true, module: ts.ModuleKind.Node12 } as ts.CompilerOptions;
+  let compilerOptions = { strict: false, target: ts.ScriptTarget.Latest, allowJs: true, module: ts.ModuleKind.Node16 } as ts.CompilerOptions;
   const fullfilePath = path.resolve(rootDirectory, filePath);
   const servicesHost: ts.LanguageServiceHost = {
     getScriptFileNames: () => [fullfilePath],
@@ -35,7 +35,7 @@ export const createCompilerHostFromFile = (filePath: string, rootDirectory: stri
 }
 
 export const createCompilerHostFromSource = (source: string) => {
-  let compilerOptions = { strict: false, target: ts.ScriptTarget.Latest, allowJs: true, module: ts.ModuleKind.Node12 } as ts.CompilerOptions;
+  let compilerOptions = { strict: false, target: ts.ScriptTarget.Latest, allowJs: true, module: ts.ModuleKind.Node16 } as ts.CompilerOptions;
   const contents = source;
   const sourceFile = ts.createSourceFile("ad-hoc.ts", contents, ts.ScriptTarget.Latest);
   const host = ts.createCompilerHost(compilerOptions);
