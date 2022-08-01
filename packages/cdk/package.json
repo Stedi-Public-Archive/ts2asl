@@ -8,13 +8,13 @@
     "watch": "tsc -w"
   },
   "devDependencies": {
-    "@types/jest": "^27.5.0",
+    "@types/jest": "^27.5.2",
     "@types/node": "10.17.27",
     "@types/prettier": "2.6.0",
-    "aws-cdk-lib": "^2.31.2",
-    "constructs": "^10.0.0",
+    "aws-cdk-lib": "^2.34.2",
+    "constructs": "^10.1.63",
     "jest": "^27.5.1",
-    "ts-jest": "^27.1.4",
+    "ts-jest": "^27.1.5",
     "typescript": "~3.9.7"
   },
   "peerDependencies": {
@@ -22,7 +22,7 @@
     "constructs": "^10.0.0"
   },
   "dependencies": {
-    "@ts2asl/asl-lib": "^0.1.29",
-    "@ts2asl/convert": "^0.1.41"
+    "@ts2asl/asl-lib": "^0.1.34",
+    "@ts2asl/convert": "^0.1.58"
   }
 }
