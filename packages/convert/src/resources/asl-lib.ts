@@ -196,7 +196,7 @@ declare module '@ts2asl/asl-lib/asl' {
     export const fail: (x: Fail) => never;
     export const jsonPathLength: <T>(items: T[]) => number;
     export const jsonPathFilter: <T>(items: T[], predicate: (x: T) => boolean) => T[];
-    export const jsonPathSlice: <T>(items: T[], start: number, end?: number | undefined, step?: number | undefined) => T[];
+    export const jsonPathSlice: <T>(items: T[], start: number, end?: number, step?: number) => T[];
     export const jsonPathExpression: (items: unknown, expression: string) => unknown;
     export const jsonPathMap: (items: unknown[], expression: string) => unknown[];
     export namespace convert {

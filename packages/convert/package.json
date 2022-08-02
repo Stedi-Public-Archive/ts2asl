@@ -18,7 +18,6 @@
   "license": "ISC",
   "dependencies": {
     "@ts2asl/asl-lib": "^0.1.34",
-    "asl-types": "^1.2.1",
     "typescript": "^4.7.4"
   },
   "devDependencies": {

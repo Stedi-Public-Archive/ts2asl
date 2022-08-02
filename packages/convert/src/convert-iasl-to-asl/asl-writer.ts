@@ -1,4 +1,4 @@
-import * as asl from "asl-types";
+import * as asl from "@ts2asl/asl-lib/src/types";
 import { isNonTerminalState, NonTerminalState } from ".";
 
 type ChoiceOperator = asl.Choice["Choices"][0];

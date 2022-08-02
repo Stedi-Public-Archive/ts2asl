@@ -1,6 +1,6 @@
 import ts from "typescript"
 import * as iasl from "../convert-asllib-to-iasl/ast"
-import asl, { StateMachine } from "asl-types"
+import asl, { StateMachine } from "@ts2asl/asl-lib/src/types"
 import { listFunctionDeclarations } from "./list-function-declarations";
 import { transformBody } from "../convert-ts-to-asllib";
 import { convert } from "../convert-iasl-to-asl";

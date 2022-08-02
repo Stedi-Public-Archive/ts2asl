@@ -2,7 +2,7 @@ import { Construct } from 'constructs';
 import * as fs from "fs";
 import { Converter, ConverterOptions } from "@ts2asl/convert";
 import { createCompilerHostFromFile } from "@ts2asl/convert";
-import { StateMachine, Task, Map, Parallel } from "asl-types";
+import { StateMachine, Task, Map, Parallel } from "@ts2asl/asl-lib/src/types";
 import * as node from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
