@@ -20,7 +20,7 @@
     "@oclif/core": "^1.13.0",
     "@oclif/plugin-help": "^5.1.12",
     "@oclif/plugin-plugins": "^2.1.0",
-    "@ts2asl/convert": "^0.1.59"
+    "@ts2asl/convert": "^0.1.60"
   },
   "devDependencies": {
     "@oclif/test": "^2.1.0",
