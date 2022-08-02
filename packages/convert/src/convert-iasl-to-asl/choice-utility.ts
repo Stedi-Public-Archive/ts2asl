@@ -1,5 +1,5 @@
 import * as iasl from "../convert-asllib-to-iasl/ast";
-import { Operator } from 'asl-types/dist/choice';
+import { Operator } from "@ts2asl/asl-lib/src/types/choice";
 import { AslRhsFactory } from "./aslfactory.rhs";
 import { AslWriter } from "./asl-writer";
 import { BinaryExpressionFactory } from "../convert-asllib-to-iasl/iaslfactory";

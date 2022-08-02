@@ -1,5 +1,5 @@
-import * as asl from "asl-types";
-import { Operator } from "asl-types/dist/choice";
+import * as asl from "@ts2asl/asl-lib/src/types";
+import { Operator } from "@ts2asl/asl-lib/src/types/choice";
 import { appendBlock, convertBlock } from ".";
 import * as iasl from "../convert-asllib-to-iasl/ast";
 import { AslWriter } from "./asl-writer";

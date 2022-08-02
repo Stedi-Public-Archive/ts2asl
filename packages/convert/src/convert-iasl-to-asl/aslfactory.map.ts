@@ -1,5 +1,5 @@
 
-import * as asl from "asl-types";
+import * as asl from "@ts2asl/asl-lib/src/types";
 import { convertBlock } from ".";
 import * as iasl from "../convert-asllib-to-iasl/ast";
 import { AslWriter } from "./asl-writer";

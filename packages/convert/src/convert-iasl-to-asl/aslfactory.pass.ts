@@ -1,4 +1,4 @@
-import * as asl from "asl-types";
+import * as asl from "@ts2asl/asl-lib/src/types";
 import * as iasl from "../convert-asllib-to-iasl/ast";
 import { AslWriter } from "./asl-writer";
 import { AslParallelFactory } from "./aslfactory.parallel";
