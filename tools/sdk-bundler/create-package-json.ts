@@ -2,8 +2,10 @@ import * as  fs from "fs";
 import * as sdkClients from "./npm/data/aws-sdk-clients.json";
 import * as pjson from "./package.json";
 const dependencies: Record<string, string> = {}
-for(const module of Object.values(sdkClients).map(x=>x.name).filter(x=>!!x)) {
+for(const module of Object.values(sdkClients).map(x=>x.name).filter(x=>!!x).sort()) {
+  if (module.startsWith("@aws-sdk/")) {
   dependencies[module] = "*";
+  }
 }
 
 const copy = {...pjson, dependencies, default: undefined };

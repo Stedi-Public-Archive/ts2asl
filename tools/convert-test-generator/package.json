@@ -5,7 +5,6 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
     "regenerate-all": "export REGEN=true && ts-node generate-example.ts && ts-node generate-integration-tests.ts && ts-node generate-unit-tests && cd ../../packages/convert && npx jest",
     "generate-all": "export REGEN=false && ts-node generate-example.ts && ts-node generate-integration-tests.ts && ts-node generate-unit-tests"
   },

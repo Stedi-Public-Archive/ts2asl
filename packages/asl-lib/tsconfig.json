@@ -6,8 +6,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "outDir": "./lib",
-    "strict": true,
-    "skipLibCheck": true
+    "strict": true
   },
   "include": [
     "src",

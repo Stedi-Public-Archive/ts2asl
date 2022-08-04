@@ -1,4 +1,4 @@
-import ts from "typescript"
+import * as ts from "typescript"
 import * as iasl from "../convert-asllib-to-iasl/ast"
 import asl, { StateMachine } from "@ts2asl/asl-lib/src/types"
 import { listFunctionDeclarations } from "./list-function-declarations";

@@ -42,6 +42,9 @@ jobs:
       - name: Install Dependencies with NPM
         id: installation
         run: npm ci
+      - name: Install typescript globally
+        id: installation-ts
+        run: npm i typescript -g
       - name: Configure AWS creds
         id: config-aws-creds
         uses: aws-actions/configure-aws-credentials@v1

@@ -7,9 +7,7 @@
   "scripts": {
     "test": "npx jest --passWithNoTests",
     "prepublishOnly": "npm run build",
-    "bundle-dts": "npx dts-bundle --name @ts2asl/asl-lib --main ./lib/index.d.ts --out ../build/asl-lib-public.d.ts && cat build/asl-lib-private.d.ts build/asl-lib-public.d.ts > build/asl-lib.d.ts && ts-node build/wrapdts build/asl-lib.d.ts",
-    "build": "npx tsc && npm run bundle-dts && cp ./build/asl-lib.ts ../convert/src/resources/",
-    "package": "ts-node build/wrapdts build/asl-lib-public.d.ts && cp ./build/asl-lib-public.ts ../../../asl-editor-spike/src/ && cp ../../tools/asl-lib-generator/npm/dts/@aws-sdk/* ../../../asl-editor-spike/public/sdk-clients && cp ../../tools/asl-lib-generator/npm/data/client-names.json ../convert/src/resources"
+    "build": "npx tsc"
   },
   "files": [
     "lib/**/*"
@@ -18,7 +16,6 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.5.2",
-    "@types/mocha": "^9.1.1",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.5",
     "typescript": "^4.7.4"

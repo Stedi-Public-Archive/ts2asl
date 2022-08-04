@@ -1,7 +1,7 @@
 
 import { existsSync, readFileSync } from "fs";
 import path from "path";
-import ts from "typescript";
+import * as ts from "typescript";
 import * as lib from "../resources/asl-lib"
 
 export const createCompilerHostFromFile = (filePath: string, rootDirectory: string = process.cwd()) => {

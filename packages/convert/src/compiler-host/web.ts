@@ -1,8 +1,6 @@
-
-
-import ts, { getDefaultLibFileName }  from "typescript";
+import { getDefaultLibFileName }  from "typescript";
+import * as ts from "typescript";
 import * as lib from "../resources/asl-lib"
-
 
 export const createCompilerHostFromSourceForWeb = (source: string, sdkClients: Record<string, string>) => {
   let compilerOptions = { strict: false, target: ts.ScriptTarget.Latest, allowJs: true, module: ts.ModuleKind.Node16 } as ts.CompilerOptions;

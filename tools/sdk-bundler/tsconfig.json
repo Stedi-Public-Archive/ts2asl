@@ -12,6 +12,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "outDir": "./lib",
+    "noEmit": true,
     "strict": true,
     "resolveJsonModule": true,
   },

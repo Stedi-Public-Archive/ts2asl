@@ -5,7 +5,8 @@
   "main": "web.js",
   "workspaces": [
     "packages/*",
-    "test/*"
+    "test/*",
+    "tools/*"
   ],
   "author": "",
   "license": "ISC",

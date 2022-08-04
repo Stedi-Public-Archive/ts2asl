@@ -1,0 +1,18 @@
+{
+  "name": "lib-bundler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bundle-asl-lib": "npx dts-bundle --name @ts2asl/asl-lib --main ../../packages/asl-lib/lib/index.d.ts --out ../../../tools/lib-bundler/build/asl-lib.d.ts && ts-node wrapdts build/asl-lib.d.ts",
+    "package-playground": "cp ./build/asl-lib.ts ../../../asl-editor-spike/src/",
+    "package-convert": "cp ./build/asl-lib.ts ../../packages/convert/src/resources/",
+    "package": "npm run bundle-asl-lib && npm run package-playground && npm run package-convert"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dts-bundle": "^0.0.32",
+    "dts-bundle": "^0.7.3"
+  }
+}
