@@ -22,7 +22,7 @@ pull_request_rules:
     conditions:
       - author=stedi-engineering
       # This regex allows patch and minor version upgrades, but not major upgrades
-      - title~=[Snyk] Upgrade [^\s]+ from ([\d]+)\..+ to \1\.
+      - title~=\[Snyk\] Upgrade [^\s]+ from ([\d]+)\..+ to \1\.
       # Branch protection rules still apply as configured in GitHub
     actions:
       merge:
