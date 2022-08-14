@@ -17,7 +17,7 @@ const deleteAll = async () => {
         continue;
       }
       const deleteCommand = new DeleteStateMachineCommand({ stateMachineArn: stateMachine.stateMachineArn });
-      await sfn.send(deleteCommand);
+      await retryWhenTrottled(async() => await sfn.send(deleteCommand));
       console.log(`deleted ${stateMachine.name}`);
 
     }
@@ -26,3 +26,28 @@ const deleteAll = async () => {
 
 
 deleteAll();
+
+
+
+const retryWhenTrottled = async<T>(fn: ()=>Promise<T>) => {
+  let retry = false;
+  do {
+    try{
+      retry = false;
+      return await fn();
+    } catch(err) {
+      if ((err as {name: string}).name === "ThrottlingException") {
+        sleep(1000);
+        retry = true;
+      } else {
+        throw err;
+      }
+    }
+  } while(retry === true)
+}
+
+const sleep = async (millis: number): Promise<void> => {
+  return new Promise<void>((resolve) => {
+    setTimeout(resolve, millis);
+  });
+};
