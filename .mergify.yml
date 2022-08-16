@@ -2,9 +2,14 @@
 pull_request_rules:
   - name: Auto-approve dependency upgrades
     conditions:
-      - author=dependabot[bot]
-      # This regex allows patch and minor version upgrades, but not major upgrades
-      - title~=bump [^\s]+ from ([\d]+)\..+ to \1\.
+      - or:
+        - and:
+          - author=renovate[bot]
+          - -label=major-upgrade
+        - and:
+          - author=dependabot[bot]
+          # This regex allows patch and minor version upgrades, but not major upgrades
+          - title~=bump [^\s]+ from ([\d]+)\..+ to \1\.
     actions:
       review:
         type: APPROVE
