@@ -1,6 +1,39 @@
 import { testConvertToIntermediaryAst } from "./test-convert";
 
 describe("when converting jsonpath", () => {
+
+  it("path gets translated to iasl", () => {
+    const code = `
+    import * as asl from 'asl-lib';
+    
+    const time = asl.jsonPath("$$.State.EnteredTime");
+    `;
+    const result = testConvertToIntermediaryAst(code);
+    expect(result).toMatchInlineSnapshot(`
+Object {
+  "_syntaxKind": "statemachine",
+  "contextArgumentName": undefined,
+  "inputArgumentName": undefined,
+  "statements": Array [
+    Object {
+      "_syntaxKind": "variable-assignment",
+      "expression": Object {
+        "_syntaxKind": "identifier",
+        "identifier": "$$.State.EnteredTime",
+        "type": "unknown",
+      },
+      "name": Object {
+        "_syntaxKind": "identifier",
+        "identifier": "time",
+        "type": "unknown",
+      },
+      "source": "time = asl.jsonPath(\\"$$.State.EnteredTime\\")",
+      "stateName": "Assign time",
+    },
+  ],
+}
+`);
+  });
   it("filter gets translated to iasl", () => {
     const code = `
     import * as asl from 'asl-lib';

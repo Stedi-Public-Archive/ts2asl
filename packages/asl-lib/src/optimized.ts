@@ -11,9 +11,6 @@ export namespace optimized {
     throw new Error("not implemented")
   }
 
-  //https://docs.aws.amazon.com/step-functions/latest/dg/connect-ddb.html
-  
-
 
   //https://docs.aws.amazon.com/step-functions/latest/dg/connect-sns.html
   export const snsPublish = (_input: OptimizedIntegration<SNSPublishInput, IntegrationType>): Promise<SNSPublishOutput> => {

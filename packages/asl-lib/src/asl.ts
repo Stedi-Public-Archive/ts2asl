@@ -72,7 +72,6 @@ export interface Map<T, O> {
   name?: string;
 }
 
-
 export interface Succeed {
   comment?: string;
   name?: string;
@@ -184,6 +183,13 @@ export const jsonPathFilter = <T>(items: T[], predicate: (x: T) => boolean): T[]
 
 export const jsonPathSlice = <T>(items: T[], start: number, end?: number, step?: number): T[] => {
   return items;
+}
+
+export const jsonPath = (jsonPath: string): unknown => {
+  if (jsonPath === "$$.State.EnteredTime" || jsonPath === "$$.Execution.StartTime") {
+    return new Date().toISOString();
+  }
+  return {};
 }
 
 export const jsonPathExpression = (items: unknown, expression: string): unknown => {
