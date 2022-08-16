@@ -672,6 +672,17 @@ export const convertExpressionToLiteralOrIdentifier = (original: ts.Expression |
 
     } else if (expressionType?.startsWith("jsonPath")) {
       switch (expressionType) {
+        case "jsonPath":
+          {
+            if (expr.arguments.length !== 1) throw new Error("asl.jsonPath must have 1 argument");
+            const expression = expr.arguments[0];
+            if (!ts.isStringLiteral(expression)) throw new Error("asl.jsonPath must have string literal as 1st arg");
+
+            return IdentifierFactory.create({
+              type: "unknown",
+              identifier: expression.text,
+            });
+          }
         case "jsonPathMap":
           {
             if (expr.arguments.length !== 2) throw new Error("asl.jsonPathMap must have 2 arguments");

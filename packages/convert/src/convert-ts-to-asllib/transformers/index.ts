@@ -23,6 +23,7 @@ import { ICompilerHost } from "../../compiler-host";
 import { evalConstTransformer } from "./eval-const";
 import { enumValueTransformer } from "./enum-values";
 import { nullCoalescingStatementTransformer } from "./null-coalescing-statement";
+import { newDateTransformer } from "./datetime-stmt";
 
 export const createTransformers = (converterOptions: ConverterOptions = {}, host: ICompilerHost) => {
   return [
@@ -40,6 +41,7 @@ export const createTransformers = (converterOptions: ConverterOptions = {}, host
     //variableStatementTransformer(converterOptions),
     promiseAllStatementTransformer(converterOptions),
     consoleLogStatementTransformer(converterOptions),
+    newDateTransformer,
     callStatementTransformer(converterOptions),
     nullCoalescingStatementTransformer(converterOptions),
     deployTimeStatementTransformer,

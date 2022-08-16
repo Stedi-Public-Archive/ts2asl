@@ -1,0 +1,14 @@
+{
+  "statements": [
+    {
+      "stateName": "Return asl.jsonPath(\"$$.S ...",
+      "expression": {
+        "type": "unknown",
+        "identifier": "$$.State.EnteredTime",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
