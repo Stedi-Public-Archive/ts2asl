@@ -16,10 +16,13 @@ pull_request_rules:
         message: Automatically approving dependabot
   - name: Auto-merge dependency upgrades
     conditions:
-      - author=dependabot[bot]
-      # This regex allows patch and minor version upgrades, but not major upgrades
-      - title~=bump [^\s]+ from ([\d]+)\..+ to \1\.
-      # Branch protection rules still apply as configured in GitHub
+      - and:
+        - or: 
+          - author=renovate[bot]
+          - author=dependabot[bot]
+        # This regex allows patch and minor version upgrades, but not major upgrades
+        - title~=bump [^\s]+ from ([\d]+)\..+ to \1\.
+        # Branch protection rules still apply as configured in GitHub
     actions:
       merge:
         method: merge
