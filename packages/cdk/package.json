@@ -8,13 +8,13 @@
     "watch": "tsc -w"
   },
   "devDependencies": {
-    "@types/jest": "27.5.2",
+    "@types/jest": "28.1.7",
     "@types/node": "16.11.56",
     "@types/prettier": "2.6.0",
     "aws-cdk-lib": "2.38.1",
     "constructs": "10.1.85",
-    "jest": "27.5.1",
-    "ts-jest": "27.1.5",
+    "jest": "28.1.3",
+    "ts-jest": "28.0.8",
     "typescript": "4.7.4"
   },
   "peerDependencies": {
