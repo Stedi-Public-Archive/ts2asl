@@ -27,7 +27,7 @@
     "@aws-sdk/client-organizations": "3.154.0",
     "@aws-sdk/client-sfn": "3.154.0",
     "@aws-sdk/client-sns": "3.154.0",
-    "@types/jest": "28.1.7",
+    "@types/jest": "28.1.8",
     "@types/mocha": "9.1.1",
     "@types/node": "18.6.3",
     "jest": "28.1.3",
