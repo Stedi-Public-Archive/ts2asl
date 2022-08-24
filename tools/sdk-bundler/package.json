@@ -27,7 +27,7 @@
     "@types/node": "^17.0.45"
   },
   "devDependencies": {
-    "@types/dts-bundle": "^0.0.32",
-    "dts-bundle": "^0.7.3"
+    "@types/dts-bundle": "0.0.32",
+    "dts-bundle": "0.7.3"
   }
 }
