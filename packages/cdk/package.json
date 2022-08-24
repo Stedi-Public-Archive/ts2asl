@@ -8,7 +8,7 @@
     "watch": "tsc -w"
   },
   "devDependencies": {
-    "@types/jest": "28.1.7",
+    "@types/jest": "28.1.8",
     "@types/node": "16.11.56",
     "@types/prettier": "2.6.0",
     "aws-cdk-lib": "2.38.1",
