@@ -31,7 +31,7 @@
     "@ts2asl/cdk-typescript-statemachine": "0.2.5",
     "@ts2asl/convert": "0.1.61",
     "aws-cdk-lib": "2.24.1",
-    "constructs": "10.1.63",
+    "constructs": "10.1.85",
     "esbuild": "0.14.51",
     "source-map-support": "0.5.21"
   }
