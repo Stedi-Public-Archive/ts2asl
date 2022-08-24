@@ -27,11 +27,11 @@
     "@aws-sdk/client-organizations": "3.154.0",
     "@aws-sdk/client-sfn": "3.154.0",
     "@aws-sdk/client-sns": "3.154.0",
-    "@types/jest": "27.5.2",
+    "@types/jest": "28.1.7",
     "@types/mocha": "9.1.1",
     "@types/node": "18.6.3",
-    "jest": "27.5.1",
+    "jest": "28.1.3",
     "node-fetch": "3.2.10",
-    "ts-jest": "27.1.5"
+    "ts-jest": "28.0.8"
   }
 }
