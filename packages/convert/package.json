@@ -21,7 +21,7 @@
     "typescript": "^4.7.4"
   },
   "devDependencies": {
-    "@aws-sdk/client-dynamodb": "3.171.0",
+    "@aws-sdk/client-dynamodb": "3.172.0",
     "@aws-sdk/client-eventbridge": "3.171.0",
     "@aws-sdk/client-iam": "3.171.0",
     "@aws-sdk/client-organizations": "3.171.0",
