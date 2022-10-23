@@ -23,7 +23,7 @@
     "@ts2asl/convert": "^0.1.60"
   },
   "devDependencies": {
-    "@oclif/test": "2.2.4",
+    "@oclif/test": "2.2.5",
     "@types/chai": "4.3.3",
     "@types/mocha": "9.1.1",
     "@types/node": "18.6.3",
