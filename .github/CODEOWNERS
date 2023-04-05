@@ -1,1 +1,5 @@
-* @OlafConijn
+* @stedi/cloud
+# Allow bots to modify the files without the need for us to review the PR
+.github/workflows/ci.yml
+package.json
+package-lock.json
