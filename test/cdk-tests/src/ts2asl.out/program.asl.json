@@ -1,0 +1,84 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "${Token[CDK.REF.REPLACED]}",
+      "Parameters": {
+        "num": 42,
+        "str": "hello"
+      },
+      "Comment": "source: lambda({num: 42, str: \"hello\"})",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Assign result2"
+    },
+    "Assign result2": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result2",
+      "Resource": "${Token[CDK.REF.REPLACED]}",
+      "Parameters": {
+        "num": 42,
+        "str": "hello"
+      },
+      "Comment": "source: lambda({num: 42, str: \"hello\"})",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "If (result.num === result ..."
+    },
+    "If (result.num === result ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.result.num",
+          "NumericEqualsPath": "$.vars.result2.num",
+          "Next": "Return \"success\""
+        }
+      ],
+      "Comment": "source: if (result.num === result2.num) { return \"succ ...",
+      "Default": "Return \"failed\""
+    },
+    "Return \"success\"": {
+      "Type": "Pass",
+      "Result": "success",
+      "End": true
+    },
+    "Return \"failed\"": {
+      "Type": "Pass",
+      "Result": "failed",
+      "End": true
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.61."
+}

@@ -1,0 +1,130 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign numbers"
+    },
+    "Assign numbers": {
+      "Type": "Pass",
+      "Result": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "ResultPath": "$.vars.numbers",
+      "Comment": "source: numbers = [0, 1, 2, 3]",
+      "Next": "Assign letters"
+    },
+    "Assign letters": {
+      "Type": "Pass",
+      "Result": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "ResultPath": "$.vars.letters",
+      "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
+      "Next": "Assign global"
+    },
+    "Assign global": {
+      "Type": "Pass",
+      "Result": "prefix",
+      "ResultPath": "$.vars.global",
+      "Comment": "source: global = \"prefix\"",
+      "Next": "Assign outer"
+    },
+    "Assign outer": {
+      "Type": "Pass",
+      "Result": {
+        "middle": {
+          "inner": 3
+        }
+      },
+      "ResultPath": "$.vars.outer",
+      "Comment": "source: outer = { middle: { inner: 3 } }",
+      "Next": "numbers.map => number"
+    },
+    "numbers.map => number": {
+      "Type": "Map",
+      "ResultPath": null,
+      "Iterator": {
+        "StartAt": "letters.map => letter",
+        "States": {
+          "letters.map => letter": {
+            "Type": "Map",
+            "ResultPath": null,
+            "Iterator": {
+              "StartAt": "Assign combined",
+              "States": {
+                "Assign combined": {
+                  "Type": "Pass",
+                  "Parameters": {
+                    "number.$": "$.vars.number",
+                    "letter.$": "$.vars.letter",
+                    "global.$": "$.vars.global",
+                    "inner.$": "$.vars.outer.middle.inner"
+                  },
+                  "ResultPath": "$.vars.combined",
+                  "Comment": "source: combined = { number, letter, global, inner: ou ...",
+                  "Next": "doSomething(combined)"
+                },
+                "doSomething(combined)": {
+                  "Type": "Task",
+                  "ResultPath": null,
+                  "Resource": "${Token[CDK.REF.REPLACED]}",
+                  "InputPath": "$.vars.combined",
+                  "Comment": "source: doSomething(combined)",
+                  "Retry": [
+                    {
+                      "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "IntervalSeconds": 2,
+                      "MaxAttempts": 6,
+                      "BackoffRate": 2
+                    }
+                  ],
+                  "End": true
+                }
+              }
+            },
+            "ItemsPath": "$.vars.letters",
+            "Comment": "source: letters.map(letter => { const combined = { num ...",
+            "Parameters": {
+              "vars": {
+                "number.$": "$.vars.number",
+                "letter.$": "$$.Map.Item.Value",
+                "global.$": "$.vars.global",
+                "outer.$": "$.vars.outer"
+              }
+            },
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.numbers",
+      "Comment": "source: numbers.map(number => { letters.map(letter =>  ...",
+      "Parameters": {
+        "vars": {
+          "number.$": "$$.Map.Item.Value",
+          "global.$": "$.vars.global",
+          "outer.$": "$.vars.outer",
+          "letters.$": "$.vars.letters"
+        }
+      },
+      "End": true
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.61."
+}
