@@ -76,3 +76,24 @@ jobs:
       - name: Run cdk e2e tests
         id: run-cdk-e2e-tests
         run: npx turbo run test:e2e --filter=cdk-tests
+
+
+
+  pr-success:
+    needs:
+      - run-unit-tests
+      - run-convert-e2e-tests
+      - run-cdk-e2e-tests
+    # if pr-success is skipped, GH branch protection will not consider it a failure, we need to check the result of each dependency ourself
+    # see: https://brunoscheufler.com/blog/2022-04-09-the-required-github-status-check-that-wasnt
+    if: always()
+    steps:
+      - if: needs.run-unit-tests.result == 'failure'
+        run: echo "run-unit-tests job failed, setting the failure() bit" && exit 1
+      - if: needs.run-convert-e2e-tests.result == 'failure'
+        run: echo "run-convert-e2e-tests job failed, setting the failure() bit" && exit 1
+      - if: needs.run-cdk-e2e-tests.result == 'failure'
+        run: echo "run-cdk-e2e-tests job failed, setting the failure() bit" && exit 1
+      - if: success()
+        run: echo "all dependencies succeeded"
+    runs-on: ubuntu-latest
