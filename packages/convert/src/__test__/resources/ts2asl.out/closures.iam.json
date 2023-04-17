@@ -1,0 +1,13 @@
+{
+  "//": "generated using IAMFast (https://github.com/iann0036/iamfast) and @ts2asl/cdk-typescript-statemachine, version: 0.2.7}",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "lambda:InvokeFunction",
+      "Resource": [
+        "arn:aws:lambda:${Token[CDK.REF.REPLACED]}:${Token[CDK.REF.REPLACED]}:function:*"
+      ]
+    }
+  ]
+}

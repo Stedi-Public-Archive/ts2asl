@@ -1,0 +1,29 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Evaluate Format('{} {}', ..."
+    },
+    "Evaluate Format('{} {}', ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{} {}', $.vars.firstName, $.vars.lastName)"
+      },
+      "Next": "Return"
+    },
+    "Return": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "End": true
+    }
+  },
+  "Comment": "ASL Generated using ts2asl version 0.1.61."
+}
