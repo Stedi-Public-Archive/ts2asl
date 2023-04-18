@@ -15,7 +15,7 @@
     "constructs": "10.1.293",
     "jest": "28.1.3",
     "ts-jest": "28.0.8",
-    "typescript": "4.7.4"
+    "typescript": "4.9.5"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.31.2",
