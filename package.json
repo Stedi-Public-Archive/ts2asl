@@ -15,7 +15,7 @@
   "overrides": {
     "ansi-regex": "3.0.1",
     "json5": "2.2.3",
-    "xml2js": "0.5.0"
+    "xml2js": "0.6.0"
   },
   "devDependencies": {
     "@types/jest": "28.1.8",
