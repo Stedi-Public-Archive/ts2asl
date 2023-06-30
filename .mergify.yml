@@ -27,4 +27,4 @@ pull_request_rules:
         # Branch protection rules still apply as configured in GitHub
     actions:
       merge:
-        method: merge
+        method: squash
