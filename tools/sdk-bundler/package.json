@@ -19,7 +19,8 @@
     "npm": ">=8.3.0"
   },
   "overrides": {
-    "minimist": ">=1.2.6"
+    "minimist": ">=1.2.6",
+    "fast-xml-parser": "^4.2.5"
   },
   "author": "",
   "license": "ISC",
