@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/change-case": "^2.3.1",
-    "@types/node": "^17.0.45",
+    "@types/node": "^18.0.0",
     "change-case": "^4.1.2",
     "minimist": "^1.2.6",
     "prettier": "^2.7.1",

@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/jest": "28.1.8",
-    "@types/node": "16.18.3",
+    "@types/node": "18.16.19",
     "@types/prettier": "2.7.3",
     "aws-cdk-lib": "2.39.1",
     "constructs": "10.2.69",
