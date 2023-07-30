@@ -37,7 +37,7 @@
     "shx": "0.3.4",
     "ts-node": "10.9.1",
     "tslib": "2.6.0",
-    "typescript": "4.7.4"
+    "typescript": "5.1.6"
   },
   "oclif": {
     "bin": "ts2asl",
