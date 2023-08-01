@@ -11,7 +11,7 @@
     "@types/jest": "28.1.8",
     "@types/node": "16.18.3",
     "@types/prettier": "2.7.3",
-    "aws-cdk-lib": "2.39.1",
+    "aws-cdk-lib": "2.80",
     "constructs": "10.2.69",
     "jest": "28.1.3",
     "ts-jest": "28.0.8",
