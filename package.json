@@ -15,7 +15,7 @@
   "overrides": {
     "ansi-regex": "3.0.1",
     "json5": "2.2.3",
-    "xml2js": "0.6.0",
+    "xml2js": "0.6.1",
     "fast-xml-parser": "^4.2.5",
     "aws-cdk-lib@<2.80": {
       "semver" : "^7.5.2"
