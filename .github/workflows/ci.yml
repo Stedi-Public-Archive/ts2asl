@@ -44,7 +44,7 @@ jobs:
         run: npm ci
       - name: Configure AWS creds
         id: config-aws-creds
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: arn:aws:iam::642712255693:role/github-actions
           role-duration-seconds: 3600
@@ -68,7 +68,7 @@ jobs:
         run: npm ci
       - name: Configure AWS creds
         id: config-aws-creds
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: arn:aws:iam::642712255693:role/github-actions
           role-duration-seconds: 3600
