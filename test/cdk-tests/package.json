@@ -27,7 +27,7 @@
     "@ts2asl/asl-lib": "file:packages/asl-lib",
     "@ts2asl/cdk-typescript-statemachine": "file:packages/cdk",
     "@ts2asl/convert": "file:packages/convert",
-    "aws-cdk-lib": "^2.93.0",
+    "aws-cdk-lib": "^2.34.2",
     "constructs": "^10.1.63",
     "esbuild": "^0.14.51",
     "source-map-support": "^0.5.21"
