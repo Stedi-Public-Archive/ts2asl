@@ -15,7 +15,7 @@
     "@types/jest": "^27.5.2",
     "@types/node": "10.17.27",
     "@types/prettier": "2.6.0",
-    "aws-cdk": "2.26",
+    "aws-cdk": "2.93.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.5",
     "ts-node": "^10.9.1",
@@ -24,10 +24,10 @@
   "dependencies": {
     "@aws-sdk/client-cloudformation": "^3.137.0",
     "@aws-sdk/client-lambda": "^3.137.0",
-    "@ts2asl/asl-lib": "file:packages/asl-lib",
-    "@ts2asl/cdk-typescript-statemachine": "file:packages/cdk",
-    "@ts2asl/convert": "file:packages/convert",
-    "aws-cdk-lib": "^2.34.2",
+    "@ts2asl/asl-lib": "file:../../packages/asl-lib",
+    "@ts2asl/cdk-typescript-statemachine": "file:../../packages/cdk",
+    "@ts2asl/convert": "file:../../packages/convert",
+    "aws-cdk-lib": "^2.93.0",
     "constructs": "^10.1.63",
     "esbuild": "^0.14.51",
     "source-map-support": "^0.5.21"
