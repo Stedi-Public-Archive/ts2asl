@@ -1,6 +1,6 @@
 {
   "name": "@ts2asl/cdk-typescript-statemachine",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -22,7 +22,7 @@
     "constructs": "^10.0.0"
   },
   "dependencies": {
-    "@ts2asl/asl-lib": "^0.1.34",
-    "@ts2asl/convert": "^0.1.60"
+    "@ts2asl/asl-lib": "^0.1.36",
+    "@ts2asl/convert": "^0.1.62"
   }
 }
