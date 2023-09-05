@@ -17,7 +17,7 @@
     "@types/jest": "28.1.8",
     "@types/node": "16.18.40",
     "@types/prettier": "2.7.3",
-    "aws-cdk": "2.91.0",
+    "aws-cdk": "2.92.0",
     "jest": "28.1.3",
     "ts-jest": "28.0.8",
     "ts-node": "10.9.1",
@@ -27,7 +27,7 @@
     "@ts2asl/asl-lib": "0.1.35",
     "@ts2asl/cdk-typescript-statemachine": "0.2.7",
     "@ts2asl/convert": "0.1.61",
-    "aws-cdk-lib": "2.91.0",
+    "aws-cdk-lib": "2.92.0",
     "constructs": "10.2.69",
     "esbuild": "0.19.2",
     "source-map-support": "0.5.21"
