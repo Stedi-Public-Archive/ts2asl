@@ -24,7 +24,7 @@
     "@aws-sdk/client-dynamodb": "3.398.0",
     "@aws-sdk/client-eventbridge": "3.398.0",
     "@aws-sdk/client-iam": "3.398.0",
-    "@aws-sdk/client-organizations": "3.398.0",
+    "@aws-sdk/client-organizations": "3.401.0",
     "@aws-sdk/client-sfn": "3.398.0",
     "@aws-sdk/client-sns": "3.398.0",
     "@types/jest": "28.1.8",
