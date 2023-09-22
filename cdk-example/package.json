@@ -26,7 +26,7 @@
   "dependencies": {
     "@ts2asl/asl-lib": "0.1.36",
     "@ts2asl/cdk-typescript-statemachine": "0.2.8",
-    "@ts2asl/convert": "0.1.61",
+    "@ts2asl/convert": "0.1.62",
     "aws-cdk-lib": "2.93.0",
     "constructs": "10.2.70",
     "esbuild": "0.19.2",
