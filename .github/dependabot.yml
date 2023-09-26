@@ -1,19 +1,10 @@
+# Renovate handles standard updates. This minimal Dependabot config is a security backstop.
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 30
-
-  # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    versioning-strategy: "lockfile-only"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 30
-    ignore:
-      - dependency-name: "@aws-sdk/*"
-        versions:
-          - ">= 0"
+      # Security updates ignore this and are opened ad-hoc, but this is still a required option.
+      interval: daily
+   # Prevent PRs from opening except for security updates, as per https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/configuring-dependabot-security-updates#overriding-the-default-behavior-with-a-configuration-file
+    open-pull-requests-limit: 0
