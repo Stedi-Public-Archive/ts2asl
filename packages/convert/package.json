@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "3.405.0",
-    "@aws-sdk/client-eventbridge": "3.405.0",
+    "@aws-sdk/client-eventbridge": "3.406.0",
     "@aws-sdk/client-iam": "3.405.0",
     "@aws-sdk/client-organizations": "3.405.0",
     "@aws-sdk/client-sfn": "3.405.0",
