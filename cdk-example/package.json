@@ -29,7 +29,7 @@
     "@ts2asl/convert": "0.1.62",
     "aws-cdk-lib": "2.93.0",
     "constructs": "10.2.70",
-    "esbuild": "0.19.3",
+    "esbuild": "0.19.4",
     "source-map-support": "0.5.21"
   }
 }
