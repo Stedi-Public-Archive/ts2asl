@@ -1,6 +1,6 @@
 # ts2asl: A TypeScript to Amazon States Language ([ASL]) transpiler
 
-🚫 NOTICE: This Open Source Project Is Not Actively Maintained 🚫
+🚫 NOTICE: This open source project is not actively maintained 🚫
 
 To all users and contributors,
 
