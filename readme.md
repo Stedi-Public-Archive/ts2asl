@@ -4,7 +4,7 @@
 
 To all users and contributors,
 
-As of 2023/10/26, this project is no longer actively maintained. While the repository remains available for historical purposes and for any community members who wish to fork and continue the work, there will be no official updates, bug fixes, or merges of pull requests from the original maintainers.
+As of Oct 26 2023, this project is no longer actively maintained. While the repository remains available for historical purposes and for any community members who wish to fork and continue the work, there will be no official updates, bug fixes, or merges of pull requests from the original maintainers.
 
 
 ----
