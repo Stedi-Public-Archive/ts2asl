@@ -1,5 +1,15 @@
 # ts2asl: A TypeScript to Amazon States Language ([ASL]) transpiler
 
+🚫 NOTICE: This open source project is not actively maintained 🚫
+
+To all users and contributors,
+
+As of Oct 26 2023, this project is no longer actively maintained. While the repository remains available for historical purposes and for any community members who wish to fork and continue the work, there will be no official updates, bug fixes, or merges of pull requests from the original maintainers.
+
+
+----
+
+
 ⚠️ **All internal and external interfaces are considered unstable and subject to change without notice.** ⚠️
 
 `ts2asl` allows developers to define [AWS Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) using the TypeScript programming language. It allows developers to benefit from a familiar syntax, type safety, and mature ecosystem of tools for linting, editing, and automated testing.
